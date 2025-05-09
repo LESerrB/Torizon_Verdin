@@ -1,0 +1,38 @@
+# Proyecto para Torizon Verdin iMX8MM
+
+Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas para ejecutarse en la plataforma **Torizon Verdin iMX8MM** de Toradex. Está enfocado en facilitar el desarrollo y despliegue de soluciones embebidas utilizando esta tarjeta basada en ARM Cortex-A53.
+
+## Tabla de Contenidos
+
+- [Características](#características)
+- [Requisitos](#requisitos)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Desarrollo y Deploy](#desarrollo-y-deploy)
+- [Contribuciones](#contribuciones)
+
+## Características
+
+- Compatible con TorizonCore y Debian.
+- Compatible con Docker y TorizonCore Builder.
+- Comunicación con periféricos vía I2C, SPI, UART, CAN, GPIO.
+- Desarrollo en Python.
+- Preparado para integración CI/CD (GitHub Actions, GitLab CI, etc.).
+
+## Requisitos
+
+- Tarjeta **Verdin iMX8MM** con TorizonCore instalado.
+- Cable USB o conexión Ethernet.
+- [Toradex Easy Installer](https://developer.toradex.com/software/toradex-easy-installer/).
+- [TorizonCore Builder](https://developer.toradex.com/torizon/torizoncore-builder/) (si deseas personalizar el SO).
+- Docker y Docker Compose instalados.
+- Python 3.x y GCC para desarrollos en C y Python.
+- Visual Studio Code con extensiones de Torizon (opcional).
+
+## Estructura del Proyecto
+
+.
+├── docker-compose.yml       # Configuración de contenedores
+├── src/                     # Código fuente
+│   └── main.py              # Aplicación principal en Python
+├── overlays/                # Device Tree Overlays (si aplica)
+└── README.md
