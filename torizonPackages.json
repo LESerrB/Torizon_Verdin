@@ -1,0 +1,16 @@
+{
+    "prodRuntimeDeps": [
+      "python3-spidev"
+    ],
+    "devRuntimeDeps": [
+      "build-essential",
+      "python3-dev",
+      "spi-tools",
+      "python3-spidev"
+    ],
+    "buildDeps": [
+      "spi-tools",
+      "python3-spidev"
+    ]
+}
+
