@@ -1,0 +1,24 @@
+services:
+  quickstart1-debug:
+    build:
+      context: .
+      dockerfile: Dockerfile.debug
+    image: ${LOCAL_REGISTRY}:5002/quickstart1-debug:${TAG}
+    ports:
+      - ${DEBUG_SSH_PORT}:${DEBUG_SSH_PORT}
+      - ${DEBUG_PORT1}:${DEBUG_PORT1}
+    devices:
+      - /dev/spidev1.0
+    group_add:
+      - "${SPI_GID:-52}"
+
+  quickstart1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${DOCKER_LOGIN}/quickstart1:${TAG}
+    devices:
+      - /dev/spidev1.0
+    group_add:
+      - "${SPI_GID:-52}"
+
