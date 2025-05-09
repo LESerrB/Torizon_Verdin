@@ -9,6 +9,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Desarrollo y Deploy](#desarrollo-y-deploy)
 - [Contribuciones](#contribuciones)
+- [Control de Versiones](#control-de-versiones)
 
 ## Características
 
@@ -30,9 +31,18 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 ## Estructura del Proyecto
 
-.
-├── docker-compose.yml       # Configuración de contenedores
-├── src/                     # Código fuente
-│   └── main.py              # Aplicación principal en Python
-├── overlays/                # Device Tree Overlays (si aplica)
+
+.\
+├── docker-compose.yml       # Configuración de contenedores\
+├── src/                     # Código fuente\
+│   └── main.py              # Aplicación principal en Python\
+├── overlays/                # Device Tree Overlays (si aplica)\
 └── README.md
+
+## Control de Versiones
+
+### v0.1 - [9/May/2025]
+
+- Habilitación del bus SPI
+- Configuración del contenedor (docker-compose.yml) para enlazar el bus SPI1.0 con la biblioteca spidev
+- Configuración de la comunicación SPI en Modo 1 a 500kHz 
