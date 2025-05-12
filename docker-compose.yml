@@ -9,8 +9,10 @@ services:
       - ${DEBUG_PORT1}:${DEBUG_PORT1}
     devices:
       - /dev/spidev1.0
+      - /dev/i2c-3
     group_add:
       - "${SPI_GID:-52}"
+      - "${I2C_GID:-51}"
 
   quickstart1:
     build:
@@ -19,6 +21,8 @@ services:
     image: ${DOCKER_LOGIN}/quickstart1:${TAG}
     devices:
       - /dev/spidev1.0
+      - /dev/i2c-3
     group_add:
       - "${SPI_GID:-52}"
+      - "${SI2C_GID:-51}"
 

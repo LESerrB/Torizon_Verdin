@@ -46,3 +46,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Habilitación del bus SPI
 - Configuración del contenedor (docker-compose.yml) para enlazar el bus SPI1.0 con la biblioteca spidev
 - Configuración de la comunicación SPI en Modo 1 a 500kHz 
+
+### v0.2 - [12/Mayo/2025]
+
+- Configuración del bus I2C
+- Configuración del contenedor (docker-compose.yml) para enlazar el bus I2C-3 con la biblioteca smbus2
+- Lectura del sensor SHT21
