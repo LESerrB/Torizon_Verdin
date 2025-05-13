@@ -1,5 +1,6 @@
 services:
   quickstart1-debug:
+    container_name: quickstart1-debug
     build:
       context: .
       dockerfile: Dockerfile.debug
@@ -10,11 +11,16 @@ services:
     devices:
       - /dev/spidev1.0
       - /dev/i2c-3
+      - /dev/gpiochip2
+      - /dev/gpiochip4
     group_add:
       - "${SPI_GID:-52}"
       - "${I2C_GID:-51}"
+      - "${GPIO_GID:-49}"
+    privileged: true
 
   quickstart1:
+    container_name: quickstart1
     build:
       context: .
       dockerfile: Dockerfile
@@ -22,7 +28,10 @@ services:
     devices:
       - /dev/spidev1.0
       - /dev/i2c-3
+      - /dev/gpiochip2
+      - /dev/gpiochip4
     group_add:
       - "${SPI_GID:-52}"
-      - "${SI2C_GID:-51}"
-
+      - "${GPIO_GID:-51}"
+      - "${SI2C_GID:-49}"
+    privileged: true
