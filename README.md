@@ -44,6 +44,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ### v0.1 - [9/May/2025]
 
 - Habilitación del bus SPI
+- Configuración del archivo torizonPackages.json para instalar la libreria "python3-spidev"
 - Configuración del contenedor (docker-compose.yml) para enlazar el bus SPI1.0 con la biblioteca spidev
 - Configuración de la comunicación SPI en Modo 1 a 500kHz 
 
@@ -52,3 +53,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Configuración del bus I2C
 - Configuración del contenedor (docker-compose.yml) para enlazar el bus I2C-3 con la biblioteca smbus2
 - Lectura del sensor SHT21
+
+### v0.3 - [13/Mayo/2025]
+
+- Configuración de GPIO 1 y 2 de Carrier Board Mallow y Line 4 y 5 de tarjeta Verdin iMX8MM
+- Configuración del archivo torizonPackages.json para instalar la libreria "python3-libgpiod"
+- Configuración de contenedor (docker-compose.yml) para enlazar los buses gpiochip2 y gpiochip4 para usar los GPIO_1 y GPIO_2
+- Comunicación con el sensor HX711, se requiere de un level-shifter de 1.8v (Tarjeta Verdin-Mallow) a 3.3v (HX711) para lectura
