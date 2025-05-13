@@ -27,16 +27,14 @@ RUN apt-get -q -y update && \
     python3-minimal \
     python3-pip \
     python3-venv \
-    # apt install python3-spidev \
-    # pip-3.2 install spidev \
 # DO NOT REMOVE THIS LABEL: this is used for VS Code automation
     # __torizon_packages_prod_start__
     python3-spidev:arm64 \
+    python3-libgpiod:arm64 \
     # __torizon_packages_prod_end__
 # DO NOT REMOVE THIS LABEL: this is used for VS Code automation
     && apt-get clean && apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
-
 # Create virtualenv
 RUN python3 -m venv ${APP_ROOT}/.venv --system-site-packages
 

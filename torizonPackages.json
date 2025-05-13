@@ -1,16 +1,19 @@
 {
     "prodRuntimeDeps": [
-      "python3-spidev"
+      "python3-spidev",
+      "python3-libgpiod"
     ],
     "devRuntimeDeps": [
       "build-essential",
       "python3-dev",
       "spi-tools",
-      "python3-spidev"
+      "python3-spidev",
+      "python3-libgpiod"
     ],
     "buildDeps": [
       "spi-tools",
-      "python3-spidev"
+      "python3-spidev",
+      "python3-libgpiod"
     ]
 }
 

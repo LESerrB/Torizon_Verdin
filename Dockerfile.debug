@@ -65,6 +65,7 @@ RUN apt-get -q -y update && \
     python3-dev:arm64 \
     spi-tools:arm64 \
     python3-spidev:arm64 \
+    python3-libgpiod:arm64 \
     # __torizon_packages_dev_end__
 # DO NOT REMOVE THIS LABEL: this is used for VS Code automation
     && \
