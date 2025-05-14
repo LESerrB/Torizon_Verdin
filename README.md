@@ -59,3 +59,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Configuración del archivo torizonPackages.json para instalar la libreria "python3-libgpiod".
 - Configuración de contenedor (docker-compose.yml) para enlazar los buses gpiochip2 y gpiochip4 para usar los GPIO_1 y GPIO_2.
 - Comunicación con el sensor HX711, se requiere de un level-shifter de 1.8v (Tarjeta Verdin-Mallow) a 3.3v (HX711) para lectura.
+
+### v0.3.1 - [14/Mayo/2025]
+
+- Modificación de SPI para trabajar con BME280
