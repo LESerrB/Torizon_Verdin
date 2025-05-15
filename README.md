@@ -7,8 +7,6 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - [Características](#características)
 - [Requisitos](#requisitos)
 - [Estructura del Proyecto](#estructura-del-proyecto)
-- [Desarrollo y Deploy](#desarrollo-y-deploy)
-- [Contribuciones](#contribuciones)
 - [Control de Versiones](#control-de-versiones)
 
 ## Características
@@ -32,10 +30,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ## Estructura del Proyecto
 
 >.\
-├── docker-compose.yml       # Configuración de contenedores\
-├── src/                     # Código fuente\
-│   └── main.py              # Aplicación principal en Python\
-├── overlays/                # Device Tree Overlays (si aplica)\
+├── docker-compose.yml &emsp; # Configuración de contenedores\
+├── src/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; # Código fuente\
+│ &nbsp; &emsp; └── main.py &emsp; &emsp; &emsp; &nbsp; # Aplicación principal en Python\
+├── overlays/ &emsp; &emsp; &emsp; &emsp; &emsp; # Device Tree Overlays (si aplica)\
 └── README.md
 
 ## Control de Versiones

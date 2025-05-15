@@ -84,7 +84,7 @@ import spidev                       # SPI
 #     return hum
 
 # ===============================================================#
-#                  Configuración SPI BMP/-e280                   #
+#                    Configuración SPI BME280                    #
 # ===============================================================#
 # BMP-280 registros
 REG_ID = 0xD0
@@ -94,7 +94,7 @@ REG_CONFIG = 0xF5
 REG_PRESS_MSB = 0xF7
 REG_CALIB = 0x88
 
-# BME280 registros
+# BME-280 registros
 REG_CTRL_HUM = 0xF2
 REG_STATUS = 0xF3
 REG_HUM_CALIB = 0xE1
@@ -102,7 +102,7 @@ REG_HUM_CALIB = 0xE1
 EXPECTED_CHIP_ID_BME280 = 0x60
 EXPECTED_CHIP_ID_BMP280 = 0x58
 
-# Configuración BMP/E-280
+# Configuración BME-280
 spi = spidev.SpiDev()
 spi.open(1, 0)
 spi.max_speed_hz = 1000000
