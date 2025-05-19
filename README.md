@@ -56,8 +56,14 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Configuración de GPIO 1 y 2 de Carrier Board Mallow y Line 4 y 5 de tarjeta Verdin iMX8MM.
 - Configuración del archivo torizonPackages.json para instalar la libreria "python3-libgpiod".
 - Configuración de contenedor (docker-compose.yml) para enlazar los buses gpiochip2 y gpiochip4 para usar los GPIO_1 y GPIO_2.
-- Comunicación con el sensor HX711, se requiere de un level-shifter de 1.8v (Tarjeta Verdin-Mallow) a 3.3v (HX711) para lectura.
+- Comunicación con el sensor HX711, se requiere de un level-shifter de 1.8v (Tarjeta Verdin + Mallow) a 3.3v (HX711) para lectura.
 
 ### v0.3.1 - [14/Mayo/2025]
 
-- Modificación de SPI para trabajar con BME280
+- Modificación de SPI para trabajar con BME280.
+
+### v0.3.2 - [19/Mayo/2025]
+
+- Separación del código en módulos para cada sensor.
+- Uso de TXS0108E para ajustar el nivel de voltaje entre el módulo HX711 (3.3v) y la tarjeta de desarrollo Verdin + Mallow (1.8v).
+- Lectura de celdas de pesaje.
