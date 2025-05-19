@@ -34,7 +34,8 @@ def sht21():
         with SMBus(3) as bus:
             temp = read_temperature(bus)
             hum = read_humidity(bus)
-            tpsens_sht21 = struct.pack("ff", temp, hum)
-            return tpsens_sht21
+            th = struct.pack("ff", temp, hum)
+
+            return th
     except Exception as e:
         print(f"Error de lectura: {e}")
