@@ -79,3 +79,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ### v0.4 - [20/Mayo/2025]
 
 - Uso de pines ADC para lectura de posición de joystick HW-504.
+
+### v0.5
+
+- Prueba de levantamiento de servidor local.
+- Instalación de librería Flask.
+- Funcionamiento en local.

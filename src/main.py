@@ -3,12 +3,23 @@
 import time
 import struct
 
+from flask import Flask
+
 from i2c.sht21 import sht21
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
 from adc.hw504 import hw504
 
+app = Flask(__name__)
+
+@app.route('/')
+
+def home():
+    return 'Hello mine Turtle 🐢'
+
 if __name__ == '__main__':
+    app.run()
+
     while True:
         #-------------------Sensor Humedad/Temperatutra-------------------#
         temp, hum = struct.unpack("ff", sht21())
