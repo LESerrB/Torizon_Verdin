@@ -3,7 +3,7 @@
 import time
 import struct
 
-from flask import Flask
+from flask import Flask, render_template
 
 from i2c.sht21 import sht21
 from spi.bme280 import bme280
@@ -15,7 +15,7 @@ app = Flask(__name__)
 @app.route('/')
 
 def home():
-    return 'Hello mine Turtle 🐢'
+    return render_template('home.html')
 
 if __name__ == '__main__':
     app.run()
