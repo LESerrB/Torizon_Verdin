@@ -67,3 +67,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Separación del código en módulos para cada sensor.
 - Uso de TXS0108E para ajustar el nivel de voltaje entre el módulo HX711 (3.3v) y la tarjeta de desarrollo Verdin + Mallow (1.8v).
 - Lectura de celdas de pesaje.
+
+### v0.4 - [20/Mayo/2025]
+
+- Uso de pines ADC para lectura de posición de joystick HW-504.
