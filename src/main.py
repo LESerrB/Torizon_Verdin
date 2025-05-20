@@ -3,9 +3,9 @@
 import time
 import struct
 
-from temperatura.sht21 import sht21
-from presion.bme280 import bme280
-from bascula.hx711 import hx711
+from i2c.sht21 import sht21
+from spi.bme280 import bme280
+from gpio.hx711 import hx711
 from adc.hw504 import hw504
 
 if __name__ == '__main__':

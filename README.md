@@ -30,9 +30,17 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ## Estructura del Proyecto
 
 >.\
-├── docker-compose.yml &emsp; # Configuración de contenedores\
-├── src/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; # Código fuente\
-│ &nbsp; &emsp; └── main.py &emsp; &emsp; &emsp; &nbsp; # Aplicación principal en Python\
+├── docker-compose.yml &emsp;# Configuración de contenedores\
+├── src/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;# Código fuente\
+│ &nbsp; &emsp;├── main.py &emsp; &emsp; &emsp; &nbsp; # Aplicación principal en Python\
+│ &nbsp; &emsp;├── adc \
+│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── hw504.py &nbsp;&nbsp;# Joystick \
+│ &nbsp; &emsp;├── gpio \
+│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── hx711.py &nbsp; &nbsp;# Lector de celdas de pesaje \
+│ &nbsp; &emsp;├── i2c \
+│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── sht21.py &nbsp; &nbsp;# Sensor de Temperatura y Humedad  \
+│ &nbsp; &emsp;└── spi \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── bme280.py&nbsp;# Sensor de Presion, Temperatura y Humedad \
 ├── overlays/ &emsp; &emsp; &emsp; &emsp; &emsp; # Device Tree Overlays (si aplica)\
 └── README.md
 
