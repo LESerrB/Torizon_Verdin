@@ -1,4 +1,4 @@
 debugpy
 spidev
 smbus2
-# libgpiod
+flask
