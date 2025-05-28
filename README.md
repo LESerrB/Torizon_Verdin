@@ -85,3 +85,12 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Prueba de levantamiento de servidor local.
 - Instalación de librería Flask.
 - Funcionamiento en local.
+
+### v0.5.1
+
+- Se puede acceder a la pagina WEB desde la PC conectada en la misma red.
+- Cambio de home.html por index.html.
+- Creado directorio "web" dentro del directorio "src" para las plantillas UI/UX. 
+- Creado directorio "static" y "templates" dentro del directorio "web" para las plantillas html. 
+- Se separaron index y style.
+- Agregado despliegue de sensores conectados en la pagina WEB
