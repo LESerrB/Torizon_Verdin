@@ -39,11 +39,16 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── hx711.py &nbsp; &nbsp;# Lector de celdas de pesaje \
 │ &nbsp; &emsp;├── i2c \
 │ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── sht21.py &nbsp; &nbsp;# Sensor de Temperatura y Humedad  \
-│ &nbsp; &emsp;└── spi \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── bme280.py&nbsp;# Sensor de Presion, Temperatura y Humedad \
+│ &nbsp; &emsp;├── spi \
+│ &nbsp; &nbsp; &nbsp; │ &emsp;&nbsp; &nbsp; └── bme280.py&nbsp;# Sensor de Presion, Temperatura y Humedad&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; \
+│ &nbsp; &emsp;└── web \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── static&nbsp; \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp; └─ style.css&nbsp; \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── templates&nbsp; \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &emsp;&emsp;&emsp;&emsp; └─ index.html&nbsp; \
 ├── overlays/ &emsp; &emsp; &emsp; &emsp; &emsp; # Device Tree Overlays (si aplica)\
 └── README.md
-
+└
 ## Control de Versiones
 
 ### v0.1 - [9/May/2025]
@@ -93,4 +98,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creado directorio "web" dentro del directorio "src" para las plantillas UI/UX. 
 - Creado directorio "static" y "templates" dentro del directorio "web" para las plantillas html. 
 - Se separaron index y style.
-- Agregado despliegue de sensores conectados en la pagina WEB
+- Agregado despliegue de sensores conectados en la pagina WEB.
