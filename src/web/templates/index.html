@@ -4,12 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido</title>
-    <style>
-        body { display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; background: #f0f0f0; }
-        h1 { font-size: 3em; color: #333; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>¡Bienvenido a Verdin iMX8MM!</h1>
+    <div id="clock"></div>
+    <div class="sensores">
+        <h2>Lecturas de Sensores</h2>
+        <ul>
+            <li><b>SHT21</b> - Temperatura: {{ temp }} °C, Humedad: {{ hum }} %</li>
+            <li><b>BME280</b> - Temperatura: {{ temp280 }} °C, Presión: {{ pres280 }} hPa, Humedad: {{ hum280 }} %</li>
+            <li><b>HX711</b> - Peso: {{ peso711 }} unidades</li>
+            <li><b>HW504</b> - X: {{ x_val }}, Y: {{ y_val }}, Botón: {{ button_val }}</li>
+        </ul>
+    </div>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
