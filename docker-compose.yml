@@ -1,14 +1,27 @@
 services:
+  weston:
+    image: torizon/weston-imx8:4
+    environment:
+      - ACCEPT_FSL_EULA=1
+      - LAUNCH_APP=chromium --no-sandbox --kiosk http://localhost:8080
+    network_mode: host
   quickstart1-debug:
     container_name: quickstart1-debug
     build:
       context: .
       dockerfile: Dockerfile.debug
     image: ${LOCAL_REGISTRY}:5002/quickstart1-debug:${TAG}
-    ports:
-      - ${DEBUG_SSH_PORT}:${DEBUG_SSH_PORT}
-      - ${DEBUG_PORT1}:${DEBUG_PORT1}
+    volumes:
+      - /tmp/wayland-0:/tmp/wayland-0
+    environment:
+      - WAYLAND_DISPLAY=wayland-0
+    network_mode: host
+    # ports:
+    #   - ${DEBUG_SSH_PORT}:${DEBUG_SSH_PORT}
+    #   - ${DEBUG_PORT1}:${DEBUG_PORT1}
+    #   - "8080:8080"
     devices:
+      - /dev/dri/
       - /dev/spidev1.0
       - /dev/i2c-3
       - /dev/gpiochip2
@@ -25,6 +38,13 @@ services:
       context: .
       dockerfile: Dockerfile
     image: ${DOCKER_LOGIN}/quickstart1:${TAG}
+    volumes:
+      - /tmp/wayland-0:/tmp/wayland-0
+    environment:
+      - WAYLAND_DISPLAY=wayland-0
+    network_mode: host
+    # ports:
+    #   - "8080:8080"
     devices:
       - /dev/spidev1.0
       - /dev/i2c-3
