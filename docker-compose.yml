@@ -1,10 +1,33 @@
 services:
+  chromium:
+    image: torizon/chromium-imx8:4
+    container_name: chromium
+    volumes:
+      - /tmp/1000-runtime-dir:/tmp/1000-runtime-dir
+      - /var/run/dbus:/var/run/dbus
+      - /dev/galcore:/dev/galcore
+      - /dev/dri:/dev/dri
+    environment:
+      - WAYLAND_DISPLAY=wayland-0
+      - XDG_RUNTIME_DIR=/tmp/1000-runtime-dir
+    device_cgroup_rules:
+      - 'c 199:* rmw'
+      - 'c 226:* rmw'
+    security_opt:
+      - seccomp:unconfined
+    shm_size: 256mb
+    network_mode: host
+    depends_on:
+      - weston
+    restart: always
+    command: ["chromium", "--no-sandbox", "--kiosk", "http://127.0.0.1:8080"]
+
   weston:
     image: torizon/weston-imx8:4
     environment:
       - ACCEPT_FSL_EULA=1
       - DISPLAY=:0
-      # - LAUNCH_APP=chromium --no-sandbox --kiosk http://localhost:8080
+      # - LAUNCH_APP=chromium --no-sandbox --kiosk http://127.0.0.1:8080
     restart: always
     privileged: true
     # volumes:
@@ -39,29 +62,6 @@ services:
       # ... for /dev/galcore device
       - 'c 199:* rmw'
 
-  chromium:
-    image: torizon/chromium-imx8:4
-    container_name: chromium
-    volumes:
-      - /tmp/1000-runtime-dir:/tmp/1000-runtime-dir
-      - /var/run/dbus:/var/run/dbus
-      - /dev/galcore:/dev/galcore
-      - /dev/dri:/dev/dri
-      # - ./entrypoint.sh:/entrypoint.sh
-    environment:
-      - WAYLAND_DISPLAY=wayland-0
-      - XDG_RUNTIME_DIR=/tmp/1000-runtime-dir
-    device_cgroup_rules:
-      - 'c 199:* rmw'
-      - 'c 226:* rmw'
-    security_opt:
-      - seccomp:unconfined
-    shm_size: 256mb
-    network_mode: host
-    depends_on:
-      - weston
-    # entrypoint: [ "/entrypoint.sh" ]
-
   quickstart1-debug:
     container_name: quickstart1-debug
     build:
@@ -72,7 +72,6 @@ services:
       - chromium
     volumes:
       - /tmp/wayland-0:/tmp/wayland-0
-      # - ./entrypoint.sh:/entrypoint.sh
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host
@@ -98,7 +97,6 @@ services:
       - chromium
     volumes:
       - /tmp/wayland-0:/tmp/wayland-0
-      # - ./entrypoint.sh:/entrypoint.sh
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host
