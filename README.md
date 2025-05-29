@@ -29,7 +29,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 ## Estructura del Proyecto
 
->.\
+>&nbsp;.\
 ├── docker-compose.yml &emsp;# Configuración de contenedores\
 ├── src/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;# Código fuente\
 │ &nbsp; &emsp;├── main.py &emsp; &emsp; &emsp; &nbsp; # Aplicación principal en Python\
@@ -41,14 +41,14 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── sht21.py &nbsp; &nbsp;# Sensor de Temperatura y Humedad  \
 │ &nbsp; &emsp;├── spi \
 │ &nbsp; &nbsp; &nbsp; │ &emsp;&nbsp; &nbsp; └── bme280.py&nbsp;# Sensor de Presion, Temperatura y Humedad&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; \
-│ &nbsp; &emsp;└── web \
+│ &nbsp; &emsp;└── web &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;# Pagina WEB con la información de los sensores \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── static&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp; └─ style.css&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── templates&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &emsp;&emsp;&emsp;&emsp; └─ index.html&nbsp; \
 ├── overlays/ &emsp; &emsp; &emsp; &emsp; &emsp; # Device Tree Overlays (si aplica)\
 └── README.md
-└
+
 ## Control de Versiones
 
 ### v0.1 - [9/May/2025]
@@ -85,13 +85,13 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Uso de pines ADC para lectura de posición de joystick HW-504.
 
-### v0.5
+### v0.5 - [20/Mayo/2025]
 
 - Prueba de levantamiento de servidor local.
 - Instalación de librería Flask.
 - Funcionamiento en local.
 
-### v0.5.1
+### v0.5.1 - [28/Marzo/2025]
 
 - Se puede acceder a la pagina WEB desde la PC conectada en la misma red.
 - Cambio de home.html por index.html.
@@ -99,3 +99,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creado directorio "static" y "templates" dentro del directorio "web" para las plantillas html. 
 - Se separaron index y style.
 - Agregado despliegue de sensores conectados en la pagina WEB.
+
+### v0.5.2 - [29/Marzo/2025]
+- Configurado contenedor Chromium.
+- Visualización de la página de Toradex como previsualización.

@@ -25,5 +25,12 @@
     "DEBUG_PORT1": "6512",
     "DEBUG_PORT2": "",
     "DEBUG_PORT3": ""
+  },
+  "containers.environment": {
+    "DOCKER_HOST": "tcp://192.168.2.214:2375",
+    "DEBUG_SSH_PORT": "6502",
+    "DEBUG_PORT1": "6512",
+    "DEBUG_PORT2": "",
+    "DEBUG_PORT3": ""
   }
 }
