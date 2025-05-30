@@ -101,9 +101,15 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregado despliegue de sensores conectados en la pagina WEB.
 
 ### v0.5.2 - [29/Marzo/2025]
+
 - Configurado contenedor Chromium.
 - Visualización de la página de Toradex como previsualización.
 
 ### v0.6 - [29/Marzo/2025]
+
 - Configurado archivo docker-compose para acceder a la aplicación de manera local.
 - Visualización en pantalla LCD-MIPI de página web de la aplicación.
+
+### v0.6.1 - [30/Marzo/2025]
+
+- Actualización en index y main para ver los datos de los sensores en tiempo real.
