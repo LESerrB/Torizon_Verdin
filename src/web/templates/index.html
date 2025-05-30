@@ -11,11 +11,11 @@
     <div id="clock"></div>
     <div class="sensores">
         <h2>Lecturas de Sensores</h2>
-        <ul>
-            <li><b>SHT21</b> - Temperatura: {{ temp }} °C, Humedad: {{ hum }} %</li>
-            <li><b>BME280</b> - Temperatura: {{ temp280 }} °C, Presión: {{ pres280 }} hPa, Humedad: {{ hum280 }} %</li>
-            <li><b>HX711</b> - Peso: {{ peso711 }} unidades</li>
-            <li><b>HW504</b> - X: {{ x_val }}, Y: {{ y_val }}, Botón: {{ button_val }}</li>
+        <ul id="sensor-list">
+            <li><b>SHT21</b> - Temperatura: <span id="temp"></span> °C, Humedad: <span id="hum"></span> %</li>
+            <li><b>BME280</b> - Temperatura: <span id="temp280"></span> °C, Presión: <span id="pres280"></span> hPa, Humedad: <span id="hum280"></span> %</li>
+            <li><b>HX711</b> - Peso: <span id="peso711"></span> unidades</li>
+            <li><b>HW504</b> - X: <span id="x_val"></span>, Y: <span id="y_val"></span>, Botón: <span id="button_val"></span></li>
         </ul>
     </div>
     <script>
@@ -26,6 +26,27 @@
         }
         setInterval(updateClock, 1000);
         updateClock();
+
+        async function updateSensors() {
+            try {
+                const response = await fetch('/api/sensores');
+                const data = await response.json();
+                document.getElementById('temp').textContent = data.temp;
+                document.getElementById('hum').textContent = data.hum;
+                document.getElementById('temp280').textContent = data.temp280;
+                document.getElementById('pres280').textContent = data.pres280;
+                document.getElementById('hum280').textContent = data.hum280;
+                document.getElementById('peso711').textContent = data.peso711;
+                document.getElementById('x_val').textContent = data.x_val;
+                document.getElementById('y_val').textContent = data.y_val;
+                document.getElementById('button_val').textContent = data.button_val;
+            } catch (e) {
+                console.error('Error fetching sensor data:', e);
+            }
+        }
+
+        setInterval(updateSensors, 1000);
+        updateSensors();
     </script>
 </body>
 </html>
