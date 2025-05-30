@@ -113,3 +113,6 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ### v0.6.1 - [30/Marzo/2025]
 
 - Actualización en index y main para ver los datos de los sensores en tiempo real.
+- Creación de script de javascript para la lectura de sensores.
+- Actualización de UI HTML.
+- Ajustada resolución de la pantalla a 1024 × 600.

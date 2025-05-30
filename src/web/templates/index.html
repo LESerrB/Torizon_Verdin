@@ -1,52 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido</title>
+    <title>Maqueta de Interfaz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    <h1>¡Bienvenido a Verdin iMX8MM!</h1>
-    <div id="clock"></div>
-    <div class="sensores">
-        <h2>Lecturas de Sensores</h2>
-        <ul id="sensor-list">
-            <li><b>SHT21</b> - Temperatura: <span id="temp"></span> °C, Humedad: <span id="hum"></span> %</li>
-            <li><b>BME280</b> - Temperatura: <span id="temp280"></span> °C, Presión: <span id="pres280"></span> hPa, Humedad: <span id="hum280"></span> %</li>
-            <li><b>HX711</b> - Peso: <span id="peso711"></span> unidades</li>
-            <li><b>HW504</b> - X: <span id="x_val"></span>, Y: <span id="y_val"></span>, Botón: <span id="button_val"></span></li>
-        </ul>
+    <div class="main-container">
+        <div class="alert-bar">
+            <span class="alert-icon">⚠️</span>
+            <span class="alert-text">TEMPERATURA DE PIEL ALTA</span>
+            <span class="alert-icon">🔔</span>
+        </div>
+
+        <div class="mode-bar">
+            <span class="mode-icon">👶</span>
+            <span class="mode-text">MODO BEBÉ</span>
+            <span id="clock" class="clock"></span>
+        </div>
+    
+        <div class="temp-section">
+            <span class="temp-main">
+                <span id="temp">--</span> <span class="unit">°C</span>
+            </span>
+            <div class="temp-programada">
+                <span class="label">TEMPERATURA</span><br>
+                <span class="label">PROGRAMADA</span>
+                <span class="temp-programada-value">
+                    <span id="temp280">--</span> <span class="unit-small">°C</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="hum-section">
+            <span id="hum" class="hum-value">--</span>%<br>
+            <div class="calefactor-bar"></div>
+            <span class="calefactor-label">POTENCIA DE CALEFACTOR</span>
+        </div>
+
+        <div class="joystick-section">
+            <span class="joystick-label">Joystick</span><br>
+            <span class="peso">
+                <span id="peso711">--</span> <span class="unit">g</span>
+            </span>
+            <span class="sensor-values">
+                Temp: <span id="temp280">--</span>°C,
+                Hum: <span id="hum280">--</span>%,
+                Pres: <span id="pres280">--</span>hPa
+            </span><br>
+            <span class="joystick-values">
+                X: <span id="x_val">--</span>,
+                Y: <span id="y_val">--</span>,
+                Botón: <span id="button_val">--</span>
+            </span>
+        </div>
     </div>
-    <script>
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            document.getElementById('clock').textContent = timeString;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
 
-        async function updateSensors() {
-            try {
-                const response = await fetch('/api/sensores');
-                const data = await response.json();
-                document.getElementById('temp').textContent = data.temp;
-                document.getElementById('hum').textContent = data.hum;
-                document.getElementById('temp280').textContent = data.temp280;
-                document.getElementById('pres280').textContent = data.pres280;
-                document.getElementById('hum280').textContent = data.hum280;
-                document.getElementById('peso711').textContent = data.peso711;
-                document.getElementById('x_val').textContent = data.x_val;
-                document.getElementById('y_val').textContent = data.y_val;
-                document.getElementById('button_val').textContent = data.button_val;
-            } catch (e) {
-                console.error('Error fetching sensor data:', e);
-            }
-        }
+    <div class="footer-bar">
+        <span class="footer-icon">🔆</span>
+        <span class="footer-icon">🔒</span>
+        <span class="footer-icon">🔆+</span>
+    </div>
 
-        setInterval(updateSensors, 1000);
-        updateSensors();
-    </script>
+    <script src="{{ url_for('static', filename='sensores.js') }}"></script>
 </body>
 </html>
