@@ -1,0 +1,240 @@
+/dts-v1/;
+
+/ {
+	compatible = "toradex,verdin-imx8mm";
+
+	fragment@0 {
+		target-path = "/";
+
+		__overlay__ {
+
+			panel-rvt101hvdwc00b {
+				compatible = "panel-lvds";
+				data-mapping = "vesa-24";
+				height-mm = <0x88>;
+				width-mm = <0xd9>;
+				status = "okay";
+				backlight = <0x01>;
+				phandle = <0x06>;
+
+				panel-timing {
+					clock-frequency = <0x3f3a860 0x43ce660 0x4b3eb20>;
+					de-active = <0x01>;
+					hactive = <0x400 0x400 0x400>;
+					hback-porch = <0x40 0x40 0x40>;
+					hfront-porch = <0x24 0x24 0x24>;
+					hsync-active = <0x00>;
+					hsync-len = <0x18 0x18 0x18>;
+					pixelclk-active = <0x01>;
+					vactive = <0x258 0x258 0x258>;
+					vback-porch = <0x18 0x18 0x18>;
+					vfront-porch = <0x08 0x08 0x08>;
+					vsync-active = <0x00>;
+					vsync-len = <0x08 0x08 0x08>;
+				};
+
+				port {
+
+					endpoint {
+						remote-endpoint = <0x02>;
+						phandle = <0x04>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@1 {
+		target-path = "/";
+
+		__overlay__ {
+
+			backlight-verdin-dsi {
+				compatible = "pwm-backlight";
+				pinctrl-names = "default";
+				pinctrl-0 = <0xffffffff>;
+				brightness-levels = <0x00 0x2d 0x3f 0x58 0x77 0x9e 0xcb 0xff>;
+				default-brightness-level = <0x04>;
+				enable-gpios = <0xffffffff 0x18 0x00>;
+				pwms = <0xffffffff 0x00 0x65b9ab 0x00>;
+				phandle = <0x01>;
+			};
+		};
+	};
+
+	fragment@2 {
+		target = <0xffffffff>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@3 {
+		target = <0xffffffff>;
+
+		__overlay__ {
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "okay";
+
+			bridge@2c {
+				compatible = "ti,sn65dsi83";
+				reg = <0x2c>;
+				enable-gpios = <0xffffffff 0x03 0x00>;
+				pinctrl-names = "default";
+				pinctrl-0 = <0xffffffff>;
+
+				ports {
+					#address-cells = <0x01>;
+					#size-cells = <0x00>;
+
+					port@0 {
+						reg = <0x00>;
+
+						endpoint {
+							data-lanes = <0x01 0x02 0x03 0x04>;
+							remote-endpoint = <0x03>;
+							phandle = <0x05>;
+						};
+					};
+
+					port@2 {
+						reg = <0x02>;
+
+						endpoint {
+							remote-endpoint = <0x04>;
+							phandle = <0x02>;
+						};
+					};
+				};
+			};
+
+			touch@41 {
+				compatible = "ilitek,ili2132";
+				reg = <0x41>;
+				interrupt-parent = <0xffffffff>;
+				interrupts = <0x0f 0x01>;
+				pinctrl-names = "default";
+				pinctrl-0 = <0xffffffff 0xffffffff>;
+				reset-gpios = <0xffffffff 0x17 0x01>;
+			};
+		};
+	};
+
+	fragment@4 {
+		target = <0xffffffff>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@5 {
+		target = <0xffffffff>;
+
+		__overlay__ {
+			#address-cells = <0x01>;
+			#size-cells = <0x00>;
+			status = "okay";
+
+			port@1 {
+
+				endpoint {
+					attach-bridge;
+					remote-endpoint = <0x05>;
+					phandle = <0x03>;
+				};
+			};
+		};
+	};
+
+	fragment@6 {
+		target = <0xffffffff>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	__symbols__ {
+		panel_rvt101hvdwc00b = "/fragment@0/__overlay__/panel-rvt101hvdwc00b";
+		panel_rvt101hvdwc00b_in = "/fragment@0/__overlay__/panel-rvt101hvdwc00b/port/endpoint";
+		backlight_verdin_dsi = "/fragment@1/__overlay__/backlight-verdin-dsi";
+		dsi_riv_in = "/fragment@3/__overlay__/bridge@2c/ports/port@0/endpoint";
+		lvds_out_panel_riv = "/fragment@3/__overlay__/bridge@2c/ports/port@2/endpoint";
+		mipi_dsi_bridge2_out = "/fragment@5/__overlay__/port@1/endpoint";
+	};
+
+	__fixups__ {
+		pinctrl_i2s_2_d_out_dsi_1_bkl_en = "/fragment@1/__overlay__/backlight-verdin-dsi:pinctrl-0:0";
+		gpio3 = "/fragment@1/__overlay__/backlight-verdin-dsi:enable-gpios:0\0/fragment@3/__overlay__/bridge@2c:enable-gpios:0\0/fragment@3/__overlay__/touch@41:interrupt-parent:0\0/fragment@3/__overlay__/touch@41:reset-gpios:0";
+		pwm1 = "/fragment@1/__overlay__/backlight-verdin-dsi:pwms:0\0/fragment@6:target:0";
+		gpu = "/fragment@2:target:0";
+		i2c2 = "/fragment@3:target:0";
+		pinctrl_gpio_10_dsi = "/fragment@3/__overlay__/bridge@2c:pinctrl-0:0";
+		pinctrl_gpio_9_dsi = "/fragment@3/__overlay__/touch@41:pinctrl-0:0";
+		pinctrl_i2s_2_bclk_touch_reset = "/fragment@3/__overlay__/touch@41:pinctrl-0:4";
+		lcdif = "/fragment@4:target:0";
+		mipi_dsi = "/fragment@5:target:0";
+	};
+
+	__local_fixups__ {
+
+		fragment@0 {
+
+			__overlay__ {
+
+				panel-rvt101hvdwc00b {
+					backlight = <0x00>;
+
+					port {
+
+						endpoint {
+							remote-endpoint = <0x00>;
+						};
+					};
+				};
+			};
+		};
+
+		fragment@3 {
+
+			__overlay__ {
+
+				bridge@2c {
+
+					ports {
+
+						port@0 {
+
+							endpoint {
+								remote-endpoint = <0x00>;
+							};
+						};
+
+						port@2 {
+
+							endpoint {
+								remote-endpoint = <0x00>;
+							};
+						};
+					};
+				};
+			};
+		};
+
+		fragment@5 {
+
+			__overlay__ {
+
+				port@1 {
+
+					endpoint {
+						remote-endpoint = <0x00>;
+					};
+				};
+			};
+		};
+	};
+};
