@@ -1,69 +1,328 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maqueta de Interfaz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='lib/fontawesome/css/all.min.css') }}">
+     <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.png') }}">
+     <title>Arroba Ingenieíra</title>
 </head>
 
 <body>
-    <div class="main-container">
-        <div class="alert-bar">
-            <span class="alert-icon">⚠️</span>
-            <span class="alert-text">TEMPERATURA DE PIEL ALTA</span>
-            <span class="alert-icon">🔔</span>
+    <!-- BOTON DE IR ARRIBA -->
+    <div id="btn-top">
+        <span class="fas fa-angle-up"></span>
+    </div>
+
+    <!-- MENU PRINCIPAL -->
+    <div class="menu-principal">
+        <div class="logo" id="logo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
         </div>
 
-        <div class="mode-bar">
-            <span class="mode-icon">👶</span>
-            <span class="mode-text">MODO BEBÉ</span>
-            <span id="clock" class="clock"></span>
-        </div>
-    
-        <div class="temp-section">
-            <span class="temp-main">
-                <span id="temp">--</span> <span class="unit">°C</span>
-            </span>
-            <div class="temp-programada">
-                <span class="label">TEMPERATURA</span><br>
-                <span class="label">PROGRAMADA</span>
-                <span class="temp-programada-value">
-                    <span id="temp280">--</span> <span class="unit-small">°C</span>
-                </span>
+        <div class="menu-bar" id="menuBar">
+            <i class="fas fa-angle-right" id="btnMenuClose"></i>
+
+            <nav class="enlaces" id="enlaces">
+                <ul>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#equipo">Equipo</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+
+            <div class="sociales">
+                <a href="#"><span class="fab fa-facebook"></span></a>
+                <a href="#"><span class="fab fa-instagram"></span></a>
+                <a href="#"><span class="fab fa-twitter"></span></a>
+                <a href="#"><span class="fab fa-youtube"></span></a>
             </div>
         </div>
 
-        <div class="hum-section">
-            <span id="hum" class="hum-value">--</span>%<br>
-            <div class="calefactor-bar"></div>
-            <span class="calefactor-label">POTENCIA DE CALEFACTOR</span>
+        <i class="fas fa-bars" id="btnMenuOpen"></i>
+    </div>
+
+    <!-- SLIDER DE PRODUCTOS -->
+    <section id="menu-productos">
+        <div class="contenedor-principal">
+            <button id="btn-izquierda"><span class="fas fa-angle-left"></span></button>
+
+            <div class="slider">
+                <div class="container-productos">
+                    <div class="descripcion-productos">
+                        <h2>Incubadora <b>Neonatal</b></h2>
+                        <h1>Isoterm 2K</h1>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Provident debitis nihil incidunt quisquam ab reiciendis consequuntur iure.</p>
+
+                        <button class="btn"> Saber más <span class="fas fa-angle-right"></span></button>
+                    </div>
+
+                    <div class="imagen-productos">
+                        <img src="{{ url_for('static', filename='img/menu/2k.png') }}" alt="">
+                    </div>
+                </div>
+
+                <div class="container-productos">
+                    <div class="descripcion-productos">
+                        <h2>Lampara <b>de Calor</b></h2>
+                        <h1>Actea</h1>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Provident debitis nihil incidunt quisquam ab reiciendis consequuntur iure.</p>
+
+                        <button class="btn"> Saber más <span class="fas fa-angle-right"></span></button>
+                    </div>
+
+                    <div class="imagen-productos">
+                        <img src="{{ url_for('static', filename='img/menu/Actea.png') }}" alt="">
+                    </div>
+                </div>
+
+                <div class="container-productos">
+                    <div class="descripcion-productos">
+                        <h2>Incubadora <b>de Traslado</b></h2>
+                        <h1>Scale</h1>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Provident debitis nihil incidunt quisquam ab reiciendis consequuntur iure.</p>
+                        <button class="btn"> Saber más <span class="fas fa-angle-right"></span></button>
+                    </div>
+
+                    <div class="imagen-productos">
+                        <img src="{{ url_for('static', filename='img/menu/Scale.png') }}" alt="">
+                    </div>
+                </div>
+
+                <div class="container-productos">
+                    <div class="descripcion-productos">
+                        <h2>Incubadora <b>Bhelius</b></h2>
+                        <h1>Eritrea</h1>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Provident debitis nihil incidunt quisquam ab reiciendis consequuntur iure.</p>
+
+                        <button class="btn"> Saber más <span class="fas fa-angle-right"></span></button>
+                    </div>
+
+                        <div class="imagen-productos">
+                        <img src="{{ url_for('static', filename='img/menu/Eritrea Completa sf.png') }}" alt="">
+                        </div>
+                </div>
+
+                <div class="container-productos">
+                        <div class="descripcion-productos">
+                            <h2>Cuna <b>de Calor</b></h2>
+                            <h1>Pirea</h1>
+                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Provident debitis nihil incidunt quisquam ab reiciendis consequuntur iure.</p>
+                            <button class="btn"> Saber más <span class="fas fa-angle-right"></span></button>
+                        </div>
+
+                        <div class="imagen-productos">
+                            <img src="{{ url_for('static', filename='img/menu/Pirea Completa S.FONDO.png') }}" alt="">
+                        </div>
+                </div>
+            </div>
+
+            <button id="btn-derecha"><span class="fas fa-angle-right"></span></button>
+        </div>
+    </section>
+
+    <!-- SECCION SERVICIOS -->
+    <section id="servicios">
+        <div class="servicios-titulos">
+            <h2 class="subtitulos">Nuestra misión</h2>
+            <h1 class="titulos">Proveer la mejor tecnología posible para el bienestar del recién nacido </h1>
         </div>
 
-        <div class="joystick-section">
-            <span class="joystick-label">Joystick</span><br>
-            <span class="peso">
-                <span id="peso711">--</span> <span class="unit">g</span>
-            </span>
-            <span class="sensor-values">
-                Temp: <span id="temp280">--</span>°C,
-                Hum: <span id="hum280">--</span>%,
-                Pres: <span id="pres280">--</span>hPa
-            </span><br>
-            <span class="joystick-values">
-                X: <span id="x_val">--</span>,
-                Y: <span id="y_val">--</span>,
-                Botón: <span id="button_val">--</span>
-            </span>
+        <div class="servicios-container">
+            <div class="imagen-central">
+                <img src="{{ url_for('static', filename='img/menu/Nila.png') }}" alt="">
+            </div>
+
+            <div class="items calidad">
+                <p><span class="fas fa-handshake"></span></p>
+                <p class="titulo-item">Equipo</p>
+                <p class="texto-item">Lorem ipsum dolor sit amet consectetur adipisicing elit, epellendus.</p>
+            </div>
+
+            <div class="items ingredientes">
+                <p><span class="fas fa-landmark"></span></p>
+                <p class="titulo-item">Historia</p>
+                <p class="texto-item">Lorem ipsum dolor sit amet consectetur adipisicing elit, epellendus.</p>
+            </div>
+
+            <div class="items rapidez">
+                <p><span class="fas fa-lightbulb"></span></p>
+                <p class="titulo-item">Innovación</p>
+                <p class="texto-item">Lorem ipsum dolor sit amet consectetur adipisicing elit, epellendus.</p>
+            </div>
+
+            <div class="items delivery">
+                <p><span class="fas fa-truck"></span></p> 
+                <p class="titulo-item">Servicio</p>
+                <p class="texto-item">Lorem ipsum dolor sit amet consectetur adipisicing elit, epellendus.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCION DE EQUIPO -->
+    <section id="equipo">
+        <div class="persona">
+            <img src="{{ url_for('static', filename='img/Producción.jpg') }}" alt="" class="persona-imagen">
+            <div class="persona-info">
+                <h2>Ensamble </h2>
+                <p>Electronico y Mecanico</p>
+                <div class="social-media">
+                        <a href=""><span class="fab fa-facebook"></span></a>
+                        <a href=""><span class="fab fa-instagram"></span></a>
+                        <a href=""><span class="fab fa-twitter"></span></a>
+                        <a href=""><span class="fab fa-linkedin-in"></span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="persona">
+            <img src="{{ url_for('static', filename='img/Planta.jpg') }}" alt="" class="persona-imagen">
+            <div class="persona-info">
+                <h2>Producción</h2>
+                <p>100% Mexicana</p>
+                <div class="social-media">
+                    <a href=""><span class="fab fa-facebook"></span></a>
+                    <a href=""><span class="fab fa-instagram"></span></a>
+                    <a href=""><span class="fab fa-twitter"></span></a>
+                    <a href=""><span class="fab fa-linkedin-in"></span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="persona">
+            <img src="{{ url_for('static', filename='img/Diseño.jpg') }}" alt="" class="persona-imagen">
+            <div class="persona-info">
+                <h2>Diseño y Desarrollo </h2>
+                <p>Innovación </p>
+                <div class="social-media">
+                        <a href=""><span class="fab fa-facebook"></span></a>
+                        <a href=""><span class="fab fa-instagram"></span></a>
+                        <a href=""><span class="fab fa-twitter"></span></a>
+                        <a href=""><span class="fab fa-linkedin-in"></span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="persona">
+            <img src="{{ url_for('static', filename='img/Servicio.JPG') }}" alt="" class="persona-imagen">
+            <div class="persona-info">
+                <h2>Atención y Servicio</h2>
+                <p>En todo México</p>
+                <div class="social-media">
+                        <a href=""><span class="fab fa-facebook"></span></a>
+                        <a href=""><span class="fab fa-instagram"></span></a>
+                        <a href=""><span class="fab fa-twitter"></span></a>
+                        <a href=""><span class="fab fa-linkedin-in"></span></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCION DE INGREDIENTES -->
+    <section id="ingredientes">
+        <div class="ingre">
+            <img src="{{ url_for('static', filename='img/Capaci.JPG') }}" alt="" class="imagen-ingre">
+            <div class="info-ingre">
+                <p><span class="fas fa-user-check"></span></p>
+                <p class="txt-ingre">Capacitaciones</p>
+            </div>
+        </div>
+
+        <div class="ingre">
+            <img src="{{ url_for('static', filename='img/Feria.JPG') }}" alt="" class="imagen-ingre">
+            <div class="info-ingre">
+                <p><span class="fas fa-calendar-check"></span></p>
+                <p class="txt-ingre">Ferias</p>
+            </div>
+        </div>
+
+        <div class="ingre">
+            <img src="{{ url_for('static', filename='img/Adventum.JPG') }}" alt="" class="imagen-ingre">
+            <div class="info-ingre">
+                <p><span class="fas fa-dumbbell"></span></p>
+                <p class="txt-ingre">Producción</p>
+            </div>
+        </div>
+
+        <div class="ingre">
+            <img src="{{ url_for('static', filename='img/Equipos.jpg') }}" alt="" class="imagen-ingre">
+            <div class="info-ingre">
+                <p><span class="fas fa-users"></span></p>
+                <p class="txt-ingre">Equipo</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCION CONTACTO -->
+    <section id="contacto">
+        <div class="titulo-contacto">
+            <h2 class="subtitulos">Cotizaciones y asesoría técnica</h2>
+            <h1 class="titulos">Contacto</h1>
+        </div>
+
+        <form action="" id="formulario">
+            <div class="two-fiels">
+                <div class="inputConIcon">
+                        <input type="text" id="nombre" name="nombre" class="input-text" placeholder="Nombre">
+                        <i class="fas fa-user"></i>
+                </div>
+
+                <div class="inputConIcon">
+                        <input type="email" id="email" name="email" class="input-email" placeholder="Email">
+                        <i class="fas fa-envelope"></i>
+                </div>
+            </div>
+
+            <div class="fiels">
+                <div class="inputConIcon textareaIcon">
+                        <textarea name="comentarios" id="comentarios" class="textarea" placeholder="Ingrese su mensaje"></textarea>
+                        <i class="fas fa-comments"></i>
+                </div>
+            </div>
+
+            <div class="fiels-btn">
+                <input type="submit" class="btn btn-input" value="Enviar">
+            </div>
+        </form>
+    </section>
+
+
+    <!-- ALERTAS -->
+    <div class="alertas">
+        <div id="alertError" class="alert hide">
+            <span class="icono-alert fas fa-exclamation-circle"></span>
+            <span class="msg">Error:campos de entrada vacios.</span>
+        </div>
+
+        <div id="alertSuccess" class="alert hide">
+            <span class="icono-alert fas fa-check-circle"></span>
+            <span class="msg">¡Datos enviados! Gracias por contactarnos.</span>
         </div>
     </div>
 
-    <div class="footer-bar">
-        <span class="footer-icon">🔆</span>
-        <span class="footer-icon">🔒</span>
-        <span class="footer-icon">🔆+</span>
-    </div>
+    <!-- SECCION FOOTER -->
+    <footer>
+        <div class="sociales-metodo">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>www.arrobaing.com/</span>
+        </div>
 
-    <script src="{{ url_for('static', filename='sensores.js') }}"></script>
-</body>
-</html>
+        <div class="sociales-metodo">
+            <i class="fas fa-envelope"></i>
+            <span>info@arrobaing.com</span>
+        </div>
+
+        <div class="sociales-metodo">
+            <i class="fas fa-phone"></i>
+            <span>+55 5740 3781</span>
+        </div>
+
+        <div class="sociales-metodo">
+            <i class="fab fa-twitter"></i>
+            <span>@arrobaing</span>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
