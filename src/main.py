@@ -4,10 +4,10 @@ import struct
 from flask import Flask, render_template, jsonify
 import os
 
-from i2c.sht21 import sht21
-from spi.bme280 import bme280
-from gpio.hx711 import hx711
-from adc.hw504 import hw504
+# from i2c.sht21 import sht21
+# from spi.bme280 import bme280
+# from gpio.hx711 import hx711
+# from adc.hw504 import hw504
 
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
@@ -20,13 +20,13 @@ def index():
     peso711 = None
     x_val, y_val, button_val = None, None, None
 
-    try:
-        temp, hum = struct.unpack("ff", sht21())
-        temp280, pres280, hum280 = struct.unpack("fff", bme280())
-        peso711 = hx711()
-        x_val, y_val, button_val = struct.unpack("iii", hw504())
-    except Exception as e:
-        print("Error leyendo sensores:", e)
+    # try:
+    #     temp, hum = struct.unpack("ff", sht21())
+    #     temp280, pres280, hum280 = struct.unpack("fff", bme280())
+    #     peso711 = hx711()
+    #     x_val, y_val, button_val = struct.unpack("iii", hw504())
+    # except Exception as e:
+    #     print("Error leyendo sensores:", e)
 
     def fmt(val):
         return round(float(val), 2) if val is not None else None
@@ -51,13 +51,13 @@ def api_sensores():
     peso711 = None
     x_val, y_val, button_val = None, None, None
 
-    try:
-        temp, hum = struct.unpack("ff", sht21())
-        temp280, pres280, hum280 = struct.unpack("fff", bme280())
-        peso711 = hx711()
-        x_val, y_val, button_val = struct.unpack("iii", hw504())
-    except Exception as e:
-        print("Error leyendo sensores:", e)
+    # try:
+    #     temp, hum = struct.unpack("ff", sht21())
+    #     temp280, pres280, hum280 = struct.unpack("fff", bme280())
+    #     peso711 = hx711()
+    #     x_val, y_val, button_val = struct.unpack("iii", hw504())
+    # except Exception as e:
+    #     print("Error leyendo sensores:", e)
 
     def fmt(val):
         return round(float(val), 2) if val is not None else None
