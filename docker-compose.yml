@@ -23,29 +23,30 @@ services:
     command: ["chromium", "--no-sandbox", "--kiosk", "http://127.0.0.1:8080"]
 
   weston:
-    image: torizon/weston-imx8:4
+    # image: torizon/weston-imx8:4
+    image: torizon/weston-vivante:2
     environment:
       - ACCEPT_FSL_EULA=1
       - DISPLAY=:0
+      - LAUNCH_WESTON=weston -Bdrm-backend.so -Swayland-0
     restart: always
     privileged: true
     # volumes:
     # Required to get udev events from host udevd via netlink
     network_mode: host
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /tmp/1000-runtime-dir:/tmp/1000-runtime-dir
       - /dev:/dev
       - /run:/run
       - /tmp:/tmp
-      - type: bind
-        source: /tmp
-        target: /tmp
       - type: bind
         source: /dev
         target: /dev
       - type: bind
         source: /run/udev
         target: /run/udev
+    group_add:
+      - "44"  # GID del grupo video, verifica con `getent group video`
     cap_add:
       - CAP_SYS_TTY_CONFIG
     # Add device access rights through cgroup...
@@ -60,6 +61,11 @@ services:
       - 'c 226:* rmw'
       # ... for /dev/galcore device
       - 'c 199:* rmw'
+    # healthcheck:
+    #   test: ["CMD", "pidof", "weston"]
+    #   interval: 5s
+    #   timeout: 3s
+    #   retries: 3
 
   quickstart1-debug:
     container_name: quickstart1-debug
