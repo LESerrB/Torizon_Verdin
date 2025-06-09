@@ -116,3 +116,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creación de script de javascript para la lectura de sensores.
 - Actualización de UI HTML.
 - Ajustada resolución de la pantalla a 1024 × 600.
+
+### v0.6.2 - [9/Junio/2025]
+
+- Cambio de weston-imx8:4 a weston-vivante:2 por error de compatibilidad (Queda comentado por si es necesario cambiarlo)
