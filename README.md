@@ -120,3 +120,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ### v0.6.2 - [9/Junio/2025]
 
 - Cambio de weston-imx8:4 a weston-vivante:2 por error de compatibilidad (Queda comentado por si es necesario cambiarlo)
+
+### v0.6.3 - [11/Junio/2023]
+
+- Implementación de gráficas de tendencias de temperatura. 
