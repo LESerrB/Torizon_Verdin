@@ -6,39 +6,39 @@ body {
     min-height: 100vh;
     background-color: #e0ffe0; /* Fondo verde claro */
     margin: 0;
-    padding: 0; /* Sin padding en el body para control total del contenedor */
-    overflow: hidden; /* Evita scroll en el body si el contenedor es más grande que el viewport */
+    padding: 0;
+    overflow: hidden;
 }
 
 .container {
     background-color: #fff;
-    border: 2px solid #60b060; /* Borde verde */
+    border: 2px solid #60b060;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 1024px; /* Ancho fijo */
-    height: 600px; /* Alto fijo */
-    min-width: 1024px; /* Asegura que no sea más pequeño */
-    max-width: 1024px; /* Asegura que no sea más grande */
-    min-height: 600px; /* Asegura que no sea más pequeño */
-    max-height: 600px; /* Asegura que no sea más grande */
+    width: 1024px;
+    height: 600px;
+    min-width: 1024px;
+    max-width: 1024px;
+    min-height: 600px;
+    max-height: 600px;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Asegura que el contenido dentro no se desborde */
-    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
-    flex-shrink: 0; /* Asegura que no se encoja */
-    flex-grow: 0; /* Asegura que no crezca */
+    overflow: hidden;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px; /* Altura fija para la barra superior */
-    flex-shrink: 0; /* Evita que se encoja */
+    height: 60px;
+    flex-shrink: 0;
 }
 
 .top-button {
-    width: 100px; /* Ancho de los botones de la esquina */
+    width: 100px;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -51,44 +51,61 @@ body {
 }
 
 .top-button.blue {
-    background-color: #add8e6; /* Azul claro */
+    background-color: #add8e6;
 }
 .top-button.blue.purple-lightbulb {
-    background-color: #800080; /* Morado */
+    background-color: #800080;
 }
 .top-button.blue i {
-    color: white; /* Color del ícono blanco por defecto */
+    color: white;
 }
 .top-button.blue.purple-lightbulb i {
-    color: white; /* El ícono sigue blanco, solo cambia el fondo del botón */
+    color: white;
 }
 
-
 .top-button.orange {
-    background-color: #ffa500; /* Naranja */
+    background-color: #ffa500;
 }
 .top-button.orange i {
     color: white;
 }
 
 .top-yellow-bar {
-    flex-grow: 1; /* Ocupa el espacio restante */
+    flex-grow: 1;
     background-color: #ffff00; /* Amarillo */
     height: 100%;
     flex-shrink: 0;
+    cursor: pointer; /* Indica que es clickeable */
+    gap: 5px;
+    text-align: center;
+}
+
+.top-yellow-bar .chart-icon {
+    font-size: 2.0em; /* Ajusta el tamaño del ícono si es necesario */
+}
+
+.top-yellow-bar .chart-text {
+    font-size: 2.0em; /* Ajusta el tamaño del texto si es necesario */
+    font-weight: bold;
+    color: #333; /* Color del texto, puedes ajustar */
+}
+
+.hidden {
+    display: none !important; /* Asegura que se oculte completamente */
 }
 
 .main-content {
     display: flex;
     padding: 20px;
     gap: 20px;
-    flex-grow: 1; /* Permite que ocupe el espacio disponible */
-    overflow-y: auto; /* Permite desplazamiento si el contenido es demasiado grande */
-    box-sizing: border-box; /* Asegura que el padding se incluya en el cálculo de altura disponible */
+    flex-grow: 1;
+    overflow-y: auto;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .center-display {
-    flex: 3; /* CAMBIO: Hace que ocupe más espacio inicialmente */
+    flex: 3;
     background-color: #d3d3d3; /* Gris claro */
     border-radius: 8px;
     display: flex;
@@ -97,23 +114,115 @@ body {
     align-items: center;
     padding: 20px;
     gap: 15px;
-    flex-shrink: 0; /* Evita que se encoja dentro de main-content */
+    flex-shrink: 0;
+}
+
+/* Estilos para la nueva pantalla (azul) */
+.new-display {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background-color: #87ceeb; /* Azul cielo */
+    border-radius: 8px;
+    display: flex; /* CAMBIO: ahora es un flex container */
+    flex-direction: column; /* CAMBIO: elementos apilados verticalmente */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+/* Estilos para los controles del gráfico dentro de la pantalla azul */
+.chart-controls {
+    display: flex;
+    justify-content: center; /* Centra los grupos de control */
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+    flex-wrap: wrap; /* Permite que los controles se envuelvan si hay poco espacio */
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: white; /* Color del texto de las etiquetas */
+    font-size: 1.1em;
+}
+
+.chart-controls select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.chart-button {
+    background-color: #4CAF50; /* Verde, similar a tus otros botones */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.chart-button:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+.chart-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.chart-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Contenedor del canvas para controlar su tamaño */
+.chart-container {
+    flex-grow: 1; /* Permite que el contenedor del gráfico ocupe el espacio restante */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    min-height: 0; /* Necesario para que flex-grow funcione correctamente con canvas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo claro para el gráfico */
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#temperatureChart {
+    max-width: 100%; /* El canvas no debe desbordarse */
+    max-height: 100%; /* El canvas no debe desbordarse */
 }
 
 .temp-row {
     display: flex;
     width: 100%;
-    justify-content: center; /* Centrar contenido */
+    justify-content: center;
     align-items: baseline;
-    font-size: 2.5em; /* Tamaño grande para la temperatura */
+    font-size: 2.5em;
 }
 
 .temp-row .temp-label {
-    font-size: 0.5em; /* Más pequeño que el valor */
+    font-size: 0.5em;
     color: #555;
     margin-right: 15px;
-    text-decoration: underline red wavy; /* Subrayado como en la imagen */
-    text-decoration-skip-ink: none; /* Asegura que la línea sea continua */
+    text-decoration: underline red wavy;
+    text-decoration-skip-ink: none;
 }
 
 .temp-row .temp-value {
@@ -122,14 +231,14 @@ body {
 }
 
 .right-panel {
-    flex: 0.5; /* CAMBIO: Hacemos la sección melón más angosta. Puedes ajustar este valor. */
-    background-color: #ffe0e0; /* Color melón/rosa claro */
+    flex: 0.5;
+    background-color: #ffe0e0;
     border-radius: 8px;
     padding: 15px;
-    display: flex; /* Asegura que sea un flex container cuando visible */
+    display: flex;
     flex-direction: column;
     gap: 10px;
-    flex-shrink: 0; /* Evita que se encoja dentro de main-content */
+    flex-shrink: 0;
     transition: all 0.3s ease-in-out;
 }
 
@@ -145,7 +254,7 @@ body {
     font-size: 1.1em;
     font-weight: bold;
     color: #333;
-    margin-bottom: 10px; /* Espacio debajo de "Calefactor 100%" */
+    margin-bottom: 10px;
 }
 
 .control-buttons-heater-panel {
@@ -157,9 +266,9 @@ body {
 }
 
 .heater-panel-button {
-    background-color: #808080; /* Gris */
+    background-color: #808080;
     width: 100%;
-    height: 60px; /* Define una altura fija para los botones */
+    height: 60px;
     border: none;
     border-radius: 8px;
     font-size: 2em;
@@ -182,7 +291,6 @@ body {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-
 .bottom-buttons {
     display: flex;
     justify-content: space-around;
@@ -200,15 +308,15 @@ body {
     border-radius: 8px;
     font-size: 1.1em;
     font-weight: bold;
-    color: white;
+    color: rgb(0, 0, 0);
     cursor: pointer;
     display: flex;
-    flex-direction: column; /* Para apilar el texto y el mensaje */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.1s ease, padding 0.3s ease; /* Añadida transición para padding */
+    transition: background-color 0.3s ease, transform 0.1s ease, padding 0.3s ease;
 }
 
 .action-button:hover {
@@ -222,7 +330,7 @@ body {
 }
 
 .green {
-    background-color: #90ee90; /* Verde claro */
+    background-color: #90ee90;
 }
 
 .sensor-button span {
@@ -233,7 +341,7 @@ body {
 .sensor-button .message {
     font-size: 0.8em;
     margin-top: 5px;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.8);
     height: auto;
     opacity: 1;
     overflow: hidden;
@@ -250,7 +358,12 @@ body {
     pointer-events: none;
 }
 
-/* La clase hidden para elementos que deben desaparecer por completo */
 .hidden {
     display: none;
+}
+
+.new-display.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
