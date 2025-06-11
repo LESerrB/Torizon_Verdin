@@ -63,15 +63,15 @@ def api_sensores():
     except Exception as e:
         print("Error leyendo sensores:", e)
 
-    print("Temperatura:", temp, "°C")
-    print("Humedad:", hum, "%")
-    print("Temperatura BME280:", temp280, "°C")
-    print("Presión BME280:", pres280, "hPa")
-    print("Humedad BME280:", hum280, "%")
-    print("Peso HX711:", peso711, "g")
-    print("X Val:", x_val)
-    print("Y Val:", y_val)
-    print("Button Val:", button_val)
+    # print("Temperatura:", temp, "°C",
+    #       "Humedad:", hum, "%",
+    #       "Temperatura BME280:", temp280, "°C",
+    #       "Presión BME280:", pres280, "hPa",
+    #       "Humedad BME280:", hum280, "%",
+    #       "Peso HX711:", peso711, "g",
+    #       "X Val:", x_val,
+    #       "Y Val:", y_val,
+    #       "Button Val:", button_val)
 
     def fmt(val):
         return round(float(val), 2) if val is not None else None

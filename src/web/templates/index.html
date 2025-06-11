@@ -3,33 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Dispositivos</title>
-    <link rel="stylesheet" href="static\css\style.css">
+    <title>DUAL</title>
+    <link rel="stylesheet" href="../static/css/style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.5.0/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0/dist/chartjs-adapter-luxon.min.js"></script>
+    
 </head>
 <body>
     <div class="container">
         <div class="top-bar">
-            <!-- Fototerapia -->
             <div class="top-button blue" id="lightbulb-button">
                 <i class="fas fa-lightbulb"></i>
             </div>
-            <!-- Despliegue Información -->
-            <div class="top-yellow-bar"></div>
-            <!-- Alarmas -->
+            <div class="top-yellow-bar" id="yellow-bar-button">
+                <i class="fas fa-chart-line chart-icon hidden"></i> <span class="chart-text hidden">Tendencias</span> </div>
             <div class="top-button orange" id="bell-button">
                 <i class="fas fa-bell"></i>
             </div>
         </div>
         <div class="main-content">
-            <div class="center-display">
+            <div class="center-display" id="main-gray-display">
                 <div class="temp-row">
                     <span class="temp-label">Temp</span>
-                    <span class="temp-value" id="temp">--.- °C</span>
+                    <span class="temp-value" id="temp">--.-</span> °C
                 </div>
                 <div class="temp-row">
                     <span class="temp-label">Humedad</span>
-                    <span class="temp-value" id="hum">--.- °C</span>
+                    <span class="temp-value" id="hum">--.-</span> %
+                </div>
+            </div>
+
+            <div class="new-display hidden" id="alternate-screen">
+                <div class="chart-controls">
+                    <div class="control-group">
+                        <label for="duration-select">Duración del registro:</label>
+                        <select id="duration-select">
+                            <option value="24">24 horas</option>
+                            <option value="48">48 horas</option>
+                            <option value="72">72 horas</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="interval-select">Intervalo de guardado:</label>
+                        <select id="interval-select">
+                            <option value="60000">1 minuto</option>
+                            <option value="300000">5 minutos</option>
+                            <option value="600000">10 minutos</option>
+                            <option value="1800000">30 minutos</option>
+                            <option value="3600000">1 hora</option>
+                        </select>
+                    </div>
+                    <button id="start-recording-btn" class="chart-button">Iniciar Registro</button>
+                    <button id="stop-recording-btn" class="chart-button" disabled>Detener Registro</button>
+                    <button id="clear-chart-btn" class="chart-button">Limpiar Gráfico</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="temperatureChart"></canvas>
                 </div>
             </div>
 
@@ -40,14 +72,13 @@
                         <span id="heater-percentage">100 %</span>
                     </div>
                     <div class="control-buttons-heater-panel" id="heater-control-buttons">
-                        <button class="heater-panel-button" id="increment-heater">
-                            <i class="fas fa-plus"></i>
-                        </button>
                         <button class="heater-panel-button" id="decrement-heater">
                             <i class="fas fa-minus"></i>
                         </button>
-                        <!--<button class="heater-panel-button" id="accept-heater">-->
-                        <button class="heater-panel-button" >
+                        <button class="heater-panel-button" id="increment-heater">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="heater-panel-button" id="accept-heater">
                             <i class="fas fa-check"></i>
                         </button>
                     </div>
@@ -63,7 +94,7 @@
                 <span>BME280</span>
             </button>
             <button class="action-button green sensor-button" id="sensor-hx711">
-                <span id="peso711">HX711</span>
+                <span>HX711</span>
             </button>
             <button class="action-button green sensor-button" id="sensor-hw504">
                 <span>HW-504</span>
@@ -74,6 +105,6 @@
         </div>
     </div>
 
-    <script src="\static\js\script.js"></script>
+    <script src="../static/js/script.js"></script>
 </body>
 </html>
