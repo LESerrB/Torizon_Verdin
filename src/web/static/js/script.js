@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbulbButton = document.getElementById('lightbulb-button');
     lightbulbButton.addEventListener('click', () => {
         lightbulbButton.classList.toggle('purple-lightbulb');
+        fetch('/api/lightbulb', { method: 'POST' });
     });
 
     // Botón de campana (naranja)
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isBellMuted = false;
     bellButton.addEventListener('click', () => {
         const bellIcon = bellButton.querySelector('i');
+        fetch('/api/bellButton', { method: 'POST' });
         if (isBellMuted) {
             bellIcon.classList.remove('fa-bell-slash');
             bellIcon.classList.add('fa-bell');
