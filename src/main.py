@@ -6,9 +6,9 @@ import os
 import gpiod
 
 from i2c.sht21 import sht21
-# from spi.bme280 import bme280
+from spi.bme280 import bme280
 from gpio.hx711 import hx711
-# from adc.hw504 import hw504
+from adc.hw504 import hw504
 
 gpio_state = {"lightbulb": False}
 gpio_state2 = {"bell-button": True}
@@ -22,13 +22,13 @@ def index():
     temp, hum = None, None
     temp280, pres280, hum280 = None, None, None
     peso711 = None
-    x_val, y_val, button_val = None, None, None
+    x_val, y_val = None, None
 
     try:
         temp, hum = struct.unpack("ff", sht21())
-    #     temp280, pres280, hum280 = struct.unpack("fff", bme280())
+        temp280, pres280, hum280 = struct.unpack("fff", bme280())
         peso711 = hx711()
-    #     x_val, y_val, button_val = struct.unpack("iii", hw504())
+        x_val, y_val = struct.unpack("ii", hw504())
     except Exception as e:
         print("Error leyendo sensores:", e)
 
@@ -44,8 +44,7 @@ def index():
         hum280 = fmt(hum280),
         peso711 = fmt(peso711),
         x_val = fmt(x_val),
-        y_val = fmt(y_val),
-        button_val = fmt(button_val)
+        y_val = fmt(y_val)
     )
 
 @app.route("/api/sensores")
@@ -53,13 +52,13 @@ def api_sensores():
     temp, hum = None, None
     temp280, pres280, hum280 = None, None, None
     peso711 = None
-    x_val, y_val, button_val = None, None, None
+    x_val, y_val = None, None
 
     try:
         temp, hum = struct.unpack("ff", sht21())
-    #     temp280, pres280, hum280 = struct.unpack("fff", bme280())
+        temp280, pres280, hum280 = struct.unpack("fff", bme280())
         peso711 = hx711()
-    #     x_val, y_val, button_val = struct.unpack("iii", hw504())
+        x_val, y_val = struct.unpack("ii", hw504())
     except Exception as e:
         print("Error leyendo sensores:", e)
 
@@ -84,8 +83,7 @@ def api_sensores():
         "hum280": fmt(hum280),
         "peso711": fmt(peso711),
         "x_val": fmt(x_val),
-        "y_val": fmt(y_val),
-        "button_val": fmt(button_val)
+        "y_val": fmt(y_val)
     })
 
 # Pin       23      24
