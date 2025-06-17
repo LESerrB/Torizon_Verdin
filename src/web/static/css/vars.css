@@ -1,0 +1,36 @@
+/* Figma Styles of your File */
+:root {
+  /* Colors */
+  --neutral-gris: #e6e7e6;
+  --azul-primario: #0c87f2;
+  --azul-secundario: #0266be;
+  --azul-ligth: #def1fd;
+  --texto-prin: #333233;
+  --azul-btn: #1ba0f2;
+
+  /* Fonts */
+  --text-valor-font-family: Inter-Bold, sans-serif;
+  --text-valor-font-size: 55px;
+  --text-valor-line-height: 20px;
+  --text-valor-font-weight: 700;
+  --text-valor-font-style: normal;
+  --text-valor-var-font-family: Inter-Regular, sans-serif;
+  --text-valor-var-font-size: 55px;
+  --text-valor-var-line-height: 20px;
+  --text-valor-var-font-weight: 400;
+  --text-valor-var-font-style: normal;
+  --text-label-font-family: Inter-Bold, sans-serif;
+  --text-label-font-size: 24px;
+  --text-label-line-height: 24px;
+  --text-label-font-weight: 700;
+  --text-label-font-style: normal;
+
+  /* Effects */
+}
+/* Figma Color Variables of your File */
+:root,
+[data-coleccion-variable-mode="mode-1"] {
+  /* mode-1 */
+  --texto-blanco: #ffffff;
+  --alarma-ama: #f2a013;
+}
