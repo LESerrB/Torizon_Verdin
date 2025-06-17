@@ -61,11 +61,6 @@ services:
       - 'c 226:* rmw'
       # ... for /dev/galcore device
       - 'c 199:* rmw'
-    # healthcheck:
-    #   test: ["CMD", "pidof", "weston"]
-    #   interval: 5s
-    #   timeout: 3s
-    #   retries: 3
 
   quickstart1-debug:
     container_name: quickstart1-debug
@@ -73,6 +68,7 @@ services:
       context: .
       dockerfile: Dockerfile.debug
     image: ${LOCAL_REGISTRY}:5002/quickstart1-debug:${TAG}
+    restart: always
     depends_on:
       - chromium
     volumes:
