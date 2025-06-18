@@ -19,6 +19,10 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 @app.route("/")
 def index():
+    return render_template("index.html")
+
+@app.route("/api/sensores")
+def api_sensores():
     temp, hum = None, None
     temp280, pres280, hum280 = None, None, None
     peso711 = None
@@ -26,41 +30,11 @@ def index():
 
     try:
         temp, hum = struct.unpack("ff", sht21())
-        temp280, pres280, hum280 = struct.unpack("fff", bme280())
-        peso711 = hx711()
-        x_val, y_val = struct.unpack("ii", hw504())
+        # temp280, pres280, hum280 = struct.unpack("fff", bme280())
+        # peso711 = hx711()
+        # x_val, y_val = struct.unpack("ii", hw504())
     except Exception as e:
         print("Error leyendo sensores:", e)
-
-    def fmt(val):
-        return round(float(val), 2) if val is not None else None
-
-    return render_template(
-        "index.html",
-        temp = fmt(temp),
-        hum = fmt(hum),
-        temp280 = fmt(temp280),
-        pres280 = fmt(pres280),
-        hum280 = fmt(hum280),
-        peso711 = fmt(peso711),
-        x_val = fmt(x_val),
-        y_val = fmt(y_val)
-    )
-
-# @app.route("/api/sensores")
-# def api_sensores():
-#     temp, hum = None, None
-#     temp280, pres280, hum280 = None, None, None
-#     peso711 = None
-#     x_val, y_val = None, None
-
-#     try:
-#         temp, hum = struct.unpack("ff", sht21())
-#         temp280, pres280, hum280 = struct.unpack("fff", bme280())
-#         peso711 = hx711()
-#         x_val, y_val = struct.unpack("ii", hw504())
-#     except Exception as e:
-#         print("Error leyendo sensores:", e)
 
     # print("Temperatura:", temp, "°C",
     #       "Humedad:", hum, "%",
@@ -69,22 +43,21 @@ def index():
     #       "Humedad BME280:", hum280, "%",
     #       "Peso HX711:", peso711, "g",
     #       "X Val:", x_val,
-    #       "Y Val:", y_val,
-    #       "Button Val:", button_val)
+    #       "Y Val:", y_val)
 
-    # def fmt(val):
-    #     return round(float(val), 2) if val is not None else None
+    def fmt(val):
+        return round(float(val), 1) if val is not None else None
 
-    # return jsonify({
-    #     "temp": fmt(temp),
-    #     "hum": fmt(hum),
-    #     "temp280": fmt(temp280),
-    #     "pres280": fmt(pres280),
-    #     "hum280": fmt(hum280),
-    #     "peso711": fmt(peso711),
-    #     "x_val": fmt(x_val),
-    #     "y_val": fmt(y_val)
-    # })
+    return jsonify({
+        "temp": fmt(temp),
+        "hum": fmt(hum),
+        "temp280": fmt(temp280),
+        "pres280": fmt(pres280),
+        "hum280": fmt(hum280),
+        "peso711": fmt(peso711),
+        "x_val": fmt(x_val),
+        "y_val": fmt(y_val)
+    })
 
 # Pin       23      24
 # GPIO      3       4

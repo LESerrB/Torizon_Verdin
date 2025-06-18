@@ -35,15 +35,15 @@
     <div class="background-aside"></div>
     <div class="aside-calecator">
       <div class="btns-porcentaje">
-        <button class="btn-aumentar">
+        <button class="btn-aumentar" disabled>
           <div class="div">+</div>
         </button>
 
-        <button class="btn-disminuir">
+        <button class="btn-disminuir" disabled>
           <div class="div">-</div>
         </button>
 
-        <button class="btn-aceptar">
+        <button class="btn-aceptar" disabled>
           <div class="div2">✓</div>
         </button>
       </div>
@@ -85,7 +85,7 @@
       <div class="text-temperatura">
         <div class="_36-4-c">
           <span>
-            <span class="_36-4-c-span">36.4</span>
+            <span class="_36-4-c-span" id="temp">--.-</span>
             <span class="_36-4-c-span2">°C</span>
           </span>
         </div>
@@ -96,7 +96,8 @@
       <div class="text-temperatura-program">
         <div class="_37-0-c">
           <span>
-            <span class="_37-0-c-span">37.0</span>
+            <!-- Por pruebas se está colocando aquí la lectura de la humedad -->
+            <span class="_37-0-c-span" id="hum">--.-</span>
             <span class="_37-0-c-span2">°C</span>
           </span>
         </div>
@@ -112,5 +113,6 @@
     </div>
   </div>
 
+  <script src="../static/js/script.js"></script>
 </body>
 </html>
