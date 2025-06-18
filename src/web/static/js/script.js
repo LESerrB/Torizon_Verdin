@@ -1,0 +1,65 @@
+const valorDiv = document.querySelector('._100');
+const btnAumentar = document.querySelector('.btn-aumentar');
+const btnDisminuir = document.querySelector('.btn-disminuir');
+
+document.querySelector('.btn-calefactor').addEventListener('click', habilitarCalefactor);
+
+function habilitarCalefactor() {
+    // Habilitar botones
+    document.querySelector('.btn-aumentar').disabled = false;
+    document.querySelector('.btn-disminuir').disabled = false;
+    document.querySelector('.btn-aceptar').disabled = false;
+
+    // Parpadeo
+    const porcentaje = document.querySelector('.porcentaje-calef');
+    porcentaje.classList.add('parpadeo');
+}
+
+document.querySelector('.btn-aceptar').addEventListener('click', deshabilitarCalefactor);
+
+function deshabilitarCalefactor() {
+    // Deshabilitar botones
+    document.querySelector('.btn-aumentar').disabled = true;
+    document.querySelector('.btn-disminuir').disabled = true;
+    document.querySelector('.btn-aceptar').disabled = true;
+
+    // Parpadeo
+    const porcentaje = document.querySelector('.porcentaje-calef');
+    porcentaje.classList.remove('parpadeo');
+}
+
+btnAumentar.addEventListener('click', () => {
+    if (valorDiv.textContent < 100)
+        valorDiv.textContent = parseInt(valorDiv.textContent) + 1;
+});
+
+btnDisminuir.addEventListener('click', () => {
+    if (valorDiv.textContent > 0)
+        valorDiv.textContent = parseInt(valorDiv.textContent) - 1;
+});
+
+async function updateSensors() {
+    let data = {};
+
+    try {
+        const response = await fetch('/api/sensores');
+        data = await response.json();
+
+        document.getElementById('temp').textContent = data.temp ?? '00.0';
+        document.getElementById('hum').textContent = data.hum ?? '00.0';
+        // document.getElementById('temp280').textContent = data.temp280;
+        // document.getElementById('pres280').textContent = data.pres280;
+        // document.getElementById('hum280').textContent = data.hum280;
+        // document.getElementById('peso711').textContent = data.peso711 ?? '00.00';
+        // document.getElementById('x_val').textContent = data.x_val;
+        // document.getElementById('y_val').textContent = data.y_val;
+        // document.getElementById('button_val').textContent = data.button_val;
+    } catch (e) {
+        console.error('Error fetching sensor data:', e);
+    }
+
+    return data; // Se debe usar await en las funciones que hace uso de los datos de los sensores para que la lectura sea correcta
+}
+
+setInterval(updateSensors, 1000);
+updateSensors();

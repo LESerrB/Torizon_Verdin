@@ -121,6 +121,15 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Cambio de weston-imx8:4 a weston-vivante:2 por error de compatibilidad (Queda comentado por si es necesario cambiarlo)
 
-### v0.6.3 - [11/Junio/2023]
+### v0.6.3 - [11/Junio/2025]
 
-- Implementación de gráficas de tendencias de temperatura. 
+- Implementación de gráficas de tendencias de temperatura.
+
+### v0.7 - [17/Junio/2025]
+
+- Cambio de interfaz de pantalla de sensores.
+- Ajustados valores a contenedores de Temperatura y Temp. Prog.
+- Habilitación y deshabilitación de botones de "+", "-" y "✓".
+- Agregada función de aumentar y disminuir la Potencia del Calefactor.
+- Añadida animación de parpadeo en el valor de la potencia al dar click en el botón de calefactor y se detiene al dar click en el botón de "✓".
+- Limitación de aumento y disminución de valor de potencia de 0 - 100%.

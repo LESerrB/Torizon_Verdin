@@ -84,7 +84,8 @@ def bme280():
 
     if chip_id != EXPECTED_CHIP_ID_BME280:
         print("BME280 no detectado")
-        exit(1)
+        
+        
 
     write_byte(REG_CTRL_HUM, 0x01)      # Humedad oversampling x1
     write_byte(REG_CTRL_MEAS, 0x27)     # Temp y pres. normal mode, oversampling x1
