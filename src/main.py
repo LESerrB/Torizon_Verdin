@@ -48,8 +48,8 @@ def api_sensores():
     except Exception as e:
         print("Error leyendo sensores:", e)
 
-    print("Hr:", sensoresDt["hr"],
-          "Temperatura:", sensoresDt["temp"], "°C")
+    # print("Hr:", sensoresDt["hr"],
+    #       "Temperatura:", sensoresDt["temp"], "°C")
         #   "Humedad:", sensoresDt["hum"], "%",
         #   "Temperatura BME280:", sensoresDt["temp280"], "°C",
         #   "Presión BME280:", sensoresDt["pres280"], "hPa",
@@ -109,23 +109,33 @@ def api_sensores():
 
 #     return jsonify({"bell-button": value})
 
-def strtGuardado(self):
-    def periodic():
-        while True:
-            try:
-                print("Guardando datos periódicamente...")
-                print(sensoresDt["temp"])
+@app.route('/api/tendencias')
+def get_tendencias():
+    # print("getTendencias:", round(float(sensoresDt["temp"]), 1), sensoresDt["hr"])}
 
-                if sensoresDt["temp"] is not None:
-                    agregarDtTemperatura(round(float(sensoresDt["temp"]), 1), sensoresDt["hr"])
+    return jsonify({
+        "temp": round(float(sensoresDt["temp"]), 1),
+         "hr": sensoresDt["hr"]
+    })
 
-            except Exception as e:
-                print(f"Error en lectura periódica: {e}")
-            time.sleep(self.interval)
-    thread = threading.Thread(target=periodic, daemon=True)
-    thread.start()
+# def strtGuardado(self):
+#     def periodic():
+#         while True:
+#             try:
+#                 # print("Guardando datos periódicamente...")
+#                 # print(sensoresDt["temp"])
 
-strtGuardado(self=type('obj', (object,), {'interval': 60}))
+#                 if sensoresDt["temp"] is not None:
+#                     # agregarDtTemperatura(round(float(sensoresDt["temp"]), 1), sensoresDt["hr"])
+#                     get_tendencias(round(float(sensoresDt["temp"]), 1), sensoresDt["hr"])
+
+#             except Exception as e:
+#                 print(f"Error en lectura periódica: {e}")
+#             time.sleep(self.interval)
+#     thread = threading.Thread(target=periodic, daemon=True)
+#     thread.start()
+
+# strtGuardado(self=type('obj', (object,), {'interval': 60}))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)

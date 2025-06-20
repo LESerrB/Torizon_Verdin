@@ -1,118 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../static/css/vars.css">
-  <link rel="stylesheet" href="../static/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DUAL</title>
+    <link rel="stylesheet" href="../static/css/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <title>DUAL</title>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.5.0/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0/dist/chartjs-adapter-luxon.min.js"></script>
+    
 </head>
-
 <body>
-  <div class="pantalla-base">
-    <div class="header">
-      <button class="btn-fototerapia">
-        <img class="icon-fototerapia" src="../static/icon/icon-fototerapia.svg" />
-      </button>
+    <div class="container">
+        <div class="top-bar">
+            <button class="top-button blue" id="lightbulb-button">
+                <i class="fas fa-lightbulb"></i>
+            </button>
+            <div class="top-yellow-bar" id="yellow-bar-button">
+                <i class="fas fa-bell"></i> </div>
 
-      <button class="buttontemp">
-        <div >
-          <div class="icon-temperatura">
-            <img class="group-4" src="../static/icon/icon-temperatura.svg" />
-          </div>
-        </div>
-      </button>
+            <button class="top-button orange" id="bell-button">
+                <i class="fas fa-chart-line chart-icon"></i>
+            </button>
+         </div>
+        <div class="main-content">
+            <div class="center-display" id="main-gray-display">
+                <div class="temp-row">
+                    <span class="temp-label">Temp</span>
+                    <span class="temp-value"id="temp">36.4 °C</span>
+                </div>
+                <div class="temp-row">
+                    <span class="temp-label">Temp Programada</span>
+                    <span class="temp-value" id="hum">37.0 °C</span>
+                </div>
+            </div>
 
-      <button class="btn-tendencias">
-        <div class="icon-tendencias">
-          <img class="group-5" src="../static/icon/icon-tendencia.svg" />
-        </div>
-      </button>
-    </div>
+            <div class="new-display hidden" id="alternate-screen">
+                <div class="chart-controls">
+                    <div class="control-group">
+                        <label for="duration-select">Duración del registro:</label>
+                        <select id="duration-select">
+                            <option value="24">24 horas</option>
+                            <option value="48">48 horas</option>
+                            <option value="72">72 horas</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="interval-select">Intervalo de guardado:</label>
+                        <select id="interval-select">
+                            <option value="60000">1 minuto</option>
+                            <option value="300000">5 minutos</option>
+                            <option value="600000">10 minutos</option>
+                            <option value="1800000">30 minutos</option>
+                            <option value="3600000">1 hora</option>
+                        </select>
+                    </div>
+                    <button id="start-recording-btn" class="chart-button">Iniciar Registro</button>
+                    <button id="stop-recording-btn" class="chart-button" disabled>Detener Registro</button>
+                    <button id="clear-chart-btn" class="chart-button">Limpiar Gráfico</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="temperatureChart"></canvas>
+                </div>
+            </div>
 
-    <div class="background-aside"></div>
-    <div class="aside-calecator">
-      <div class="btns-porcentaje">
-        <button class="btn-aumentar" disabled>
-          <div class="div">+</div>
-        </button>
-
-        <button class="btn-disminuir" disabled>
-          <div class="div">-</div>
-        </button>
-
-        <button class="btn-aceptar" disabled>
-          <div class="div2">✓</div>
-        </button>
-      </div>
-
-      <button class="btn-calefactor">
-        <div class="calefactor">CALEFACTOR</div>
-      </button>
-
-      <div class="porcentaje-calef">
-        <div class="_100">100</div>
-      </div>
-
-      <div class="div3">
-        <div class="div4">%</div>
-      </div>
-    </div>
-
-    <div class="background-article"></div>
-
-    <div class="btns-sensores">
-      <button class="btn-sensor-1">
-        <div class="sth-21">STH21</div>
-      </button>
-
-      <button class="btn-sensor-2">
-        <div class="bme-280" id="pres280">BME280</div>
-      </button>
-
-      <button class="btn-sensor-3">
-        <div class="hx-711">HX711</div>
-      </button>
-
-      <button class="btn-sensor-4">
-        <div class="hw-504">HW-504</div>
-      </button>
-    </div>
-
-    <div class="section">
-      <div class="text-temperatura">
-        <div class="_36-4-c">
-          <span>
-            <span class="_36-4-c-span" id="temp">--.-</span>
-            <span class="_36-4-c-span2">°C</span>
-          </span>
+            <div class="right-panel hidden" id="right-heater-panel">
+                <div class="heater-control-panel">
+                    <div class="heater-info">
+                        <span>Calefactor</span>
+                        <span id="heater-percentage">100 %</span>
+                    </div>
+                    <div class="control-buttons-heater-panel" id="heater-control-buttons">
+                         <button class="heater-panel-button" id="increment-heater">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="heater-panel-button" id="decrement-heater">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="heater-panel-button" id="accept-heater">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="temperatura">Temperatura</div>
-      </div>
-
-      <div class="text-temperatura-program">
-        <div class="_37-0-c">
-          <span>
-            <!-- Por pruebas se está colocando aquí la lectura de la humedad -->
-            <span class="_37-0-c-span" id="hum">--.-</span>
-            <span class="_37-0-c-span2">°C</span>
-          </span>
+        <div class="bottom-buttons">
+            <button class="action-button green sensor-button" id="sensor-sth21">
+                <span>STH21</span>
+            </button>
+            <button class="action-button green sensor-button" id="sensor-bme280">
+                <span>BME280</span>
+            </button>
+            <button class="action-button green sensor-button" id="sensor-hx711">
+                <span>HX711</span>
+            </button>
+            <button class="action-button green sensor-button" id="sensor-hw504">
+                <span>HW-504</span>
+            </button>
+            <button class="action-button green sensor-button" id="heater-power-button">
+                <span>Potencia calefactor</span>
+            </button>
         </div>
-
-        <div class="temperatura-programada">Temperatura Programada</div>
-      </div>
     </div>
 
-    <div class="footer">
-      <div class="frame-1">
-        <img class="icon-alarma" src="../static/icon/icon-alarma.svg" />
-      </div>
-    </div>
-  </div>
-
-  <script src="../static/js/script.js"></script>
+    <script src="../static/js/script.js"></script>
 </body>
 </html>
