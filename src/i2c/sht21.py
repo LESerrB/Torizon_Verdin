@@ -3,11 +3,15 @@ import struct
 from smbus2 import SMBus, i2c_msg   # I2C
 
 # ===============================================================#
-#                       Configuración I2C SHT21                  #
+#                    Configuración I2C SHT21                     #
 # ===============================================================#
 I2C_ADDR = 0x40                 # Dirección SHT21
 CMD_MEASURE_TEMP = 0xF3         # Registro Temperatura
 CMD_MEASURE_HUM = 0xF5          # Registro de Humedad
+
+# ===============================================================#
+#                   Funciones de lectura SHT21                   #
+# ===============================================================#
 
 def read_sensor(bus, command):
     bus.write_byte(I2C_ADDR, command)

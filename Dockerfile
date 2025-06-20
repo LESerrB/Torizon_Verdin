@@ -12,7 +12,7 @@ ARG BASE_VERSION=4
 ##
 # Directory of the application inside container
 ##
-ARG APP_ROOT=
+ARG APP_ROOT=/home/torizon/app/
 
 FROM --platform=linux/${IMAGE_ARCH} \
     torizon/debian:${BASE_VERSION} AS deploy
