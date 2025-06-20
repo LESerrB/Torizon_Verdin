@@ -133,3 +133,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregada función de aumentar y disminuir la Potencia del Calefactor.
 - Añadida animación de parpadeo en el valor de la potencia al dar click en el botón de calefactor y se detiene al dar click en el botón de "✓".
 - Limitación de aumento y disminución de valor de potencia de 0 - 100%.
+- Corregido bug de guardado de valores de temperatura.

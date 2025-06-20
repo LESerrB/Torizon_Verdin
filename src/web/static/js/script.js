@@ -2,6 +2,9 @@ const valorDiv = document.querySelector('._100');
 const btnAumentar = document.querySelector('.btn-aumentar');
 const btnDisminuir = document.querySelector('.btn-disminuir');
 
+// ####################################################################### //
+//                      FUNCIONES BOTONES CALEFACTOR                       //
+// ####################################################################### //
 document.querySelector('.btn-calefactor').addEventListener('click', habilitarCalefactor);
 
 function habilitarCalefactor() {
@@ -38,6 +41,10 @@ btnDisminuir.addEventListener('click', () => {
         valorDiv.textContent = parseInt(valorDiv.textContent) - 1;
 });
 
+// ####################################################################### //
+//                          ACTUALIZACION DE SENSORES                      //
+// ####################################################################### //
+
 async function updateSensors() {
     let data = {};
 
@@ -48,12 +55,14 @@ async function updateSensors() {
         document.getElementById('temp').textContent = data.temp ?? '00.0';
         document.getElementById('hum').textContent = data.hum ?? '00.0';
         // document.getElementById('temp280').textContent = data.temp280;
-        // document.getElementById('pres280').textContent = data.pres280;
+        document.getElementById('pres280').textContent = data.pres280;
         // document.getElementById('hum280').textContent = data.hum280;
         // document.getElementById('peso711').textContent = data.peso711 ?? '00.00';
         // document.getElementById('x_val').textContent = data.x_val;
         // document.getElementById('y_val').textContent = data.y_val;
         // document.getElementById('button_val').textContent = data.button_val;
+
+        console.log('Sensor data temp:', data.temp, "Hr:", data.hr);
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }
