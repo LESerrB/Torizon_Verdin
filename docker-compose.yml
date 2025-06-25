@@ -73,6 +73,7 @@ services:
       - chromium
     volumes:
       - /tmp/wayland-0:/tmp/wayland-0
+      - /tmp:/tmp
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host
@@ -98,6 +99,7 @@ services:
       - chromium
     volumes:
       - /tmp/wayland-0:/tmp/wayland-0
+      - /tmp:/tmp
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host

@@ -3,22 +3,18 @@
 import struct
 from flask import Flask, render_template, jsonify
 import os
-import time
-import threading
 # import gpiod
 
 from i2c.sht21 import sht21
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
 from adc.hw504 import hw504
-from datetime import datetime
-from files.tendencias import agregarDtTemperatura
+from files.tendencias import agregarDtTemperatura, leerDtTemperatura
 
 # gpio_state = {"lightbulb": False}
 # gpio_state2 = {"bell-button": True}
 
 sensoresDt = {
-    "hr": None,
     "temp": None,
     "hum": None,
     "temp280": None,
@@ -44,7 +40,7 @@ def api_sensores():
         sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
         # peso711 = hx711()
         # x_val, y_val = struct.unpack("ii", hw504())
-        sensoresDt["hr"] = datetime.now().strftime("%H:%M")
+        # sensoresDt["hr"] = datetime.now().strftime("%H:%M")
     except Exception as e:
         print("Error leyendo sensores:", e)
 
@@ -62,7 +58,7 @@ def api_sensores():
         return round(float(val), 1) if val is not None else None
 
     return jsonify({
-        "hr": sensoresDt["hr"],
+        # "hr": sensoresDt["hr"],
         "temp": fmt(sensoresDt["temp"]),
         "hum": fmt(sensoresDt["hum"]),
         "temp280": fmt(sensoresDt["temp280"]),
@@ -111,31 +107,24 @@ def api_sensores():
 
 @app.route('/api/tendencias')
 def get_tendencias():
-    # print("getTendencias:", round(float(sensoresDt["temp"]), 1), sensoresDt["hr"])}
+    agregarDtTemperatura(round(float(sensoresDt["temp"]), 1))
 
     return jsonify({
-        "temp": round(float(sensoresDt["temp"]), 1),
-         "hr": sensoresDt["hr"]
+        "temp": round(float(sensoresDt["temp"]), 1)
     })
 
-# def strtGuardado(self):
-#     def periodic():
-#         while True:
-#             try:
-#                 # print("Guardando datos periódicamente...")
-#                 # print(sensoresDt["temp"])
+@app.route("/api/obtTemp")
+def obtenerTemperatura():
+    datosTemp = leerDtTemperatura()
+    # print("Datos obtenidos:", datosTemp)
 
-#                 if sensoresDt["temp"] is not None:
-#                     # agregarDtTemperatura(round(float(sensoresDt["temp"]), 1), sensoresDt["hr"])
-#                     get_tendencias(round(float(sensoresDt["temp"]), 1), sensoresDt["hr"])
+    return jsonify(datosTemp)
 
-#             except Exception as e:
-#                 print(f"Error en lectura periódica: {e}")
-#             time.sleep(self.interval)
-#     thread = threading.Thread(target=periodic, daemon=True)
-#     thread.start()
+@app.route("/api/limpiarVariables", methods=["POST"])
+def limparVariables():
+    del sensoresDt
+    print("Variables limpiadas")
 
-# strtGuardado(self=type('obj', (object,), {'interval': 60}))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)

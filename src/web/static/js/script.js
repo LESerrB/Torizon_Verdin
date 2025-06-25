@@ -227,12 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let temperatureChart; // Variable para la instancia del gráfico
     let recordingInterval; // Variable para el ID del setInterval
 
-    // Función para simular la lectura de temperatura
-    // function getSimulatedTemperature() {
-    //     // Simula una temperatura entre 20 y 30 °C
-    //     return (Math.random() * (20 - 30) + 30).toFixed(2);
-    // }
-
     // Inicializar el gráfico al cargar la página (aunque esté oculto)
     temperatureChart = new Chart(temperatureChartCanvas, {
         type: 'line',
@@ -269,8 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         display: true,
                         text: 'Temperatura (°C)'
                     },
-                    min: 40,
-                    max: 50
+                    min: 20,
+                    max: 30
                 }
             },
             plugins: {
@@ -286,25 +280,31 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateChartDisplay() {
         if (!temperatureChart) return; // Asegurarse de que el gráfico esté inicializado
 
-        const durationHours = parseInt(durationSelect.value);
-        const intervalMs = parseInt(intervalSelect.value);
+        // Usar los datos reales para determinar el rango
+        let chartDisplayData = allCollectedHistoricalData;
 
-        // Calcular el rango de tiempo a mostrar
-        const endTime = new Date();
-        const startTime = new Date(endTime.getTime() - durationHours * 60 * 60 * 1000);
+        if (chartDisplayData.length === 0) {
+            // Si no hay datos, limpiar el gráfico
+            temperatureChart.data.labels = [];
+            temperatureChart.data.datasets[0].data = [];
+            temperatureChart.update();
+            return;
+        }
 
-        // Filtrar los datos históricos para el rango de tiempo seleccionado
-        let chartDisplayData = allCollectedHistoricalData.filter(point => point.time >= startTime && point.time <= endTime);
+        // Ordenar los datos por tiempo por si acaso
+        chartDisplayData = chartDisplayData.slice().sort((a, b) => a.time - b.time);
 
-        // --- OPCIONAL: Downsampling para mejorar el rendimiento si hay demasiados puntos ---
-        // Si el número de puntos a mostrar es excesivo, tomamos solo una muestra
-        const maxPointsForDisplay = 2000; // Umbral de puntos para considerar downsampling
+        // Tomar el primer y último punto como referencia
+        const startTime = chartDisplayData[0].time;
+        const endTime = chartDisplayData[chartDisplayData.length - 1].time;
+
+        // Downsampling opcional
+        const maxPointsForDisplay = 2000;
         if (chartDisplayData.length > maxPointsForDisplay) {
             const downsampleFactor = Math.ceil(chartDisplayData.length / maxPointsForDisplay);
             chartDisplayData = chartDisplayData.filter((_, index) => index % downsampleFactor === 0);
-            console.log(`Datos downsampleados para visualización. Original en ventana: ${allCollectedHistoricalData.length}, Mostrando: ${chartDisplayData.length}`);
+            console.log(`Datos downsampleados para visualización. Original: ${allCollectedHistoricalData.length}, Mostrando: ${chartDisplayData.length}`);
         }
-        // --- FIN OPCIONAL: Downsampling ---
 
         // Actualizar el gráfico con los datos filtrados/downsampleados
         temperatureChart.data.labels = chartDisplayData.map(point => point.time);
@@ -330,25 +330,36 @@ document.addEventListener('DOMContentLoaded', () => {
         intervalSelect.disabled = true;
 
         const intervalMs = parseInt(intervalSelect.value); // Obtener el intervalo actual
-
+///////////////////////////////////////////////////////////////////////////////
         // Iniciar el intervalo para guardar datos
         recordingInterval = setInterval(async () => {
-            const dt = await obtenerTemperatura();
+            await obtenerTemperatura();
 
-            const temp = dt.temp;
-            const hr = dt.hr;
-            const now = new Date();
+            const dtListaTemp = await leerDtTemperatura();
 
-            console.log(`Registrando temperatura: ${temp} °C a las ${hr}`);
+            if (Array.isArray(dtListaTemp)) {
+                // Limpia el historial y agrega todos los puntos nuevos
+                allCollectedHistoricalData = dtListaTemp.map(d => ({
+                    time: convertirHoraAFechaHoy(d.hr),
+                    value: d.temp
+                }));
+            } else if (dtListaTemp && dtListaTemp.temp && dtListaTemp.hr) {
+                // Si solo es un objeto, agrega uno solo
+                allCollectedHistoricalData.push({
+                    time: convertirHoraAFechaHoy(dtListaTemp.hr),
+                    value: dtListaTemp.temp
+                });
+            }
 
-            // AÑADIR NUEVO PUNTO AL HISTORIAL COMPLETO Y GUARDAR
-            allCollectedHistoricalData.push({ time: now, value: temp });
             saveHistoricalDataToLocalStorage();
-
-            // Actualizar solo la vista del gráfico (no el array completo)
             updateChartDisplay();
-        }, intervalMs);
 
+            // Imprime los valores para depuración
+            allCollectedHistoricalData.forEach(point => {
+                console.log("time:", point.time, "value:", point.value);
+            });
+        }, intervalMs);
+////////////////////////////////////////////////////////////////////////////////
         console.log(`Iniciando registro cada ${intervalMs / 1000} segundos.`);
     });
 
@@ -372,6 +383,9 @@ document.addEventListener('DOMContentLoaded', () => {
         stopRecordingBtn.disabled = true;
         durationSelect.disabled = false;
         intervalSelect.disabled = false;
+
+        limpiarMemoria(); // Limpiar memoria y datos de sensores
+
         console.log('Gráfico y datos históricos limpiados.');
     });
 
@@ -410,18 +424,53 @@ async function updateSensors() {
 }
 
 setInterval(updateSensors, 1000);
-updateSensors();
 
 async function obtenerTemperatura() {
-    let dataSens = [];
-
     try {
-        const response = await fetch('/api/tendencias');
-
-        dataSens = await response.json();
+        await fetch('/api/tendencias');
     } catch (e) {
         console.error('No se pudieron obtener los datos de tendencias:', e);
     }
+}
 
-    return dataSens;
+async function leerDtTemperatura() {
+    try {
+        const response = await fetch('/api/obtTemp');
+        const dtTemp = await response.json();
+
+        return dtTemp;
+    } catch (error) {
+        console.error('Error al leer la temperatura:', error);
+    }
+}
+
+function limpiarMemoria() {
+    allCollectedHistoricalData = [];
+
+    localStorage.removeItem('temperatureHistory');
+
+    if (recordingInterval) {
+        clearInterval(recordingInterval);
+        recordingInterval = null;
+    }
+
+    if (temperatureChart) {
+        temperatureChart.data.labels = [];
+        temperatureChart.data.datasets[0].data = [];
+        temperatureChart.update();
+    }
+
+    document.getElementById('temp').textContent = '00.0';
+    document.getElementById('hum').textContent = '00.0';
+
+    const response = fetch('/api/limpiarVariables');
+
+    console.log('Funcion nueva de limpieza de memoria');
+}
+
+function convertirHoraAFechaHoy(hr) {
+    const [hours, minutes] = hr.split(':').map(Number);
+    const now = new Date();
+    now.setHours(hours, minutes, 0, 0);
+    return new Date(now);
 }
