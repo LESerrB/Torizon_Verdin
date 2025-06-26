@@ -1,43 +1,8 @@
-console.log("script.js se está ejecutando!"); // LOG DE DEPURACIÓN INICIAL
-
 // --- Variables Globales para persistencia de datos ---
 let allCollectedHistoricalData = []; // Este array guardará TODOS los puntos de temperatura históricos
 
-// Función para guardar todo el historial en localStorage
-function saveHistoricalDataToLocalStorage() {
-    try {
-        // Almacenamos el array completo en localStorage
-        localStorage.setItem('temperatureHistory', JSON.stringify(allCollectedHistoricalData));
-        console.log("Datos históricos guardados en localStorage. Total puntos:", allCollectedHistoricalData.length);
-    } catch (e) {
-        console.error("Error al guardar datos en localStorage:", e);
-    }
-}
-
-// Función para cargar todo el historial desde localStorage
-function loadHistoricalDataFromLocalStorage() {
-    try {
-        const storedData = localStorage.getItem('temperatureHistory');
-        if (storedData) {
-            // Parseamos los datos y convertimos las cadenas de tiempo de vuelta a objetos Date
-            allCollectedHistoricalData = JSON.parse(storedData).map(point => ({
-                time: new Date(point.time),
-                value: point.value
-            }));
-            console.log("Datos históricos cargados desde localStorage. Total puntos:", allCollectedHistoricalData.length);
-        }
-    } catch (e) {
-        console.error("Error al cargar datos desde localStorage:", e);
-        allCollectedHistoricalData = []; // Reiniciar si los datos están corruptos
-    }
-}
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Cargar datos históricos al inicio de la aplicación
-    loadHistoricalDataFromLocalStorage();
-
-    // --- Obtener todas las referencias a los botones INTERACTIVOS al inicio ---
+// --- Obtener todas las referencias a los botones INTERACTIVOS al inicio ---
     const lightbulbButton = document.getElementById('lightbulb-button'); // Botón AZUL (es un button)
     const yellowBarButton = document.getElementById('yellow-bar-button'); // Botón AMARILLO (Campana) (es un button)
     const bellButton = document.getElementById('bell-button'); // Botón NARANJA (Tendencias) (es un button)
@@ -129,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
     // --- Lógica de Botones Sensores Verdes (SIN CAMBIOS) ---
     sensorSth21Button.addEventListener('click', () => {
         let messageDiv = sensorSth21Button.querySelector('.message');
@@ -219,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Potencia del calefactor establecida a: ${currentHeaterPercentage}%`);
     });
 
-
     // --- LÓGICA DE GRÁFICOS DE TENDENCIAS EN PANTALLA AZUL ---
 
     const temperatureChartCanvas = document.getElementById('temperatureChart');
@@ -264,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         text: 'Temperatura (°C)'
                     },
                     min: 20,
-                    max: 30
+                    max: 40
                 }
             },
             plugins: {
@@ -310,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         temperatureChart.data.labels = chartDisplayData.map(point => point.time);
         temperatureChart.data.datasets[0].data = chartDisplayData.map(point => point.value);
         temperatureChart.update();
-        console.log(`Gráfico actualizado con datos desde ${startTime.toLocaleTimeString()} hasta ${endTime.toLocaleTimeString()}. Puntos mostrados: ${chartDisplayData.length}`);
+        // console.log(`Gráfico actualizado con datos desde ${startTime.toLocaleTimeString()} hasta ${endTime.toLocaleTimeString()}. Puntos mostrados: ${chartDisplayData.length}`);
     }
 
     // Manejadores de eventos para los selectores de duración e intervalo
@@ -351,13 +314,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            saveHistoricalDataToLocalStorage();
+            // saveHistoricalDataToLocalStorage();
             updateChartDisplay();
 
             // Imprime los valores para depuración
-            allCollectedHistoricalData.forEach(point => {
-                console.log("time:", point.time, "value:", point.value);
-            });
+            // allCollectedHistoricalData.forEach(point => {
+            //     console.log("time:", point.time, "value:", point.value);
+            // });
         }, intervalMs);
 ////////////////////////////////////////////////////////////////////////////////
         console.log(`Iniciando registro cada ${intervalMs / 1000} segundos.`);
@@ -377,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearChartBtn.addEventListener('click', () => {
         clearInterval(recordingInterval); // Asegurarse de detener el registro
         allCollectedHistoricalData = []; // Vaciar el historial completo
-        saveHistoricalDataToLocalStorage(); // Guardar el estado vacío en localStorage
+        // saveHistoricalDataToLocalStorage(); // Guardar el estado vacío en localStorage
         updateChartDisplay(); // Actualizar el gráfico (lo dejará vacío)
         startRecordingBtn.disabled = false;
         stopRecordingBtn.disabled = true;
@@ -405,8 +368,8 @@ async function updateSensors() {
         const response = await fetch('/api/sensores');
         data = await response.json();
 
-        document.getElementById('temp').textContent = data.temp ?? '00.0';
-        document.getElementById('hum').textContent = data.hum ?? '00.0';
+        document.getElementById('temp').textContent = (data.temp ?? '00.0') + ' °C';
+        document.getElementById('hum').textContent = (data.hum ?? '00.0') + ' %';
         // document.getElementById('temp280').textContent = data.temp280;
         // document.getElementById('pres280').textContent = data.pres280;
         // document.getElementById('hum280').textContent = data.hum280;
@@ -416,6 +379,7 @@ async function updateSensors() {
         // document.getElementById('button_val').textContent = data.button_val;
 
         // console.log('Sensor data temp:', data.temp, "Hr:", data.hr);
+        actualizarColorTemp();
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }
@@ -473,4 +437,16 @@ function convertirHoraAFechaHoy(hr) {
     const now = new Date();
     now.setHours(hours, minutes, 0, 0);
     return new Date(now);
+}
+
+function actualizarColorTemp() {
+    const tempSpan = document.getElementById('temp');
+    const tempValor = parseFloat(tempSpan.textContent);
+
+    if (tempValor > 40.0) {
+        console.log("Temperatura alta detectada:", tempValor);
+        tempSpan.innerHTML = `<span class="temp-roja">${tempValor}  °C</span>`;
+    } else {
+        tempSpan.innerHTML = `${tempValor} °C`;
+    }
 }

@@ -236,6 +236,11 @@ body {
     color: #333;
 }
 
+.temp-row .temp-value .temp-roja {
+    font-weight: bold;
+    color: red;
+}
+
 .right-panel {
     flex: 0.5;
     background-color: #ffe0e0;
