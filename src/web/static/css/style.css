@@ -436,6 +436,10 @@
   align-items: center;
   justify-content: flex-start;
 }
+.temp-roja {
+    color: red !important;
+    font-weight: bold;
+}
 ._36-4-c-span {
   font-family: var(--text-valor-font-family, "Inter-Bold", sans-serif);
   font-size: var(--text-valor-font-size, 55px);
