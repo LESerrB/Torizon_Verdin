@@ -62,7 +62,8 @@ async function updateSensors() {
         // document.getElementById('y_val').textContent = data.y_val;
         // document.getElementById('button_val').textContent = data.button_val;
 
-        console.log('Sensor data temp:', data.temp, "Hr:", data.hr);
+        // console.log('Sensor data temp:', data.temp, "Hr:", data.hr);
+        actualizarColorTemp();
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }
@@ -71,4 +72,15 @@ async function updateSensors() {
 }
 
 setInterval(updateSensors, 1000);
-updateSensors();
+// updateSensors();
+
+function actualizarColorTemp() {
+    const tempSpan = document.getElementById('temp');
+    const tempValor = parseFloat(tempSpan.textContent);
+
+    if (tempValor > 40.0) {
+        tempSpan.classList.add('temp-roja');
+    } else {
+        tempSpan.classList.remove('temp-roja');
+    }
+}

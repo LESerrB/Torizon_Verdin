@@ -3,8 +3,6 @@
 import struct
 from flask import Flask, render_template, jsonify
 import os
-import time
-import threading
 # import gpiod
 
 from i2c.sht21 import sht21
@@ -17,18 +15,6 @@ from files.tendencias import agregarDtTemperatura
 # gpio_state = {"lightbulb": False}
 # gpio_state2 = {"bell-button": True}
 
-sensoresDt = {
-    "hr": None,
-    "temp": None,
-    "hum": None,
-    "temp280": None,
-    "pres280": None,
-    "hum280": None,
-    "peso711": None,
-    "x_val": None,
-    "y_val": None
-}
-
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
@@ -39,30 +25,40 @@ def index():
 
 @app.route("/api/sensores")
 def api_sensores():
+    sensoresDt = {
+        "temp": None,
+        "hum": None,
+        "temp280": None,
+        "pres280": None,
+        "hum280": None,
+        "peso711": None,
+        "x_val": None,
+        "y_val": None
+    }
+
     try:
         sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
         sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
         # peso711 = hx711()
         # x_val, y_val = struct.unpack("ii", hw504())
-        sensoresDt["hr"] = datetime.now().strftime("%H:%M")
     except Exception as e:
         print("Error leyendo sensores:", e)
 
-    print("Hr:", sensoresDt["hr"],
-          "Temperatura:", sensoresDt["temp"], "°C")
-        #   "Humedad:", sensoresDt["hum"], "%",
-        #   "Temperatura BME280:", sensoresDt["temp280"], "°C",
-        #   "Presión BME280:", sensoresDt["pres280"], "hPa",
-        #   "Humedad BME280:", sensoresDt["hum280"], "%",
-        #   "Peso HX711:", sensoresDt["peso711"], "g",
-        #   "X Val:", sensoresDt["x_val"],
-        #   "Y Val:", sensoresDt["y_val"])
+    # print("Hr:", sensoresDt["hr"],
+    #       "Temperatura:", sensoresDt["temp"], "°C",
+    #       "Humedad:", sensoresDt["hum"], "%",
+    #       "Temperatura BME280:", sensoresDt["temp280"], "°C",
+    #       "Presión BME280:", sensoresDt["pres280"], "hPa",
+    #       "Humedad BME280:", sensoresDt["hum280"], "%",
+    #       "Peso HX711:", sensoresDt["peso711"], "g",
+    #       "X Val:", sensoresDt["x_val"],
+    #       "Y Val:", sensoresDt["y_val"]
+    #     )
 
     def fmt(val):
         return round(float(val), 1) if val is not None else None
 
     return jsonify({
-        "hr": sensoresDt["hr"],
         "temp": fmt(sensoresDt["temp"]),
         "hum": fmt(sensoresDt["hum"]),
         "temp280": fmt(sensoresDt["temp280"]),
@@ -108,24 +104,6 @@ def api_sensores():
 #     line.release()
 
 #     return jsonify({"bell-button": value})
-
-def strtGuardado(self):
-    def periodic():
-        while True:
-            try:
-                print("Guardando datos periódicamente...")
-                print(sensoresDt["temp"])
-
-                if sensoresDt["temp"] is not None:
-                    agregarDtTemperatura(round(float(sensoresDt["temp"]), 1), sensoresDt["hr"])
-
-            except Exception as e:
-                print(f"Error en lectura periódica: {e}")
-            time.sleep(self.interval)
-    thread = threading.Thread(target=periodic, daemon=True)
-    thread.start()
-
-strtGuardado(self=type('obj', (object,), {'interval': 60}))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
