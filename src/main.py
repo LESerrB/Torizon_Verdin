@@ -1,7 +1,7 @@
 #!python
 
 import struct
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import os
 # import gpiod
 
@@ -9,7 +9,6 @@ from i2c.sht21 import sht21
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
 from adc.hw504 import hw504
-from datetime import datetime
 from files.tendencias import agregarDtTemperatura
 
 # gpio_state = {"lightbulb": False}
@@ -44,17 +43,6 @@ def api_sensores():
     except Exception as e:
         print("Error leyendo sensores:", e)
 
-    # print("Hr:", sensoresDt["hr"],
-    #       "Temperatura:", sensoresDt["temp"], "°C",
-    #       "Humedad:", sensoresDt["hum"], "%",
-    #       "Temperatura BME280:", sensoresDt["temp280"], "°C",
-    #       "Presión BME280:", sensoresDt["pres280"], "hPa",
-    #       "Humedad BME280:", sensoresDt["hum280"], "%",
-    #       "Peso HX711:", sensoresDt["peso711"], "g",
-    #       "X Val:", sensoresDt["x_val"],
-    #       "Y Val:", sensoresDt["y_val"]
-    #     )
-
     def fmt(val):
         return round(float(val), 1) if val is not None else None
 
@@ -68,6 +56,19 @@ def api_sensores():
         # "x_val": fmt(x_val),
         # "y_val": fmt(y_val)
     })
+
+@app.route("/api/tendencias", methods=["POST"])
+def api_tendencias():
+    datos = request.get_json()
+
+    agregarDtTemperatura(
+        temp=datos.get("temp"),
+        hum=datos.get("hum"),
+        pres280=datos.get("pres280")
+    )
+
+    return jsonify({"status": "ok"})
+
 
 # Pin       23      24
 # GPIO      3       4
