@@ -3,9 +3,9 @@ let allCollectedHistoricalData = []; // Este array guardará TODOS los puntos de
 
 document.addEventListener('DOMContentLoaded', () => {
 // --- Obtener todas las referencias a los botones INTERACTIVOS al inicio ---
-    const lightbulbButton = document.getElementById('lightbulb-button'); // Botón AZUL (es un button)
-    const yellowBarButton = document.getElementById('yellow-bar-button'); // Botón AMARILLO (Campana) (es un button)
-    const bellButton = document.getElementById('bell-button'); // Botón NARANJA (Tendencias) (es un button)
+    const lightbulbButton = document.getElementById('lightbulb-button');
+    const yellowBarButton = document.getElementById('yellow-bar-button');
+    const bellButton = document.getElementById('bell-button');
 
     const sensorSth21Button = document.getElementById('sensor-sth21');
     const sensorBme280Button = document.getElementById('sensor-bme280');
@@ -23,15 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const incrementHeaterButton = document.getElementById('increment-heater');
     const acceptHeaterButton = document.getElementById('accept-heater');
 
-    // --- Lógica del Botón AZUL (Foco) ---
+    // --- Botón AZUL (Foco) ---
     lightbulbButton.addEventListener('click', () => {
         lightbulbButton.classList.toggle('purple-lightbulb');
     });
 
     // --- Lista de TODOS los botones (excepto el botón amarillo que es el que controla) que deben ser BLOQUEADOS/DESBLOQUEADOS ---
     const buttonsToToggle = [
-        lightbulbButton, // Incluido
-        bellButton,      // Incluido
+        lightbulbButton,
+        bellButton,
         sensorSth21Button,
         sensorBme280Button,
         sensorHx711Button,
@@ -47,12 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
         clearChartBtn
     ].filter(Boolean);
 
-
     // Función para bloquear/desbloquear otros botones
     function toggleAllOtherButtons(disable) {
         buttonsToToggle.forEach(button => {
             if (button) {
-                button.disabled = disable; // Aplica la propiedad disabled (ahora que son <button> o <select>)
+                button.disabled = disable;
+
                 if (disable) {
                     button.classList.add('disabled-visual');
                 } else {
@@ -60,13 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
         console.log(`Todos los botones (excepto el amarillo) han sido ${disable ? 'bloqueados' : 'desbloqueados'}.`);
     }
 
-    // --- Lógica de Botón AMARILLO (Campana) ---
+    // --- Botón AMARILLO (Campana) ---
     let isBellMuted = false;
+
     yellowBarButton.addEventListener('click', () => {
         const bellIcon = yellowBarButton.querySelector('.fa-bell, .fa-bell-slash');
+
         if (bellIcon) {
             if (isBellMuted) {
                 bellIcon.classList.remove('fa-bell-slash');
@@ -75,28 +78,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 bellIcon.classList.remove('fa-bell');
                 bellIcon.classList.add('fa-bell-slash');
             }
+
             isBellMuted = !isBellMuted;
 
             toggleAllOtherButtons(isBellMuted);
         }
     });
 
-    // --- Lógica de Botón NARANJA (Tendencias/Gráficos) ---
+    // --- Botón NARANJA (Tendencias/Gráficos) ---
     const alternateScreen = document.getElementById('alternate-screen');
     const mainGrayDisplay = document.getElementById('main-gray-display');
 
     bellButton.addEventListener('click', () => {
         mainGrayDisplay.classList.toggle('hidden');
         alternateScreen.classList.toggle('hidden');
-        // Cuando la pantalla de gráficos se muestra u oculta, actualizamos el gráfico
+
         if (!alternateScreen.classList.contains('hidden')) {
             updateChartDisplay(); // Mostrar datos cuando se activa la pantalla de gráficos
         }
     });
 
-    // --- Lógica de Botones Sensores Verdes (SIN CAMBIOS) ---
+    // --- Botones Sensores Verdes (SIN CAMBIOS) ---
     sensorSth21Button.addEventListener('click', () => {
         let messageDiv = sensorSth21Button.querySelector('.message');
+
         if (messageDiv) {
             messageDiv.classList.toggle('hidden');
         } else {
@@ -109,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sensorBme280Button.addEventListener('click', () => {
         let messageDiv = sensorBme280Button.querySelector('.message');
+
         if (messageDiv) {
             messageDiv.classList.toggle('hidden');
         } else {
@@ -121,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sensorHx711Button.addEventListener('click', () => {
         let messageDiv = sensorHx711Button.querySelector('.message');
+
         if (messageDiv) {
             messageDiv.classList.toggle('hidden');
         } else {
@@ -133,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sensorHw504Button.addEventListener('click', () => {
         let messageDiv = sensorHw504Button.querySelector('.message');
+
         if (messageDiv) {
             messageDiv.classList.toggle('hidden');
         } else {
@@ -143,8 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Lógica del Panel Calefactor (Melón) ---
-
+    // --- Panel Calefactor (Melón) ---
     const rightHeaterPanel = document.getElementById('right-heater-panel');
     const heaterPercentageSpan = document.getElementById('heater-percentage');
 
@@ -153,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateHeaterPercentageDisplay() {
         heaterPercentageSpan.textContent = `${currentHeaterPercentage} %`;
     }
+
     updateHeaterPercentageDisplay();
 
     heaterPowerButton.addEventListener('click', () => {
@@ -183,14 +191,13 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Potencia del calefactor establecida a: ${currentHeaterPercentage}%`);
     });
 
-    // --- LÓGICA DE GRÁFICOS DE TENDENCIAS EN PANTALLA AZUL ---
+    // --- GRÁFICOS DE TENDENCIAS EN PANTALLA AZUL ---
 
     const temperatureChartCanvas = document.getElementById('temperatureChart');
 
     let temperatureChart; // Variable para la instancia del gráfico
     let recordingInterval; // Variable para el ID del setInterval
 
-    // Inicializar el gráfico al cargar la página (aunque esté oculto)
     temperatureChart = new Chart(temperatureChartCanvas, {
         type: 'line',
         data: {
@@ -239,30 +246,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- NUEVA FUNCIÓN: Actualiza el gráfico extrayendo datos del historial completo ---
     function updateChartDisplay() {
-        if (!temperatureChart) return; // Asegurarse de que el gráfico esté inicializado
+        if (!temperatureChart) return;
 
-        // Usar los datos reales para determinar el rango
         let chartDisplayData = allCollectedHistoricalData;
 
         if (chartDisplayData.length === 0) {
-            // Si no hay datos, limpiar el gráfico
             temperatureChart.data.labels = [];
             temperatureChart.data.datasets[0].data = [];
             temperatureChart.update();
             return;
         }
 
-        // Ordenar los datos por tiempo por si acaso
-        chartDisplayData = chartDisplayData.slice().sort((a, b) => a.time - b.time);
-
-        // Tomar el primer y último punto como referencia
-        const startTime = chartDisplayData[0].time;
-        const endTime = chartDisplayData[chartDisplayData.length - 1].time;
-
         // Downsampling opcional
         const maxPointsForDisplay = 2000;
+
         if (chartDisplayData.length > maxPointsForDisplay) {
             const downsampleFactor = Math.ceil(chartDisplayData.length / maxPointsForDisplay);
             chartDisplayData = chartDisplayData.filter((_, index) => index % downsampleFactor === 0);
@@ -273,14 +271,12 @@ document.addEventListener('DOMContentLoaded', () => {
         temperatureChart.data.labels = chartDisplayData.map(point => point.time);
         temperatureChart.data.datasets[0].data = chartDisplayData.map(point => point.value);
         temperatureChart.update();
-        // console.log(`Gráfico actualizado con datos desde ${startTime.toLocaleTimeString()} hasta ${endTime.toLocaleTimeString()}. Puntos mostrados: ${chartDisplayData.length}`);
     }
 
     // Manejadores de eventos para los selectores de duración e intervalo
     // Cuando cambian, se debe actualizar el gráfico
     durationSelect.addEventListener('change', updateChartDisplay);
     intervalSelect.addEventListener('change', updateChartDisplay);
-
 
     // Función para iniciar la grabación de datos
     startRecordingBtn.addEventListener('click', () => {
@@ -292,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
         durationSelect.disabled = true;
         intervalSelect.disabled = true;
 
-        const intervalMs = parseInt(intervalSelect.value); // Obtener el intervalo actual
+        const intervalMs = parseInt(intervalSelect.value);
 ///////////////////////////////////////////////////////////////////////////////
         // Iniciar el intervalo para guardar datos
         recordingInterval = setInterval(async () => {
@@ -301,26 +297,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const dtListaTemp = await leerDtTemperatura();
 
             if (Array.isArray(dtListaTemp)) {
-                // Limpia el historial y agrega todos los puntos nuevos
                 allCollectedHistoricalData = dtListaTemp.map(d => ({
                     time: convertirHoraAFechaHoy(d.hr),
                     value: d.temp
                 }));
             } else if (dtListaTemp && dtListaTemp.temp && dtListaTemp.hr) {
-                // Si solo es un objeto, agrega uno solo
                 allCollectedHistoricalData.push({
                     time: convertirHoraAFechaHoy(dtListaTemp.hr),
                     value: dtListaTemp.temp
                 });
             }
 
-            // saveHistoricalDataToLocalStorage();
             updateChartDisplay();
-
-            // Imprime los valores para depuración
-            // allCollectedHistoricalData.forEach(point => {
-            //     console.log("time:", point.time, "value:", point.value);
-            // });
         }, intervalMs);
 ////////////////////////////////////////////////////////////////////////////////
         console.log(`Iniciando registro cada ${intervalMs / 1000} segundos.`);
@@ -328,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para detener la grabación de datos
     stopRecordingBtn.addEventListener('click', () => {
-        clearInterval(recordingInterval); // Detener el intervalo
+        clearInterval(recordingInterval);
         startRecordingBtn.disabled = false;
         stopRecordingBtn.disabled = true;
         durationSelect.disabled = false;
@@ -338,23 +326,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para limpiar el gráfico y todo el historial
     clearChartBtn.addEventListener('click', () => {
-        clearInterval(recordingInterval); // Asegurarse de detener el registro
-        allCollectedHistoricalData = []; // Vaciar el historial completo
-        // saveHistoricalDataToLocalStorage(); // Guardar el estado vacío en localStorage
-        updateChartDisplay(); // Actualizar el gráfico (lo dejará vacío)
+        clearInterval(recordingInterval);
+        allCollectedHistoricalData = [];
+        updateChartDisplay();
         startRecordingBtn.disabled = false;
         stopRecordingBtn.disabled = true;
         durationSelect.disabled = false;
         intervalSelect.disabled = false;
 
-        limpiarMemoria(); // Limpiar memoria y datos de sensores
+        limpiarMemoria();
 
         console.log('Gráfico y datos históricos limpiados.');
     });
 
-    // Llamada inicial para mostrar cualquier dato cargado o el gráfico vacío
     updateChartDisplay();
-
 });
 
 // ####################################################################### //
@@ -411,7 +396,7 @@ async function leerDtTemperatura() {
 function limpiarMemoria() {
     allCollectedHistoricalData = [];
 
-    localStorage.removeItem('temperatureHistory');
+    // localStorage.removeItem('temperatureHistory');
 
     if (recordingInterval) {
         clearInterval(recordingInterval);
