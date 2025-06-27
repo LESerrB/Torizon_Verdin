@@ -1,6 +1,9 @@
 const valorDiv = document.querySelector('._100');
 const btnAumentar = document.querySelector('.btn-aumentar');
 const btnDisminuir = document.querySelector('.btn-disminuir');
+const intervalo = 1; // Intervalo en minutos para guardar los datos
+
+let ultimoDatoSensores = {};
 
 // ####################################################################### //
 //                      FUNCIONES BOTONES CALEFACTOR                       //
@@ -60,19 +63,15 @@ async function updateSensors() {
         // document.getElementById('peso711').textContent = data.peso711 ?? '00.00';
         // document.getElementById('x_val').textContent = data.x_val;
         // document.getElementById('y_val').textContent = data.y_val;
-        // document.getElementById('button_val').textContent = data.button_val;
 
-        // console.log('Sensor data temp:', data.temp, "Hr:", data.hr);
         actualizarColorTemp();
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }
 
+    ultimoDatoSensores = data;
     return data; // Se debe usar await en las funciones que hace uso de los datos de los sensores para que la lectura sea correcta
 }
-
-setInterval(updateSensors, 1000);
-// updateSensors();
 
 function actualizarColorTemp() {
     const tempSpan = document.getElementById('temp');
@@ -84,3 +83,29 @@ function actualizarColorTemp() {
         tempSpan.classList.remove('temp-roja');
     }
 }
+
+// ####################################################################### //
+//                            GUARDADO DE DATOS                            //
+// ####################################################################### //
+async function guardarDatos() {
+    const data = ultimoDatoSensores;
+
+    try {
+        const response = await fetch('/api/tendencias', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                temp: data.temp,
+                hum: data.hum,
+                pres280: data.pres280,
+            })
+        });
+    } catch (error) {
+        console.error('Error al guardar los datos:', error);
+    }
+}
+
+setInterval(updateSensors, 1000);
+setInterval(guardarDatos, 1000 * 60 * intervalo);
