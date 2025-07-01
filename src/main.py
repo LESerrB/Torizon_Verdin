@@ -3,6 +3,9 @@
 import struct
 from flask import Flask, render_template, jsonify, request
 import os
+import shutil
+import threading
+import time
 # import gpiod
 
 from i2c.sht21 import sht21
@@ -69,6 +72,21 @@ def api_tendencias():
 
     return jsonify({"status": "ok"})
 
+##############################################################################
+#                            Limpieza de sistema                             #
+##############################################################################
+def monitor_disk():
+    while True:
+        restart_container()
+        time.sleep(30)
+
+def restart_container(threshold=95):
+    total, used, free = shutil.disk_usage("/")
+    used_percent = (used / total) * 100
+
+    if used_percent >= threshold:
+        print("Espacio casi lleno, reiniciando contenedor...")
+        os._exit(1)
 
 # Pin       23      24
 # GPIO      3       4
@@ -105,6 +123,9 @@ def api_tendencias():
 #     line.release()
 
 #     return jsonify({"bell-button": value})
+
+monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
+monitor_thread.start()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
