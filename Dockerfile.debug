@@ -104,4 +104,6 @@ RUN mkdir /var/run/sshd && \
 RUN rm -r /etc/ssh/ssh*key && \
     dpkg-reconfigure openssh-server
 
-CMD [ "/usr/sbin/sshd", "-D" ]
+# CMD [ "/usr/sbin/sshd", "-D" ]
+COPY entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]
