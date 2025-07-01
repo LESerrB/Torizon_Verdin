@@ -35,7 +35,7 @@ def read_humidity(bus):
 
 def sht21():
     try:
-        with SMBus(3) as bus:
+        with SMBus(3) as bus: # 3 -> /dev/i2c-3
             temp = read_temperature(bus)
             hum = read_humidity(bus)
             th = struct.pack("ff", temp, hum)
