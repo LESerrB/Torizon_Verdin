@@ -134,3 +134,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Añadida animación de parpadeo en el valor de la potencia al dar click en el botón de calefactor y se detiene al dar click en el botón de "✓".
 - Limitación de aumento y disminución de valor de potencia de 0 - 100%.
 - Corregido bug de guardado de valores de temperatura.
+
+### v0.8 - [2/Julio/2025]
+
+- Guardado de valores de tendencias de Temperatura en archivo json.
+- Cambio de color de valor de temperatura al superar los 40.0°C
+- Monitorización de memoria y función de limpieza.
+- Creación de entrypoint para auto-inicialización de aplicación.
+- Control de PWM para fototerapia.

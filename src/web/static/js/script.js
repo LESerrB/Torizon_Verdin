@@ -4,6 +4,7 @@ const btnDisminuir = document.querySelector('.btn-disminuir');
 const intervalo = 1; // Intervalo en minutos para guardar los datos
 
 let ultimoDatoSensores = {};
+let nvlFototerapia = 0;
 
 // ####################################################################### //
 //                      FUNCIONES BOTONES CALEFACTOR                       //
@@ -45,9 +46,50 @@ btnDisminuir.addEventListener('click', () => {
 });
 
 // ####################################################################### //
+//                      FUNCIONES BOTONES FOTOTERAPIA                      //
+// ####################################################################### //
+document.getElementById('btn-fototerapia').addEventListener('click', async () => {
+    nvlFototerapia++;
+    
+    switch (nvlFototerapia) {
+        case 1:
+            alert('Fototerapia activada al nivel 1');
+        break;
+
+        case 2:
+            alert('Fototerapia activada al nivel 2');
+        break;
+
+        case 3:
+            alert('Fototerapia activada al nivel 3');
+        break;
+    
+        default:
+            alert('Fototerapia desactivada');
+            nvlFototerapia = 0;
+        break;
+    }
+
+    try {
+        const response = await fetch('/api/nvlFototerapia', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nvlFototerapia: nvlFototerapia
+            })
+        });
+
+        alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
+    } catch (error) {
+        console.error('Error al guardar los datos:', error);
+    }
+});
+
+// ####################################################################### //
 //                          ACTUALIZACION DE SENSORES                      //
 // ####################################################################### //
-
 async function updateSensors() {
     let data = {};
 
@@ -91,6 +133,7 @@ async function guardarDatos() {
     const data = ultimoDatoSensores;
 
     try {
+        console.log('Guardando datos...');
         const response = await fetch('/api/tendencias', {
             method: 'POST',
             headers: {
