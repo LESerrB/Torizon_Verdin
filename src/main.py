@@ -12,15 +12,22 @@ from i2c.sht21 import sht21
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
 from adc.hw504 import hw504
+from pwm.pwm import setNvlFototerapia
 from files.tendencias import agregarDtTemperatura
 
 # gpio_state = {"lightbulb": False}
 # gpio_state2 = {"bell-button": True}
 
+##############################################################################
+#                           Configuracion de Flask                           #
+##############################################################################
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
+##############################################################################
+#                           Rutas de la aplicacion                           #
+##############################################################################
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -65,13 +72,19 @@ def api_tendencias():
     datos = request.get_json()
 
     agregarDtTemperatura(
-        temp=datos.get("temp"),
-        hum=datos.get("hum"),
-        pres280=datos.get("pres280")
+        temp = datos.get("temp"),
+        hum = datos.get("hum"),
+        pres280 = datos.get("pres280")
     )
 
     return jsonify({"status": "ok"})
 
+@app.route("/api/nvlFototerapia", methods=["POST"])
+def api_nvlFototerapia():
+    nvlFototerapia = request.get_json()
+    setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
+
+    return jsonify({"status": "ok"})
 ##############################################################################
 #                            Limpieza de sistema                             #
 ##############################################################################
