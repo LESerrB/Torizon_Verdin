@@ -6,6 +6,7 @@ import os
 import shutil
 import threading
 import time
+from dotenv import load_dotenv
 
 from i2c.sht21 import sht21
 from spi.bme280 import bme280
@@ -14,6 +15,7 @@ from adc.hw504 import hw504
 from pwm.pwm import setNvlFototerapia
 from files.tendencias import agregarDtTemperatura
 
+load_dotenv("/mnt/microsd/.env")
 ##############################################################################
 #                           Configuracion de Flask                           #
 ##############################################################################

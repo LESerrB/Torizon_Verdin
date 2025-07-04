@@ -1,9 +1,14 @@
 import os
+from dotenv import load_dotenv
 # import gpiod
 
-OFF = 0.0
-MEDIUM = 50.0
-FULL = 100.0
+# ===============================================================#
+#                   Configuración de offsets y escalas           #
+# ===============================================================#
+load_dotenv("/mnt/microsd/.env")
+OFF = float(os.getenv("OFF", 0.0))
+MEDIUM = float(os.getenv("MEDIUM", 50.0))
+FULL = float(os.getenv("FULL", 100.0))
 
 # gpio_state = {"lightbulb": False}
 # gpio_state2 = {"bell-button": True}
@@ -11,6 +16,9 @@ FULL = 100.0
 pwmchipFOT = "/sys/class/pwm/pwmchip1"
 pwmchipLzEx = "/sys/class/pwm/pwmchip2"
 
+# ===============================================================#
+#                   Eleccción de Nivel de PWM                    #
+# ===============================================================#
 def setNvlFototerapia(nvlFototerapia):
     print(f"Nivel de fototerapia establecido: {nvlFototerapia}")
     if nvlFototerapia == 0:
@@ -36,6 +44,9 @@ def setNvlLuzExam(nvlLuzExam):
         print("Nivel de luz examinación no válido. Debe ser 0, 1, 2 o 3.")
         set_pwm_duty_cycle(OFF, pwmchipLzEx)
 
+# ===============================================================#
+#                   Configuración de PWM                         #
+# ===============================================================#
 def set_pwm_duty_cycle(percentage: float, pwmchip):
     pwm = f"{pwmchip}/pwm0"
 

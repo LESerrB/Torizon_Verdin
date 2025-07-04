@@ -1,5 +1,7 @@
 import time
 import gpiod                        # GPIO
+import os
+from dotenv import load_dotenv
 
 #===============================================================#
 #               Configuración GPIO Serial HX711                 #
@@ -21,10 +23,16 @@ sck_line = gpio_chip_sck.get_line(PIN_SCK)
 dout_line.request(consumer="hx711", type=gpiod.LINE_REQ_DIR_IN)
 sck_line.request(consumer="hx711", type=gpiod.LINE_REQ_DIR_OUT)
 
-# Escala y offset (ajusta con calibración)
-SCALE = 1.0
-OFFSET = 0
+#================================================================#
+#                   Configuración de offsets y escalas           #
+#================================================================#
+load_dotenv("/mnt/microsd/.env")
+SCALE = float(os.getenv("SCALE", 1.0))
+OFFSET = float(os.getenv("OFFSET", 0.0))
 
+#===============================================================#
+#                   Funciones de lectura HX711                  #
+#===============================================================#
 def read_raw():
     while dout_line.get_value() == 1:
         time.sleep(0.001)
