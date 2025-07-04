@@ -1,5 +1,7 @@
 import struct
 import spidev                       # SPI
+import os
+from dotenv import load_dotenv
 
 # ===============================================================#
 #                    Configuración SPI BME280                    #
@@ -17,15 +19,27 @@ REG_CTRL_HUM = 0xF2
 REG_STATUS = 0xF3
 REG_HUM_CALIB = 0xE1
 
-EXPECTED_CHIP_ID_BME280 = 0x60
-EXPECTED_CHIP_ID_BMP280 = 0x58
+# ===============================================================#
+#                   Configuración de offsets y escalas            #
+# ===============================================================#
+load_dotenv("/mnt/microsd/.env")
+T_OFFSET = float(os.getenv("T_OFFSET", 1.0))
+P_OFFSET = float(os.getenv("P_OFFSET", 1.0))
+H_OFFSET = float(os.getenv("H_OFFSET", 1.0))
 
-# Configuración BME-280
+EXPECTED_CHIP_ID = int(os.getenv("EXPECTED_CHIP_ID"), 16)
+
+# ===============================================================#
+#                   Configuración de SPI BME280                  #
+# ===============================================================#
 spi = spidev.SpiDev()
 spi.open(1, 0)
 spi.max_speed_hz = 1000000
 spi.mode = 0b00
 
+# ===============================================================#
+#                   Funciones de lectura BME280                  #
+# ===============================================================#
 def read_bytes(reg, length):
     return spi.xfer2([reg | 0x80] + [0x00]*length)[1:]
 
@@ -82,8 +96,8 @@ def compensate_humidity(adc_H, calib, t_fine):
 def bme280():
     chip_id = read_bytes(REG_ID, 1)[0]
 
-    if chip_id != EXPECTED_CHIP_ID_BME280:
-        print("BME280 no detectado")
+    if chip_id != EXPECTED_CHIP_ID:
+        print("Sensor no detectado")
 
     write_byte(REG_CTRL_HUM, 0x01)      # Humedad oversampling x1
     write_byte(REG_CTRL_MEAS, 0x27)     # Temp y pres. normal mode, oversampling x1
@@ -100,6 +114,11 @@ def bme280():
         temp, tf = compensate_temperature(adc_T, calib)
         press = compensate_pressure(adc_P, calib, tf)
         hum = compensate_humidity(adc_H, calib_h, tf)
+
+        # Calibración manual
+        temp *= T_OFFSET
+        press *= P_OFFSET
+        hum *= H_OFFSET
 
         tph = struct.pack("fff", temp, press, hum)
         return tph

@@ -146,6 +146,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creación de entrypoint para auto-inicialización de aplicación.
 - Control de PWM para fototerapia.
 
-
+### v0.9 - [4/Julio/2025]
 - Agregada micrSD para almacenado de datos de tendencias y variables de entorno.
 - Lectura de datos como respuesta del documento json e implementación de función de limpieza de datos de archivo json.
+- Implementación de variables de entorno para calibración y elección de dispositivos I2C.
