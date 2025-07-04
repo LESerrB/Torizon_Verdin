@@ -71,8 +71,10 @@ services:
     restart: always
     depends_on:
       - chromium
+    user: root
     volumes:
       - /tmp/wayland-0:/tmp/wayland-0
+      - /var/rootdirs/mnt/microsd:/mnt/microsd
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host
@@ -96,8 +98,10 @@ services:
     image: ${DOCKER_LOGIN}/quickstart1:${TAG}
     depends_on:
       - chromium
+    user: root
     volumes:
       - /tmp/wayland-0:/tmp/wayland-0
+      - /var/rootdirs/mnt/microsd:/mnt/microsd
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host

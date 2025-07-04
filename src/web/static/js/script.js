@@ -53,15 +53,11 @@ document.getElementById('btn-fototerapia').addEventListener('click', async () =>
     
     switch (nvlFototerapia) {
         case 1:
-            alert('Fototerapia activada al nivel 1');
+            alert('Fototerapia activada a nivel MEDIO');
         break;
 
         case 2:
-            alert('Fototerapia activada al nivel 2');
-        break;
-
-        case 3:
-            alert('Fototerapia activada al nivel 3');
+            alert('Fototerapia activada a nivel ALTO');
         break;
     
         default:
@@ -133,7 +129,6 @@ async function guardarDatos() {
     const data = ultimoDatoSensores;
 
     try {
-        console.log('Guardando datos...');
         const response = await fetch('/api/tendencias', {
             method: 'POST',
             headers: {
@@ -145,7 +140,11 @@ async function guardarDatos() {
                 pres280: data.pres280,
             })
         });
-    } catch (error) {
+        
+        const result = await response.json();
+        const tendencias = result.tend_json.map(item => [item.temp, item.hr]);
+        console.log(tendencias);
+    }catch (error) {
         console.error('Error al guardar los datos:', error);
     }
 }

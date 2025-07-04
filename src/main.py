@@ -6,7 +6,6 @@ import os
 import shutil
 import threading
 import time
-# import gpiod
 
 from i2c.sht21 import sht21
 from spi.bme280 import bme280
@@ -14,9 +13,6 @@ from gpio.hx711 import hx711
 from adc.hw504 import hw504
 from pwm.pwm import setNvlFototerapia
 from files.tendencias import agregarDtTemperatura
-
-# gpio_state = {"lightbulb": False}
-# gpio_state2 = {"bell-button": True}
 
 ##############################################################################
 #                           Configuracion de Flask                           #
@@ -71,13 +67,13 @@ def api_sensores():
 def api_tendencias():
     datos = request.get_json()
 
-    agregarDtTemperatura(
+    tend_json = agregarDtTemperatura(
         temp = datos.get("temp"),
         hum = datos.get("hum"),
         pres280 = datos.get("pres280")
     )
 
-    return jsonify({"status": "ok"})
+    return jsonify({"tend_json": tend_json})
 
 @app.route("/api/nvlFototerapia", methods=["POST"])
 def api_nvlFototerapia():
@@ -85,6 +81,7 @@ def api_nvlFototerapia():
     setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
 
     return jsonify({"status": "ok"})
+
 ##############################################################################
 #                            Limpieza de sistema                             #
 ##############################################################################
@@ -100,42 +97,6 @@ def restart_container(threshold=95):
     if used_percent >= threshold:
         print("Espacio casi lleno, reiniciando contenedor...")
         os._exit(1)
-
-# Pin       23      24
-# GPIO      3       4
-# SODIMM    210     212
-# GPIOCHIP  4       4
-# LINE      26      27
-# @app.route("/api/lightbulb", methods=["POST"])
-# def api_lightbulb():
-#     gpio_state["lightbulb"] = not gpio_state["lightbulb"]
-#     value = gpio_state["lightbulb"]
-
-#     chip = gpiod.Chip("/dev/gpiochip4")
-
-#     line_offset = 26
-#     line = chip.get_line(line_offset)
-#     line.request(consumer="lightbulb", type=gpiod.LINE_REQ_DIR_OUT)
-#     line.set_value(1 if value else 0)
-#     line.release()
-
-#     return jsonify({"lightbulb": value})
-
-# @app.route("/api/bellButton", methods=["POST"])
-# def api_bellButton():
-#     # print("Bell Button toggled")
-#     gpio_state2["bell-button"] = not gpio_state2["bell-button"]
-#     value = gpio_state2["bell-button"]
-
-#     chip = gpiod.Chip("/dev/gpiochip4")
-
-#     line_offset = 27
-#     line = chip.get_line(line_offset)
-#     line.request(consumer="bell-button", type=gpiod.LINE_REQ_DIR_OUT)
-#     line.set_value(1 if value else 0)
-#     line.release()
-
-#     return jsonify({"bell-button": value})
 
 monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
 monitor_thread.start()
