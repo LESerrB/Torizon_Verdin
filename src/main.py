@@ -1,12 +1,13 @@
 #!python
 
-import struct
-from flask import Flask, render_template, jsonify, request
 import os
-import shutil
+import struct
 import threading
 import time
+import shutil
+import logging
 from dotenv import load_dotenv
+from flask import Flask, render_template, jsonify, request
 
 from i2c.sht21 import sht21
 from spi.bme280 import bme280
@@ -15,7 +16,18 @@ from adc.hw504 import hw504
 from pwm.pwm import setNvlFototerapia
 from files.tendencias import agregarDtTemperatura
 
+##############################################################################
+#                           Configuracion de entorno                         #
+##############################################################################
 load_dotenv("/mnt/microsd/.env")
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='/mnt/microsd/dual.log', encoding='utf-8', level=logging.DEBUG)
+logger.debug(f"{os.getenv('DEBUG', 'False')}")
+logger.info('Encendiendo del sistema')
+logger.warning('And this, too')
+logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
+logger.critical('This is critical!')
+
 ##############################################################################
 #                           Configuracion de Flask                           #
 ##############################################################################
