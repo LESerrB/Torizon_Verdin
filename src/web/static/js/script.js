@@ -11,6 +11,10 @@ let cntCalibTemp = 0;
 let habConfgCalef = false;
 let habCalibTemp = false;
 
+let tempHumEnabled = true;
+let basculaEnabled = false;
+let presEnabled = false;
+
 // ####################################################################### //
 //                      FUNCIONES BOTONES CALEFACTOR                       //
 // ####################################################################### //
@@ -107,6 +111,33 @@ document.getElementById('btn-fototerapia').addEventListener('click', async () =>
 });
 
 // ####################################################################### //
+//                     FUNCIONES DE BOTONES DE MODULOS                     //
+// ####################################################################### //
+// SHT21
+document.getElementById('btn-sensor-1').addEventListener('click', async () => {
+    tempHumEnabled = true;
+    presEnabled = false;
+    basculaEnabled = false;
+    console.log("Boton sht21");
+});
+
+// BME280
+document.getElementById('btn-sensor-2').addEventListener('click', async () => {
+    tempHumEnabled = false;
+    presEnabled = true;
+    basculaEnabled = false;
+    console.log("Boton bme280");
+});
+
+// HX711
+document.getElementById('btn-sensor-3').addEventListener('click', async () => {
+    tempHumEnabled = false;
+    presEnabled = false;
+    basculaEnabled = true;
+    console.log("Boton hx711");
+});
+
+// ####################################################################### //
 //                          ACTUALIZACION DE SENSORES                      //
 // ####################################################################### //
 async function updateSensors() {
@@ -115,17 +146,22 @@ async function updateSensors() {
     try {
         const response = await fetch('/api/sensores');
         data = await response.json();
-
-        document.getElementById('temp').textContent = data.temp ?? '00.0';
-        document.getElementById('hum').textContent = data.hum ?? '00.0';
-        // document.getElementById('temp280').textContent = data.temp280;
-        document.getElementById('pres280').textContent = data.pres280;
-        // document.getElementById('hum280').textContent = data.hum280;
-        // document.getElementById('peso711').textContent = data.peso711 ?? '00.00';
+        
+        if (data && tempHumEnabled) {
+            document.getElementById('temp').textContent = data.temp ?? '--.-';
+            document.getElementById('hum').textContent = data.hum ?? '--.-';
+            actualizarColorTemp();
+        }
+        else if (data && presEnabled) {
+            // document.getElementById('temp280').textContent = data.temp280;
+            document.getElementById('temp').textContent = data.pres280 ?? '---';
+            // document.getElementById('hum280').textContent = data.hum280;
+        }
+        else if (data && basculaEnabled) {
+            document.getElementById('temp').textContent = data.peso711 ?? '00.00';
+        }
         // document.getElementById('x_val').textContent = data.x_val;
         // document.getElementById('y_val').textContent = data.y_val;
-
-        actualizarColorTemp();
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }

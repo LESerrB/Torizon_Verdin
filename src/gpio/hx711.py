@@ -24,7 +24,7 @@ dout_line.request(consumer="hx711", type=gpiod.LINE_REQ_DIR_IN)
 sck_line.request(consumer="hx711", type=gpiod.LINE_REQ_DIR_OUT)
 
 #================================================================#
-#                   Configuración de offsets y escalas           #
+#               Configuración de offsets y escalas               #
 #================================================================#
 load_dotenv("/mnt/microsd/.env")
 SCALE = float(os.getenv("SCALE", 1.0))
@@ -43,6 +43,7 @@ def read_raw():
         sck_line.set_value(1)
         count = count << 1
         sck_line.set_value(0)
+
         if dout_line.get_value():
             count += 1
 
@@ -57,8 +58,31 @@ def read_raw():
 def read_weight():
     raw = read_raw()
     weight = (raw - OFFSET) / SCALE
-    return weight
 
+    return weight
+#===============================================================#
+#                    Función de Taraje HX711                    #
+#===============================================================#
+def tare():
+    global OFFSET
+    lines = []
+    OFFSET = read_weight()
+
+    with open("/mnt/microsd/.env", "r") as f:
+        for line in f:
+            if line.startswith("OFFSET="):
+                lines.append(f"OFFSET={OFFSET}\n")
+            else:
+                lines.append(line)
+
+    with open("/mnt/microsd/.env", "w") as f:
+        f.writelines(lines)
+
+    print(f"Taraje realizado. Nuevo offset: {OFFSET}")
+
+#===============================================================#
+#               Función principal de lectura HX711              #
+#===============================================================#
 def hx711():
     try:
         w = read_weight()
@@ -68,3 +92,26 @@ def hx711():
         sck_line.release()
         gpio_chip_dout.close()
         gpio_chip_sck.close()
+
+#===============================================================#
+#                  Función de calibración HX711                 #
+#===============================================================#
+def calibracion(pesoAct):
+    global SCALE
+    lines = []
+    print(f"Calibrando HX711 con peso actual: {pesoAct}")
+
+    raw = read_raw()
+    newSCALE = round(float(pesoAct) / (raw - OFFSET), 2)
+    SCALE = newSCALE
+    print(f"Nuevo SCALE: {SCALE}")
+
+    with open("/mnt/microsd/.env", "r") as f:
+        for line in f:
+            if line.startswith("SCALE="):
+                lines.append(f"SCALE={SCALE}\n")
+            else:
+                lines.append(line)
+
+    with open("/mnt/microsd/.env", "w") as f:
+        f.writelines(lines)
