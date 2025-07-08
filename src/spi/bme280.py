@@ -27,7 +27,7 @@ T_OFFSET = float(os.getenv("T_OFFSET", 1.0))
 P_OFFSET = float(os.getenv("P_OFFSET", 1.0))
 H_OFFSET = float(os.getenv("H_OFFSET", 1.0))
 
-EXPECTED_CHIP_ID = int(os.getenv("EXPECTED_CHIP_ID"), 16)
+EXPECTED_CHIP_ID = int(os.getenv("EXPECTED_CHIP_ID", "0x60"), 16)
 
 # ===============================================================#
 #                   Configuración de SPI BME280                  #
