@@ -1,7 +1,7 @@
+import os
 import time
 import struct
 from smbus2 import SMBus, i2c_msg   # I2C
-import os
 from dotenv import load_dotenv
 
 # ===============================================================#
@@ -53,3 +53,29 @@ def sht21():
             return th
     except Exception as e:
         print(f"Error de lectura: {e}")
+
+# ===============================================================#
+#                   Función de calibración SHT21                 #
+# ===============================================================#
+def calibracion(tempAct):
+    global OFFSET_TEMP
+    lines = []
+    print(f"Calibrando SHT21 con temperatura actual: {tempAct}")
+
+    with SMBus(3) as bus: # 3 -> /dev/i2c-3
+        raw = read_sensor(bus, CMD_MEASURE_TEMP)
+        newOFFSET = round(float(tempAct) - (SCALE_TEMP * raw / 65536.0), 2)
+        OFFSET_TEMP = newOFFSET
+        print(f"Nuevo OFFSET_TEMP: {OFFSET_TEMP}")
+
+    
+    with open("/mnt/microsd/.env", "r") as f:
+        for line in f:
+            if line.startswith("OFFSET_TEMP="):
+                lines.append(f"OFFSET_TEMP={OFFSET_TEMP}\n")
+            else:
+                lines.append(line)
+
+    with open("/mnt/microsd/.env", "w") as f:
+        f.writelines(lines)
+

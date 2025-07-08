@@ -15,7 +15,7 @@ PIN_SCK = 5
 gpio_chip_dout = gpiod.Chip(dout_chip_path)
 gpio_chip_sck = gpiod.Chip(sck_chip_path)
 
-# Obtener líneas individuales (gpiod v1.x)
+# Obtener líneas individuales
 dout_line = gpio_chip_dout.get_line(PIN_DOUT)
 sck_line = gpio_chip_sck.get_line(PIN_SCK)
 
@@ -38,6 +38,7 @@ def read_raw():
         time.sleep(0.001)
 
     count = 0
+
     for _ in range(24):
         sck_line.set_value(1)
         count = count << 1

@@ -152,3 +152,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Lectura de datos como respuesta del documento json e implementación de función de limpieza de datos de archivo json.
 - Implementación de variables de entorno para calibración y elección de dispositivos I2C.
 - Agregada libreria logging para registro de eventos.
+
+### v0.10 - [8/Julio/2025]
+
+- Correción a la ruta de montaje de microSD.
+- Implementación de función de calibración del módulo sht21.

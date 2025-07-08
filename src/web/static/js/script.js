@@ -1,10 +1,15 @@
 const valorDiv = document.querySelector('._100');
+const valTemp = document.querySelector('._36-4-c-span');
 const btnAumentar = document.querySelector('.btn-aumentar');
 const btnDisminuir = document.querySelector('.btn-disminuir');
 const intervalo = 1; // Intervalo en minutos para guardar los datos
 
+let intervalId = null;
 let ultimoDatoSensores = {};
 let nvlFototerapia = 0;
+let cntCalibTemp = 0;
+let habConfgCalef = false;
+let habCalibTemp = false;
 
 // ####################################################################### //
 //                      FUNCIONES BOTONES CALEFACTOR                       //
@@ -16,6 +21,10 @@ function habilitarCalefactor() {
     document.querySelector('.btn-aumentar').disabled = false;
     document.querySelector('.btn-disminuir').disabled = false;
     document.querySelector('.btn-aceptar').disabled = false;
+
+    // Habilitar botones de aumentar y decremento para calefactor
+    habConfgCalef = true;
+    habCalibTemp = false;
 
     // Parpadeo
     const porcentaje = document.querySelector('.porcentaje-calef');
@@ -30,19 +39,33 @@ function deshabilitarCalefactor() {
     document.querySelector('.btn-disminuir').disabled = true;
     document.querySelector('.btn-aceptar').disabled = true;
 
+    if (habCalibTemp) {
+        saveOffset(valTemp.textContent);
+    }
+
     // Parpadeo
     const porcentaje = document.querySelector('.porcentaje-calef');
     porcentaje.classList.remove('parpadeo');
+    const temperatura = document.querySelector('._36-4-c-span');
+    temperatura.classList.remove('parpadeo');
+    
+    // Deshabilitar botones de aumentar y decremento
+    habConfgCalef = false;
+    habCalibTemp = false;
 }
 
 btnAumentar.addEventListener('click', () => {
-    if (valorDiv.textContent < 100)
+    if (valorDiv.textContent < 100 && habConfgCalef)
         valorDiv.textContent = parseInt(valorDiv.textContent) + 1;
+    else if (habCalibTemp)  // RESTA AGREGAR LIMITES DE LA TEMPERATURA MÁXIMA
+        valTemp.textContent = (parseFloat(valTemp.textContent) + 0.1).toFixed(1);
 });
 
 btnDisminuir.addEventListener('click', () => {
-    if (valorDiv.textContent > 0)
+    if (valorDiv.textContent > 0 && habConfgCalef)
         valorDiv.textContent = parseInt(valorDiv.textContent) - 1;
+    else if (habCalibTemp) // RESTA AGREGAR LIMITES DE LA TEMPERATURA MÍNIMA
+        valTemp.textContent = (parseFloat(valTemp.textContent) - 0.1).toFixed(1);
 });
 
 // ####################################################################### //
@@ -149,5 +172,61 @@ async function guardarDatos() {
     }
 }
 
-setInterval(updateSensors, 1000);
+// ####################################################################### //
+//                          CALIBRACION DE TEMPERATURA                     //
+// ####################################################################### //
+document.getElementById('temperaturaCont').addEventListener('click', async () => {
+    cntCalibTemp++;
+
+    if (cntCalibTemp > 10) {
+        cntCalibTemp = 0;
+    
+        // Habilitar botones de aumentar y decremento para calefactor
+        habConfgCalef = false;
+        habCalibTemp = true;
+
+        document.querySelector('.btn-aumentar').disabled = false;
+        document.querySelector('.btn-disminuir').disabled = false;
+        document.querySelector('.btn-aceptar').disabled = false;
+
+        // Parpadeo
+        const temperatura = document.querySelector('._36-4-c-span');
+        temperatura.classList.add('parpadeo');
+
+        pauseSensor();
+
+        return;
+    }
+});
+
+async function saveOffset(nuevaTemp) {
+    const response = await fetch('/api/saveOffset', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: nuevaTemp })
+    });
+
+    alert(response.status === 200 ? 'Calibración guardada correctamente' : 'Error al calibrar');
+    startSensor();
+}
+
+// ####################################################################### //
+//                          INICIALIZACION DE EVENTOS                      //
+// ####################################################################### //
+function startSensor(){
+    if (!intervalId) {
+        intervalId = setInterval(updateSensors, 1000);
+    }
+}
+
+function pauseSensor() {
+    if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+    }
+}
+
+startSensor();
 setInterval(guardarDatos, 1000 * 60 * intervalo);

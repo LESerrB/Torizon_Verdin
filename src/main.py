@@ -8,8 +8,9 @@ import shutil
 import logging
 from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
+from decimal import Decimal
 
-from i2c.sht21 import sht21
+from i2c.sht21 import sht21, calibracion
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
 from adc.hw504 import hw504
@@ -20,8 +21,10 @@ from files.tendencias import agregarDtTemperatura
 #                           Configuracion de entorno                         #
 ##############################################################################
 load_dotenv("/mnt/microsd/.env")
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='/mnt/microsd/dual.log', encoding='utf-8', level=logging.DEBUG)
+
 logger.debug(f"{os.getenv('DEBUG', 'False')}")
 logger.info('Encendiendo del sistema')
 logger.warning('And this, too')
@@ -96,6 +99,14 @@ def api_nvlFototerapia():
 
     return jsonify({"status": "ok"})
 
+@app.route("/api/saveOffset", methods=["POST"])
+def api_saveOffset():
+    tempAct = request.get_json().get("action")
+
+    if tempAct:
+        calibracion(tempAct)
+
+    return jsonify({"status": "ok"})
 ##############################################################################
 #                            Limpieza de sistema                             #
 ##############################################################################
