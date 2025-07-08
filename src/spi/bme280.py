@@ -3,9 +3,9 @@ import spidev                       # SPI
 import os
 from dotenv import load_dotenv
 
-# ===============================================================#
-#                    Configuración SPI BME280                    #
-# ===============================================================#
+#===============================================================#
+#                    Configuración SPI BME280                   #
+#===============================================================#
 # BMP-280 registros
 REG_ID = 0xD0
 REG_RESET = 0xE0
@@ -19,9 +19,9 @@ REG_CTRL_HUM = 0xF2
 REG_STATUS = 0xF3
 REG_HUM_CALIB = 0xE1
 
-# ===============================================================#
-#                   Configuración de offsets y escalas            #
-# ===============================================================#
+#===============================================================#
+#               Configuración de offsets y escalas              #
+#===============================================================#
 load_dotenv("/mnt/microsd/.env")
 T_OFFSET = float(os.getenv("T_OFFSET", 1.0))
 P_OFFSET = float(os.getenv("P_OFFSET", 1.0))
@@ -29,17 +29,17 @@ H_OFFSET = float(os.getenv("H_OFFSET", 1.0))
 
 EXPECTED_CHIP_ID = int(os.getenv("EXPECTED_CHIP_ID", "0x60"), 16)
 
-# ===============================================================#
-#                   Configuración de SPI BME280                  #
-# ===============================================================#
+#===============================================================#
+#                  Configuración de SPI BME280                  #
+#===============================================================#
 spi = spidev.SpiDev()
 spi.open(1, 0)
 spi.max_speed_hz = 1000000
 spi.mode = 0b00
 
-# ===============================================================#
-#                   Funciones de lectura BME280                  #
-# ===============================================================#
+#===============================================================#
+#                  Funciones de lectura BME280                  #
+#===============================================================#
 def read_bytes(reg, length):
     return spi.xfer2([reg | 0x80] + [0x00]*length)[1:]
 
@@ -59,6 +59,9 @@ def read_calibration():
 
     return params, (dig_H1, dig_H2, dig_H3, dig_H4, dig_H5, dig_H6)
 
+#===============================================================#
+#                Funciones de compensación BME280               #
+#===============================================================#
 def compensate_temperature(adc_T, calib):
     dig_T1, dig_T2, dig_T3 = calib[0], calib[1], calib[2]
     var1 = (adc_T / 16384.0 - dig_T1 / 1024.0) * dig_T2
@@ -93,6 +96,9 @@ def compensate_humidity(adc_H, calib, t_fine):
     var_h = max(0.0, min(var_h, 100.0))
     return var_h
 
+#===============================================================#
+#              Función principal de lectura BME280              #
+#===============================================================#
 def bme280():
     chip_id = read_bytes(REG_ID, 1)[0]
 

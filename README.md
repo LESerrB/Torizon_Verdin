@@ -157,3 +157,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Correción a la ruta de montaje de microSD.
 - Implementación de función de calibración del módulo sht21.
+
+### v0.10.1 - [8/Julio/2025]
+- Agregado cambio de valor dependiendo del botón selccionado.
+- Creadas funciones de taraje y calibración (**No estan probadas**).

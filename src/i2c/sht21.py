@@ -4,15 +4,15 @@ import struct
 from smbus2 import SMBus, i2c_msg   # I2C
 from dotenv import load_dotenv
 
-# ===============================================================#
-#                    Configuración I2C SHT21                     #
-# ===============================================================#
+#===============================================================#
+#                    Configuración I2C SHT21                    #
+#===============================================================#
 I2C_ADDR = 0x40                 # Dirección SHT21
 CMD_MEASURE_TEMP = 0xF3         # Registro Temperatura
 CMD_MEASURE_HUM = 0xF5          # Registro de Humedad
 
 # ===============================================================#
-#                  Configuración de offsets y escalas            #
+#               Configuración de offsets y escalas               #
 # ===============================================================#
 load_dotenv("/mnt/microsd/.env")
 OFFSET_TEMP = float(os.getenv("OFFSET_TEMP", -46.85))   # Offset de Temperatura
@@ -20,9 +20,9 @@ OFFSET_HUM = float(os.getenv("OFFSET_HUM", -6.0))       # Offset de Humedad
 SCALE_TEMP = float(os.getenv("SCALE_TEMP", 175.72))     # Escala de Temperatura
 SCALE_HUM = float(os.getenv("SCALE_HUM", 125.0))        # Escala de Humedad
 
-# ===============================================================#
-#                   Funciones de lectura SHT21                   #
-# ===============================================================#
+#===============================================================#
+#                   Funciones de lectura SHT21                  #
+#===============================================================#
 def read_sensor(bus, command):
     bus.write_byte(I2C_ADDR, command)
     time.sleep(0.1)
@@ -43,6 +43,9 @@ def read_humidity(bus):
     hum = OFFSET_HUM + (SCALE_HUM * raw / 65536.0)
     return hum
 
+#===============================================================#
+#               Función principal de lectura SHT21              #
+#===============================================================#
 def sht21():
     try:
         with SMBus(3) as bus: # 3 -> /dev/i2c-3
@@ -54,9 +57,9 @@ def sht21():
     except Exception as e:
         print(f"Error de lectura: {e}")
 
-# ===============================================================#
-#                   Función de calibración SHT21                 #
-# ===============================================================#
+#===============================================================#
+#                  Función de calibración SHT21                 #
+#===============================================================#
 def calibracion(tempAct):
     global OFFSET_TEMP
     lines = []
@@ -78,4 +81,3 @@ def calibracion(tempAct):
 
     with open("/mnt/microsd/.env", "w") as f:
         f.writelines(lines)
-
