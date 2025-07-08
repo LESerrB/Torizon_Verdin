@@ -148,17 +148,17 @@ async function updateSensors() {
         data = await response.json();
         
         if (data && tempHumEnabled) {
-            document.getElementById('temp').textContent = data.temp ?? '--.-';
-            document.getElementById('hum').textContent = data.hum ?? '--.-';
+            document.getElementById('temp').textContent = (data.temp ?? '--.-') + ' °C';
+            document.getElementById('hum').textContent = (data.hum ?? '--.-') + ' %';
             actualizarColorTemp();
         }
         else if (data && presEnabled) {
             // document.getElementById('temp280').textContent = data.temp280;
-            document.getElementById('temp').textContent = data.pres280 ?? '---';
+            document.getElementById('temp').textContent = (data.pres280 ?? '---') + ' hPa';
             // document.getElementById('hum280').textContent = data.hum280;
         }
         else if (data && basculaEnabled) {
-            document.getElementById('temp').textContent = data.peso711 ?? '00.00';
+            document.getElementById('temp').textContent = (data.peso711 ?? '--.--') + ' kg';
         }
         // document.getElementById('x_val').textContent = data.x_val;
         // document.getElementById('y_val').textContent = data.y_val;
