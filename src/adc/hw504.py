@@ -1,30 +1,32 @@
 import struct
-import gpiod
+
 from files.logs import logger
 
+logger.info('Inicializando HW504')
+
+#===============================================================#
+#                   Configuración de ADC HW504                  #
+#===============================================================#
 def read_adc(channel):
     try:
         with open(f"/sys/bus/iio/devices/iio:device0/in_voltage{channel}_raw", "r") as f:
             return int(f.read().strip())
     except FileNotFoundError:
-        print(f"ADC channel {channel} not found.")
+        logger.error(f"Canal ADC {channel} no encontrado.")
+        print(f"Canal ADC {channel} no encontrado.")
         return -1
 
-# GPIO config for joystick button (SW)
-CHIP_NAME = "gpiochip0"  # GPIO1
-
-chip = gpiod.Chip(CHIP_NAME)
-
+#================================================================#
+#                Función principal de lectura ADC                #
+#================================================================#
 def hw504():
     try:
         x_val = read_adc(0)  # VRx on ADC1_IN0 (SODIMM 8)
         y_val = read_adc(1)  # VRy on ADC1_IN1 (SODIMM 6)
 
-        xybtn = struct.pack("iii", x_val, y_val)
+        xy = struct.pack("iii", x_val, y_val)
 
-        return xybtn
+        return xy
     except Exception as e:
-        chip.close()
-
         logger.error("Error leyendo HW504:", e)
         print(f"Error leyendo HW504: {e}")

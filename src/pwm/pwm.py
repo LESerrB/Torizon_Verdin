@@ -1,11 +1,15 @@
 import os
+
 from dotenv import load_dotenv
+from files.logs import logger
 # import gpiod
 
 # ===============================================================#
 #                   Configuración de offsets y escalas           #
 # ===============================================================#
 load_dotenv("/mnt/microsd/.env")
+logger.info('Inicializando PWM')
+
 OFF = float(os.getenv("OFF", 0.0))
 MEDIUM = float(os.getenv("MEDIUM", 50.0))
 FULL = float(os.getenv("FULL", 100.0))
@@ -20,6 +24,7 @@ pwmchipLzEx = "/sys/class/pwm/pwmchip2"
 #                   Eleccción de Nivel de PWM                    #
 # ===============================================================#
 def setNvlFototerapia(nvlFototerapia):
+    logger.info(f"Nivel de fototerapia establecido: {nvlFototerapia}")
     print(f"Nivel de fototerapia establecido: {nvlFototerapia}")
     if nvlFototerapia == 0:
         set_pwm_duty_cycle(OFF, pwmchipFOT)
@@ -33,6 +38,7 @@ def setNvlFototerapia(nvlFototerapia):
         set_pwm_duty_cycle(OFF, pwmchipFOT)
 
 def setNvlLuzExam(nvlLuzExam):
+    logger.info(f"Nivel de luz examinación establecido: {nvlLuzExam}")
     print(f"Nivel de luz examinación establecido: {nvlLuzExam}")
     if nvlLuzExam == 0:
         set_pwm_duty_cycle(OFF, pwmchipLzEx)
