@@ -6,9 +6,9 @@ import threading
 import time
 import shutil
 import logging
+
 from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
-from decimal import Decimal
 
 from i2c.sht21 import sht21, calibracion
 from spi.bme280 import bme280
@@ -16,20 +16,7 @@ from gpio.hx711 import hx711
 from adc.hw504 import hw504
 from pwm.pwm import setNvlFototerapia
 from files.tendencias import agregarDtTemperatura
-
-##############################################################################
-#                           Configuracion de entorno                         #
-##############################################################################
-load_dotenv("/mnt/microsd/.env")
-
-logger = logging.getLogger(__name__)
-logging.basicConfig(filename='/mnt/microsd/dual.log', encoding='utf-8', level=logging.DEBUG)
-
-logger.debug(f"{os.getenv('DEBUG', 'False')}")
-logger.info('Encendiendo del sistema')
-logger.warning('And this, too')
-logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
-logger.critical('This is critical!')
+from files.logs import logger
 
 ##############################################################################
 #                           Configuracion de Flask                           #
@@ -37,6 +24,22 @@ logger.critical('This is critical!')
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
+
+##############################################################################
+#                           Configuracion de entorno                         #
+##############################################################################
+load_dotenv("/mnt/microsd/.env")
+
+logger.info('Encendido del sistema')
+# logger.warning('And this, too')
+# logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
+# logger.critical('This is critical!')
+app.logger.handlers = logger.handlers
+app.logger.setLevel(logger.level)
+
+werkzeug_logger = logging.getLogger('werkzeug')
+werkzeug_logger.handlers = logger.handlers
+werkzeug_logger.setLevel(logger.level)
 
 ##############################################################################
 #                           Rutas de la aplicacion                           #
@@ -64,6 +67,7 @@ def api_sensores():
         # peso711 = hx711()
         # x_val, y_val = struct.unpack("ii", hw504())
     except Exception as e:
+        logger.error("Error leyendo sensores:", e)
         print("Error leyendo sensores:", e)
 
     def fmt(val):
@@ -121,6 +125,7 @@ def restart_container(threshold=95):
 
     if used_percent >= threshold:
         print("Espacio casi lleno, reiniciando contenedor...")
+        logger.warning('Espacio casi lleno, reiniciando contenedor...')
         os._exit(1)
 
 monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
