@@ -2,6 +2,7 @@ import struct
 import spidev                       # SPI
 import os
 from dotenv import load_dotenv
+from files.logs import logger
 
 #===============================================================#
 #                    Configuración SPI BME280                   #
@@ -128,6 +129,8 @@ def bme280():
 
         tph = struct.pack("fff", temp, press, hum)
         return tph
-    except KeyboardInterrupt:
+    except Exception as e:
         spi.close()
-        print("\nFinalizado")
+
+        logger.error("Error de lectura BME280:", e)
+        print(f"Error de lectura BME280: {e}")

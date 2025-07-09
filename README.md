@@ -34,14 +34,19 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ├── src/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;# Código fuente\
 │ &nbsp; &emsp;├── main.py &emsp; &emsp; &emsp; &nbsp; # Aplicación principal en Python\
 │ &nbsp; &emsp;├── adc \
-│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── hw504.py &nbsp;&nbsp;# Joystick \
+│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── hw504.py &emsp;&emsp;&nbsp;# Joystick \
+│ &nbsp; &emsp;├── files \
+│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── logs.py &emsp;&emsp;&emsp;&nbsp; # Logs \
+│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── tendencias.py &nbsp;&nbsp;# Tendencias \
 │ &nbsp; &emsp;├── gpio \
-│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── hx711.py &nbsp; &nbsp;# Lector de celdas de pesaje \
+│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── hx711.py &emsp;&emsp;&nbsp; # Lector de celdas de pesaje \
 │ &nbsp; &emsp;├── i2c \
-│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── sht21.py &nbsp; &nbsp;# Sensor de Temperatura y Humedad  \
+│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── sht21.py &emsp;&emsp;&nbsp;&nbsp; # Sensor de Temperatura y Humedad  \
+│ &nbsp; &emsp;├── pwm \
+│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── pwm.py &emsp;&emsp;&nbsp;&nbsp; # Nivel de Luz de Examinación  \
 │ &nbsp; &emsp;├── spi \
-│ &nbsp; &nbsp; &nbsp; │ &emsp;&nbsp; &nbsp; └── bme280.py&nbsp;# Sensor de Presion, Temperatura y Humedad&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; \
-│ &nbsp; &emsp;└── web &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;# Pagina WEB con la información de los sensores \
+│ &nbsp; &nbsp; &nbsp; │ &emsp;&nbsp; &nbsp; └── bme280.py&emsp;&nbsp;&nbsp;# Sensor de Presion, Temperatura y Humedad&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; \
+│ &nbsp; &emsp;└── web &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;# Pagina WEB con la información de los sensores \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── static&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp; ├─ css&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; └─ style.css&nbsp; \
@@ -167,3 +172,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Agregadas animaciones a los botones de los módulos de sensado.
 - Agregadas animaciones a los botones superiores.
+- Agregando logs a funciones de main.

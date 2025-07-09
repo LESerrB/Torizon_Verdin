@@ -14,8 +14,6 @@ def agregarDtTemperatura(temp, hum, pres280):
         "hr": hr
     }
 
-    print (f"Agregando datos: {data}")
-
     if os.path.exists(file_path):
         with open(file_path, "r") as file:
             try:

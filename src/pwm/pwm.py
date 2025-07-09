@@ -29,7 +29,7 @@ def setNvlFototerapia(nvlFototerapia):
     elif nvlFototerapia == 2:
         set_pwm_duty_cycle(FULL, pwmchipFOT)
     else:
-        print("Nivel de fototerapia no válido. Debe ser 0, 1, 2 o 3.")
+        print("Nivel de fototerapia no válido. Debe ser 0, 1 o 2.")
         set_pwm_duty_cycle(OFF, pwmchipFOT)
 
 def setNvlLuzExam(nvlLuzExam):
@@ -41,7 +41,7 @@ def setNvlLuzExam(nvlLuzExam):
     elif nvlLuzExam == 2:
         set_pwm_duty_cycle(FULL, pwmchipLzEx)
     else:
-        print("Nivel de luz examinación no válido. Debe ser 0, 1, 2 o 3.")
+        print("Nivel de luz examinación no válido. Debe ser 0, 1, o 2")
         set_pwm_duty_cycle(OFF, pwmchipLzEx)
 
 # ===============================================================#
