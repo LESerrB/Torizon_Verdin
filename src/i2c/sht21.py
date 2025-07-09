@@ -2,7 +2,9 @@ import os
 import time
 import struct
 from smbus2 import SMBus, i2c_msg   # I2C
+
 from dotenv import load_dotenv
+from files.logs import logger
 
 #===============================================================#
 #                    Configuración I2C SHT21                    #
@@ -15,6 +17,8 @@ CMD_MEASURE_HUM = 0xF5          # Registro de Humedad
 #               Configuración de offsets y escalas               #
 # ===============================================================#
 load_dotenv("/mnt/microsd/.env")
+logger.info('Inicializando SHT21')
+
 OFFSET_TEMP = float(os.getenv("OFFSET_TEMP", -46.85))   # Offset de Temperatura
 OFFSET_HUM = float(os.getenv("OFFSET_HUM", -6.0))       # Offset de Humedad
 SCALE_TEMP = float(os.getenv("SCALE_TEMP", 175.72))     # Escala de Temperatura
@@ -31,16 +35,19 @@ def read_sensor(bus, command):
     data = list(read)
     raw = (data[0] << 8) | data[1]
     raw &= ~0x0003
+
     return raw
 
 def read_temperature(bus):
     raw = read_sensor(bus, CMD_MEASURE_TEMP)
     temp_c = OFFSET_TEMP + (SCALE_TEMP * raw / 65536.0)
+
     return temp_c
 
 def read_humidity(bus):
     raw = read_sensor(bus, CMD_MEASURE_HUM)
     hum = OFFSET_HUM + (SCALE_HUM * raw / 65536.0)
+
     return hum
 
 #===============================================================#
@@ -55,6 +62,7 @@ def sht21():
 
             return th
     except Exception as e:
+        logger.error("Error de lectura SHT21:", e)
         print(f"Error de lectura: {e}")
 
 #===============================================================#
@@ -63,12 +71,14 @@ def sht21():
 def calibracion(tempAct):
     global OFFSET_TEMP
     lines = []
+    logger.info(f"Calibrando SHT21 con temperatura actual: {tempAct}")
     print(f"Calibrando SHT21 con temperatura actual: {tempAct}")
 
     with SMBus(3) as bus: # 3 -> /dev/i2c-3
         raw = read_sensor(bus, CMD_MEASURE_TEMP)
         newOFFSET = round(float(tempAct) - (SCALE_TEMP * raw / 65536.0), 2)
         OFFSET_TEMP = newOFFSET
+        logger.info(f"Nuevo OFFSET_TEMP: {OFFSET_TEMP}")
         print(f"Nuevo OFFSET_TEMP: {OFFSET_TEMP}")
 
     

@@ -1,5 +1,6 @@
 import struct
 import gpiod
+from files.logs import logger
 
 def read_adc(channel):
     try:
@@ -20,6 +21,10 @@ def hw504():
         y_val = read_adc(1)  # VRy on ADC1_IN1 (SODIMM 6)
 
         xybtn = struct.pack("iii", x_val, y_val)
+
         return xybtn
-    except KeyboardInterrupt:
+    except Exception as e:
         chip.close()
+
+        logger.error("Error leyendo HW504:", e)
+        print(f"Error leyendo HW504: {e}")
