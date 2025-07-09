@@ -38,6 +38,7 @@
 .button{
   border: none;
 }
+/*-------------BOTONES SUPERIORES------------*/
 .btn-fototerapia {
   background: var(--azul-primario, #0c87f2);
   border-color: #1ba0f2;
@@ -53,6 +54,9 @@
   height: 60px;
   position: relative;
 }
+.btn-fototerapia.active {
+  background: var(--azul-secundario, #0266be);
+}
 .icon-fototerapia {
   flex-shrink: 0;
   width: 43px;
@@ -61,7 +65,7 @@
   overflow: visible;
 }
 .buttontemp{
-  background: var(--azul-secundario, #0266be);
+  background: var(--azul-primario, #0c87f2);
   border-color: #0266be;
   padding: 11px 80px 11px 80px;
   display: flex;
@@ -75,7 +79,9 @@
   position: relative;
   border-radius: 0%;
 }
-
+.buttontemp.active {
+  background: var(--azul-secundario, #0266be);
+}
 .icon-temperatura {
   flex-shrink: 0;
   width: 40.21px;
@@ -105,6 +111,9 @@
   height: 60px;
   position: relative;
 }
+.btn-tendencias.active {
+  background: var(--azul-secundario, #0266be);
+}
 .icon-tendencias {
   flex-shrink: 0;
   width: 38.74px;
@@ -118,6 +127,7 @@
   top: 0px;
   overflow: visible;
 }
+
 .background-aside {
   background: var(--neutral-gris, #e6e7e6);
   border-radius: 15px;
@@ -289,6 +299,7 @@
   left: 413px;
   top: 112px;
 }
+/*--------------BOTONES SENSORES-------------*/
 .btns-sensores {
   display: flex;
   flex-direction: column;
@@ -315,15 +326,6 @@
   height: 60px;
   position: relative;
 }
-.btn-sensor-lbl {
-  color: var(--texto-blanco, #ffffff);
-  text-align: left;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: 700;
-  position: relative;
-}
 .btn-sensor-pressed {
   background: var(--texto-blanco, #ffffff);
   border-color: #ffffff;
@@ -340,6 +342,15 @@
   position: relative;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+.btn-sensor-lbl {
+  color: var(--texto-blanco, #ffffff);
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 700;
+  position: relative;
+}
 .btn-sensor-lbl-pressed {
   color: var(--azul-btn, #1ba0f2);
   text-align: left;
@@ -349,7 +360,7 @@
   font-weight: 700;
   position: relative;
 }
-
+/*----------------TEMPERATURA----------------*/
 .section {
   background: #ffffff;
   border-radius: 15px;
@@ -415,6 +426,7 @@
   position: relative;
   align-self: stretch;
 }
+/*-----------TEMPERATURA PROGRAMADA----------*/
 .text-temperatura-program {
   display: flex;
   flex-direction: column;
@@ -462,6 +474,7 @@
   align-self: stretch;
   height: 63px;
 }
+/*-----------------PIE DE PAG----------------*/
 .footer {
   background: var(--alarma-ama, #f2a013);
   border-radius: 20px 20px 0px 0px;
@@ -506,6 +519,7 @@
 .parpadeo {
     animation: parpadeo 1s infinite;
 }
+/*----------------ANIMACIONES----------------*/
 @keyframes parpadeo {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }

@@ -35,6 +35,65 @@ btnHX711_lbl.classList.add('btn-sensor-lbl');
 btnHW504.classList.add('btn-sensor');
 btnHW504_lbl.classList.add('btn-sensor-lbl');
 
+// Inicializa el estado de los botones de cabecera
+document.getElementById('btn-temperatura').classList.add('active');
+
+// ####################################################################### //
+//                        FUNCIONES BOTONES CABECERA                       //
+// ####################################################################### //
+document.getElementById('btn-fototerapia').addEventListener('click', async () => {
+    nvlFototerapia++;
+    
+    switch (nvlFototerapia) {
+        case 1:
+            alert('Fototerapia activada a nivel MEDIO');
+        break;
+
+        case 2:
+            alert('Fototerapia activada a nivel ALTO');
+        break;
+    
+        default:
+            alert('Fototerapia desactivada');
+            nvlFototerapia = 0;
+        break;
+    }
+
+    try {
+        const response = await fetch('/api/nvlFototerapia', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nvlFototerapia: nvlFototerapia
+            })
+        });
+
+        alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
+    } catch (error) {
+        console.error('Error al guardar los datos:', error);
+    }
+
+    // Cambia el estado de los botones superiores
+    document.getElementById('btn-fototerapia').classList.toggle('active');
+    document.getElementById('btn-temperatura').classList.remove('active');
+    document.getElementById('btn-tendencias').classList.remove('active');
+});
+
+document.getElementById('btn-temperatura').addEventListener('click', async () => {
+    // Cambia el estado de los botones superiores
+    document.getElementById('btn-fototerapia').classList.remove('active');
+    document.getElementById('btn-temperatura').classList.toggle('active');
+    document.getElementById('btn-tendencias').classList.remove('active');
+});
+
+document.getElementById('btn-tendencias').addEventListener('click', async () => {
+    // Cambia el estado de los botones superiores
+    document.getElementById('btn-fototerapia').classList.remove('active');
+    document.getElementById('btn-temperatura').classList.remove('active');
+    document.getElementById('btn-tendencias').classList.toggle('active');
+});
 // ####################################################################### //
 //                      FUNCIONES BOTONES CALEFACTOR                       //
 // ####################################################################### //
@@ -90,44 +149,6 @@ btnDisminuir.addEventListener('click', () => {
         valorDiv.textContent = parseInt(valorDiv.textContent) - 1;
     else if (habCalibTemp) // RESTA AGREGAR LIMITES DE LA TEMPERATURA MÍNIMA
         valTemp.textContent = (parseFloat(valTemp.textContent) - 0.1).toFixed(1);
-});
-
-// ####################################################################### //
-//                      FUNCIONES BOTONES FOTOTERAPIA                      //
-// ####################################################################### //
-document.getElementById('btn-fototerapia').addEventListener('click', async () => {
-    nvlFototerapia++;
-    
-    switch (nvlFototerapia) {
-        case 1:
-            alert('Fototerapia activada a nivel MEDIO');
-        break;
-
-        case 2:
-            alert('Fototerapia activada a nivel ALTO');
-        break;
-    
-        default:
-            alert('Fototerapia desactivada');
-            nvlFototerapia = 0;
-        break;
-    }
-
-    try {
-        const response = await fetch('/api/nvlFototerapia', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nvlFototerapia: nvlFototerapia
-            })
-        });
-
-        alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
-    } catch (error) {
-        console.error('Error al guardar los datos:', error);
-    }
 });
 
 // ####################################################################### //
