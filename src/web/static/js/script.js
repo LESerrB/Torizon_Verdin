@@ -15,6 +15,26 @@ let tempHumEnabled = true;
 let basculaEnabled = false;
 let presEnabled = false;
 
+// Estilos de botones de sensores
+const btnSHT21 = document.querySelector('.btn-sensor-1');
+const btnSHT21_lbl = document.querySelector('.btn-sensor-lbl-1');
+const btnBME280 = document.querySelector('.btn-sensor-2');
+const btnBME280_lbl = document.querySelector('.btn-sensor-lbl-2');
+const btnHX711 = document.querySelector('.btn-sensor-3');
+const btnHX711_lbl = document.querySelector('.btn-sensor-lbl-3');
+const btnHW504 = document.querySelector('.btn-sensor-4');
+const btnHW504_lbl = document.querySelector('.btn-sensor-lbl-4');
+
+// Inicializar estilos de botones de sensores por default
+btnSHT21.classList.add('btn-sensor-pressed');
+btnSHT21_lbl.classList.add('btn-sensor-lbl-pressed');
+btnBME280.classList.add('btn-sensor');
+btnBME280_lbl.classList.add('btn-sensor-lbl');
+btnHX711.classList.add('btn-sensor');
+btnHX711_lbl.classList.add('btn-sensor-lbl');
+btnHW504.classList.add('btn-sensor');
+btnHW504_lbl.classList.add('btn-sensor-lbl');
+
 // ####################################################################### //
 //                      FUNCIONES BOTONES CALEFACTOR                       //
 // ####################################################################### //
@@ -115,28 +135,81 @@ document.getElementById('btn-fototerapia').addEventListener('click', async () =>
 // ####################################################################### //
 // SHT21
 document.getElementById('btn-sensor-1').addEventListener('click', async () => {
+    console.log("Boton sht21");
     tempHumEnabled = true;
     presEnabled = false;
     basculaEnabled = false;
-    console.log("Boton sht21");
+
+    removeStlBtn();
+    btnSHT21.classList.add('btn-sensor-pressed');
+    btnSHT21_lbl.classList.add('btn-sensor-lbl-pressed');
+
+    btnBME280.classList.add('btn-sensor');
+    btnBME280_lbl.classList.add('btn-sensor-lbl');
+    btnHX711.classList.add('btn-sensor');
+    btnHX711_lbl.classList.add('btn-sensor-lbl');
+    btnHW504.classList.add('btn-sensor');
+    btnHW504_lbl.classList.add('btn-sensor-lbl');
 });
 
 // BME280
 document.getElementById('btn-sensor-2').addEventListener('click', async () => {
+    console.log("Boton bme280");
     tempHumEnabled = false;
     presEnabled = true;
     basculaEnabled = false;
-    console.log("Boton bme280");
+
+    removeStlBtn();
+    btnSHT21.classList.add('btn-sensor');
+    btnSHT21_lbl.classList.add('btn-sensor-lbl');
+
+    btnBME280.classList.add('btn-sensor-pressed');
+    btnBME280_lbl.classList.add('btn-sensor-lbl-pressed');
+
+    btnHX711.classList.add('btn-sensor');
+    btnHX711_lbl.classList.add('btn-sensor-lbl');
+    btnHW504.classList.add('btn-sensor');
+    btnHW504_lbl.classList.add('btn-sensor-lbl');
 });
 
 // HX711
 document.getElementById('btn-sensor-3').addEventListener('click', async () => {
+    console.log("Boton hx711");
     tempHumEnabled = false;
     presEnabled = false;
     basculaEnabled = true;
-    console.log("Boton hx711");
+
+    removeStlBtn();
+    btnSHT21.classList.add('btn-sensor');
+    btnSHT21_lbl.classList.add('btn-sensor-lbl');
+    btnBME280.classList.add('btn-sensor');
+    btnBME280_lbl.classList.add('btn-sensor-lbl');
+
+    btnHX711.classList.add('btn-sensor-pressed');
+    btnHX711_lbl.classList.add('btn-sensor-lbl-pressed');
+    
+    btnHW504.classList.add('btn-sensor');
+    btnHW504_lbl.classList.add('btn-sensor-lbl');
 });
 
+// HW-504
+document.getElementById('btn-sensor-4').addEventListener('click', async () => {
+    console.log("Boton hw504");
+    tempHumEnabled = false;
+    presEnabled = false;
+    basculaEnabled = true;
+
+    removeStlBtn();
+    btnSHT21.classList.add('btn-sensor');
+    btnSHT21_lbl.classList.add('btn-sensor-lbl');
+    btnBME280.classList.add('btn-sensor');
+    btnBME280_lbl.classList.add('btn-sensor-lbl');
+    btnHX711.classList.add('btn-sensor');
+    btnHX711_lbl.classList.add('btn-sensor-lbl');
+
+    btnHW504.classList.add('btn-sensor-pressed');
+    btnHW504_lbl.classList.add('btn-sensor-lbl-pressed');
+});
 // ####################################################################### //
 //                          ACTUALIZACION DE SENSORES                      //
 // ####################################################################### //
@@ -148,17 +221,21 @@ async function updateSensors() {
         data = await response.json();
         
         if (data && tempHumEnabled) {
-            document.getElementById('temp').textContent = (data.temp ?? '--.-') + ' °C';
-            document.getElementById('hum').textContent = (data.hum ?? '--.-') + ' %';
+            document.getElementById('temp').textContent = data.temp ?? '--.-';
+            document.getElementById('unitT').textContent = '°C';
+            document.getElementById('tempProg').textContent = data.hum ?? '--.-';
+            document.getElementById('unitTP').textContent = '%';
             actualizarColorTemp();
         }
         else if (data && presEnabled) {
             // document.getElementById('temp280').textContent = data.temp280;
-            document.getElementById('temp').textContent = (data.pres280 ?? '---') + ' hPa';
+            document.getElementById('temp').textContent = data.pres280 ?? '---';
+            document.getElementById('unitT').textContent = 'hPa';
             // document.getElementById('hum280').textContent = data.hum280;
         }
         else if (data && basculaEnabled) {
-            document.getElementById('temp').textContent = (data.peso711 ?? '--.--') + ' kg';
+            document.getElementById('temp').textContent = data.peso711 ?? '--.--';
+            document.getElementById('unitT').textContent = ' kg';
         }
         // document.getElementById('x_val').textContent = data.x_val;
         // document.getElementById('y_val').textContent = data.y_val;
@@ -262,6 +339,20 @@ function pauseSensor() {
         clearInterval(intervalId);
         intervalId = null;
     }
+}
+
+// ####################################################################### //
+//                       FUNCIONES ESTILOS DE BOTONES                      //
+// ####################################################################### //
+function removeStlBtn() {
+    btnSHT21.classList.remove('btn-sensor-pressed');
+    btnSHT21_lbl.classList.remove('btn-sensor-lbl-pressed');
+    btnBME280.classList.remove('btn-sensor-pressed');
+    btnBME280_lbl.classList.remove('btn-sensor-lbl-pressed');
+    btnHX711.classList.remove('btn-sensor-pressed');
+    btnHX711_lbl.classList.remove('btn-sensor-lbl-pressed');
+    btnHW504.classList.remove('btn-sensor-pressed');
+    btnHW504_lbl.classList.remove('btn-sensor-lbl-pressed');
 }
 
 startSensor();
