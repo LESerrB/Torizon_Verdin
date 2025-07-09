@@ -1,6 +1,7 @@
 import struct
 import spidev                       # SPI
 import os
+
 from dotenv import load_dotenv
 from files.logs import logger
 
@@ -24,6 +25,8 @@ REG_HUM_CALIB = 0xE1
 #               Configuración de offsets y escalas              #
 #===============================================================#
 load_dotenv("/mnt/microsd/.env")
+logger.info('Inicializando BME280')
+
 T_OFFSET = float(os.getenv("T_OFFSET", 1.0))
 P_OFFSET = float(os.getenv("P_OFFSET", 1.0))
 H_OFFSET = float(os.getenv("H_OFFSET", 1.0))
@@ -104,6 +107,7 @@ def bme280():
     chip_id = read_bytes(REG_ID, 1)[0]
 
     if chip_id != EXPECTED_CHIP_ID:
+        logger.error(f"ID de chip inesperado: {chip_id}, esperado: {EXPECTED_CHIP_ID}")
         print("Sensor no detectado")
 
     write_byte(REG_CTRL_HUM, 0x01)      # Humedad oversampling x1

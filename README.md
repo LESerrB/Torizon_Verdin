@@ -172,4 +172,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Agregadas animaciones a los botones de los módulos de sensado.
 - Agregadas animaciones a los botones superiores.
-- Agregando logs a funciones de main.
+- Agregando logs a funciones de main y flask.
