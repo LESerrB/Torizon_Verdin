@@ -395,6 +395,155 @@ function removeStlBtn() {
 }
 
 // ####################################################################### //
+//                                 GRÁFICA                                 //
+// ####################################################################### //
+const temperatureChartCanvas = document.getElementById('temperatureChart');
+
+let temperatureChart; // Variable para la instancia del gráfico
+let recordingInterval; // Variable para el ID del setInterval
+
+temperatureChart = new Chart(temperatureChartCanvas, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Temperatura (°C)',
+            data: [],
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'minute',
+                    tooltipFormat: 'HH:mm:ss',
+                    displayFormats: {
+                        minute: 'HH:mm'
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Tiempo'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Temperatura (°C)'
+                },
+                min: 20,
+                max: 40
+            }
+        },
+        plugins: {
+            tooltip: {
+                mode: 'index',
+                intersect: false
+            }
+        }
+    }
+});
+
+function updateChartDisplay() {
+    if (!temperatureChart) return;
+
+    let chartDisplayData = allCollectedHistoricalData;
+
+    if (chartDisplayData.length === 0) {
+        temperatureChart.data.labels = [];
+        temperatureChart.data.datasets[0].data = [];
+        temperatureChart.update();
+        return;
+    }
+
+    // Downsampling opcional
+    const maxPointsForDisplay = 2000;
+
+    if (chartDisplayData.length > maxPointsForDisplay) {
+        const downsampleFactor = Math.ceil(chartDisplayData.length / maxPointsForDisplay);
+        chartDisplayData = chartDisplayData.filter((_, index) => index % downsampleFactor === 0);
+        console.log(`Datos downsampleados para visualización. Original: ${allCollectedHistoricalData.length}, Mostrando: ${chartDisplayData.length}`);
+    }
+
+    // Actualizar el gráfico con los datos filtrados/downsampleados
+    temperatureChart.data.labels = chartDisplayData.map(point => point.time);
+    temperatureChart.data.datasets[0].data = chartDisplayData.map(point => point.value);
+    temperatureChart.update();
+}
+
+// Manejadores de eventos para los selectores de duración e intervalo
+// Cuando cambian, se debe actualizar el gráfico
+durationSelect.addEventListener('change', updateChartDisplay);
+intervalSelect.addEventListener('change', updateChartDisplay);
+
+// Función para iniciar la grabación de datos
+startRecordingBtn.addEventListener('click', () => {
+    console.log("Botón 'Iniciar Registro' presionado.");
+
+    // Deshabilitar/habilitar botones
+    startRecordingBtn.disabled = true;
+    stopRecordingBtn.disabled = false;
+    durationSelect.disabled = true;
+    intervalSelect.disabled = true;
+
+    const intervalMs = parseInt(intervalSelect.value);
+    // Iniciar el intervalo para guardar datos
+    recordingInterval = setInterval(async () => {
+        await obtenerTemperatura();
+
+        const dtListaTemp = await leerDtTemperatura();
+
+        if (Array.isArray(dtListaTemp)) {
+            allCollectedHistoricalData = dtListaTemp.map(d => ({
+                time: convertirHoraAFechaHoy(d.hr),
+                value: d.temp
+            }));
+        } else if (dtListaTemp && dtListaTemp.temp && dtListaTemp.hr) {
+            allCollectedHistoricalData.push({
+                time: convertirHoraAFechaHoy(dtListaTemp.hr),
+                value: dtListaTemp.temp
+            });
+        }
+
+        updateChartDisplay();
+    }, intervalMs);
+
+    console.log(`Iniciando registro cada ${intervalMs / 1000} segundos.`);
+});
+
+// Función para detener la grabación de datos
+stopRecordingBtn.addEventListener('click', () => {
+    clearInterval(recordingInterval);
+    startRecordingBtn.disabled = false;
+    stopRecordingBtn.disabled = true;
+    durationSelect.disabled = false;
+    intervalSelect.disabled = false;
+    console.log('Registro detenido.');
+});
+
+// Función para limpiar el gráfico y todo el historial
+clearChartBtn.addEventListener('click', () => {
+    clearInterval(recordingInterval);
+    allCollectedHistoricalData = [];
+    updateChartDisplay();
+    startRecordingBtn.disabled = false;
+    stopRecordingBtn.disabled = true;
+    durationSelect.disabled = false;
+    intervalSelect.disabled = false;
+
+    limpiarMemoria();
+
+    console.log('Gráfico y datos históricos limpiados.');
+});
+
+updateChartDisplay();
+// ####################################################################### //
 //                          PRUEBAS DE INICIALIZACION                      //
 // ####################################################################### //
 startSensor();
