@@ -529,6 +529,124 @@
   left: 18px;
   top: 112px;
 }
+
+/* .new-display {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background-color: #87ceeb;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+} */
+
+/* Estilos para los controles del gráfico dentro de la pantalla azul */
+.chart-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: white;
+    font-size: 1.1em;
+}
+
+.chart-controls select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.chart-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.chart-button:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+
+.chart-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.chart-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Contenedor del canvas para controlar su tamaño */
+/* .chart-container {
+    flex-grow: 1;
+    width: 100%;
+    min-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+} */
+
+/* #temperatureChart {
+    max-width: 100%;
+    max-height: 100%;
+} */
+
+/* .temp-row {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: baseline;
+    font-size: 2.5em;
+} */
+
+/* .temp-row .temp-label {
+    font-size: 0.5em;
+    color: #555;
+    margin-right: 15px;
+    text-decoration: underline red wavy;
+    text-decoration-skip-ink: none;
+} */
+
+/* .temp-row .temp-value {
+    font-weight: bold;
+    color: #333;
+} */
+
+/* .temp-row .temp-value .temp-roja {
+    font-weight: bold;
+    color: red;
+} */
+
 /*----------------ANIMACIONES----------------*/
 @keyframes parpadeo {
     0%, 100% { opacity: 1; }
