@@ -37,6 +37,8 @@ btnHW504_lbl.classList.add('btn-sensor-lbl');
 
 // Inicializa el estado de los botones de cabecera
 document.getElementById('btn-temperatura').classList.add('active');
+document.getElementById('info-mod').style.display = 'block'
+document.getElementById('graf-tendencias').style.display = 'none'
 
 // ####################################################################### //
 //                        FUNCIONES BOTONES CABECERA                       //
@@ -82,6 +84,8 @@ document.getElementById('btn-fototerapia').addEventListener('click', async () =>
 });
 
 document.getElementById('btn-temperatura').addEventListener('click', async () => {
+    document.getElementById('info-mod').style.display = 'block'
+    document.getElementById('graf-tendencias').style.display = 'none'
     // Cambia el estado de los botones superiores
     document.getElementById('btn-fototerapia').classList.remove('active');
     document.getElementById('btn-temperatura').classList.toggle('active');
@@ -89,6 +93,8 @@ document.getElementById('btn-temperatura').addEventListener('click', async () =>
 });
 
 document.getElementById('btn-tendencias').addEventListener('click', async () => {
+    document.getElementById('info-mod').style.display = 'none'
+    document.getElementById('graf-tendencias').style.display = 'block'
     // Cambia el estado de los botones superiores
     document.getElementById('btn-fototerapia').classList.remove('active');
     document.getElementById('btn-temperatura').classList.remove('active');
