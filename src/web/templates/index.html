@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/vars.css">
     <link rel="stylesheet" href="../static/css/style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.5.0/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0/dist/chartjs-adapter-luxon.min.js"></script>
 
     <title>DUAL</title>
     </head>
@@ -13,19 +17,19 @@
     <body>
     <div class="pantalla-base">
         <div class="header">
-        <button class="btn-fototerapia" id="btn-fototerapia">
-            <img class="icon-fototerapia" src="../static/icon/icon-fototerapia.svg" />
-        </button>
+            <button class="btn-fototerapia" id="btn-fototerapia">
+                <img class="icon-fototerapia" src="../static/icon/icon-fototerapia.svg" />
+            </button>
 
-        <button class="buttontemp" id="btn-temperatura">
-            <img class="icon-temperatura" src="../static/icon/icon-temperatura.svg" />
-        </button>
+            <button class="buttontemp" id="btn-temperatura">
+                <img class="icon-temperatura" src="../static/icon/icon-temperatura.svg" />
+            </button>
 
-        <button class="btn-tendencias" id="btn-tendencias">
-            <div class="icon-tendencias">
-            <img class="group-5" src="../static/icon/icon-tendencia.svg" />
-            </div>
-        </button>
+            <button class="btn-tendencias" id="btn-tendencias">
+                <div class="icon-tendencias">
+                <img class="group-5" src="../static/icon/icon-tendencia.svg" />
+                </div>
+            </button>
         </div>
 <!---------------------- INFORMACIÓN ---------------------->
         <div class="info-mod" id="info-mod">
