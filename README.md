@@ -168,8 +168,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregado cambio de valor dependiendo del botón selccionado.
 - Creadas funciones de taraje y calibración (**No estan probadas**).
 
-### v0.10.2 - [9/Julio/2025]
+### v0.10.2 - [10/Julio/2025]
 
 - Agregadas animaciones a los botones de los módulos de sensado.
 - Agregadas animaciones a los botones superiores.
 - Agregando logs a funciones de main y flask.
+- Prueba realizada sin microSD. Se continuan escribiendo los archivos logs y tendencias.

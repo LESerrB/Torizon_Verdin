@@ -56,7 +56,7 @@ def setNvlLuzExam(nvlLuzExam):
 def set_pwm_duty_cycle(percentage: float, pwmchip):
     pwm = f"{pwmchip}/pwm0"
 
-    period = 1_000_000
+    period = 1_000_000 # ns
     duty_cycle = int((percentage / 100.0) * period)
 
     if not os.path.exists(pwm):
