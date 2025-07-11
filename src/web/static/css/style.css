@@ -519,6 +519,16 @@
 .parpadeo {
     animation: parpadeo 1s infinite;
 }
+/*------------------GRAFICA------------------*/
+.graf-tendencias {
+  background: var(--neutral-gris, #e6e7e6);
+  border-radius: 15px;
+  width: 988px;
+  height: 376px;
+  position: absolute;
+  left: 18px;
+  top: 112px;
+}
 /*----------------ANIMACIONES----------------*/
 @keyframes parpadeo {
     0%, 100% { opacity: 1; }
