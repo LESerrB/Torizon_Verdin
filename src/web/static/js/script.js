@@ -2,9 +2,9 @@ const valorDiv = document.querySelector('._100');
 const valTemp = document.querySelector('._36-4-c-span');
 const btnAumentar = document.querySelector('.btn-aumentar');
 const btnDisminuir = document.querySelector('.btn-disminuir');
-const intervalo = 1; // Intervalo en minutos para guardar los datos
 
 let intervalId = null;
+let intervalDatos = null;
 let ultimoDatoSensores = {};
 let nvlFototerapia = 0;
 let cntCalibTemp = 0;
@@ -362,6 +362,18 @@ function pauseSensor() {
     }
 }
 
+function startGuardarDatos(intervalo) {
+    if (!intervalDatos) {
+        intervalDatos = setInterval(guardarDatos, 1000 * 60 * intervalo);
+    }
+}
+
+function stopGuardarDatos() {
+    if (intervalDatos) {
+        clearInterval(intervalDatos);
+        intervalDatos = null;
+    }
+}
 // ####################################################################### //
 //                       FUNCIONES ESTILOS DE BOTONES                      //
 // ####################################################################### //
@@ -376,5 +388,8 @@ function removeStlBtn() {
     btnHW504_lbl.classList.remove('btn-sensor-lbl-pressed');
 }
 
+// ####################################################################### //
+//                          PRUEBAS DE INICIALIZACION                      //
+// ####################################################################### //
 startSensor();
-setInterval(guardarDatos, 1000 * 60 * intervalo);
+startGuardarDatos(30);
