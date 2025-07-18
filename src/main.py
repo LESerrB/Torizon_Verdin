@@ -10,13 +10,16 @@ import logging
 from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
 
+from files.logs import logger
+load_dotenv("/mnt/microsd/.env")
+logger.info('Encendido del sistema')
+
 from i2c.sht21 import sht21, calibracion
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
 from adc.hw504 import hw504
 from pwm.pwm import setNvlFototerapia
-from files.tendencias import agregarDtTemperatura
-from files.logs import logger
+from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 
 ##############################################################################
 #                           Configuracion de Flask                           #
@@ -28,9 +31,6 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 ##############################################################################
 #                           Configuracion de entorno                         #
 ##############################################################################
-load_dotenv("/mnt/microsd/.env")
-
-logger.info('Encendido del sistema')
 # logger.warning('And this, too')
 # logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
 # logger.critical('This is critical!')
@@ -89,12 +89,16 @@ def api_tendencias():
     datos = request.get_json()
 
     tend_json = agregarDtTemperatura(
-        temp = datos.get("temp"),
-        hum = datos.get("hum"),
-        pres280 = datos.get("pres280")
+        temp = datos.get("temp")
     )
 
     return jsonify({"tend_json": tend_json})
+
+@app.route("/api/tendencias/limpiar", methods=["POST"])
+def api_limpiarTendencias():
+    limpiarDtTemperatura()
+    clear = request.get_json()
+    print("Limpiar datos:", clear)
 
 @app.route("/api/nvlFototerapia", methods=["POST"])
 def api_nvlFototerapia():
