@@ -11,6 +11,7 @@ load_dotenv("/mnt/microsd/.env")
 logger.info('Inicializando PWM')
 
 OFF = float(os.getenv("OFF", 0.0))
+LOW = float(os.getenv("LOW", 25.0))
 MEDIUM = float(os.getenv("MEDIUM", 50.0))
 FULL = float(os.getenv("FULL", 100.0))
 
@@ -29,12 +30,13 @@ def setNvlFototerapia(nvlFototerapia):
     if nvlFototerapia == 0:
         set_pwm_duty_cycle(OFF, pwmchipFOT)
     elif nvlFototerapia == 1:
-        set_pwm_duty_cycle(MEDIUM, pwmchipFOT)
-
+        set_pwm_duty_cycle(LOW, pwmchipFOT)
     elif nvlFototerapia == 2:
+        set_pwm_duty_cycle(MEDIUM, pwmchipFOT)
+    elif nvlFototerapia == 3:
         set_pwm_duty_cycle(FULL, pwmchipFOT)
     else:
-        print("Nivel de fototerapia no válido. Debe ser 0, 1 o 2.")
+        print("Nivel de fototerapia no válido. Debe ser 0, 1, 2 o 3.")
         set_pwm_duty_cycle(OFF, pwmchipFOT)
 
 def setNvlLuzExam(nvlLuzExam):
@@ -43,9 +45,11 @@ def setNvlLuzExam(nvlLuzExam):
     if nvlLuzExam == 0:
         set_pwm_duty_cycle(OFF, pwmchipLzEx)
     elif nvlLuzExam == 1:
-        set_pwm_duty_cycle(MEDIUM, pwmchipLzEx)
+        set_pwm_duty_cycle(LOW, pwmchipLzEx)
     elif nvlLuzExam == 2:
-        set_pwm_duty_cycle(FULL, pwmchipLzEx)
+        set_pwm_duty_cycle(MEDIUM, pwmchipLzEx)
+    elif nvlLuzExam == 3:
+        set_pwm_duty_cycle(FULL, pwmchipFOT)
     else:
         print("Nivel de luz examinación no válido. Debe ser 0, 1, o 2")
         set_pwm_duty_cycle(OFF, pwmchipLzEx)

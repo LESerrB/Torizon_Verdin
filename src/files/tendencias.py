@@ -4,13 +4,11 @@ import os
 
 file_path = "/mnt/microsd/tendencias.json"
 
-def agregarDtTemperatura(temp, hum, pres280):
+def agregarDtTemperatura(temp):
     hr = datetime.now().strftime("%H:%M:%S")
 
     data = {
         "temp": temp,
-        "hum": hum,
-        "pres280": pres280,
         "hr": hr
     }
 
@@ -34,6 +32,7 @@ def limpiarDtTemperatura():
     if os.path.exists(file_path):
         with open(file_path, "w") as file:
             json.dump([], file, indent=4)
+            
         print("Datos de tendencias limpiados.")
     else:
         print("El archivo no existe, no se puede limpiar.")

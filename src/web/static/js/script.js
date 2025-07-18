@@ -3,8 +3,15 @@ const valTemp = document.querySelector('._36-4-c-span');
 const btnAumentar = document.querySelector('.btn-aumentar');
 const btnDisminuir = document.querySelector('.btn-disminuir');
 
+const durationSelect = document.getElementById('duration-select');
+const intervalSelect = document.getElementById('interval-select');
+const startRecordingBtn = document.getElementById('start-recording-btn');
+const stopRecordingBtn = document.getElementById('stop-recording-btn');
+const clearChartBtn = document.getElementById('clear-chart-btn');
+
 let intervalId = null;
 let intervalDatos = null;
+let intervalDtStop = null;
 let ultimoDatoSensores = {};
 let nvlFototerapia = 0;
 let cntCalibTemp = 0;
@@ -40,6 +47,14 @@ document.getElementById('btn-temperatura').classList.add('active');
 document.getElementById('info-mod').style.display = 'block'
 document.getElementById('graf-tendencias').style.display = 'none'
 
+const buttonsToToggle = [
+    durationSelect,
+    intervalSelect,
+    startRecordingBtn,
+    stopRecordingBtn,
+    clearChartBtn
+].filter(Boolean);
+
 // ####################################################################### //
 //                        FUNCIONES BOTONES CABECERA                       //
 // ####################################################################### //
@@ -48,15 +63,19 @@ document.getElementById('btn-fototerapia').addEventListener('click', async () =>
     
     switch (nvlFototerapia) {
         case 1:
-            alert('Fototerapia activada a nivel MEDIO');
+            console.log('Fototerapia activada a nivel MEDIO');
         break;
 
         case 2:
-            alert('Fototerapia activada a nivel ALTO');
+            console.log('Fototerapia activada a nivel ALTO');
         break;
-    
+
+        case 3:
+            console.log('Fototerapia activada a nivel ALTO');
+        break;
+
         default:
-            alert('Fototerapia desactivada');
+            console.log('Fototerapia activada a nivel BAJO');
             nvlFototerapia = 0;
         break;
     }
@@ -72,7 +91,7 @@ document.getElementById('btn-fototerapia').addEventListener('click', async () =>
             })
         });
 
-        alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
+        // alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
     } catch (error) {
         console.error('Error al guardar los datos:', error);
     }
@@ -100,6 +119,7 @@ document.getElementById('btn-tendencias').addEventListener('click', async () => 
     document.getElementById('btn-temperatura').classList.remove('active');
     document.getElementById('btn-tendencias').classList.toggle('active');
 });
+
 // ####################################################################### //
 //                      FUNCIONES BOTONES CALEFACTOR                       //
 // ####################################################################### //
@@ -237,6 +257,7 @@ document.getElementById('btn-sensor-4').addEventListener('click', async () => {
     btnHW504.classList.add('btn-sensor-pressed');
     btnHW504_lbl.classList.add('btn-sensor-lbl-pressed');
 });
+
 // ####################################################################### //
 //                          ACTUALIZACION DE SENSORES                      //
 // ####################################################################### //
@@ -298,9 +319,7 @@ async function guardarDatos() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                temp: data.temp,
-                hum: data.hum,
-                pres280: data.pres280,
+                temp: data.temp
             })
         });
         
@@ -369,15 +388,20 @@ function pauseSensor() {
 }
 
 function startGuardarDatos(intervalo) {
+    console.log("Guardando cada:", intervalo, "min");
+
     if (!intervalDatos) {
         intervalDatos = setInterval(guardarDatos, 1000 * 60 * intervalo);
     }
 }
 
 function stopGuardarDatos() {
+    console.log("Deteniendo el guardado de datos");
+
     if (intervalDatos) {
         clearInterval(intervalDatos);
         intervalDatos = null;
+        intervalDtStop = null;
     }
 }
 // ####################################################################### //
@@ -453,98 +477,85 @@ temperatureChart = new Chart(temperatureChartCanvas, {
 function updateChartDisplay() {
     if (!temperatureChart) return;
 
-    let chartDisplayData = allCollectedHistoricalData;
+    // let chartDisplayData = allCollectedHistoricalData;
 
-    if (chartDisplayData.length === 0) {
-        temperatureChart.data.labels = [];
-        temperatureChart.data.datasets[0].data = [];
-        temperatureChart.update();
-        return;
-    }
+    // if (chartDisplayData.length === 0) {
+    //     temperatureChart.data.labels = [];
+    //     temperatureChart.data.datasets[0].data = [];
+    //     temperatureChart.update();
+    //     return;
+    // }
 
-    // Downsampling opcional
-    const maxPointsForDisplay = 2000;
+    // const maxPointsForDisplay = 2000;
 
-    if (chartDisplayData.length > maxPointsForDisplay) {
-        const downsampleFactor = Math.ceil(chartDisplayData.length / maxPointsForDisplay);
-        chartDisplayData = chartDisplayData.filter((_, index) => index % downsampleFactor === 0);
-        console.log(`Datos downsampleados para visualización. Original: ${allCollectedHistoricalData.length}, Mostrando: ${chartDisplayData.length}`);
-    }
+    // if (chartDisplayData.length > maxPointsForDisplay) {
+        // const downsampleFactor = Math.ceil(chartDisplayData.length / maxPointsForDisplay);
+        // chartDisplayData = chartDisplayData.filter((_, index) => index % downsampleFactor === 0);
+        // console.log(`Datos downsampleados para visualización. Original: ${allCollectedHistoricalData.length}, Mostrando: ${chartDisplayData.length}`);
+    // }
 
-    // Actualizar el gráfico con los datos filtrados/downsampleados
-    temperatureChart.data.labels = chartDisplayData.map(point => point.time);
-    temperatureChart.data.datasets[0].data = chartDisplayData.map(point => point.value);
-    temperatureChart.update();
+    // temperatureChart.data.labels = chartDisplayData.map(point => point.time);
+    // temperatureChart.data.datasets[0].data = chartDisplayData.map(point => point.value);
+    // temperatureChart.update();
 }
 
-// Manejadores de eventos para los selectores de duración e intervalo
-// Cuando cambian, se debe actualizar el gráfico
+updateChartDisplay();
+
+// ####################################################################### //
+//                     FUNCIONES DE BOTONES DE GRÁFICA                     //
+// ####################################################################### //
 durationSelect.addEventListener('change', updateChartDisplay);
 intervalSelect.addEventListener('change', updateChartDisplay);
 
-// Función para iniciar la grabación de datos
 startRecordingBtn.addEventListener('click', () => {
-    console.log("Botón 'Iniciar Registro' presionado.");
+    startGuardarDatos(intervalSelect.value);
+    intervalDtStop = setInterval(stopGuardarDatos, 1000 * 60 * 60 * durationSelect.value);
 
-    // Deshabilitar/habilitar botones
     startRecordingBtn.disabled = true;
     stopRecordingBtn.disabled = false;
     durationSelect.disabled = true;
     intervalSelect.disabled = true;
 
-    const intervalMs = parseInt(intervalSelect.value);
-    // Iniciar el intervalo para guardar datos
-    recordingInterval = setInterval(async () => {
-        await obtenerTemperatura();
-
-        const dtListaTemp = await leerDtTemperatura();
-
-        if (Array.isArray(dtListaTemp)) {
-            allCollectedHistoricalData = dtListaTemp.map(d => ({
-                time: convertirHoraAFechaHoy(d.hr),
-                value: d.temp
-            }));
-        } else if (dtListaTemp && dtListaTemp.temp && dtListaTemp.hr) {
-            allCollectedHistoricalData.push({
-                time: convertirHoraAFechaHoy(dtListaTemp.hr),
-                value: dtListaTemp.temp
-            });
-        }
-
-        updateChartDisplay();
-    }, intervalMs);
-
-    console.log(`Iniciando registro cada ${intervalMs / 1000} segundos.`);
+    console.log("Botón 'Iniciar Registro' presionado.", durationSelect.value);
 });
 
-// Función para detener la grabación de datos
 stopRecordingBtn.addEventListener('click', () => {
-    clearInterval(recordingInterval);
+    stopGuardarDatos();
+
     startRecordingBtn.disabled = false;
     stopRecordingBtn.disabled = true;
     durationSelect.disabled = false;
     intervalSelect.disabled = false;
+
     console.log('Registro detenido.');
 });
 
-// Función para limpiar el gráfico y todo el historial
-clearChartBtn.addEventListener('click', () => {
-    clearInterval(recordingInterval);
-    allCollectedHistoricalData = [];
-    updateChartDisplay();
+clearChartBtn.addEventListener('click', async () => {
+    try {
+        const response = await fetch('/api/tendencias/limpiar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                status: "OK"
+            })
+        });
+    }catch (error) {
+        console.error('Error al guardar los datos:', error);
+    }
+
     startRecordingBtn.disabled = false;
     stopRecordingBtn.disabled = true;
     durationSelect.disabled = false;
     intervalSelect.disabled = false;
-
-    limpiarMemoria();
+    
+    // updateChartDisplay();
 
     console.log('Gráfico y datos históricos limpiados.');
 });
 
-updateChartDisplay();
 // ####################################################################### //
 //                          PRUEBAS DE INICIALIZACION                      //
 // ####################################################################### //
 startSensor();
-startGuardarDatos(30);

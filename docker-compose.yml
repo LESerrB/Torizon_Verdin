@@ -94,7 +94,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${DOCKER_LOGIN}/quickstart1:${TAG}
+    image: quickstart1-debug:latest
     depends_on:
       - chromium
     volumes:
@@ -104,6 +104,7 @@ services:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host
     devices:
+      - /dev/dri/
       - /dev/spidev1.0
       - /dev/i2c-3
       - /dev/gpiochip2
