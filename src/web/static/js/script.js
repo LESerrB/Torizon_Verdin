@@ -46,6 +46,7 @@ btnHW504_lbl.classList.add('btn-sensor-lbl');
 document.getElementById('btn-temperatura').classList.add('active');
 document.getElementById('info-mod').style.display = 'block'
 document.getElementById('graf-tendencias').style.display = 'none'
+document.getElementById('pantalla-luz').style.display = 'none'
 
 const buttonsToToggle = [
     durationSelect,
@@ -59,42 +60,9 @@ const buttonsToToggle = [
 //                        FUNCIONES BOTONES CABECERA                       //
 // ####################################################################### //
 document.getElementById('btn-fototerapia').addEventListener('click', async () => {
-    nvlFototerapia++;
-    
-    switch (nvlFototerapia) {
-        case 1:
-            console.log('Fototerapia activada a nivel MEDIO');
-        break;
-
-        case 2:
-            console.log('Fototerapia activada a nivel ALTO');
-        break;
-
-        case 3:
-            console.log('Fototerapia activada a nivel ALTO');
-        break;
-
-        default:
-            console.log('Fototerapia activada a nivel BAJO');
-            nvlFototerapia = 0;
-        break;
-    }
-
-    try {
-        const response = await fetch('/api/nvlFototerapia', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nvlFototerapia: nvlFototerapia
-            })
-        });
-
-        // alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
-    } catch (error) {
-        console.error('Error al guardar los datos:', error);
-    }
+    document.getElementById('pantalla-luz').style.display = 'block'
+    document.getElementById('info-mod').style.display = 'none'
+    document.getElementById('graf-tendencias').style.display = 'none'
 
     // Cambia el estado de los botones superiores
     document.getElementById('btn-fototerapia').classList.toggle('active');
@@ -103,6 +71,7 @@ document.getElementById('btn-fototerapia').addEventListener('click', async () =>
 });
 
 document.getElementById('btn-temperatura').addEventListener('click', async () => {
+    document.getElementById('pantalla-luz').style.display = 'none'
     document.getElementById('info-mod').style.display = 'block'
     document.getElementById('graf-tendencias').style.display = 'none'
     // Cambia el estado de los botones superiores
@@ -112,6 +81,7 @@ document.getElementById('btn-temperatura').addEventListener('click', async () =>
 });
 
 document.getElementById('btn-tendencias').addEventListener('click', async () => {
+    document.getElementById('pantalla-luz').style.display = 'none'
     document.getElementById('info-mod').style.display = 'none'
     document.getElementById('graf-tendencias').style.display = 'block'
     // Cambia el estado de los botones superiores
@@ -269,9 +239,9 @@ async function updateSensors() {
         data = await response.json();
         
         if (data && tempHumEnabled) {
-            document.getElementById('temp').textContent = data.temp ?? '--.-';
+            document.getElementById('temp').textContent = data.temp280 ?? '--.-';
             document.getElementById('unitT').textContent = '°C';
-            document.getElementById('tempProg').textContent = data.hum ?? '--.-';
+            document.getElementById('tempProg').textContent = data.hum280 ?? '--.-';
             document.getElementById('unitTP').textContent = '%';
             actualizarColorTemp();
         }
@@ -556,6 +526,54 @@ clearChartBtn.addEventListener('click', async () => {
 });
 
 // ####################################################################### //
-//                          PRUEBAS DE INICIALIZACION                      //
+//                    FUNCIONES FOTOTERPIA Y EXAMINACION                   //
+// ####################################################################### //
+async function valSliderFot(val1) {
+    document.getElementById('luzFot').innerHTML = val1
+
+    try {
+        const response = await fetch('/api/nvlFototerapia', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nvlFototerapia: val1
+            })
+        });
+
+        // alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
+    } catch (error) {
+        console.error('Error al guardar los datos:', error);
+    }
+};
+
+async function valSliderLExam(val2){
+    document.getElementById('luzExam').innerHTML = val2
+
+    try {
+        const response = await fetch('/api/nvlFototerapia', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nvlExam: val2
+            })
+        });
+
+        // alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
+    } catch (error) {
+        console.error('Error al guardar los datos:', error);
+    }
+}
+
+// ####################################################################### //
+//                    FUNCIONES DE INICIALIZACION Y DETENIDO               //
 // ####################################################################### //
 startSensor();
+
+async function stopSystem() {
+    pauseSensor()
+    stopGuardarDatos()
+}

@@ -107,7 +107,7 @@
             </div>
             </div>
         </div>
-<!------------------------ Graficas ----------------------->
+<!------------------------ GRÁFICAS ----------------------->
         <div class="graf-tendencias" id="graf-tendencias">
             <div class="background-graf">
                 <div class="chart-controls">
@@ -141,11 +141,31 @@
                 </div>
             </div>
         </div>
+<!--------------------- CONTROL DE LUZ -------------------->
+        <div class="pantalla-luz" id="pantalla-luz">
+            <div class="background-luz">
+                <div class="chart-nivel">
+                    <div class="slidecontainer" id="luzExamCont">
+                        <input type="range" min="0" max="100" value="0" class="slider" id="exam" oninput="valSliderLExam(this.value)">
+
+                        <p>VALOR LUZ EXAMINACION</p>
+                        <p id="luzExam">0</p>
+                    </div>
+
+                    <div class="slidecontainer" id="fotCont">
+                        <input type="range" min="0" max="100" value="0" class="slider" id="fot" oninput="valSliderFot(this.value)">
+
+                        <p>VALOR LUZ FOTOTERAPIA</p>
+                        <p id="luzFot"> 0 </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 <!--------------------------------------------------------->
         <div class="footer">
-        <div class="frame-1">
-            <img class="icon-alarma" src="../static/icon/icon-alarma.svg" />
-        </div>
+            <div class="frame-1">
+                <img class="icon-alarma" src="../static/icon/icon-alarma.svg" />
+            </div>
         </div>
     </div>
 

@@ -17,9 +17,11 @@ logger.info('Encendido del sistema')
 from i2c.sht21 import sht21, calibracion
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
+from gpio.pwr import pwrBtn
 from adc.hw504 import hw504
-from pwm.pwm import setNvlFototerapia
+from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
+from uart.ttl232rg import uart_send
 
 ##############################################################################
 #                           Configuracion de Flask                           #
@@ -62,12 +64,12 @@ def api_sensores():
     }
 
     try:
-        sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
+        # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
         sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
         # peso711 = hx711()
         # x_val, y_val = struct.unpack("ii", hw504())
     except Exception as e:
-        logger.error("Error leyendo sensores:", e)
+        # logger.error("Error leyendo sensores:", e)
         print("Error leyendo sensores:", e)
 
     def fmt(val):
@@ -104,6 +106,7 @@ def api_limpiarTendencias():
 def api_nvlFototerapia():
     nvlFototerapia = request.get_json()
     setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
+    setNvlLuzExam(nvlFototerapia.get("nvlExam"))
 
     return jsonify({"status": "ok"})
 
@@ -115,9 +118,14 @@ def api_saveOffset():
         calibracion(tempAct)
 
     return jsonify({"status": "ok"})
+
 ##############################################################################
-#                            Limpieza de sistema                             #
+#                            Funciones de sistema                            #
 ##############################################################################
+pwrBtn()
+for i in range(50):
+    uart_send("Hola")
+
 def monitor_disk():
     while True:
         restart_container()

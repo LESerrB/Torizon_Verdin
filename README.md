@@ -178,3 +178,5 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Prueba de funcionamiento en nuevo HW. (La tarjeta microSD debe conectarse antes de encender el sistema. Esta debe tener el formato ext4).
 - Funcionando botones de Iniciar Registro de Datos y Detener Registro de Datos.
 - Pruebas realizadas de nivel de Fototerapia y luz de Examinación.
+- Creada función para interrupción de apagado de equipo y detención de servicios.
+- Función de envío y recepción por UART.

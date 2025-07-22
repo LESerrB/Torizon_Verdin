@@ -2,3 +2,4 @@ spidev
 smbus2
 flask
 python-dotenv
+pyserial
