@@ -83,6 +83,9 @@ services:
       - /dev/i2c-3
       - /dev/gpiochip2
       - /dev/gpiochip4
+      - /dev/ttymxc2:/dev/verdin-uart2
+    tty: true
+    stdin_open: true
     group_add:
       - "${SPI_GID:-52}"
       - "${I2C_GID:-51}"
@@ -109,6 +112,9 @@ services:
       - /dev/i2c-3
       - /dev/gpiochip2
       - /dev/gpiochip4
+      - /dev/ttymxc2:/dev/verdin-uart2
+    tty: true
+    stdin_open: true
     group_add:
       - "${SPI_GID:-52}"
       - "${GPIO_GID:-51}"

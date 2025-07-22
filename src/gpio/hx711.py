@@ -126,3 +126,18 @@ def calibracion(pesoAct):
 
     with open("/mnt/microsd/.env", "w") as f:
         f.writelines(lines)
+
+#===============================================================#
+#                   Función para Detener HX711                  #
+#===============================================================#
+def stop_hx711():
+    try:
+        logger.info("Liberando recursos de HX711")
+        dout_line.release()
+        sck_line.release()
+        gpio_chip_dout.close()
+        gpio_chip_sck.close()
+        print("HX711 detenido correctamente")
+    except Exception as e:
+        logger.error(f"Error al detener HX711: {e}")
+        print(f"Error al detener HX711: {e}")

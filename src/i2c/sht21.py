@@ -91,3 +91,14 @@ def calibracion(tempAct):
 
     with open("/mnt/microsd/.env", "w") as f:
         f.writelines(lines)
+
+#===============================================================#
+#                 Función para detener uso de SHT21             #
+#===============================================================#
+def stop_sht21():
+    try:
+        with SMBus(3) as bus:
+            bus.read_byte(I2C_ADDR)
+            logger.info("SHT21 desconectado correctamente")
+    except Exception as e:
+        logger.warning(f"No se pudo finalizar conexión con SHT21: {e}")

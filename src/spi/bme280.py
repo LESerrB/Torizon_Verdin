@@ -138,3 +138,14 @@ def bme280():
 
         logger.error("Error de lectura BME280:", e)
         print(f"Error de lectura BME280: {e}")
+
+#===============================================================#
+#                  Función para Detener BME280                  #
+#===============================================================#
+def stop_bme280():
+    try:
+        spi.close()
+        logger.info("BME280 detenido correctamente.")
+    except Exception as e:
+        logger.error(f"Error al detener BME280: {e}")
+        print(f"Error al detener BME280: {e}")
