@@ -123,8 +123,10 @@ def api_saveOffset():
 #                            Funciones de sistema                            #
 ##############################################################################
 pwrBtn()
-for i in range(50):
-    uart_send("Hola")
+
+for i in range(10):
+    uart_send('A')
+    time.sleep(0.5)
 
 def monitor_disk():
     while True:

@@ -1,4 +1,4 @@
-# import os
+import os
 import gpiod
 import threading
 import time
@@ -50,15 +50,20 @@ def handle_event():
           timepresed = time.monotonic() - start
 
           if (timepresed >= SHUTDOWN_TIME) & (not Apagado):
+            print("Botón presionado por más de 5 segundos, apagando el sistema...")
             Apagado = True
             led.set_value(1)
+
+            with open("/tmp/shutdown-request", "w") as f:
+              f.write("shutdown")
+
           elif (timepresed >= SHUTDOWN_TIME) & Apagado:
             Apagado = False
             led.set_value(0)
 
-      # elif evt.type == gpiod.LineEvent.FALLING_EDGE:
-      #   print("Botón liberado")
-        # led.set_value(0)
+      elif evt.type == gpiod.LineEvent.FALLING_EDGE:
+        print("Botón liberado")
+        led.set_value(0)
 
 def pwrBtn():
     thread = threading.Thread(target=handle_event, daemon=True)
