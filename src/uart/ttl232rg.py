@@ -1,10 +1,10 @@
 import serial
 
-ser = serial.Serial("/dev/verdin-uart2", 9600, timeout=1)
+ser = serial.Serial("/dev/verdin-uart2",9600, 8, 'N', 1, timeout=1)
 
 def uart_send(data: str):
     if ser and ser.is_open:
-        ser.write(data.encode('utf-8'))
+        ser.write(data.encode('ascii'))
         print(f"Enviado: {data.strip()}")
     else:
         print("UART no está abierto")

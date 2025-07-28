@@ -228,6 +228,27 @@ document.getElementById('btn-sensor-4').addEventListener('click', async () => {
     btnHW504_lbl.classList.add('btn-sensor-lbl-pressed');
 });
 
+document.getElementById('footer').addEventListener('click', () => {
+    document.getElementById('paciente-form-slide').classList.add('active');
+});
+
+document.getElementById('cerrarForm').addEventListener('click', () => {
+    document.getElementById('paciente-form-slide').classList.remove('active');
+});
+
+document.getElementById('pacienteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nombre = document.getElementById('nombrePaciente').value;
+    const apPaterno = document.getElementById('apPatPaciente').value;
+    const apMaterno = document.getElementById('apMatPaciente').value;
+
+    document.getElementById('pacienteNom').textContent = nombre;
+    document.getElementById('aPPaciente').textContent = apPaterno;
+    document.getElementById('aMPaciente').textContent = apMaterno;
+
+    document.getElementById('paciente-form-slide').classList.remove('active');
+});
+
 // ####################################################################### //
 //                          ACTUALIZACION DE SENSORES                      //
 // ####################################################################### //

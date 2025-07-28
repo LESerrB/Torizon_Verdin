@@ -509,6 +509,120 @@
   left: 441px;
   top: -53px;
 }
+.paciente {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 24px;
+  line-height: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 50px;
+  top: 10px;
+}
+.pacienteNom {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 24px;
+  line-height: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 50px;
+  top: 50px;
+}
+.aPPaciente {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 24px;
+  line-height: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 250px;
+  top: 50px;
+}
+.aMPaciente {
+  color: #ffffff;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 24px;
+  line-height: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 350px;
+  top: 50px;
+}
+.paciente-form-slide {
+    position: absolute;
+    border-radius: 15px;
+    left: 18px;
+    bottom: -100%;
+    width: 988px;
+    height: 376px;
+    background: #fff;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    transition: bottom 0.4s;
+    z-index: 1000;
+    padding: 20px;
+}
+.paciente-form-slide.active {
+    bottom: 0;
+}
+.paciente-form-slide form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.paciente-form-slide label {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.paciente-form-slide input[type="text"] {
+    padding: 10px 12px;
+    border: 1.5px solid #bdbdbd;
+    border-radius: 6px;
+    font-size: 1rem;        /* Tamaño de texto */
+    width: 100%;            /* Ocupa todo el ancho del contenedor */
+    max-width: 350px;       /* Máximo ancho */
+    box-sizing: border-box; /* Incluye padding y border en el ancho */
+    transition: border-color 0.2s;
+    outline: none;
+    background: #fafafa;
+}
+
+.paciente-form-slide button[type="submit"] {
+    background: var(--azul-primario, #0c87f2);
+    color: #fff;
+    margin-bottom: 6px;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 4px rgba(12, 135, 242, 0.15);
+    width: 100px;
+    gap: 50px;
+}
+
+.paciente-form-slide button[type="button"] {
+    background: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 4px rgba(160,160,160,0.10);
+    width: 100px;
+}
+
 .icon-alarma {
   flex-shrink: 0;
   width: 49.39px;

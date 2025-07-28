@@ -159,13 +159,52 @@
                         <p id="luzFot"> 0 </p>
                     </div>
                 </div>
+
+
+                <div>
+                    <label for="fname">First name:</label>
+                    <input type="text" id="fname" name="fname"><br><br>
+                    <label for="lname">Last name:</label>
+                    <input type="text" id="lname" name="lname"><br><br>
+                    <input type="submit" value="Submit">
+                </div>
             </div>
         </div>
 <!--------------------------------------------------------->
-        <div class="footer">
+        <div class="footer" id="footer">
+            <div class="paciente">
+                Paciente:
+            </div>
+
+            <span id="pacienteNom" class="pacienteNom">
+                
+            </span>
+
+            <span id="aPPaciente" class="aPPaciente">
+                
+            </span>
+
+            <span id="aMPaciente" class="aMPaciente">
+                
+            </span>
+
             <div class="frame-1">
                 <img class="icon-alarma" src="../static/icon/icon-alarma.svg" />
             </div>
+        </div>
+
+        <div id="paciente-form-slide" class="paciente-form-slide">
+            <form id="pacienteForm">
+                <label for="nombrePaciente" class="temperatura">Nombre del paciente:</label>
+                <input type="text" id="nombrePaciente" name="nombrePaciente" required>
+                <input type="text" id="apPatPaciente" name="apPatPaciente" required>
+                <input type="text" id="apMatPaciente" name="apMatPaciente" required>
+
+                <div class="form-buttons">
+                    <button type="submit">Guardar</button>
+                    <button type="button" id="cerrarForm">Cerrar</button>
+                </div>
+            </form>
         </div>
     </div>
 

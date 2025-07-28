@@ -20,7 +20,7 @@ services:
     depends_on:
       - weston
     restart: always
-    command: ["chromium", "--no-sandbox", "--kiosk", "http://127.0.0.1:8080"]
+    command: ["chromium", "--no-sandbox", "--kiosk", "http://127.0.0.1:8080", "--virtual-keyboard"]
 
   weston:
     # image: torizon/weston-imx8:4
@@ -74,6 +74,7 @@ services:
     volumes:
       - /tmp/wayland-0:/tmp/wayland-0
       - /var/rootdirs/media/my_sdcard:/mnt/microsd
+      - /tmp:/tmp
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host
@@ -103,6 +104,7 @@ services:
     volumes:
       - /tmp/wayland-0:/tmp/wayland-0
       - /var/rootdirs/media/my_sdcard:/mnt/microsd
+      - /tmp:/tmp
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host

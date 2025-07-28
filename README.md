@@ -168,7 +168,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregado cambio de valor dependiendo del botón selccionado.
 - Creadas funciones de taraje y calibración (**No estan probadas**).
 
-### v0.11 - [10/Julio/2025]
+### v0.11 - [28/Julio/2025]
 
 - Agregadas animaciones a los botones de los módulos de sensado.
 - Agregadas animaciones a los botones superiores.
@@ -179,4 +179,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Funcionando botones de Iniciar Registro de Datos y Detener Registro de Datos.
 - Pruebas realizadas de nivel de Fototerapia y luz de Examinación.
 - Creada función para interrupción de apagado de equipo y detención de servicios.
-- Función de envío y recepción por UART.
+- Formulartio para ingerso de nombre de paciente.
