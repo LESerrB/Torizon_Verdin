@@ -34,7 +34,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ├── src/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;# Código fuente\
 │ &nbsp; &emsp;├── main.py &emsp; &emsp; &emsp; &nbsp; # Aplicación principal en Python\
 │ &nbsp; &emsp;├── adc \
-│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── hw504.py &emsp;&emsp;&nbsp;# Joystick \
+│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── calib_Sonda.py &emsp;&emsp;&nbsp;# Joystick \
 │ &nbsp; &emsp;├── files \
 │  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── logs.py &emsp;&emsp;&emsp;&nbsp; # Logs \
 │  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── tendencias.py &nbsp;&nbsp;# Tendencias \
@@ -180,3 +180,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Pruebas realizadas de nivel de Fototerapia y luz de Examinación.
 - Creada función para interrupción de apagado de equipo y detención de servicios.
 - Formulartio para ingerso de nombre de paciente.
+- Cambio de HW-504 por lectura ADC de sondas de piel.
