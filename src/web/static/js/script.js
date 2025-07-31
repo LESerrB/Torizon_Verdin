@@ -21,6 +21,7 @@ let habCalibTemp = false;
 let tempHumEnabled = true;
 let basculaEnabled = false;
 let presEnabled = false;
+let adcEnabled = false;
 
 // Estilos de botones de sensores
 const btnSHT21 = document.querySelector('.btn-sensor-1');
@@ -156,6 +157,7 @@ document.getElementById('btn-sensor-1').addEventListener('click', async () => {
     tempHumEnabled = true;
     presEnabled = false;
     basculaEnabled = false;
+    adcEnabled = false;
 
     removeStlBtn();
     btnSHT21.classList.add('btn-sensor-pressed');
@@ -175,6 +177,7 @@ document.getElementById('btn-sensor-2').addEventListener('click', async () => {
     tempHumEnabled = false;
     presEnabled = true;
     basculaEnabled = false;
+    adcEnabled = false;
 
     removeStlBtn();
     btnSHT21.classList.add('btn-sensor');
@@ -195,6 +198,7 @@ document.getElementById('btn-sensor-3').addEventListener('click', async () => {
     tempHumEnabled = false;
     presEnabled = false;
     basculaEnabled = true;
+    adcEnabled = false;
 
     removeStlBtn();
     btnSHT21.classList.add('btn-sensor');
@@ -211,10 +215,11 @@ document.getElementById('btn-sensor-3').addEventListener('click', async () => {
 
 // HW-504
 document.getElementById('btn-sensor-4').addEventListener('click', async () => {
-    console.log("Boton hw504");
+    console.log("Boton calib_Sonda");
     tempHumEnabled = false;
     presEnabled = false;
-    basculaEnabled = true;
+    basculaEnabled = false;
+    adcEnabled = true;
 
     removeStlBtn();
     btnSHT21.classList.add('btn-sensor');
@@ -276,8 +281,12 @@ async function updateSensors() {
             document.getElementById('temp').textContent = data.peso711 ?? '--.--';
             document.getElementById('unitT').textContent = ' kg';
         }
-        // document.getElementById('x_val').textContent = data.x_val;
-        // document.getElementById('y_val').textContent = data.y_val;
+        else if (data && adcEnabled){
+            document.getElementById('temp').textContent = data.valSonda1 ?? '--.-';
+            document.getElementById('unitT').textContent = '°C';
+            document.getElementById('tempProg').textContent = data.valSonda2 ?? '--.-';
+            document.getElementById('unitTP').textContent = '°C';
+        }
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }

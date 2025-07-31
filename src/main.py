@@ -18,10 +18,10 @@ from i2c.sht21 import sht21, calibracion
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
 from gpio.pwr import pwrBtn
-from adc.hw504 import hw504
+from adc.sonda import read_Sonda, read_Sonda2, calib_Sonda
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
-from uart.ttl232rg import uart_send
+from uart.ttl232rg import uart_send, uart_receive, close_uart
 
 ##############################################################################
 #                           Configuracion de Flask                           #
@@ -59,15 +59,16 @@ def api_sensores():
         "pres280": None,
         "hum280": None,
         "peso711": None,
-        "x_val": None,
-        "y_val": None
+        "valSonda1": None,
+        "valSonda2": None
     }
 
     try:
         # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
         sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
         # peso711 = hx711()
-        # x_val, y_val = struct.unpack("ii", hw504())
+        sensoresDt["valSonda1"] = read_Sonda()
+        sensoresDt["valSonda2"] = read_Sonda2()
     except Exception as e:
         # logger.error("Error leyendo sensores:", e)
         print("Error leyendo sensores:", e)
@@ -80,10 +81,10 @@ def api_sensores():
         "hum": fmt(sensoresDt["hum"]),
         "temp280": fmt(sensoresDt["temp280"]),
         "pres280": fmt(sensoresDt["pres280"]),
-        "hum280": fmt(sensoresDt["hum280"])
+        "hum280": fmt(sensoresDt["hum280"]),
         # "peso711": fmt(peso711),
-        # "x_val": fmt(x_val),
-        # "y_val": fmt(y_val)
+        "valSonda1": fmt(sensoresDt["valSonda1"]),
+        "valSonda2": fmt(sensoresDt["valSonda2"])
     })
 
 @app.route("/api/tendencias", methods=["POST"])
@@ -124,9 +125,12 @@ def api_saveOffset():
 ##############################################################################
 pwrBtn()
 
-for i in range(10):
-    uart_send('A')
-    time.sleep(0.5)
+# for i in range(10):
+#     time.sleep(0.5)
+#     uart_send('A')
+#     time.sleep(0.5)
+#     uart_receive()
+# close_uart()
 
 def monitor_disk():
     while True:
