@@ -18,10 +18,10 @@ let cntCalibTemp = 0;
 let habConfgCalef = false;
 let habCalibTemp = false;
 
-let tempHumEnabled = true;
-let basculaEnabled = false;
-let presEnabled = false;
-let adcEnabled = false;
+// let tempHumEnabled = true;
+// let basculaEnabled = false;
+// let presEnabled = false;
+// let adcEnabled = false;
 
 // Estilos de botones de sensores
 const btnSHT21 = document.querySelector('.btn-sensor-1');
@@ -32,6 +32,8 @@ const btnHX711 = document.querySelector('.btn-sensor-3');
 const btnHX711_lbl = document.querySelector('.btn-sensor-lbl-3');
 const btnHW504 = document.querySelector('.btn-sensor-4');
 const btnHW504_lbl = document.querySelector('.btn-sensor-lbl-4');
+const btnCalef = document.querySelector('.btn-sensor-5');
+const btnCalef_lbl = document.querySelector('.btn-sensor-lbl-5');
 
 // Inicializar estilos de botones de sensores por default
 btnSHT21.classList.add('btn-sensor-pressed');
@@ -42,9 +44,21 @@ btnHX711.classList.add('btn-sensor');
 btnHX711_lbl.classList.add('btn-sensor-lbl');
 btnHW504.classList.add('btn-sensor');
 btnHW504_lbl.classList.add('btn-sensor-lbl');
+btnCalef.classList.add('btn-sensor');
+btnCalef_lbl.classList.add('btn-sensor-lbl');
+
+document.getElementById('sens-Title').textContent = 'I2C - SHT21';
+
+document.getElementById('temp-ambiente').style.display = 'block';
+document.getElementById('pres-ambiente').style.display = 'none';
+document.getElementById('bascula').style.display = 'none';
+document.getElementById('sonda-temperatura').style.display = 'none';
+document.getElementById('calefactor').style.display = 'none';
 
 // Inicializa el estado de los botones de cabecera
 document.getElementById('btn-temperatura').classList.add('active');
+document.getElementById('btn-temperatura').disabled = true;
+
 document.getElementById('info-mod').style.display = 'block'
 document.getElementById('graf-tendencias').style.display = 'none'
 document.getElementById('pantalla-luz').style.display = 'none'
@@ -69,6 +83,10 @@ document.getElementById('btn-fototerapia').addEventListener('click', async () =>
     document.getElementById('btn-fototerapia').classList.toggle('active');
     document.getElementById('btn-temperatura').classList.remove('active');
     document.getElementById('btn-tendencias').classList.remove('active');
+
+    document.getElementById('btn-fototerapia').disabled = true;
+    document.getElementById('btn-temperatura').disabled = false;
+    document.getElementById('btn-tendencias').disabled = false;
 });
 
 document.getElementById('btn-temperatura').addEventListener('click', async () => {
@@ -79,6 +97,10 @@ document.getElementById('btn-temperatura').addEventListener('click', async () =>
     document.getElementById('btn-fototerapia').classList.remove('active');
     document.getElementById('btn-temperatura').classList.toggle('active');
     document.getElementById('btn-tendencias').classList.remove('active');
+
+    document.getElementById('btn-fototerapia').disabled = false;
+    document.getElementById('btn-temperatura').disabled = true;
+    document.getElementById('btn-tendencias').disabled = false;
 });
 
 document.getElementById('btn-tendencias').addEventListener('click', async () => {
@@ -89,6 +111,10 @@ document.getElementById('btn-tendencias').addEventListener('click', async () => 
     document.getElementById('btn-fototerapia').classList.remove('active');
     document.getElementById('btn-temperatura').classList.remove('active');
     document.getElementById('btn-tendencias').classList.toggle('active');
+
+    document.getElementById('btn-fototerapia').disabled = false;
+    document.getElementById('btn-temperatura').disabled = false;
+    document.getElementById('btn-tendencias').disabled = true;
 });
 
 // ####################################################################### //
@@ -151,15 +177,12 @@ btnDisminuir.addEventListener('click', () => {
 // ####################################################################### //
 //                     FUNCIONES DE BOTONES DE MODULOS                     //
 // ####################################################################### //
-// SHT21
+// Temperatura/Humedad
 document.getElementById('btn-sensor-1').addEventListener('click', async () => {
-    console.log("Boton sht21");
-    tempHumEnabled = true;
-    presEnabled = false;
-    basculaEnabled = false;
-    adcEnabled = false;
-
+    mostrarSeccion('temp-ambiente');
     removeStlBtn();
+    document.getElementById('sens-Title').textContent = 'I2C - SHT21';
+
     btnSHT21.classList.add('btn-sensor-pressed');
     btnSHT21_lbl.classList.add('btn-sensor-lbl-pressed');
 
@@ -171,15 +194,12 @@ document.getElementById('btn-sensor-1').addEventListener('click', async () => {
     btnHW504_lbl.classList.add('btn-sensor-lbl');
 });
 
-// BME280
+// Temperautra/Humedad/Presión
 document.getElementById('btn-sensor-2').addEventListener('click', async () => {
-    console.log("Boton bme280");
-    tempHumEnabled = false;
-    presEnabled = true;
-    basculaEnabled = false;
-    adcEnabled = false;
-
+    mostrarSeccion('pres-ambiente');
     removeStlBtn();
+    document.getElementById('sens-Title').textContent = 'SPI - BME280';
+    
     btnSHT21.classList.add('btn-sensor');
     btnSHT21_lbl.classList.add('btn-sensor-lbl');
 
@@ -192,15 +212,12 @@ document.getElementById('btn-sensor-2').addEventListener('click', async () => {
     btnHW504_lbl.classList.add('btn-sensor-lbl');
 });
 
-// HX711
+// Bascula
 document.getElementById('btn-sensor-3').addEventListener('click', async () => {
-    console.log("Boton hx711");
-    tempHumEnabled = false;
-    presEnabled = false;
-    basculaEnabled = true;
-    adcEnabled = false;
-
+    mostrarSeccion('bascula');
     removeStlBtn();
+    document.getElementById('sens-Title').textContent = 'GPIO/SERIAL - HX711';
+
     btnSHT21.classList.add('btn-sensor');
     btnSHT21_lbl.classList.add('btn-sensor-lbl');
     btnBME280.classList.add('btn-sensor');
@@ -213,15 +230,12 @@ document.getElementById('btn-sensor-3').addEventListener('click', async () => {
     btnHW504_lbl.classList.add('btn-sensor-lbl');
 });
 
-// HW-504
+// Sonda Temperatura
 document.getElementById('btn-sensor-4').addEventListener('click', async () => {
-    console.log("Boton calib_Sonda");
-    tempHumEnabled = false;
-    presEnabled = false;
-    basculaEnabled = false;
-    adcEnabled = true;
-
+    mostrarSeccion('sonda-temperatura');
     removeStlBtn();
+    document.getElementById('sens-Title').textContent = 'ADC - SONDA DE PIEL';
+
     btnSHT21.classList.add('btn-sensor');
     btnSHT21_lbl.classList.add('btn-sensor-lbl');
     btnBME280.classList.add('btn-sensor');
@@ -231,6 +245,26 @@ document.getElementById('btn-sensor-4').addEventListener('click', async () => {
 
     btnHW504.classList.add('btn-sensor-pressed');
     btnHW504_lbl.classList.add('btn-sensor-lbl-pressed');
+});
+
+// Calefactor
+document.getElementById('btn-sensor-5').addEventListener('click', async () => {
+    document.getElementById('sens-Title').textContent = '';
+    // document.getElementById('sens-Title').style.display = 'none';
+    mostrarSeccion('calefactor');
+    removeStlBtn();
+
+    btnSHT21.classList.add('btn-sensor');
+    btnSHT21_lbl.classList.add('btn-sensor-lbl');
+    btnBME280.classList.add('btn-sensor');
+    btnBME280_lbl.classList.add('btn-sensor-lbl');
+    btnHX711.classList.add('btn-sensor');
+    btnHX711_lbl.classList.add('btn-sensor-lbl');
+    btnHW504.classList.add('btn-sensor');
+    btnHW504_lbl.classList.add('btn-sensor-lbl');
+
+    btnCalef.classList.add('btn-sensor-pressed');
+    btnCalef_lbl.classList.add('btn-sensor-lbl-pressed');
 });
 
 document.getElementById('footer').addEventListener('click', () => {
@@ -264,29 +298,31 @@ async function updateSensors() {
         const response = await fetch('/api/sensores');
         data = await response.json();
         
-        if (data && tempHumEnabled) {
-            document.getElementById('temp').textContent = data.temp280 ?? '--.-';
-            document.getElementById('unitT').textContent = '°C';
-            document.getElementById('tempProg').textContent = data.hum280 ?? '--.-';
-            document.getElementById('unitTP').textContent = '%';
-            actualizarColorTemp();
-        }
-        else if (data && presEnabled) {
-            // document.getElementById('temp280').textContent = data.temp280;
-            document.getElementById('temp').textContent = data.pres280 ?? '---';
-            document.getElementById('unitT').textContent = 'hPa';
-            // document.getElementById('hum280').textContent = data.hum280;
-        }
-        else if (data && basculaEnabled) {
-            document.getElementById('temp').textContent = data.peso711 ?? '--.--';
-            document.getElementById('unitT').textContent = ' kg';
-        }
-        else if (data && adcEnabled){
-            document.getElementById('temp').textContent = data.valSonda1 ?? '--.-';
-            document.getElementById('unitT').textContent = '°C';
-            document.getElementById('tempProg').textContent = data.valSonda2 ?? '--.-';
-            document.getElementById('unitTP').textContent = '°C';
-        }
+        // Temperatura SONDA
+        document.getElementById('temp').textContent = data.valSonda1 ?? '--.-';
+        document.getElementById('unitT').textContent = '°C';
+        document.getElementById('tempProg').textContent = data.valSonda2 ?? '--.-';
+        document.getElementById('unitTP').textContent = '°C';
+
+        // BASCULA
+        document.getElementById('pesoHX711').textContent = data.peso711 ?? '--.--';
+        document.getElementById('unitpesoHX711').textContent = ' kg';
+
+        // Temperatura/Humedad/Presión
+        document.getElementById('tempBME').textContent = data.temp280;
+        document.getElementById('unitTBME').textContent = '°C';
+        actualizarColorTemp();
+        document.getElementById('presBME').textContent = data.pres280 ?? '---';
+        document.getElementById('unitPBME').textContent = 'hPa';
+        document.getElementById('humBME').textContent = data.hum280;
+        document.getElementById('unitHBME').textContent = '%';
+
+        // Temperatura/Humedad
+        document.getElementById('tempSHT').textContent = data.temp280 ?? '--.-';
+        document.getElementById('unitTSHT').textContent = '°C';
+        document.getElementById('humSHT').textContent = data.hum280 ?? '--.-';
+        document.getElementById('unitHSHT').textContent = '%';
+
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }
@@ -334,29 +370,29 @@ async function guardarDatos() {
 // ####################################################################### //
 //                          CALIBRACION DE TEMPERATURA                     //
 // ####################################################################### //
-document.getElementById('temperaturaCont').addEventListener('click', async () => {
-    cntCalibTemp++;
+// document.getElementById('temperaturaCont').addEventListener('click', async () => {
+//     cntCalibTemp++;
 
-    if (cntCalibTemp > 10) {
-        cntCalibTemp = 0;
+//     if (cntCalibTemp > 10) {
+//         cntCalibTemp = 0;
     
-        // Habilitar botones de aumentar y decremento para calefactor
-        habConfgCalef = false;
-        habCalibTemp = true;
+//         // Habilitar botones de aumentar y decremento para calefactor
+//         habConfgCalef = false;
+//         habCalibTemp = true;
 
-        document.querySelector('.btn-aumentar').disabled = false;
-        document.querySelector('.btn-disminuir').disabled = false;
-        document.querySelector('.btn-aceptar').disabled = false;
+//         document.querySelector('.btn-aumentar').disabled = false;
+//         document.querySelector('.btn-disminuir').disabled = false;
+//         document.querySelector('.btn-aceptar').disabled = false;
 
-        // Parpadeo
-        const temperatura = document.querySelector('._36-4-c-span');
-        temperatura.classList.add('parpadeo');
+//         // Parpadeo
+//         const temperatura = document.querySelector('._36-4-c-span');
+//         temperatura.classList.add('parpadeo');
 
-        pauseSensor();
+//         pauseSensor();
 
-        return;
-    }
-});
+//         return;
+//     }
+// });
 
 async function saveOffset(nuevaTemp) {
     const response = await fetch('/api/saveOffset', {
@@ -416,8 +452,21 @@ function removeStlBtn() {
     btnHX711_lbl.classList.remove('btn-sensor-lbl-pressed');
     btnHW504.classList.remove('btn-sensor-pressed');
     btnHW504_lbl.classList.remove('btn-sensor-lbl-pressed');
+    btnHW504.classList.remove('btn-sensor-pressed');
+    btnHW504_lbl.classList.remove('btn-sensor-lbl-pressed');
+    btnCalef.classList.remove('btn-sensor-pressed');
+    btnCalef_lbl.classList.remove('btn-sensor-lbl-pressed');
 }
 
+function mostrarSeccion(idMostrar) {
+    document.getElementById('sonda-temperatura').style.display = 'none';
+    document.getElementById('bascula').style.display = 'none';
+    document.getElementById('pres-ambiente').style.display = 'none';
+    document.getElementById('temp-ambiente').style.display = 'none';
+    document.getElementById('calefactor').style.display = 'none';
+
+    document.getElementById(idMostrar).style.display = 'block';
+}
 // ####################################################################### //
 //                                 GRÁFICA                                 //
 // ####################################################################### //
