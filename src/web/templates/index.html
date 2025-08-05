@@ -33,78 +33,158 @@
         </div>
 <!---------------------- INFORMACIÓN ---------------------->
         <div class="info-mod" id="info-mod">
-            <div class="background-aside"></div>
-            <div class="aside-calecator">
-            <div class="btns-porcentaje">
-                <button class="btn-aumentar" disabled>
-                <div class="div">+</div>
-                </button>
+            <div class="background-aside">
+                <div class="btns-sensores">
+                    <button class="btn-sensor-1" id="btn-sensor-1">
+                        <div class="btn-sensor-lbl-1">Temp/Humedad</div>
+                    </button>
 
-                <button class="btn-disminuir" disabled>
-                <div class="div">-</div>
-                </button>
+                    <button class="btn-sensor-2" id="btn-sensor-2">
+                        <div class="btn-sensor-lbl-2">Temp/Hum/Pres</div>
+                    </button>
 
-                <button class="btn-aceptar" disabled>
-                <div class="div2">✓</div>
-                </button>
-            </div>
+                    <button class="btn-sensor-3" id="btn-sensor-3">
+                        <div class="btn-sensor-lbl-3">Báscula</div>
+                    </button>
 
-            <button class="btn-calefactor">
-                <div class="calefactor">CALEFACTOR</div>
-            </button>
+                    <button class="btn-sensor-4" id="btn-sensor-4">
+                        <div class="btn-sensor-lbl-4">Sonda de Piel</div>
+                    </button>
 
-            <div class="porcentaje-calef">
-                <div class="_100">100</div>
-            </div>
-
-            <div class="div3">
-                <div class="div4">%</div>
-            </div>
-            </div>
-
-            <div class="background-article"></div>
-
-            <div class="btns-sensores">
-            <button class="btn-sensor-1" id="btn-sensor-1">
-                <div class="btn-sensor-lbl-1">STH21</div>
-            </button>
-
-            <button class="btn-sensor-2" id="btn-sensor-2">
-                <div class="btn-sensor-lbl-2">BME280</div>
-            </button>
-
-            <button class="btn-sensor-3" id="btn-sensor-3">
-                <div class="btn-sensor-lbl-3">HX711</div>
-            </button>
-
-            <button class="btn-sensor-4" id="btn-sensor-4">
-                <div class="btn-sensor-lbl-4">Sonda de Piel</div>
-            </button>
-            </div>
-
-            <div class="section">
-            <div class="text-temperatura" id="temperaturaCont">
-                <div class="_36-4-c">
-                <span>
-                    <span class="_36-4-c-span" id="temp">--.-</span>
-                    <span class="_36-4-c-span2" id="unitT">°C</span>
-                </span>
+                    <button class="btn-sensor-5" id="btn-sensor-5">
+                        <div class="btn-sensor-lbl-5">Calefactor</div>
+                    </button>
                 </div>
-
-                <div class="temperatura">Temperatura</div>
             </div>
 
-            <div class="text-temperatura-program">
-                <div class="_37-0-c">
-                <span>
-                    <!-- Por pruebas se está colocando aquí la lectura de la humedad -->
-                    <span class="_37-0-c-span" id="tempProg">--.-</span>
-                    <span class="_37-0-c-span2" id="unitTP">°C</span>
-                </span>
+            <div class="background-article">
+                <div class="aside-calecator">
+                    <div class="temperatura" id="sens-Title">Sensor</div>
+
+                    <div id="sonda-temperatura">
+                        <div class="text-temperatura">
+                            <div class="_36-4-c">
+                                <span>
+                                    <span class="_36-4-c-span" id="temp">--.-</span>
+                                    <span class="_36-4-c-span2" id="unitT">-</span>
+                                </span>
+                            </div>
+
+                            <div class="temperatura">Temperatura Sonda 1</div>
+                        </div>
+
+                        <div class="text-temperatura-program">
+                            <div class="_37-0-c">
+                                <span>
+                                    <span class="_37-0-c-span" id="tempProg">--.-</span>
+                                    <span class="_37-0-c-span2" id="unitTP">-</span>
+                                </span>
+                            </div>
+
+                            <div class="temperatura-programada">Temperatura Sonda 2</div>
+                        </div>
+                    </div>
+
+                    <div id="bascula">
+                        <div class="text-temperatura">
+                            <div class="_36-4-c">
+                                <span>
+                                    <span class="_36-4-c-span" id="pesoHX711">--.-</span>
+                                    <span class="_36-4-c-span2" id="unitpesoHX711">-</span>
+                                </span>
+                            </div>
+
+                            <div class="temperatura">Peso</div>
+                        </div>
+                    </div>
+
+                    <div class="dock2" id="pres-ambiente">
+                        <div class="text-temperatura">
+                            <div class="_36-4-c">
+                                <span>
+                                    <span class="_36-4-c-span" id="tempBME">--.-</span>
+                                    <span class="_36-4-c-span2" id="unitTBME">-</span>
+                                </span>
+                            </div>
+
+                            <div class="temperatura">Temperatura</div>
+                        </div>
+
+                        <div class="text-temperatura">
+                            <div class="_37-0-c">
+                                <span>
+                                    <span class="_37-0-c-span" id="presBME">--.-</span>
+                                    <span class="_37-0-c-span2" id="unitPBME">-</span>
+                                </span>
+                            </div>
+
+                            <div class="temperatura-programada">Presion</div>
+                        </div>
+
+                        <div class="text-temperatura">
+                            <div class="_37-0-c">
+                                <span>
+                                    <span class="_37-0-c-span" id="humBME">--.-</span>
+                                    <span class="_37-0-c-span2" id="unitHBME">-</span>
+                                </span>
+                            </div>
+
+                            <div class="temperatura-programada">Humedad</div>
+                        </div>
+                    </div>
+
+                    <div id="temp-ambiente">
+                        <div class="text-temperatura">
+                            <div class="_36-4-c">
+                                <span>
+                                    <span class="_36-4-c-span" id="tempSHT">--.-</span>
+                                    <span class="_36-4-c-span2" id="unitTSHT">-</span>
+                                </span>
+                            </div>
+
+                            <div class="temperatura">Temperatura</div>
+                        </div>
+
+                        <div class="text-temperatura-program">
+                            <div class="_37-0-c">
+                                <span>
+                                    <span class="_37-0-c-span" id="humSHT">--.-</span>
+                                    <span class="_37-0-c-span2" id="unitHSHT">-</span>
+                                </span>
+                            </div>
+
+                            <div class="temperatura-programada">Humedad</div>
+                        </div>
+                    </div>
+
+                    <div class="dock" id="calefactor">
+                        <div class="btns-porcentaje">
+                            <button class="btn-aumentar" disabled>
+                                <div class="div">+</div>
+                            </button>
+        
+                            <button class="btn-disminuir" disabled>
+                                <div class="div">-</div>
+                            </button>
+        
+                            <button class="btn-aceptar" disabled>
+                                <div class="div2">✓</div>
+                            </button>
+                        </div>
+        
+                        <button class="btn-calefactor">
+                            <div class="calefactor">CALEFACTOR</div>
+                        </button>
+        
+                        <div class="porcentaje-calef">
+                            <div class="_100">100</div>
+                        </div>
+        
+                        <div class="div3">
+                            <div class="div4">%</div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="temperatura-programada">Temperatura Programada</div>
-            </div>
             </div>
         </div>
 <!------------------------ GRÁFICAS ----------------------->
@@ -146,27 +226,17 @@
             <div class="background-luz">
                 <div class="chart-nivel">
                     <div class="slidecontainer" id="luzExamCont">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="exam" oninput="valSliderLExam(this.value)">
+                        <div class="textLuz">LUZ EXAMINACION</div>
 
-                        <p>VALOR LUZ EXAMINACION</p>
-                        <p id="luzExam">0</p>
+                        <input type="range" min="0" max="100" value="0" class="slider" id="exam" oninput="valSliderLExam(this.value)">
                     </div>
 
                     <div class="slidecontainer" id="fotCont">
+                        <div class="textLuz">LUZ FOTOTERAPIA</div>
+
                         <input type="range" min="0" max="100" value="0" class="slider" id="fot" oninput="valSliderFot(this.value)">
-
-                        <p>VALOR LUZ FOTOTERAPIA</p>
-                        <p id="luzFot"> 0 </p>
+            
                     </div>
-                </div>
-
-
-                <div>
-                    <label for="fname">First name:</label>
-                    <input type="text" id="fname" name="fname"><br><br>
-                    <label for="lname">Last name:</label>
-                    <input type="text" id="lname" name="lname"><br><br>
-                    <input type="submit" value="Submit">
                 </div>
             </div>
         </div>

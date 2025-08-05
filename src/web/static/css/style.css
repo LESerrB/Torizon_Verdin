@@ -141,22 +141,21 @@
   background: var(--texto-blanco, #ffffff);
   border-radius: 15px;
   padding: 20px 33px 20px 33px;
-  width: 312px;
+  width: 520px;
   height: 300px;
-  position: absolute;
-  left: 52px;
-  top: 150px;
+  position: relative;
+  left: 32px;
+  top: 38px;
   overflow: hidden;
 }
 .btns-porcentaje {
   display: flex;
   flex-direction: row;
   gap: 18px;
-  align-items: flex-start;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  left: 33px;
-  top: 204.67px;
+  top: 190px;
 }
 .btn-aumentar {
   background: var(--azul-btn, #1ba0f2);
@@ -230,9 +229,9 @@
   padding: 10px;
   width: 246px;
   height: 60px;
+  justify-content: center;
   position: absolute;
-  left: 33px;
-  top: 20px;
+  top: 0px;
 }
 .calefactor {
   color: var(--texto-blanco, #ffffff);
@@ -257,8 +256,8 @@
   width: 158px;
   height: 90px;
   position: absolute;
-  left: 33px;
-  top: 97px;
+  left: 5px;
+  top: 80px;
 }
 ._100 {
   color: var(--texto-prin, #333233);
@@ -274,8 +273,8 @@
   width: 73px;
   height: 51px;
   position: absolute;
-  left: 206px;
-  top: 115.67px;
+  left: 170px;
+  top: 100px;
 }
 .div4 {
   color: var(--texto-prin, #333233);
@@ -299,17 +298,29 @@
   left: 413px;
   top: 112px;
 }
-/*--------------BOTONES SENSORES-------------*/
-.btns-sensores {
+.dock {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 200px;
-  position: absolute;
-  left: 774px;
-  top: 150px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.dock2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+/*--------------BOTONES SENSORES-------------*/
+.btns-sensores {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  width: 300px;
+  position: relative;
+  left: 35px;
+  top: 12px;
 }
 .btn-sensor {
   background: var(--azul-btn, #1ba0f2);
@@ -344,7 +355,7 @@
 }
 .btn-sensor-lbl {
   color: var(--texto-blanco, #ffffff);
-  text-align: left;
+  text-align: center;
   font-family: "Inter-Bold", sans-serif;
   font-size: 20px;
   line-height: 20px;
@@ -353,7 +364,7 @@
 }
 .btn-sensor-lbl-pressed {
   color: var(--azul-btn, #1ba0f2);
-  text-align: left;
+  text-align: center;
   font-family: "Inter-Bold", sans-serif;
   font-size: 20px;
   line-height: 20px;
@@ -361,21 +372,6 @@
   position: relative;
 }
 /*----------------TEMPERATURA----------------*/
-.section {
-  background: #ffffff;
-  border-radius: 15px;
-  padding: 22px 34px 22px 34px;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 309px;
-  height: 300px;
-  position: absolute;
-  left: 444px;
-  top: 150px;
-}
 .text-temperatura {
   display: flex;
   flex-direction: column;
@@ -436,6 +432,7 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+  top: 40px;
 }
 ._37-0-c {
   color: #333233;
@@ -579,7 +576,6 @@
     color: #333;
     margin-bottom: 4px;
 }
-
 .paciente-form-slide input[type="text"] {
     padding: 10px 12px;
     border: 1.5px solid #bdbdbd;
@@ -592,7 +588,6 @@
     outline: none;
     background: #fafafa;
 }
-
 .paciente-form-slide button[type="submit"] {
     background: var(--azul-primario, #0c87f2);
     color: #fff;
@@ -608,7 +603,6 @@
     width: 100px;
     gap: 50px;
 }
-
 .paciente-form-slide button[type="button"] {
     background: #e0e0e0;
     color: #333;
@@ -622,7 +616,6 @@
     box-shadow: 0 2px 4px rgba(160,160,160,0.10);
     width: 100px;
 }
-
 .icon-alarma {
   flex-shrink: 0;
   width: 49.39px;
@@ -759,7 +752,13 @@
     font-weight: bold;
     color: red;
 }
+
 /*------------------CTRL LUZ-----------------*/
+.chart-nivel {
+    display: flex;
+    flex-direction: column;
+    gap: 55px;
+}
 .pantalla-luz {
   background: var(--neutral-gris, #e6e7e6);
   border-radius: 15px;
@@ -770,40 +769,32 @@
   top: 100px;
 }
 .slider {
-  /* -webkit-appearance: none; */
-  width: 85%;
+  width: 70%;
   height: 20px;
-  border-radius: 5px;  
+  border-radius: 100px;  
   background: #1416a783;
   outline: none;
   opacity: 0.7;
-  -webkit-transition: .2s;
   transition: opacity .2s;
   position: relative;
-  left: 60px;
-  top: 100px;
+  display: block;
+  margin: 0 auto;
 }
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%; 
-  background: #04AA6D;
-  cursor: pointer;
+.textLuz {
+  color: #6c696c;
+  text-align: center;
+  font-family: var(--text-label-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--text-label-font-size, 24px);
+  line-height: var(--text-label-line-height, 24px);
+  font-weight: var(--text-label-font-weight, 700);
+  position: relative;
+  align-self: stretch;
 }
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #04AA6D;
-  cursor: pointer;
-}
-/* .slidecontainer{
+.slidecontainer{
   position: relative;
   left: 18px;
   top: 112px;
-} */
+}
 /*----------------ANIMACIONES----------------*/
 @keyframes parpadeo {
     0%, 100% { opacity: 1; }
