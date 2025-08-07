@@ -2,7 +2,6 @@
 .pantalla-base * {
   box-sizing: border-box;
 }
-
 .pantalla-base {
   background: #ffffff;
   position: relative;
@@ -33,10 +32,6 @@
   position: absolute;
   left: 18px;
   top: 16px;
-}
-
-.button{
-  border: none;
 }
 /*-------------BOTONES SUPERIORES------------*/
 .btn-fototerapia {
@@ -88,14 +83,6 @@
   height: 38px;
   position: relative;
 }
-.group-4 {
-  height: auto;
-  position: absolute;
-  left: 50%;
-  translate: -50% -50%;
-  top: 50%;
-  overflow: visible;
-}
 .btn-tendencias {
   background: var(--azul-primario, #0c87f2);
   border-color: #0c87f2;
@@ -120,14 +107,7 @@
   height: 38.6px;
   position: relative;
 }
-.group-5 {
-  height: auto;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  overflow: visible;
-}
-
+/*-------------PANEL INFORMACIÓN-------------*/
 .background-aside {
   background: var(--neutral-gris, #e6e7e6);
   border-radius: 15px;
@@ -135,6 +115,15 @@
   height: 376px;
   position: absolute;
   left: 18px;
+  top: 112px;
+}
+.background-article {
+  background: var(--neutral-gris, #e6e7e6);
+  border-radius: 15px;
+  width: 593px;
+  height: 376px;
+  position: absolute;
+  left: 413px;
   top: 112px;
 }
 .aside-calecator {
@@ -148,6 +137,7 @@
   top: 38px;
   overflow: hidden;
 }
+/*-------------CONTROL CALEFACTOR------------*/
 .btns-porcentaje {
   display: flex;
   flex-direction: row;
@@ -156,6 +146,28 @@
   justify-content: center;
   position: absolute;
   top: 190px;
+}
+.btn-calefactor {
+  background: var(--azul-btn, #1ba0f2);
+  border-color: #1ba0f2;
+  border-radius: 15px;
+  padding: 10px;
+  width: 246px;
+  height: 60px;
+  justify-content: center;
+  position: absolute;
+  top: 0px;
+}
+.calefactor {
+  color: var(--texto-blanco, #ffffff);
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 23px;
+  line-height: 20px;
+  font-weight: 700;
+  position: absolute;
+  left: 45.5px;
+  top: 20px;
 }
 .btn-aumentar {
   background: var(--azul-btn, #1ba0f2);
@@ -171,16 +183,6 @@
   width: 70px;
   height: 70px;
   position: relative;
-}
-.div {
-  color: #ffffff;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 54px;
-  line-height: 20px;
-  font-weight: 700;
-  position: relative;
-  align-self: stretch;
 }
 .btn-disminuir {
   background: var(--azul-btn, #1ba0f2);
@@ -212,37 +214,15 @@
   height: 70px;
   position: relative;
 }
-.div2 {
+.btn-ctrl {
   color: #ffffff;
   text-align: center;
   font-family: "Inter-Bold", sans-serif;
-  font-size: 48px;
+  font-size: 54px;
   line-height: 20px;
   font-weight: 700;
   position: relative;
   align-self: stretch;
-}
-.btn-calefactor {
-  background: var(--azul-btn, #1ba0f2);
-  border-color: #1ba0f2;
-  border-radius: 15px;
-  padding: 10px;
-  width: 246px;
-  height: 60px;
-  justify-content: center;
-  position: absolute;
-  top: 0px;
-}
-.calefactor {
-  color: var(--texto-blanco, #ffffff);
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 23px;
-  line-height: 20px;
-  font-weight: 700;
-  position: absolute;
-  left: 45.5px;
-  top: 20px;
 }
 .porcentaje-calef {
   background: var(--azul-ligth, #def1fd);
@@ -268,7 +248,7 @@
   font-weight: 700;
   position: relative;
 }
-.div3 {
+.unit100 {
   padding: 10px 0px 10px 10px;
   width: 73px;
   height: 51px;
@@ -276,7 +256,7 @@
   left: 170px;
   top: 100px;
 }
-.div4 {
+.unit100-lbl {
   color: var(--texto-prin, #333233);
   text-align: center;
   font-family: "Inter-Bold", sans-serif;
@@ -289,33 +269,9 @@
   width: 73px;
   height: 20px;
 }
-.background-article {
-  background: var(--neutral-gris, #e6e7e6);
-  border-radius: 15px;
-  width: 593px;
-  height: 376px;
-  position: absolute;
-  left: 413px;
-  top: 112px;
-}
-.dock {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.dock2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
 /*--------------BOTONES SENSORES-------------*/
 .btns-sensores {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 12px;
   width: 300px;
   position: relative;
@@ -371,48 +327,36 @@
   font-weight: 700;
   position: relative;
 }
-/*----------------TEMPERATURA----------------*/
-.text-temperatura {
+/*--------------PANEL INFORMACION--------------*/
+.dock {
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.dock2 {
+  display: none; /* por defecto oculto */
+}
+.dock2.visible {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: center;
   align-items: flex-start;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 230px;
+  width: 100%;
+  height: auto;
   position: relative;
 }
-._36-4-c {
-  color: #333233;
-  text-align: left;
-  font-family: "-", sans-serif;
-  font-size: 55px;
-  line-height: 20px;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-  height: 52px;
-  display: flex;
+.sensor-block {
+  /* display: flex; */
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 }
-.temp-roja {
-    color: red !important;
-    font-weight: bold;
-}
-._36-4-c-span {
-  font-family: var(--text-valor-font-family, "Inter-Bold", sans-serif);
-  font-size: var(--text-valor-font-size, 55px);
-  line-height: var(--text-valor-line-height, 20px);
-  font-weight: var(--text-valor-font-weight, 700);
-}
-._36-4-c-span2 {
-  font-family: var(--text-valor-var-font-family, "Inter-Regular", sans-serif);
-  font-size: var(--text-valor-var-font-size, 55px);
-  line-height: var(--text-valor-var-line-height, 20px);
-  font-weight: var(--text-valor-var-font-weight, 400);
-}
-.temperatura {
+.info-text {
   color: #6c696c;
   text-align: left;
   font-family: var(--text-label-font-family, "Inter-Bold", sans-serif);
@@ -422,19 +366,19 @@
   position: relative;
   align-self: stretch;
 }
-/*-----------TEMPERATURA PROGRAMADA----------*/
-.text-temperatura-program {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  top: 40px;
+.dato {
+  font-family: var(--text-valor-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--text-valor-font-size, 55px);
+  line-height: var(--text-valor-line-height, 20px);
+  font-weight: var(--text-valor-font-weight, 700);
 }
-._37-0-c {
+.datoUnit {
+  font-family: var(--text-valor-var-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--text-valor-var-font-size, 55px);
+  line-height: var(--text-valor-var-line-height, 20px);
+  font-weight: var(--text-valor-var-font-weight, 400);
+}
+.contSens {
   color: #333233;
   text-align: left;
   font-family: "-", sans-serif;
@@ -444,32 +388,10 @@
   position: relative;
   align-self: stretch;
   height: 52px;
+  width: 225px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-}
-._37-0-c-span {
-  font-family: var(--text-valor-font-family, "Inter-Bold", sans-serif);
-  font-size: var(--text-valor-font-size, 55px);
-  line-height: var(--text-valor-line-height, 20px);
-  font-weight: var(--text-valor-font-weight, 700);
-}
-._37-0-c-span2 {
-  font-family: var(--text-valor-var-font-family, "Inter-Regular", sans-serif);
-  font-size: var(--text-valor-var-font-size, 55px);
-  line-height: var(--text-valor-var-line-height, 20px);
-  font-weight: var(--text-valor-var-font-weight, 400);
-}
-.temperatura-programada {
-  color: #6c696c;
-  text-align: left;
-  font-family: var(--text-label-font-family, "Inter-Bold", sans-serif);
-  font-size: var(--text-label-font-size, 24px);
-  line-height: var(--text-label-line-height, 24px);
-  font-weight: var(--text-label-font-weight, 700);
-  position: relative;
-  align-self: stretch;
-  height: 63px;
+  gap: 10px;
 }
 /*-----------------PIE DE PAG----------------*/
 .footer {
@@ -623,9 +545,6 @@
   position: relative;
   overflow: visible;
 }
-.parpadeo {
-    animation: parpadeo 1s infinite;
-}
 /*------------------GRAFICA------------------*/
 .graf-tendencias {
   background: var(--neutral-gris, #e6e7e6);
@@ -636,21 +555,6 @@
   left: 18px;
   top: 112px;
 }
-/* .new-display {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
-    background-color: #87ceeb;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-} */
 
 /* Estilos para los controles del gráfico dentro de la pantalla azul */
 .chart-controls {
@@ -661,7 +565,6 @@
     padding-bottom: 20px;
     flex-wrap: wrap;
 }
-
 .control-group {
     display: flex;
     flex-direction: column;
@@ -670,7 +573,6 @@
     color: black;
     font-size: 1.1em;
 }
-
 .chart-controls select {
     padding: 8px 12px;
     border-radius: 5px;
@@ -679,7 +581,6 @@
     font-size: 1em;
     cursor: pointer;
 }
-
 .chart-button {
     background-color: #4CAF50;
     color: white;
@@ -691,23 +592,19 @@
     transition: background-color 0.3s ease, transform 0.1s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-
 .chart-button:hover {
     background-color: #45a049;
     transform: translateY(-1px);
 }
-
 .chart-button:active {
     transform: translateY(0);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-
 .chart-button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
     box-shadow: none;
 }
-
 /* Contenedor del canvas para controlar su tamaño */
 .chart-container {
     flex-grow: 1;
@@ -721,12 +618,10 @@
     padding: 10px;
     box-sizing: border-box;
 }
-
 #temperatureChart {
     max-width: 100%;
     max-height: 100%;
 }
-
 .temp-row {
     display: flex;
     width: 100%;
@@ -734,7 +629,6 @@
     align-items: baseline;
     font-size: 2.5em;
 }
-
 .temp-row .temp-label {
     font-size: 0.5em;
     color: #555;
@@ -742,17 +636,14 @@
     text-decoration: underline red wavy;
     text-decoration-skip-ink: none;
 }
-
 .temp-row .temp-value {
     font-weight: bold;
     color: #333;
 }
-
 .temp-row .temp-value .temp-roja {
     font-weight: bold;
     color: red;
 }
-
 /*------------------CTRL LUZ-----------------*/
 .chart-nivel {
     display: flex;
@@ -796,7 +687,14 @@
   top: 112px;
 }
 /*----------------ANIMACIONES----------------*/
+.parpadeo {
+    animation: parpadeo 1s infinite;
+}
 @keyframes parpadeo {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
+}
+.temp-roja {
+    color: red !important;
+    font-weight: bold;
 }
