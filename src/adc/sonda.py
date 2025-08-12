@@ -2,10 +2,10 @@ import struct
 import math
 import os
 
-from files.logs import logger
+# from files.logs import logger
 from dotenv import load_dotenv
 
-logger.info('Inicializando ADC')
+# logger.info('Inicializando ADC')
 load_dotenv("/mnt/microsd/.env")
 
 # Variables Calibracion Sonda Patron
@@ -16,6 +16,13 @@ c0 = float(os.getenv("C0", 0.000000181))
 a1 = float(os.getenv("A0", 0.001319224))
 b1 = float(os.getenv("B0", 0.000216279))
 c1 = float(os.getenv("C0", 0.000000181))
+
+habSonda2 = os.getenv("SONDA2", False)
+
+if habSonda2:
+    print("Sonda2 Habilitada")
+else:
+    print("Sonda2 Deshabilitada")
 #===============================================================#
 #                      Configuración de ADC                     #
 #===============================================================#
@@ -24,7 +31,7 @@ def read_adc(channel):
         with open(f"/sys/bus/iio/devices/iio:device0/in_voltage{channel}_raw", "r") as f:
             return int(f.read().strip())
     except FileNotFoundError:
-        logger.error(f"Canal ADC {channel} no encontrado.")
+        # logger.error(f"Canal ADC {channel} no encontrado.")
         print(f"Canal ADC {channel} no encontrado.")
         return -1
 
@@ -38,9 +45,10 @@ def read_Sonda():
         temperatura = 1/(a0 + b0 * (logaritmo) + c0 * (pow(logaritmo, 3)))
         tempSonda = temperatura - 273
 
-        return tempSonda
+        if 10 < tempSonda < 45:
+            return tempSonda
     except Exception as e:
-        logger.error("Error leyendo SONDA1:", e)
+        # logger.error("Error leyendo SONDA1:", e)
         print(f"Error leyendo SONDA1: {e}")
 
 def read_Sonda2():
@@ -49,10 +57,11 @@ def read_Sonda2():
         logaritmo=math.log(valSonda2)
         temperatura = 1/(a0 + b0 * (logaritmo) + c0 * (pow(logaritmo, 3)))
         tempSonda2 = temperatura - 273
-        
-        return tempSonda2
+
+        if 10 < tempSonda2 < 45:
+            return tempSonda2
     except Exception as e:
-        logger.error("Error leyendo SONDA2:", e)
+        # logger.error("Error leyendo SONDA2:", e)
         print(f"Error leyendo SONDA2: {e}")
 
 #================================================================#

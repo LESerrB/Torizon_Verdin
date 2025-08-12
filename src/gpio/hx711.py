@@ -3,7 +3,7 @@ import gpiod                        # GPIO
 import os
 
 from dotenv import load_dotenv
-from files.logs import logger
+# from files.logs import logger
 
 #===============================================================#
 #               Configuración GPIO Serial HX711                 #
@@ -29,7 +29,7 @@ sck_line.request(consumer="hx711", type=gpiod.LINE_REQ_DIR_OUT)
 #               Configuración de offsets y escalas               #
 #================================================================#
 load_dotenv("/mnt/microsd/.env")
-logger.info('Inicializando HX711')
+# logger.info('Inicializando HX711')
 
 SCALE = float(os.getenv("SCALE", 1.0))
 OFFSET = float(os.getenv("OFFSET", 0.0))
@@ -82,7 +82,7 @@ def tare():
     with open("/mnt/microsd/.env", "w") as f:
         f.writelines(lines)
 
-    logger.info(f"Taraje realizado. Nuevo offset: {OFFSET}")
+    # logger.info(f"Taraje realizado. Nuevo offset: {OFFSET}")
     print(f"Taraje realizado. Nuevo offset: {OFFSET}")
 
 #===============================================================#
@@ -91,14 +91,16 @@ def tare():
 def hx711():
     try:
         w = read_weight()
-        return w
+
+        if 0 < w < 100:
+            return w
     except Exception as e:
         dout_line.release()
         sck_line.release()
         gpio_chip_dout.close()
         gpio_chip_sck.close()
 
-        logger.error("Error de lectura HX711:", e)
+        # logger.error("Error de lectura HX711:", e)
         print(f"Error de lectura: {e}")
 
 #===============================================================#
@@ -108,13 +110,13 @@ def calibracion(pesoAct):
     global SCALE
     lines = []
 
-    logger.info(f"Calibrando HX711 con peso actual: {pesoAct}")
+    # logger.info(f"Calibrando HX711 con peso actual: {pesoAct}")
     print(f"Calibrando HX711 con peso actual: {pesoAct}")
 
     raw = read_raw()
     newSCALE = round(float(pesoAct) / (raw - OFFSET), 2)
     SCALE = newSCALE
-    logger.info(f"Nuevo SCALE: {SCALE}")
+    # logger.info(f"Nuevo SCALE: {SCALE}")
     print(f"Nuevo SCALE: {SCALE}")
 
     with open("/mnt/microsd/.env", "r") as f:
@@ -132,12 +134,12 @@ def calibracion(pesoAct):
 #===============================================================#
 def stop_hx711():
     try:
-        logger.info("Liberando recursos de HX711")
+        # logger.info("Liberando recursos de HX711")
         dout_line.release()
         sck_line.release()
         gpio_chip_dout.close()
         gpio_chip_sck.close()
         print("HX711 detenido correctamente")
     except Exception as e:
-        logger.error(f"Error al detener HX711: {e}")
+        # logger.error(f"Error al detener HX711: {e}")
         print(f"Error al detener HX711: {e}")

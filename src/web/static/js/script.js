@@ -18,11 +18,6 @@ let cntCalibTemp = 0;
 let habConfgCalef = false;
 let habCalibTemp = false;
 
-// let tempHumEnabled = true;
-// let basculaEnabled = false;
-// let presEnabled = false;
-// let adcEnabled = false;
-
 // Estilos de botones de sensores
 const btnSHT21 = document.querySelector('.btn-sensor-1');
 const btnSHT21_lbl = document.querySelector('.btn-sensor-lbl-1');
@@ -311,18 +306,18 @@ async function updateSensors() {
         // Temperatura/Humedad/Presión
         document.getElementById('tempBME').textContent = data.temp280;
         document.getElementById('unitTBME').textContent = '°C';
-        actualizarColorTemp();
         document.getElementById('presBME').textContent = data.pres280 ?? '---';
         document.getElementById('unitPBME').textContent = 'hPa';
         document.getElementById('humBME').textContent = data.hum280;
         document.getElementById('unitHBME').textContent = '%';
-
+        
         // Temperatura/Humedad
-        document.getElementById('tempSHT').textContent = data.temp280 ?? '--.-';
+        document.getElementById('tempSHT').textContent = data.temp ?? '--.-';
         document.getElementById('unitTSHT').textContent = '°C';
-        document.getElementById('humSHT').textContent = data.hum280 ?? '--.-';
+        document.getElementById('humSHT').textContent = data.hum ?? '--.-';
         document.getElementById('unitHSHT').textContent = '%';
-
+        
+        actualizarColorTemp(data.temp280, data.temp);
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }
@@ -331,14 +326,22 @@ async function updateSensors() {
     return data; // Se debe usar await en las funciones que hace uso de los datos de los sensores para que la lectura sea correcta
 }
 
-function actualizarColorTemp() {
-    const tempSpan = document.getElementById('temp');
-    const tempValor = parseFloat(tempSpan.textContent);
+function actualizarColorTemp(temp, temp280) {
+    const tempValor = parseFloat(temp.textContent);
+    const tempSpan = document.getElementById('tempSHT');
+    const temp280Valor = parseFloat(temp280.textContent);
+    const temp280Span = document.getElementById('tempBME');
 
     if (tempValor > 40.0) {
         tempSpan.classList.add('temp-roja');
     } else {
         tempSpan.classList.remove('temp-roja');
+    }
+
+    if (temp280Valor > 40.0) {
+        temp280Span.classList.add('temp-roja');
+    } else {
+        temp280Span.classList.remove('temp-roja');
     }
 }
 

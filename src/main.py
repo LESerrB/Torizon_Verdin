@@ -5,14 +5,14 @@ import struct
 import threading
 import time
 import shutil
-import logging
+# import logging
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
 
 from files.logs import logger
-load_dotenv("/mnt/microsd/.env")
-logger.info('Encendido del sistema')
+# load_dotenv("/mnt/microsd/.env")
+# logger.info('Encendido del sistema')
 
 from i2c.sht21 import sht21, calibracion
 from spi.bme280 import bme280
@@ -36,12 +36,12 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 # logger.warning('And this, too')
 # logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
 # logger.critical('This is critical!')
-app.logger.handlers = logger.handlers
-app.logger.setLevel(logger.level)
+# app.logger.handlers = logger.handlers
+# app.logger.setLevel(logger.level)
 
-werkzeug_logger = logging.getLogger('werkzeug')
-werkzeug_logger.handlers = logger.handlers
-werkzeug_logger.setLevel(logger.level)
+# werkzeug_logger = logging.getLogger('werkzeug')
+# werkzeug_logger.handlers = logger.handlers
+# werkzeug_logger.setLevel(logger.level)
 
 ##############################################################################
 #                           Rutas de la aplicacion                           #
@@ -66,7 +66,7 @@ def api_sensores():
     try:
         # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
         sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
-        # peso711 = hx711()
+        peso711 = hx711()
         sensoresDt["valSonda1"] = read_Sonda()
         sensoresDt["valSonda2"] = read_Sonda2()
     except Exception as e:
@@ -82,7 +82,7 @@ def api_sensores():
         "temp280": fmt(sensoresDt["temp280"]),
         "pres280": fmt(sensoresDt["pres280"]),
         "hum280": fmt(sensoresDt["hum280"]),
-        # "peso711": fmt(peso711),
+        "peso711": fmt(peso711),
         "valSonda1": fmt(sensoresDt["valSonda1"]),
         "valSonda2": fmt(sensoresDt["valSonda2"])
     })
@@ -106,8 +106,13 @@ def api_limpiarTendencias():
 @app.route("/api/nvlFototerapia", methods=["POST"])
 def api_nvlFototerapia():
     nvlFototerapia = request.get_json()
-    setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
-    setNvlLuzExam(nvlFototerapia.get("nvlExam"))
+    Fot = nvlFototerapia.get("nvlFototerapia")
+    Exam = nvlFototerapia.get("nvlExam")
+
+    if Exam:
+        setNvlLuzExam(nvlFototerapia.get("nvlExam"))
+    elif Fot:
+        setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
 
     return jsonify({"status": "ok"})
 
@@ -143,7 +148,7 @@ def restart_container(threshold=95):
 
     if used_percent >= threshold:
         print("Espacio casi lleno, reiniciando contenedor...")
-        logger.warning('Espacio casi lleno, reiniciando contenedor...')
+        # logger.warning('Espacio casi lleno, reiniciando contenedor...')
         os._exit(1)
 
 monitor_thread = threading.Thread(target=monitor_disk, daemon=True)

@@ -1,13 +1,13 @@
 import os
 
 from dotenv import load_dotenv
-from files.logs import logger
+# from files.logs import logger
 
 # ===============================================================#
 #                   Configuración de offsets y escalas           #
 # ===============================================================#
 load_dotenv("/mnt/microsd/.env")
-logger.info('Inicializando PWM')
+# logger.info('Inicializando PWM')
 
 pwmchipFOT = "/sys/class/pwm/pwmchip1"
 pwmchipLzEx = "/sys/class/pwm/pwmchip2"
@@ -16,12 +16,12 @@ pwmchipLzEx = "/sys/class/pwm/pwmchip2"
 #                   Eleccción de Nivel de PWM                    #
 # ===============================================================#
 def setNvlFototerapia(nvlFototerapia):
-    logger.info(f"Nivel de fototerapia establecido: {nvlFototerapia}")
+    # logger.info(f"Nivel de fototerapia establecido: {nvlFototerapia}")
     # print(f"Nivel de fototerapia establecido: {nvlFototerapia}")
     set_pwm_duty_cycle(float(nvlFototerapia), pwmchipFOT)
 
 def setNvlLuzExam(nvlLuzExam):
-    logger.info(f"Nivel de luz examinación establecido: {nvlLuzExam}")
+    # logger.info(f"Nivel de luz examinación establecido: {nvlLuzExam}")
     # print(f"Nivel de luz examinación establecido: {nvlLuzExam}")
     set_pwm_duty_cycle(float(nvlLuzExam), pwmchipLzEx)
 
@@ -57,6 +57,7 @@ def stop_pwm():
     try:
         set_pwm_duty_cycle(float(0.0), pwmchipFOT)
         set_pwm_duty_cycle(float(0.0), pwmchipLzEx)
-        logger.info("Luces apagadas correctamente")
+        # logger.info("Luces apagadas correctamente")
     except Exception as e:
-        logger.warning(f"No se pudo finalizar el apagado de la luz: {e}")
+        print(f"No se pudo finalizar el apagado de la luz: {e}")
+        # logger.warning(f"No se pudo finalizar el apagado de la luz: {e}")

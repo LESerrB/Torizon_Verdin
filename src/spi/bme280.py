@@ -3,7 +3,7 @@ import spidev                       # SPI
 import os
 
 from dotenv import load_dotenv
-from files.logs import logger
+# from files.logs import logger
 
 #===============================================================#
 #                    Configuración SPI BME280                   #
@@ -25,7 +25,7 @@ REG_HUM_CALIB = 0xE1
 #               Configuración de offsets y escalas              #
 #===============================================================#
 load_dotenv("/mnt/microsd/.env")
-logger.info('Inicializando BME280')
+# logger.info('Inicializando BME280')
 
 T_OFFSET = float(os.getenv("T_OFFSET", 1.0))
 P_OFFSET = float(os.getenv("P_OFFSET", 1.0))
@@ -107,7 +107,7 @@ def bme280():
     chip_id = read_bytes(REG_ID, 1)[0]
 
     if chip_id != EXPECTED_CHIP_ID:
-        logger.error(f"ID de chip inesperado: {chip_id}, esperado: {EXPECTED_CHIP_ID}")
+        # logger.error(f"ID de chip inesperado: {chip_id}, esperado: {EXPECTED_CHIP_ID}")
         print("Sensor no detectado")
 
     write_byte(REG_CTRL_HUM, 0x01)      # Humedad oversampling x1
@@ -136,7 +136,7 @@ def bme280():
     except Exception as e:
         spi.close()
 
-        logger.error("Error de lectura BME280:", e)
+        # logger.error("Error de lectura BME280:", e)
         print(f"Error de lectura BME280: {e}")
 
 #===============================================================#
@@ -145,7 +145,7 @@ def bme280():
 def stop_bme280():
     try:
         spi.close()
-        logger.info("BME280 detenido correctamente.")
+        # logger.info("BME280 detenido correctamente.")
     except Exception as e:
-        logger.error(f"Error al detener BME280: {e}")
+        # logger.error(f"Error al detener BME280: {e}")
         print(f"Error al detener BME280: {e}")
