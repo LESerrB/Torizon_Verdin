@@ -181,3 +181,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creada función para interrupción de apagado de equipo y detención de servicios.
 - Formulartio para ingerso de nombre de paciente.
 - Cambio de HW-504 por lectura ADC de sondas de piel.
+
+### v0.12 - [12/Agosto/2025]
+
+- Correcion de bugs de lectura de Sonda de piel, Celda de pesaje, Niveles de luz de fototerapia y examinación.
+- Comentados los logs.
