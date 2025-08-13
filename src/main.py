@@ -14,7 +14,7 @@ from files.logs import logger
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from i2c.sht21 import sht21, calibracion
+from i2c.sht21 import sht21, calibracion, readTarjeta2S
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
 from gpio.pwr import pwrBtn
@@ -66,7 +66,7 @@ def api_sensores():
     try:
         # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
         sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
-        peso711 = hx711()
+        sensoresDt["peso711"] = hx711()
         sensoresDt["valSonda1"] = read_Sonda()
         sensoresDt["valSonda2"] = read_Sonda2()
     except Exception as e:
@@ -82,7 +82,7 @@ def api_sensores():
         "temp280": fmt(sensoresDt["temp280"]),
         "pres280": fmt(sensoresDt["pres280"]),
         "hum280": fmt(sensoresDt["hum280"]),
-        "peso711": fmt(peso711),
+        "peso711": fmt(sensoresDt["peso711"]),
         "valSonda1": fmt(sensoresDt["valSonda1"]),
         "valSonda2": fmt(sensoresDt["valSonda2"])
     })
@@ -129,6 +129,7 @@ def api_saveOffset():
 #                            Funciones de sistema                            #
 ##############################################################################
 pwrBtn()
+readTarjeta2S()
 
 # for i in range(10):
 #     time.sleep(0.5)

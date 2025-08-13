@@ -13,6 +13,8 @@ I2C_ADDR = 0x40                 # Dirección SHT21
 CMD_MEASURE_TEMP = 0xF3         # Registro Temperatura
 CMD_MEASURE_HUM = 0xF5          # Registro de Humedad
 
+I2C_ADDR_2s = 0x30                 # Dirección Tarjeta 2a Sonda
+
 # ===============================================================#
 #               Configuración de offsets y escalas               #
 # ===============================================================#
@@ -27,10 +29,10 @@ SCALE_HUM = float(os.getenv("SCALE_HUM", 125.0))        # Escala de Humedad
 #===============================================================#
 #                   Funciones de lectura SHT21                  #
 #===============================================================#
-def read_sensor(bus, command):
-    bus.write_byte(I2C_ADDR, command)
+def read_sensor(bus, command, address):
+    bus.write_byte(address, command)
     time.sleep(0.1)
-    read = i2c_msg.read(I2C_ADDR, 3)
+    read = i2c_msg.read(address, 3)
     bus.i2c_rdwr(read)
     data = list(read)
     raw = (data[0] << 8) | data[1]
@@ -39,19 +41,19 @@ def read_sensor(bus, command):
     return raw
 
 def read_temperature(bus):
-    raw = read_sensor(bus, CMD_MEASURE_TEMP)
+    raw = read_sensor(bus, CMD_MEASURE_TEMP, I2C_ADDR)
     temp_c = OFFSET_TEMP + (SCALE_TEMP * raw / 65536.0)
 
     return temp_c
 
 def read_humidity(bus):
-    raw = read_sensor(bus, CMD_MEASURE_HUM)
+    raw = read_sensor(bus, CMD_MEASURE_HUM, I2C_ADDR)
     hum = OFFSET_HUM + (SCALE_HUM * raw / 65536.0)
 
     return hum
 
 #===============================================================#
-#               Función principal de lectura SHT21              #
+#             Funciones principales de lectura SHT21            #
 #===============================================================#
 def sht21():
     try:
@@ -65,9 +67,6 @@ def sht21():
         # logger.error("Error de lectura SHT21:", e)
         print(f"Error de lectura: {e}")
 
-#===============================================================#
-#                  Función de calibración SHT21                 #
-#===============================================================#
 def calibracion(tempAct):
     global OFFSET_TEMP
     lines = []
@@ -92,9 +91,6 @@ def calibracion(tempAct):
     with open("/mnt/microsd/.env", "w") as f:
         f.writelines(lines)
 
-#===============================================================#
-#                 Función para detener uso de SHT21             #
-#===============================================================#
 def stop_sht21():
     try:
         with SMBus(3) as bus:
@@ -103,3 +99,14 @@ def stop_sht21():
     except Exception as e:
         print(f"No se pudo finalizar conexión con SHT21: {e}")
         # logger.warning(f"No se pudo finalizar conexión con SHT21: {e}")
+
+#===============================================================#
+#               Función de Prueba tarjeta 2a Sonda              #
+#===============================================================#
+def readTarjeta2S():
+    try:
+        with SMBus(3) as bus:
+            p = read_sensor(bus, 0x55, I2C_ADDR_2s)
+            print(p)
+    except Exception as e:
+        print(f"Error de lectura: {e}")
