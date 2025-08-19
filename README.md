@@ -182,7 +182,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Formulartio para ingerso de nombre de paciente.
 - Cambio de HW-504 por lectura ADC de sondas de piel.
 
-### v0.12 - [12/Agosto/2025]
+### v0.12 - [19/Agosto/2025]
 
 - Correcion de bugs de lectura de Sonda de piel, Celda de pesaje, Niveles de luz de fototerapia y examinación.
 - Comentados los logs.
+- Modificada función de botón PWR para que incrememnte un contador y si pasan 30 segundos sin presionarse el botón el contedor se reinicia a 0.
+- Prueba de led de botón PWR.

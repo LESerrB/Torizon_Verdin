@@ -108,5 +108,9 @@ def readTarjeta2S():
         with SMBus(3) as bus:
             p = read_sensor(bus, 0x55, I2C_ADDR_2s)
             print(p)
+            p = read_sensor(bus, 0x33, I2C_ADDR_2s)
+            print(p)
+            p = read_sensor(bus, 0x44, I2C_ADDR_2s)
+            print(p)
     except Exception as e:
         print(f"Error de lectura: {e}")

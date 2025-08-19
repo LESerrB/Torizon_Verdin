@@ -129,7 +129,8 @@ def api_saveOffset():
 #                            Funciones de sistema                            #
 ##############################################################################
 pwrBtn()
-readTarjeta2S()
+
+readTarjeta2S() # En pruebas
 
 # for i in range(10):
 #     time.sleep(0.5)
