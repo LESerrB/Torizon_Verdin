@@ -21,7 +21,8 @@ from gpio.pwr import pwrBtn
 from adc.sonda import read_Sonda, read_Sonda2, calib_Sonda
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
-from uart.ttl232rg import uart_send, uart_receive, close_uart
+from gpio.calef import prueba_pin
+# from uart.ttl232rg import uart_send, uart_receive, close_uart
 
 ##############################################################################
 #                           Configuracion de Flask                           #
@@ -132,6 +133,7 @@ pwrBtn()
 
 readTarjeta2S() # En pruebas
 
+prueba_pin()
 # for i in range(10):
 #     time.sleep(0.5)
 #     uart_send('A')

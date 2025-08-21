@@ -12,6 +12,7 @@ CHIP_NAME = "/dev/gpiochip4"
 PWR_LINE = 27
 PWR_LED = 26
 cont_modo_calib = 0
+calib = False
 
 chip = gpiod.Chip(CHIP_NAME)
 line = chip.get_line(PWR_LINE)
@@ -31,6 +32,8 @@ led.set_value(1)
 
 def handle_event():
   global cont_modo_calib
+  global calib
+  
   last_event_time = time.monotonic()
   
   while True:
@@ -46,14 +49,38 @@ def handle_event():
       last_event_time = now
 
       if evt.type == gpiod.LineEvent.FALLING_EDGE:
-        led.set_value(0)
+        led.set_value(1)
         print("Toques para calibrar:", cont_modo_calib)
       elif evt.type == gpiod.LineEvent.RISING_EDGE:
-        led.set_value(1)
+        led.set_value(0)
         cont_modo_calib += 1
+    
+    if cont_modo_calib >= 10:
+      calib = True
 
+def blink_calib():
+  global calib
 
+  while True:
+    if calib:
+      start_time = time.monotonic()
+
+      while calib and (time.monotonic() - start_time < 60):
+        led.set_value(0)
+        time.sleep(1)
+        led.set_value(1)
+        time.sleep(1)
+
+      calib = False
+
+    time.sleep(0.1)
 
 def pwrBtn():
-    thread = threading.Thread(target=handle_event, daemon=True)
-    thread.start()
+  thread = threading.Thread(target=handle_event, daemon=True)
+  thread.start()
+
+def pwrLed():
+  thread = threading.Thread(target=blink_calib, daemon=True)
+  thread.start()
+
+pwrLed()

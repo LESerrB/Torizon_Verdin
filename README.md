@@ -188,3 +188,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Comentados los logs.
 - Modificada función de botón PWR para que incrememnte un contador y si pasan 30 segundos sin presionarse el botón el contedor se reinicia a 0.
 - Prueba de led de botón PWR.
+- Cambio de puertos I2S (Serial Audio) a GPIO.

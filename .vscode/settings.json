@@ -1,9 +1,8 @@
 {
-  "torizon_psswd": "arroba",
   "torizon_login": "torizon",
-  "torizon_ip": "192.168.1.100",
+  "torizon_ip": "192.168.1.101",
   "torizon_ssh_port": "22",
-  "host_ip": "192.168.1.101",
+  "host_ip": "192.168.1.100",
   "torizon_workspace": "${workspaceFolder}",
   "torizon_debug_ssh_port": "6502",
   "torizon_debug_port1": "6512",
@@ -19,8 +18,9 @@
   "tcb.version": "3.11.0",
   "torizon.gpuPrefixRC": true,
   "python.defaultInterpreterPath": "./.venv/bin/python3",
+  "torizon_psswd": "arroba",
   "containers.environment": {
-    "DOCKER_HOST": "tcp://192.168.1.100:2375",
+    "DOCKER_HOST": "tcp://192.168.1.101:2375",
     "DEBUG_SSH_PORT": "6502",
     "DEBUG_PORT1": "6512",
     "DEBUG_PORT2": "",
