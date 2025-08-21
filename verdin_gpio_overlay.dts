@@ -1,0 +1,61 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "toradex,verdin-imx8mm";
+
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            gpio_export {
+                compatible = "gpio-export";
+                #size-cells = <0>;
+
+                gpio119 {
+                    gpio-export,name = "SODIMM_36";
+                    gpios = <&gpio4 23 GPIO_ACTIVE_HIGH>; /* GPIO4_IO23 = gpio-119 */
+                    output-low;
+                };
+
+                gpio120 {
+                    gpio-export,name = "SODIMM_32";
+                    gpios = <&gpio4 24 GPIO_ACTIVE_HIGH>; /* GPIO4_IO24 = gpio-120 */
+                    output-low;
+                };
+
+                gpio121 {
+                    gpio-export,name = "SODIMM_30";
+                    gpios = <&gpio4 25 GPIO_ACTIVE_HIGH>; /* GPIO4_IO25 = gpio-121 */
+                    output-low;
+                };
+
+                gpio122 {
+                    gpio-export,name = "SODIMM_34";
+                    gpios = <&gpio4 26 GPIO_ACTIVE_HIGH>; /* GPIO4_IO26 = gpio-122 */
+                    output-low;
+                };
+
+                gpio123 {
+                    gpio-export,name = "SODIMM_38";
+                    gpios = <&gpio4 27 GPIO_ACTIVE_HIGH>; /* GPIO4_IO27 = gpio-123 */
+                    output-low;
+                };
+            };
+        };
+    }
+
+    fragment@1 {
+        target = <&iomuxc>;
+        __overlay__ {
+            pinctrl_gpio_export: gpio-export-pins {
+                fsl,pins = <
+                    MX8MM_IOMUXC_SAI1_RXD2_GPIO4_IO23 0x106  /* SODIMM_36 */
+                    MX8MM_IOMUXC_SAI1_RXD3_GPIO4_IO24 0x106  /* SODIMM_32 */
+                    MX8MM_IOMUXC_SAI1_TXFS_GPIO4_IO25 0x106  /* SODIMM_30 */
+                    MX8MM_IOMUXC_SAI1_TXC_GPIO4_IO26 0x106   /* SODIMM_34 */
+                    MX8MM_IOMUXC_SAI1_TXD0_GPIO4_IO27 0x106  /* SODIMM_38 */
+                >;
+            };
+        };
+    }
+};
