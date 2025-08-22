@@ -10,19 +10,20 @@ import shutil
 # from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
 
-from files.logs import logger
+# from files.logs import logger
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
 from i2c.sht21 import sht21, calibracion, readTarjeta2S
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
-from gpio.pwr import pwrBtn
 from adc.sonda import read_Sonda, read_Sonda2, calib_Sonda
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
-from gpio.calef import prueba_pin
+from gpio.calef import ctrl_Calef, set_PWM_Calef
 # from uart.ttl232rg import uart_send, uart_receive, close_uart
+
+import gpio.pwr
 
 ##############################################################################
 #                           Configuracion de Flask                           #
@@ -44,6 +45,7 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 # werkzeug_logger.handlers = logger.handlers
 # werkzeug_logger.setLevel(logger.level)
 
+PWM_Calef = 75
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
@@ -126,14 +128,22 @@ def api_saveOffset():
 
     return jsonify({"status": "ok"})
 
+@app.route("/api/potCalef", methods=["POST"])
+def api_potCalef():
+    potCalef = request.get_json()
+    PWM_Calef = potCalef.get("potCalef")
+
+    if PWM_Calef is not None:
+        set_PWM_Calef(int(PWM_Calef))
+
+    return jsonify({"status": "ok"})
+
 ##############################################################################
 #                            Funciones de sistema                            #
 ##############################################################################
-pwrBtn()
-
 readTarjeta2S() # En pruebas
 
-prueba_pin()
+# pot_calef()
 # for i in range(10):
 #     time.sleep(0.5)
 #     uart_send('A')
@@ -154,6 +164,12 @@ def restart_container(threshold=95):
         print("Espacio casi lleno, reiniciando contenedor...")
         # logger.warning('Espacio casi lleno, reiniciando contenedor...')
         os._exit(1)
+
+#===============================================================#
+#                     Inicialización de Hilo                    #
+#===============================================================#
+thread_Calef = threading.Thread(target=ctrl_Calef, daemon=True)
+thread_Calef.start()
 
 monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
 monitor_thread.start()

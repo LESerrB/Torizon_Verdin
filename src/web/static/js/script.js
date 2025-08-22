@@ -134,7 +134,7 @@ function habilitarCalefactor() {
 
 document.querySelector('.btn-aceptar').addEventListener('click', deshabilitarCalefactor);
 
-function deshabilitarCalefactor() {
+async function deshabilitarCalefactor() {
     // Deshabilitar botones
     document.querySelector('.btn-aumentar').disabled = true;
     document.querySelector('.btn-disminuir').disabled = true;
@@ -147,12 +147,33 @@ function deshabilitarCalefactor() {
     // Parpadeo
     const porcentaje = document.querySelector('.porcentaje-calef');
     porcentaje.classList.remove('parpadeo');
-    const temperatura = document.querySelector('._36-4-c-span');
-    temperatura.classList.remove('parpadeo');
-    
+
+    if (habCalibTemp) {
+        const temperatura = document.querySelector('._36-4-c-span');
+        temperatura.classList.remove('parpadeo');
+    }
+
     // Deshabilitar botones de aumentar y decremento
     habConfgCalef = false;
     habCalibTemp = false;
+
+    try{
+        potCalef = valorDiv.textContent
+        console.log("Potencia", valorDiv.textContent);
+
+        const response = await fetch('/api/potCalef', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                potCalef: potCalef
+            })
+        });
+    }
+    catch(error){
+        console.error('Error al enviar la potencia:', error);
+    }
 }
 
 btnAumentar.addEventListener('click', () => {

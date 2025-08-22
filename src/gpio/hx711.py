@@ -17,13 +17,20 @@ PIN_SCK = 5
 gpio_chip_dout = gpiod.Chip(dout_chip_path)
 gpio_chip_sck = gpiod.Chip(sck_chip_path)
 
-# Obtener líneas individuales
+# Líneas individuales
 dout_line = gpio_chip_dout.get_line(PIN_DOUT)
 sck_line = gpio_chip_sck.get_line(PIN_SCK)
 
 # Solicitar acceso
-dout_line.request(consumer="hx711", type=gpiod.LINE_REQ_DIR_IN)
-sck_line.request(consumer="hx711", type=gpiod.LINE_REQ_DIR_OUT)
+dout_line.request(
+    consumer="hx711",
+    type=gpiod.LINE_REQ_DIR_IN
+)
+
+sck_line.request(
+    consumer="hx711",
+    type=gpiod.LINE_REQ_DIR_OUT
+)
 
 #================================================================#
 #               Configuración de offsets y escalas               #
