@@ -20,10 +20,10 @@ from gpio.hx711 import hx711
 from adc.sonda import read_Sonda, read_Sonda2, calib_Sonda
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
-from gpio.calef import ctrl_Calef, set_PWM_Calef
+from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 # from uart.ttl232rg import uart_send, uart_receive, close_uart
 
-import gpio.pwr
+from gpio.pwr import pwrBtn_Evnt, blink_calib
 
 ##############################################################################
 #                           Configuracion de Flask                           #
@@ -63,7 +63,9 @@ def api_sensores():
         "hum280": None,
         "peso711": None,
         "valSonda1": None,
-        "valSonda2": None
+        "valSonda2": None,
+        "alertaCalefactor": None,
+        "potCalefactor": None,
     }
 
     try:
@@ -72,6 +74,7 @@ def api_sensores():
         sensoresDt["peso711"] = hx711()
         sensoresDt["valSonda1"] = read_Sonda()
         sensoresDt["valSonda2"] = read_Sonda2()
+        sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
     except Exception as e:
         # logger.error("Error leyendo sensores:", e)
         print("Error leyendo sensores:", e)
@@ -87,7 +90,9 @@ def api_sensores():
         "hum280": fmt(sensoresDt["hum280"]),
         "peso711": fmt(sensoresDt["peso711"]),
         "valSonda1": fmt(sensoresDt["valSonda1"]),
-        "valSonda2": fmt(sensoresDt["valSonda2"])
+        "valSonda2": fmt(sensoresDt["valSonda2"]),
+        "alertaCalefactor": sensoresDt["alertaCalefactor"],
+        "potCalefactor": sensoresDt["potCalefactor"]
     })
 
 @app.route("/api/tendencias", methods=["POST"])
@@ -166,10 +171,19 @@ def restart_container(threshold=95):
         os._exit(1)
 
 #===============================================================#
-#                     Inicialización de Hilo                    #
+#                    Inicialización de Hilos                    #
 #===============================================================#
+thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
+thread_pwrBtn.start()
+
+thread_pwrLed = threading.Thread(target=blink_calib, daemon=True)
+thread_pwrLed.start()
+
 thread_Calef = threading.Thread(target=ctrl_Calef, daemon=True)
 thread_Calef.start()
+
+thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
+thread_comCalef.start()
 
 monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
 monitor_thread.start()

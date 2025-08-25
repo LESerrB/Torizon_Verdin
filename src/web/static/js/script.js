@@ -127,6 +127,9 @@ function habilitarCalefactor() {
     habConfgCalef = true;
     habCalibTemp = false;
 
+    // Pausa sensores
+    pauseSensor();
+
     // Parpadeo
     const porcentaje = document.querySelector('.porcentaje-calef');
     porcentaje.classList.add('parpadeo');
@@ -157,9 +160,11 @@ async function deshabilitarCalefactor() {
     habConfgCalef = false;
     habCalibTemp = false;
 
+    // Habilita sensores
+    startSensor();
+
     try{
-        potCalef = valorDiv.textContent
-        console.log("Potencia", valorDiv.textContent);
+        potCalef = valorDiv.textContent;
 
         const response = await fetch('/api/potCalef', {
             method: 'POST',
@@ -338,7 +343,13 @@ async function updateSensors() {
         document.getElementById('humSHT').textContent = data.hum ?? '--.-';
         document.getElementById('unitHSHT').textContent = '%';
         
-        actualizarColorTemp(data.temp280, data.temp);
+        actualizarColorTemp(data);
+
+        valorDiv.textContent = data.potCalefactor
+
+        if (data.alertaCalefactor){
+            alert("Calefactor desconectado")
+        }
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }
@@ -347,19 +358,19 @@ async function updateSensors() {
     return data; // Se debe usar await en las funciones que hace uso de los datos de los sensores para que la lectura sea correcta
 }
 
-function actualizarColorTemp(temp, temp280) {
-    const tempValor = parseFloat(temp.textContent);
+function actualizarColorTemp(data) {
+    const tempValor = parseFloat(data.temp);
     const tempSpan = document.getElementById('tempSHT');
-    const temp280Valor = parseFloat(temp280.textContent);
+    const temp280Valor = parseFloat(data.temp280);
     const temp280Span = document.getElementById('tempBME');
 
-    if (tempValor > 40.0) {
+    if (tempValor !== null && tempValor > 40.0) {
         tempSpan.classList.add('temp-roja');
     } else {
         tempSpan.classList.remove('temp-roja');
     }
 
-    if (temp280Valor > 40.0) {
+    if (temp280Valor !== null && temp280Valor > 40.0) {
         temp280Span.classList.add('temp-roja');
     } else {
         temp280Span.classList.remove('temp-roja');

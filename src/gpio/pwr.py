@@ -1,5 +1,4 @@
 import gpiod
-import threading
 import time
 
 # Pin       23   |   24
@@ -90,12 +89,3 @@ def blink_calib():
       calib = False
 
     time.sleep(0.1)
-
-#===============================================================#
-#                    Inicialización de Hilos                    #
-#===============================================================#
-thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
-thread_pwrBtn.start()
-
-thread_pwrLed = threading.Thread(target=blink_calib, daemon=True)
-thread_pwrLed.start()
