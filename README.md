@@ -192,3 +192,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Control de calefactor por PWM en GPIO con lógica inversa.
 - Canal de retroalimentación de GPIO para analizar el estado de la señal.
 - Implementada retroalimentación de valor de la potencia del calefactor.
+
+### v0.13 - [28/Agosto/2025]
+- Timeout para ajuste de potencia de calefactor. Si no se modifica en por lo menos 60 seg este se desactiva.
+- Habilitada comunicación UART.
+- Creada sección para despliegue de información de mensaje UART.
+- Ajuste a la alerta por desconexión de calefactor.

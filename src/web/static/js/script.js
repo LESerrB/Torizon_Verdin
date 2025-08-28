@@ -2,6 +2,8 @@ const valorDiv = document.querySelector('._100');
 const valTemp = document.querySelector('._36-4-c-span');
 const btnAumentar = document.querySelector('.btn-aumentar');
 const btnDisminuir = document.querySelector('.btn-disminuir');
+const porcentaje = document.querySelector('.porcentaje-calef');
+
 
 const durationSelect = document.getElementById('duration-select');
 const intervalSelect = document.getElementById('interval-select');
@@ -17,6 +19,7 @@ let nvlFototerapia = 0;
 let cntCalibTemp = 0;
 let habConfgCalef = false;
 let habCalibTemp = false;
+let calefTimeout = null;
 
 // Estilos de botones de sensores
 const btnSHT21 = document.querySelector('.btn-sensor-1');
@@ -29,10 +32,11 @@ const btnHW504 = document.querySelector('.btn-sensor-4');
 const btnHW504_lbl = document.querySelector('.btn-sensor-lbl-4');
 const btnCalef = document.querySelector('.btn-sensor-5');
 const btnCalef_lbl = document.querySelector('.btn-sensor-lbl-5');
+const btnInfoSist = document.querySelector('.btn-sensor-6');
+const btnInfoSist_lbl = document.querySelector('.btn-sensor-lbl-6');
 
-// Inicializar estilos de botones de sensores por default
-btnSHT21.classList.add('btn-sensor-pressed');
-btnSHT21_lbl.classList.add('btn-sensor-lbl-pressed');
+btnSHT21.classList.add('btn-sensor');
+btnSHT21_lbl.classList.add('btn-sensor-lbl');
 btnBME280.classList.add('btn-sensor');
 btnBME280_lbl.classList.add('btn-sensor-lbl');
 btnHX711.classList.add('btn-sensor');
@@ -41,14 +45,23 @@ btnHW504.classList.add('btn-sensor');
 btnHW504_lbl.classList.add('btn-sensor-lbl');
 btnCalef.classList.add('btn-sensor');
 btnCalef_lbl.classList.add('btn-sensor-lbl');
+btnInfoSist.classList.add('btn-sensor');
+btnInfoSist_lbl.classList.add('btn-sensor-lbl');
 
+// Inicializar pantalla princiapl por default
+btnSHT21.classList.add('btn-sensor-pressed');
+btnSHT21_lbl.classList.add('btn-sensor-lbl-pressed');
+
+// Titulo del Contenedor y modo de Comunicación
 document.getElementById('sens-Title').textContent = 'I2C - SHT21';
 
+// Vista de Información
 document.getElementById('temp-ambiente').style.display = 'block';
 document.getElementById('pres-ambiente').style.display = 'none';
 document.getElementById('bascula').style.display = 'none';
 document.getElementById('sonda-temperatura').style.display = 'none';
 document.getElementById('calefactor').style.display = 'none';
+document.getElementById('infoSys').style.display = 'none';
 
 // Inicializa el estado de los botones de cabecera
 document.getElementById('btn-temperatura').classList.add('active');
@@ -131,8 +144,14 @@ function habilitarCalefactor() {
     pauseSensor();
 
     // Parpadeo
-    const porcentaje = document.querySelector('.porcentaje-calef');
     porcentaje.classList.add('parpadeo');
+
+    // Timeout para ajuste de calefactor
+    if (calefTimeout) clearTimeout(calefTimeout);
+
+    calefTimeout = setTimeout(() => {
+        deshabilitarCalefactor();
+    }, 60000);
 }
 
 document.querySelector('.btn-aceptar').addEventListener('click', deshabilitarCalefactor);
@@ -147,8 +166,7 @@ async function deshabilitarCalefactor() {
         saveOffset(valTemp.textContent);
     }
 
-    // Parpadeo
-    const porcentaje = document.querySelector('.porcentaje-calef');
+    // Parpadeo|
     porcentaje.classList.remove('parpadeo');
 
     if (habCalibTemp) {
@@ -186,6 +204,14 @@ btnAumentar.addEventListener('click', () => {
         valorDiv.textContent = parseInt(valorDiv.textContent) + 1;
     else if (habCalibTemp)  // RESTA AGREGAR LIMITES DE LA TEMPERATURA MÁXIMA
         valTemp.textContent = (parseFloat(valTemp.textContent) + 0.1).toFixed(1);
+
+    if (calefTimeout) {
+        clearTimeout(calefTimeout);
+
+        calefTimeout = setTimeout(() => {
+            deshabilitarCalefactor();
+        }, 60000);
+    }
 });
 
 btnDisminuir.addEventListener('click', () => {
@@ -193,6 +219,14 @@ btnDisminuir.addEventListener('click', () => {
         valorDiv.textContent = parseInt(valorDiv.textContent) - 1;
     else if (habCalibTemp) // RESTA AGREGAR LIMITES DE LA TEMPERATURA MÍNIMA
         valTemp.textContent = (parseFloat(valTemp.textContent) - 0.1).toFixed(1);
+
+    if (calefTimeout) {
+        clearTimeout(calefTimeout);
+
+        calefTimeout = setTimeout(() => {
+            deshabilitarCalefactor();
+        }, 60000);
+    }
 });
 
 // ####################################################################### //
@@ -206,13 +240,6 @@ document.getElementById('btn-sensor-1').addEventListener('click', async () => {
 
     btnSHT21.classList.add('btn-sensor-pressed');
     btnSHT21_lbl.classList.add('btn-sensor-lbl-pressed');
-
-    btnBME280.classList.add('btn-sensor');
-    btnBME280_lbl.classList.add('btn-sensor-lbl');
-    btnHX711.classList.add('btn-sensor');
-    btnHX711_lbl.classList.add('btn-sensor-lbl');
-    btnHW504.classList.add('btn-sensor');
-    btnHW504_lbl.classList.add('btn-sensor-lbl');
 });
 
 // Temperautra/Humedad/Presión
@@ -220,17 +247,9 @@ document.getElementById('btn-sensor-2').addEventListener('click', async () => {
     mostrarSeccion('pres-ambiente');
     removeStlBtn();
     document.getElementById('sens-Title').textContent = 'SPI - BME280';
-    
-    btnSHT21.classList.add('btn-sensor');
-    btnSHT21_lbl.classList.add('btn-sensor-lbl');
 
     btnBME280.classList.add('btn-sensor-pressed');
     btnBME280_lbl.classList.add('btn-sensor-lbl-pressed');
-
-    btnHX711.classList.add('btn-sensor');
-    btnHX711_lbl.classList.add('btn-sensor-lbl');
-    btnHW504.classList.add('btn-sensor');
-    btnHW504_lbl.classList.add('btn-sensor-lbl');
 });
 
 // Bascula
@@ -239,16 +258,8 @@ document.getElementById('btn-sensor-3').addEventListener('click', async () => {
     removeStlBtn();
     document.getElementById('sens-Title').textContent = 'GPIO/SERIAL - HX711';
 
-    btnSHT21.classList.add('btn-sensor');
-    btnSHT21_lbl.classList.add('btn-sensor-lbl');
-    btnBME280.classList.add('btn-sensor');
-    btnBME280_lbl.classList.add('btn-sensor-lbl');
-
     btnHX711.classList.add('btn-sensor-pressed');
     btnHX711_lbl.classList.add('btn-sensor-lbl-pressed');
-    
-    btnHW504.classList.add('btn-sensor');
-    btnHW504_lbl.classList.add('btn-sensor-lbl');
 });
 
 // Sonda Temperatura
@@ -257,13 +268,6 @@ document.getElementById('btn-sensor-4').addEventListener('click', async () => {
     removeStlBtn();
     document.getElementById('sens-Title').textContent = 'ADC - SONDA DE PIEL';
 
-    btnSHT21.classList.add('btn-sensor');
-    btnSHT21_lbl.classList.add('btn-sensor-lbl');
-    btnBME280.classList.add('btn-sensor');
-    btnBME280_lbl.classList.add('btn-sensor-lbl');
-    btnHX711.classList.add('btn-sensor');
-    btnHX711_lbl.classList.add('btn-sensor-lbl');
-
     btnHW504.classList.add('btn-sensor-pressed');
     btnHW504_lbl.classList.add('btn-sensor-lbl-pressed');
 });
@@ -271,21 +275,21 @@ document.getElementById('btn-sensor-4').addEventListener('click', async () => {
 // Calefactor
 document.getElementById('btn-sensor-5').addEventListener('click', async () => {
     document.getElementById('sens-Title').textContent = '';
-    // document.getElementById('sens-Title').style.display = 'none';
     mostrarSeccion('calefactor');
     removeStlBtn();
 
-    btnSHT21.classList.add('btn-sensor');
-    btnSHT21_lbl.classList.add('btn-sensor-lbl');
-    btnBME280.classList.add('btn-sensor');
-    btnBME280_lbl.classList.add('btn-sensor-lbl');
-    btnHX711.classList.add('btn-sensor');
-    btnHX711_lbl.classList.add('btn-sensor-lbl');
-    btnHW504.classList.add('btn-sensor');
-    btnHW504_lbl.classList.add('btn-sensor-lbl');
-
     btnCalef.classList.add('btn-sensor-pressed');
     btnCalef_lbl.classList.add('btn-sensor-lbl-pressed');
+});
+
+// Info del Sistema
+document.getElementById('btn-sensor-6').addEventListener('click', async () => {
+    document.getElementById('sens-Title').textContent = 'Información del Sistema - UART';
+    mostrarSeccion('infoSys');
+    removeStlBtn();
+
+    btnInfoSist.classList.add('btn-sensor-pressed');
+    btnInfoSist_lbl.classList.add('btn-sensor-lbl-pressed');
 });
 
 document.getElementById('footer').addEventListener('click', () => {
@@ -347,9 +351,11 @@ async function updateSensors() {
 
         valorDiv.textContent = data.potCalefactor
 
-        if (data.alertaCalefactor){
-            alert("Calefactor desconectado")
-        }
+        if (data.alertaCalefactor)
+            porcentaje.classList.add('alertaCalef');
+        else
+            porcentaje.classList.remove('alertaCalef');
+
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }
@@ -491,6 +497,8 @@ function removeStlBtn() {
     btnHW504_lbl.classList.remove('btn-sensor-lbl-pressed');
     btnCalef.classList.remove('btn-sensor-pressed');
     btnCalef_lbl.classList.remove('btn-sensor-lbl-pressed');
+    btnInfoSist.classList.remove('btn-sensor-pressed');
+    btnInfoSist_lbl.classList.remove('btn-sensor-lbl-pressed');
 }
 
 function mostrarSeccion(idMostrar) {
@@ -499,6 +507,7 @@ function mostrarSeccion(idMostrar) {
     document.getElementById('pres-ambiente').style.display = 'none';
     document.getElementById('temp-ambiente').style.display = 'none';
     document.getElementById('calefactor').style.display = 'none';
+    document.getElementById('infoSys').style.display = 'none';
 
     document.getElementById(idMostrar).style.display = 'block';
 }

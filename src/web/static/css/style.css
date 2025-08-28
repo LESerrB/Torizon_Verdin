@@ -274,9 +274,15 @@
   display: grid;
   gap: 12px;
   width: 300px;
+  height: 100%;
+  max-height: 340px;
   position: relative;
   left: 35px;
   top: 12px;
+  overflow-y: auto;
+  padding-right: 10px;
+  direction: rtl;
+  text-align: left;
 }
 .btn-sensor {
   background: var(--azul-btn, #1ba0f2);
@@ -689,6 +695,9 @@
 /*----------------ANIMACIONES----------------*/
 .parpadeo {
     animation: parpadeo 1s infinite;
+}
+.alertaCalef {
+  background: red !important;
 }
 @keyframes parpadeo {
     0%, 100% { opacity: 1; }
