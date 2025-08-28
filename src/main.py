@@ -189,7 +189,7 @@ monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
 monitor_thread.start()
 
 #------------------------- En Pruebas -------------------------#
-# readTarjeta2S()
+readTarjeta2S()
 #--------------------------------------------------------------#
 
 if __name__ == "__main__":

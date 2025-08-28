@@ -346,7 +346,9 @@ async function updateSensors() {
         document.getElementById('unitTSHT').textContent = '°C';
         document.getElementById('humSHT').textContent = data.hum ?? '--.-';
         document.getElementById('unitHSHT').textContent = '%';
-        
+
+        document.getElementById('infoSys-Msg').textContent = data.msgSistema
+
         actualizarColorTemp(data);
 
         valorDiv.textContent = data.potCalefactor
