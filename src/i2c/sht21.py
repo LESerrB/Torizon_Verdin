@@ -124,7 +124,7 @@ def readTarjeta2S():
                 bus.write_byte(I2C_ADDR_2s_1, SONDA2_SEND)
             except Exception:
                 ERR_SON_ACUM += 1
-                print("Error",ERR_SON_ACUM)
+                # print("Error",ERR_SON_ACUM)
 
             time.sleep(0.005)
 
@@ -132,10 +132,10 @@ def readTarjeta2S():
                 datos = bus.read_i2c_block_data(I2C_ADDR_2s_2, 0x00, 2)
                 dato_sonda_1 = datos[0]
                 dato_sonda_2 = datos[1]
-                print(dato_sonda_1, dato_sonda_2)
+                # print(dato_sonda_1, dato_sonda_2)
             except Exception:
                 ERR_SON_ACUM += 1
-                print("Error",ERR_SON_ACUM)
+                # print("Error",ERR_SON_ACUM)
 
             LECT_SONDA = (dato_sonda_1 << 8) | dato_sonda_2
 
@@ -150,7 +150,7 @@ def readTarjeta2S():
 
             LECT_SONDA += OFFSET_PIEL2
 
-            print("\n\n", LECT_SONDA, "\n\n")
+            # print("\n\n", LECT_SONDA, "\n\n")
             time.sleep(0.001)
 
             if ERR_SON_ACUM > 1:

@@ -49,7 +49,8 @@ def read_Sonda():
             return tempSonda
     except Exception as e:
         # logger.error("Error leyendo SONDA1:", e)
-        print(f"Error leyendo SONDA1: {e}")
+        # print(f"Error leyendo SONDA1: {e}")
+        return 0
 
 def read_Sonda2():
     try:
@@ -62,7 +63,8 @@ def read_Sonda2():
             return tempSonda2
     except Exception as e:
         # logger.error("Error leyendo SONDA2:", e)
-        print(f"Error leyendo SONDA2: {e}")
+        # print(f"Error leyendo SONDA2: {e}")
+        return 0
 
 #================================================================#
 #                       Calibración Sondas                       #
