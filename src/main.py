@@ -78,9 +78,11 @@ def api_sensores():
         sensoresDt["valSonda1"] = read_Sonda()
         sensoresDt["valSonda2"] = read_Sonda2()
         sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
+        # uart_send("Hola")
+        # time.sleep(0.1)
         sensoresDt["msgSistema"] = uart_receive()
 #------------------------- En Pruebas -------------------------#
-        readTarjeta2S() # En pruebas
+        # readTarjeta2S() # En pruebas
 #--------------------------------------------------------------#
     except Exception as e:
         # logger.error("Error leyendo sensores:", e)
