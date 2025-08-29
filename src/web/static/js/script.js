@@ -347,7 +347,9 @@ async function updateSensors() {
         document.getElementById('humSHT').textContent = data.hum ?? '--.-';
         document.getElementById('unitHSHT').textContent = '%';
 
-        document.getElementById('infoSys-Msg').textContent = data.msgSistema
+        if (data.msgSistema) {
+            document.getElementById('infoSys-Msg').textContent = data.msgSistema
+        }
 
         actualizarColorTemp(data);
 
