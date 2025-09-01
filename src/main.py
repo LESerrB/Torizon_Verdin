@@ -22,9 +22,18 @@ from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from gpio.pwr import pwrBtn_Evnt, blink_calib
-from uart.comBCD import uart_send, uart_receive
+from uart.comBCD import uart_send, uart_receive, StateMachine
 
 #------------------------- En Pruebas -------------------------#
+fsm = StateMachine()
+
+entradas = ["200", "215", "230", "267", "304", "365", "402"]
+
+for entrada in entradas:
+    fsm.run(entrada)
+
+    if fsm.state == "edo_6":
+        print(">>>>>>>>>Edo:", fsm.state)
 #--------------------------------------------------------------#
 
 ##############################################################################
@@ -78,8 +87,6 @@ def api_sensores():
         sensoresDt["valSonda1"] = read_Sonda()
         sensoresDt["valSonda2"] = read_Sonda2()
         sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
-        # uart_send("Hola")
-        # time.sleep(0.1)
         sensoresDt["msgSistema"] = uart_receive()
 #------------------------- En Pruebas -------------------------#
         # readTarjeta2S() # En pruebas
@@ -191,7 +198,8 @@ monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
 monitor_thread.start()
 
 #------------------------- En Pruebas -------------------------#
-readTarjeta2S()
+# readTarjeta2S()
+
 #--------------------------------------------------------------#
 
 if __name__ == "__main__":
