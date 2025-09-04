@@ -13,6 +13,7 @@ I2C_ADDR = 0x40                 # Dirección SHT21
 CMD_MEASURE_TEMP = 0xF3         # Registro Temperatura
 CMD_MEASURE_HUM = 0xF5          # Registro de Humedad
 
+#  Segunda sonda
 I2C_ADDR_2s_1 = 0x60            # Dirección Tarjeta 2a Sonda
 I2C_ADDR_2s_2 = 0x61            # Dirección Tarjeta 2a Sonda
 
@@ -170,3 +171,37 @@ def readTarjeta2S():
             # print(p)
     except Exception as e:
         print(f"Error de lectura: {e}")
+
+#===============================================================#
+#                      Prueba  TMP1075DSGR                      #
+#===============================================================#
+# No esta conectado el dispositivo interno pero se queda por el funcionamiento en clases
+# I2C_ADDRESS = 0x4F
+# TEMP_REG = 0x00
+# I2C_BUS = 3
+
+# class TMP1075:
+#     def __init__(self, bus=I2C_BUS, address=I2C_ADDRESS):
+#         self.bus = SMBus(bus)
+#         self.address = address
+
+
+#     def read_temperature(self):
+#         raw = self.bus.read_i2c_block_data(self.address, TEMP_REG, 2)
+#         msb = raw[0]
+#         lsb = raw[1]
+
+
+#         # Combinar bytes en un entero de 12 bits (signado)
+#         temp_raw = ((msb << 4) | (lsb >> 4))
+
+#         if temp_raw & 0x800: # Si es negativo (bit 11)
+#             temp_raw -= 1 << 12
+
+
+#         temperature = temp_raw * 0.0625
+#         return round(temperature, 2)
+
+
+#     def close(self):
+#         self.bus.close()
