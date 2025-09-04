@@ -14,26 +14,23 @@ from flask import Flask, render_template, jsonify, request
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from i2c.sht21 import sht21, calibracion, readTarjeta2S
+from gpio.pwr import pwrBtn_Evnt, blink_calib
+from i2c.sht21 import sht21, calibracion#, readTarjeta2S
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
-from adc.sonda import read_Sonda, read_Sonda2, calib_Sonda
+from adc.sonda import read_Sonda, read_Sonda2#, calib_Sonda
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
-from gpio.pwr import pwrBtn_Evnt, blink_calib
-from uart.comBCD import uart_send, uart_receive, StateMachine
+from uart.comBCD import uart_send, uart_receive#, StateMachine
 
 #------------------------- En Pruebas -------------------------#
-fsm = StateMachine()
+# sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
 
-entradas = ["200", "215", "230", "267", "304", "365", "402"]
+# fsm = StateMachine()
 
-for entrada in entradas:
-    fsm.run(entrada)
-
-    if fsm.state == "edo_6":
-        print(">>>>>>>>>Edo:", fsm.state)
+# while True:
+#     fsm.run()
 #--------------------------------------------------------------#
 
 ##############################################################################
@@ -87,9 +84,11 @@ def api_sensores():
         sensoresDt["valSonda1"] = read_Sonda()
         sensoresDt["valSonda2"] = read_Sonda2()
         sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
-        sensoresDt["msgSistema"] = uart_receive()
+        sensoresDt["msgSistema"] = uart_receive() + " °C"
 #------------------------- En Pruebas -------------------------#
-        # readTarjeta2S() # En pruebas
+        # sensoresDt["msgSistema"] = fsm.run()
+        # readTarjeta2S()
+        # print(sensor1075.read_temperature()) # NO FUNCIONA POR QUE NO ESTA EL DISPOSITIVO, PERO QUEDA PARA VER COMO FUNCIONAN LAS CLASES
 #--------------------------------------------------------------#
     except Exception as e:
         # logger.error("Error leyendo sensores:", e)
@@ -187,8 +186,7 @@ thread_pwrBtn.start()
 thread_pwrLed = threading.Thread(target=blink_calib, daemon=True)
 thread_pwrLed.start()
 
-thread_Calef = threading.Thread(target=ctrl_Calef
-                                , daemon=True)
+thread_Calef = threading.Thread(target=ctrl_Calef, daemon=True)
 thread_Calef.start()
 
 thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
@@ -199,7 +197,6 @@ monitor_thread.start()
 
 #------------------------- En Pruebas -------------------------#
 # readTarjeta2S()
-
 #--------------------------------------------------------------#
 
 if __name__ == "__main__":
