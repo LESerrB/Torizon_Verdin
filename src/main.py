@@ -15,7 +15,7 @@ from flask import Flask, render_template, jsonify, request
 # logger.info('Encendido del sistema')
 
 from gpio.pwr import pwrBtn_Evnt, blink_calib
-from i2c.sht21 import sht21, calibracion#, readTarjeta2S
+from i2c.sht21 import sht21, calibracion, readTarjeta2S, read_temp275
 from spi.bme280 import bme280
 from gpio.hx711 import hx711
 from adc.sonda import read_Sonda, read_Sonda2#, calib_Sonda
@@ -25,6 +25,7 @@ from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from uart.comBCD import uart_send, uart_receive#, StateMachine
 
 #------------------------- En Pruebas -------------------------#
+from i2c.at13Bas import bascula
 # sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
 
 # fsm = StateMachine()
@@ -77,37 +78,52 @@ def api_sensores():
         "msgSistema": None
     }
 
-    try:
-        # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
-        sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
-        sensoresDt["peso711"] = hx711()
-        sensoresDt["valSonda1"] = read_Sonda()
-        sensoresDt["valSonda2"] = read_Sonda2()
-        sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
-        sensoresDt["msgSistema"] = uart_receive() + " °C"
+    # try:
+    sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
+    sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
+    sensoresDt["peso711"] = hx711()
+    sensoresDt["valSonda1"] = read_Sonda()
+    sensoresDt["valSonda2"] = read_Sonda2()
+    sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
+    valor_uart = uart_receive()
+
+    if valor_uart is None or valor_uart.strip() == "" or not valor_uart.replace('.', '', 1).isdigit():
+        sensoresDt["msgSistema"] = None
+    else:
+        sensoresDt["msgSistema"] = f"{valor_uart} °C"
 #------------------------- En Pruebas -------------------------#
-        # sensoresDt["msgSistema"] = fsm.run()
-        # readTarjeta2S()
-        # print(sensor1075.read_temperature()) # NO FUNCIONA POR QUE NO ESTA EL DISPOSITIVO, PERO QUEDA PARA VER COMO FUNCIONAN LAS CLASES
+    bascula()
+    # print(read_temp275())
+    # readTarjeta2S()
+    # sensoresDt["msgSistema"] = fsm.run()
+    # print(sensor1075.read_temperature()) # NO FUNCIONA POR QUE NO ESTA EL DISPOSITIVO, PERO QUEDA PARA VER COMO FUNCIONAN LAS CLASES
 #--------------------------------------------------------------#
-    except Exception as e:
+    # except Exception as e:
         # logger.error("Error leyendo sensores:", e)
-        print("Error leyendo sensores:", e)
+        # print("Error leyendo sensores:", e)
 
     def fmt(val):
-        return round(float(val), 1) if val is not None else None
+        try:
+            return round(float(val), 1)
+        except (TypeError, ValueError):
+            return "--.-"
 
     return jsonify({
         "temp": fmt(sensoresDt["temp"]),
         "hum": fmt(sensoresDt["hum"]),
+
         "temp280": fmt(sensoresDt["temp280"]),
         "pres280": fmt(sensoresDt["pres280"]),
         "hum280": fmt(sensoresDt["hum280"]),
+
         "peso711": fmt(sensoresDt["peso711"]),
+
         "valSonda1": fmt(sensoresDt["valSonda1"]),
         "valSonda2": fmt(sensoresDt["valSonda2"]),
+
         "alertaCalefactor": sensoresDt["alertaCalefactor"],
         "potCalefactor": sensoresDt["potCalefactor"],
+
         "msgSistema": sensoresDt["msgSistema"]
     })
 
@@ -196,7 +212,7 @@ monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
 monitor_thread.start()
 
 #------------------------- En Pruebas -------------------------#
-# readTarjeta2S()
+# # # # # # # # # # # # # readTarjeta2S()
 #--------------------------------------------------------------#
 
 if __name__ == "__main__":
