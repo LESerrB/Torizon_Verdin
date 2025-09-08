@@ -8,14 +8,14 @@ ser = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
 def uart_send(data: str):
     if ser and ser.is_open:
         ser.write(data.encode('ascii'))
-        print(f"Enviado: {data.strip()}")
+        # print(f"Enviado: {data.strip()}")
     else:
         print("UART no está abierto")
 
 def uart_receive() -> str:
     if ser and ser.is_open:
         data = ser.readline().decode("utf-8", errors="ignore")
-        print("Dato recibido:", data)
+        # print("Dato recibido:", data)
         # data = clean_text(data)
 
         if data:

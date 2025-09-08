@@ -9,13 +9,15 @@ from dotenv import load_dotenv
 #===============================================================#
 #                    Configuración I2C SHT21                    #
 #===============================================================#
-I2C_ADDR = 0x40                 # Dirección SHT21
+I2C_ADDR_SHT21 = 0x40           # Dirección SHT21
 CMD_MEASURE_TEMP = 0xF3         # Registro Temperatura
 CMD_MEASURE_HUM = 0xF5          # Registro de Humedad
 
+I2C_ADDR_TMP275 = 0x48          # Dirección TMP275
+TEMP_REGISTER = 0x00            # Registro Temperatura
+
 #  Segunda sonda
-I2C_ADDR_2s_1 = 0x60            # Dirección Tarjeta 2a Sonda
-I2C_ADDR_2s_2 = 0x61            # Dirección Tarjeta 2a Sonda
+I2C_ADDR_2s_1 = 0x40            # Dirección Tarjeta 2a Sonda
 
 SONDA2_SEND = 0x44  # Esto puede cambiar dinámicamente
 OFFSET_PIEL2 = 0
@@ -47,13 +49,13 @@ def read_sensor(bus, command, address):
     return raw
 
 def read_temperature(bus):
-    raw = read_sensor(bus, CMD_MEASURE_TEMP, I2C_ADDR)
+    raw = read_sensor(bus, CMD_MEASURE_TEMP, I2C_ADDR_SHT21)
     temp_c = OFFSET_TEMP + (SCALE_TEMP * raw / 65536.0)
 
     return temp_c
 
 def read_humidity(bus):
-    raw = read_sensor(bus, CMD_MEASURE_HUM, I2C_ADDR)
+    raw = read_sensor(bus, CMD_MEASURE_HUM, I2C_ADDR_SHT21)
     hum = OFFSET_HUM + (SCALE_HUM * raw / 65536.0)
 
     return hum
@@ -71,7 +73,9 @@ def sht21():
             return th
     except Exception as e:
         # logger.error("Error de lectura SHT21:", e)
-        print(f"Error de lectura: {e}")
+        print(f"Error de lectura SHT21: {e}")
+        th = struct.pack('ff', 0.0, 0.0)
+        return th
 
 def calibracion(tempAct):
     global OFFSET_TEMP
@@ -100,7 +104,7 @@ def calibracion(tempAct):
 def stop_sht21():
     try:
         with SMBus(3) as bus:
-            bus.read_byte(I2C_ADDR)
+            bus.read_byte(I2C_ADDR_SHT21)
             # logger.info("SHT21 desconectado correctamente")
     except Exception as e:
         print(f"No se pudo finalizar conexión con SHT21: {e}")
@@ -109,6 +113,7 @@ def stop_sht21():
 #===============================================================#
 #               Función de Prueba tarjeta 2a Sonda              #
 #===============================================================#
+# Corregir el envío de datos bsandose en la comunicación de la tarjeta de bascula at13 bas
 def readTarjeta2S():
     global SONDA2_SEND, ERRORES_SONDA
     ERR_SON_ACUM = 0
@@ -130,10 +135,10 @@ def readTarjeta2S():
             time.sleep(0.005)
 
             try:
-                datos = bus.read_i2c_block_data(I2C_ADDR_2s_2, 0x00, 2)
+                datos = bus.read_i2c_block_data(I2C_ADDR_2s_1, 0x00, 2)
                 dato_sonda_1 = datos[0]
                 dato_sonda_2 = datos[1]
-                # print(dato_sonda_1, dato_sonda_2)
+                print(dato_sonda_1, dato_sonda_2)
             except Exception:
                 ERR_SON_ACUM += 1
                 # print("Error",ERR_SON_ACUM)
@@ -171,6 +176,28 @@ def readTarjeta2S():
             # print(p)
     except Exception as e:
         print(f"Error de lectura: {e}")
+
+#===============================================================#
+#                    Función de Prueba TMP275                   #
+#===============================================================#
+def read_temp275():
+    try:
+        # bus = smbus2.SMBus(I2C_BUS)
+        with SMBus(3) as bus:
+            # Leer 2 bytes desde el registro de temperatura
+            raw = bus.read_i2c_block_data(I2C_ADDR_TMP275, TEMP_REGISTER, 2)
+            temp_raw = (raw[0] << 4) | (raw[1] >> 4)
+
+            # Conversión de complemento a dos si temperatura negativa
+            if temp_raw & (1 << 11):  # TMP275 es de 12 bits
+                temp_raw -= 1 << 12
+
+            temperature = temp_raw * 0.0625  # Cada bit representa 0.0625°C
+            return round(temperature, 2)
+
+    except Exception as e:
+        print(f"Error al leer TMP275: {e}")
+        return None
 
 #===============================================================#
 #                      Prueba  TMP1075DSGR                      #
