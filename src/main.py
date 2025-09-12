@@ -15,17 +15,18 @@ from flask import Flask, render_template, jsonify, request
 # logger.info('Encendido del sistema')
 
 from gpio.pwr import pwrBtn_Evnt, blink_calib
-from i2c.sht21 import sht21, calibracion, readTarjeta2S, read_temp275
-from spi.bme280 import bme280
-from gpio.hx711 import hx711
-from adc.sonda import read_Sonda, read_Sonda2#, calib_Sonda
+from adc.sonda import read_Sonda#, calib_Sonda
+from i2c.at13_Bas import read_Bascula
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
-from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
+# from i2c.sht21 import sht21, calibracion#, read_temp275
+# from gpio.hx711 import hx711
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
+from spi.bme280 import bme280
+from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from uart.comBCD import uart_send, uart_receive#, StateMachine
 
 #------------------------- En Pruebas -------------------------#
-from i2c.at13Bas import bascula
+from i2c.at18_T2s import readTarjeta2S
 # sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
 
 # fsm = StateMachine()
@@ -79,11 +80,11 @@ def api_sensores():
     }
 
     # try:
-    sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
+    # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
     sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
-    sensoresDt["peso711"] = hx711()
+    sensoresDt["peso711"] = read_Bascula()
     sensoresDt["valSonda1"] = read_Sonda()
-    sensoresDt["valSonda2"] = read_Sonda2()
+    # sensoresDt["valSonda2"] = read_Sonda2()
     sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
     valor_uart = uart_receive()
 
@@ -92,9 +93,8 @@ def api_sensores():
     else:
         sensoresDt["msgSistema"] = f"{valor_uart} °C"
 #------------------------- En Pruebas -------------------------#
-    bascula()
     # print(read_temp275())
-    # readTarjeta2S()
+    readTarjeta2S()
     # sensoresDt["msgSistema"] = fsm.run()
     # print(sensor1075.read_temperature()) # NO FUNCIONA POR QUE NO ESTA EL DISPOSITIVO, PERO QUEDA PARA VER COMO FUNCIONAN LAS CLASES
 #--------------------------------------------------------------#
@@ -116,7 +116,7 @@ def api_sensores():
         "pres280": fmt(sensoresDt["pres280"]),
         "hum280": fmt(sensoresDt["hum280"]),
 
-        "peso711": fmt(sensoresDt["peso711"]),
+        "peso711": sensoresDt["peso711"],
 
         "valSonda1": fmt(sensoresDt["valSonda1"]),
         "valSonda2": fmt(sensoresDt["valSonda2"]),
@@ -156,14 +156,14 @@ def api_nvlFototerapia():
 
     return jsonify({"status": "ok"})
 
-@app.route("/api/saveOffset", methods=["POST"])
-def api_saveOffset():
-    tempAct = request.get_json().get("action")
+# @app.route("/api/saveOffset", methods=["POST"])
+# def api_saveOffset():
+#     tempAct = request.get_json().get("action")
 
-    if tempAct:
-        calibracion(tempAct)
+#     if tempAct:
+#         calibracion(tempAct)
 
-    return jsonify({"status": "ok"})
+#     return jsonify({"status": "ok"})
 
 @app.route("/api/potCalef", methods=["POST"])
 def api_potCalef():

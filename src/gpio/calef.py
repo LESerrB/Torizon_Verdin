@@ -14,8 +14,8 @@ import struct
 #===============================================================#
 bank = "/dev/gpiochip3" # GPIO3
 
-pin_11 = 25    # Calefactor
-pin_12 = 24
+pin_11 = 25     # Calefactor
+pin_12 = 24     # Lectura de Señal Calefactor
 pin_13 = 26
 pin_14 = 23
 pin_15 = 27

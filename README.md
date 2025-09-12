@@ -203,3 +203,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Lectura de sonda de piel desde tarjeta BCD por UART.
 - Lectura de tarjeta de báscula via I2C.
 - Encontrado error en la comunicación con tarjeta de 2a Sonda.
+
+### v0.14 - [12/Septiembre/2025]
+
+- Conectividad con Tarjeta de Bescula.
+- Lectura de peso en Kg.
+- Actualización de control de Luz de Fototerapia y Luz de Examinación.
+- Conexión con Tarjeta de Segunda Sonda.
