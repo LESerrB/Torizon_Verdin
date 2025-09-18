@@ -1,6 +1,7 @@
 import time
 
 from smbus2 import SMBus   # I2C
+from typing import List
 
 ADDR_BASC = 0x28
 
@@ -17,11 +18,11 @@ def read_Bascula():
 
             read_byte1 = bus.read_byte_data(ADDR_BASC, READ_REG_ADDR)
             read_byte2 = bus.read_byte_data(ADDR_BASC, READ_REG_ADDR)
-            peso = ((read_byte2 << 8) | read_byte1)/1000
+            peso = ((read_byte1 << 8) | read_byte2)/1000
 
             return peso
     except Exception as e:
-        print("Error:", e)
+        print("Error de Báscula:", e)
 
 def calib_Bascula():
     print("Calibración")
