@@ -24,9 +24,12 @@ from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from uart.comBCD import uart_send, uart_receive#, StateMachine
+from uart.comBCD import decript_Msg
 
 #------------------------- En Pruebas -------------------------#
 from i2c.at18_T2s import readTarjeta2S
+
+decript_Msg()
 # sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
 
 # fsm = StateMachine()
@@ -84,7 +87,7 @@ def api_sensores():
     sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
     sensoresDt["peso711"] = read_Bascula()
     sensoresDt["valSonda1"] = read_Sonda()
-    # sensoresDt["valSonda2"] = read_Sonda2()
+    sensoresDt["valSonda2"] = readTarjeta2S()
     sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
     valor_uart = uart_receive()
 
@@ -94,7 +97,7 @@ def api_sensores():
         sensoresDt["msgSistema"] = f"{valor_uart} °C"
 #------------------------- En Pruebas -------------------------#
     # print(read_temp275())
-    readTarjeta2S()
+    # readTarjeta2S()
     # sensoresDt["msgSistema"] = fsm.run()
     # print(sensor1075.read_temperature()) # NO FUNCIONA POR QUE NO ESTA EL DISPOSITIVO, PERO QUEDA PARA VER COMO FUNCIONAN LAS CLASES
 #--------------------------------------------------------------#
