@@ -210,3 +210,5 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Lectura de peso en Kg.
 - Actualización de control de Luz de Fototerapia y Luz de Examinación.
 - Conexión con Tarjeta de Segunda Sonda.
+- Creada función para probar comunicación UART con tarjeta de báscula.
+- Implementación de trama de comunicación con CRC-16 ARC.
