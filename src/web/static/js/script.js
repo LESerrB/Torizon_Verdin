@@ -657,8 +657,14 @@ clearChartBtn.addEventListener('click', async () => {
 // ####################################################################### //
 async function valSliderFot(val1) {
     document.getElementById('luzFot').innerHTML = val1
-    document.getElementById('luzExam').value = val1
-    valSliderLExam(val1)
+
+    if (val1 == 0) {
+        document.getElementById('luzExam').disabled = false
+    } else {
+        document.getElementById('luzExam').disabled = true
+        document.getElementById('luzExam').value = val1
+        valSliderLExam(val1)
+    }
 
     try {
         const response = await fetch('/api/nvlFototerapia', {
@@ -680,12 +686,7 @@ async function valSliderFot(val1) {
 async function valSliderLExam(val2){
     document.getElementById('luzExam').innerHTML = val2
 
-    enLExam = document.getElementById('luzFot').value
-
     try {
-        // if(enLExam == 0){
-        document.getElementById('luzExam').disabled = false;
-
         const response = await fetch('/api/nvlFototerapia', {
             method: 'POST',
             headers: {
@@ -696,11 +697,7 @@ async function valSliderLExam(val2){
             })
         });
 
-            // alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
-        // }
-        // else{
-        //     document.getElementById('luzExam').disabled = true
-        // }
+        // alert(response.status === 200 ? 'Datos recibidos correctamente' : 'Error al enviar los datos');
     } catch (error) {
         console.error('Error al guardar los datos:', error);
     }

@@ -16,20 +16,20 @@ from flask import Flask, render_template, jsonify, request
 
 from gpio.pwr import pwrBtn_Evnt, blink_calib
 from adc.sonda import read_Sonda#, calib_Sonda
-from i2c.at13_Bas import read_Bascula
+# from i2c.at13_Bas import read_Bascula
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 # from i2c.sht21 import sht21, calibracion#, read_temp275
 # from gpio.hx711 import hx711
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
-from uart.comBCD import uart_send, uart_receive#, StateMachine
-from uart.comBCD import decript_Msg
+# from uart.comBCD import uart_send, uart_receive, decript_Msg#, StateMachine
+# from uart.comBCD import decript_Msg
 
 #------------------------- En Pruebas -------------------------#
 from i2c.at18_T2s import readTarjeta2S
-
-decript_Msg()
+from rtc.reloj import reloj
+# decript_Msg()
 # sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
 
 # fsm = StateMachine()
@@ -58,7 +58,7 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 # werkzeug_logger.handlers = logger.handlers
 # werkzeug_logger.setLevel(logger.level)
 
-PWM_Calef = 75
+PWM_Calef = 100
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
@@ -85,17 +85,20 @@ def api_sensores():
     # try:
     # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
     sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
-    sensoresDt["peso711"] = read_Bascula()
+    # sensoresDt["peso711"] = read_Bascula()
     sensoresDt["valSonda1"] = read_Sonda()
     sensoresDt["valSonda2"] = readTarjeta2S()
     sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
-    valor_uart = uart_receive()
+    sensoresDt["msgSistema"] = reloj()
+    # valor_uart = uart_receive()
 
-    if valor_uart is None or valor_uart.strip() == "" or not valor_uart.replace('.', '', 1).isdigit():
-        sensoresDt["msgSistema"] = None
-    else:
-        sensoresDt["msgSistema"] = f"{valor_uart} °C"
+    # if valor_uart is None or valor_uart.strip() == "" or not valor_uart.replace('.', '', 1).isdigit():
+    #     sensoresDt["msgSistema"] = None
+    # else:
+    #     sensoresDt["msgSistema"] = f"{valor_uart} °C"
 #------------------------- En Pruebas -------------------------#
+    # print(decript_Msg())
+    # print(reloj())
     # print(read_temp275())
     # readTarjeta2S()
     # sensoresDt["msgSistema"] = fsm.run()
@@ -181,7 +184,6 @@ def api_potCalef():
 ##############################################################################
 #                            Funciones de sistema                            #
 ##############################################################################
-
 def monitor_disk():
     while True:
         restart_container()

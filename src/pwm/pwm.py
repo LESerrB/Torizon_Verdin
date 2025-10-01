@@ -9,8 +9,8 @@ from dotenv import load_dotenv
 load_dotenv("/mnt/microsd/.env")
 # logger.info('Inicializando PWM')
 
-pwmchipFOT = "/sys/class/pwm/pwmchip1"
-pwmchipLzEx = "/sys/class/pwm/pwmchip2"
+pwmchipFOT = "/sys/class/pwm/pwmchip0"
+pwmchipLzEx = "/sys/class/pwm/pwmchip1"
 
 # ===============================================================#
 #                   Eleccción de Nivel de PWM                    #
