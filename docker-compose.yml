@@ -75,6 +75,8 @@ services:
       - /tmp/wayland-0:/tmp/wayland-0
       - /var/rootdirs/media/my_sdcard:/mnt/microsd
       - /tmp:/tmp
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host
@@ -84,7 +86,7 @@ services:
       - /dev/i2c-3
       - /dev/gpiochip2
       - /dev/gpiochip4
-      - /dev/ttymxc1:/dev/verdin-uart1
+      - /dev/ttymxc1:/dev/verdin-uart2
     tty: true
     stdin_open: true
     group_add:
@@ -114,7 +116,7 @@ services:
       - /dev/i2c-3
       - /dev/gpiochip2
       - /dev/gpiochip4
-      - /dev/ttymxc1:/dev/verdin-uart1
+      - /dev/ttymxc1:/dev/verdin-uart2
     tty: true
     stdin_open: true
     group_add:
