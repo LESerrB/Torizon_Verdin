@@ -212,3 +212,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Conexión con Tarjeta de Segunda Sonda.
 - Creada función para probar comunicación UART con tarjeta de báscula.
 - Implementación de trama de comunicación con CRC-16 ARC.
+
+### v0.15 - [03/Octubre/2025]
+
+- Implementado Reloj en tiempo real.
+- Agregados botones de Calibración y Taraje a la báscula.
