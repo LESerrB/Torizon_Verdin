@@ -4,7 +4,6 @@ const btnAumentar = document.querySelector('.btn-aumentar');
 const btnDisminuir = document.querySelector('.btn-disminuir');
 const porcentaje = document.querySelector('.porcentaje-calef');
 
-
 const durationSelect = document.getElementById('duration-select');
 const intervalSelect = document.getElementById('interval-select');
 const startRecordingBtn = document.getElementById('start-recording-btn');
@@ -35,6 +34,11 @@ const btnCalef_lbl = document.querySelector('.btn-sensor-lbl-5');
 const btnInfoSist = document.querySelector('.btn-sensor-6');
 const btnInfoSist_lbl = document.querySelector('.btn-sensor-lbl-6');
 
+const btnBascTara = document.querySelector('.btn-basc-tar')
+const btnBascTara_lbl = document.querySelector('.btn-basc-tar-lbl')
+const btnBascCalib = document.querySelector('.btn-basc-calib')
+const btnBascCalib_lbl = document.querySelector('.btn-basc-calib-lbl')
+
 btnSHT21.classList.add('btn-sensor');
 btnSHT21_lbl.classList.add('btn-sensor-lbl');
 btnBME280.classList.add('btn-sensor');
@@ -48,7 +52,12 @@ btnCalef_lbl.classList.add('btn-sensor-lbl');
 btnInfoSist.classList.add('btn-sensor');
 btnInfoSist_lbl.classList.add('btn-sensor-lbl');
 
-// Inicializar pantalla princiapl por default
+btnBascTara.classList.add('btn-sensor');
+btnBascTara_lbl.classList.add('btn-sensor-lbl');
+btnBascCalib.classList.add('btn-sensor');
+btnBascCalib_lbl.classList.add('btn-sensor-lbl');
+
+// Inicializar pantalla principal por default
 btnSHT21.classList.add('btn-sensor-pressed');
 btnSHT21_lbl.classList.add('btn-sensor-lbl-pressed');
 
@@ -412,6 +421,40 @@ async function guardarDatos() {
     }
 }
 
+// ####################################################################### //
+//                          CALIBRACION DE BASCULA                         //
+// ####################################################################### //
+document.getElementById('btn-basc-tar').addEventListener('click', async () => {
+    // alert("Tara")
+    btnBascTara.classList.add('btn-sensor-pressed');
+    btnBascTara_lbl.classList.add('btn-sensor-lbl-pressed');
+
+    // btnBascTara.classList.add('btn-sensor');
+    // btnBascTara_lbl.classList.add('btn-sensor-lbl');
+
+    const response = await fetch('/api/bascTar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-basc-calib').addEventListener('click', async () => {
+    // alert("Calibración")
+    btnBascCalib.classList.add('btn-sensor-pressed');
+    btnBascCalib_lbl.classList.add('btn-sensor-lbl-pressed');
+
+    // btnBascCalib.classList.add('btn-sensor');
+    // btnBascCalib_lbl.classList.add('btn-sensor-lbl');
+
+    const response = await fetch('/api/bascCalib', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
 // ####################################################################### //
 //                          CALIBRACION DE TEMPERATURA                     //
 // ####################################################################### //

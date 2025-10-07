@@ -24,12 +24,15 @@ from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 # from uart.comBCD import uart_send, uart_receive, decript_Msg#, StateMachine
-# from uart.comBCD import decript_Msg
+from uart.comBasc import decript_Msg, tare_Provisional, calib_Provisional, peso
 
 #------------------------- En Pruebas -------------------------#
-from i2c.at18_T2s import readTarjeta2S
+# from i2c.at18_T2s import readTarjeta2S
 from rtc.reloj import reloj
 # decript_Msg()
+# tare_Provisional()
+# time.sleep(10)
+# calib_Provisional()
 # sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
 
 # fsm = StateMachine()
@@ -85,9 +88,9 @@ def api_sensores():
     # try:
     # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
     sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
-    # sensoresDt["peso711"] = read_Bascula()
+    sensoresDt["peso711"] = peso()
     sensoresDt["valSonda1"] = read_Sonda()
-    sensoresDt["valSonda2"] = readTarjeta2S()
+    # sensoresDt["valSonda2"] = readTarjeta2S()
     sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
     sensoresDt["msgSistema"] = reloj()
     # valor_uart = uart_receive()
@@ -97,10 +100,9 @@ def api_sensores():
     # else:
     #     sensoresDt["msgSistema"] = f"{valor_uart} °C"
 #------------------------- En Pruebas -------------------------#
-    # print(decript_Msg())
-    # print(reloj())
-    # print(read_temp275())
     # readTarjeta2S()
+    # print(decript_Msg())
+    # print(read_temp275())
     # sensoresDt["msgSistema"] = fsm.run()
     # print(sensor1075.read_temperature()) # NO FUNCIONA POR QUE NO ESTA EL DISPOSITIVO, PERO QUEDA PARA VER COMO FUNCIONAN LAS CLASES
 #--------------------------------------------------------------#
@@ -110,7 +112,7 @@ def api_sensores():
 
     def fmt(val):
         try:
-            return round(float(val), 1)
+            return round(float(val), 3)
         except (TypeError, ValueError):
             return "--.-"
 
@@ -122,7 +124,7 @@ def api_sensores():
         "pres280": fmt(sensoresDt["pres280"]),
         "hum280": fmt(sensoresDt["hum280"]),
 
-        "peso711": sensoresDt["peso711"],
+        "peso711": fmt(sensoresDt["peso711"]),
 
         "valSonda1": fmt(sensoresDt["valSonda1"]),
         "valSonda2": fmt(sensoresDt["valSonda2"]),
@@ -181,6 +183,15 @@ def api_potCalef():
 
     return jsonify({"status": "ok"})
 
+@app.route("/api/bascTar", methods=["POST"])
+def api_bascTar():
+    tare_Provisional()
+    return jsonify({"status": "ok"})
+
+@app.route("/api/bascCalib", methods=["POST"])
+def api_bascCalib():
+    calib_Provisional()
+    return jsonify({"status": "ok"})
 ##############################################################################
 #                            Funciones de sistema                            #
 ##############################################################################

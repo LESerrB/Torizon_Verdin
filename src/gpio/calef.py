@@ -12,10 +12,11 @@ import struct
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
-bank = "/dev/gpiochip3" # GPIO3
+# bank = "/dev/gpiochip3" # GPIO3 # Mallow
+bank = "/dev/gpiochip0" # GPIO3 # Dahlia
 
-pin_11 = 25     # Calefactor
-pin_12 = 24     # Lectura de Señal Calefactor
+pin_11 = 0#25     # Calefactor
+pin_12 = 1#24     # Lectura de Señal Calefactor
 pin_13 = 26
 pin_14 = 23
 pin_15 = 27
@@ -37,7 +38,7 @@ pinout_13.request(consumer="pinout_13", type=gpiod.LINE_REQ_DIR_OUT)
 pinout_14.request(consumer="pinout_14", type=gpiod.LINE_REQ_DIR_OUT)
 pinout_15.request(consumer="pinout_15", type=gpiod.LINE_REQ_DIR_OUT)
 
-PWM_Calef = 75  # Valor inicial
+PWM_Calef = 100  # Valor inicial
 PWM_Calef_lock = threading.Lock()
 
 # Valores de Monitoreo de pulsos de Calefactor
