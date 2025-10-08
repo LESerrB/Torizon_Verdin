@@ -24,7 +24,7 @@ from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 # from uart.comBCD import uart_send, uart_receive, decript_Msg#, StateMachine
-from uart.comBasc import decript_Msg, tare_Provisional, calib_Provisional, peso
+from uart.comBasc import decript_Msg, tare_Provisional, calib_Provisional, pesaje
 
 #------------------------- En Pruebas -------------------------#
 # from i2c.at18_T2s import readTarjeta2S
@@ -62,6 +62,7 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 # werkzeug_logger.setLevel(logger.level)
 
 PWM_Calef = 100
+pesoFinal = 0.0
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
@@ -88,7 +89,7 @@ def api_sensores():
     # try:
     # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
     sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
-    sensoresDt["peso711"] = peso()
+    sensoresDt["peso711"] = pesoFinal
     sensoresDt["valSonda1"] = read_Sonda()
     # sensoresDt["valSonda2"] = readTarjeta2S()
     sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
@@ -185,13 +186,39 @@ def api_potCalef():
 
 @app.route("/api/bascTar", methods=["POST"])
 def api_bascTar():
+    global pesoFinal
+
     tare_Provisional()
+    pesoFinal = pesaje()
+
     return jsonify({"status": "ok"})
 
 @app.route("/api/bascCalib", methods=["POST"])
 def api_bascCalib():
+    global pesoFinal
+
     calib_Provisional()
+    pesoFinal = pesaje()
+
     return jsonify({"status": "ok"})
+
+@app.route("/api/bascPeso", methods=["POST"])
+def api_pesaje():
+    global pesoFinal
+
+    promPesaje = 0
+    cont = 0
+    endPesaje = time.monotonic() + 10
+
+    while time.monotonic() < endPesaje:
+        cont += 1
+        promPesaje += pesaje()
+        time.sleep(1)
+
+    pesoFinal = promPesaje/cont
+
+    return jsonify({"status": "ok"})
+
 ##############################################################################
 #                            Funciones de sistema                            #
 ##############################################################################

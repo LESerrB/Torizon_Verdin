@@ -38,7 +38,7 @@ def uart_receive() -> str:
     try:
         if ser and ser.is_open:
             data = ser.readline().hex()
-            print("Dato recibido:", data)
+            # print("Dato recibido:", data)
 
             if data:
                 return data
@@ -60,7 +60,7 @@ def close_uart():
         print("UART ya está cerrado")
 
 #================================================================#
-#             Función principal de comunicación UART             #
+#                 Funciones de obtención de Peso                 #
 #================================================================#
 def decript_Msg():
     global w_bas
@@ -86,15 +86,52 @@ def decript_Msg():
 
         # if crc_rec == crc_calc:
         # print(w_bas)
-        return w_bas
+    #     return w_bas
     else:
-        return w_bas
+        w_bas = 0.0
 
-def peso():
+    return w_bas
+
+# Calculo de Peso
+def pesaje():
     weight = (decript_Msg() - OFFSET) / SCALE
-    print(weight)
+
     return weight
-    
+
+# Calibración
+def calib_Provisional(peso_Act = 5.0):
+    global SCALE
+    global OFFSET
+
+    err = 0
+
+    SCALE = round((decript_Msg() - OFFSET) / float(peso_Act), 2)
+
+    while SCALE == 0.0:
+        SCALE = round((decript_Msg() - OFFSET) / float(peso_Act), 2)
+        err += 1
+
+        if err > 5:
+            SCALE = 1.0
+            break
+
+    # print(SCALE)
+
+# Taraje
+def tare_Provisional():
+    global OFFSET
+    err = 0
+
+    OFFSET = decript_Msg()
+
+    while OFFSET == 0.0:
+        OFFSET = decript_Msg()
+        err += 1
+
+        if err > 5:
+            break
+        # print("OFFSET:", OFFSET)
+
 #================================================================#
 #                  Función de creación de CRC                    #
 #================================================================#
@@ -120,23 +157,3 @@ def crc16_arc(data: bytes) -> int:
     crc = reflect_bits(crc, 16)
 
     return crc
-
-def tare_Provisional():
-    global OFFSET
-
-    OFFSET = decript_Msg()
-    while OFFSET == 0.0 or OFFSET == "":
-        OFFSET = decript_Msg()
-        print("OFFSET:", OFFSET)
-
-def calib_Provisional(peso_Act = 2.0):
-    global SCALE
-    global OFFSET
-
-    raw = decript_Msg()
-    while raw == "":
-        raw = decript_Msg()
-        print("W:", raw)
-
-    SCALE = round((raw - OFFSET) / float(peso_Act), 2)
-    print(SCALE)
