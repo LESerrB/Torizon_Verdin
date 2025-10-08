@@ -40,7 +40,7 @@ def read_adc(channel):
 #================================================================#
 def read_Sonda():
     try:
-        valSonda1 = round(4300 * ((1800/read_adc(0)) - 1))  # ADC1_IN0 (SODIMM 8), 4300 ohms de resistencia referencia, 1800 fuente de voltaje de la tarjeta
+        valSonda1 = round(4300 * ((1800/read_adc(3)) - 1))  # ADC1_IN0 (SODIMM 8), 4300 ohms de resistencia referencia, 1800 fuente de voltaje de la tarjeta
         logaritmo=math.log(valSonda1)
         temperatura = 1/(a0 + b0 * (logaritmo) + c0 * (pow(logaritmo, 3)))
         tempSonda = temperatura - 273

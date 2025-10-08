@@ -38,6 +38,8 @@ const btnBascTara = document.querySelector('.btn-basc-tar')
 const btnBascTara_lbl = document.querySelector('.btn-basc-tar-lbl')
 const btnBascCalib = document.querySelector('.btn-basc-calib')
 const btnBascCalib_lbl = document.querySelector('.btn-basc-calib-lbl')
+const btnBascPeso = document.querySelector('.btn-basc-peso')
+const btnBascPeso_lbl = document.querySelector('.btn-basc-peso-lbl')
 
 btnSHT21.classList.add('btn-sensor');
 btnSHT21_lbl.classList.add('btn-sensor-lbl');
@@ -56,6 +58,8 @@ btnBascTara.classList.add('btn-sensor');
 btnBascTara_lbl.classList.add('btn-sensor-lbl');
 btnBascCalib.classList.add('btn-sensor');
 btnBascCalib_lbl.classList.add('btn-sensor-lbl');
+btnBascPeso.classList.add('btn-sensor');
+btnBascPeso_lbl.classList.add('btn-sensor-lbl');
 
 // Inicializar pantalla principal por default
 btnSHT21.classList.add('btn-sensor-pressed');
@@ -422,15 +426,10 @@ async function guardarDatos() {
 }
 
 // ####################################################################### //
-//                          CALIBRACION DE BASCULA                         //
+//                            FUNCIóN DE BASCULA                           //
 // ####################################################################### //
 document.getElementById('btn-basc-tar').addEventListener('click', async () => {
-    // alert("Tara")
-    btnBascTara.classList.add('btn-sensor-pressed');
-    btnBascTara_lbl.classList.add('btn-sensor-lbl-pressed');
-
-    // btnBascTara.classList.add('btn-sensor');
-    // btnBascTara_lbl.classList.add('btn-sensor-lbl');
+    alert("Tara");
 
     const response = await fetch('/api/bascTar', {
         method: 'POST',
@@ -441,14 +440,26 @@ document.getElementById('btn-basc-tar').addEventListener('click', async () => {
 });
 
 document.getElementById('btn-basc-calib').addEventListener('click', async () => {
-    // alert("Calibración")
-    btnBascCalib.classList.add('btn-sensor-pressed');
-    btnBascCalib_lbl.classList.add('btn-sensor-lbl-pressed');
+    alert("Calibración");
+    // btnBascCalib.classList.add('btn-sensor-pressed');
+    // btnBascCalib_lbl.classList.add('btn-sensor-lbl-pressed');
 
     // btnBascCalib.classList.add('btn-sensor');
     // btnBascCalib_lbl.classList.add('btn-sensor-lbl');
 
     const response = await fetch('/api/bascCalib', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-basc-peso').addEventListener('click', async () =>
+{
+    alert("Pesando");
+
+    const response = await fetch('/api/bascPeso', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
