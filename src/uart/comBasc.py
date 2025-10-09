@@ -1,4 +1,5 @@
 import serial
+import time
 
 # from files.logs import logger
 # from dotenv import load_dotenv
@@ -94,9 +95,28 @@ def decript_Msg():
 
 # Calculo de Peso
 def pesaje():
-    weight = (decript_Msg() - OFFSET) / SCALE
+    pesajeAcc = 0
+    c = 0
 
-    return weight
+    finPesaje = time.monotonic() + 10
+
+    while time.monotonic() < finPesaje:
+        w = decript_Msg()
+
+        if w != 0.0:
+            c += 1
+
+        pesajeAcc += (w - OFFSET) / SCALE
+        # print(pesajeAcc, "/", c)
+        time.sleep(1)
+
+    pesoTotal = pesajeAcc/c
+
+    if pesoTotal < 0.0:
+        pesoTotal = 0.0
+
+    # print(pesoTotal)
+    return pesoTotal
 
 # Calibración
 def calib_Provisional(peso_Act = 5.0):
@@ -115,7 +135,7 @@ def calib_Provisional(peso_Act = 5.0):
             SCALE = 1.0
             break
 
-    # print(SCALE)
+    print("SCALE:", SCALE)
 
 # Taraje
 def tare_Provisional():
@@ -130,7 +150,8 @@ def tare_Provisional():
 
         if err > 5:
             break
-        # print("OFFSET:", OFFSET)
+
+    print("OFFSET:", OFFSET)
 
 #================================================================#
 #                  Función de creación de CRC                    #
