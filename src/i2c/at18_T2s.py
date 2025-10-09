@@ -12,23 +12,24 @@ READ_REG_ADDR = 0x01
 #===============================================================#
 # Corregir el envío de datos bsandose en la comunicación de la tarjeta de bascula at13 bas
 def readTarjeta2S():
+    errComDat = 0
     dato_sonda_1 = 0
     dato_sonda_2 = 0
 
     time.sleep(0.005)
 
     try:
-        with SMBus(1) as bus:
-            bus.write_byte_data(I2C_ADDR_2s, WRITE_REG_ADDR, 0x01)
-            bus.write_byte_data(I2C_ADDR_2s, WRITE_REG_ADDR, 0x55)
+        with SMBus(3) as bus:
+            errComDat = bus.write_i2c_block_data(I2C_ADDR_2s, WRITE_REG_ADDR, 0x012A)
 
-            time.sleep(0.01)
+            # dato_sonda_1 = bus.read_i2c_block_data(I2C_ADDR_2s, READ_REG_ADDR, 2)
+            # print("D1", dato_sonda_1)
+            # dato_sonda_2 = bus.read_i2c_block_data(I2C_ADDR_2s, READ_REG_ADDR, 2)
+            # print("D2", dato_sonda_2)
+            # errComDat += errComDat
 
-            dato_sonda_1 = bus.read_byte_data(I2C_ADDR_2s, READ_REG_ADDR)
-            dato_sonda_2 = bus.read_byte_data(I2C_ADDR_2s, READ_REG_ADDR)
+            time.sleep(0.005)
 
-            sonda = ((dato_sonda_1 << 8) | dato_sonda_2)/10
 
-            return sonda
     except Exception as e:
         print(f"Error de lectura T2S: {e}")

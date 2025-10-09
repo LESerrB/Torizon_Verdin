@@ -429,42 +429,78 @@ async function guardarDatos() {
 //                            FUNCIóN DE BASCULA                           //
 // ####################################################################### //
 document.getElementById('btn-basc-tar').addEventListener('click', async () => {
-    alert("Tara");
+    try {
+        mostrarAlerta("Preparando Taraje");
 
-    const response = await fetch('/api/bascTar', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
+        btnBascTara.disabled = true;
+        btnBascTara.classList.add('btn-sensor-pressed');
+        btnBascTara_lbl.classList.add('btn-sensor-lbl-pressed');
+
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        const response = await fetch('/api/bascTar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (response.ok) {
+            ocultarAlerta();
+        } else {
+            mostrarAlerta("Fallo en el Taraje");
+            setTimeout(ocultarAlerta, 2000);
+        }
+    } catch (error) {
+        mostrarAlerta('Error de comunicación');
+        setTimeout(ocultarAlerta, 2000);
+    } finally {
+        btnBascTara.classList.remove('btn-sensor-pressed');
+        btnBascTara_lbl.classList.remove('btn-sensor-lbl-pressed');
+        btnBascTara.disabled = false;
+    }
 });
 
 document.getElementById('btn-basc-calib').addEventListener('click', async () => {
-    alert("Calibración");
     // btnBascCalib.classList.add('btn-sensor-pressed');
     // btnBascCalib_lbl.classList.add('btn-sensor-lbl-pressed');
-
+    
     // btnBascCalib.classList.add('btn-sensor');
     // btnBascCalib_lbl.classList.add('btn-sensor-lbl');
-
+    
     const response = await fetch('/api/bascCalib', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
     });
+    // alert(response);
 });
 
 document.getElementById('btn-basc-peso').addEventListener('click', async () =>
 {
-    alert("Pesando");
-
+    btnBascPeso.classList.add('btn-sensor-pressed');
+    btnBascPeso_lbl.classList.add('btn-sensor-lbl-pressed');
+    mostrarAlerta('Pesando...');
+    
     const response = await fetch('/api/bascPeso', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
     });
+
+    if(response.status == 200){
+        btnBascPeso.classList.remove('btn-sensor-pressed');
+        btnBascPeso_lbl.classList.remove('btn-sensor-lbl-pressed');
+
+        ocultarAlerta();
+    }
+    else{
+        setTimeout(() => {
+            mostrarAlerta("Fallo en el Pesaje");
+        }, (10 * 1000));
+
+        ocultarAlerta();
+    }
 });
 // ####################################################################### //
 //                          CALIBRACION DE TEMPERATURA                     //
@@ -765,4 +801,21 @@ startSensor();
 async function stopSystem() {
     pauseSensor()
     stopGuardarDatos()
+}
+
+function mostrarAlerta(mensaje) {
+    const alerta = document.getElementById('mi-alerta');
+
+    alerta.textContent = mensaje;
+    alerta.classList.remove('oculto');
+
+    // setTimeout(() => {
+    //     alerta.classList.add('oculto');
+    // }, (t * 1000));
+}
+
+function ocultarAlerta(){
+    const alerta = document.getElementById('mi-alerta');
+
+    alerta.classList.add('oculto');
 }

@@ -9,6 +9,7 @@ import shutil
 
 # from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
+from flask_cors import CORS
 
 # from files.logs import logger
 # load_dotenv("/mnt/microsd/.env")
@@ -25,10 +26,10 @@ from spi.bme280 import bme280
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 # from uart.comBCD import uart_send, uart_receive, decript_Msg#, StateMachine
 from uart.comBasc import decript_Msg, tare_Provisional, calib_Provisional, pesaje
+from rtc.reloj import reloj
 
 #------------------------- En Pruebas -------------------------#
 # from i2c.at18_T2s import readTarjeta2S
-from rtc.reloj import reloj
 # decript_Msg()
 # tare_Provisional()
 # time.sleep(10)
@@ -47,6 +48,7 @@ from rtc.reloj import reloj
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 ##############################################################################
 #                           Configuracion de entorno                         #
@@ -111,24 +113,18 @@ def api_sensores():
         # logger.error("Error leyendo sensores:", e)
         # print("Error leyendo sensores:", e)
 
-    def fmt(val):
-        try:
-            return round(float(val), 3)
-        except (TypeError, ValueError):
-            return "--.-"
-
     return jsonify({
-        "temp": fmt(sensoresDt["temp"]),
-        "hum": fmt(sensoresDt["hum"]),
+        "temp": sensoresDt["temp"],
+        "hum": sensoresDt["hum"],
 
-        "temp280": fmt(sensoresDt["temp280"]),
-        "pres280": fmt(sensoresDt["pres280"]),
-        "hum280": fmt(sensoresDt["hum280"]),
+        "temp280": round(float(sensoresDt["temp280"]), 2) if sensoresDt["temp280"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
+        "pres280": round(float(sensoresDt["pres280"]), 2) if sensoresDt["pres280"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
+        "hum280": round(float(sensoresDt["hum280"]), 2) if sensoresDt["hum280"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
 
-        "peso711": fmt(sensoresDt["peso711"]),
+        "peso711": round(float(sensoresDt["peso711"]), 3) if sensoresDt["hum280"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
 
-        "valSonda1": fmt(sensoresDt["valSonda1"]),
-        "valSonda2": fmt(sensoresDt["valSonda2"]),
+        "valSonda1": round(float(sensoresDt["valSonda1"]), 2) if sensoresDt["valSonda1"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
+        "valSonda2": round(float(sensoresDt["valSonda2"]), 2) if sensoresDt["valSonda2"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
 
         "alertaCalefactor": sensoresDt["alertaCalefactor"],
         "potCalefactor": sensoresDt["potCalefactor"],
@@ -200,24 +196,22 @@ def api_bascCalib():
     calib_Provisional()
     pesoFinal = pesaje()
 
-    return jsonify({"status": "ok"})
+    if pesoFinal != 0.0:
+        return jsonify({"status": "ok"})
+    else:
+        return jsonify({"status": "fail"})
 
 @app.route("/api/bascPeso", methods=["POST"])
 def api_pesaje():
     global pesoFinal
 
-    promPesaje = 0
-    cont = 0
-    endPesaje = time.monotonic() + 10
+    pesoFinal = pesaje()
+    print(pesoFinal)
 
-    while time.monotonic() < endPesaje:
-        cont += 1
-        promPesaje += pesaje()
-        time.sleep(1)
-
-    pesoFinal = promPesaje/cont
-
-    return jsonify({"status": "ok"})
+    if pesoFinal != 0.0:
+        return jsonify({"status": "ok"}), 200
+    else:
+        return jsonify({"status": "fail"}), 500
 
 ##############################################################################
 #                            Funciones de sistema                            #

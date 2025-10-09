@@ -2,5 +2,6 @@ debugpy
 spidev
 smbus2
 flask
+flask-cors
 python-dotenv
 pyserial
