@@ -213,7 +213,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creada función para probar comunicación UART con tarjeta de báscula.
 - Implementación de trama de comunicación con CRC-16 ARC.
 
-### v0.15 - [03/Octubre/2025]
+### v0.15 - [27/Octubre/2025]
 
 - Implementado Reloj en tiempo real.
-- Agregados botones de Calibración y Taraje a la báscula.
+- Agregados botones de Calibración y Taraje a la báscula. (En pruebas).
+- Implementado Máquina de Estados de Cambio de Modo de funcionamiento de Cuna => Incubadora e Incubadora => Cuna.
+- Asignación de pines para sensores y actuadores para el cambio de modo de funcionamiento.
