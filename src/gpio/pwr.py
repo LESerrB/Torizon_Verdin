@@ -37,7 +37,7 @@ led.request(
 )
 
 # Valores Inicial
-led.set_value(1) 
+led.set_value(1)
 
 #===============================================================#
 #                   Funcion de Evento de Boton                  #

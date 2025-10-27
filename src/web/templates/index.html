@@ -189,6 +189,10 @@
                         <div class="sensor-block">
                             <span class="info-text" style="top: 20px;" id="infoSys-Msg">Aqui va a ir todo el mensaje del sistema que llegará por comunicación UART
                             </span>
+
+                            <button class="btn-config-modo" id="btn-config-modo">
+                                <div id="modo-lbl" class="btn-config-modo-lbl">Cambio de Modo</div>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -288,5 +292,8 @@
     <script src="../static/js/script.js"></script>
     </body>
 
-    <div id="mi-alerta" class="alerta oculto"></div>
+    <!-- <div id="mi-alerta" class="alerta oculto"></div> -->
+    <div id="mi-alerta" class="alert-overlay oculto" role="dialog" aria-hidden="true">
+        <div class="alert-box" id="mi-alerta-box">Mensaje</div>
+    </div>
 </html>

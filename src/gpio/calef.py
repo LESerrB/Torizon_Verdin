@@ -15,28 +15,22 @@ import struct
 # bank = "/dev/gpiochip3" # GPIO3 # Mallow
 bank = "/dev/gpiochip0" # GPIO3 # Dahlia
 
-pin_11 = 0#25     # Calefactor
-pin_12 = 1#24     # Lectura de Señal Calefactor
-pin_13 = 26
-pin_14 = 23
-pin_15 = 27
+# pin_11 = 25     # Calefactor
+# pin_12 = 24     # Lectura de Señal Calefactor
+
+pin_27 = 0     # Calefactor
+pin_28 = 1     # Lectura de Señal Calefactor
 
 # Inicialización chips
 gpio_chip = gpiod.Chip(bank)
 
 # Líneas individuales
-calef_pin = gpio_chip.get_line(pin_11)
-calef_read = gpio_chip.get_line(pin_12)
-pinout_13 = gpio_chip.get_line(pin_13)
-pinout_14 = gpio_chip.get_line(pin_14)
-pinout_15 = gpio_chip.get_line(pin_15)
+calef_pin = gpio_chip.get_line(pin_27)
+calef_read = gpio_chip.get_line(pin_28)
 
 # Configuración de Acceso
 calef_pin.request(consumer="calef", type=gpiod.LINE_REQ_DIR_OUT)
 calef_read.request(consumer="calef_read", type=gpiod.LINE_REQ_EV_BOTH_EDGES)
-pinout_13.request(consumer="pinout_13", type=gpiod.LINE_REQ_DIR_OUT)
-pinout_14.request(consumer="pinout_14", type=gpiod.LINE_REQ_DIR_OUT)
-pinout_15.request(consumer="pinout_15", type=gpiod.LINE_REQ_DIR_OUT)
 
 PWM_Calef = 100  # Valor inicial
 PWM_Calef_lock = threading.Lock()
