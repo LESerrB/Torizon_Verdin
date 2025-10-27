@@ -17,39 +17,43 @@ from flask_cors import CORS
 
 from gpio.pwr import pwrBtn_Evnt, blink_calib
 from adc.sonda import read_Sonda#, calib_Sonda
-# from i2c.at13_Bas import read_Bascula
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
-# from i2c.sht21 import sht21, calibracion#, read_temp275
-# from gpio.hx711 import hx711
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
+from rtc.reloj import reloj
+from gpio.modoFunc import rd_ModoOp, sm_chngModoOp
+# from i2c.at13_Bas import read_Bascula
+# from i2c.sht21 import sht21, calibracion#, read_temp275
+# from gpio.hx711 import hx711
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 # from uart.comBCD import uart_send, uart_receive, decript_Msg#, StateMachine
-from uart.comBasc import decript_Msg, tare_Provisional, calib_Provisional, pesaje
-from rtc.reloj import reloj
-
 #------------------------- En Pruebas -------------------------#
+from uart.comBasc import tare, calib, pesaje, encode_Msg, decode_Msg, uart_send
 # from i2c.at18_T2s import readTarjeta2S
-# decript_Msg()
+
+#<<<<<<FUNCIONAMIENTO CORRECTO DENTRO DE LA TARJETA VERDIN>>>>>>#
+# while True:
+#     encode_Msg("55")
+#     time.sleep(1)
+#     decode_Msg()
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>#
 # tare_Provisional()
 # time.sleep(10)
 # calib_Provisional()
 # sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
 
-# fsm = StateMachine()
-
-# while True:
-#     fsm.run()
 #--------------------------------------------------------------#
 
 ##############################################################################
-#                           Configuracion de Flask                           #
+#                           Configuracion Pag WEB                            #
 ##############################################################################
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
+
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
+fsm = sm_chngModoOp()
 ##############################################################################
 #                           Configuracion de entorno                         #
 ##############################################################################
@@ -85,7 +89,8 @@ def api_sensores():
         "valSonda2": None,
         "alertaCalefactor": None,
         "potCalefactor": None,
-        "msgSistema": None
+        "msgSistema": None,
+        "modFunc": None
     }
 
     # try:
@@ -103,6 +108,7 @@ def api_sensores():
     # else:
     #     sensoresDt["msgSistema"] = f"{valor_uart} °C"
 #------------------------- En Pruebas -------------------------#
+    sensoresDt["modFunc"] = rd_ModoOp()
     # readTarjeta2S()
     # print(decript_Msg())
     # print(read_temp275())
@@ -129,7 +135,8 @@ def api_sensores():
         "alertaCalefactor": sensoresDt["alertaCalefactor"],
         "potCalefactor": sensoresDt["potCalefactor"],
 
-        "msgSistema": sensoresDt["msgSistema"]
+        "msgSistema": sensoresDt["msgSistema"],
+        "modFunc": sensoresDt["modFunc"]
     })
 
 @app.route("/api/tendencias", methods=["POST"])
@@ -161,6 +168,7 @@ def api_nvlFototerapia():
 
     return jsonify({"status": "ok"})
 
+#------------------------- En Pruebas -------------------------#
 # @app.route("/api/saveOffset", methods=["POST"])
 # def api_saveOffset():
 #     tempAct = request.get_json().get("action")
@@ -184,8 +192,8 @@ def api_potCalef():
 def api_bascTar():
     global pesoFinal
 
-    tare_Provisional()
-    pesoFinal = pesaje()
+    pesoFinal = tare()
+    print(pesoFinal)
 
     return jsonify({"status": "ok"})
 
@@ -193,7 +201,7 @@ def api_bascTar():
 def api_bascCalib():
     global pesoFinal
 
-    calib_Provisional()
+    calib()
     pesoFinal = pesaje()
 
     if pesoFinal != 0.0:
@@ -212,6 +220,29 @@ def api_pesaje():
         return jsonify({"status": "ok"}), 200
     else:
         return jsonify({"status": "fail"}), 500
+
+@app.route("/api/chng_modoFunc", methods=["POST"])
+def api_modoFunc():
+    print("Cambio de Modo")
+
+    while True:
+        fsm.run()
+        # print(fsm.state, fsm.contErrores)
+
+        if fsm.state == "edo_0" or fsm.state == "error":
+            # print("Acaba máquina de edos")
+            break
+
+    # print(fsm.state)
+
+    if fsm.state == "edo_0":
+        print("status: ok")
+        return jsonify({"status": "ok"}), 200
+    elif fsm.state == "error":
+        print("status: fail")
+        return jsonify({"status": "fail"}), 500
+
+#--------------------------------------------------------------#
 
 ##############################################################################
 #                            Funciones de sistema                            #

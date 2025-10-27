@@ -373,6 +373,9 @@ async function updateSensors() {
         else
             porcentaje.classList.remove('alertaCalef');
 
+        if (data.modFunc)
+            document.getElementById("modo-lbl").textContent = data.modFunc
+
     } catch (e) {
         console.error('Error fetching sensor data:', e);
     }
@@ -491,16 +494,14 @@ document.getElementById('btn-basc-peso').addEventListener('click', async () =>
     if(response.status == 200){
         btnBascPeso.classList.remove('btn-sensor-pressed');
         btnBascPeso_lbl.classList.remove('btn-sensor-lbl-pressed');
-
-        ocultarAlerta();
     }
     else{
         setTimeout(() => {
             mostrarAlerta("Fallo en el Pesaje");
         }, (10 * 1000));
-
-        ocultarAlerta();
     }
+
+    ocultarAlerta();
 });
 // ####################################################################### //
 //                          CALIBRACION DE TEMPERATURA                     //
@@ -541,6 +542,30 @@ async function saveOffset(nuevaTemp) {
     alert(response.status === 200 ? 'Calibración guardada correctamente' : 'Error al calibrar');
     startSensor();
 }
+
+// ####################################################################### //
+//                       CAMBIO DE MODO DE OPERACION                       //
+// ####################################################################### //
+document.getElementById('btn-config-modo').addEventListener('click', async () => {
+    try {
+        mostrarAlerta("Precaución!!!\nCambiando modo de Funcoinamiento", 0);
+
+        const response = await fetch('/api/chng_modoFunc', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.status == 200) {
+            ocultarAlerta()
+        } else {
+            mostrarAlerta("Error!!!\nEn cambio de Modo de Operación", 5);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 // ####################################################################### //
 //                          INICIALIZACION DE EVENTOS                      //
@@ -803,19 +828,26 @@ async function stopSystem() {
     stopGuardarDatos()
 }
 
-function mostrarAlerta(mensaje) {
-    const alerta = document.getElementById('mi-alerta');
+function mostrarAlerta(msg = '', seconds = 0) {
+    const ov = document.getElementById('mi-alerta');
+    const box = document.getElementById('mi-alerta-box');
 
-    alerta.textContent = mensaje;
-    alerta.classList.remove('oculto');
+    if (!ov || !box) return;
 
-    // setTimeout(() => {
-    //     alerta.classList.add('oculto');
-    // }, (t * 1000));
+    box.textContent = msg;
+    ov.classList.remove('oculto');
+    ov.setAttribute('aria-hidden', 'false');
+
+    if (seconds > 0) {
+        setTimeout(() => ocultarAlerta(), seconds * 1000);
+    }
 }
 
-function ocultarAlerta(){
-    const alerta = document.getElementById('mi-alerta');
+function ocultarAlerta() {
+    const ov = document.getElementById('mi-alerta');
 
-    alerta.classList.add('oculto');
+    if (!ov) return;
+
+    ov.classList.add('oculto');
+    ov.setAttribute('aria-hidden', 'true');
 }
