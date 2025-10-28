@@ -35,14 +35,9 @@ motor_P.request(consumer="motor_P", type=gpiod.LINE_REQ_DIR_OUT)
 motor_N.request(consumer="motor_N", type=gpiod.LINE_REQ_DIR_OUT)
 
 # Motor apagado
-motor_P.set_value(1)
-motor_N.set_value(1)
-
-time.sleep(5)
-
-#Prueba
 motor_P.set_value(0)
 motor_N.set_value(0)
+
 #===============================================================#
 #                Funciones de Lectura de Sensores               #
 #===============================================================#
@@ -71,7 +66,7 @@ def giroMotor(action):
         motor_N.set_value(0)
 
 #===============================================================#
-#                Máquina de estados                #
+#    Máquina de Estados para cambio de Modo de Funcionamiento   #
 #===============================================================#
 class sm_chngModoOp:
     def __init__(self):
@@ -79,22 +74,20 @@ class sm_chngModoOp:
         self.prev_state = ""
         self.next_state = ""
         self.startTime = 0
-        self.contErrores = 0
+        self.errores = 0
 
     def run(self):
         match self.state:
+#           >>>>>>>>>>> Inicio - Lectura de Sensor <<<<<<<<<<<
             case "edo_0":
                 rd_ModoOp()
-                print("Lectura de sensor Modo", time.monotonic())
 
-                # IF DE LA ACCION DEL BOTON DE LA PANTALLA WEB
                 self.prev_state = self.state
                 self.next_state = "edo_1"
                 self.state = self.next_state
 
+#           >> Elección de Cambio de Modo de Funcionamiento <<
             case "edo_1":
-                print("Elección de cambio de modo")
-
                 if strModoFunc == "Modo Cuna":
                     self.prev_state = self.state
                     self.next_state = "edo_2"
@@ -104,31 +97,30 @@ class sm_chngModoOp:
                     self.next_state = "edo_3"
                     self.state = self.next_state
 
+#           >>>>>>>>>>>>>>> Apertura de Capelo <<<<<<<<<<<<<<<
             case "edo_2":
-                print("Incubadora -> Cuna")
                 giroMotor("Abrir")
 
                 self.startTime = time.monotonic()
-                print("Inicio a:", self.startTime)
 
                 self.prev_state = self.state
                 self.next_state = "edo_4"
                 self.state = self.next_state
 
+#           >>>>>>>>>>>>>>>> Cerrado de Capelo <<<<<<<<<<<<<<<
             case "edo_3":
-                print("Cuna -> Incubadora")
                 giroMotor("Cerrar")
 
                 self.startTime = time.monotonic()
-                print("Inicio a:", self.startTime)
 
                 self.prev_state = self.state
                 self.next_state = "edo_5"
                 self.state = self.next_state
 
+#           >> Comprobación de Sensor y Tiempo de Apertura <<
             case "edo_4":
                 rst = time.monotonic() - self.startTime
-                print("Abriendo...", self.startTime, time.monotonic(), "=", rst, (rst > tiempo_deApertura), cuna.get_value())
+                # print("Abriendo...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor:", incb.get_value(), "Errores:", self.errores)
 
                 time.sleep(0.1)
 
@@ -136,12 +128,13 @@ class sm_chngModoOp:
                     giroMotor("Parar")
 
                     self.prev_state = self.state
-                    self.next_state = "edo_7"
+                    self.next_state = "edo_6"
                     self.state = self.next_state
 
+#           >>> Comprobación de Sensor y Tiempo de Cierre <<<
             case "edo_5":
                 rst = time.monotonic() - self.startTime
-                print("Cerrando...", self.startTime, time.monotonic(), "=", rst, (rst > tiempo_deApertura), incb.get_value())
+                # print("Cerrando...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor", cuna.get_value(), "", )
 
                 time.sleep(0.1)
 
@@ -149,48 +142,40 @@ class sm_chngModoOp:
                     giroMotor("Parar")
 
                     self.prev_state = self.state
-                    self.next_state = "edo_7"
+                    self.next_state = "edo_6"
                     self.state = self.next_state
 
-            case "edo_7":
-                print("Comprobando sensores al terminar")
+#           >>>>>>> Comprobación de Modo de Operación <<<<<<<<
+            case "edo_6":
                 rd_ModoOp()
 
-                if self.prev_state == "edo_4" and strModoFunc == "Modo Cuna":
-                    print("Comprobación cambio a Incubadora:", self.prev_state, strModoFunc)
-                    self.contErrores += 1
+                time.sleep(0.1)
 
-                    if self.contErrores > 3:
-                        self.contErrores = 0
-                        self.prev_state = ""
-                        self.next_state = ""
-                        self.state = "error"
-                    else:
-                        self.state = "edo_2"
-                elif self.prev_state == "edo_5" and strModoFunc == "Modo Incubadora":
-                    print("Comprobación cambio a Cuna:", self.prev_state, strModoFunc)
-                    self.contErrores += 1
-
-                    if self.contErrores > 3:
-                        self.contErrores = 0
-                        self.prev_state = ""
-                        self.next_state = ""
-                        self.state = "error"
-                    else:
-                        self.state = "edo_3"
-                # elif self.prev_state == "edo_4" and strModoFunc == "Modo Incubadora":
-                #     print("Se completó el proceso de conversión")
-                #     self.contErrores = 0
-                #     self.prev_state = ""
-                #     self.next_state = ""
-                #     self.state = "edo_0"
-                elif (self.prev_state == "edo_5" and strModoFunc == "Modo Cuna") or (self.prev_state == "edo_4" and strModoFunc == "Modo Incubadora"):
-                    print("Se completó el proceso de conversión", time.monotonic())
-                    self.contErrores = 0
+                if (self.prev_state == "edo_5" and strModoFunc == "Modo Cuna") or (self.prev_state == "edo_4" and strModoFunc == "Modo Incubadora"):
+                    self.errores = 0
                     self.prev_state = ""
                     self.next_state = ""
                     self.state = "edo_0"
+                else:
+                    self.errores += 1
+                    self.state = "error"
 
+#           >>> Error al Cambio de Modo de Funcionamiento <<<
             case "error":
+                if self.errores < 3:
+                    print("Error Parcial")
+                    if self.prev_state == "edo_4":
+                        self.next_state = "edo_2"
+                    elif self.prev_state == "edo_5":
+                        self.next_state = "edo_3"
+
+                    self.prev_state = self.state
+                    self.state = self.next_state
+                else:
+                    print("Error Total")
+                    self.prev_state = ""
+                    self.next_state = ""
+
+
                 print("No se completo el cambio de Modo de Funcionamiento\nCONTACTAR A SERVICIO TÉCNICO")
                 # Aqui falta una forma en la que se regrese al estado anterior

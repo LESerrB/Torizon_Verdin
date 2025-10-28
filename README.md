@@ -219,3 +219,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregados botones de Calibración y Taraje a la báscula. (En pruebas).
 - Implementado Máquina de Estados de Cambio de Modo de funcionamiento de Cuna => Incubadora e Incubadora => Cuna.
 - Asignación de pines para sensores y actuadores para el cambio de modo de funcionamiento.
+
+### v0.15.1 - []
+
+- Corrección de bugs de maquina de estados de cambio de modo de Funcionamiento.
