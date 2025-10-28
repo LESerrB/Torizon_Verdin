@@ -168,6 +168,21 @@ def api_nvlFototerapia():
 
     return jsonify({"status": "ok"})
 
+@app.route("/api/chng_modoFunc", methods=["POST"])
+def api_modoFunc():
+    while True:
+        fsm.run()
+        print(fsm.state)
+
+        if fsm.state == "edo_0" or (fsm.state == "error" and fsm.errores >= 3):
+            break
+
+        print("# Errores:", fsm.errores)
+
+    if fsm.state == "edo_0":
+        return jsonify({"status": "ok"}), 200
+    elif fsm.state == "error":
+        return jsonify({"status": "fail"}), 500
 #------------------------- En Pruebas -------------------------#
 # @app.route("/api/saveOffset", methods=["POST"])
 # def api_saveOffset():
@@ -221,26 +236,6 @@ def api_pesaje():
     else:
         return jsonify({"status": "fail"}), 500
 
-@app.route("/api/chng_modoFunc", methods=["POST"])
-def api_modoFunc():
-    print("Cambio de Modo")
-
-    while True:
-        fsm.run()
-        # print(fsm.state, fsm.contErrores)
-
-        if fsm.state == "edo_0" or fsm.state == "error":
-            # print("Acaba máquina de edos")
-            break
-
-    # print(fsm.state)
-
-    if fsm.state == "edo_0":
-        print("status: ok")
-        return jsonify({"status": "ok"}), 200
-    elif fsm.state == "error":
-        print("status: fail")
-        return jsonify({"status": "fail"}), 500
 
 #--------------------------------------------------------------#
 
