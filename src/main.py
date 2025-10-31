@@ -15,13 +15,13 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from gpio.pwr import pwrBtn_Evnt, blink_calib
-from adc.sonda import read_Sonda#, calib_Sonda
+# from gpio.pwr import pwrBtn_Evnt, blink_calib
+from adc.sonda import read_Sonda, read_Sonda2#, calib_Sonda
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
 from rtc.reloj import reloj
-from gpio.modoFunc import rd_ModoOp, sm_chngModoOp
+from gpio.modoFunc import rd_ModoOp, sm_chngModoOp, upRgt_On, upRgt_Off, dwnLft_On, dwnLft_Off, selDsip, giroMotor
 # from i2c.at13_Bas import read_Bascula
 # from i2c.sht21 import sht21, calibracion#, read_temp275
 # from gpio.hx711 import hx711
@@ -76,6 +76,7 @@ pesoFinal = 0.0
 def index():
     return render_template("index.html")
 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Lectura de Sensores
 @app.route("/api/sensores")
 def api_sensores():
     sensoresDt = {
@@ -99,6 +100,7 @@ def api_sensores():
     sensoresDt["peso711"] = pesoFinal
     sensoresDt["valSonda1"] = read_Sonda()
     # sensoresDt["valSonda2"] = readTarjeta2S()
+    sensoresDt["valSonda2"] = read_Sonda2()
     sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
     sensoresDt["msgSistema"] = reloj()
     # valor_uart = uart_receive()
@@ -139,6 +141,54 @@ def api_sensores():
         "modFunc": sensoresDt["modFunc"]
     })
 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Nivel de Fototerapia
+@app.route("/api/nvlFototerapia", methods=["POST"])
+def api_nvlFototerapia():
+    nvlFototerapia = request.get_json()
+    Fot = nvlFototerapia.get("nvlFototerapia")
+    Exam = nvlFototerapia.get("nvlExam")
+
+    if Exam:
+        setNvlLuzExam(nvlFototerapia.get("nvlExam"))
+    elif Fot:
+        setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
+
+    return jsonify({"status": "ok"})
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Botones de Control de Altura
+@app.route("/api/btn_AlturaUpOn", methods=["POST"])
+def btn_AlturaUp_On():
+    selDsip("altVar")
+    upRgt_On()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_AlturaUpOff", methods=["POST"])
+def btn_AlturaUp_Off():
+    selDsip("altVar")
+    upRgt_Off()
+    selDsip("motorModOp")   # Apaga pines y MUX
+    # giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_AlturaDwnOn", methods=["POST"])
+def btn_AlturaDwn_On():
+    selDsip("altVar")
+    dwnLft_On()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_AlturaDwnOff", methods=["POST"])
+def btn_AlturaDwn_Off():
+    selDsip("altVar")
+    dwnLft_Off()
+    selDsip("motorModOp")   # Apaga pines y MUX
+    # giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
+
+#------------------------- En Pruebas -------------------------#
 @app.route("/api/tendencias", methods=["POST"])
 def api_tendencias():
     datos = request.get_json()
@@ -155,35 +205,21 @@ def api_limpiarTendencias():
     clear = request.get_json()
     print("Limpiar datos:", clear)
 
-@app.route("/api/nvlFototerapia", methods=["POST"])
-def api_nvlFototerapia():
-    nvlFototerapia = request.get_json()
-    Fot = nvlFototerapia.get("nvlFototerapia")
-    Exam = nvlFototerapia.get("nvlExam")
-
-    if Exam:
-        setNvlLuzExam(nvlFototerapia.get("nvlExam"))
-    elif Fot:
-        setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
-
-    return jsonify({"status": "ok"})
-
 @app.route("/api/chng_modoFunc", methods=["POST"])
 def api_modoFunc():
+#====================== FUNCIONANDO ======================#
     while True:
         fsm.run()
         print(fsm.state)
 
-        if fsm.state == "edo_0" or (fsm.state == "error" and fsm.errores >= 3):
-            break
-
-        print("# Errores:", fsm.errores)
-
-    if fsm.state == "edo_0":
-        return jsonify({"status": "ok"}), 200
-    elif fsm.state == "error":
-        return jsonify({"status": "fail"}), 500
-#------------------------- En Pruebas -------------------------#
+        if fsm.state == "edo_0":
+            return jsonify({"status": "ok"}), 200
+        elif fsm.state == "error" and fsm.errores < 3:
+            print("status: retrying")
+            # return jsonify({"status": "retrying"}), 502
+        elif fsm.state == "error" and fsm.errores >= 3:
+            return jsonify({"status": "fail"}), 500
+#=========================================================#
 # @app.route("/api/saveOffset", methods=["POST"])
 # def api_saveOffset():
 #     tempAct = request.get_json().get("action")
@@ -235,8 +271,72 @@ def api_pesaje():
         return jsonify({"status": "ok"}), 200
     else:
         return jsonify({"status": "fail"}), 500
+#============================================================================
+@app.route("/api/btn_LamparaUpOn", methods=["POST"])
+def btn_LamparaUpOn():
+    selDsip("altCalLamp")
+    upRgt_On()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_LamparaUpOff", methods=["POST"])
+def btn_LamparaUpOff():
+    selDsip("altCalLamp")
+    upRgt_Off()
+    selDsip("motorModOp")
+    giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_LamparaDwnOn", methods=["POST"])
+def btn_LamparaDwnOn():
+    selDsip("altCalLamp")
+    dwnLft_On()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_LamparaDwnOff", methods=["POST"])
+def btn_LamparaDwnOff():
+    selDsip("altCalLamp")
+    dwnLft_Off()
+    selDsip("motorModOp")
+    giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
 
 
+
+
+@app.route("/api/btn_BacIn_derOn", methods=["POST"])
+def btn_BacIn_derOn():
+    selDsip("incBac")
+    upRgt_On()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_BacIn_der", methods=["POST"])
+def btn_BacIn_derOff():
+    upRgt_Off()
+    selDsip("motorModOp")
+    giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_BacIn_izq", methods=["POST"])
+def btn_BacIn_izqOn():
+    selDsip("incBac")
+    dwnLft_On()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_BacIn_izq", methods=["POST"])
+def btn_BacIn_izqOff():
+    selDsip("incBac")
+    dwnLft_Off()
+    selDsip("motorModOp")
+    giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
 #--------------------------------------------------------------#
 
 ##############################################################################
@@ -259,11 +359,11 @@ def restart_container(threshold=95):
 #===============================================================#
 #                    Inicialización de Hilos                    #
 #===============================================================#
-thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
-thread_pwrBtn.start()
+# thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
+# thread_pwrBtn.start()
 
-thread_pwrLed = threading.Thread(target=blink_calib, daemon=True)
-thread_pwrLed.start()
+# thread_pwrLed = threading.Thread(target=blink_calib, daemon=True)
+# thread_pwrLed.start()
 
 thread_Calef = threading.Thread(target=ctrl_Calef, daemon=True)
 thread_Calef.start()

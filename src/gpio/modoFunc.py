@@ -4,8 +4,9 @@ import time
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
-bank = "/dev/gpiochip0" # GPIO3 # Dahlia
-bank2 = "/dev/gpiochip3" # GPIO4 # Dahlia
+bank = "/dev/gpiochip0"     # GPIO3  # Dahlia
+bank2 = "/dev/gpiochip3"    # GPIO4  # Dahlia
+bank3 = "/dev/gpiochip2"    # GPIO11 # Dahlia
 
 pin_SnsCuna = 6     # GPIO4
 pin_SnsIncub = 7    # GPIO5
@@ -13,12 +14,16 @@ pin_SnsIncub = 7    # GPIO5
 pin_Motor_n = 3     # GPIO7
 pin_Motor_p = 1     # GPIO8
 
+pin_MuxSel_0 = 16     # GPIO11
+pin_MuxSel_1 = 5      # GPIO29
+
 strModoFunc = ""
 tiempo_deApertura = 15 # seg
 
 # Inicialización chips
 gpio_chip = gpiod.Chip(bank)
 gpio_chip2 = gpiod.Chip(bank2)
+gpio_chip3 = gpiod.Chip(bank3)
 
 # Lineas individuales
 cuna = gpio_chip.get_line(pin_SnsCuna)
@@ -27,6 +32,9 @@ incb = gpio_chip.get_line(pin_SnsIncub)
 motor_P = gpio_chip2.get_line(pin_Motor_p)
 motor_N = gpio_chip2.get_line(pin_Motor_n)
 
+muxSelct_0 = gpio_chip3.get_line(pin_MuxSel_0)
+muxSelct_1 = gpio_chip.get_line(pin_MuxSel_1)
+
 # Configuración de Acceso
 cuna.request(consumer="cuna", type=gpiod.LINE_REQ_EV_BOTH_EDGES)
 incb.request(consumer="incb", type=gpiod.LINE_REQ_EV_BOTH_EDGES)
@@ -34,12 +42,24 @@ incb.request(consumer="incb", type=gpiod.LINE_REQ_EV_BOTH_EDGES)
 motor_P.request(consumer="motor_P", type=gpiod.LINE_REQ_DIR_OUT)
 motor_N.request(consumer="motor_N", type=gpiod.LINE_REQ_DIR_OUT)
 
+muxSelct_0.request(consumer="muxSelct_0", type=gpiod.LINE_REQ_DIR_OUT)
+muxSelct_1.request(consumer="muxSelct_1", type=gpiod.LINE_REQ_DIR_OUT)
+
 # Motor apagado
-motor_P.set_value(0)
-motor_N.set_value(0)
+motor_P.set_value(1)
+motor_N.set_value(1)
+
+# Selector MUX Inicial
+# 00  |   Altura Variable
+# 01  |   Altura Calefactor/Lámpara
+# 10  |   Inclinación
+# 11  |   Motor cambio de modo de Operació
+
+muxSelct_0.set_value(1)
+muxSelct_1.set_value(1)
 
 #===============================================================#
-#                Funciones de Lectura de Sensores               #
+#          Funciones de Lectura y Escritura de Sensores         #
 #===============================================================#
 def rd_ModoOp():
     global strModoFunc
@@ -62,9 +82,52 @@ def giroMotor(action):
         motor_P.set_value(0)
         motor_N.set_value(1)
     else:
-        motor_P.set_value(0)
-        motor_N.set_value(0)
+        motor_P.set_value(1)
+        motor_N.set_value(1)
 
+############################################################################
+# Resta asignar nuevos GPIO para usar por separado el Motor y los sensores #
+############################################################################
+def upRgt_On():
+    print("upRgt_On")
+    motor_P.set_value(0)
+
+def upRgt_Off():
+    print("upRgt_Off")
+    motor_P.set_value(1)
+
+def dwnLft_On():
+    print("dwnLft_On")
+    motor_N.set_value(0)
+
+def dwnLft_Off():
+    print("dwnLft_Off")
+    motor_N.set_value(1)
+
+def selDsip(disp):
+    match disp:
+        case "altVar":
+            print("Altura Variable")
+            muxSelct_0.set_value(0)
+            muxSelct_1.set_value(0)
+
+        case "altCalLamp":
+            print("Altura Lampara Calefactor")
+            muxSelct_0.set_value(0)
+            muxSelct_1.set_value(1)
+
+        case "incBac":
+            print("Inclinación del Bacinete")
+            muxSelct_0.set_value(1)
+            muxSelct_1.set_value(0)
+
+        case "motorModOp":
+            print("Motor Cambio Modo de Operación")
+            muxSelct_0.set_value(1)
+            muxSelct_1.set_value(1)
+############################################################################
+############################################################################
+############################################################################
 #===============================================================#
 #    Máquina de Estados para cambio de Modo de Funcionamiento   #
 #===============================================================#
@@ -81,6 +144,7 @@ class sm_chngModoOp:
 #           >>>>>>>>>>> Inicio - Lectura de Sensor <<<<<<<<<<<
             case "edo_0":
                 rd_ModoOp()
+                selDsip("motorModOp")
 
                 self.prev_state = self.state
                 self.next_state = "edo_1"
@@ -120,7 +184,7 @@ class sm_chngModoOp:
 #           >> Comprobación de Sensor y Tiempo de Apertura <<
             case "edo_4":
                 rst = time.monotonic() - self.startTime
-                # print("Abriendo...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor:", incb.get_value(), "Errores:", self.errores)
+                print("Abriendo...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor:", incb.get_value(), "Errores:", self.errores)
 
                 time.sleep(0.1)
 
@@ -134,7 +198,7 @@ class sm_chngModoOp:
 #           >>> Comprobación de Sensor y Tiempo de Cierre <<<
             case "edo_5":
                 rst = time.monotonic() - self.startTime
-                # print("Cerrando...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor", cuna.get_value(), "", )
+                print("Cerrando...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor", cuna.get_value(), "", )
 
                 time.sleep(0.1)
 
@@ -175,7 +239,3 @@ class sm_chngModoOp:
                     print("Error Total")
                     self.prev_state = ""
                     self.next_state = ""
-
-
-                print("No se completo el cambio de Modo de Funcionamiento\nCONTACTAR A SERVICIO TÉCNICO")
-                # Aqui falta una forma en la que se regrese al estado anterior

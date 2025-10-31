@@ -56,7 +56,7 @@
                     </button>
 
                     <button class="btn-sensor-6" id="btn-sensor-6">
-                        <div class="btn-sensor-lbl-6">Información del Sistema</div>
+                        <div class="btn-sensor-lbl-6">Configuración del Sistema</div>
                     </button>
                 </div>
             </div>
@@ -187,11 +187,37 @@
 
                     <div class="dock2" id="infoSys">
                         <div class="sensor-block">
-                            <span class="info-text" style="top: 20px;" id="infoSys-Msg">Aqui va a ir todo el mensaje del sistema que llegará por comunicación UART
-                            </span>
+                            <div class="info-text" style="top: 20px;" id="infoSys-Msg">Aqui va a ir todo el mensaje del sistema que llegará por comunicación UART
+                            </div>
+                        </div>
 
-                            <button class="btn-config-modo" id="btn-config-modo">
-                                <div id="modo-lbl" class="btn-config-modo-lbl">Cambio de Modo</div>
+                        <div class="btns-ctrl">
+                            <button id="btn-config-modo">
+                                <div id="modo-lbl">Cammbio de Modo</div>
+                            </button>
+
+                            <div>Altura Variable</div>
+                            <button id="btn-config-CH_up">
+                                <div id="modo-lbl">+</div>
+                            </button>
+                            <button id="btn-config-CH_dwn">
+                                <div id="modo-lbl">-</div>
+                            </button>
+
+                            <div>Altura Lampara</div>
+                            <button id="btn-config-LH_up">
+                            <div id="modo-lbl">+</div>
+                            </button>
+                            <button id="btn-config-LH_dwn">
+                                <div id="modo-lbl">-</div>
+                            </button>
+
+                            <div>Inclinación Bacinete</div>
+                            <button id="btn-config-BacIn_der">
+                                <div id="modo-lbl"><=</div>
+                            </button>
+                            <button id="btn-config-BacIn_izq">
+                                <div id="modo-lbl">=></div>
                             </button>
                         </div>
                     </div>
