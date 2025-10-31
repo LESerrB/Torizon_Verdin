@@ -54,7 +54,7 @@ def read_Sonda():
 
 def read_Sonda2():
     try:
-        valSonda2 = round(4300 * ((1800/read_adc(1)) - 1))  # ADC1_IN0 (SODIMM 8)
+        valSonda2 = round(4300 * ((1800/read_adc(2)) - 1))  # ADC1_IN0 (SODIMM 8)
         logaritmo=math.log(valSonda2)
         temperatura = 1/(a0 + b0 * (logaritmo) + c0 * (pow(logaritmo, 3)))
         tempSonda2 = temperatura - 273

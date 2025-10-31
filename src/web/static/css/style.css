@@ -758,3 +758,33 @@
   width: 480px;
   text-align: center;
 }
+/**/
+.btns-ctrl {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 8px 0;
+}
+
+/* título/etiqueta de cada grupo */
+/* .btns-ctrl .control-title {
+  font-size: 0.9rem;
+  color: var(--texto-color, #333);
+  margin: 6px 0 2px 0;
+} */
+
+/* botones en bloque, mismo ancho y centrado */
+/* .btns-ctrl .btn-config-modo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  padding: 8px 12px;
+  border-radius: 6px;
+} */
+
+/* opción: hacer que los botones pequeños (+/-) sean más compactos */
+/* .btns-ctrl .btn-config-modo .btn-config-modo-lbl {
+  font-size: 1rem;
+} */

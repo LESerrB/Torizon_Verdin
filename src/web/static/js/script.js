@@ -297,7 +297,7 @@ document.getElementById('btn-sensor-5').addEventListener('click', async () => {
 
 // Info del Sistema
 document.getElementById('btn-sensor-6').addEventListener('click', async () => {
-    document.getElementById('sens-Title').textContent = 'Información del Sistema - UART';
+    document.getElementById('sens-Title').textContent = 'Configuración del Sistema - UART';
     mostrarSeccion('infoSys');
     removeStlBtn();
 
@@ -557,9 +557,12 @@ document.getElementById('btn-config-modo').addEventListener('click', async () =>
             },
         });
 
+        console.log(response.status);
+
         if (response.status == 200) {
             ocultarAlerta()
-        } else {
+        }
+        else {
             mostrarAlerta("Error!!!\nEn cambio de Modo de Operación", 5);
         }
     } catch (error) {
@@ -817,6 +820,117 @@ async function valSliderLExam(val2){
         console.error('Error al guardar los datos:', error);
     }
 }
+
+// ####################################################################### //
+//                         BOTONES DE CONFIGURACIÓN                        //
+// ####################################################################### //
+document.getElementById('btn-config-CH_up').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_AlturaUpOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-CH_up').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_AlturaUpOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-CH_dwn').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_AlturaDwnOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-CH_dwn').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_AlturaDwnOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+/////////////////////////////////////////////////////////////////////////////
+document.getElementById('btn-config-LH_up').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_LamparaUpOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-LH_up').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_LamparaUpOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-LH_dwn').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_LamparaDwnOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-LH_dwn').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_LamparaDwnOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+/////////////////////////////////////////////////////////////////////////////
+document.getElementById('btn-config-BacIn_der').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_BacIn_derOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-BacIn_der').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_BacIn_derOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-BacIn_izq').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_BacIn_izqOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-BacIn_izq').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_BacIn_izqOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
 
 // ####################################################################### //
 //                    FUNCIONES DE INICIALIZACION Y DETENIDO               //
