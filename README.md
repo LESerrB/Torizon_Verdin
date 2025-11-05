@@ -220,6 +220,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Implementado Máquina de Estados de Cambio de Modo de funcionamiento de Cuna => Incubadora e Incubadora => Cuna.
 - Asignación de pines para sensores y actuadores para el cambio de modo de funcionamiento.
 
-### v0.15.1 - []
+### v0.16 - [5/Octubre/2025]
 
 - Corrección de bugs de maquina de estados de cambio de modo de Funcionamiento.
+- Agregados botones para cambio de modo en interfaz web.
+- Notificación de pantalla completa de status de cambio.
+- Creados botones de Altura Variable, Altura de Lámpara e Inclinación de Bacinete.
+- Asignado pines para multiplexar el funcionamiento entre Cambio de Modo de Operación, Altura Variable, Altura de Lámpara e Inclinación de Bacinete.
+* *Comentada función de multiplexeo y reasignados pines como contrl para la CAV para pruebas*

@@ -59,16 +59,16 @@ muxSelct_0.set_value(1)
 muxSelct_1.set_value(1)
 
 #===============================================================#
-#          Funciones de Lectura y Escritura de Sensores         #
+#           Funciones de Lectura y Control de Sensores          #
 #===============================================================#
 def rd_ModoOp():
     global strModoFunc
 
     if cuna.get_value():
-        strModoFunc = "Modo Cuna"
+        strModoFunc = "Cuna"
         return strModoFunc
     elif incb.get_value():
-        strModoFunc = "Modo Incubadora"
+        strModoFunc = "Incubadora"
         return strModoFunc
     else:
         strModoFunc = "ERROR"
@@ -85,9 +85,7 @@ def giroMotor(action):
         motor_P.set_value(1)
         motor_N.set_value(1)
 
-############################################################################
-# Resta asignar nuevos GPIO para usar por separado el Motor y los sensores #
-############################################################################
+# Control de Motor de altura
 def upRgt_On():
     print("upRgt_On")
     motor_P.set_value(0)
@@ -104,27 +102,47 @@ def dwnLft_Off():
     print("dwnLft_Off")
     motor_N.set_value(1)
 
-def selDsip(disp):
-    match disp:
-        case "altVar":
-            print("Altura Variable")
-            muxSelct_0.set_value(0)
-            muxSelct_1.set_value(0)
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# Control de Motor de altura AUX SOLO PARA PROBAR EL HW
+def upRgt_On_AUX():
+    print("upRgt_On AUX")
+    muxSelct_0.set_value(0)
 
-        case "altCalLamp":
-            print("Altura Lampara Calefactor")
-            muxSelct_0.set_value(0)
-            muxSelct_1.set_value(1)
+def upRgt_Off_AUX():
+    print("upRgt_Off AUX")
+    muxSelct_0.set_value(1)
 
-        case "incBac":
-            print("Inclinación del Bacinete")
-            muxSelct_0.set_value(1)
-            muxSelct_1.set_value(0)
+def dwnLft_On_AUX():
+    print("dwnLft_On AUX")
+    muxSelct_1.set_value(0)
 
-        case "motorModOp":
-            print("Motor Cambio Modo de Operación")
-            muxSelct_0.set_value(1)
-            muxSelct_1.set_value(1)
+def dwnLft_Off_AUX():
+    print("dwnLft_Off AUX")
+    muxSelct_1.set_value(1)
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+# Selector de Dispositivo por Multiplexor
+# def selDsip(disp):
+#     match disp:
+#         case "altVar":
+#             print("Altura Variable")
+#             muxSelct_0.set_value(0)
+#             muxSelct_1.set_value(0)
+
+#         case "altCalLamp":
+#             print("Altura Lampara Calefactor")
+#             muxSelct_0.set_value(0)
+#             muxSelct_1.set_value(1)
+
+#         case "incBac":
+#             print("Inclinación del Bacinete")
+#             muxSelct_0.set_value(1)
+#             muxSelct_1.set_value(0)
+
+#         case "motorModOp":
+#             print("Motor Cambio Modo de Operación")
+#             muxSelct_0.set_value(1)
+#             muxSelct_1.set_value(1)
 ############################################################################
 ############################################################################
 ############################################################################
@@ -144,7 +162,7 @@ class sm_chngModoOp:
 #           >>>>>>>>>>> Inicio - Lectura de Sensor <<<<<<<<<<<
             case "edo_0":
                 rd_ModoOp()
-                selDsip("motorModOp")
+                # selDsip("motorModOp")
 
                 self.prev_state = self.state
                 self.next_state = "edo_1"
@@ -152,11 +170,11 @@ class sm_chngModoOp:
 
 #           >> Elección de Cambio de Modo de Funcionamiento <<
             case "edo_1":
-                if strModoFunc == "Modo Cuna":
+                if strModoFunc == "Cuna":
                     self.prev_state = self.state
                     self.next_state = "edo_2"
                     self.state = self.next_state
-                elif strModoFunc == "Modo Incubadora":
+                elif strModoFunc == "Incubadora":
                     self.prev_state = self.state
                     self.next_state = "edo_3"
                     self.state = self.next_state
@@ -184,7 +202,7 @@ class sm_chngModoOp:
 #           >> Comprobación de Sensor y Tiempo de Apertura <<
             case "edo_4":
                 rst = time.monotonic() - self.startTime
-                print("Abriendo...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor:", incb.get_value(), "Errores:", self.errores)
+                # print("Abriendo...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor:", incb.get_value(), "Errores:", self.errores)
 
                 time.sleep(0.1)
 
@@ -198,7 +216,7 @@ class sm_chngModoOp:
 #           >>> Comprobación de Sensor y Tiempo de Cierre <<<
             case "edo_5":
                 rst = time.monotonic() - self.startTime
-                print("Cerrando...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor", cuna.get_value(), "", )
+                # print("Cerrando...", "Start:", self.startTime, "Now", time.monotonic(), "=", rst, (rst > tiempo_deApertura), "Sensor", cuna.get_value(), "", )
 
                 time.sleep(0.1)
 
@@ -215,7 +233,7 @@ class sm_chngModoOp:
 
                 time.sleep(0.1)
 
-                if (self.prev_state == "edo_5" and strModoFunc == "Modo Cuna") or (self.prev_state == "edo_4" and strModoFunc == "Modo Incubadora"):
+                if (self.prev_state == "edo_5" and strModoFunc == "Cuna") or (self.prev_state == "edo_4" and strModoFunc == "Incubadora"):
                     self.errores = 0
                     self.prev_state = ""
                     self.next_state = ""
@@ -227,7 +245,6 @@ class sm_chngModoOp:
 #           >>> Error al Cambio de Modo de Funcionamiento <<<
             case "error":
                 if self.errores < 3:
-                    print("Error Parcial")
                     if self.prev_state == "edo_4":
                         self.next_state = "edo_2"
                     elif self.prev_state == "edo_5":
