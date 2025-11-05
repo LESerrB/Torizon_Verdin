@@ -707,33 +707,14 @@
     color: red !important;
     font-weight: bold;
 }
-/* .alerta {
-  position: fixed;
-  top: 250px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color:  #0fd640;
-  color: white;
-  padding: 48px 72px;
-  font-size: 1.5rem;
-  border-radius: 12px;
-  z-index: 9999;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-  opacity: 1;
-  transition: opacity 0.5s ease;
-}
-.alerta.oculto {
-  opacity: 0;
-  pointer-events: none;
-} */
 
 .alert-overlay {
   position: fixed;
-  inset: 0;                      /* top:0; right:0; bottom:0; left:0; */
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.35); /* fondo semi-transparente sobre toda la pantalla */
+  background: rgba(0, 0, 0, 0.35);
   z-index: 9999;
   transition: opacity 0.3s ease, visibility 0.3s;
   visibility: visible;
@@ -764,27 +745,62 @@
   flex-direction: column;
   gap: 8px;
   align-items: flex-start;
-  margin: 8px 0;
+  margin: 25px 0;
 }
 
-/* título/etiqueta de cada grupo */
-/* .btns-ctrl .control-title {
-  font-size: 0.9rem;
-  color: var(--texto-color, #333);
-  margin: 6px 0 2px 0;
-} */
+.modo-lbl {
+  font-size: 28px;
+  font-weight: bold;
+}
 
-/* botones en bloque, mismo ancho y centrado */
-/* .btns-ctrl .btn-config-modo {
-  display: inline-flex;
+.btns-ctrl-mini .btn-aumentar,
+.btns-ctrl-mini .btn-disminuir {
+  width: 45px;
+  height: 45px;
+  padding: 3px 6px;
+}
+
+.btns-ctrl-mini .btn-ctrl {
+  font-size: 30px;  /* texto más pequeño dentro del botón */
+  line-height: 20px;
+}
+
+.config-row {
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  width: 180px;
-  padding: 8px 12px;
-  border-radius: 6px;
-} */
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
 
-/* opción: hacer que los botones pequeños (+/-) sean más compactos */
-/* .btns-ctrl .btn-config-modo .btn-config-modo-lbl {
-  font-size: 1rem;
-} */
+.config-label {
+  font-size: 22px;
+  font-weight: bold;
+  color: #6c696c;
+  flex: 1;
+  text-align: left;
+}
+
+.config-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-modo {
+  background: var(--azul-btn, #1ba0f2);
+  border-color: #1ba0f2;
+  border-radius: 15px;
+  width: 230px;
+  height: 40px;
+}
+
+.modoOP {
+  color: var(--texto-blanco, #ffffff);
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}

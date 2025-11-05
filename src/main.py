@@ -21,7 +21,7 @@ from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
 from rtc.reloj import reloj
-from gpio.modoFunc import rd_ModoOp, sm_chngModoOp, upRgt_On, upRgt_Off, dwnLft_On, dwnLft_Off, selDsip, giroMotor
+from gpio.modoFunc import rd_ModoOp, sm_chngModoOp, upRgt_On, upRgt_Off, dwnLft_On, dwnLft_Off, giroMotor#, selDsip
 # from i2c.at13_Bas import read_Bascula
 # from i2c.sht21 import sht21, calibracion#, read_temp275
 # from gpio.hx711 import hx711
@@ -29,6 +29,7 @@ from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 # from uart.comBCD import uart_send, uart_receive, decript_Msg#, StateMachine
 #------------------------- En Pruebas -------------------------#
 from uart.comBasc import tare, calib, pesaje, encode_Msg, decode_Msg, uart_send
+from gpio.modoFunc import upRgt_On_AUX, upRgt_Off_AUX, dwnLft_On_AUX, dwnLft_Off_AUX
 # from i2c.at18_T2s import readTarjeta2S
 
 #<<<<<<FUNCIONAMIENTO CORRECTO DENTRO DE LA TARJETA VERDIN>>>>>>#
@@ -69,6 +70,7 @@ fsm = sm_chngModoOp()
 
 PWM_Calef = 100
 pesoFinal = 0.0
+strStatus = ""
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
@@ -110,7 +112,7 @@ def api_sensores():
     # else:
     #     sensoresDt["msgSistema"] = f"{valor_uart} °C"
 #------------------------- En Pruebas -------------------------#
-    sensoresDt["modFunc"] = rd_ModoOp()
+    sensoresDt["modFunc"] = rd_ModoOp() + strStatus
     # readTarjeta2S()
     # print(decript_Msg())
     # print(read_temp275())
@@ -158,33 +160,97 @@ def api_nvlFototerapia():
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Botones de Control de Altura
 @app.route("/api/btn_AlturaUpOn", methods=["POST"])
 def btn_AlturaUp_On():
-    selDsip("altVar")
+    # selDsip("altVar")
     upRgt_On()
 
     return jsonify({"status": "ok"}), 200
 
 @app.route("/api/btn_AlturaUpOff", methods=["POST"])
 def btn_AlturaUp_Off():
-    selDsip("altVar")
+    # selDsip("altVar")
     upRgt_Off()
-    selDsip("motorModOp")   # Apaga pines y MUX
+    # selDsip("motorModOp")   # Apaga pines y MUX
     # giroMotor("Apagado")
 
     return jsonify({"status": "ok"}), 200
 
 @app.route("/api/btn_AlturaDwnOn", methods=["POST"])
 def btn_AlturaDwn_On():
-    selDsip("altVar")
+    # selDsip("altVar")
     dwnLft_On()
 
     return jsonify({"status": "ok"}), 200
 
 @app.route("/api/btn_AlturaDwnOff", methods=["POST"])
 def btn_AlturaDwn_Off():
-    selDsip("altVar")
+    # selDsip("altVar")
     dwnLft_Off()
-    selDsip("motorModOp")   # Apaga pines y MUX
+    # selDsip("motorModOp")   # Apaga pines y MUX
     # giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control de Nivel de Altura Lámpara
+@app.route("/api/btn_LamparaUpOn", methods=["POST"])
+def btn_LamparaUpOn():
+    # selDsip("altCalLamp")
+    upRgt_On_AUX()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_LamparaUpOff", methods=["POST"])
+def btn_LamparaUpOff():
+    # selDsip("altCalLamp")
+    upRgt_Off_AUX()
+    # selDsip("motorModOp")
+    giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_LamparaDwnOn", methods=["POST"])
+def btn_LamparaDwnOn():
+    # selDsip("altCalLamp")
+    dwnLft_On_AUX()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_LamparaDwnOff", methods=["POST"])
+def btn_LamparaDwnOff():
+    # selDsip("altCalLamp")
+    dwnLft_Off_AUX()
+    # selDsip("motorModOp")
+    giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control Inclinación de Bacinete
+@app.route("/api/btn_BacIn_derOn", methods=["POST"])
+def btn_BacIn_derOn():
+    # selDsip("incBac")
+    upRgt_On()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_BacIn_derOff", methods=["POST"])
+def btn_BacIn_derOff():
+    upRgt_Off()
+    # selDsip("motorModOp")
+    giroMotor("Apagado")
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_BacIn_izqOn", methods=["POST"])
+def btn_BacIn_izqOn():
+    # selDsip("incBac")
+    dwnLft_On()
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_BacIn_izqOff", methods=["POST"])
+def btn_BacIn_izqOff():
+    # selDsip("incBac")
+    dwnLft_Off()
+    # selDsip("motorModOp")
+    giroMotor("Apagado")
 
     return jsonify({"status": "ok"}), 200
 
@@ -208,17 +274,21 @@ def api_limpiarTendencias():
 @app.route("/api/chng_modoFunc", methods=["POST"])
 def api_modoFunc():
 #====================== FUNCIONANDO ======================#
+    global strStatus
+
     while True:
         fsm.run()
-        print(fsm.state)
 
         if fsm.state == "edo_0":
+            strStatus = ""
             return jsonify({"status": "ok"}), 200
         elif fsm.state == "error" and fsm.errores < 3:
-            print("status: retrying")
+            strStatus = f"{fsm.errores}"
             # return jsonify({"status": "retrying"}), 502
         elif fsm.state == "error" and fsm.errores >= 3:
+            strStatus = "Error"
             return jsonify({"status": "fail"}), 500
+
 #=========================================================#
 # @app.route("/api/saveOffset", methods=["POST"])
 # def api_saveOffset():
@@ -271,72 +341,6 @@ def api_pesaje():
         return jsonify({"status": "ok"}), 200
     else:
         return jsonify({"status": "fail"}), 500
-#============================================================================
-@app.route("/api/btn_LamparaUpOn", methods=["POST"])
-def btn_LamparaUpOn():
-    selDsip("altCalLamp")
-    upRgt_On()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_LamparaUpOff", methods=["POST"])
-def btn_LamparaUpOff():
-    selDsip("altCalLamp")
-    upRgt_Off()
-    selDsip("motorModOp")
-    giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_LamparaDwnOn", methods=["POST"])
-def btn_LamparaDwnOn():
-    selDsip("altCalLamp")
-    dwnLft_On()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_LamparaDwnOff", methods=["POST"])
-def btn_LamparaDwnOff():
-    selDsip("altCalLamp")
-    dwnLft_Off()
-    selDsip("motorModOp")
-    giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
-
-
-
-
-@app.route("/api/btn_BacIn_derOn", methods=["POST"])
-def btn_BacIn_derOn():
-    selDsip("incBac")
-    upRgt_On()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_BacIn_der", methods=["POST"])
-def btn_BacIn_derOff():
-    upRgt_Off()
-    selDsip("motorModOp")
-    giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_BacIn_izq", methods=["POST"])
-def btn_BacIn_izqOn():
-    selDsip("incBac")
-    dwnLft_On()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_BacIn_izq", methods=["POST"])
-def btn_BacIn_izqOff():
-    selDsip("incBac")
-    dwnLft_Off()
-    selDsip("motorModOp")
-    giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
 #--------------------------------------------------------------#
 
 ##############################################################################

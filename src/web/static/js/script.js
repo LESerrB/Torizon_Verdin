@@ -373,8 +373,22 @@ async function updateSensors() {
         else
             porcentaje.classList.remove('alertaCalef');
 
-        if (data.modFunc)
-            document.getElementById("modo-lbl").textContent = data.modFunc
+        if (data.modFunc){
+            s = data.modFunc
+            const m = s.match(/^([^\d]+)(\d+)$/);
+
+            rtn = m ? { text: m[1], number: m[2] } : { text: s.replace(/\d+$/,'') , number: null };
+            document.getElementById("modo-lbl").textContent = rtn.text
+
+            if (rtn.number == 1) {
+                console.log("Error, Reintentando")
+                mostrarAlerta("Error al cambiar de Modo, Reintentando", 0);
+            }
+            else if (rtn.number == 2) {
+                console.log("Error, Reintentando Nuevamente")
+                mostrarAlerta("Error, Reintentando Nuevamente", 0);
+            }
+        }
 
     } catch (e) {
         console.error('Error fetching sensor data:', e);
@@ -563,7 +577,7 @@ document.getElementById('btn-config-modo').addEventListener('click', async () =>
             ocultarAlerta()
         }
         else {
-            mostrarAlerta("Error!!!\nEn cambio de Modo de Operación", 5);
+            mostrarAlerta("Error!!!En cambio de Modo de Operación.\nContacte a Servicio Técnico.", 0);
         }
     } catch (error) {
         console.log(error);

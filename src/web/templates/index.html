@@ -187,38 +187,61 @@
 
                     <div class="dock2" id="infoSys">
                         <div class="sensor-block">
-                            <div class="info-text" style="top: 20px;" id="infoSys-Msg">Aqui va a ir todo el mensaje del sistema que llegará por comunicación UART
-                            </div>
+                            <div class="info-text" style="top: 10px;" id="infoSys-Msg">Aqui va a ir todo el mensaje del sistema que llegará por comunicación UART</div>
                         </div>
 
-                        <div class="btns-ctrl">
-                            <button id="btn-config-modo">
-                                <div id="modo-lbl">Cammbio de Modo</div>
+                        <div class="btns-ctrl btns-ctrl-mini">
+                            <button id="btn-config-modo" class="btn-modo">
+                                <div id="modo-lbl" class="modoOP">Cambio de Modo</div>
                             </button>
 
-                            <div>Altura Variable</div>
-                            <button id="btn-config-CH_up">
-                                <div id="modo-lbl">+</div>
-                            </button>
-                            <button id="btn-config-CH_dwn">
-                                <div id="modo-lbl">-</div>
-                            </button>
+                            <div class="btns-config">
+                                <div class="config-row">
+                                    <div class="config-label">Altura Variable</div>
 
-                            <div>Altura Lampara</div>
-                            <button id="btn-config-LH_up">
-                            <div id="modo-lbl">+</div>
-                            </button>
-                            <button id="btn-config-LH_dwn">
-                                <div id="modo-lbl">-</div>
-                            </button>
+                                    <div class="config-buttons">
+                                        <button id="btn-config-CH_up" class="btn-aumentar btn-mini">
+                                            <div class="btn-ctrl">+</div>
+                                        </button>
 
-                            <div>Inclinación Bacinete</div>
-                            <button id="btn-config-BacIn_der">
-                                <div id="modo-lbl"><=</div>
-                            </button>
-                            <button id="btn-config-BacIn_izq">
-                                <div id="modo-lbl">=></div>
-                            </button>
+                                        <button id="btn-config-CH_dwn" class="btn-disminuir btn-mini">
+                                            <div class="btn-ctrl">-</div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btns-config">
+                                <div class="config-row">
+                                    <div class="config-label">Altura Lampara</div>
+
+                                    <div class="config-buttons">
+                                        <button id="btn-config-LH_up" class="btn-aumentar btn-mini">
+                                            <div class="btn-ctrl">+</div>
+                                        </button>
+
+                                        <button id="btn-config-LH_dwn" class="btn-disminuir btn-mini">
+                                            <div class="btn-ctrl">-</div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btns-config">
+                                <div class="config-row">
+                                    <div class="config-label">Inclinación Bacinete</div>
+    
+                                    <div class="config-buttons">
+                                        <button id="btn-config-BacIn_der" class="btn-aumentar btn-mini">
+                                            <div class="btn-ctrl"> < </div>
+                                        </button>
+        
+                                        <button id="btn-config-BacIn_izq" class="btn-disminuir btn-mini">
+                                            <div class="btn-ctrl"> > </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
