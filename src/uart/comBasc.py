@@ -10,7 +10,7 @@ import time
 SCALE = 1.0
 OFFSET = 0.0
 
-w_bas = 0.0
+# w_bas = 0.0
 
 #================================================================#
 #             Función principal de comunicación UART             #
@@ -23,23 +23,28 @@ ser = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
 #================================================================#
 #                 Funciones de comunicación UART                 #
 #================================================================#
-def uart_send(data: str):
+def uart_send(data):
     try:
         if ser and ser.is_open:
-            ser.write(data.encode('ascii'))
-            print(f"Enviado: {data.strip()}")
+            if isinstance(data, (bytes, bytearray)):
+                # print(f"Enviado (hex): {data.hex()}")
+                # print(data)
+                ser.write(data)
+            else:
+                s = str(data)
+                ser.write(s.encode('ascii'))
+                # print(f"Enviado (str): {s.strip()}")
         else:
             print("UART no está abierto")
     except Exception as e:
         # logger.error("Error escribiendo a Tarjeta de Bascula", e)
-        # print(f"Error escribiendo a Tarjeta de Bascula {e}")
+        print(f"Error escribiendo a Tarjeta de Bascula {e}")
         return None
 
 def uart_receive() -> str:
     try:
         if ser and ser.is_open:
             data = ser.readline().hex()
-            # print("Dato recibido:", data)
 
             if data:
                 return data
@@ -48,7 +53,7 @@ def uart_receive() -> str:
             return ""
     except Exception as e:
         # logger.error("Error leyendo Tarjeta de Bascula", e)
-        # print(f"Error leyendo Tarjeta de Bascula {e}")
+        print(f"Error leyendo Tarjeta de Bascula {e}")
         return None
 
 def close_uart():
@@ -63,17 +68,19 @@ def close_uart():
 #================================================================#
 #                 Funciones de obtención de Peso                 #
 #================================================================#
-def decript_Msg():
-    global w_bas
+def decode_Msg():
     basc_val = []
 
     trama = uart_receive()
+    if trama != None:
+        print(">>>>", trama)
+        # print(trama.encode('utf-8').hex())
 
-    if trama and trama.startswith("00"): #and trama.endswith("63"):
+    if trama and trama.startswith("00") and trama.endswith("63"):
         trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
-        num_bytes = int(trama[1], 16)
+        n_bytes = int(trama[1], 16)
 
-        for i in range(2, (2 + num_bytes)):
+        for i in range(2, (2 + n_bytes)):
             basc_val.append(trama[i])
 
         basc_val = ''.join(basc_val)
@@ -86,49 +93,72 @@ def decript_Msg():
         # print(crc_calc)
 
         # if crc_rec == crc_calc:
-        # print(w_bas)
+        print("W:", w_bas)
     #     return w_bas
     else:
         w_bas = 0.0
 
     return w_bas
 
+def encode_Msg(msg):
+    n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
+    dt = bytes.fromhex(msg)
+
+    # crc = crc16_arc(dt)
+    # crc = crc.to_bytes(2, byteorder='big')
+    # dt = b'\x00' + n_bytes + dt + crc + b'\x99'
+
+    dt = b'\x00' + n_bytes + dt + b'\x63'
+    # print(dt.hex())
+
+    # bytes_invertidos = bytearray()
+
+    # for byte in dt:
+    #     # print(byte)
+    #     bytes_invertidos.append(byte ^ 0xFF)
+
+    # print(bytes_invertidos)
+
+    uart_send(dt)
+
 # Calculo de Peso
 def pesaje():
-    pesajeAcc = 0
+    pesoAcc = 0
     c = 0
 
     finPesaje = time.monotonic() + 10
+    print(finPesaje)
 
-    while time.monotonic() < finPesaje:
-        w = decript_Msg()
+    while (c < 4) and (time.monotonic() < finPesaje):
+        encode_Msg("55")
+        w = decode_Msg()
+        print(">>", w, c, time.monotonic(), finPesaje)
 
         if w != 0.0:
+            pesoAcc = pesoAcc + w
             c += 1
 
-        pesajeAcc += (w - OFFSET) / SCALE
-        # print(pesajeAcc, "/", c)
-        time.sleep(1)
+    pesoTotal = pesoAcc/c
 
-    pesoTotal = pesajeAcc/c
+    pesoTotal = (pesoTotal - OFFSET) / SCALE
 
     if pesoTotal < 0.0:
         pesoTotal = 0.0
 
-    # print(pesoTotal)
+    print(pesoTotal)
     return pesoTotal
 
 # Calibración
-def calib_Provisional(peso_Act = 5.0):
+def calib(peso_Act = 5.0):
     global SCALE
     global OFFSET
 
     err = 0
 
-    SCALE = round((decript_Msg() - OFFSET) / float(peso_Act), 2)
+    SCALE = round((decode_Msg() - OFFSET) / float(peso_Act), 2)
 
     while SCALE == 0.0:
-        SCALE = round((decript_Msg() - OFFSET) / float(peso_Act), 2)
+        SCALE = round((decode_Msg() - OFFSET) / float(peso_Act), 2)
         err += 1
 
         if err > 5:
@@ -138,20 +168,27 @@ def calib_Provisional(peso_Act = 5.0):
     print("SCALE:", SCALE)
 
 # Taraje
-def tare_Provisional():
+def tare():
     global OFFSET
     err = 0
 
-    OFFSET = decript_Msg()
+    OFFSET = decode_Msg()
 
     while OFFSET == 0.0:
-        OFFSET = decript_Msg()
+        OFFSET = decode_Msg()
         err += 1
 
         if err > 5:
             break
 
     print("OFFSET:", OFFSET)
+    w = (decode_Msg() - OFFSET) / SCALE
+    print("peso tarado >=(", w)
+
+    if w < 0:
+        w = 0.0
+
+    return w
 
 #================================================================#
 #                  Función de creación de CRC                    #

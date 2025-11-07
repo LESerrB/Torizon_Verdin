@@ -228,3 +228,6 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creados botones de Altura Variable, Altura de Lámpara e Inclinación de Bacinete.
 - Asignado pines para multiplexar el funcionamiento entre Cambio de Modo de Operación, Altura Variable, Altura de Lámpara e Inclinación de Bacinete.
 * *Comentada función de multiplexeo y reasignados pines como contrl para la CAV para pruebas*
+
+### v 0.16.1
+- Revisión de función de pesaje.

@@ -15,230 +15,233 @@
     </head>
 
     <body>
-    <div class="pantalla-base">
-        <div class="header">
-            <button class="btn-fototerapia" id="btn-fototerapia">
-                <img class="icon-fototerapia" src="../static/icon/icon-fototerapia.svg" />
-            </button>
+        <div class="pantalla-base">
+            <div class="header">
+                <button class="btn-fototerapia" id="btn-fototerapia">
+                    <img class="icon-fototerapia" src="../static/icon/icon-fototerapia.svg" />
+                </button>
 
-            <button class="buttontemp" id="btn-temperatura">
-                <img class="icon-temperatura" src="../static/icon/icon-temperatura.svg" />
-            </button>
+                <button class="buttontemp" id="btn-temperatura">
+                    <img class="icon-temperatura" src="../static/icon/icon-temperatura.svg" />
+                </button>
 
-            <button class="btn-tendencias" id="btn-tendencias">
-                <div class="icon-tendencias">
-                <img class="group-5" src="../static/icon/icon-tendencia.svg" />
-                </div>
-            </button>
-        </div>
-<!---------------------- INFORMACIÓN ---------------------->
-        <div class="info-mod" id="info-mod">
-            <div class="background-aside">
-                <div class="btns-sensores">
-                    <button class="btn-sensor-1" id="btn-sensor-1">
-                        <div class="btn-sensor-lbl-1">Temp/Humedad</div>
-                    </button>
-
-                    <button class="btn-sensor-2" id="btn-sensor-2">
-                        <div class="btn-sensor-lbl-2">Temp/Hum/Pres</div>
-                    </button>
-
-                    <button class="btn-sensor-3" id="btn-sensor-3">
-                        <div class="btn-sensor-lbl-3">Báscula</div>
-                    </button>
-
-                    <button class="btn-sensor-4" id="btn-sensor-4">
-                        <div class="btn-sensor-lbl-4">Sonda de Piel</div>
-                    </button>
-
-                    <button class="btn-sensor-5" id="btn-sensor-5">
-                        <div class="btn-sensor-lbl-5">Calefactor</div>
-                    </button>
-
-                    <button class="btn-sensor-6" id="btn-sensor-6">
-                        <div class="btn-sensor-lbl-6">Configuración del Sistema</div>
-                    </button>
-                </div>
+                <button class="btn-tendencias" id="btn-tendencias">
+                    <div class="icon-tendencias">
+                    <img class="group-5" src="../static/icon/icon-tendencia.svg" />
+                    </div>
+                </button>
             </div>
-
-            <div class="background-article">
-                <div class="aside-calecator">
-                    <div class="info-text" id="sens-Title">Sensor</div>
-
-                    <div class="dock2" id="temp-ambiente">
-                        <div class="sensor-block">
-                            <div class="contSens" style="top: 10px;">
-                                <span class="dato" id="tempSHT">--.-</span>
-                                <span class="datoUnit" id="unitTSHT">[]</span>
-                            </div>
-
-                            <span class="info-text" style="top: 20px;">Temperatura</span>
-                        </div>
-
-                        <div class="sensor-block">
-                            <div class="contSens" style="top: 20px;">
-                                <span class="dato" id="humSHT">--.-</span>
-                                <span class="datoUnit" id="unitHSHT">[]</span>
-                            </div>
-
-                            <span class="info-text" style="top: 35px;">Humedad</span>
-                        </div>
-                    </div>
-
-                    <div class="dock2" id="pres-ambiente">
-                        <div class="sensor-block">
-                            <div class="contSens">
-                                <span class="dato" id="tempBME">--.-</span>
-                                <span class="datoUnit" id="unitTBME">[]</span>
-                            </div>
-
-                            <div class="info-text" style="top: 10px;">Temperatura</div>
-                        </div>
-
-                        <div class="sensor-block">
-                            <div class="contSens" style="top: 10px;">
-                                <span class="dato" id="presBME">--.-</span>
-                                <span class="datoUnit" id="unitPBME">[]</span>
-                            </div>
-
-                            <div class="info-text" style="top: 20px;">Presion</div>
-                        </div>
-
-                        <div class="sensor-block">
-                            <div class="contSens" style="top: 15px;">
-                                <span class="dato" id="humBME">--.-</span>
-                                <span class="datoUnit" id="unitHBME">[]</span>
-                            </div>
-
-                            <div class="info-text" style="top: 25px;">Humedad</div>
-                        </div>
-                    </div>
-
-                    <div class="dock2" id="bascula">
-                        <div class="sensor-block">
-                            <div class="contSens">
-                                <span class="dato" id="pesoHX711">--.-</span>
-                                <span class="datoUnit" id="unitpesoHX711">[]</span>
-                            </div>
-
-                            <div class="info-text">Peso</div>
-
-                            <button class="btn-basc-tar" id="btn-basc-tar">
-                                <div class="btn-basc-tar-lbl">Tara</div>
-                            </button>
-
-                            <button class="btn-basc-calib" id="btn-basc-calib">
-                                <div class="btn-basc-calib-lbl">Calibración</div>
-                            </button>
-
-                            <button class="btn-basc-peso" id="btn-basc-peso">
-                                <div class="btn-basc-peso-lbl">Pesaje</div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="dock2" id="sonda-temperatura">
-                        <div class="sensor-block">
-                            <div class="contSens">
-                                <span class="dato" id="temp">--.-</span>
-                                <span class="datoUnit" id="unitT">[]</span>
-                            </div>
-
-                            <div class="info-text" style="top: 10px;">Temperatura Sonda 1</div>
-                        </div>
-
-                        <div class="sensor-block">
-                            <div class="contSens" style="top: 10px;">
-                                <span class="dato" id="tempProg">--.-</span>
-                                <span class="datoUnit" id="unitTP">[]</span>
-                            </div>
-
-                            <div class="info-text" style="top: 15px;">Temperatura Sonda 2</div>
-                        </div>
-                    </div>
-
-                    <div class="dock" id="calefactor">
-                        <div class="btns-porcentaje">
-                            <button class="btn-aumentar" disabled>
-                                <div class="btn-ctrl">+</div>
-                            </button>
-        
-                            <button class="btn-disminuir" disabled>
-                                <div class="btn-ctrl">-</div>
-                            </button>
-        
-                            <button class="btn-aceptar" disabled>
-                                <div class="btn-ctrl">✓</div>
-                            </button>
-                        </div>
-        
-                        <button class="btn-calefactor">
-                            <div class="calefactor">CALEFACTOR</div>
+    <!---------------------- INFORMACIÓN ---------------------->
+            <div class="info-mod" id="info-mod">
+                <div class="background-aside">
+                    <div class="btns-sensores">
+                        <button class="btn-sensor-1" id="btn-sensor-1">
+                            <div class="btn-sensor-lbl-1">Temp/Humedad</div>
                         </button>
-        
-                        <div class="porcentaje-calef">
-                            <div class="_100">100</div>
-                        </div>
-        
-                        <div class="unit100">
-                            <div class="unit100-lbl">%</div>
-                        </div>
+
+                        <button class="btn-sensor-2" id="btn-sensor-2">
+                            <div class="btn-sensor-lbl-2">Temp/Hum/Pres</div>
+                        </button>
+
+                        <button class="btn-sensor-3" id="btn-sensor-3">
+                            <div class="btn-sensor-lbl-3">Báscula</div>
+                        </button>
+
+                        <button class="btn-sensor-4" id="btn-sensor-4">
+                            <div class="btn-sensor-lbl-4">Sonda de Piel</div>
+                        </button>
+
+                        <button class="btn-sensor-5" id="btn-sensor-5">
+                            <div class="btn-sensor-lbl-5">Calefactor</div>
+                        </button>
+
+                        <button class="btn-sensor-6" id="btn-sensor-6">
+                            <div class="btn-sensor-lbl-6">Configuración del Sistema</div>
+                        </button>
                     </div>
+                </div>
 
-                    <div class="dock2" id="infoSys">
-                        <div class="sensor-block">
-                            <div class="info-text" style="top: 10px;" id="infoSys-Msg">Aqui va a ir todo el mensaje del sistema que llegará por comunicación UART</div>
+                <div class="background-article">
+                    <div class="aside-calecator">
+                        <div class="info-text" id="sens-Title">Sensor</div>
+
+                        <div class="dock2" id="temp-ambiente">
+                            <div class="sensor-block">
+                                <div class="contSens" style="top: 10px;">
+                                    <span class="dato" id="tempSHT">--.-</span>
+                                    <span class="datoUnit" id="unitTSHT">[]</span>
+                                </div>
+
+                                <span class="info-text" style="top: 20px;">Temperatura</span>
+                            </div>
+
+                            <div class="sensor-block">
+                                <div class="contSens" style="top: 20px;">
+                                    <span class="dato" id="humSHT">--.-</span>
+                                    <span class="datoUnit" id="unitHSHT">[]</span>
+                                </div>
+
+                                <span class="info-text" style="top: 35px;">Humedad</span>
+                            </div>
                         </div>
 
-                        <div class="btns-ctrl btns-ctrl-mini">
-                            <button id="btn-config-modo" class="btn-modo">
-                                <div id="modo-lbl" class="modoOP">Cambio de Modo</div>
-                            </button>
-
-                            <div class="btns-config">
-                                <div class="config-row">
-                                    <div class="config-label">Altura Variable</div>
-
-                                    <div class="config-buttons">
-                                        <button id="btn-config-CH_up" class="btn-aumentar btn-mini">
-                                            <div class="btn-ctrl">+</div>
-                                        </button>
-
-                                        <button id="btn-config-CH_dwn" class="btn-disminuir btn-mini">
-                                            <div class="btn-ctrl">-</div>
-                                        </button>
-                                    </div>
+                        <div class="dock2" id="pres-ambiente">
+                            <div class="sensor-block">
+                                <div class="contSens">
+                                    <span class="dato" id="tempBME">--.-</span>
+                                    <span class="datoUnit" id="unitTBME">[]</span>
                                 </div>
+
+                                <div class="info-text" style="top: 10px;">Temperatura</div>
                             </div>
 
-                            <div class="btns-config">
-                                <div class="config-row">
-                                    <div class="config-label">Altura Lampara</div>
-
-                                    <div class="config-buttons">
-                                        <button id="btn-config-LH_up" class="btn-aumentar btn-mini">
-                                            <div class="btn-ctrl">+</div>
-                                        </button>
-
-                                        <button id="btn-config-LH_dwn" class="btn-disminuir btn-mini">
-                                            <div class="btn-ctrl">-</div>
-                                        </button>
-                                    </div>
+                            <div class="sensor-block">
+                                <div class="contSens" style="top: 10px;">
+                                    <span class="dato" id="presBME">--.-</span>
+                                    <span class="datoUnit" id="unitPBME">[]</span>
                                 </div>
+
+                                <div class="info-text" style="top: 20px;">Presion</div>
                             </div>
 
-                            <div class="btns-config">
-                                <div class="config-row">
-                                    <div class="config-label">Inclinación Bacinete</div>
+                            <div class="sensor-block">
+                                <div class="contSens" style="top: 15px;">
+                                    <span class="dato" id="humBME">--.-</span>
+                                    <span class="datoUnit" id="unitHBME">[]</span>
+                                </div>
+
+                                <div class="info-text" style="top: 25px;">Humedad</div>
+                            </div>
+                        </div>
+
+                        <div class="dock2" id="bascula">
+                            <div class="sensor-block">
+                                <div class="contSens">
+                                    <span class="dato" id="pesoHX711">--.-</span>
+                                    <span class="datoUnit" id="unitpesoHX711">[]</span>
+                                </div>
+
+                                <div class="info-text">Peso</div>
+
+                                <div class="btns-pesaje">
+                                    <button class="btn-basc-tar" id="btn-basc-tar">
+                                        <div class="btn-basc-tar-lbl">Tara</div>
+                                    </button>
     
-                                    <div class="config-buttons">
-                                        <button id="btn-config-BacIn_der" class="btn-aumentar btn-mini">
-                                            <div class="btn-ctrl"> < </div>
-                                        </button>
+                                    <button class="btn-basc-calib" id="btn-basc-calib">
+                                        <div class="btn-basc-calib-lbl">Calibración</div>
+                                    </button>
+    
+                                    <button class="btn-basc-peso" id="btn-basc-peso">
+                                        <div class="btn-basc-peso-lbl">Pesaje</div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dock2" id="sonda-temperatura">
+                            <div class="sensor-block">
+                                <div class="contSens">
+                                    <span class="dato" id="temp">--.-</span>
+                                    <span class="datoUnit" id="unitT">[]</span>
+                                </div>
+
+                                <div class="info-text" style="top: 10px;">Temperatura Sonda 1</div>
+                            </div>
+
+                            <div class="sensor-block">
+                                <div class="contSens" style="top: 10px;">
+                                    <span class="dato" id="tempProg">--.-</span>
+                                    <span class="datoUnit" id="unitTP">[]</span>
+                                </div>
+
+                                <div class="info-text" style="top: 15px;">Temperatura Sonda 2</div>
+                            </div>
+                        </div>
+
+                        <div class="dock" id="calefactor">
+                            <div class="btns-porcentaje">
+                                <button class="btn-aumentar" disabled>
+                                    <div class="btn-ctrl">+</div>
+                                </button>
+            
+                                <button class="btn-disminuir" disabled>
+                                    <div class="btn-ctrl">-</div>
+                                </button>
+            
+                                <button class="btn-aceptar" disabled>
+                                    <div class="btn-ctrl">✓</div>
+                                </button>
+                            </div>
+            
+                            <button class="btn-calefactor">
+                                <div class="calefactor">CALEFACTOR</div>
+                            </button>
+            
+                            <div class="porcentaje-calef">
+                                <div class="_100">100</div>
+                            </div>
+            
+                            <div class="unit100">
+                                <div class="unit100-lbl">%</div>
+                            </div>
+                        </div>
+
+                        <div class="dock2" id="infoSys">
+                            <div class="sensor-block">
+                                <div class="info-text" style="top: 10px;" id="infoSys-Msg">Aqui va a ir todo el mensaje del sistema que llegará por comunicación UART</div>
+                            </div>
+
+                            <div class="btns-ctrl btns-ctrl-mini">
+                                <button id="btn-config-modo" class="btn-modo">
+                                    <div id="modo-lbl" class="modoOP">Cambio de Modo</div>
+                                </button>
+
+                                <div class="btns-config">
+                                    <div class="config-row">
+                                        <div class="config-label">Altura Variable</div>
+
+                                        <div class="config-buttons">
+                                            <button id="btn-config-CH_up" class="btn-aumentar btn-mini">
+                                                <div class="btn-ctrl">+</div>
+                                            </button>
+
+                                            <button id="btn-config-CH_dwn" class="btn-disminuir btn-mini">
+                                                <div class="btn-ctrl">-</div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="btns-config">
+                                    <div class="config-row">
+                                        <div class="config-label">Altura Lampara</div>
+
+                                        <div class="config-buttons">
+                                            <button id="btn-config-LH_up" class="btn-aumentar btn-mini">
+                                                <div class="btn-ctrl">+</div>
+                                            </button>
+
+                                            <button id="btn-config-LH_dwn" class="btn-disminuir btn-mini">
+                                                <div class="btn-ctrl">-</div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="btns-config">
+                                    <div class="config-row">
+                                        <div class="config-label">Inclinación Bacinete</div>
         
-                                        <button id="btn-config-BacIn_izq" class="btn-disminuir btn-mini">
-                                            <div class="btn-ctrl"> > </div>
-                                        </button>
+                                        <div class="config-buttons">
+                                            <button id="btn-config-BacIn_der" class="btn-aumentar btn-mini">
+                                                <div class="btn-ctrl"> < </div>
+                                            </button>
+            
+                                            <button id="btn-config-BacIn_izq" class="btn-disminuir btn-mini">
+                                                <div class="btn-ctrl"> > </div>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -246,102 +249,104 @@
                     </div>
                 </div>
             </div>
-        </div>
-<!------------------------ GRÁFICAS ----------------------->
-        <div class="graf-tendencias" id="graf-tendencias">
-            <div class="background-graf">
-                <div class="chart-controls">
-                    <div class="control-group">
-                        <label for="duration-select">Duración del registro:</label>
-                        <select id="duration-select">
-                            <option value="24">24 horas</option>
-                            <option value="48">48 horas</option>
-                            <option value="72">72 horas</option>
-                        </select>
+    <!------------------------ GRÁFICAS ----------------------->
+            <div class="graf-tendencias" id="graf-tendencias">
+                <div class="background-graf">
+                    <div class="chart-controls">
+                        <div class="control-group">
+                            <label for="duration-select">Duración del registro:</label>
+                            <select id="duration-select">
+                                <option value="24">24 horas</option>
+                                <option value="48">48 horas</option>
+                                <option value="72">72 horas</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="interval-select">Intervalo de guardado:</label>
+                            <select id="interval-select">
+                                <option value="1">1 minuto</option>
+                                <option value="5">5 minutos</option>
+                                <option value="10">10 minutos</option>
+                                <option value="30">30 minutos</option>
+                                <option value="60">1 hora</option>
+                            </select>
+                        </div>
+
+                        <button id="start-recording-btn" class="chart-button">Iniciar Registro</button>
+                        <button id="stop-recording-btn" class="chart-button" disabled>Detener Registro</button>
+                        <button id="clear-chart-btn" class="chart-button">Limpiar Gráfico</button>
                     </div>
 
-                    <div class="control-group">
-                        <label for="interval-select">Intervalo de guardado:</label>
-                        <select id="interval-select">
-                            <option value="1">1 minuto</option>
-                            <option value="5">5 minutos</option>
-                            <option value="10">10 minutos</option>
-                            <option value="30">30 minutos</option>
-                            <option value="60">1 hora</option>
-                        </select>
-                    </div>
-
-                    <button id="start-recording-btn" class="chart-button">Iniciar Registro</button>
-                    <button id="stop-recording-btn" class="chart-button" disabled>Detener Registro</button>
-                    <button id="clear-chart-btn" class="chart-button">Limpiar Gráfico</button>
-                </div>
-
-                <div class="chart-container">
-                    <canvas id="temperatureChart"></canvas>
-                </div>
-            </div>
-        </div>
-<!--------------------- CONTROL DE LUZ -------------------->
-        <div class="pantalla-luz" id="pantalla-luz">
-            <div class="background-luz">
-                <div class="chart-nivel">
-                    <div class="slidecontainer" id="luzExamCont">
-                        <div class="textLuz">LUZ EXAMINACION</div>
-
-                        <input type="range" min="0" max="100" value="0" class="slider" id="luzExam" oninput="valSliderLExam(this.value)">
-                    </div>
-
-                    <div class="slidecontainer" id="fotCont">
-                        <div class="textLuz">LUZ FOTOTERAPIA</div>
-
-                        <input type="range" min="0" max="100" value="0" class="slider" id="luzFot" oninput="valSliderFot(this.value)">
-            
+                    <div class="chart-container">
+                        <canvas id="temperatureChart"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
-<!--------------------------------------------------------->
-        <div class="footer" id="footer">
-            <div class="paciente">
-                Paciente:
-            </div>
+    <!--------------------- CONTROL DE LUZ -------------------->
+            <div class="pantalla-luz" id="pantalla-luz">
+                <div class="background-luz">
+                    <div class="chart-nivel">
+                        <div class="slidecontainer" id="luzExamCont">
+                            <div class="textLuz">LUZ EXAMINACION</div>
 
-            <span id="pacienteNom" class="pacienteNom">
+                            <input type="range" min="0" max="100" value="0" class="slider" id="luzExam" oninput="valSliderLExam(this.value)">
+                        </div>
+
+                        <div class="slidecontainer" id="fotCont">
+                            <div class="textLuz">LUZ FOTOTERAPIA</div>
+
+                            <input type="range" min="0" max="100" value="0" class="slider" id="luzFot" oninput="valSliderFot(this.value)">
                 
-            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!--------------------------------------------------------->
+            <div class="footer" id="footer">
+                <div class="paciente">
+                    Paciente:
+                </div>
 
-            <span id="aPPaciente" class="aPPaciente">
-                
-            </span>
+                <span id="pacienteNom" class="pacienteNom">
+                    
+                </span>
 
-            <span id="aMPaciente" class="aMPaciente">
-                
-            </span>
+                <span id="aPPaciente" class="aPPaciente">
+                    
+                </span>
 
-            <div class="frame-1">
-                <img class="icon-alarma" src="../static/icon/icon-alarma.svg" />
+                <span id="aMPaciente" class="aMPaciente">
+                    
+                </span>
+
+                <div class="frame-1">
+                    <img class="icon-alarma" src="../static/icon/icon-alarma.svg" />
+                </div>
+            </div>
+
+            <div id="paciente-form-slide" class="paciente-form-slide">
+                <form id="pacienteForm">
+                    <label for="nombrePaciente" class="info-text">Nombre del paciente:</label>
+                    <input type="text" id="nombrePaciente" name="nombrePaciente" required>
+                    <input type="text" id="apPatPaciente" name="apPatPaciente" required>
+                    <input type="text" id="apMatPaciente" name="apMatPaciente" required>
+
+                    <div class="form-buttons">
+                        <button type="submit">Guardar</button>
+                        <button type="button" id="cerrarForm">Cerrar</button>
+                    </div>
+
+                    <!-- <div>
+                        <button id="btn_testUART">Enviar UART</button>
+                    </div> -->
+                </form>
             </div>
         </div>
 
-        <div id="paciente-form-slide" class="paciente-form-slide">
-            <form id="pacienteForm">
-                <label for="nombrePaciente" class="info-text">Nombre del paciente:</label>
-                <input type="text" id="nombrePaciente" name="nombrePaciente" required>
-                <input type="text" id="apPatPaciente" name="apPatPaciente" required>
-                <input type="text" id="apMatPaciente" name="apMatPaciente" required>
-
-                <div class="form-buttons">
-                    <button type="submit">Guardar</button>
-                    <button type="button" id="cerrarForm">Cerrar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="../static/js/script.js"></script>
+        <script src="../static/js/script.js"></script>
     </body>
 
-    <!-- <div id="mi-alerta" class="alerta oculto"></div> -->
     <div id="mi-alerta" class="alert-overlay oculto" role="dialog" aria-hidden="true">
         <div class="alert-box" id="mi-alerta-box">Mensaje</div>
     </div>
