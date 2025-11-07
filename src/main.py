@@ -28,7 +28,7 @@ from gpio.modoFunc import rd_ModoOp, sm_chngModoOp, upRgt_On, upRgt_Off, dwnLft_
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 # from uart.comBCD import uart_send, uart_receive, decript_Msg#, StateMachine
 #------------------------- En Pruebas -------------------------#
-from uart.comBasc import tare, calib, pesaje, encode_Msg, decode_Msg, uart_send
+from uart.comBasc import tare, calib, pesaje, encode_Msg, decode_Msg, uart_send, uart_receive
 from gpio.modoFunc import upRgt_On_AUX, upRgt_Off_AUX, dwnLft_On_AUX, dwnLft_Off_AUX
 # from i2c.at18_T2s import readTarjeta2S
 
@@ -105,6 +105,7 @@ def api_sensores():
     sensoresDt["valSonda2"] = read_Sonda2()
     sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
     sensoresDt["msgSistema"] = reloj()
+    sensoresDt["modFunc"] = rd_ModoOp() + strStatus
     # valor_uart = uart_receive()
 
     # if valor_uart is None or valor_uart.strip() == "" or not valor_uart.replace('.', '', 1).isdigit():
@@ -112,7 +113,6 @@ def api_sensores():
     # else:
     #     sensoresDt["msgSistema"] = f"{valor_uart} °C"
 #------------------------- En Pruebas -------------------------#
-    sensoresDt["modFunc"] = rd_ModoOp() + strStatus
     # readTarjeta2S()
     # print(decript_Msg())
     # print(read_temp275())
@@ -156,7 +156,6 @@ def api_nvlFototerapia():
         setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
 
     return jsonify({"status": "ok"})
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Botones de Control de Altura
 @app.route("/api/btn_AlturaUpOn", methods=["POST"])
 def btn_AlturaUp_On():
@@ -189,7 +188,6 @@ def btn_AlturaDwn_Off():
     # giroMotor("Apagado")
 
     return jsonify({"status": "ok"}), 200
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control de Nivel de Altura Lámpara
 @app.route("/api/btn_LamparaUpOn", methods=["POST"])
 def btn_LamparaUpOn():
@@ -254,6 +252,23 @@ def btn_BacIn_izqOff():
 
     return jsonify({"status": "ok"}), 200
 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cambio de Modo de Funcionamiento
+@app.route("/api/chng_modoFunc", methods=["POST"])
+def api_modoFunc():
+    global strStatus
+
+    while True:
+        fsm.run()
+
+        if fsm.state == "edo_0":
+            strStatus = ""
+            return jsonify({"status": "ok"}), 200
+        elif fsm.state == "error" and fsm.errores < 3:
+            strStatus = f"{fsm.errores}"
+            # return jsonify({"status": "retrying"}), 502
+        elif fsm.state == "error" and fsm.errores >= 3:
+            strStatus = "Error"
+            return jsonify({"status": "fail"}), 500
 #------------------------- En Pruebas -------------------------#
 @app.route("/api/tendencias", methods=["POST"])
 def api_tendencias():
@@ -271,25 +286,6 @@ def api_limpiarTendencias():
     clear = request.get_json()
     print("Limpiar datos:", clear)
 
-@app.route("/api/chng_modoFunc", methods=["POST"])
-def api_modoFunc():
-#====================== FUNCIONANDO ======================#
-    global strStatus
-
-    while True:
-        fsm.run()
-
-        if fsm.state == "edo_0":
-            strStatus = ""
-            return jsonify({"status": "ok"}), 200
-        elif fsm.state == "error" and fsm.errores < 3:
-            strStatus = f"{fsm.errores}"
-            # return jsonify({"status": "retrying"}), 502
-        elif fsm.state == "error" and fsm.errores >= 3:
-            strStatus = "Error"
-            return jsonify({"status": "fail"}), 500
-
-#=========================================================#
 # @app.route("/api/saveOffset", methods=["POST"])
 # def api_saveOffset():
 #     tempAct = request.get_json().get("action")
@@ -341,6 +337,13 @@ def api_pesaje():
         return jsonify({"status": "ok"}), 200
     else:
         return jsonify({"status": "fail"}), 500
+
+@app.route("/api/testUARTsend", methods=["POST"])
+def api_msjUART_send():
+    msj = request.get_json().get("msj")
+    uart_send(msj)
+    uart_receive()
+    return jsonify({"status": "ok"}), 200
 #--------------------------------------------------------------#
 
 ##############################################################################

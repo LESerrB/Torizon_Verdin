@@ -91,7 +91,6 @@ const buttonsToToggle = [
     stopRecordingBtn,
     clearChartBtn
 ].filter(Boolean);
-
 // ####################################################################### //
 //                        FUNCIONES BOTONES CABECERA                       //
 // ####################################################################### //
@@ -137,7 +136,6 @@ document.getElementById('btn-tendencias').addEventListener('click', async () => 
     document.getElementById('btn-temperatura').disabled = false;
     document.getElementById('btn-tendencias').disabled = true;
 });
-
 // ####################################################################### //
 //                      FUNCIONES BOTONES CALEFACTOR                       //
 // ####################################################################### //
@@ -241,7 +239,6 @@ btnDisminuir.addEventListener('click', () => {
         }, 60000);
     }
 });
-
 // ####################################################################### //
 //                     FUNCIONES DE BOTONES DE MODULOS                     //
 // ####################################################################### //
@@ -325,7 +322,6 @@ document.getElementById('pacienteForm').addEventListener('submit', function(e) {
 
     document.getElementById('paciente-form-slide').classList.remove('active');
 });
-
 // ####################################################################### //
 //                          ACTUALIZACION DE SENSORES                      //
 // ####################################################################### //
@@ -360,9 +356,8 @@ async function updateSensors() {
         document.getElementById('humSHT').textContent = data.hum ?? '--.-';
         document.getElementById('unitHSHT').textContent = '%';
 
-        if (data.msgSistema) {
+        if (data.msgSistema)
             document.getElementById('infoSys-Msg').textContent = data.msgSistema
-        }
 
         actualizarColorTemp(data);
 
@@ -381,11 +376,9 @@ async function updateSensors() {
             document.getElementById("modo-lbl").textContent = rtn.text
 
             if (rtn.number == 1) {
-                console.log("Error, Reintentando")
                 mostrarAlerta("Error al cambiar de Modo, Reintentando", 0);
             }
             else if (rtn.number == 2) {
-                console.log("Error, Reintentando Nuevamente")
                 mostrarAlerta("Error, Reintentando Nuevamente", 0);
             }
         }
@@ -416,7 +409,6 @@ function actualizarColorTemp(data) {
         temp280Span.classList.remove('temp-roja');
     }
 }
-
 // ####################################################################### //
 //                            GUARDADO DE DATOS                            //
 // ####################################################################### //
@@ -441,7 +433,6 @@ async function guardarDatos() {
         console.error('Error al guardar los datos:', error);
     }
 }
-
 // ####################################################################### //
 //                            FUNCIóN DE BASCULA                           //
 // ####################################################################### //
@@ -494,28 +485,39 @@ document.getElementById('btn-basc-calib').addEventListener('click', async () => 
 
 document.getElementById('btn-basc-peso').addEventListener('click', async () =>
 {
-    btnBascPeso.classList.add('btn-sensor-pressed');
-    btnBascPeso_lbl.classList.add('btn-sensor-lbl-pressed');
-    mostrarAlerta('Pesando...');
+    // btnBascPeso.classList.add('btn-sensor-pressed');
+    // btnBascPeso_lbl.classList.add('btn-sensor-lbl-pressed');
+    // mostrarAlerta('Pesando...');
     
-    const response = await fetch('/api/bascPeso', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
+    // const response = await fetch('/api/bascPeso', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    // });
 
-    if(response.status == 200){
-        btnBascPeso.classList.remove('btn-sensor-pressed');
-        btnBascPeso_lbl.classList.remove('btn-sensor-lbl-pressed');
-    }
-    else{
-        setTimeout(() => {
-            mostrarAlerta("Fallo en el Pesaje");
-        }, (10 * 1000));
-    }
+    // if(response.status == 200){
+    //     btnBascPeso.classList.remove('btn-sensor-pressed');
+    //     btnBascPeso_lbl.classList.remove('btn-sensor-lbl-pressed');
+    // }
+    // else{
+    //     setTimeout(() => {
+    //         mostrarAlerta("Fallo en el Pesaje");
+    //     }, (10 * 1000));
+    // }
 
-    ocultarAlerta();
+    // ocultarAlerta();
+    try {
+        const response = await fetch('/api/bascPeso', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (error) {
+        console.log("Error enviando el mensaje", error);
+    }
+    return
 });
 // ####################################################################### //
 //                          CALIBRACION DE TEMPERATURA                     //
@@ -556,7 +558,6 @@ async function saveOffset(nuevaTemp) {
     alert(response.status === 200 ? 'Calibración guardada correctamente' : 'Error al calibrar');
     startSensor();
 }
-
 // ####################################################################### //
 //                       CAMBIO DE MODO DE OPERACION                       //
 // ####################################################################### //
@@ -583,7 +584,114 @@ document.getElementById('btn-config-modo').addEventListener('click', async () =>
         console.log(error);
     }
 });
+////////////////////////////// ALTURA VARIABLE //////////////////////////////
+document.getElementById('btn-config-CH_up').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_AlturaUpOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
 
+document.getElementById('btn-config-CH_up').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_AlturaUpOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-CH_dwn').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_AlturaDwnOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-CH_dwn').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_AlturaDwnOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+/////////////////////////////// ALTURA LÁMPARA //////////////////////////////
+document.getElementById('btn-config-LH_up').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_LamparaUpOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-LH_up').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_LamparaUpOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-LH_dwn').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_LamparaDwnOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-LH_dwn').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_LamparaDwnOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+//////////////////////////// INCLINACIÓN BACINETE ///////////////////////////
+document.getElementById('btn-config-BacIn_der').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_BacIn_derOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-BacIn_der').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_BacIn_derOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-BacIn_izq').addEventListener('touchstart', async() => {
+    const response = await fetch('/api/btn_BacIn_izqOn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
+
+document.getElementById('btn-config-BacIn_izq').addEventListener('touchend', async() => {
+    const response = await fetch('/api/btn_BacIn_izqOff', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+});
 // ####################################################################### //
 //                          INICIALIZACION DE EVENTOS                      //
 // ####################################################################### //
@@ -591,14 +699,14 @@ function startSensor(){
     if (!intervalId) {
         intervalId = setInterval(updateSensors, 1000);
     }
-}
+};
 
 function pauseSensor() {
     if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
     }
-}
+};
 
 function startGuardarDatos(intervalo) {
     console.log("Guardando cada:", intervalo, "min");
@@ -606,7 +714,7 @@ function startGuardarDatos(intervalo) {
     if (!intervalDatos) {
         intervalDatos = setInterval(guardarDatos, 1000 * 60 * intervalo);
     }
-}
+};
 
 function stopGuardarDatos() {
     console.log("Deteniendo el guardado de datos");
@@ -616,7 +724,7 @@ function stopGuardarDatos() {
         intervalDatos = null;
         intervalDtStop = null;
     }
-}
+};
 // ####################################################################### //
 //                       FUNCIONES ESTILOS DE BOTONES                      //
 // ####################################################################### //
@@ -635,7 +743,7 @@ function removeStlBtn() {
     btnCalef_lbl.classList.remove('btn-sensor-lbl-pressed');
     btnInfoSist.classList.remove('btn-sensor-pressed');
     btnInfoSist_lbl.classList.remove('btn-sensor-lbl-pressed');
-}
+};
 
 function mostrarSeccion(idMostrar) {
     document.getElementById('sonda-temperatura').style.display = 'none';
@@ -646,7 +754,7 @@ function mostrarSeccion(idMostrar) {
     document.getElementById('infoSys').style.display = 'none';
 
     document.getElementById(idMostrar).style.display = 'block';
-}
+};
 // ####################################################################### //
 //                                 GRÁFICA                                 //
 // ####################################################################### //
@@ -726,10 +834,9 @@ function updateChartDisplay() {
     // temperatureChart.data.labels = chartDisplayData.map(point => point.time);
     // temperatureChart.data.datasets[0].data = chartDisplayData.map(point => point.value);
     // temperatureChart.update();
-}
+};
 
 updateChartDisplay();
-
 // ####################################################################### //
 //                     FUNCIONES DE BOTONES DE GRÁFICA                     //
 // ####################################################################### //
@@ -833,119 +940,7 @@ async function valSliderLExam(val2){
     } catch (error) {
         console.error('Error al guardar los datos:', error);
     }
-}
-
-// ####################################################################### //
-//                         BOTONES DE CONFIGURACIÓN                        //
-// ####################################################################### //
-document.getElementById('btn-config-CH_up').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_AlturaUpOn', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
-document.getElementById('btn-config-CH_up').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_AlturaUpOff', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
-document.getElementById('btn-config-CH_dwn').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_AlturaDwnOn', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
-document.getElementById('btn-config-CH_dwn').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_AlturaDwnOff', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-/////////////////////////////////////////////////////////////////////////////
-document.getElementById('btn-config-LH_up').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_LamparaUpOn', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
-document.getElementById('btn-config-LH_up').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_LamparaUpOff', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
-document.getElementById('btn-config-LH_dwn').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_LamparaDwnOn', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
-document.getElementById('btn-config-LH_dwn').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_LamparaDwnOff', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-/////////////////////////////////////////////////////////////////////////////
-document.getElementById('btn-config-BacIn_der').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_BacIn_derOn', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
-document.getElementById('btn-config-BacIn_der').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_BacIn_derOff', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
-document.getElementById('btn-config-BacIn_izq').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_BacIn_izqOn', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
-document.getElementById('btn-config-BacIn_izq').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_BacIn_izqOff', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-});
-
+};
 // ####################################################################### //
 //                    FUNCIONES DE INICIALIZACION Y DETENIDO               //
 // ####################################################################### //
@@ -954,7 +949,7 @@ startSensor();
 async function stopSystem() {
     pauseSensor()
     stopGuardarDatos()
-}
+};
 
 function mostrarAlerta(msg = '', seconds = 0) {
     const ov = document.getElementById('mi-alerta');
@@ -969,7 +964,7 @@ function mostrarAlerta(msg = '', seconds = 0) {
     if (seconds > 0) {
         setTimeout(() => ocultarAlerta(), seconds * 1000);
     }
-}
+};
 
 function ocultarAlerta() {
     const ov = document.getElementById('mi-alerta');
@@ -978,4 +973,24 @@ function ocultarAlerta() {
 
     ov.classList.add('oculto');
     ov.setAttribute('aria-hidden', 'true');
-}
+};
+
+//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Pruebas $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+// document.getElementById("btn_testUART").addEventListener('click', async() => {
+//     nom = document.getElementById('nombrePaciente').value.trim();
+
+//     try {
+//         const response = await fetch('/api/testUARTsend', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 msj: nom
+//             })
+//         });
+//     } catch (error) {
+//         console.log("Error enviando el mensaje", error);
+//     }
+//     return
+// });
