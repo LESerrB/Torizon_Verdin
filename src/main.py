@@ -305,20 +305,36 @@ def api_potCalef():
 
     return jsonify({"status": "ok"})
 
+@app.route("/api/bascPeso", methods=["POST"])
+def api_pesaje():
+    global pesoFinal
+
+    pesoFinal = pesaje()
+
+    if pesoFinal != 0.0:
+        return jsonify({"status": "ok"}), 200
+    else:
+        return jsonify({"status": "fail"}), 500
+
 @app.route("/api/bascTar", methods=["POST"])
 def api_bascTar():
     global pesoFinal
 
-    pesoFinal = tare()
-    print(pesoFinal)
+    tare()
+    print("=========================================")
+    pesoFinal = pesaje()
 
-    return jsonify({"status": "ok"})
+    if pesoFinal > 0:
+        return jsonify({"status": "ok"}), 200
+    else:
+        return jsonify({"status": "fail"}), 500
 
 @app.route("/api/bascCalib", methods=["POST"])
 def api_bascCalib():
     global pesoFinal
 
     calib()
+    print("=========================================")
     pesoFinal = pesaje()
 
     if pesoFinal != 0.0:
@@ -326,24 +342,12 @@ def api_bascCalib():
     else:
         return jsonify({"status": "fail"})
 
-@app.route("/api/bascPeso", methods=["POST"])
-def api_pesaje():
-    global pesoFinal
-
-    pesoFinal = pesaje()
-    print(pesoFinal)
-
-    if pesoFinal != 0.0:
-        return jsonify({"status": "ok"}), 200
-    else:
-        return jsonify({"status": "fail"}), 500
-
-@app.route("/api/testUARTsend", methods=["POST"])
-def api_msjUART_send():
-    msj = request.get_json().get("msj")
-    uart_send(msj)
-    uart_receive()
-    return jsonify({"status": "ok"}), 200
+# @app.route("/api/testUARTsend", methods=["POST"])
+# def api_msjUART_send():
+#     msj = request.get_json().get("msj")
+#     uart_send(msj)
+#     uart_receive()
+#     return jsonify({"status": "ok"}), 200
 #--------------------------------------------------------------#
 
 ##############################################################################

@@ -437,34 +437,45 @@ async function guardarDatos() {
 //                            FUNCIóN DE BASCULA                           //
 // ####################################################################### //
 document.getElementById('btn-basc-tar').addEventListener('click', async () => {
+    // try {
+    //     mostrarAlerta("Preparando Taraje");
+
+    //     btnBascTara.disabled = true;
+    //     btnBascTara.classList.add('btn-sensor-pressed');
+    //     btnBascTara_lbl.classList.add('btn-sensor-lbl-pressed');
+
+    //     await new Promise(resolve => setTimeout(resolve, 5000));
+
+    //     const response = await fetch('/api/bascTar', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' }
+    //     });
+
+    //     if (response.ok) {
+    //         ocultarAlerta();
+    //     } else {
+    //         mostrarAlerta("Fallo en el Taraje");
+    //         setTimeout(ocultarAlerta, 2000);
+    //     }
+    // } catch (error) {
+    //     mostrarAlerta('Error de comunicación');
+    //     setTimeout(ocultarAlerta, 2000);
+    // } finally {
+    //     btnBascTara.classList.remove('btn-sensor-pressed');
+    //     btnBascTara_lbl.classList.remove('btn-sensor-lbl-pressed');
+    //     btnBascTara.disabled = false;
+    // }
     try {
-        mostrarAlerta("Preparando Taraje");
-
-        btnBascTara.disabled = true;
-        btnBascTara.classList.add('btn-sensor-pressed');
-        btnBascTara_lbl.classList.add('btn-sensor-lbl-pressed');
-
-        await new Promise(resolve => setTimeout(resolve, 5000));
-
         const response = await fetch('/api/bascTar', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
-
-        if (response.ok) {
-            ocultarAlerta();
-        } else {
-            mostrarAlerta("Fallo en el Taraje");
-            setTimeout(ocultarAlerta, 2000);
-        }
     } catch (error) {
-        mostrarAlerta('Error de comunicación');
-        setTimeout(ocultarAlerta, 2000);
-    } finally {
-        btnBascTara.classList.remove('btn-sensor-pressed');
-        btnBascTara_lbl.classList.remove('btn-sensor-lbl-pressed');
-        btnBascTara.disabled = false;
+        console.log("Error enviando el mensaje", error);
     }
+    return
 });
 
 document.getElementById('btn-basc-calib').addEventListener('click', async () => {

@@ -19,7 +19,6 @@ uart_Channel = "/dev/verdin-uart2"
 baud_rate = 57600
 
 ser = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
-
 #================================================================#
 #                 Funciones de comunicación UART                 #
 #================================================================#
@@ -64,16 +63,15 @@ def close_uart():
     else:
         # logger.info("UART ya está cerrado")
         print("UART ya está cerrado")
-
 #================================================================#
-#                 Funciones de obtención de Peso                 #
+#          Funciones de comunicación Tarjeta de Báscula          #
 #================================================================#
 def decode_Msg():
     basc_val = []
 
     trama = uart_receive()
-    if trama != None:
-        print(">>>>", trama)
+    # if trama != None:
+        # print(">>>>", trama)
         # print(trama.encode('utf-8').hex())
 
     if trama and trama.startswith("00") and trama.endswith("63"):
@@ -93,7 +91,7 @@ def decode_Msg():
         # print(crc_calc)
 
         # if crc_rec == crc_calc:
-        print("W:", w_bas)
+        # print("W:", w_bas)
     #     return w_bas
     else:
         w_bas = 0.0
@@ -120,76 +118,6 @@ def encode_Msg(msg):
     # print(bytes_invertidos)
 
     uart_send(dt)
-
-# Calculo de Peso
-def pesaje():
-    pesoAcc = 0
-    c = 0
-
-    finPesaje = time.monotonic() + 10
-    print(finPesaje)
-
-    while (c < 4) and (time.monotonic() < finPesaje):
-        encode_Msg("55")
-        w = decode_Msg()
-        print(">>", w, c, time.monotonic(), finPesaje)
-
-        if w != 0.0:
-            pesoAcc = pesoAcc + w
-            c += 1
-
-    pesoTotal = pesoAcc/c
-
-    pesoTotal = (pesoTotal - OFFSET) / SCALE
-
-    if pesoTotal < 0.0:
-        pesoTotal = 0.0
-
-    print(pesoTotal)
-    return pesoTotal
-
-# Calibración
-def calib(peso_Act = 5.0):
-    global SCALE
-    global OFFSET
-
-    err = 0
-
-    SCALE = round((decode_Msg() - OFFSET) / float(peso_Act), 2)
-
-    while SCALE == 0.0:
-        SCALE = round((decode_Msg() - OFFSET) / float(peso_Act), 2)
-        err += 1
-
-        if err > 5:
-            SCALE = 1.0
-            break
-
-    print("SCALE:", SCALE)
-
-# Taraje
-def tare():
-    global OFFSET
-    err = 0
-
-    OFFSET = decode_Msg()
-
-    while OFFSET == 0.0:
-        OFFSET = decode_Msg()
-        err += 1
-
-        if err > 5:
-            break
-
-    print("OFFSET:", OFFSET)
-    w = (decode_Msg() - OFFSET) / SCALE
-    print("peso tarado >=(", w)
-
-    if w < 0:
-        w = 0.0
-
-    return w
-
 #================================================================#
 #                  Función de creación de CRC                    #
 #================================================================#
@@ -215,3 +143,85 @@ def crc16_arc(data: bytes) -> int:
     crc = reflect_bits(crc, 16)
 
     return crc
+#================================================================#
+#                 Funciones de obtención de Peso                 #
+#================================================================#
+def pesaje():
+    pesoAcc = 0
+    c = 0
+
+    print("Iniciando Pesaje")
+
+    finPesaje = time.monotonic() + 10
+
+    while (c < 4) and (time.monotonic() < finPesaje):
+        encode_Msg("55")
+        w = decode_Msg()
+        # print(w, pesoAcc, c, time.monotonic(), finPesaje)
+
+        if w != 0.0:
+            pesoAcc = pesoAcc + w
+            c += 1
+
+    if pesoAcc > 0:
+        pesoTotal = pesoAcc/c
+        pesoTotal = (pesoTotal - OFFSET) / SCALE
+    else:
+        pesoTotal = 0.0
+
+    return pesoTotal
+
+def tare():
+    global OFFSET
+    err = 0
+    pesoAcc = 0
+    c = 0
+
+    print("Iniciando Tara")
+
+    finPesaje = time.monotonic() + 10
+
+    while (c < 4) and (time.monotonic() < finPesaje):
+        encode_Msg("55")
+        w = decode_Msg()
+        print(w, pesoAcc, c, time.monotonic(), finPesaje)
+
+        if w != 0.0:
+            pesoAcc = pesoAcc + w
+            c += 1
+
+    if pesoAcc > 0:
+        pesoAcc = pesoAcc/c
+    else:
+        return -1
+
+    OFFSET = pesoAcc
+    print("Nuevo Offset:", OFFSET)
+
+def calib(peso_ptrn = 5.0):
+    global SCALE
+    err = 0
+    pesoAcc = 0
+    c = 0
+
+    print("Iniciando Calibración")
+
+    finPesaje = time.monotonic() + 10
+
+    while (c < 4) and (time.monotonic() < finPesaje):
+        encode_Msg("55")
+        w = decode_Msg()
+        print(w, pesoAcc, c, time.monotonic(), finPesaje)
+
+        if w != 0.0:
+            pesoAcc = pesoAcc + w
+            c += 1
+
+    if pesoAcc > 0:
+        pesoAcc = pesoAcc/c
+    else:
+        return -1
+
+    SCALE = round((pesoAcc - OFFSET) / float(peso_ptrn), 2)
+
+    print("SCALE:", SCALE)
