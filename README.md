@@ -229,7 +229,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Asignado pines para multiplexar el funcionamiento entre Cambio de Modo de Operación, Altura Variable, Altura de Lámpara e Inclinación de Bacinete.
 * *Comentada función de multiplexeo y reasignados pines como contrl para la Tarjeta CAV para pruebas*
 
-### v 0.16.1 - [7/Noviembre/2025]
+### v 0.16.1 - [11/Noviembre/2025]
 - Revisión de función de pesaje.
 - Correción de bugs de funciones de báscula.
 - Agregado valor de toleracia para calibrar (+/- 0.100 [kg]).
