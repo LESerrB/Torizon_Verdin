@@ -9,8 +9,7 @@ import time
 
 SCALE = 1.0
 OFFSET = 0.0
-
-# w_bas = 0.0
+tolerancia = 0.100
 
 #================================================================#
 #             Función principal de comunicación UART             #
@@ -70,9 +69,7 @@ def decode_Msg():
     basc_val = []
 
     trama = uart_receive()
-    # if trama != None:
-        # print(">>>>", trama)
-        # print(trama.encode('utf-8').hex())
+    # print("Trama:",trama)
 
     if trama and trama.startswith("00") and trama.endswith("63"):
         trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
@@ -85,14 +82,14 @@ def decode_Msg():
         basc_val = bytes.fromhex(basc_val)
         w_bas = (int.from_bytes(basc_val, byteorder='big'))/1000
 
-        # crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
-        # crc_rec = hex(int(crc_rec, 16))
-        # crc_calc = hex(crc16_arc(basc_val))
+        crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
+        crc_rec = hex(int(crc_rec, 16))
+        crc_calc = hex(crc16_arc(basc_val))
         # print(crc_calc)
 
-        # if crc_rec == crc_calc:
-        # print("W:", w_bas)
-    #     return w_bas
+        if crc_rec == crc_calc:
+            # print("W:", w_bas)
+            return w_bas
     else:
         w_bas = 0.0
 
@@ -102,20 +99,11 @@ def encode_Msg(msg):
     n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
     dt = bytes.fromhex(msg)
 
-    # crc = crc16_arc(dt)
-    # crc = crc.to_bytes(2, byteorder='big')
-    # dt = b'\x00' + n_bytes + dt + crc + b'\x99'
+    crc = crc16_arc(dt)
+    crc = crc.to_bytes(2, byteorder='big')
+    dt = b'\x00' + n_bytes + dt + crc + b'\x63'
 
-    dt = b'\x00' + n_bytes + dt + b'\x63'
     # print(dt.hex())
-
-    # bytes_invertidos = bytearray()
-
-    # for byte in dt:
-    #     # print(byte)
-    #     bytes_invertidos.append(byte ^ 0xFF)
-
-    # print(bytes_invertidos)
 
     uart_send(dt)
 #================================================================#
@@ -152,7 +140,7 @@ def pesaje():
 
     print("Iniciando Pesaje")
 
-    finPesaje = time.monotonic() + 10
+    finPesaje = time.monotonic() + 5
 
     while (c < 4) and (time.monotonic() < finPesaje):
         encode_Msg("55")
@@ -169,6 +157,7 @@ def pesaje():
     else:
         pesoTotal = 0.0
 
+    print("Peso Final:", pesoTotal)
     return pesoTotal
 
 def tare():
@@ -181,7 +170,7 @@ def tare():
 
     finPesaje = time.monotonic() + 10
 
-    while (c < 4) and (time.monotonic() < finPesaje):
+    while (c < 5) and (time.monotonic() < finPesaje):
         encode_Msg("55")
         w = decode_Msg()
         print(w, pesoAcc, c, time.monotonic(), finPesaje)
@@ -206,20 +195,22 @@ def calib(peso_ptrn = 5.0):
 
     print("Iniciando Calibración")
 
-    finPesaje = time.monotonic() + 10
+    finPesaje = time.monotonic() + 5
 
     while (c < 4) and (time.monotonic() < finPesaje):
         encode_Msg("55")
         w = decode_Msg()
-        print(w, pesoAcc, c, time.monotonic(), finPesaje)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w
             c += 1
 
-    if pesoAcc > 0:
+    if (pesoAcc > 0):
         pesoAcc = pesoAcc/c
     else:
+        return -1
+
+    if not ((pesoAcc-tolerancia) < pesoAcc < (pesoAcc+tolerancia)):
         return -1
 
     SCALE = round((pesoAcc - OFFSET) / float(peso_ptrn), 2)

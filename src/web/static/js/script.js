@@ -437,41 +437,20 @@ async function guardarDatos() {
 //                            FUNCIóN DE BASCULA                           //
 // ####################################################################### //
 document.getElementById('btn-basc-tar').addEventListener('click', async () => {
-    // try {
-    //     mostrarAlerta("Preparando Taraje");
-
-    //     btnBascTara.disabled = true;
-    //     btnBascTara.classList.add('btn-sensor-pressed');
-    //     btnBascTara_lbl.classList.add('btn-sensor-lbl-pressed');
-
-    //     await new Promise(resolve => setTimeout(resolve, 5000));
-
-    //     const response = await fetch('/api/bascTar', {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' }
-    //     });
-
-    //     if (response.ok) {
-    //         ocultarAlerta();
-    //     } else {
-    //         mostrarAlerta("Fallo en el Taraje");
-    //         setTimeout(ocultarAlerta, 2000);
-    //     }
-    // } catch (error) {
-    //     mostrarAlerta('Error de comunicación');
-    //     setTimeout(ocultarAlerta, 2000);
-    // } finally {
-    //     btnBascTara.classList.remove('btn-sensor-pressed');
-    //     btnBascTara_lbl.classList.remove('btn-sensor-lbl-pressed');
-    //     btnBascTara.disabled = false;
-    // }
     try {
+        mostrarAlerta("Tarando...")
+
         const response = await fetch('/api/bascTar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
+
+        if (response.status == 200)
+            mostrarAlerta("Tara completada", 3);
+        else if (response.status == 500)
+            mostrarAlerta("Error, tarando", 3);
     } catch (error) {
         console.log("Error enviando el mensaje", error);
     }
@@ -479,45 +458,27 @@ document.getElementById('btn-basc-tar').addEventListener('click', async () => {
 });
 
 document.getElementById('btn-basc-calib').addEventListener('click', async () => {
-    // btnBascCalib.classList.add('btn-sensor-pressed');
-    // btnBascCalib_lbl.classList.add('btn-sensor-lbl-pressed');
-    
-    // btnBascCalib.classList.add('btn-sensor');
-    // btnBascCalib_lbl.classList.add('btn-sensor-lbl');
-    
-    const response = await fetch('/api/bascCalib', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-    // alert(response);
+    try {
+        mostrarAlerta("Calibrando...")
+
+        const response = await fetch('/api/bascCalib', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.status == 200)
+            mostrarAlerta("Calibración completa", 3);
+        else if (response.status == 500)
+            mostrarAlerta("Error, tomando pesaje", 3);
+    } catch (error) {
+        console.log("Error enviando el mensaje", error);
+    }
 });
 
 document.getElementById('btn-basc-peso').addEventListener('click', async () =>
 {
-    // btnBascPeso.classList.add('btn-sensor-pressed');
-    // btnBascPeso_lbl.classList.add('btn-sensor-lbl-pressed');
-    // mostrarAlerta('Pesando...');
-    
-    // const response = await fetch('/api/bascPeso', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    // });
-
-    // if(response.status == 200){
-    //     btnBascPeso.classList.remove('btn-sensor-pressed');
-    //     btnBascPeso_lbl.classList.remove('btn-sensor-lbl-pressed');
-    // }
-    // else{
-    //     setTimeout(() => {
-    //         mostrarAlerta("Fallo en el Pesaje");
-    //     }, (10 * 1000));
-    // }
-
-    // ocultarAlerta();
     try {
         const response = await fetch('/api/bascPeso', {
             method: 'POST',
@@ -525,10 +486,13 @@ document.getElementById('btn-basc-peso').addEventListener('click', async () =>
                 'Content-Type': 'application/json'
             }
         });
+
+        if (response.status == 500)
+            mostrarAlerta("Error, tomando pesaje", 3);
+
     } catch (error) {
         console.log("Error enviando el mensaje", error);
     }
-    return
 });
 // ####################################################################### //
 //                          CALIBRACION DE TEMPERATURA                     //
