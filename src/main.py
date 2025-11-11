@@ -320,11 +320,10 @@ def api_pesaje():
 def api_bascTar():
     global pesoFinal
 
-    tare()
-    print("=========================================")
-    pesoFinal = pesaje()
+    res = tare()
 
-    if pesoFinal > 0:
+    if res != -1:
+        pesoFinal = pesaje()
         return jsonify({"status": "ok"}), 200
     else:
         return jsonify({"status": "fail"}), 500
@@ -333,21 +332,13 @@ def api_bascTar():
 def api_bascCalib():
     global pesoFinal
 
-    calib()
-    print("=========================================")
-    pesoFinal = pesaje()
+    res = calib()
 
-    if pesoFinal != 0.0:
-        return jsonify({"status": "ok"})
+    if res != -1:
+        pesoFinal = pesaje()
+        return jsonify({"status": "ok"}), 200
     else:
-        return jsonify({"status": "fail"})
-
-# @app.route("/api/testUARTsend", methods=["POST"])
-# def api_msjUART_send():
-#     msj = request.get_json().get("msj")
-#     uart_send(msj)
-#     uart_receive()
-#     return jsonify({"status": "ok"}), 200
+        return jsonify({"status": "fail"}), 500
 #--------------------------------------------------------------#
 
 ##############################################################################
