@@ -22,25 +22,13 @@ from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
 from rtc.reloj import reloj
 from gpio.modoFunc import rd_ModoOp, sm_chngModoOp, upRgt_On, upRgt_Off, dwnLft_On, dwnLft_Off, giroMotor#, selDsip
-# from i2c.at13_Bas import read_Bascula
 # from i2c.sht21 import sht21, calibracion#, read_temp275
-# from gpio.hx711 import hx711
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
-# from uart.comBCD import uart_send, uart_receive, decript_Msg#, StateMachine
+from uart.comBasc import tare, calib, pesaje
 #------------------------- En Pruebas -------------------------#
-from uart.comBasc import tare, calib, pesaje, encode_Msg, decode_Msg, uart_send, uart_receive
 from gpio.modoFunc import upRgt_On_AUX, upRgt_Off_AUX, dwnLft_On_AUX, dwnLft_Off_AUX
 # from i2c.at18_T2s import readTarjeta2S
 
-#<<<<<<FUNCIONAMIENTO CORRECTO DENTRO DE LA TARJETA VERDIN>>>>>>#
-# while True:
-#     encode_Msg("55")
-#     time.sleep(1)
-#     decode_Msg()
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>#
-# tare_Provisional()
-# time.sleep(10)
-# calib_Provisional()
 # sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
 
 #--------------------------------------------------------------#
@@ -77,7 +65,6 @@ strStatus = ""
 @app.route("/")
 def index():
     return render_template("index.html")
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Lectura de Sensores
 @app.route("/api/sensores")
 def api_sensores():
@@ -96,7 +83,6 @@ def api_sensores():
         "modFunc": None
     }
 
-    # try:
     # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
     sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
     sensoresDt["peso711"] = pesoFinal
@@ -106,23 +92,10 @@ def api_sensores():
     sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
     sensoresDt["msgSistema"] = reloj()
     sensoresDt["modFunc"] = rd_ModoOp() + strStatus
-    # valor_uart = uart_receive()
-
-    # if valor_uart is None or valor_uart.strip() == "" or not valor_uart.replace('.', '', 1).isdigit():
-    #     sensoresDt["msgSistema"] = None
-    # else:
-    #     sensoresDt["msgSistema"] = f"{valor_uart} °C"
 #------------------------- En Pruebas -------------------------#
     # readTarjeta2S()
-    # print(decript_Msg())
-    # print(read_temp275())
-    # sensoresDt["msgSistema"] = fsm.run()
     # print(sensor1075.read_temperature()) # NO FUNCIONA POR QUE NO ESTA EL DISPOSITIVO, PERO QUEDA PARA VER COMO FUNCIONAN LAS CLASES
 #--------------------------------------------------------------#
-    # except Exception as e:
-        # logger.error("Error leyendo sensores:", e)
-        # print("Error leyendo sensores:", e)
-
     return jsonify({
         "temp": sensoresDt["temp"],
         "hum": sensoresDt["hum"],
@@ -156,6 +129,24 @@ def api_nvlFototerapia():
         setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
 
     return jsonify({"status": "ok"})
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Botones de Control de Motores
+@app.route("/api/btn_ctrlAlturaON", methods=["POST"])
+def btn_ctrlAlturaOn():
+    acc = request.get_json()
+    selMuxDisp = acc.get("selMuxDisp")
+    mv = acc.get("mv")
+    print(selMuxDisp, mv, "ON")
+
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/api/btn_ctrlAlturaOFF", methods=["POST"])
+def btn_ctrlAlturaOFF():
+    acc = request.get_json()
+    selMuxDisp = acc.get("selMuxDisp")
+    mv = acc.get("mv")
+    print(selMuxDisp, mv, "OFF")
+
+    return jsonify({"status": "ok"}), 200
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Botones de Control de Altura
 @app.route("/api/btn_AlturaUpOn", methods=["POST"])
 def btn_AlturaUp_On():
@@ -251,7 +242,6 @@ def btn_BacIn_izqOff():
     giroMotor("Apagado")
 
     return jsonify({"status": "ok"}), 200
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cambio de Modo de Funcionamiento
 @app.route("/api/chng_modoFunc", methods=["POST"])
 def api_modoFunc():
@@ -269,32 +259,7 @@ def api_modoFunc():
         elif fsm.state == "error" and fsm.errores >= 3:
             strStatus = "Error"
             return jsonify({"status": "fail"}), 500
-#------------------------- En Pruebas -------------------------#
-@app.route("/api/tendencias", methods=["POST"])
-def api_tendencias():
-    datos = request.get_json()
-
-    tend_json = agregarDtTemperatura(
-        temp = datos.get("temp")
-    )
-
-    return jsonify({"tend_json": tend_json})
-
-@app.route("/api/tendencias/limpiar", methods=["POST"])
-def api_limpiarTendencias():
-    limpiarDtTemperatura()
-    clear = request.get_json()
-    print("Limpiar datos:", clear)
-
-# @app.route("/api/saveOffset", methods=["POST"])
-# def api_saveOffset():
-#     tempAct = request.get_json().get("action")
-
-#     if tempAct:
-#         calibracion(tempAct)
-
-#     return jsonify({"status": "ok"})
-
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control de Calefactor
 @app.route("/api/potCalef", methods=["POST"])
 def api_potCalef():
     potCalef = request.get_json()
@@ -305,6 +270,7 @@ def api_potCalef():
 
     return jsonify({"status": "ok"})
 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Funciones de Pesaje
 @app.route("/api/bascPeso", methods=["POST"])
 def api_pesaje():
     global pesoFinal
@@ -339,6 +305,32 @@ def api_bascCalib():
         return jsonify({"status": "ok"}), 200
     else:
         return jsonify({"status": "fail"}), 500
+
+#------------------------- En Pruebas -------------------------#
+@app.route("/api/tendencias", methods=["POST"])
+def api_tendencias():
+    datos = request.get_json()
+
+    tend_json = agregarDtTemperatura(
+        temp = datos.get("temp")
+    )
+
+    return jsonify({"tend_json": tend_json})
+
+@app.route("/api/tendencias/limpiar", methods=["POST"])
+def api_limpiarTendencias():
+    limpiarDtTemperatura()
+    clear = request.get_json()
+    print("Limpiar datos:", clear)
+
+# @app.route("/api/saveOffset", methods=["POST"])
+# def api_saveOffset():
+#     tempAct = request.get_json().get("action")
+
+#     if tempAct:
+#         calibracion(tempAct)
+
+#     return jsonify({"status": "ok"})
 #--------------------------------------------------------------#
 
 ##############################################################################

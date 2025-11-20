@@ -536,135 +536,189 @@ async function saveOffset(nuevaTemp) {
 // ####################################################################### //
 //                       CAMBIO DE MODO DE OPERACION                       //
 // ####################################################################### //
+// MULTIPLEXOR
+// Altura Variable:     |   00
+// Altura Lámpara       |   01
+// Inclinación Bacinete |   10
+// Motor Cúpula         |   11
 document.getElementById('btn-config-modo').addEventListener('click', async () => {
     try {
         mostrarAlerta("Precaución!!!\nCambiando modo de Funcoinamiento", 0);
 
-        const response = await fetch('/api/chng_modoFunc', {
+        // const response = await fetch('/api/chng_modoFunc', {
+        const response = await fetch('/api/btn_ctrlAlturaON', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
+            body: JSON.stringify({
+                selMuxDisp: "motorModOp",
+                mv: "--"
+            })
         });
 
-        console.log(response.status);
-
-        if (response.status == 200) {
+        if (response.status == 200)
             ocultarAlerta()
-        }
-        else {
+        else
             mostrarAlerta("Error!!!En cambio de Modo de Operación.\nContacte a Servicio Técnico.", 0);
-        }
     } catch (error) {
         console.log(error);
     }
 });
 ////////////////////////////// ALTURA VARIABLE //////////////////////////////
 document.getElementById('btn-config-CH_up').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_AlturaUpOn', {
+    const response = await fetch('/api/btn_ctrlAlturaON', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "altVar",
+            mv: "UP"
+        })
     });
 });
 
 document.getElementById('btn-config-CH_up').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_AlturaUpOff', {
+    const response = await fetch('/api/btn_ctrlAlturaOFF', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "altVar",
+            mv: "UP"
+        })
     });
 });
 
 document.getElementById('btn-config-CH_dwn').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_AlturaDwnOn', {
+    const response = await fetch('/api/btn_ctrlAlturaON', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "altVar",
+            mv: "DWN"
+        })
     });
 });
 
 document.getElementById('btn-config-CH_dwn').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_AlturaDwnOff', {
+    const response = await fetch('/api/btn_ctrlAlturaOFF', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "altVar",
+            mv: "DWN"
+        })
     });
 });
 /////////////////////////////// ALTURA LÁMPARA //////////////////////////////
 document.getElementById('btn-config-LH_up').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_LamparaUpOn', {
+    const response = await fetch('/api/btn_ctrlAlturaON', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "altCalLamp",
+            mv: "UP"
+        })
     });
 });
 
 document.getElementById('btn-config-LH_up').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_LamparaUpOff', {
+    const response = await fetch('/api/btn_ctrlAlturaOFF', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "altCalLamp",
+            mv: "UP"
+        })
     });
 });
 
 document.getElementById('btn-config-LH_dwn').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_LamparaDwnOn', {
+    const response = await fetch('/api/btn_ctrlAlturaON', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "altCalLamp",
+            mv: "DWN"
+        })
     });
 });
 
 document.getElementById('btn-config-LH_dwn').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_LamparaDwnOff', {
+    const response = await fetch('/api/btn_ctrlAlturaOFF', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "altCalLamp",
+            mv: "DWN"
+        })
     });
 });
 //////////////////////////// INCLINACIÓN BACINETE ///////////////////////////
 document.getElementById('btn-config-BacIn_der').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_BacIn_derOn', {
+    const response = await fetch('/api/btn_ctrlAlturaON', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "incBac",
+            mv: "RGT"
+        })
     });
 });
 
 document.getElementById('btn-config-BacIn_der').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_BacIn_derOff', {
+    const response = await fetch('/api/btn_ctrlAlturaOFF', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "incBac",
+            mv: "RGT"
+        })
     });
 });
 
 document.getElementById('btn-config-BacIn_izq').addEventListener('touchstart', async() => {
-    const response = await fetch('/api/btn_BacIn_izqOn', {
+    const response = await fetch('/api/btn_ctrlAlturaON', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "incBac",
+            mv: "LFT"
+        })
     });
 });
 
 document.getElementById('btn-config-BacIn_izq').addEventListener('touchend', async() => {
-    const response = await fetch('/api/btn_BacIn_izqOff', {
+    const response = await fetch('/api/btn_ctrlAlturaOFF', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({
+            selMuxDisp: "incBac",
+            mv: "LFT"
+        })
     });
 });
 // ####################################################################### //
@@ -951,21 +1005,3 @@ function ocultarAlerta() {
 };
 
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ Pruebas $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-// document.getElementById("btn_testUART").addEventListener('click', async() => {
-//     nom = document.getElementById('nombrePaciente').value.trim();
-
-//     try {
-//         const response = await fetch('/api/testUARTsend', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 msj: nom
-//             })
-//         });
-//     } catch (error) {
-//         console.log("Error enviando el mensaje", error);
-//     }
-//     return
-// });
