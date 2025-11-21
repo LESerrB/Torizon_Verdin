@@ -240,3 +240,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ### v0.16.2 - [20/Noviembre/2025]
 
 - Cambio de las funciones de comunicación con los motores de Altura variable, Inclinación de Bacinete y Altura de la lámpara.
+
+### v0.17 - [21/Noviembre/2025]
+
+- Actualización de Interfaz WEB para cambio de Interfaz.
+- Cambios al Footer para que los campos de texto sean dinámicos.
+- Ajustes al tamaño de la pantalla y a los márgenes.
+- Cambios a los botones superiores para ahora tener el indicador de Modo (Cuna/Incubadora), Alarmas y Bloqueo/Desbloqueo.
+- Rediseño de los paneles de Información y sección de botones.
