@@ -248,3 +248,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Ajustes al tamaño de la pantalla y a los márgenes.
 - Cambios a los botones superiores para ahora tener el indicador de Modo (Cuna/Incubadora), Alarmas y Bloqueo/Desbloqueo.
 - Rediseño de los paneles de Información y sección de botones.
+- Nuevo diseño de los paneles de Información.
