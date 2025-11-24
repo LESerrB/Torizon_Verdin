@@ -155,7 +155,7 @@
   font-family: var(--text-label-font-family);
   overflow: hidden;
 }
-/************** TITLE **************/
+/*************** TITLE ***************/
 .info-title.active{
   background-color: #0c87f2;
   color: white;
@@ -182,7 +182,7 @@
   height: 60px;
   box-sizing: border-box;
 }
-/************* MEASURES *************/
+/************* MEASURES **************/
 .side-info .info-value {
   font-size: 96px;
   font-weight: bold;
@@ -227,7 +227,7 @@
 .bckgnd-btns::-webkit-scrollbar-track {
   background-color: #e6e7e6;
 }
-
+/*********** MODULE ACTIVE ***********/
 .module.active{
   background: var(--texto-blanco, #ffffff);
   border-radius: 15px;
@@ -239,6 +239,7 @@
   font-family: var(--text-label-font-family);
   overflow: hidden;
 }
+/********** MODULE INACTIVE **********/
 .module.inactive{
   background: var(--texto-blanco, #ffffff);
   border-radius: 15px;
@@ -254,8 +255,8 @@
   overflow: hidden;
 }
 .mdl-title{
-  background-color: #0c87f2;
-  color: white;
+  background-color: #dee2e6;
+  color: #6c757d;
   padding: 5px 15px;
   text-align: right;
   font-weight: bold;
@@ -266,7 +267,37 @@
   height: 35px;
   box-sizing: border-box;
 }
-/* .btn-sensor {
+.bg-scale       { background-color: #8b5e3c; color: white; }  /* Báscula */
+.bg-timer       { background-color: #f2a013; color: white; }  /* Cronómetro */
+.bg-phototherapy{ background-color: #00c3ff; color: white; }  /* Fototerapia */
+.bg-humidity    { background-color: #28a745; color: white; }  /* Humedad relativa */
+.bg-oxygen      { background-color: #20c997; color: white; }  /* Oxígeno */
+.bg-height      { background-color: #6c757d; color: white; }  /* Altura variable */
+/************ MODULE INFO ************/
+.mod-value {
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  color: #212529;
+  position: relative;
+  gap: 7px;
+}
+.mod-value span.mod-units {
+  font-size: 20px;
+  position: relative;
+  top: 10px;
+  margin-left: 5px;
+}
+.mod-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding-top: 5px;
+}
+.btn-sensor {
   background: var(--azul-btn, #1ba0f2);
   border-color: #1ba0f2;
   border-radius: 15px;
@@ -278,9 +309,19 @@
   justify-content: center;
   align-self: stretch;
   flex-shrink: 0;
-  height: 115px;
+  height: 35px;
+  min-width: 55px;
+  font-size: 16px;
   position: relative;
-} */
+}
+.btn-snsr-lbl {
+  color: var(--texto-blanco, #ffffff);
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+}
 /* .btn-sensor-pressed {
   background: var(--texto-blanco, #ffffff);
   border-color: #ffffff;
@@ -296,15 +337,6 @@
   height: 115px;
   position: relative;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-} */
-/* .btn-sensor-lbl {
-  color: var(--texto-blanco, #ffffff);
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: 700;
-  position: relative;
 }
 .btn-sensor-lbl-pressed {
   color: var(--azul-btn, #1ba0f2);

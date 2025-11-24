@@ -250,3 +250,6 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Rediseño de los paneles de Información y sección de botones.
 - Nuevo diseño de los paneles de Información.
 - Agregados paneles de modulos deslizables en el lateral derecho.
+- Añadidos colores para los títulos de cada módulo.
+- Ajuste de tamaño de botones.
+- Tamaño y posición de mediciones de módulos laterales estandarizados.
