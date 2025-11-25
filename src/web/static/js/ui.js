@@ -1,4 +1,27 @@
 ////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// MODOS DE OPERACIÓN //////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+/* Cambio de modo entre Bebé y manual */
+export function activarModo(modo) {
+    const bebe = document.getElementById('modo-bebe');
+    const manual = document.getElementById('modo-manual');
+
+    if (modo === 'bebe') {
+        bebe.classList.add('active');
+        bebe.classList.remove('inactive');
+
+        manual.classList.add('inactive');
+        manual.classList.remove('active');
+    } else if (modo === 'manual') {
+        manual.classList.add('active');
+        manual.classList.remove('inactive');
+
+        bebe.classList.add('inactive');
+        bebe.classList.remove('active');
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////// FOOTER ////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 /* Habilita edición de los datos del paciente */
@@ -24,5 +47,10 @@ export function enablePacienteEditing() {
 
         spanDiv.style.display = 'flex';
         inputDiv.style.display = 'none';
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
 };

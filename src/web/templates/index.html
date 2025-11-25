@@ -24,8 +24,8 @@
 
             <div class="info-mod" id="info-mod">
                 <div class="bkgnd-info">
-                    <div class="side-info" id="info-lft">
-                        <div class="info-title active">MODO BEBÉ</div>
+                    <div class="side-info">
+                        <div class="info-title active" id="modo-bebe">MODO BEBÉ</div>
                             <div class="info-value">--.-<span class="units"> °C</span></div>
 
                         <div class="ctrl-temp">
@@ -42,9 +42,9 @@
                             </div>
 
                             <div class="ctrl-btns">
-                                <button class="btn-sensor"><div class="btn-snsr-lbl">-</div></button>
-                                <button class="btn-sensor"><div class="btn-snsr-lbl">Aceptar</div></button>
-                                <button class="btn-sensor"><div class="btn-snsr-lbl">+</div></button>
+                                <button class="btn-sensor" id="tempProgMenos"><div class="btn-snsr-lbl">-</div></button>
+                                <button class="btn-sensor" id="tempProgAceptar"><div class="btn-snsr-lbl">Aceptar</div></button>
+                                <button class="btn-sensor" id="tempProgMas"><div class="btn-snsr-lbl">+</div></button>
                             </div>
                             
                             <div class="ctrl-row">
@@ -61,8 +61,8 @@
                         </div>
                     </div>
 
-                    <div class="side-info" id="info-rgt">
-                        <div class="info-title inactive">MODO MANUAL</div>
+                    <div class="side-info">
+                        <div class="info-title inactive" id="modo-manual">MODO MANUAL</div>
                             <div class="info-value">--<span class="units"> %</span></div>
 
                             <div class="ctrl-pot">
@@ -80,9 +80,9 @@
                                 </div>
 
                                 <div class="ctrl-btns">
-                                    <button class="btn-sensor" id="btn-tempMas"><div class="btn-snsr-lbl">-</div></button>
-                                    <button class="btn-sensor" id="btn-tempAcept"><div class="btn-snsr-lbl">Aceptar</div></button>
-                                    <button class="btn-sensor" id="btn-tempMenos"><div class="btn-snsr-lbl">+</div></button>
+                                    <button class="btn-sensor" id="calefMenos"><div class="btn-snsr-lbl">-</div></button>
+                                    <button class="btn-sensor" id="calefAceptar"><div class="btn-snsr-lbl">Aceptar</div></button>
+                                    <button class="btn-sensor" id="calefMas"><div class="btn-snsr-lbl">+</div></button>
                                 </div>
                             </div>
                         </div>
@@ -91,41 +91,42 @@
 
                 <div class="bckgnd-btns">
                     <div class="module inactive">
-                        <div class="mdl-title bg-scale">Báscula</div>
+                        <div class="mdl-title bg-scale" id="bascula">Báscula</div>
                         <div class="mod-value">--.-<span class="mod-units"> Kg</span></div>
                         <div class="mod-btns">
                             <button class="btn-sensor" id="btn-pesar"><div class="btn-snsr-lbl">Pesar</div></button>
                             <button class="btn-sensor" id="btn-tara"><div class="btn-snsr-lbl">Tara</div></button>
+                            <!-- <button class="btn-sensor" id="btn-calib"><div class="btn-snsr-lbl">Calibración</div></button> -->
                         </div>
                     </div>
 
                     <div class="module inactive">
-                        <div class="mdl-title bg-timer">Cronómetro</div>
+                        <div class="mdl-title bg-timer" id="timer">Cronómetro</div>
                         <div class="mod-value">--:--<span class="mod-units"> seg</span></div>
                         <div class="mod-btns">
-                            <button class="btn-sensor" id="btn-pesar"><div class="btn-snsr-lbl">Iniciar</div></button>
-                            <button class="btn-sensor" id="btn-tara"><div class="btn-snsr-lbl">Limpiar</div></button>
+                            <button class="btn-sensor" id="btn-start"><div class="btn-snsr-lbl">Iniciar</div></button>
+                            <button class="btn-sensor" id="btn-stop"><div class="btn-snsr-lbl">Limpiar</div></button>
                         </div>
                     </div>
                     
                     <div class="module inactive">
-                        <div class="mdl-title bg-phototherapy">Fototerapia</div>
+                        <div class="mdl-title bg-phototherapy" id="photo">Fototerapia</div>
                         <div class="mod-value">--:--<span class="mod-units"> HH:MM</span></div>
                         <div class="mod-value">--<span class="mod-units">%</span></div>
                     </div>
 
                     <div class="module inactive">
-                        <div class="mdl-title bg-humidity">Húmedad</div>
+                        <div class="mdl-title bg-humidity" id="humed">Húmedad</div>
                         <div class="mod-value">--.-<span class="mod-units"> % HR</span></div>
                     </div>
 
                     <div class="module inactive">
-                        <div class="mdl-title bg-oxygen">Oxigeno</div>
+                        <div class="mdl-title bg-oxygen" id="satOx">Oxigeno</div>
                         <div class="mod-value">--.-<span class="mod-units"> %</span></div>
                     </div>
 
                     <div class="module inactive">
-                        <div class="mdl-title bg-height">Altura Variable</div>
+                        <div class="mdl-title bg-height" id="altVar">Altura Variable</div>
 
                         <div class="ctrl-hgt">
                             <div class="hgt-left">
@@ -169,9 +170,7 @@
                     </div>
                 </div>
 
-                <div>
-                    <button class="btn-graf">GRAF</button>
-                </div>
+                <div> <button class="btn-graf" id="tendencias">GRAF</button> </div>
             </div>
         </div>
     </body>
