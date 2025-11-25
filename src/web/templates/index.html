@@ -9,15 +9,17 @@
         <link rel="stylesheet" href="../static/css/vars.css">
         <link rel="stylesheet" href="../static/css/style.css">
 
+        <script type="module" src="../static/js/main.js"></script>
+
         <title>DUAL</title>
     </head>
 
     <body>
         <div class="pantalla-base">
             <div class="header">
-                <button class="btn-mode" id="btn-mode"></button>
-                <button class="btn-alarm" id="btn-alarm"></button>
-                <button class="btn-lock" id="btn-lock"></button>
+                <button class="btn-mode" id="btn-mode">Cuna/Incubadora</button>
+                <button class="btn-alarm" id="btn-alarm">ALARMA</button>
+                <button class="btn-lock" id="btn-lock">Lock/Unlock</button>
             </div>
 
             <div class="info-mod" id="info-mod">
@@ -151,10 +153,19 @@
             <div class="footer" id="footer">
                 <div class="paciente-cnt">
                     <div class="paciente-lbl">Paciente:</div>
-                    <div class="paciente-nmb">
+
+                    <div class="paciente-nmb" id="paciente">
                         <span id="pacienteNom">NOMBRE</span>
-                        <span id="aPPaciente">AP PATERNO</span>
-                        <span id="aMPaciente">AP MATERNO</span>
+                        <span id="apP_Paciente">AP PATERNO</span>
+                        <span id="apM_Paciente">AP MATERNO</span>
+                    </div>
+
+                    <div id="paciente-input" class="input-cont">
+                        <input id="nom-input" class="paciente-input" type="text">
+                        <input id="apP-input" class="paciente-input" type="text">
+                        <input id="apM-input" class="paciente-input" type="text">
+
+                        <button class="btn-sensor" id="btn-OK"><div class="btn-snsr-lbl"> OK </div></button>
                     </div>
                 </div>
 
