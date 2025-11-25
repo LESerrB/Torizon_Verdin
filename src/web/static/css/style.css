@@ -68,6 +68,22 @@
   font-weight: var(--text-label-font-weight);
   color: var(--texto-blanco);
 }
+.input-cont {
+  display: none;
+  height: 28px;
+  gap: 3px;
+}
+.paciente-input {
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 14px;
+  color: #212529;
+  border: 1px solid #ccc;
+  background: #ffffff;
+  width: 100%;
+  max-width: 200px;
+  height: 20px;
+}
 .btn-graf{
   background: var(--alarma-ama, #f2a013);
   border: 3px solid white;
@@ -92,7 +108,7 @@
   position: relative;
 }
 .btn-alarm{
-  background-color: #28a745;
+  background-color: #67b67c;
   border-color: #1e7e34;
   color: #fff;
   border-radius: 15px 15px 15px 15px;
