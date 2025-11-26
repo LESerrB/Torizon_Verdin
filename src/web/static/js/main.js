@@ -3,7 +3,7 @@ import {
     activarModo
 } from './ui.js';
 
-//<<<<<<<<<<<<<<<<<<<<<<<<< Header >>>>>>>>>>>>>>>>>>>>>>>>>
+//<<<<<<<<<<<<<<<<<<<<<<<<< Header >>>>>>>>>>>>>>>>>>>>>>>>>//
 document.getElementById('btn-mode').addEventListener('click', () => {
     console.log("Cambio Modo Operacion");
 });
@@ -16,14 +16,17 @@ document.getElementById('btn-lock').addEventListener('click', () => {
     console.log("Bloqueo/Desbloqueo");
 });
 
-//<<<<<<<<<<<<<<<<<<<<<<<<<< Body >>>>>>>>>>>>>>>>>>>>>>>>>>
-//{{{{{{{{{{{{{{{{{{{{{ Panel Principal }}}}}}}}}}}}}}}}}}}}
-//[[[[[[[[[[[[[[[[[[[[[[[[ MODO BEBÉ ]]]]]]]]]]]]]]]]]]]]]]]
+//<<<<<<<<<<<<<<<<<<<<<<<<<< Body >>>>>>>>>>>>>>>>>>>>>>>>>>//
+//{{{{{{{{{{{{{{{{{{{{{ Panel Principal }}}}}}}}}}}}}}}}}}}}//
+//[[[[[[[[[[[[[[[[[[[[[[[[ MODO BEBÉ ]]]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('modo-bebe').addEventListener('click', () => {
     activarModo('bebe');
 });
 
-//((((((((((((((((((((((( Controles ))))))))))))))))))))))))
+document.getElementById('enProgTemp').addEventListener('click', () => {
+    console.log('Programar Temperatura');
+});
+//((((((((((((((((((((((( Controles ))))))))))))))))))))))))//
 document.getElementById('tempProgMenos').addEventListener('click', () => {
     console.log('tempProgMenos');
 });
@@ -36,12 +39,12 @@ document.getElementById('tempProgMas').addEventListener('click', () => {
     console.log('tempProgMas');
 });
 
-//[[[[[[[[[[[[[[[[[[[ Modo Manual / Aire ]]]]]]]]]]]]]]]]]]]
+//[[[[[[[[[[[[[[[[[[[ Modo Manual / Aire ]]]]]]]]]]]]]]]]]]]//
 document.getElementById('modo-manual').addEventListener('click', () => {
     activarModo('manual');
 });
 
-//((((((((((((((((((((((( Controles ))))))))))))))))))))))))
+//((((((((((((((((((((((( Controles ))))))))))))))))))))))))//
 document.getElementById('calefMenos').addEventListener('click', () => {
     console.log('calefMenos');
 });
@@ -54,13 +57,13 @@ document.getElementById('calefMas').addEventListener('click', () => {
     console.log('calefMas');
 });
 
-//<<<<<<<<<<<<<<<<<<<<<< Panel Lateral >>>>>>>>>>>>>>>>>>>>>
-//{{{{{{{{{{{{{{{{{{{{{{{{{ BÁSCULA }}}}}}}}}}}}}}}}}}}}}}}}
+//{{{{{{{{{{{{{{{{{{{{{{ Panel Lateral }}}}}}}}}}}}}}}}}}}}}//
+//[[[[[[[[[[[[[[[[[[[[[[[[ BÁSCULA ]]]]]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('bascula').addEventListener('click', () => {
     console.log('bascula');
 });
 
-//((((((((((((((((((((((( Controles ))))))))))))))))))))))))
+//((((((((((((((((((((((( Controles ))))))))))))))))))))))))//
 document.getElementById('btn-pesar').addEventListener('click', () => {
     console.log('btn-pesar');
 });
@@ -73,12 +76,12 @@ document.getElementById('btn-tara').addEventListener('click', () => {
 //     console.log('btn-calib');
 // });
 
-//{{{{{{{{{{{{{{{{{{{{{{{ CRONOMETRO }}}}}}}}}}}}}}}}}}}}}}}
+//[[[[[[[[[[[[[[[[[[[[[[[ CRONOMETRO ]]]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('timer').addEventListener('click', () => {
     console.log('timer');
 });
 
-//((((((((((((((((((((((( Controles ))))))))))))))))))))))))
+//((((((((((((((((((((((( Controles ))))))))))))))))))))))))//
 document.getElementById('btn-start').addEventListener('click', () => {
     console.log('btn-start');
 });
@@ -87,27 +90,27 @@ document.getElementById('btn-stop').addEventListener('click', () => {
     console.log('btn-stop');
 });
 
-//{{{{{{{{{{{{{{{{{{{{{{{ FOTOTERAPIA }}}}}}}}}}}}}}}}}}}}}}
+//[[[[[[[[[[[[[[[[[[[[[[ FOTOTERAPIA ]]]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('photo').addEventListener('click', () => {
     console.log('photo');
 });
 
-//{{{{{{{{{{{{{{{{{{{{{{{{{ HUMEDAD }}}}}}}}}}}}}}}}}}}}}}}}
+//[[[[[[[[[[[[[[[[[[[[[[[[ HUMEDAD ]]]]]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('humed').addEventListener('click', () => {
     console.log('humed');
 });
 
-//{{{{{{{{{{{{{{{{{ SATURACIÓN DE OXIGENO }}}}}}}}}}}}}}}}}}
+//[[[[[[[[[[[[[[[[[ SATURACIÓN DE OXIGENO ]]]]]]]]]]]]]]]]]]//
 document.getElementById('satOx').addEventListener('click', () => {
     console.log('satOx');
 });
 
-//{{{{{{{{{{{{{{{{{{{{{ ALTURA VARIABLE }}}}}}}}}}}}}}}}}}}}
+//[[[[[[[[[[[[[[[[[[[[ ALTURA VARIABLE ]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('altVar').addEventListener('click', () => {
     console.log('altVar');
 });
 
-//[[[[[[[[[[[[[[[[[[[[[[ Altura Equipo ]]]]]]]]]]]]]]]]]]]]]
+//((((((((((((((((((((( Altura Equipo ))))))))))))))))))))))//
 document.getElementById('btn-up').addEventListener('click', () => {
     console.log('btn-up');
 });
@@ -116,7 +119,7 @@ document.getElementById('btn-dwn').addEventListener('click', () => {
     console.log('btn-dwn');
 });
 
-//[[[[[[[[[[[[[[[[[[ Inclinación Bacinete ]]]]]]]]]]]]]]]]]]
+//(((((((((((((((((( Inclinación Bacinete ))))))))))))))))))//
 document.getElementById('btn-incLft').addEventListener('click', () => {
     console.log('btn-incLft');
 });
@@ -125,7 +128,7 @@ document.getElementById('btn-incRgt').addEventListener('click', () => {
     console.log('btn-incRgt');
 });
 
-//[[[[[[[[[[[[[[[[[[[[[ Altura Lampara ]]]]]]]]]]]]]]]]]]]]]
+//((((((((((((((((((((( Altura Lampara )))))))))))))))))))))//
 document.getElementById('btn-upLmp').addEventListener('click', () => {
     console.log('btn-upLmp');
 });
@@ -134,7 +137,7 @@ document.getElementById('btn-dwnLmp').addEventListener('click', () => {
     console.log('btn-dwnLmp');
 });
 
-//<<<<<<<<<<<<<<<<<<<<<<<<< Footer >>>>>>>>>>>>>>>>>>>>>>>>>
+//<<<<<<<<<<<<<<<<<<<<<<<<< Footer >>>>>>>>>>>>>>>>>>>>>>>>>//
 document.addEventListener('DOMContentLoaded', () => {
     enablePacienteEditing();
 });
