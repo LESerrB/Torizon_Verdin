@@ -259,3 +259,5 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Actualizadas funciones para guardar información del paciente.
 - Creada función de cambio de Modo Bebé/Manual.
 - Agregados los colores de indicación de modo activo.
+- Añadidas funciones de habilitación / deshabilitación de controles en los paneles principales.
+- Agregada función de parpadeo para indicar que se estan modificando valores de Temperatura Programada y Potencia de Calefactor.

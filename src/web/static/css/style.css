@@ -210,9 +210,11 @@
 }
 .side-info .info-value.active {
   color: #212529;
+  pointer-events: auto;
 }
 .side-info .info-value.inactive {
   color: #6c757d;
+  pointer-events: none;
 }
 /******* TEMPERATURE *******/
 .ctrl-temp {
@@ -229,6 +231,7 @@
   flex-direction: row;
   align-items: center;
   gap: 20px;
+
 }
 .ctrl-label {
   font-weight: bold;
@@ -257,9 +260,11 @@
 }
 .ctrl-val.active{
   color: #212529;
+  pointer-events: auto;
 }
 .ctrl-val.inactive{
   color: #6c757d;
+  pointer-events: none;
 }
 .ctrl-btns {
   display: flex;
@@ -534,4 +539,13 @@
   gap: 10px;
   margin: 10px 0;
   justify-content: center;
+}
+
+/*ANIMACIÓN*/
+.parpadeo {
+    animation: parpadeo 1s infinite;
+}
+@keyframes parpadeo {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
