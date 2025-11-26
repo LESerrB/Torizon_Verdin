@@ -200,7 +200,6 @@
   font-size: 96px;
   font-weight: bold;
   text-align: center;
-  color: #212529;
   position: relative;
 }
 .side-info .info-value span.units {
@@ -208,6 +207,12 @@
   position: absolute;
   top: 10px;
   margin-left: 5px;
+}
+.side-info .info-value.active {
+  color: #212529;
+}
+.side-info .info-value.inactive {
+  color: #6c757d;
 }
 /******* TEMPERATURE *******/
 .ctrl-temp {
@@ -231,20 +236,30 @@
   text-align: left;
   min-width: 60px;
 }
+.ctrl-label.active{
+  color: #212529;
+}
+.ctrl-label.inactive{
+  color: #6c757d;
+}
 .ctrl-val {
   display: flex;
   flex-direction: row;
   align-items: baseline;
   font-size: 32px;
   font-weight: bold;
-  color: #212529;
   gap: 5px;
 }
 .ctrl-val .units {
   font-size: 18px;
-  color: #6c757d;
   position: relative;
   top: 2px;
+}
+.ctrl-val.active{
+  color: #212529;
+}
+.ctrl-val.inactive{
+  color: #6c757d;
 }
 .ctrl-btns {
   display: flex;
@@ -380,8 +395,6 @@
   padding-top: 5px;
 }
 .btn-sensor {
-  background: var(--azul-btn, #1ba0f2);
-  border-color: #1ba0f2;
   border-radius: 15px;
   padding: 10px;
   display: flex;
@@ -396,6 +409,14 @@
   font-size: 16px;
   position: relative;
 }
+.btn-sensor.active{
+  background: var(--azul-btn, #1ba0f2);
+  border-color: #1ba0f2;
+}
+.btn-sensor.inactive{
+  background-color: #dee2e6;
+  color: #6c757d;
+}
 .btn-snsr-lbl {
   color: var(--texto-blanco, #ffffff);
   text-align: center;
@@ -403,6 +424,12 @@
   line-height: 20px;
   font-weight: 600;
   position: relative;
+}
+.btn-snsr-lbl.active{
+  color: var(--texto-blanco, #ffffff);
+}
+.btn-snsr-lbl.inactive{
+  color: #6c757d
 }
 /* .btn-sensor-pressed {
   background: var(--texto-blanco, #ffffff);

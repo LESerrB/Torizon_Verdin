@@ -26,34 +26,34 @@
                 <div class="bkgnd-info">
                     <div class="side-info">
                         <div class="info-title active" id="modo-bebe">MODO BEBÉ</div>
-                            <div class="info-value">--.-<span class="units"> °C</span></div>
+                            <div class="info-value active" id="temp">--.-<span class="units"> °C </span></div>
 
                         <div class="ctrl-temp">
-                            <div class="ctrl-row">
-                                <div class="ctrl-label">
+                            <div class="ctrl-row" id="enProgTemp">
+                                <div class="ctrl-label active" id="tempProg-lbl">
                                     <div>Temp.</div>
                                     <div>Prog.</div>
                                 </div>
                                 
-                                <div class="ctrl-val">
+                                <div class="ctrl-val active" id="tempProg-val">
                                     <div class="value" id="tempProg">--.-</div>
                                     <div class="units">°C</div>
                                 </div>
                             </div>
 
                             <div class="ctrl-btns">
-                                <button class="btn-sensor" id="tempProgMenos"><div class="btn-snsr-lbl">-</div></button>
-                                <button class="btn-sensor" id="tempProgAceptar"><div class="btn-snsr-lbl">Aceptar</div></button>
-                                <button class="btn-sensor" id="tempProgMas"><div class="btn-snsr-lbl">+</div></button>
+                                <button class="btn-sensor active" id="tempProgMenos"><div class="btn-snsr-lbl active" id="tempProgMenos-lbl">-</div></button>
+                                <button class="btn-sensor active" id="tempProgAceptar"><div class="btn-snsr-lbl active" id="tempProgAceptar-lbl">Aceptar</div></button>
+                                <button class="btn-sensor active" id="tempProgMas"><div class="btn-snsr-lbl active" id="tempProgMas-lbl">+</div></button>
                             </div>
                             
                             <div class="ctrl-row">
-                                <div class="ctrl-label">
+                                <div class="ctrl-label active" id="tempAux-lbl">
                                     <div>Temp.</div>
                                     <div>Aux.</div>
                                 </div>
                                 
-                                <div class="ctrl-val">
+                                <div class="ctrl-val active" id="tempAux-val">
                                     <div class="value" id="sondaAux">--.-</div>
                                     <div class="units">°C</div>
                                 </div>
@@ -63,7 +63,7 @@
 
                     <div class="side-info">
                         <div class="info-title inactive" id="modo-manual">MODO MANUAL</div>
-                            <div class="info-value">--<span class="units"> %</span></div>
+                            <div class="info-value inactive" id="potCalef-val">--<span class="units"> %</span></div>
 
                             <div class="ctrl-pot">
                                 <div class="pot-indicators">
@@ -80,9 +80,9 @@
                                 </div>
 
                                 <div class="ctrl-btns">
-                                    <button class="btn-sensor" id="calefMenos"><div class="btn-snsr-lbl">-</div></button>
-                                    <button class="btn-sensor" id="calefAceptar"><div class="btn-snsr-lbl">Aceptar</div></button>
-                                    <button class="btn-sensor" id="calefMas"><div class="btn-snsr-lbl">+</div></button>
+                                    <button class="btn-sensor inactive" id="calefMenos"><div class="btn-snsr-lbl inactive" id="calefMenos-lbl">-</div></button>
+                                    <button class="btn-sensor inactive" id="calefAceptar"><div class="btn-snsr-lbl inactive" id="calefAceptar-lbl">Aceptar</div></button>
+                                    <button class="btn-sensor inactive" id="calefMas"><div class="btn-snsr-lbl inactive" id="calefMas-lbl">+</div></button>
                                 </div>
                             </div>
                         </div>
@@ -94,9 +94,9 @@
                         <div class="mdl-title bg-scale" id="bascula">Báscula</div>
                         <div class="mod-value">--.-<span class="mod-units"> Kg</span></div>
                         <div class="mod-btns">
-                            <button class="btn-sensor" id="btn-pesar"><div class="btn-snsr-lbl">Pesar</div></button>
-                            <button class="btn-sensor" id="btn-tara"><div class="btn-snsr-lbl">Tara</div></button>
-                            <!-- <button class="btn-sensor" id="btn-calib"><div class="btn-snsr-lbl">Calibración</div></button> -->
+                            <button class="btn-sensor active" id="btn-pesar"><div class="btn-snsr-lbl active">Pesar</div></button>
+                            <button class="btn-sensor active" id="btn-tara"><div class="btn-snsr-lbl active">Tara</div></button>
+                            <!-- <button class="btn-sensor active" id="btn-calib"><div class="btn-snsr-lbl active">Calibración</div></button> -->
                         </div>
                     </div>
 
@@ -104,8 +104,8 @@
                         <div class="mdl-title bg-timer" id="timer">Cronómetro</div>
                         <div class="mod-value">--:--<span class="mod-units"> seg</span></div>
                         <div class="mod-btns">
-                            <button class="btn-sensor" id="btn-start"><div class="btn-snsr-lbl">Iniciar</div></button>
-                            <button class="btn-sensor" id="btn-stop"><div class="btn-snsr-lbl">Limpiar</div></button>
+                            <button class="btn-sensor active" id="btn-start"><div class="btn-snsr-lbl active">Iniciar</div></button>
+                            <button class="btn-sensor active" id="btn-stop"><div class="btn-snsr-lbl active">Limpiar</div></button>
                         </div>
                     </div>
                     
@@ -166,7 +166,7 @@
                         <input id="apP-input" class="paciente-input" type="text">
                         <input id="apM-input" class="paciente-input" type="text">
 
-                        <button class="btn-sensor" id="btn-OK"><div class="btn-snsr-lbl"> OK </div></button>
+                        <button class="btn-sensor active" id="btn-OK"><div class="btn-snsr-lbl"> OK </div></button>
                     </div>
                 </div>
 

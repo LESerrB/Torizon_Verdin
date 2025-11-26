@@ -257,4 +257,5 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Ajuste de tamaño de botones.
 - Tamaño y posición de mediciones de módulos laterales estandarizados.
 - Actualizadas funciones para guardar información del paciente.
-- Creada función de cambio de Modo Bebé/Manual
+- Creada función de cambio de Modo Bebé/Manual.
+- Agregados los colores de indicación de modo activo.
