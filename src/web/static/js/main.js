@@ -42,6 +42,7 @@ updtTempProg(tempProg_Lvl);
 btn_tmpPrgMenos.disabled = true;
 btn_tmpPrgAcept.disabled = true;
 btn_tmpPrgMas.disabled = true;
+btn_sobreGiro.disabled = true;
 
 btn_sobreGiro.style.display = 'none'
 
@@ -76,6 +77,7 @@ btn_Bebe.addEventListener('click', () => {
     btn_tmpPrgMenos.disabled = true;
     btn_tmpPrgAcept.disabled = true;
     btn_tmpPrgMas.disabled = true;
+    btn_sobreGiro.disabled = true;
 
     btn_calefMenos.disabled = true;
     btn_calefAceptar.disabled = true;
@@ -94,6 +96,7 @@ val_TempProg.addEventListener('click', () => {
     btn_tmpPrgMenos.disabled = false;
     btn_tmpPrgAcept.disabled = false;
     btn_tmpPrgMas.disabled = false;
+    btn_sobreGiro.disabled = false;
 
     btn_calefMenos.disabled = true;
     btn_calefAceptar.disabled = true;
@@ -118,6 +121,7 @@ btn_tmpPrgAcept.addEventListener('click', () => {
     btn_tmpPrgMenos.disabled = true;
     btn_tmpPrgAcept.disabled = true;
     btn_tmpPrgMas.disabled = true;
+    btn_sobreGiro.disabled = true;
 });
 
 btn_tmpPrgMas.addEventListener('click', () => {
@@ -142,8 +146,13 @@ btn_sobreGiro.addEventListener('click', () => {
         updtTempProg(tempProg_Lvl);
     }
 
-    btn_sobreGiro.classList.add('btn-sensor-pressed')
-    btn_sobreGiro_lbl.classList.add('btn-sensor-lbl-pressed')
+    // Alternar clase del botón
+    btn_sobreGiro.classList.toggle('btn-sensor-pressed');
+    // btn_sobreGiro.classList.toggle('active');
+
+    // Alternar clase del label
+    btn_sobreGiro_lbl.classList.toggle('btn-sensor-lbl-pressed');
+    // btn_sobreGiro_lbl.classList.toggle('active');
 });
     //[[[[[[[[[[[[[[[ MODO MANUAL / AIRE ]]]]]]]]]]]]]]]//
 btn_Manual.addEventListener('click', () => {
@@ -152,6 +161,7 @@ btn_Manual.addEventListener('click', () => {
     btn_tmpPrgMenos.disabled = true;
     btn_tmpPrgAcept.disabled = true;
     btn_tmpPrgMas.disabled = true;
+    btn_sobreGiro.disabled = true;
 
     btn_calefMenos.disabled = true;
     btn_calefAceptar.disabled = true;
@@ -170,6 +180,7 @@ val_potCalef.addEventListener('click', () => {
     btn_tmpPrgMenos.disabled = true;
     btn_tmpPrgAcept.disabled = true;
     btn_tmpPrgMas.disabled = true;
+    btn_sobreGiro.disabled = true;
 
     btn_calefMenos.disabled = false;
     btn_calefAceptar.disabled = false;

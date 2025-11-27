@@ -175,6 +175,7 @@ export function updtBars(calef_Lvl) {
     }
 };
 
+/* Indicador de valor de Temperatura Programada */
 export function updtTempProg(tempProg_Lvl){
     const t = parseFloat(tempProg_Lvl).toFixed(1);
 
