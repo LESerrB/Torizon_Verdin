@@ -262,3 +262,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Añadidas funciones de habilitación / deshabilitación de controles en los paneles principales.
 - Agregada función de parpadeo para indicar que se estan modificando valores de Temperatura Programada y Potencia de Calefactor.
 - Indicador de barras de Potencia de Calefactor.
+- Creado botón y función de sobregiro.
