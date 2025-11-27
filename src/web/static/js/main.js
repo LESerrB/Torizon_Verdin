@@ -144,15 +144,21 @@ btn_sobreGiro.addEventListener('click', () => {
     if(!sobreGiro){
         tempProg_Lvl = parseFloat(37.0).toFixed(1);
         updtTempProg(tempProg_Lvl);
+
+        btn_sobreGiro.classList.add('btn-sensor');
+        btn_sobreGiro.classList.remove('btn-sensor-pressed');
+    
+        btn_sobreGiro_lbl.classList.add('btn-snsr-lbl');
+        btn_sobreGiro_lbl.classList.remove('btn-sensor-lbl-pressed');
+    }
+    else{
+        btn_sobreGiro.classList.remove('btn-sensor');
+        btn_sobreGiro.classList.add('btn-sensor-pressed');
+    
+        btn_sobreGiro_lbl.classList.remove('btn-snsr-lbl');
+        btn_sobreGiro_lbl.classList.add('btn-sensor-lbl-pressed');
     }
 
-    // Alternar clase del botón
-    btn_sobreGiro.classList.toggle('btn-sensor-pressed');
-    // btn_sobreGiro.classList.toggle('active');
-
-    // Alternar clase del label
-    btn_sobreGiro_lbl.classList.toggle('btn-sensor-lbl-pressed');
-    // btn_sobreGiro_lbl.classList.toggle('active');
 });
     //[[[[[[[[[[[[[[[ MODO MANUAL / AIRE ]]]]]]]]]]]]]]]//
 btn_Manual.addEventListener('click', () => {
