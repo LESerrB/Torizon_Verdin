@@ -1,12 +1,16 @@
 import { 
     enablePacienteEditing,
     actvModo,
-    updtBars
+    updtBars,
+    updtTempProg
 } from './ui.js';
 
 //~~~~~~~~~~~~~~~~ Definición de Variables ~~~~~~~~~~~~~~~~//
-let calef_Lvl = 0;
+let calef_Lvl = 100;
 const maxLvl = 100;
+
+let tempProg_Lvl = 34.0;
+let sobreGiro = false;
 
 //~~~~~~~~~~~~~~~~~ Definición de Botones ~~~~~~~~~~~~~~~~~//
 const btn_modoOP = document.getElementById('btn-mode');
@@ -23,15 +27,24 @@ const btn_tmpPrgMenos = document.getElementById('tempProgMenos');
 const btn_tmpPrgAcept = document.getElementById('tempProgAceptar');
 const btn_tmpPrgMas = document.getElementById('tempProgMas');
 
+const btn_sobreGiro = document.getElementById('tmpPrgSobregiro');
+const btn_sobreGiro_lbl = document.getElementById('tmpPrgSobregiro-lbl');
+
 const btn_calefMenos = document.getElementById('calefMenos');
 const btn_calefAceptar = document.getElementById('calefAceptar');
 const btn_calefMas = document.getElementById('calefMas');
 
 //~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~~//
+updtBars(calef_Lvl);
+updtTempProg(tempProg_Lvl);
+
 // Temperatura Programada
 btn_tmpPrgMenos.disabled = true;
 btn_tmpPrgAcept.disabled = true;
 btn_tmpPrgMas.disabled = true;
+
+btn_sobreGiro.style.display = 'none'
+
 // Potencia del Calefactor
 btn_calefMenos.disabled = true;
 btn_calefAceptar.disabled = true;
@@ -72,11 +85,10 @@ btn_Bebe.addEventListener('click', () => {
     val_potCalef.classList.remove('parpadeo');
 
     updtBars(calef_Lvl);
+    updtTempProg(tempProg_Lvl);
 });
 
 val_TempProg.addEventListener('click', () => {
-    console.log('Programar Temperatura');
-
     val_TempProg.classList.add('parpadeo');
 
     btn_tmpPrgMenos.disabled = false;
@@ -89,7 +101,15 @@ val_TempProg.addEventListener('click', () => {
 });
         //(((((((((((((((( Controles ))))))))))))))))//
 btn_tmpPrgMenos.addEventListener('click', () => {
-    console.log("Temperatura Más");
+    if (tempProg_Lvl > 34.0) {
+        tempProg_Lvl -= 0.1
+
+        if (tempProg_Lvl < 37.0) {
+            sobreGiro = false;
+        }
+    }
+
+    updtTempProg(tempProg_Lvl);
 });
 
 btn_tmpPrgAcept.addEventListener('click', () => {
@@ -101,9 +121,30 @@ btn_tmpPrgAcept.addEventListener('click', () => {
 });
 
 btn_tmpPrgMas.addEventListener('click', () => {
-    console.log("Temperatura Menos");
+    if (tempProg_Lvl < 37.0) {
+        tempProg_Lvl += 0.1;
+    }
+
+    if (sobreGiro) {
+        if (tempProg_Lvl < 38.0) {
+            tempProg_Lvl += 0.1;
+        }
+    }
+
+    updtTempProg(tempProg_Lvl);
 });
 
+btn_sobreGiro.addEventListener('click', () => {
+    sobreGiro = !(sobreGiro);
+
+    if(!sobreGiro){
+        tempProg_Lvl = parseFloat(37.0).toFixed(1);
+        updtTempProg(tempProg_Lvl);
+    }
+
+    btn_sobreGiro.classList.add('btn-sensor-pressed')
+    btn_sobreGiro_lbl.classList.add('btn-sensor-lbl-pressed')
+});
     //[[[[[[[[[[[[[[[ MODO MANUAL / AIRE ]]]]]]]]]]]]]]]//
 btn_Manual.addEventListener('click', () => {
     actvModo('manual');
@@ -120,6 +161,7 @@ btn_Manual.addEventListener('click', () => {
     val_potCalef.classList.remove('parpadeo');
 
     updtBars(calef_Lvl);
+    updtTempProg(tempProg_Lvl);
 });
 
 val_potCalef.addEventListener('click', () => {

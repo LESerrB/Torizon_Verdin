@@ -5,13 +5,16 @@ const temp = document.getElementById('temp');
 //==================== Temperatura Programada ===================//
 const tempProg_title = document.getElementById('tempProg-lbl');
 const tempProg_val = document.getElementById('tempProg-val');
+const tempProg = document.getElementById('tempProg');
 //============ Botones Control Temperatura Programada ===========//
 const btn_tmpPrgMenos = document.getElementById('tempProgMenos');
 const btn_tmpPrgAcept = document.getElementById('tempProgAceptar');
 const btn_tmpPrgMas = document.getElementById('tempProgMas');
+const btn_sobreGiro = document.getElementById('tmpPrgSobregiro');
 const btn_tmpPrgMenos_lbl = document.getElementById('tempProgMenos-lbl');
 const btn_tmpPrgAcept_lbl = document.getElementById('tempProgAceptar-lbl');
 const btn_tmpPrgMas_lbl = document.getElementById('tempProgMas-lbl');
+const btn_sobreGiro_lbl = document.getElementById('tmpPrgSobregiro-lbl');
 //==================== Temperatura Auxiliar =====================//
 const tempAux_title = document.getElementById('tempAux-lbl');
 const tempAux_val = document.getElementById('tempAux-val');
@@ -42,10 +45,12 @@ export function actvModo(modo) {
 
         temp.classList.add('active');
         temp.classList.remove('inactive');
+
         tempProg_title.classList.add('active');
         tempProg_title.classList.remove('inactive');
         tempProg_val.classList.add('active');
         tempProg_val.classList.remove('inactive');
+
         btn_tmpPrgMenos.classList.add('active');
         btn_tmpPrgMenos_lbl.classList.add('active');
         btn_tmpPrgMenos.classList.remove('inactive');
@@ -58,6 +63,10 @@ export function actvModo(modo) {
         btn_tmpPrgMas_lbl.classList.add('active');
         btn_tmpPrgMas.classList.remove('inactive');
         btn_tmpPrgMas_lbl.classList.remove('inactive');
+        btn_sobreGiro.classList.add('active');
+        btn_sobreGiro_lbl.classList.add('active');
+        btn_sobreGiro.classList.remove('inactive');
+        btn_sobreGiro_lbl.classList.remove('inactive');
         tempAux_title.classList.add('active');
         tempAux_title.classList.remove('inactive');
         tempAux_val.classList.add('active');
@@ -102,6 +111,10 @@ export function actvModo(modo) {
         btn_tmpPrgMas_lbl.classList.add('inactive');
         btn_tmpPrgMas.classList.remove('active');
         btn_tmpPrgMas_lbl.classList.remove('active');
+        btn_sobreGiro.classList.add('inactive');
+        btn_sobreGiro_lbl.classList.add('inactive');
+        btn_sobreGiro.classList.remove('active');
+        btn_sobreGiro_lbl.classList.remove('active');
         tempAux_title.classList.add('inactive');
         tempAux_title.classList.remove('active');
         tempAux_val.classList.add('inactive');
@@ -130,7 +143,6 @@ export function actvModo(modo) {
 /* Indicador de barras de la potencia del calefactor y valor porcentual */
 export function updtBars(calef_Lvl) {
     const activeBars = Math.floor(calef_Lvl / stepPerBar);
-    
 
     bars.forEach((bar, index) => {
         if (manual.classList.contains("active")) {
@@ -160,6 +172,19 @@ export function updtBars(calef_Lvl) {
         } else {
             potCalef.insertBefore(document.createTextNode(`${calef_Lvl}`), span);
         }
+    }
+};
+
+export function updtTempProg(tempProg_Lvl){
+    const t = parseFloat(tempProg_Lvl).toFixed(1);
+
+    tempProg.textContent = t;
+
+    if (t < 37.0) {
+        btn_sobreGiro.style.display = 'none';
+    }
+    else if (t > 36.9) {
+        btn_sobreGiro.style.display = '';
     }
 };
 
