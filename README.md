@@ -261,3 +261,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregados los colores de indicación de modo activo.
 - Añadidas funciones de habilitación / deshabilitación de controles en los paneles principales.
 - Agregada función de parpadeo para indicar que se estan modificando valores de Temperatura Programada y Potencia de Calefactor.
+- Indicador de barras de Potencia de Calefactor.

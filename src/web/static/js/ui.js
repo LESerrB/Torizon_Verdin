@@ -1,36 +1,41 @@
+//====================== Sección Modo Bebé ======================//
+const bebe = document.getElementById('modo-bebe');
+//==================== Temperatura Principal ====================//
+const temp = document.getElementById('temp');
+//==================== Temperatura Programada ===================//
+const tempProg_title = document.getElementById('tempProg-lbl');
+const tempProg_val = document.getElementById('tempProg-val');
+//============ Botones Control Temperatura Programada ===========//
+const btn_tmpPrgMenos = document.getElementById('tempProgMenos');
+const btn_tmpPrgAcept = document.getElementById('tempProgAceptar');
+const btn_tmpPrgMas = document.getElementById('tempProgMas');
+const btn_tmpPrgMenos_lbl = document.getElementById('tempProgMenos-lbl');
+const btn_tmpPrgAcept_lbl = document.getElementById('tempProgAceptar-lbl');
+const btn_tmpPrgMas_lbl = document.getElementById('tempProgMas-lbl');
+//==================== Temperatura Auxiliar =====================//
+const tempAux_title = document.getElementById('tempAux-lbl');
+const tempAux_val = document.getElementById('tempAux-val');
+
+//===================== Sección Modo Manual =====================//
+const manual = document.getElementById('modo-manual');
+//=================== Potencia del Calefactor ===================//
+const potCalef = document.getElementById('potCalef-val');
+const bars = document.querySelectorAll('.pot-indicators .bar');
+const span = potCalef.querySelector('.units');
+//================= Botones Control Calefactor ==================//
+const btn_calefMenos = document.getElementById('calefMenos');
+const btn_calefMenos_lbl = document.getElementById('calefMenos-lbl');
+const btn_calefAceptar = document.getElementById('calefAceptar');
+const btn_calefAceptar_lbl = document.getElementById('calefAceptar-lbl');
+const btn_calefMas = document.getElementById('calefMas');
+const btn_calefMas_lbl = document.getElementById('calefMas-lbl');
+
+//&&&&&&&&&&&&&&&&&&& Definición de Variables &&&&&&&&&&&&&&&&&&&//
+const stepPerBar = 10;
+
 ////////////////////////////// MODOS DE OPERACIÓN //////////////////////////////
 /* Cambio de modo entre Bebé y manual */
-export function activarModo(modo) {
-    //====================== Sección Modo Bebé ======================//
-    const bebe = document.getElementById('modo-bebe');
-    //==================== Temperatura Principal ====================//
-    const temp = document.getElementById('temp');
-    //==================== Temperatura Programada ===================//
-    const tempProg_title = document.getElementById('tempProg-lbl');
-    const tempProg_val = document.getElementById('tempProg-val');
-    //============ Botones Control Temperatura Programada ===========//
-    const btn_tmpPrgMenos = document.getElementById('tempProgMenos');
-    const btn_tmpPrgAcept = document.getElementById('tempProgAceptar');
-    const btn_tmpPrgMas = document.getElementById('tempProgMas');
-    const btn_tmpPrgMenos_lbl = document.getElementById('tempProgMenos-lbl');
-    const btn_tmpPrgAcept_lbl = document.getElementById('tempProgAceptar-lbl');
-    const btn_tmpPrgMas_lbl = document.getElementById('tempProgMas-lbl');
-    //==================== Temperatura Auxiliar =====================//
-    const tempAux_title = document.getElementById('tempAux-lbl');
-    const tempAux_val = document.getElementById('tempAux-val');
-
-    //===================== Sección Modo Manual =====================//
-    const manual = document.getElementById('modo-manual');
-    //=================== Potencia del Calefactor ===================//
-    const potCalef = document.getElementById('potCalef-val');
-    //================= Botones Control Calefactor ==================//
-    const btn_calefMenos = document.getElementById('calefMenos');
-    const btn_calefMenos_lbl = document.getElementById('calefMenos-lbl');
-    const btn_calefAceptar = document.getElementById('calefAceptar');
-    const btn_calefAceptar_lbl = document.getElementById('calefAceptar-lbl');
-    const btn_calefMas = document.getElementById('calefMas');
-    const btn_calefMas_lbl = document.getElementById('calefMas-lbl');
-
+export function actvModo(modo) {
     if (modo === 'bebe') {
         bebe.classList.add('active');
         bebe.classList.remove('inactive');
@@ -120,7 +125,43 @@ export function activarModo(modo) {
         btn_calefMas.classList.remove('inactive');
         btn_calefMas_lbl.classList.remove('inactive');
     }
-}
+};
+
+/* Indicador de barras de la potencia del calefactor y valor porcentual */
+export function updtBars(calef_Lvl) {
+    const activeBars = Math.floor(calef_Lvl / stepPerBar);
+    
+
+    bars.forEach((bar, index) => {
+        if (manual.classList.contains("active")) {
+            bar.classList.remove('inactive');
+
+            if (index < activeBars) {
+                bar.classList.add('active');
+            } else {
+                bar.classList.remove('active');
+            }
+        } else if (bebe.classList.contains("active")) {
+            bar.classList.remove('active');
+
+            if (index < activeBars) {
+                bar.classList.add('inactive');
+            } else {
+                bar.classList.remove('inactive');
+            }
+        }
+    });
+
+    if (potCalef) {
+        const valueTextNode = Array.from(potCalef.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
+
+        if (valueTextNode) {
+            valueTextNode.nodeValue = `${calef_Lvl}`;
+        } else {
+            potCalef.insertBefore(document.createTextNode(`${calef_Lvl}`), span);
+        }
+    }
+};
 
 ///////////////////////////// FORMULARIO PACIENTE //////////////////////////////
 /* Habilita edición de los datos del paciente */
