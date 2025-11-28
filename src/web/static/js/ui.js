@@ -183,6 +183,12 @@ export function updtTempProg(tempProg_Lvl){
 
     if (t < 37.0) {
         btn_sobreGiro.style.display = 'none';
+
+        btn_sobreGiro.classList.add('btn-sensor');
+        btn_sobreGiro.classList.remove('btn-sensor-pressed');
+    
+        btn_sobreGiro_lbl.classList.add('btn-snsr-lbl');
+        btn_sobreGiro_lbl.classList.remove('btn-sensor-lbl-pressed');
     }
     else if (t > 36.9) {
         btn_sobreGiro.style.display = '';
