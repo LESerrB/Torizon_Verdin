@@ -12,6 +12,9 @@ const maxLvl = 100;
 let tempProg_Lvl = 34.0;
 let sobreGiro = false;
 
+let tempProgInterval;
+let isHolding = false;
+
 //~~~~~~~~~~~~~~~~~ Definición de Botones ~~~~~~~~~~~~~~~~~//
 const btn_modoOP = document.getElementById('btn-mode');
 const btn_Alerta = document.getElementById('btn-alarm');
@@ -39,6 +42,8 @@ updtBars(calef_Lvl);
 updtTempProg(tempProg_Lvl);
 
 // Temperatura Programada
+let btnsCtrl_tmpProgDisabled = true;
+
 btn_tmpPrgMenos.disabled = true;
 btn_tmpPrgAcept.disabled = true;
 btn_tmpPrgMas.disabled = true;
@@ -47,6 +52,8 @@ btn_sobreGiro.disabled = true;
 btn_sobreGiro.style.display = 'none'
 
 // Potencia del Calefactor
+let btnsCtrl_potCalefDisabled = true;
+
 btn_calefMenos.disabled = true;
 btn_calefAceptar.disabled = true;
 btn_calefMas.disabled = true;
@@ -74,14 +81,17 @@ btn_lock.addEventListener('click', () => {
 btn_Bebe.addEventListener('click', () => {
     actvModo('bebe');
 
-    btn_tmpPrgMenos.disabled = true;
-    btn_tmpPrgAcept.disabled = true;
-    btn_tmpPrgMas.disabled = true;
-    btn_sobreGiro.disabled = true;
+    btnsCtrl_tmpProgDisabled = true;
+    btnsCtrl_potCalefDisabled = true;
 
-    btn_calefMenos.disabled = true;
-    btn_calefAceptar.disabled = true;
-    btn_calefMas.disabled = true;
+    btn_tmpPrgMenos.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgAcept.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgMas.disabled = btnsCtrl_tmpProgDisabled;
+    btn_sobreGiro.disabled = btnsCtrl_tmpProgDisabled;
+
+    btn_calefMenos.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefAceptar.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
 
     val_TempProg.classList.remove('parpadeo');
     val_potCalef.classList.remove('parpadeo');
@@ -93,14 +103,17 @@ btn_Bebe.addEventListener('click', () => {
 val_TempProg.addEventListener('click', () => {
     val_TempProg.classList.add('parpadeo');
 
-    btn_tmpPrgMenos.disabled = false;
-    btn_tmpPrgAcept.disabled = false;
-    btn_tmpPrgMas.disabled = false;
-    btn_sobreGiro.disabled = false;
+    btnsCtrl_tmpProgDisabled = false;
+    btnsCtrl_potCalefDisabled = true;
 
-    btn_calefMenos.disabled = true;
-    btn_calefAceptar.disabled = true;
-    btn_calefMas.disabled = true;
+    btn_tmpPrgMenos.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgAcept.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgMas.disabled = btnsCtrl_tmpProgDisabled;
+    btn_sobreGiro.disabled = btnsCtrl_tmpProgDisabled;
+
+    btn_calefMenos.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefAceptar.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
 });
         //(((((((((((((((( Controles ))))))))))))))))//
 btn_tmpPrgMenos.addEventListener('click', () => {
@@ -115,13 +128,34 @@ btn_tmpPrgMenos.addEventListener('click', () => {
     updtTempProg(tempProg_Lvl);
 });
 
+btn_tmpPrgMenos.addEventListener('touchstart', () => {
+    isHolding = true;
+
+    tempProgInterval = setInterval(() => {
+        if (tempProg_Lvl >= 34.1 && !(btnsCtrl_tmpProgDisabled)) {
+            tempProg_Lvl -= 0.2;
+
+            if (tempProg_Lvl < 37.0) 
+                sobreGiro = false;
+
+            updtTempProg(tempProg_Lvl);
+        }
+    }, 200);
+});
+
+btn_tmpPrgMenos.addEventListener('touchend', () => {
+    clearInterval(tempProgInterval);
+    isHolding = false;
+});
+
 btn_tmpPrgAcept.addEventListener('click', () => {
     val_TempProg.classList.remove('parpadeo');
+    btnsCtrl_tmpProgDisabled = true;
 
-    btn_tmpPrgMenos.disabled = true;
-    btn_tmpPrgAcept.disabled = true;
-    btn_tmpPrgMas.disabled = true;
-    btn_sobreGiro.disabled = true;
+    btn_tmpPrgMenos.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgAcept.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgMas.disabled = btnsCtrl_tmpProgDisabled;
+    btn_sobreGiro.disabled = btnsCtrl_tmpProgDisabled;
 });
 
 btn_tmpPrgMas.addEventListener('click', () => {
@@ -130,12 +164,34 @@ btn_tmpPrgMas.addEventListener('click', () => {
     }
 
     if (sobreGiro) {
-        if (tempProg_Lvl < 38.0) {
+        if (tempProg_Lvl < 38.0)
             tempProg_Lvl += 0.1;
-        }
     }
 
     updtTempProg(tempProg_Lvl);
+});
+
+btn_tmpPrgMas.addEventListener('touchstart', () => {
+    isHolding = true;
+
+    tempProgInterval = setInterval(() => {
+        if (tempProg_Lvl <= 36.9 && !(btnsCtrl_tmpProgDisabled)) {
+            tempProg_Lvl += 0.2;
+
+        }
+
+        if (sobreGiro) {
+            if (tempProg_Lvl < 38.0 && !(btnsCtrl_tmpProgDisabled))
+                tempProg_Lvl += 0.2;
+        }
+
+        updtTempProg(tempProg_Lvl);
+    }, 200);
+});
+
+btn_tmpPrgMas.addEventListener('touchend', () => {
+    clearInterval(tempProgInterval);
+    isHolding = false;
 });
 
 btn_sobreGiro.addEventListener('click', () => {
@@ -164,14 +220,17 @@ btn_sobreGiro.addEventListener('click', () => {
 btn_Manual.addEventListener('click', () => {
     actvModo('manual');
 
-    btn_tmpPrgMenos.disabled = true;
-    btn_tmpPrgAcept.disabled = true;
-    btn_tmpPrgMas.disabled = true;
-    btn_sobreGiro.disabled = true;
+    btnsCtrl_tmpProgDisabled = true;
+    btnsCtrl_potCalefDisabled = true;
 
-    btn_calefMenos.disabled = true;
-    btn_calefAceptar.disabled = true;
-    btn_calefMas.disabled = true;
+    btn_tmpPrgMenos.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgAcept.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgMas.disabled = btnsCtrl_tmpProgDisabled;
+    btn_sobreGiro.disabled = btnsCtrl_tmpProgDisabled;
+
+    btn_calefMenos.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefAceptar.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
 
     val_TempProg.classList.remove('parpadeo');
     val_potCalef.classList.remove('parpadeo');
@@ -183,14 +242,17 @@ btn_Manual.addEventListener('click', () => {
 val_potCalef.addEventListener('click', () => {
     val_potCalef.classList.add('parpadeo');
 
-    btn_tmpPrgMenos.disabled = true;
-    btn_tmpPrgAcept.disabled = true;
-    btn_tmpPrgMas.disabled = true;
-    btn_sobreGiro.disabled = true;
+    btnsCtrl_tmpProgDisabled = true;
+    btnsCtrl_potCalefDisabled = false;
 
-    btn_calefMenos.disabled = false;
-    btn_calefAceptar.disabled = false;
-    btn_calefMas.disabled = false;
+    btn_tmpPrgMenos.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgAcept.disabled = btnsCtrl_tmpProgDisabled;
+    btn_tmpPrgMas.disabled = btnsCtrl_tmpProgDisabled;
+    btn_sobreGiro.disabled = btnsCtrl_tmpProgDisabled;
+
+    btn_calefMenos.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefAceptar.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
 });
         //((((((((((((((( Controles ))))))))))))))))//
 btn_calefMenos.addEventListener('click', () => {
@@ -200,12 +262,31 @@ btn_calefMenos.addEventListener('click', () => {
     }
 });
 
+btn_calefMenos.addEventListener('touchstart', () => {
+    isHolding = true;
+
+    tempProgInterval = setInterval(() => {
+        if (calef_Lvl > 4 && !(btnsCtrl_potCalefDisabled)) {
+            calef_Lvl -= 5;
+
+            updtBars(calef_Lvl);
+        }
+    }, 200);
+});
+
+btn_calefMenos.addEventListener('touchend', () => {
+    clearInterval(tempProgInterval);
+    isHolding = false;
+});
+
 btn_calefAceptar.addEventListener('click', () => {
     val_potCalef.classList.remove('parpadeo');
 
-    btn_calefMenos.disabled = true;
-    btn_calefAceptar.disabled = true;
-    btn_calefMas.disabled = true;
+    btnsCtrl_potCalefDisabled = true;
+
+    btn_calefMenos.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefAceptar.disabled = btnsCtrl_potCalefDisabled;
+    btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
 });
 
 btn_calefMas.addEventListener('click', () => {
@@ -213,6 +294,23 @@ btn_calefMas.addEventListener('click', () => {
         calef_Lvl += 1;
         updtBars(calef_Lvl);
     }
+});
+
+btn_calefMas.addEventListener('touchstart', () => {
+    isHolding = true;
+
+    tempProgInterval = setInterval(() => {
+        if (calef_Lvl < 94 && !(btnsCtrl_potCalefDisabled)) {
+            calef_Lvl += 5;
+
+            updtBars(calef_Lvl);
+        }
+    }, 200);
+});
+
+btn_calefMas.addEventListener('touchend', () => {
+    clearInterval(tempProgInterval);
+    isHolding = false;
 });
 
 //{{{{{{{{{{{{{{{{{{{{{{ Panel Lateral }}}}}}}}}}}}}}}}}}}}}//

@@ -244,7 +244,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Cambio de las funciones de comunicación con los motores de Altura variable, Inclinación de Bacinete y Altura de la lámpara.
 
-### v0.17 - [27/Noviembre/2025]
+### v0.17 - [28/Noviembre/2025]
 
 - Actualización de Interfaz WEB para cambio de Interfaz.
 - Cambios al Footer para que los campos de texto sean dinámicos.
@@ -264,3 +264,5 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Indicador de barras de Potencia de Calefactor.
 - Creado botón y función de sobregiro.
 - Toogle sonbre botón de sobregiro.
+- Implementada función de botón "Más" y "Menos" de Temperaturta Programada para aumentar y disminuir más rápido al mantener pulsado.
+- Implementada función de botón "Más" y "Menos" de Potencia de Calefactor para aumentar y disminuir más rápido al mantener pulsado.
