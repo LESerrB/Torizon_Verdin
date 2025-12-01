@@ -139,7 +139,15 @@ export function actvModo(modo) {
         btn_calefMas_lbl.classList.remove('inactive');
     }
 };
-
+/* Expande los módulos laterales
+ * Esta función muestra el botón de cerrar de cada módulo */
+export function openModule(module, btn){
+    document.getElementById(module).classList.remove('inactive');
+    document.getElementById(module).classList.add('active');
+    document.getElementById(btn).style.display = 'block';
+};
+/* Contraer los módulos laterales cuando estan activos 
+ * Esta función oculta el botón de cerrar de cada módulo */
 export function closeModule(module, btn){
     document.getElementById(module).classList.add('inactive');
     document.getElementById(module).classList.remove('active');

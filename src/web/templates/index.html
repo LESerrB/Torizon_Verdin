@@ -105,18 +105,22 @@
             <div class="bckgnd-btns" id="modules-container">
                 <div class="module inactive" id="mdcnt-bascula">
                     <div class="mdl-title bg-scale" id="bascula">Báscula</div>
-                    <div><button class="btn-cancel" id="btn-close-Scale"><div class="btn-snsr-lbl active"> X </div></button></div>
+                    <div><button class="btn-cancel" id="btn-close-Scale"><div class="btn-snsr-lbl active"> Salir </div></button></div>
                     <div class="mod-value">--.-<span class="mod-units"> Kg</span></div>
 
                     <div class="mod-btns">
                         <button class="btn-sensor active" id="btn-pesar"><div class="btn-snsr-lbl active">Pesar</div></button>
                         <button class="btn-sensor active" id="btn-tara"><div class="btn-snsr-lbl active">Tara</div></button>
                     </div>
+
+                    <div id="hc-scale" class="hidden-ctrls">
+                        <button class="btn-sensor active" id="btn-calib"><div class="btn-snsr-lbl active">Calibración</div></button>
+                    </div>
                 </div>
 
                 <div class="module inactive" id="mdcnt-timer">
-                    <div class="mdl-title bg-timer" id="timer">Cronómetro</div>
-                    <div><button class="btn-cancel" id="btn-close-Timer"><div class="btn-snsr-lbl active"> X </div></button></div>
+                    <div class="mdl-title bg-timer" id="timer">Cronómetro Apgar</div>
+                    <div><button class="btn-cancel" id="btn-close-Timer"><div class="btn-snsr-lbl active"> Salir </div></button></div>
                     <div class="mod-value">--:--<span class="mod-units"> seg</span></div>
 
                     <div class="mod-btns">
@@ -124,32 +128,38 @@
                         <button class="btn-sensor active" id="btn-stop"><div class="btn-snsr-lbl active">Limpiar</div></button>
                     </div>
                 </div>
-                
+
                 <div class="module inactive" id="mdcnt-photo">
                     <div class="mdl-title bg-phototherapy" id="photo">Fototerapia</div>
-                    <div><button class="btn-cancel" id="btn-close-Photo"><div class="btn-snsr-lbl active"> X </div></button></div>
+                    <div><button class="btn-cancel" id="btn-close-Photo"><div class="btn-snsr-lbl active"> Salir </div></button></div>
 
-                    <div class="mod-value">--:--<span class="mod-units"> HH:MM</span></div>
-                    <div class="mod-value">--<span class="mod-units">%</span></div>
+                    <div id="sc-photo">
+                        <div class="mod-value">--:--<span class="mod-units"> HH:MM</span></div>
+                        <div class="mod-value">--<span class="mod-units">%</span></div>
+                    </div>
+
+                    <div id="hc-photo" class="hidden-ctrls">
+                        Esto no se debe ver
+                    </div>
                 </div>
 
                 <div class="module inactive" id="mdcnt-humed">
                     <div class="mdl-title bg-humidity" id="humed">Húmedad</div>
-                    <div><button class="btn-cancel" id="btn-close-Humed"><div class="btn-snsr-lbl active"> X </div></button></div>
+                    <div><button class="btn-cancel" id="btn-close-Humed"><div class="btn-snsr-lbl active"> Salir </div></button></div>
 
                     <div class="mod-value">--.-<span class="mod-units"> % HR</span></div>
                 </div>
 
                 <div class="module inactive" id="mdcnt-satOx">
                     <div class="mdl-title bg-oxygen" id="satOx">Oxigeno</div>
-                    <div><button class="btn-cancel" id="btn-close-satOx"><div class="btn-snsr-lbl active"> X </div></button></div>
+                    <div><button class="btn-cancel" id="btn-close-satOx"><div class="btn-snsr-lbl active"> Salir </div></button></div>
 
                     <div class="mod-value">--.-<span class="mod-units"> %</span></div>
                 </div>
 
                 <div class="module inactive" id="mdcnt-altVar">
                     <div class="mdl-title bg-height" id="altVar">Altura Variable</div>
-                    <div><button class="btn-cancel" id="btn-close-altVar"><div class="btn-snsr-lbl active"> X </div></button></div>
+                    <div><button class="btn-cancel" id="btn-close-altVar"><div class="btn-snsr-lbl active"> Salir </div></button></div>
 
                     <div class="ctrl-hgt">
                         <div class="hgt-left">
