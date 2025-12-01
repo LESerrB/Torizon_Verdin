@@ -140,6 +140,13 @@ export function actvModo(modo) {
     }
 };
 
+export function closeModule(module, btn){
+    document.getElementById(module).classList.add('inactive');
+    document.getElementById(module).classList.remove('active');
+    document.getElementById(btn).style.display = 'none';
+};
+
+/////////////////////////// ACTUALIZACIÓN DE VALORES //////////////////////////
 /* Indicador de barras de la potencia del calefactor y valor porcentual */
 export function updtBars(calef_Lvl) {
     const activeBars = Math.floor(calef_Lvl / stepPerBar);

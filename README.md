@@ -49,16 +49,16 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │ &nbsp; &emsp;└── web &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;# Pagina WEB con la información de los sensores \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── static&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp; ├─ css&nbsp; \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; ├─ vars.css&nbsp; \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; └─ style.css&nbsp; \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; ├─ vars.css&nbsp;  # Variables de Estilo \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; └─ style.css&nbsp; # Hoja de Estilos \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp; └─ js&nbsp; \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;├─ main.js&nbsp; \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;├─ ui.js&nbsp; \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;└─ sensor.js&nbsp; \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;├─ main.js&nbsp; # Archivo Principal \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;├─ ui.js&nbsp; # Animaciones \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;└─ sensor.js&nbsp; # Funciones de recuperación de Datos \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── templates&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &emsp;&emsp;&emsp;&emsp; └─ index.html&nbsp; \
 ├── overlays/ &emsp; &emsp; &emsp; &emsp; &emsp; # Device Tree Overlays (si aplica)\
-└── README.md
+└── README.md   # Control de Versiones
 
 ## Control de Versiones
 
@@ -266,3 +266,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Toogle sonbre botón de sobregiro.
 - Implementada función de botón "Más" y "Menos" de Temperaturta Programada para aumentar y disminuir más rápido al mantener pulsado.
 - Implementada función de botón "Más" y "Menos" de Potencia de Calefactor para aumentar y disminuir más rápido al mantener pulsado.
+- Funciónes de expandir y contraer los módulos laterales.

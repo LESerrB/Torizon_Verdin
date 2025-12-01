@@ -2,7 +2,8 @@ import {
     enablePacienteEditing,
     actvModo,
     updtBars,
-    updtTempProg
+    updtTempProg,
+    closeModule
 } from './ui.js';
 
 //~~~~~~~~~~~~~~~~ Definición de Variables ~~~~~~~~~~~~~~~~//
@@ -36,6 +37,8 @@ const btn_sobreGiro_lbl = document.getElementById('tmpPrgSobregiro-lbl');
 const btn_calefMenos = document.getElementById('calefMenos');
 const btn_calefAceptar = document.getElementById('calefAceptar');
 const btn_calefMas = document.getElementById('calefMas');
+
+const btn_closeScaleMd = document.getElementById('btn-close-Scale');
 
 //~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~~//
 updtBars(calef_Lvl);
@@ -316,9 +319,14 @@ btn_calefMas.addEventListener('touchend', () => {
 //{{{{{{{{{{{{{{{{{{{{{{ Panel Lateral }}}}}}}}}}}}}}}}}}}}}//
     //[[[[[[[[[[[[[[[[[[[[ BÁSCULA ]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('bascula').addEventListener('click', () => {
-    console.log('bascula');
+    document.getElementById('mdcnt-bascula').classList.remove('inactive');
+    document.getElementById('mdcnt-bascula').classList.add('active');
+    btn_closeScaleMd.style.display = 'block';
 });
-
+        //((((((((((((((((( Close ))))))))))))))))))//
+btn_closeScaleMd.addEventListener('click', () => {
+    closeModule('mdcnt-bascula', 'btn-close-Scale');
+});
         //((((((((((((((( Controles ))))))))))))))))//
 document.getElementById('btn-pesar').addEventListener('click', () => {
     console.log('btn-pesar');
@@ -334,9 +342,14 @@ document.getElementById('btn-tara').addEventListener('click', () => {
 
     //[[[[[[[[[[[[[[[[[[[ CRONOMETRO ]]]]]]]]]]]]]]]]]]]//
 document.getElementById('timer').addEventListener('click', () => {
-    console.log('timer');
+    document.getElementById('mdcnt-timer').classList.remove('inactive');
+    document.getElementById('mdcnt-timer').classList.add('active');
+    document.getElementById('btn-close-Timer').style.display = 'block';
 });
-
+        //((((((((((((((((( Close ))))))))))))))))))//
+document.getElementById('btn-close-Timer').addEventListener('click', () => {
+    closeModule('mdcnt-timer', 'btn-close-Timer');
+});
         //((((((((((((((( Controles ))))))))))))))))//
 document.getElementById('btn-start').addEventListener('click', () => {
     console.log('btn-start');
@@ -348,22 +361,47 @@ document.getElementById('btn-stop').addEventListener('click', () => {
 
     //[[[[[[[[[[[[[[[[[[ FOTOTERAPIA ]]]]]]]]]]]]]]]]]]]//
 document.getElementById('photo').addEventListener('click', () => {
-    console.log('photo');
+    document.getElementById('mdcnt-photo').classList.remove('inactive');
+    document.getElementById('mdcnt-photo').classList.add('active');
+    document.getElementById('btn-close-Photo').style.display = 'block';
+});
+        //((((((((((((((((( Close ))))))))))))))))))//
+document.getElementById('btn-close-Photo').addEventListener('click', () => {
+    closeModule('mdcnt-photo', 'btn-close-Photo');
+
 });
 
     //[[[[[[[[[[[[[[[[[[[[ HUMEDAD ]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('humed').addEventListener('click', () => {
-    console.log('humed');
+    document.getElementById('mdcnt-humed').classList.remove('inactive');
+    document.getElementById('mdcnt-humed').classList.add('active');
+    document.getElementById('btn-close-Humed').style.display = 'block';
+});
+        //((((((((((((((((( Close ))))))))))))))))))//
+document.getElementById('btn-close-Humed').addEventListener('click', () => {
+    closeModule('mdcnt-humed', 'btn-close-Humed');
 });
 
     //[[[[[[[[[[[[[ SATURACIÓN DE OXIGENO ]]]]]]]]]]]]]]//
 document.getElementById('satOx').addEventListener('click', () => {
-    console.log('satOx');
+    document.getElementById('mdcnt-satOx').classList.remove('inactive');
+    document.getElementById('mdcnt-satOx').classList.add('active');
+    document.getElementById('btn-close-satOx').style.display = 'block';
+});
+        //((((((((((((((((( Close ))))))))))))))))))//
+document.getElementById('btn-close-satOx').addEventListener('click', () => {
+    closeModule('mdcnt-satOx', 'btn-close-satOx');
 });
 
     //[[[[[[[[[[[[[[[[ ALTURA VARIABLE ]]]]]]]]]]]]]]]]]//
 document.getElementById('altVar').addEventListener('click', () => {
-    console.log('altVar');
+    document.getElementById('mdcnt-altVar').classList.remove('inactive');
+    document.getElementById('mdcnt-altVar').classList.add('active');
+    document.getElementById('btn-close-altVar').style.display = 'block';
+});
+        //((((((((((((((((( Close ))))))))))))))))))//
+document.getElementById('btn-close-altVar').addEventListener('click', () => {
+    closeModule('mdcnt-altVar', 'btn-close-altVar');
 });
         //((((((((((((((( Controles ))))))))))))))))//
 // Altura Equipo 
