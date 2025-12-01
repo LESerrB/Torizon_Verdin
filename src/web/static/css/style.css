@@ -53,11 +53,19 @@
   width: 100%;
 }
 .paciente-lbl {
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+
   font-family: var(--text-label-font-family);
   font-size: var(--text-label-font-size);
   font-weight: var(--text-label-font-weight);
   color: var(--texto-blanco);
   margin-bottom: 4px;
+}
+.paciente-fecha {
+  text-align: right;
+  white-space: nowrap;
 }
 .paciente-nmb {
   display: flex;

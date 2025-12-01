@@ -15,19 +15,19 @@
     </head>
 
     <body>
-        <div class="pantalla-base">
-            <!----------------------------------------------------------------------->
-            <!---------------------------- BARRA SUPERIOR --------------------------->
-            <!----------------------------------------------------------------------->
-            <div class="header">
-                <button class="btn-mode" id="btn-mode">Cuna/Incubadora</button>
-                <button class="btn-alarm" id="btn-alarm">ALARMA</button>
-                <button class="btn-lock" id="btn-lock">Lock/Unlock</button>
-            </div>
+        <!----------------------------------------------------------------------->
+        <!---------------------------- BARRA SUPERIOR --------------------------->
+        <!----------------------------------------------------------------------->
+        <div class="header">
+            <button class="btn-mode" id="btn-mode">Cuna/Incubadora</button>
+            <button class="btn-alarm" id="btn-alarm">ALARMA</button>
+            <button class="btn-lock" id="btn-lock">Lock/Unlock</button>
+        </div>
 
-            <!----------------------------------------------------------------------->
-            <!--------------------------- PANEL PRINCIPAL --------------------------->
-            <!----------------------------------------------------------------------->
+        <!----------------------------------------------------------------------->
+        <!--------------------------- PANEL PRINCIPAL --------------------------->
+        <!----------------------------------------------------------------------->
+        <div class="pantalla-base">
             <div class="info-mod" id="info-mod">
                 <div class="bkgnd-info">
                     <!-------------------------- MODO BEBÉ -------------------------->
@@ -189,7 +189,10 @@
         <!--------------------------------------------------------------------------->
         <div class="footer" id="footer">
             <div class="paciente-cnt">
-                <div class="paciente-lbl">Paciente:</div>
+                <div class="paciente-lbl">
+                    <span class="paciente-label">Paciente:</span>
+                    <span class="paciente-fecha">--/--/-- --:--</span>
+                </div>
 
                 <div class="paciente-nmb" id="paciente">
                     <span id="pacienteNom">NOMBRE</span>

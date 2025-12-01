@@ -268,3 +268,6 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Implementada función de botón "Más" y "Menos" de Potencia de Calefactor para aumentar y disminuir más rápido al mantener pulsado.
 - Funciónes de expandir y contraer los módulos laterales.
 - Ajuste de habilitación de modificación de potencia de calefactor al cambiar a modo Manual.
+- Centrado de módulos activos..
+- Corrección de visualización de potencia de calefactor a 2 dígitos.
+- Header desplazado del body a una sección arriba.

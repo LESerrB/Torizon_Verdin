@@ -37,6 +37,7 @@ const btn_calefMas_lbl = document.getElementById('calefMas-lbl');
 const stepPerBar = 10;
 
 ////////////////////////////// MODOS DE OPERACIÓN //////////////////////////////
+
 /* Cambio de modo entre Bebé y manual */
 export function actvModo(modo) {
     if (modo === 'bebe') {
@@ -145,6 +146,18 @@ export function openModule(module, btn){
     document.getElementById(module).classList.remove('inactive');
     document.getElementById(module).classList.add('active');
     document.getElementById(btn).style.display = 'block';
+
+    const container = document.querySelector('.bckgnd-btns');
+    const activeModule = container.querySelector('.module.active');
+
+    if (activeModule) {
+        const containerRect = container.getBoundingClientRect();
+        const moduleRect = activeModule.getBoundingClientRect();
+
+        const offset = moduleRect.top - containerRect.top;
+
+        container.scrollTop += offset - (container.clientHeight / 2) + (activeModule.clientHeight / 2);
+    }
 };
 /* Contraer los módulos laterales cuando estan activos 
  * Esta función oculta el botón de cerrar de cada módulo */
@@ -183,7 +196,7 @@ export function updtBars(calef_Lvl) {
         const valueTextNode = Array.from(potCalef.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
 
         if (valueTextNode) {
-            valueTextNode.nodeValue = `${calef_Lvl}`;
+            valueTextNode.nodeValue = `${calef_Lvl}`.toString().padStart(2, '0');
         } else {
             potCalef.insertBefore(document.createTextNode(`${calef_Lvl}`), span);
         }
