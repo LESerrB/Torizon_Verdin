@@ -3,6 +3,7 @@ import {
     actvModo,
     updtBars,
     updtTempProg,
+    openModule,
     closeModule
 } from './ui.js';
 
@@ -38,7 +39,7 @@ const btn_calefMenos = document.getElementById('calefMenos');
 const btn_calefAceptar = document.getElementById('calefAceptar');
 const btn_calefMas = document.getElementById('calefMas');
 
-const btn_closeScaleMd = document.getElementById('btn-close-Scale');
+// const btn_closeScaleMd = document.getElementById('btn-close-Scale');
 
 //~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~~//
 updtBars(calef_Lvl);
@@ -224,7 +225,7 @@ btn_Manual.addEventListener('click', () => {
     actvModo('manual');
 
     btnsCtrl_tmpProgDisabled = true;
-    btnsCtrl_potCalefDisabled = true;
+    btnsCtrl_potCalefDisabled = false;
 
     btn_tmpPrgMenos.disabled = btnsCtrl_tmpProgDisabled;
     btn_tmpPrgAcept.disabled = btnsCtrl_tmpProgDisabled;
@@ -236,7 +237,7 @@ btn_Manual.addEventListener('click', () => {
     btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
 
     val_TempProg.classList.remove('parpadeo');
-    val_potCalef.classList.remove('parpadeo');
+    val_potCalef.classList.add('parpadeo');
 
     updtBars(calef_Lvl);
     updtTempProg(tempProg_Lvl);
@@ -319,13 +320,13 @@ btn_calefMas.addEventListener('touchend', () => {
 //{{{{{{{{{{{{{{{{{{{{{{ Panel Lateral }}}}}}}}}}}}}}}}}}}}}//
     //[[[[[[[[[[[[[[[[[[[[ BÁSCULA ]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('bascula').addEventListener('click', () => {
-    document.getElementById('mdcnt-bascula').classList.remove('inactive');
-    document.getElementById('mdcnt-bascula').classList.add('active');
-    btn_closeScaleMd.style.display = 'block';
+    openModule('mdcnt-bascula', 'btn-close-Scale');
+    document.getElementById('hc-scale').style.display = 'flex';
 });
         //((((((((((((((((( Close ))))))))))))))))))//
-btn_closeScaleMd.addEventListener('click', () => {
+document.getElementById('btn-close-Scale').addEventListener('click', () => {
     closeModule('mdcnt-bascula', 'btn-close-Scale');
+    document.getElementById('hc-scale').style.display = 'none';
 });
         //((((((((((((((( Controles ))))))))))))))))//
 document.getElementById('btn-pesar').addEventListener('click', () => {
@@ -336,15 +337,13 @@ document.getElementById('btn-tara').addEventListener('click', () => {
     console.log('btn-tara');
 });
 
-// document.getElementById('btn-calib').addEventListener('click', () => {
-//     console.log('btn-calib');
-// });
+document.getElementById('btn-calib').addEventListener('click', () => {
+    console.log('btn-calib');
+});
 
     //[[[[[[[[[[[[[[[[[[[ CRONOMETRO ]]]]]]]]]]]]]]]]]]]//
 document.getElementById('timer').addEventListener('click', () => {
-    document.getElementById('mdcnt-timer').classList.remove('inactive');
-    document.getElementById('mdcnt-timer').classList.add('active');
-    document.getElementById('btn-close-Timer').style.display = 'block';
+    openModule('mdcnt-timer', 'btn-close-Timer');
 });
         //((((((((((((((((( Close ))))))))))))))))))//
 document.getElementById('btn-close-Timer').addEventListener('click', () => {
@@ -361,21 +360,22 @@ document.getElementById('btn-stop').addEventListener('click', () => {
 
     //[[[[[[[[[[[[[[[[[[ FOTOTERAPIA ]]]]]]]]]]]]]]]]]]]//
 document.getElementById('photo').addEventListener('click', () => {
-    document.getElementById('mdcnt-photo').classList.remove('inactive');
-    document.getElementById('mdcnt-photo').classList.add('active');
-    document.getElementById('btn-close-Photo').style.display = 'block';
+    openModule('mdcnt-photo', 'btn-close-Photo');
+
+    document.getElementById('sc-photo').style.display = 'none';
+    document.getElementById('hc-photo').style.display = 'block'
 });
         //((((((((((((((((( Close ))))))))))))))))))//
 document.getElementById('btn-close-Photo').addEventListener('click', () => {
     closeModule('mdcnt-photo', 'btn-close-Photo');
 
+    document.getElementById('sc-photo').style.display = 'block';
+    document.getElementById('hc-photo').style.display = 'none'
 });
 
     //[[[[[[[[[[[[[[[[[[[[ HUMEDAD ]]]]]]]]]]]]]]]]]]]]]//
 document.getElementById('humed').addEventListener('click', () => {
-    document.getElementById('mdcnt-humed').classList.remove('inactive');
-    document.getElementById('mdcnt-humed').classList.add('active');
-    document.getElementById('btn-close-Humed').style.display = 'block';
+    openModule('mdcnt-humed', 'btn-close-Humed');
 });
         //((((((((((((((((( Close ))))))))))))))))))//
 document.getElementById('btn-close-Humed').addEventListener('click', () => {
@@ -384,9 +384,7 @@ document.getElementById('btn-close-Humed').addEventListener('click', () => {
 
     //[[[[[[[[[[[[[ SATURACIÓN DE OXIGENO ]]]]]]]]]]]]]]//
 document.getElementById('satOx').addEventListener('click', () => {
-    document.getElementById('mdcnt-satOx').classList.remove('inactive');
-    document.getElementById('mdcnt-satOx').classList.add('active');
-    document.getElementById('btn-close-satOx').style.display = 'block';
+    openModule('mdcnt-satOx', 'btn-close-satOx');
 });
         //((((((((((((((((( Close ))))))))))))))))))//
 document.getElementById('btn-close-satOx').addEventListener('click', () => {
@@ -395,9 +393,7 @@ document.getElementById('btn-close-satOx').addEventListener('click', () => {
 
     //[[[[[[[[[[[[[[[[ ALTURA VARIABLE ]]]]]]]]]]]]]]]]]//
 document.getElementById('altVar').addEventListener('click', () => {
-    document.getElementById('mdcnt-altVar').classList.remove('inactive');
-    document.getElementById('mdcnt-altVar').classList.add('active');
-    document.getElementById('btn-close-altVar').style.display = 'block';
+    openModule('mdcnt-altVar', 'btn-close-altVar');
 });
         //((((((((((((((((( Close ))))))))))))))))))//
 document.getElementById('btn-close-altVar').addEventListener('click', () => {

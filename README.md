@@ -267,3 +267,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Implementada función de botón "Más" y "Menos" de Temperaturta Programada para aumentar y disminuir más rápido al mantener pulsado.
 - Implementada función de botón "Más" y "Menos" de Potencia de Calefactor para aumentar y disminuir más rápido al mantener pulsado.
 - Funciónes de expandir y contraer los módulos laterales.
+- Ajuste de habilitación de modificación de potencia de calefactor al cambiar a modo Manual.

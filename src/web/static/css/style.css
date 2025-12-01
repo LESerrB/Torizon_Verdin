@@ -216,7 +216,7 @@
   color: #6c757d;
   pointer-events: none;
 }
-/******* TEMPERATURE *******/
+/************ TEMPERATURE ************/
 .ctrl-temp {
   display: flex;
   flex-direction: column;
@@ -270,7 +270,7 @@
   display: flex;
   gap: 8px;
 }
-/********** CALEF **********/
+/*************** CALEF ***************/
 .ctrl-pot {
   display: flex;
   flex-direction: column;
@@ -321,6 +321,8 @@
   overflow-y: auto;
   gap: 10px;
   scroll-behavior: smooth;
+
+  /* position: relative; */ /* Esto se va a probar */
 }
 .bckgnd-btns::-webkit-scrollbar {
   width: 8px;
@@ -384,9 +386,15 @@
   cursor: pointer;
   display: none;
   margin-top: 2px;
-  margin-left: 170px;
+  margin-left: 140px;
   margin-bottom: 35px;
   transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.hidden-ctrls{
+  display: none;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
 }
 /************ MODULE INFO ************/
 .mod-value {
@@ -477,7 +485,7 @@
   font-weight: 600;
   position: relative;
 }
-/***** HEIGHT CONTROL ******/
+/********** HEIGHT CONTROL ***********/
 .btn-hgt {
   background: var(--azul-btn, #1ba0f2);
   border-color: #1ba0f2;
@@ -557,7 +565,7 @@
   justify-content: center;
 }
 
-/*ANIMACIÓN*/
+/*+++++++++++++++++ ANIMACIÓN +++++++++++++++++*/
 .parpadeo {
     animation: parpadeo 1s infinite;
 }
