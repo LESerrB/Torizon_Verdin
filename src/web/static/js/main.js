@@ -17,6 +17,9 @@ let sobreGiro = false;
 let tempProgInterval;
 let isHolding = false;
 
+// Pantalla Base //
+const pantallaBase = document.querySelector('.pantalla-base');
+
 //~~~~~~~~~~~~~~~~~ Definición de Botones ~~~~~~~~~~~~~~~~~//
 const btn_modoOP = document.getElementById('btn-mode');
 const btn_Alerta = document.getElementById('btn-alarm');
@@ -38,8 +41,6 @@ const btn_sobreGiro_lbl = document.getElementById('tmpPrgSobregiro-lbl');
 const btn_calefMenos = document.getElementById('calefMenos');
 const btn_calefAceptar = document.getElementById('calefAceptar');
 const btn_calefMas = document.getElementById('calefMas');
-
-// const btn_closeScaleMd = document.getElementById('btn-close-Scale');
 
 //~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~~//
 updtBars(calef_Lvl);
@@ -74,7 +75,18 @@ btn_Alerta.addEventListener('click', () => {
 });
 
 btn_lock.addEventListener('click', () => {
-    console.log("Bloqueo/Desbloqueo");
+    btn_lock.style.opacity = '1'
+    pantallaBase.classList.toggle('no-clicks');
+
+    val_potCalef.classList.add('inactive');
+    val_potCalef.classList.remove('active');
+
+    val_TempProg.classList.add('inactive');
+    val_TempProg.classList.remove('active');
+
+    btn_modoOP.classList.toggle('no-clicks');
+
+    document.getElementById('footer').classList.toggle('no-clicks');
 });
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 //<<<<<<<<<<<<<<<<<<<<<<<<<< Body >>>>>>>>>>>>>>>>>>>>>>>>>>//

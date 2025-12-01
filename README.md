@@ -271,3 +271,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Centrado de módulos activos..
 - Corrección de visualización de potencia de calefactor a 2 dígitos.
 - Header desplazado del body a una sección arriba.
+- Creada función de bloqueo/desbloqueo de pantalla.
