@@ -49,6 +49,7 @@ export function actvModo(modo) {
 
         tempProg_title.classList.add('active');
         tempProg_title.classList.remove('inactive');
+
         tempProg_val.classList.add('active');
         tempProg_val.classList.remove('inactive');
 
@@ -56,20 +57,25 @@ export function actvModo(modo) {
         btn_tmpPrgMenos_lbl.classList.add('active');
         btn_tmpPrgMenos.classList.remove('inactive');
         btn_tmpPrgMenos_lbl.classList.remove('inactive');
+
         btn_tmpPrgAcept.classList.add('active');
         btn_tmpPrgAcept_lbl.classList.add('active');
         btn_tmpPrgAcept.classList.remove('inactive');
         btn_tmpPrgAcept_lbl.classList.remove('inactive');
+
         btn_tmpPrgMas.classList.add('active');
         btn_tmpPrgMas_lbl.classList.add('active');
         btn_tmpPrgMas.classList.remove('inactive');
         btn_tmpPrgMas_lbl.classList.remove('inactive');
+
         btn_sobreGiro.classList.add('active');
         btn_sobreGiro_lbl.classList.add('active');
         btn_sobreGiro.classList.remove('inactive');
         btn_sobreGiro_lbl.classList.remove('inactive');
+        
         tempAux_title.classList.add('active');
         tempAux_title.classList.remove('inactive');
+
         tempAux_val.classList.add('active');
         tempAux_val.classList.remove('inactive');
 
@@ -78,14 +84,17 @@ export function actvModo(modo) {
 
         potCalef.classList.add('inactive');
         potCalef.classList.remove('active');
+
         btn_calefMenos.classList.add('inactive');
         btn_calefMenos_lbl.classList.add('inactive');
         btn_calefMenos.classList.remove('active');
         btn_calefMenos_lbl.classList.remove('active');
+
         btn_calefAceptar.classList.add('inactive');
         btn_calefAceptar_lbl.classList.add('inactive');
         btn_calefAceptar.classList.remove('active');
         btn_calefAceptar_lbl.classList.remove('active');
+
         btn_calefMas.classList.add('inactive');
         btn_calefMas_lbl.classList.add('inactive');
         btn_calefMas.classList.remove('active');
@@ -96,28 +105,36 @@ export function actvModo(modo) {
 
         temp.classList.add('inactive');
         temp.classList.remove('active');
+
         tempProg_title.classList.add('inactive');
         tempProg_title.classList.remove('active');
+
         tempProg_val.classList.add('inactive');
         tempProg_val.classList.remove('active');
+
         btn_tmpPrgMenos.classList.add('inactive');
         btn_tmpPrgMenos_lbl.classList.add('inactive');
         btn_tmpPrgMenos.classList.remove('active');
         btn_tmpPrgMenos_lbl.classList.remove('active');
+
         btn_tmpPrgAcept.classList.add('inactive');
         btn_tmpPrgAcept_lbl.classList.add('inactive');
         btn_tmpPrgAcept.classList.remove('active');
         btn_tmpPrgAcept_lbl.classList.remove('active');
+
         btn_tmpPrgMas.classList.add('inactive');
         btn_tmpPrgMas_lbl.classList.add('inactive');
         btn_tmpPrgMas.classList.remove('active');
         btn_tmpPrgMas_lbl.classList.remove('active');
+
         btn_sobreGiro.classList.add('inactive');
         btn_sobreGiro_lbl.classList.add('inactive');
         btn_sobreGiro.classList.remove('active');
         btn_sobreGiro_lbl.classList.remove('active');
+
         tempAux_title.classList.add('inactive');
         tempAux_title.classList.remove('active');
+
         tempAux_val.classList.add('inactive');
         tempAux_val.classList.remove('active');
 
@@ -126,14 +143,17 @@ export function actvModo(modo) {
 
         potCalef.classList.add('active');
         potCalef.classList.remove('inactive');
+
         btn_calefMenos.classList.add('active');
         btn_calefMenos_lbl.classList.add('active');
         btn_calefMenos.classList.remove('inactive');
         btn_calefMenos_lbl.classList.remove('inactive');
+
         btn_calefAceptar.classList.add('active');
         btn_calefAceptar_lbl.classList.add('active');
         btn_calefAceptar.classList.remove('inactive');
         btn_calefAceptar_lbl.classList.remove('inactive');
+
         btn_calefMas.classList.add('active');
         btn_calefMas_lbl.classList.add('active');
         btn_calefMas.classList.remove('inactive');
