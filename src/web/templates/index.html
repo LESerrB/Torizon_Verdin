@@ -134,15 +134,15 @@
                     <div><button class="btn-cancel" id="btn-close-Photo"><div class="btn-snsr-lbl active"> Salir </div></button></div>
 
                     <div id="sc-photo">
-                        <div class="mod-value">--:--<span class="mod-units"> HH:MM</span></div>
-                        <div class="mod-value">--<span class="mod-units">%</span></div>
+                        <div class="mod-value" id="time-value-P">--:--<span class="mod-units"> HH:MM</span></div>
+                        <div class="mod-value" id="photo-value-P"> -- % </div>
                     </div>
 
                     <div id="hc-photo" class="hidden-ctrls">
                         <div class="sliders-container">
                             <div class="slider-group">
                                 <input type="range" min="0" max="100" value="0" class="slider vertical" id="photo-intensity">
-                                <label class="slider-label" id="photo-value"> -- % </label>
+                                <label class="slider-label" id="photo-value-S"> -- % </label>
                             </div>
 
                             <div class="slider-group">
@@ -150,10 +150,10 @@
                                 <label class="slider-label" id="exam-value"> -- % </label>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="slider-group">
-                        <label class="slider-label" id="time-value"> --:-- </label>
+                        <div class="slider-group">
+                            <label class="slider-label" id="time-value-S"> --:-- </label>
+                        </div>
                     </div>
                 </div>
 

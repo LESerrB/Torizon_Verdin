@@ -382,7 +382,8 @@ document.getElementById('photo').addEventListener('click', () => {
 
     document.querySelector('.bckgnd-btns').classList.add('lock-scroll');
 
-    document.getElementById("photo-value").textContent = `${sld_Photo.value} %`;
+    document.getElementById("photo-value-P").textContent = `${sld_Photo.value} %`;
+    document.getElementById("photo-value-S").textContent = `${sld_Photo.value} %`;
     document.getElementById("exam-value").textContent = `${sld_Exam.value} %`;
 });
         //((((((((((((((((( Close ))))))))))))))))))//
@@ -396,7 +397,8 @@ document.getElementById('btn-close-Photo').addEventListener('click', () => {
 });
         //((((((((((((((( Controles ))))))))))))))))//
 sld_Photo.addEventListener("input", () => {
-    document.getElementById("photo-value").textContent = `${sld_Photo.value} %`;
+    document.getElementById("photo-value-P").textContent = `${sld_Photo.value} %`;
+    document.getElementById("photo-value-S").textContent = `${sld_Photo.value} %`;
 });
 
 sld_Exam.addEventListener("input", () => {
