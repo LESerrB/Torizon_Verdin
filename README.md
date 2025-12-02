@@ -244,7 +244,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Cambio de las funciones de comunicación con los motores de Altura variable, Inclinación de Bacinete y Altura de la lámpara.
 
-### v0.17 - [28/Noviembre/2025]
+### v0.17 - [2/Diciembre/2025]
 
 - Actualización de Interfaz WEB para cambio de Interfaz.
 - Cambios al Footer para que los campos de texto sean dinámicos.
@@ -273,3 +273,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Header desplazado del body a una sección arriba.
 - Creada función de bloqueo/desbloqueo de pantalla.
 - Añadidas sliders para control de luz de examinación y fototerapia y visualizacion de valores.
+- Implementadas funciones de middleware.

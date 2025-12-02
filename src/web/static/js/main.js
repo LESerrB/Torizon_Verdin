@@ -6,6 +6,16 @@ import {
     openModule,
     closeModule
 } from './ui.js';
+    
+import { 
+    setTemp_prog,
+    setPot_prog,
+    ctrls_Bascula,
+    ctrls_CronmApgar,
+    setIntensVal,
+    ctrl_AdjPos,
+    updateSensors
+} from './sensor.js'
 
 //~~~~~~~~~~~~~~~~ Definición de Variables ~~~~~~~~~~~~~~~~//
 let calef_Lvl = 100;
@@ -46,10 +56,7 @@ const sld_Photo = document.getElementById("photo-intensity");
 const sld_Exam = document.getElementById("exam-intensity");
 
 //~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~//
-updtBars(calef_Lvl);
-updtTempProg(tempProg_Lvl);
-
-// Temperatura Programada
+// Temperatura Programada //
 let btnsCtrl_tmpProgDisabled = true;
 
 btn_tmpPrgMenos.disabled = true;
@@ -59,12 +66,38 @@ btn_sobreGiro.disabled = true;
 
 btn_sobreGiro.style.display = 'none'
 
-// Potencia del Calefactor
+// Potencia del Calefactor //
 let btnsCtrl_potCalefDisabled = true;
 
 btn_calefMenos.disabled = true;
 btn_calefAceptar.disabled = true;
 btn_calefMas.disabled = true;
+
+let intervalId = null;
+
+// Funciones Iniciales //
+startSensor();
+setIntensVal(sld_Photo.value, sld_Exam.value);
+
+updtBars(calef_Lvl);
+updtTempProg(tempProg_Lvl);
+
+setPot_prog(calef_Lvl);
+setTemp_prog(tempProg_Lvl);
+
+//~~~~~~~~~~~~~~~~~~ FUNCIONES PERIÓDICAS ~~~~~~~~~~~~~~~~~//
+function startSensor(){
+    if (!intervalId) {
+        intervalId = setInterval(updateSensors, 1000);
+    }
+}
+
+function pauseSensor() {
+    if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+    }
+}
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 //<<<<<<<<<<<<<<<<<<<<<<<<< Header >>>>>>>>>>>>>>>>>>>>>>>>>//
@@ -175,6 +208,8 @@ btn_tmpPrgAcept.addEventListener('click', () => {
     btn_tmpPrgAcept.disabled = btnsCtrl_tmpProgDisabled;
     btn_tmpPrgMas.disabled = btnsCtrl_tmpProgDisabled;
     btn_sobreGiro.disabled = btnsCtrl_tmpProgDisabled;
+
+    setTemp_prog(tempProg_Lvl);
 });
 
 btn_tmpPrgMas.addEventListener('click', () => {
@@ -306,6 +341,8 @@ btn_calefAceptar.addEventListener('click', () => {
     btn_calefMenos.disabled = btnsCtrl_potCalefDisabled;
     btn_calefAceptar.disabled = btnsCtrl_potCalefDisabled;
     btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
+
+    setPot_prog(calef_Lvl);
 });
 
 btn_calefMas.addEventListener('click', () => {
@@ -345,15 +382,15 @@ document.getElementById('btn-close-Scale').addEventListener('click', () => {
 });
         //((((((((((((((( Controles ))))))))))))))))//
 document.getElementById('btn-pesar').addEventListener('click', () => {
-    console.log('btn-pesar');
+    ctrls_Bascula('pesar');
 });
 
 document.getElementById('btn-tara').addEventListener('click', () => {
-    console.log('btn-tara');
+    ctrls_Bascula('tarar');
 });
 
 document.getElementById('btn-calib').addEventListener('click', () => {
-    console.log('btn-calib');
+    ctrls_Bascula('calib');
 });
 
     //[[[[[[[[[[[[[[[[[[[ CRONOMETRO ]]]]]]]]]]]]]]]]]]]//
@@ -366,11 +403,11 @@ document.getElementById('btn-close-Timer').addEventListener('click', () => {
 });
         //((((((((((((((( Controles ))))))))))))))))//
 document.getElementById('btn-start').addEventListener('click', () => {
-    console.log('btn-start');
+    ctrls_CronmApgar('start');
 });
 
-document.getElementById('btn-stop').addEventListener('click', () => {
-    console.log('btn-stop');
+document.getElementById('btn-clear').addEventListener('click', () => {
+    ctrls_CronmApgar('clear');
 });
 
     //[[[[[[[[[[[[[[[[[[ FOTOTERAPIA ]]]]]]]]]]]]]]]]]]]//
@@ -381,10 +418,6 @@ document.getElementById('photo').addEventListener('click', () => {
     document.getElementById('hc-photo').style.display = 'block'
 
     document.querySelector('.bckgnd-btns').classList.add('lock-scroll');
-
-    document.getElementById("photo-value-P").textContent = `${sld_Photo.value} %`;
-    document.getElementById("photo-value-S").textContent = `${sld_Photo.value} %`;
-    document.getElementById("exam-value").textContent = `${sld_Exam.value} %`;
 });
         //((((((((((((((((( Close ))))))))))))))))))//
 document.getElementById('btn-close-Photo').addEventListener('click', () => {
@@ -397,12 +430,11 @@ document.getElementById('btn-close-Photo').addEventListener('click', () => {
 });
         //((((((((((((((( Controles ))))))))))))))))//
 sld_Photo.addEventListener("input", () => {
-    document.getElementById("photo-value-P").textContent = `${sld_Photo.value} %`;
-    document.getElementById("photo-value-S").textContent = `${sld_Photo.value} %`;
+    setIntensVal(sld_Photo.value, sld_Exam.value);
 });
 
 sld_Exam.addEventListener("input", () => {
-    document.getElementById("exam-value").textContent = `${sld_Exam.value} %`;
+    setIntensVal(sld_Photo.value, sld_Exam.value);
 });
 
     //[[[[[[[[[[[[[[[[[[[[ HUMEDAD ]]]]]]]]]]]]]]]]]]]]]//
@@ -434,29 +466,29 @@ document.getElementById('btn-close-altVar').addEventListener('click', () => {
         //((((((((((((((( Controles ))))))))))))))))//
 // Altura Equipo 
 document.getElementById('btn-up').addEventListener('click', () => {
-    console.log('btn-up');
+    ctrl_AdjPos('up');
 });
 
 document.getElementById('btn-dwn').addEventListener('click', () => {
-    console.log('btn-dwn');
+    ctrl_AdjPos('dwn');
 });
 
 // Inclinación Bacinete
 document.getElementById('btn-incLft').addEventListener('click', () => {
-    console.log('btn-incLft');
+    ctrl_AdjPos('incLft');
 });
 
 document.getElementById('btn-incRgt').addEventListener('click', () => {
-    console.log('btn-incRgt');
+    ctrl_AdjPos('incRgt');
 });
 
 // Altura Lampara
 document.getElementById('btn-upLmp').addEventListener('click', () => {
-    console.log('btn-upLmp');
+    ctrl_AdjPos('upLmp');
 });
 
 document.getElementById('btn-dwnLmp').addEventListener('click', () => {
-    console.log('btn-dwnLmp');
+    ctrl_AdjPos('dwnLmp');
 });
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
