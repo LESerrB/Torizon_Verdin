@@ -406,7 +406,7 @@
   display: none;
   justify-content: center;
   align-items: center;
-  margin-top: 5px;
+  margin-top: 15px;
 }
 /************ MODULE INFO ************/
 .mod-value {
@@ -576,7 +576,64 @@
   margin: 10px 0;
   justify-content: center;
 }
-
+/********** PHOTO CONTROL ************/
+.sliders-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  height: 175px;
+}
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 90px;
+}
+.slider-label {
+  font-size: 25px;
+  color: var(--texto-oscuro, #333);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8px;
+  height: 150px;
+  background: var(--neutral-gris, #ccc);
+  border-radius: 10px;
+  outline: none;
+  transform: rotate(-90deg); /* Rota para que sea vertical */
+}
+.slider.vertical {
+  transform: rotate(-90deg);
+  width: 150px;
+  height: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--azul-btn, #1ba0f2);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0px 0px 4px rgba(0,0,0,0.3);
+}
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--azul-btn, #1ba0f2);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.lock-scroll {
+  touch-action: none;
+  overflow: hidden;
+}
 /*+++++++++++++++++ ANIMACIÓN +++++++++++++++++*/
 .parpadeo {
     animation: parpadeo 1s infinite;
