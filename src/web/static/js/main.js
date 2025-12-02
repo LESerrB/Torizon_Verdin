@@ -42,7 +42,10 @@ const btn_calefMenos = document.getElementById('calefMenos');
 const btn_calefAceptar = document.getElementById('calefAceptar');
 const btn_calefMas = document.getElementById('calefMas');
 
-//~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~~//
+const sld_Photo = document.getElementById("photo-intensity");
+const sld_Exam = document.getElementById("exam-intensity");
+
+//~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~//
 updtBars(calef_Lvl);
 updtTempProg(tempProg_Lvl);
 
@@ -376,13 +379,28 @@ document.getElementById('photo').addEventListener('click', () => {
 
     document.getElementById('sc-photo').style.display = 'none';
     document.getElementById('hc-photo').style.display = 'block'
+
+    document.querySelector('.bckgnd-btns').classList.add('lock-scroll');
+
+    document.getElementById("photo-value").textContent = `${sld_Photo.value} %`;
+    document.getElementById("exam-value").textContent = `${sld_Exam.value} %`;
 });
         //((((((((((((((((( Close ))))))))))))))))))//
 document.getElementById('btn-close-Photo').addEventListener('click', () => {
     closeModule('mdcnt-photo', 'btn-close-Photo');
 
     document.getElementById('sc-photo').style.display = 'block';
-    document.getElementById('hc-photo').style.display = 'none'
+    document.getElementById('hc-photo').style.display = 'none';
+
+    document.querySelector('.bckgnd-btns').classList.remove('lock-scroll');
+});
+        //((((((((((((((( Controles ))))))))))))))))//
+sld_Photo.addEventListener("input", () => {
+    document.getElementById("photo-value").textContent = `${sld_Photo.value} %`;
+});
+
+sld_Exam.addEventListener("input", () => {
+    document.getElementById("exam-value").textContent = `${sld_Exam.value} %`;
 });
 
     //[[[[[[[[[[[[[[[[[[[[ HUMEDAD ]]]]]]]]]]]]]]]]]]]]]//
