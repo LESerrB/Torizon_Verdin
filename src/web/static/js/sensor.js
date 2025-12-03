@@ -95,16 +95,56 @@ export async function setPot_prog(potCalef){
 };
 
     //[[[[[[[[[[[[[[[[[[[[ BÁSCULA ]]]]]]]]]]]]]]]]]]]]]//
-export function ctrls_Bascula(accion){
+export async function ctrls_Bascula(accion){
+    let pesoBebe;
+
     const valPesoBebe = Array.from(lbl_basculaVal.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
 
-    const pesoBebe = 2.5;
-    const tara = 0.0
-
     if (accion == 'pesar') {
-        valPesoBebe.nodeValue = `${pesoBebe.toFixed(2).toString().padStart(2, '0')}`;
-    } else if (accion == ('tarar' || 'calib')){
-        valPesoBebe.nodeValue = `${tara.toFixed(2).toString().padStart(2, '0')}`;
+        const response = await fetch('/api/bascPeso', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        pesoBebe = await response.json();
+
+        if (response.status == 200) {
+            valPesoBebe.nodeValue = `${pesoBebe.peso.toFixed(2).toString().padStart(2, '0')}`;
+        } else {
+            valPesoBebe.nodeValue = "-.--";
+        }
+    } else if (accion == 'tarar'){
+        const response = await fetch('/api/bascTar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        pesoBebe = await response.json();
+
+        if (response.status == 200) {
+            valPesoBebe.nodeValue = `${pesoBebe.peso.toFixed(2).toString().padStart(2, '0')}`;
+        } else {
+            valPesoBebe.nodeValue = "-.--";
+        }
+    } else if (accion == 'calib'){
+        const response = await fetch('/api/bascCalib', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        pesoBebe = await response.json();
+
+        if (response.status == 200) {
+            valPesoBebe.nodeValue = `${pesoBebe.peso.toFixed(2).toString().padStart(2, '0')}`;
+        } else {
+            valPesoBebe.nodeValue = "-.--";
+        }
     }
 };
 
