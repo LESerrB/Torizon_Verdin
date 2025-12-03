@@ -115,7 +115,7 @@ def api_sensores():
         "msgSistema": sensoresDt["msgSistema"],
         "modFunc": sensoresDt["modFunc"]
     })
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEMPERATURAS
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEMPERATURAS
 # Lectura de las sondas de piel
 @app.route("/api/getTemp", methods=["POST"])
 def api_getTemp():
@@ -138,7 +138,7 @@ def api_getTemp():
         return jsonify({
             "status": "ERROR SONDA PRINCIPAL NO CONECTADA"
         }), 500
-# 
+# Seleccionar Temperatura Programada
 @app.route("/api/setTemp", methods=["POST"])
 def api_setTemp():
     nTempProg = request.get_json()
@@ -155,6 +155,22 @@ def api_setTemp():
         return jsonify({
             "status": "ERROR NO SE RECIBIÓ VALOR"
         }), 500
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CONTROL DE CALEFACTOR
+# Seleccionar Potencia de calefactor
+@app.route("/api/potCalef", methods=["POST"])
+def api_potCalef():
+    potCalef = request.get_json()
+    PWM_Calef = potCalef.get("potCalef")
+
+    if PWM_Calef is not None:
+        set_PWM_Calef(int(PWM_Calef))
+
+    return jsonify({
+        "status": "ok"
+    }), 200
+
+
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Nivel de Fototerapia
 @app.route("/api/nvlFototerapia", methods=["POST"])
@@ -299,16 +315,7 @@ def api_modoFunc():
         elif fsm.state == "error" and fsm.errores >= 3:
             strStatus = "Error"
             return jsonify({"status": "fail"}), 500
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control de Calefactor
-@app.route("/api/potCalef", methods=["POST"])
-def api_potCalef():
-    potCalef = request.get_json()
-    PWM_Calef = potCalef.get("potCalef")
 
-    if PWM_Calef is not None:
-        set_PWM_Calef(int(PWM_Calef))
-
-    return jsonify({"status": "ok"})
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Funciones de Pesaje
 @app.route("/api/bascPeso", methods=["POST"])
