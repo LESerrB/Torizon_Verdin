@@ -82,8 +82,16 @@ async function get_TempSonda(){
 
     //[[[[[[[[[[[[[[[[[[[ CALEFACTOR ]]]]]]]]]]]]]]]]]]]//
 /* Envío de valor de Potencia de Calefactor */
-export function setPot_prog(pot){
-    console.log("Nueva potencia:", pot);
+export async function setPot_prog(potCalef){
+    const response = await fetch('/api/potCalef', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+            potCalef: potCalef
+        })
+    });
 };
 
     //[[[[[[[[[[[[[[[[[[[[ BÁSCULA ]]]]]]]]]]]]]]]]]]]]]//
