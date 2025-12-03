@@ -16,7 +16,6 @@ const lbl_valPhoto_P = document.getElementById("photo-value-P");
 const lbl_valPhoto_S = document.getElementById("photo-value-S");
 const lbl_val_LExam = document.getElementById("exam-value");
 
-//~~~~~~~~~~~~~~~~ Funciones de Despliegue ~~~~~~~~~~~~~~~~//
     //[[[[[[[[[[[[[[[[[[ TEMPERATURA ]]]]]]]]]]]]]]]]]]]//
 /* Envío de valor de Temperatura Programada */
 export function setTemp_prog(temp){
@@ -104,12 +103,30 @@ export function ctrl_AdjPos(accion){
     console.log("Ajuste de posición:", accion);
 };
 
+    //[[[[[[[[[[[[[[[[[[[[[  RELOJ ]]]]]]]]]]]]]]]]]]]]]//
+function date(){
+    const ahora = new Date();
+    const meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
+
+    const DD = String(ahora.getDate()).padStart(2, '0');
+    const MMM = meses[ahora.getMonth()];
+    const AAAA = ahora.getFullYear();
+    
+    const HH = String(ahora.getHours()).padStart(2, '0');
+    const mm = String(ahora.getMinutes()).padStart(2, '0');
+    const ss = String(ahora.getSeconds()).padStart(2, '0');
+
+    document.getElementById('date-clk').textContent = `${DD}/${MMM}/${AAAA} ${HH}:${mm}:${ss}`;
+};
+
 export function updateSensors(){
     const valTempNode = Array.from(lbl_tempSonda.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const valTempAuxNode = Array.from(lbl_tempSondaAux.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
 
     const valHR = Array.from(lbl_valHR.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const valsatOx = Array.from(lbl_valsatOx.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
+    
+    date();
 
     valTempNode.nodeValue = `${get_TempSonda().toFixed(1)}`;
     valTempAuxNode.nodeValue = `${get_TempSondaAux().toFixed(1)}`;
