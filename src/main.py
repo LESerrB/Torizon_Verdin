@@ -66,7 +66,7 @@ strStatus = ""
 def index():
     return render_template("index.html")
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Lectura de Sensores
-@app.route("/api/sensores")
+@app.route("/api/sensores") # EESTA FUNCION ESTA EN VÍA DE OBSOLESCENCIA
 def api_sensores():
     sensoresDt = {
         "temp": None,
@@ -115,6 +115,46 @@ def api_sensores():
         "msgSistema": sensoresDt["msgSistema"],
         "modFunc": sensoresDt["modFunc"]
     })
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEMPERATURAS
+# Lectura de las sondas de piel
+@app.route("/api/getTemp", methods=["POST"])
+def api_getTemp():
+    tempSondaPiel = read_Sonda2()#CAMBIAR POR read_Sonda() YA QUE PARA DEBUG ESTA INTERCAMBIADA
+    tempSondaAux = read_Sonda()
+
+    if tempSondaPiel != 0 and tempSondaAux != 0:
+        return jsonify({
+            "status": "ok",
+            "tempSondaPiel": tempSondaPiel,
+            "tempSondaAux": tempSondaAux
+        }), 200
+    elif tempSondaPiel != 0 and tempSondaAux == 0:
+        return jsonify({
+            "status": "Sonda Aux No Conectada",
+            "tempSondaPiel": tempSondaPiel,
+            "tempSondaAux": tempSondaAux
+        }), 206
+    else:
+        return jsonify({
+            "status": "ERROR SONDA PRINCIPAL NO CONECTADA"
+        }), 500
+# 
+@app.route("/api/setTemp", methods=["POST"])
+def api_setTemp():
+    nTempProg = request.get_json()
+
+    if nTempProg.get("tempProg"):
+        print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
+
+        return jsonify({
+            "status": "ok"
+        }), 200
+    else:
+        print("No se recibió valor")
+
+        return jsonify({
+            "status": "ERROR NO SE RECIBIÓ VALOR"
+        }), 500
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Nivel de Fototerapia
 @app.route("/api/nvlFototerapia", methods=["POST"])
@@ -322,15 +362,6 @@ def api_limpiarTendencias():
     limpiarDtTemperatura()
     clear = request.get_json()
     print("Limpiar datos:", clear)
-
-# @app.route("/api/saveOffset", methods=["POST"])
-# def api_saveOffset():
-#     tempAct = request.get_json().get("action")
-
-#     if tempAct:
-#         calibracion(tempAct)
-
-#     return jsonify({"status": "ok"})
 #--------------------------------------------------------------#
 
 ##############################################################################

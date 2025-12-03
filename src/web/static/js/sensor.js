@@ -18,20 +18,66 @@ const lbl_val_LExam = document.getElementById("exam-value");
 
     //[[[[[[[[[[[[[[[[[[ TEMPERATURA ]]]]]]]]]]]]]]]]]]]//
 /* Envío de valor de Temperatura Programada */
-export function setTemp_prog(temp){
-    console.log("Nueva temperatura:", temp.toFixed(1));
+export async function setTemp_prog(temp, prev_temp){
+    const nTempProg = temp.toFixed(1);
+    const aTempProg = prev_temp.toFixed(1);
+
+    try {
+        const response = await fetch('/api/setTemp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                tempProg: nTempProg
+            })
+        });
+
+        if (response.status == 200) {
+            return nTempProg;
+        } else {
+            return aTempProg;
+        }
+    } catch (error) {
+        console.log("Error al configurar la Temperatura Programada");
+    }
 };
+/* Obtiene las temperaturas de la sonda de piel principal
+ * y la auxiliar */
+async function get_TempSonda(){
+    const valTempNode = Array.from(lbl_tempSonda.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
+    const valTempAuxNode = Array.from(lbl_tempSondaAux.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
 
-function get_TempSonda(){
-    const tempSonda = 36.0;
+    try {
+        const response = await fetch('/api/getTemp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
 
-    return tempSonda;
-};
+        const temperaturas = await response.json();
 
-function get_TempSondaAux(){
-    const tempSondaAux = 37.0;
+        if (response.status == 200) {
+            // console.log("Lectura Sondas:", temperaturas.status, "Código de Error:", response.status);
 
-    return tempSondaAux;
+            valTempNode.nodeValue = `${temperaturas.tempSondaPiel.toFixed(1)}`;
+            valTempAuxNode.nodeValue = `${temperaturas.tempSondaPiel.toFixed(1)}`;
+        } else if (response.status == 206){
+            // console.log("Error en Sonda Aux:", temperaturas.status, "Código de Error:", response.status);
+
+            valTempNode.nodeValue = `${temperaturas.tempSondaPiel.toFixed(1)}`;
+            valTempAuxNode.nodeValue = "--.-";
+        }
+        else{
+            // console.log("ERROR CRÍTICO DE LECTURA DE TEMPERATUA", temperaturas.status, "Código de Error:", response.status);
+
+            valTempNode.nodeValue = "--.-";
+            valTempAuxNode.nodeValue = "--.-";
+        }
+    } catch (error) {
+        console.log("Error obteniendo la temperatura de las sondas:", error);
+    }
 };
 
     //[[[[[[[[[[[[[[[[[[[ CALEFACTOR ]]]]]]]]]]]]]]]]]]]//
@@ -120,16 +166,11 @@ function date(){
 };
 
 export function updateSensors(){
-    const valTempNode = Array.from(lbl_tempSonda.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
-    const valTempAuxNode = Array.from(lbl_tempSondaAux.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
-
     const valHR = Array.from(lbl_valHR.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const valsatOx = Array.from(lbl_valsatOx.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
-    
-    date();
 
-    valTempNode.nodeValue = `${get_TempSonda().toFixed(1)}`;
-    valTempAuxNode.nodeValue = `${get_TempSondaAux().toFixed(1)}`;
+    date();
+    get_TempSonda();
 
     valHR.nodeValue = `${get_HumSensor().toFixed(1)}`;
     valsatOx.nodeValue = `${get_SatOxSensor().toFixed(1)}`;
