@@ -24,6 +24,8 @@ const maxLvl = 100;
 let tempProg_Lvl = 34.0;
 let sobreGiro = false;
 
+let tempProg_ant = 34.0;
+
 let tempProgInterval;
 let isHolding = false;
 
@@ -83,7 +85,7 @@ updtBars(calef_Lvl);
 updtTempProg(tempProg_Lvl);
 
 setPot_prog(calef_Lvl);
-setTemp_prog(tempProg_Lvl);
+setTemp_prog(tempProg_Lvl, tempProg_ant);
 
 //~~~~~~~~~~~~~~~~~~ FUNCIONES PERIÓDICAS ~~~~~~~~~~~~~~~~~//
 function startSensor(){
@@ -154,6 +156,8 @@ btn_Bebe.addEventListener('click', () => {
 
 val_TempProg.addEventListener('click', () => {
     val_TempProg.classList.add('parpadeo');
+    
+    tempProg_ant = tempProg_Lvl;
 
     btnsCtrl_tmpProgDisabled = false;
     btnsCtrl_potCalefDisabled = true;
@@ -200,7 +204,7 @@ btn_tmpPrgMenos.addEventListener('touchend', () => {
     isHolding = false;
 });
 
-btn_tmpPrgAcept.addEventListener('click', () => {
+btn_tmpPrgAcept.addEventListener('click', async () => {
     val_TempProg.classList.remove('parpadeo');
     btnsCtrl_tmpProgDisabled = true;
 
@@ -209,7 +213,12 @@ btn_tmpPrgAcept.addEventListener('click', () => {
     btn_tmpPrgMas.disabled = btnsCtrl_tmpProgDisabled;
     btn_sobreGiro.disabled = btnsCtrl_tmpProgDisabled;
 
-    setTemp_prog(tempProg_Lvl);
+    try {
+        const t = await setTemp_prog(tempProg_Lvl, tempProg_ant);
+        updtTempProg(t);
+    } catch (error) {
+        console.log("Error al configurar la Temperatura Programada");
+    }
 });
 
 btn_tmpPrgMas.addEventListener('click', () => {

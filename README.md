@@ -275,3 +275,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Añadidas sliders para control de luz de examinación y fototerapia y visualizacion de valores.
 - Implementadas funciones de middleware.
 - Agregado fecha y reloj.
+- Conexión de Frontend y Backend de Temperatura de Sondas Principal y Auxiliar y Temperatura Programada.
