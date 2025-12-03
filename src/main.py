@@ -65,56 +65,7 @@ strStatus = ""
 @app.route("/")
 def index():
     return render_template("index.html")
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Lectura de Sensores
-@app.route("/api/sensores") # EESTA FUNCION ESTA EN VÍA DE OBSOLESCENCIA
-def api_sensores():
-    sensoresDt = {
-        "temp": None,
-        "hum": None,
-        "temp280": None,
-        "pres280": None,
-        "hum280": None,
-        "peso711": None,
-        "valSonda1": None,
-        "valSonda2": None,
-        "alertaCalefactor": None,
-        "potCalefactor": None,
-        "msgSistema": None,
-        "modFunc": None
-    }
 
-    # sensoresDt["temp"], sensoresDt["hum"] = struct.unpack("ff", sht21())
-    sensoresDt["temp280"], sensoresDt["pres280"], sensoresDt["hum280"] = struct.unpack("fff", bme280())
-    sensoresDt["peso711"] = pesoFinal
-    sensoresDt["valSonda1"] = read_Sonda()
-    # sensoresDt["valSonda2"] = readTarjeta2S()
-    sensoresDt["valSonda2"] = read_Sonda2()
-    sensoresDt["potCalefactor"], sensoresDt["alertaCalefactor"] = struct.unpack('i?', get_PWMstatus())
-    sensoresDt["msgSistema"] = reloj()
-    sensoresDt["modFunc"] = rd_ModoOp() + strStatus
-#------------------------- En Pruebas -------------------------#
-    # readTarjeta2S()
-    # print(sensor1075.read_temperature()) # NO FUNCIONA POR QUE NO ESTA EL DISPOSITIVO, PERO QUEDA PARA VER COMO FUNCIONAN LAS CLASES
-#--------------------------------------------------------------#
-    return jsonify({
-        "temp": sensoresDt["temp"],
-        "hum": sensoresDt["hum"],
-
-        "temp280": round(float(sensoresDt["temp280"]), 2) if sensoresDt["temp280"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
-        "pres280": round(float(sensoresDt["pres280"]), 2) if sensoresDt["pres280"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
-        "hum280": round(float(sensoresDt["hum280"]), 2) if sensoresDt["hum280"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
-
-        "peso711": round(float(sensoresDt["peso711"]), 3) if sensoresDt["hum280"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
-
-        "valSonda1": round(float(sensoresDt["valSonda1"]), 2) if sensoresDt["valSonda1"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
-        "valSonda2": round(float(sensoresDt["valSonda2"]), 2) if sensoresDt["valSonda2"] not in (None, 0, 0.0, "0", "0.0") else "--.-",
-
-        "alertaCalefactor": sensoresDt["alertaCalefactor"],
-        "potCalefactor": sensoresDt["potCalefactor"],
-
-        "msgSistema": sensoresDt["msgSistema"],
-        "modFunc": sensoresDt["modFunc"]
-    })
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEMPERATURAS
 # Lectura de las sondas de piel
 @app.route("/api/getTemp", methods=["POST"])
@@ -170,6 +121,53 @@ def api_potCalef():
         "status": "ok"
     }), 200
 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNCIONES DE PESAJE
+# Pesar
+@app.route("/api/bascPeso", methods=["POST"])
+def api_pesaje():
+    pesoFinal = pesaje()
+
+    if pesoFinal != 0.0:
+        return jsonify({
+            "status": "ok",
+            "peso": pesoFinal
+        }), 200
+    else:
+        return jsonify({
+            "status": "fail"
+        }), 500
+# Tarar
+@app.route("/api/bascTar", methods=["POST"])
+def api_bascTar():
+    res = tare()
+
+    if res != -1:
+        pesoFinal = pesaje()
+
+        return jsonify({
+            "status": "ok",
+            "peso": pesoFinal
+        }), 200
+    else:
+        return jsonify({
+            "status": "fail"
+        }), 500
+# Calibrar
+@app.route("/api/bascCalib", methods=["POST"])
+def api_bascCalib():
+    res = calib()
+
+    if res != -1:
+        pesoFinal = pesaje()
+
+        return jsonify({
+            "status": "ok",
+            "peso": pesoFinal
+        }), 200
+    else:
+        return jsonify({
+            "status": "fail"
+        }), 500
 
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Nivel de Fototerapia
@@ -317,41 +315,6 @@ def api_modoFunc():
             return jsonify({"status": "fail"}), 500
 
 
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Funciones de Pesaje
-@app.route("/api/bascPeso", methods=["POST"])
-def api_pesaje():
-    global pesoFinal
-
-    pesoFinal = pesaje()
-
-    if pesoFinal != 0.0:
-        return jsonify({"status": "ok"}), 200
-    else:
-        return jsonify({"status": "fail"}), 500
-
-@app.route("/api/bascTar", methods=["POST"])
-def api_bascTar():
-    global pesoFinal
-
-    res = tare()
-
-    if res != -1:
-        pesoFinal = pesaje()
-        return jsonify({"status": "ok"}), 200
-    else:
-        return jsonify({"status": "fail"}), 500
-
-@app.route("/api/bascCalib", methods=["POST"])
-def api_bascCalib():
-    global pesoFinal
-
-    res = calib()
-
-    if res != -1:
-        pesoFinal = pesaje()
-        return jsonify({"status": "ok"}), 200
-    else:
-        return jsonify({"status": "fail"}), 500
 
 #------------------------- En Pruebas -------------------------#
 @app.route("/api/tendencias", methods=["POST"])
