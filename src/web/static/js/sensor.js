@@ -249,8 +249,20 @@ function get_SatOxSensor(){
 };
 
     //[[[[[[[[[[[[[[[[ ALTURA VARIABLE ]]]]]]]]]]]]]]]]]//
-export function ctrl_AdjPos(accion){
-    console.log("Ajuste de posición:", accion);
+export async function ctrl_AdjPos(accion){
+    try {
+        const response = await fetch('/api/ctrlPos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                action: accion
+            })
+        });
+    } catch (error) {
+        console.log("Error:", error);
+    }
 };
 
     //[[[[[[[[[[[[[[[[[[[[[  RELOJ ]]]]]]]]]]]]]]]]]]]]]//
