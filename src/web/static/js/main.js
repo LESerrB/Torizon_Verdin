@@ -4,7 +4,9 @@ import {
     updtBars,
     updtTempProg,
     openModule,
-    closeModule
+    closeModule,
+    shwAlert,
+    hdAlerta
 } from './ui.js';
 
 import { 
@@ -120,7 +122,7 @@ btn_modoOP.addEventListener('click', () => {
 });
 
 btn_Alerta.addEventListener('click', () => {
-    console.log("Alarmas");
+    shwAlert("Prueba \n De salto de linea", 1);
 });
 
 btn_lock.addEventListener('click', () => {

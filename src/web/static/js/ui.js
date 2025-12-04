@@ -279,3 +279,33 @@ export function enablePacienteEditing() {
         });
     });
 };
+
+export function shwAlert(msg = '', seconds = 0) {
+    const ov = document.getElementById('alarma');
+    const box = document.getElementById('alarma-box');
+
+    if (!ov || !box) return;
+
+    box.textContent = '';
+
+    msg.split('\n').forEach((line, i) => {
+        if (i > 0) box.appendChild(document.createElement('br'));
+        box.appendChild(document.createTextNode(line));
+    });
+
+    ov.classList.remove('oculto');
+    ov.setAttribute('aria-hidden', 'false');
+
+    if (seconds > 0) {
+        setTimeout(() => hdAlerta(), seconds * 1000);
+    }
+};
+
+export function hdAlerta() {
+    const ov = document.getElementById('alarma');
+
+    if (!ov) return;
+
+    ov.classList.add('oculto');
+    ov.setAttribute('aria-hidden', 'true');
+};
