@@ -193,24 +193,20 @@ def api_ctrlPos():
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cambio de Modo de Funcionamiento
 @app.route("/api/chng_modoFunc", methods=["POST"])
 def api_modoFunc():
-    print("Cambiando el modo de funcionamiento")
-    return jsonify({
-        "status": "ok"
-    }), 200
-    # global strStatus
+    global strStatus
 
-    # while True:
-    #     fsm.run()
+    while True:
+        fsm.run()
 
-    #     if fsm.state == "edo_0":
-    #         strStatus = ""
-    #         return jsonify({"status": "ok"}), 200
-    #     elif fsm.state == "error" and fsm.errores < 3:
-    #         strStatus = f"{fsm.errores}"
-    #         # return jsonify({"status": "retrying"}), 502
-    #     elif fsm.state == "error" and fsm.errores >= 3:
-    #         strStatus = "Error"
-    #         return jsonify({"status": "fail"}), 500
+        if fsm.state == "edo_0":
+            strStatus = ""
+            return jsonify({"status": "ok"}), 200
+        elif fsm.state == "error" and fsm.errores < 3:
+            strStatus = f"{fsm.errores}"
+            # return jsonify({"status": "retrying"}), 502
+        elif fsm.state == "error" and fsm.errores >= 3:
+            strStatus = "Error"
+            return jsonify({"status": "fail"}), 500
 
 
 

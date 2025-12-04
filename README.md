@@ -49,12 +49,12 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │ &nbsp; &emsp;└── web &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;# Pagina WEB con la información de los sensores \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── static&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp; ├─ css&nbsp; \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; ├─ vars.css&nbsp;  # Variables de Estilo \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; └─ style.css&nbsp; # Hoja de Estilos \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; ├─ vars.css&emsp;# Variables de Estilo \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; └─ style.css&nbsp;&nbsp;&nbsp;# Hoja de Estilos \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp; └─ js&nbsp; \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;├─ main.js&nbsp; # Archivo Principal \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;├─ ui.js&nbsp; # Animaciones \
-│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;└─ sensor.js&nbsp; # Funciones de recuperación de Datos \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;├─ main.js&emsp;&nbsp;&nbsp;# Archivo Principal \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;├─ ui.js&emsp;&emsp;&emsp;# Animaciones \
+│ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;└─ sensor.js&emsp;# Funciones de recuperación de Datos \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── templates&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &emsp;&emsp;&emsp;&emsp; └─ index.html&nbsp; \
 ├── overlays/ &emsp; &emsp; &emsp; &emsp; &emsp; # Device Tree Overlays (si aplica)\
@@ -283,3 +283,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Función de comunicación de controles de posición de equipo.
 - Función de cambio de Modo de Operación.
 - Retirada función de seleccionar con presionado largo en la interfaz web.
+- Agregada alarma de despliegue
