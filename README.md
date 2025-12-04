@@ -278,4 +278,5 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Conexión de Frontend y Backend de Temperatura de Sondas Principal y Auxiliar y Temperatura Programada.
 - Función de configuración de potencia de Calefactor.
 - Funciones para Báscula (Pesar, Tarar, Calibrar).
-- Agregada Función de Cronómetro Apgar.
+- Agregada función de Cronómetro Apgar.
+- Agregada función de Cronómetro para Fototerapia.
