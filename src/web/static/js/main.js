@@ -57,6 +57,8 @@ const btn_calefMas = document.getElementById('calefMas');
 const sld_Photo = document.getElementById("photo-intensity");
 const sld_Exam = document.getElementById("exam-intensity");
 
+const btn_cronStartPause = document.getElementById('btn-startpause');
+
 //~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~//
 // Temperatura Programada //
 let btnsCtrl_tmpProgDisabled = true;
@@ -411,8 +413,16 @@ document.getElementById('btn-close-Timer').addEventListener('click', () => {
     closeModule('mdcnt-timer', 'btn-close-Timer');
 });
         //((((((((((((((( Controles ))))))))))))))))//
-document.getElementById('btn-start').addEventListener('click', () => {
-    ctrls_CronmApgar('start');
+btn_cronStartPause.addEventListener('click', () => {
+    if (btn_cronStartPause.textContent == "Iniciar") {
+        ctrls_CronmApgar('start');
+        btn_cronStartPause.textContent = "Pausa";
+    } else if (btn_cronStartPause.textContent == "Pausa") {
+        ctrls_CronmApgar('pause');
+        btn_cronStartPause.textContent = "Iniciar";
+    }
+
+    btn_cronStartPause.classList.add('btn-snsr-lbl');
 });
 
 document.getElementById('btn-clear').addEventListener('click', () => {
