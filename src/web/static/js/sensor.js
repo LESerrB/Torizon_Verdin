@@ -265,7 +265,7 @@ export async function ctrl_AdjPos(accion){
     }
 };
 
-    //[[[[[[[[[[[[[[[[[[[[[  RELOJ ]]]]]]]]]]]]]]]]]]]]]//
+    //[[[[[[[[[[[[[[[[[[[[[ RELOJ ]]]]]]]]]]]]]]]]]]]]]]//
 function date(){
     const ahora = new Date();
     const meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
@@ -280,6 +280,20 @@ function date(){
 
     document.getElementById('date-clk').textContent = `${DD}/${MMM}/${AAAA} ${HH}:${mm}:${ss}`;
 };
+
+    //[[[[[[[[[[[[[[[ MODO DE OPERACIÓN ]]]]]]]]]]]]]]]]//
+export async function modoOp() {
+    try {
+        const response = await fetch('/api/chng_modoFunc', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (error) {
+        console.log("Error en cambio de modo de Operación:", error);
+    }
+}
 
 //~~~~~~~~~~~~~~~~~~ Lecturas Periódicas ~~~~~~~~~~~~~~~~~~//
 export function updateSensors(){

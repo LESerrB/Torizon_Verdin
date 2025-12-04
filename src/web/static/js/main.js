@@ -6,7 +6,7 @@ import {
     openModule,
     closeModule
 } from './ui.js';
-    
+
 import { 
     setTemp_prog,
     setPot_prog,
@@ -14,7 +14,8 @@ import {
     ctrls_CronmApgar,
     setIntensVal,
     ctrl_AdjPos,
-    updateSensors
+    updateSensors,
+    modoOp
 } from './sensor.js'
 
 //~~~~~~~~~~~~~~~~ Definición de Variables ~~~~~~~~~~~~~~~~//
@@ -115,7 +116,7 @@ function pauseSensor() {
 //<<<<<<<<<<<<<<<<<<<<<<<<< Header >>>>>>>>>>>>>>>>>>>>>>>>>//
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 btn_modoOP.addEventListener('click', () => {
-    console.log("Cambio Modo Operacion");
+    modoOp();
 });
 
 btn_Alerta.addEventListener('click', () => {

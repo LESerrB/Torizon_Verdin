@@ -281,3 +281,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregada función de Cronómetro Apgar.
 - Agregada función de Cronómetro para Fototerapia.
 - Función de comunicación de controles de posición de equipo.
+- Función de cambio de Modo de Operación.
