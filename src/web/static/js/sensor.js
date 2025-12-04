@@ -17,8 +17,11 @@ const lbl_valPhoto_S = document.getElementById("photo-value-S");
 const lbl_val_LExam = document.getElementById("exam-value");
 
 //~~~~~~~~~~~~~~ Inicialización de Variables ~~~~~~~~~~~~~~//
-let cronometroInterval = null;
-let segundosTotales = 0;
+let cronIntervalApgar = null;
+let cronIntervalFot = null;
+
+let segTotApgar = 0;
+let segTotFot = 0;
 
     //[[[[[[[[[[[[[[[[[[ TEMPERATURA ]]]]]]]]]]]]]]]]]]]//
 /* Envío de valor de Temperatura Programada */
@@ -157,29 +160,28 @@ export function ctrls_CronmApgar(accion){
     const cronApgar = Array.from(lbl_cronApgar.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
 
     if (accion == 'start') {
-        if (segundosTotales == 0) {
+        if (segTotApgar == 0)
             cronApgar.nodeValue = "00:00";
-        }
 
-        cronometroInterval = setInterval(() => {
-            segundosTotales++;
+        cronIntervalApgar = setInterval(() => {
+            segTotApgar++;
 
-            const minutos = String(Math.floor(segundosTotales / 60)).padStart(2, '0');
-            const segundos = String(segundosTotales % 60).padStart(2, '0');
+            const minutos = String(Math.floor(segTotApgar / 60)).padStart(2, '0');
+            const segundos = String(segTotApgar % 60).padStart(2, '0');
 
             cronApgar.nodeValue = `${minutos}:${segundos}`;
         }, 1000);
     } else if (accion == 'pause'){
-        clearInterval(cronometroInterval);
-        cronometroInterval = null;
+        clearInterval(cronIntervalApgar);
+        cronIntervalApgar = null;
     } else if (accion == 'clear'){
-        segundosTotales = 0;
+        segTotApgar = 0;
         cronApgar.nodeValue = "--:--";
     }
 };
 
     //[[[[[[[[[[[[[[[[[[ FOTOTERAPIA ]]]]]]]]]]]]]]]]]]]//
-export function setIntensVal(valFot, val_LExam){
+export async function setIntensVal(valFot, val_LExam){
     const val_Photo_P = Array.from(lbl_valPhoto_P.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const val_Photo_M = Array.from(lbl_valPhoto_S.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const val_LzExam = Array.from(lbl_val_LExam.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
@@ -188,12 +190,47 @@ export function setIntensVal(valFot, val_LExam){
     val_Photo_M.nodeValue = valFot;
     val_LzExam.nodeValue = val_LExam;
 
-    if (valFot != 0) {
-        lbl_tmrPhoto_P.textContent = '00:01';
-        lbl_tmrPhoto_S.textContent = '00:01';
-    } else {
-        lbl_tmrPhoto_P.textContent = '00:00';
-        lbl_tmrPhoto_S.textContent = '00:00';
+    try {
+        const response = await fetch('/api/nvlFototerapia', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nvlFototerapia: valFot,
+                nvlExam: val_LExam
+            })
+        });
+
+        if (valFot != 0) {
+            if (cronIntervalFot == null) {
+                if (segTotFot == 0) {
+                    lbl_tmrPhoto_P.textContent = "00:00";
+                    lbl_tmrPhoto_S.textContent = "00:00";
+                }
+
+                cronIntervalFot = setInterval(() => {
+                    segTotFot++;
+
+                    const minutos = String(Math.floor(segTotFot / 60)).padStart(2, '0');
+                    const segundos = String(segTotFot % 60).padStart(2, '0');
+
+                    lbl_tmrPhoto_P.textContent = `${minutos}:${segundos}`;
+                    lbl_tmrPhoto_S.textContent = `${minutos}:${segundos}`;
+                }, 60*1000);
+            }
+        } else {
+            if (cronIntervalFot != null) {
+                clearInterval(cronIntervalFot);
+                cronIntervalFot = null;
+            }
+
+            segTotFot = 0;
+            lbl_tmrPhoto_P.textContent = '00:00';
+            lbl_tmrPhoto_S.textContent = '00:00';
+        }
+    } catch (error) {
+        console.error('Error al guardar los datos:', error);
     }
 };
 

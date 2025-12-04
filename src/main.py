@@ -168,8 +168,6 @@ def api_bascCalib():
         return jsonify({
             "status": "fail"
         }), 500
-
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Nivel de Fototerapia
 @app.route("/api/nvlFototerapia", methods=["POST"])
 def api_nvlFototerapia():
@@ -183,6 +181,9 @@ def api_nvlFototerapia():
         setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
 
     return jsonify({"status": "ok"})
+
+
+
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Botones de Control de Motores
 @app.route("/api/btn_ctrlAlturaON", methods=["POST"])
 def btn_ctrlAlturaOn():

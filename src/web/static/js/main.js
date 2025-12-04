@@ -58,6 +58,7 @@ const sld_Photo = document.getElementById("photo-intensity");
 const sld_Exam = document.getElementById("exam-intensity");
 
 const btn_cronStartPause = document.getElementById('btn-startpause');
+const btn_cronClear = document.getElementById('btn-clear');
 
 //~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~//
 // Temperatura Programada //
@@ -118,11 +119,9 @@ btn_lock.addEventListener('click', () => {
     btn_lock.style.opacity = '1'
     pantallaBase.classList.toggle('no-clicks');
 
-    val_potCalef.classList.add('inactive');
-    val_potCalef.classList.remove('active');
+    val_potCalef.classList.toggle('inactive');
 
-    val_TempProg.classList.add('inactive');
-    val_TempProg.classList.remove('active');
+    val_TempProg.classList.toggle('inactive');
 
     btn_modoOP.classList.toggle('no-clicks');
 
@@ -417,15 +416,17 @@ btn_cronStartPause.addEventListener('click', () => {
     if (btn_cronStartPause.textContent == "Iniciar") {
         ctrls_CronmApgar('start');
         btn_cronStartPause.textContent = "Pausa";
+        btn_cronClear.disabled = true;
     } else if (btn_cronStartPause.textContent == "Pausa") {
         ctrls_CronmApgar('pause');
         btn_cronStartPause.textContent = "Iniciar";
+        btn_cronClear.disabled = false;
     }
 
     btn_cronStartPause.classList.add('btn-snsr-lbl');
 });
 
-document.getElementById('btn-clear').addEventListener('click', () => {
+btn_cronClear.addEventListener('click', () => {
     ctrls_CronmApgar('clear');
 });
 
