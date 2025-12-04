@@ -244,7 +244,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Cambio de las funciones de comunicación con los motores de Altura variable, Inclinación de Bacinete y Altura de la lámpara.
 
-### v0.17 - [2/Diciembre/2025]
+### v0.17 - [4/Diciembre/2025]
 
 - Actualización de Interfaz WEB para cambio de Interfaz.
 - Cambios al Footer para que los campos de texto sean dinámicos.
@@ -280,3 +280,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Funciones para Báscula (Pesar, Tarar, Calibrar).
 - Agregada función de Cronómetro Apgar.
 - Agregada función de Cronómetro para Fototerapia.
+- Función de comunicación de controles de posición de equipo.

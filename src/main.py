@@ -168,7 +168,7 @@ def api_bascCalib():
         return jsonify({
             "status": "fail"
         }), 500
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Nivel de Fototerapia
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NIVEL DE FOTOTERAPIA
 @app.route("/api/nvlFototerapia", methods=["POST"])
 def api_nvlFototerapia():
     nvlFototerapia = request.get_json()
@@ -181,122 +181,18 @@ def api_nvlFototerapia():
         setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
 
     return jsonify({"status": "ok"})
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CONTROL DE POSICIÓN
+@app.route("/api/ctrlPos", methods=["POST"])
+def api_ctrlPos():
+    accion = request.get_json().get("action")
+    print(accion)
+
+    return jsonify({
+        "status": "ok"
+    }), 200
 
 
 
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Botones de Control de Motores
-@app.route("/api/btn_ctrlAlturaON", methods=["POST"])
-def btn_ctrlAlturaOn():
-    acc = request.get_json()
-    selMuxDisp = acc.get("selMuxDisp")
-    mv = acc.get("mv")
-    print(selMuxDisp, mv, "ON")
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_ctrlAlturaOFF", methods=["POST"])
-def btn_ctrlAlturaOFF():
-    acc = request.get_json()
-    selMuxDisp = acc.get("selMuxDisp")
-    mv = acc.get("mv")
-    print(selMuxDisp, mv, "OFF")
-
-    return jsonify({"status": "ok"}), 200
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Botones de Control de Altura
-@app.route("/api/btn_AlturaUpOn", methods=["POST"])
-def btn_AlturaUp_On():
-    # selDsip("altVar")
-    upRgt_On()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_AlturaUpOff", methods=["POST"])
-def btn_AlturaUp_Off():
-    # selDsip("altVar")
-    upRgt_Off()
-    # selDsip("motorModOp")   # Apaga pines y MUX
-    # giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_AlturaDwnOn", methods=["POST"])
-def btn_AlturaDwn_On():
-    # selDsip("altVar")
-    dwnLft_On()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_AlturaDwnOff", methods=["POST"])
-def btn_AlturaDwn_Off():
-    # selDsip("altVar")
-    dwnLft_Off()
-    # selDsip("motorModOp")   # Apaga pines y MUX
-    # giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control de Nivel de Altura Lámpara
-@app.route("/api/btn_LamparaUpOn", methods=["POST"])
-def btn_LamparaUpOn():
-    # selDsip("altCalLamp")
-    upRgt_On_AUX()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_LamparaUpOff", methods=["POST"])
-def btn_LamparaUpOff():
-    # selDsip("altCalLamp")
-    upRgt_Off_AUX()
-    # selDsip("motorModOp")
-    giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_LamparaDwnOn", methods=["POST"])
-def btn_LamparaDwnOn():
-    # selDsip("altCalLamp")
-    dwnLft_On_AUX()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_LamparaDwnOff", methods=["POST"])
-def btn_LamparaDwnOff():
-    # selDsip("altCalLamp")
-    dwnLft_Off_AUX()
-    # selDsip("motorModOp")
-    giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Control Inclinación de Bacinete
-@app.route("/api/btn_BacIn_derOn", methods=["POST"])
-def btn_BacIn_derOn():
-    # selDsip("incBac")
-    upRgt_On()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_BacIn_derOff", methods=["POST"])
-def btn_BacIn_derOff():
-    upRgt_Off()
-    # selDsip("motorModOp")
-    giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_BacIn_izqOn", methods=["POST"])
-def btn_BacIn_izqOn():
-    # selDsip("incBac")
-    dwnLft_On()
-
-    return jsonify({"status": "ok"}), 200
-
-@app.route("/api/btn_BacIn_izqOff", methods=["POST"])
-def btn_BacIn_izqOff():
-    # selDsip("incBac")
-    dwnLft_Off()
-    # selDsip("motorModOp")
-    giroMotor("Apagado")
-
-    return jsonify({"status": "ok"}), 200
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cambio de Modo de Funcionamiento
 @app.route("/api/chng_modoFunc", methods=["POST"])
 def api_modoFunc():

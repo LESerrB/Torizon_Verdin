@@ -60,6 +60,13 @@ const sld_Exam = document.getElementById("exam-intensity");
 const btn_cronStartPause = document.getElementById('btn-startpause');
 const btn_cronClear = document.getElementById('btn-clear');
 
+const btn_Up = document.getElementById('btn-up');
+const btn_Down = document.getElementById('btn-dwn');
+const btn_Left = document.getElementById('btn-incLft');
+const btn_Right = document.getElementById('btn-incRgt');
+const btn_L_Up = document.getElementById('btn-upLmp');
+const btn_L_Down = document.getElementById('btn-dwnLmp');
+
 //~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~//
 // Temperatura Programada //
 let btnsCtrl_tmpProgDisabled = true;
@@ -484,31 +491,52 @@ document.getElementById('btn-close-altVar').addEventListener('click', () => {
     closeModule('mdcnt-altVar', 'btn-close-altVar');
 });
         //((((((((((((((( Controles ))))))))))))))))//
-// Altura Equipo 
-document.getElementById('btn-up').addEventListener('click', () => {
-    ctrl_AdjPos('up');
+/* Altura Equipo */
+// Subir
+btn_Up.addEventListener('touchstart', () => {
+    ctrl_AdjPos('up-prsd');
+});
+btn_Up.addEventListener('touchend', () => {
+    ctrl_AdjPos('up-rlsd');
+});
+// Bajar
+btn_Down.addEventListener('touchstart', () => {
+    ctrl_AdjPos('dwn-prsd');
+});
+btn_Down.addEventListener('touchend', () => {
+    ctrl_AdjPos('dwn-rlsd');
 });
 
-document.getElementById('btn-dwn').addEventListener('click', () => {
-    ctrl_AdjPos('dwn');
+/* Inclinación Bacinete */
+// Izquierda
+btn_Left.addEventListener('touchstart', () => {
+    ctrl_AdjPos('incLft-prsd');
+});
+btn_Left.addEventListener('touchend', () => {
+    ctrl_AdjPos('incLft-rlsd');
+});
+// Derecha
+btn_Right.addEventListener('touchstart', () => {
+    ctrl_AdjPos('incRgt-prsd');
+});
+btn_Right.addEventListener('touchend', () => {
+    ctrl_AdjPos('incRgt-rlsd');
 });
 
-// Inclinación Bacinete
-document.getElementById('btn-incLft').addEventListener('click', () => {
-    ctrl_AdjPos('incLft');
+/* Altura Lampara */
+// Subir
+btn_L_Up.addEventListener('touchstart', () => {
+    ctrl_AdjPos('upLmp-prsd');
 });
-
-document.getElementById('btn-incRgt').addEventListener('click', () => {
-    ctrl_AdjPos('incRgt');
+btn_L_Up.addEventListener('touchend', () => {
+    ctrl_AdjPos('upLmp-rlsd');
 });
-
-// Altura Lampara
-document.getElementById('btn-upLmp').addEventListener('click', () => {
-    ctrl_AdjPos('upLmp');
+// Bajar
+btn_L_Down.addEventListener('touchstart', () => {
+    ctrl_AdjPos('dwnLmp-prsd');
 });
-
-document.getElementById('btn-dwnLmp').addEventListener('click', () => {
-    ctrl_AdjPos('dwnLmp');
+btn_L_Down.addEventListener('touchend', () => {
+    ctrl_AdjPos('dwnLmp-rlsd');
 });
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
