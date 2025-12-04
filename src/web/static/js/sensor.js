@@ -16,6 +16,10 @@ const lbl_valPhoto_P = document.getElementById("photo-value-P");
 const lbl_valPhoto_S = document.getElementById("photo-value-S");
 const lbl_val_LExam = document.getElementById("exam-value");
 
+//~~~~~~~~~~~~~~ Inicialización de Variables ~~~~~~~~~~~~~~//
+let cronometroInterval = null;
+let segundosTotales = 0;
+
     //[[[[[[[[[[[[[[[[[[ TEMPERATURA ]]]]]]]]]]]]]]]]]]]//
 /* Envío de valor de Temperatura Programada */
 export async function setTemp_prog(temp, prev_temp){
@@ -153,9 +157,24 @@ export function ctrls_CronmApgar(accion){
     const cronApgar = Array.from(lbl_cronApgar.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
 
     if (accion == 'start') {
-        cronApgar.nodeValue = "00:01";
+        if (segundosTotales == 0) {
+            cronApgar.nodeValue = "00:00";
+        }
+
+        cronometroInterval = setInterval(() => {
+            segundosTotales++;
+
+            const minutos = String(Math.floor(segundosTotales / 60)).padStart(2, '0');
+            const segundos = String(segundosTotales % 60).padStart(2, '0');
+
+            cronApgar.nodeValue = `${minutos}:${segundos}`;
+        }, 1000);
+    } else if (accion == 'pause'){
+        clearInterval(cronometroInterval);
+        cronometroInterval = null;
     } else if (accion == 'clear'){
-        cronApgar.nodeValue = "00:00";
+        segundosTotales = 0;
+        cronApgar.nodeValue = "--:--";
     }
 };
 
@@ -213,6 +232,7 @@ function date(){
     document.getElementById('date-clk').textContent = `${DD}/${MMM}/${AAAA} ${HH}:${mm}:${ss}`;
 };
 
+//~~~~~~~~~~~~~~~~~~ Lecturas Periódicas ~~~~~~~~~~~~~~~~~~//
 export function updateSensors(){
     const valHR = Array.from(lbl_valHR.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const valsatOx = Array.from(lbl_valsatOx.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
