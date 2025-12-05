@@ -202,29 +202,41 @@
         <!---------------------------- BARRA INFERIOR --------------------------->
         <!----------------------------------------------------------------------->
         <div class="footer" id="footer">
-            <div class="paciente-cnt">
-                <div class="paciente-lbl">
-                    <span class="paciente-label">Paciente:</span>
-                    <span class="paciente-fecha" id="date-clk"> --/--/-- --:--:-- </span>
-                </div>
+  <!-- Fila superior: Paciente y Fecha -->
+  <div class="paciente-lbl">
+    <span class="paciente-label">Paciente:</span>
+    <span class="paciente-fecha" id="date-clk"> --/--/-- --:--:-- </span>
+  </div>
 
-                <div class="paciente-nmb" id="paciente">
-                    <span id="pacienteNom">NOMBRE</span>
-                    <span id="apP_Paciente">AP PATERNO</span>
-                    <span id="apM_Paciente">AP MATERNO</span>
-                </div>
+  <!-- Fila media: Datos de nombre + botón GRAF -->
+  <div class="paciente-form-row">
+    <!-- Sección de nombres -->
+    <div class="paciente-cnt">
+      <div class="paciente-nmb" id="paciente">
+        <span id="pacienteNom">NOMBRE</span>
+        <span id="apP_Paciente">AP PATERNO</span>
+        <span id="apM_Paciente">AP MATERNO</span>
+      </div>
 
-                <div id="paciente-input" class="input-cont">
-                    <input id="nom-input" class="paciente-input" type="text">
-                    <input id="apP-input" class="paciente-input" type="text">
-                    <input id="apM-input" class="paciente-input" type="text">
+      <div id="paciente-input" class="input-cont">
+        <input id="nom-input" class="paciente-input" type="text">
+        <input id="apP-input" class="paciente-input" type="text">
+        <input id="apM-input" class="paciente-input" type="text">
+        <button class="btn-sensor active" id="btn-OK"><div class="btn-snsr-lbl"> OK </div></button>
+      </div>
+    </div>
 
-                    <button class="btn-sensor active" id="btn-OK"><div class="btn-snsr-lbl"> OK </div></button>
-                </div>
-            </div>
+    <!-- Botón GRAF alineado a la derecha -->
+    <div class="graf-btn">
+      <button class="btn-graf" id="btn-tendencias">GRAF</button>
+    </div>
+  </div>
 
-            <div> <button class="btn-graf" id="tendencias">GRAF</button> </div>
-        </div>
+  <!-- Sección expandible -->
+  <div class="graf-tendencias inactive" id="graf-tendencias">
+    <!-- Aquí va la gráfica -->
+  </div>
+</div>
     </body>
 
         <!----------------------------------------------------------------------->
