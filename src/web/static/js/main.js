@@ -70,6 +70,8 @@ const btn_Right = document.getElementById('btn-incRgt');
 const btn_L_Up = document.getElementById('btn-upLmp');
 const btn_L_Down = document.getElementById('btn-dwnLmp');
 
+const footer = document.getElementById("footer");
+
 //~~~~~~~~~~~~~~~~~~~~~ Estado Inicial ~~~~~~~~~~~~~~~~~~~~//
 // Temperatura Programada //
 let btnsCtrl_tmpProgDisabled = true;
@@ -105,14 +107,13 @@ function startSensor(){
     if (!intervalId) {
         intervalId = setInterval(updateSensors, 1000);
     }
-}
-
+};
 function pauseSensor() {
     if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
     }
-}
+};
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 //<<<<<<<<<<<<<<<<<<<<<<<<< Header >>>>>>>>>>>>>>>>>>>>>>>>>//
@@ -549,6 +550,14 @@ document.addEventListener('DOMContentLoaded', () => {
     enablePacienteEditing();
 });
 
-document.getElementById('tendencias').addEventListener('click', () => {
-    console.log("Tendencias");
+document.getElementById('btn-tendencias').addEventListener('click', () => {
+    footer.classList.toggle('expandido');
+
+    if (footer.classList[1] == 'expandido') {
+        document.getElementById('graf-tendencias').classList.add('active');
+        document.getElementById('graf-tendencias').classList.remove('inactive');
+    } else {
+        document.getElementById('graf-tendencias').classList.add('inactive');
+        document.getElementById('graf-tendencias').classList.remove('active');
+    }
 });
