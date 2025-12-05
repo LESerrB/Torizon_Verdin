@@ -659,7 +659,7 @@ body {
   pointer-events: none;
 }
 .alert-box {
-  background-color: #0fd640;
+  /* background-color: #0fd640; */
   padding: 32px 48px;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
@@ -677,6 +677,15 @@ body {
   font-size: var(--text-label-font-size);
   font-weight: var(--text-label-font-weight);
   color: var(--texto-blanco);
+}
+.alert-success {
+  background-color: #0fd640;
+}
+.alert-warning {
+  background-color: #f2a013;
+}
+.alert-danger {
+  background-color: #d62828;
 }
 /*+++++++++++++++++ ANIMACIÓN +++++++++++++++++*/ 
 .parpadeo {

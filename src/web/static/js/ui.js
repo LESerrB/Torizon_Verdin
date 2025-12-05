@@ -280,12 +280,23 @@ export function enablePacienteEditing() {
     });
 };
 
-export function shwAlert(msg = '', seconds = 0) {
+/* Niveles de prioridad para el color del mensaje de alerta
+ * success - Verde
+ * warning - Naranja
+ * danger  - Rojo   
+ * 
+ * Tiempo de visualización del mensaje en segundos 
+ * 
+ * Puede usarse por tiempo indefinido sin pasar el argumento
+ * del tiempo, en ese caso llamar la función hdAlerta */
+export function shwAlert(msg = '', priority = "success", sec = 0) {
     const ov = document.getElementById('alarma');
     const box = document.getElementById('alarma-box');
 
     if (!ov || !box) return;
 
+    box.classList.remove("alert-success", "alert-warning", "alert-danger");
+    box.classList.add(`alert-${priority}`);
     box.textContent = '';
 
     msg.split('\n').forEach((line, i) => {
@@ -296,8 +307,8 @@ export function shwAlert(msg = '', seconds = 0) {
     ov.classList.remove('oculto');
     ov.setAttribute('aria-hidden', 'false');
 
-    if (seconds > 0) {
-        setTimeout(() => hdAlerta(), seconds * 1000);
+    if (sec > 0) {
+        setTimeout(() => hdAlerta(), sec * 1000);
     }
 };
 
