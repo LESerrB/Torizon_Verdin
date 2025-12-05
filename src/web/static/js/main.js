@@ -122,7 +122,7 @@ btn_modoOP.addEventListener('click', () => {
 });
 
 btn_Alerta.addEventListener('click', () => {
-    shwAlert("Prueba \n De salto de linea", 1);
+    shwAlert("Prueba \n De salto de linea", 5);
 });
 
 btn_lock.addEventListener('click', () => {
