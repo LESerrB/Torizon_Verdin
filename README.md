@@ -285,3 +285,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Retirada función de seleccionar con presionado largo en la interfaz web.
 - Agregado mensaje de alarma con color por prioridad.
 - Agregada funcionalidad de gráfica de temperatura. Botones de Inicio, Detener y Limpiar corregidas la funcionalidad para solo permitir limpiar los datos cuando este detenido el guardado.
+- Creado diagrama de bloques de comunicación de tarjeta Verdin con dispositivos externos.
