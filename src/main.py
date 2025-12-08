@@ -106,7 +106,6 @@ def api_setTemp():
         return jsonify({
             "status": "ERROR NO SE RECIBIÓ VALOR"
         }), 500
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CONTROL DE CALEFACTOR
 # Seleccionar Potencia de calefactor
 @app.route("/api/potCalef", methods=["POST"])
@@ -120,7 +119,6 @@ def api_potCalef():
     return jsonify({
         "status": "ok"
     }), 200
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNCIONES DE PESAJE
 # Pesar
 @app.route("/api/bascPeso", methods=["POST"])

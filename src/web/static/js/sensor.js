@@ -1,3 +1,7 @@
+// import {
+//     updateChartDisplay 
+// } from "./ui";
+
 //~~~~~~~~~~~~~~~~ Definición de Etiquetas ~~~~~~~~~~~~~~~~//
 const lbl_tempSonda = document.getElementById('temp');
 const lbl_tempSondaAux = document.getElementById('sondaAux');
@@ -16,12 +20,33 @@ const lbl_valPhoto_P = document.getElementById("photo-value-P");
 const lbl_valPhoto_S = document.getElementById("photo-value-S");
 const lbl_val_LExam = document.getElementById("exam-value");
 
+//==================== Botones Grafica ====================//
+const durationSelect = document.getElementById('duration-select');
+const intervalSelect = document.getElementById('interval-select');
+
+const startRecordingBtn = document.getElementById('start-recording-btn');
+const stopRecordingBtn = document.getElementById('stop-recording-btn');
+const clearChartBtn = document.getElementById('clear-chart-btn');
+
 //~~~~~~~~~~~~~~ Inicialización de Variables ~~~~~~~~~~~~~~//
 let cronIntervalApgar = null;
 let cronIntervalFot = null;
 
 let segTotApgar = 0;
 let segTotFot = 0;
+
+const temperatureChartCanvas = document.getElementById('temperatureChart');
+
+let temperatureChart;   // Variable para la instancia del gráfico
+// let recordingInterval;  // Variable para el ID del setInterval
+
+let intervalDatos = null;
+// let intervalId = null;
+
+let lstDtTemp = null;
+let inTime = null;
+
+let allCollectedHistoricalData = [];
 
     //[[[[[[[[[[[[[[[[[[ TEMPERATURA ]]]]]]]]]]]]]]]]]]]//
 /* Envío de valor de Temperatura Programada */
@@ -64,12 +89,13 @@ async function get_TempSonda(){
         });
 
         const temperaturas = await response.json();
+        lstDtTemp = temperaturas.tempSondaPiel.toFixed(1);
 
         if (response.status == 200) {
             // console.log("Lectura Sondas:", temperaturas.status, "Código de Error:", response.status);
 
-            valTempNode.nodeValue = `${temperaturas.tempSondaPiel.toFixed(1)}`;
-            valTempAuxNode.nodeValue = `${temperaturas.tempSondaPiel.toFixed(1)}`;
+            valTempNode.nodeValue = `${lstDtTemp}`;
+            valTempAuxNode.nodeValue = `${temperaturas.tempSondaAux.toFixed(1)}`;
         } else if (response.status == 206){
             // console.log("Error en Sonda Aux:", temperaturas.status, "Código de Error:", response.status);
 
@@ -279,6 +305,7 @@ function date(){
     const ss = String(ahora.getSeconds()).padStart(2, '0');
 
     document.getElementById('date-clk').textContent = `${DD}/${MMM}/${AAAA} ${HH}:${mm}:${ss}`;
+    inTime = `${HH}:${mm}`;
 };
 
     //[[[[[[[[[[[[[[[ MODO DE OPERACIÓN ]]]]]]]]]]]]]]]]//
@@ -293,8 +320,148 @@ export async function modoOp() {
     } catch (error) {
         console.log("Error en cambio de modo de Operación:", error);
     }
-}
+};
 
+// ####################################################################### //
+//                           FUNCIONES DE GRÁFICA                          //
+// ####################################################################### //
+temperatureChart = new Chart(temperatureChartCanvas, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Temperatura (°C)',
+            data: [],
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'minute',
+                    tooltipFormat: 'HH:mm:ss',
+                    displayFormats: {
+                        minute: 'HH:mm'
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Tiempo'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Temperatura (°C)'
+                },
+                min: 20,
+                max: 40
+            }
+        },
+        plugins: {
+            tooltip: {
+                mode: 'index',
+                intersect: false
+            }
+        }
+    }
+});
+
+function updateChartDisplay() {
+    if (!temperatureChart) return;
+
+    let chartDisplayData = allCollectedHistoricalData;
+
+    if (chartDisplayData.length === 0) {
+        temperatureChart.data.labels = [];
+        temperatureChart.data.datasets[0].data = [];
+        temperatureChart.update();
+
+        return;
+    }
+
+    const maxPointsForDisplay = 2000;
+
+    if (chartDisplayData.length > maxPointsForDisplay) {
+        const downsampleFactor = Math.ceil(chartDisplayData.length / maxPointsForDisplay);
+
+        chartDisplayData = chartDisplayData.filter((_, index) => index % downsampleFactor === 0);
+        console.log(`Datos downsampleados para visualización. Original: ${allCollectedHistoricalData.length}, Mostrando: ${chartDisplayData.length}`);
+    }
+
+    temperatureChart.data.labels = chartDisplayData.map(point => point.time);
+    temperatureChart.data.datasets[0].data = chartDisplayData.map(point => point.value);
+    temperatureChart.update();
+};
+
+//////////////////////////// BOTONES DE GRÁFICA /////////////////////////////
+durationSelect.addEventListener('change', updateChartDisplay);
+intervalSelect.addEventListener('change', updateChartDisplay);
+
+startRecordingBtn.addEventListener('click', () => {
+    startGuardarDatos(intervalSelect.value);
+
+    startRecordingBtn.disabled = true;
+    stopRecordingBtn.disabled = false;
+    clearChartBtn.disabled = true;
+
+    durationSelect.disabled = true;
+    intervalSelect.disabled = true;
+});
+
+stopRecordingBtn.addEventListener('click', () => {
+    stopGuardarDatos();
+
+    startRecordingBtn.disabled = false;
+    stopRecordingBtn.disabled = true;
+    clearChartBtn.disabled = false;
+
+    durationSelect.disabled = false;
+    intervalSelect.disabled = false;
+});
+
+clearChartBtn.addEventListener('click', async () => {
+    startRecordingBtn.disabled = false;
+    stopRecordingBtn.disabled = true;
+
+    durationSelect.disabled = false;
+    intervalSelect.disabled = false;
+
+    allCollectedHistoricalData = [];
+
+    updateChartDisplay();
+});
+
+////////////////////// TEMPORIZADORES DE GRAFICACIÓN ////////////////////////
+function startGuardarDatos(intervalo) {
+    if (!intervalDatos) {
+        intervalDatos = setInterval(guardarDatos, 1000 * 60 * intervalo);
+    }
+};
+
+function stopGuardarDatos() {
+    if (intervalDatos) {
+        clearInterval(intervalDatos);
+        intervalDatos = null;
+    }
+};
+
+async function guardarDatos() {
+    const nwDt = {
+        time: inTime,
+        value: lstDtTemp
+    };
+
+    allCollectedHistoricalData.push(nwDt);
+
+    updateChartDisplay();
+};
 //~~~~~~~~~~~~~~~~~~ Lecturas Periódicas ~~~~~~~~~~~~~~~~~~//
 export function updateSensors(){
     const valHR = Array.from(lbl_valHR.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
@@ -305,4 +472,6 @@ export function updateSensors(){
 
     valHR.nodeValue = `${get_HumSensor().toFixed(1)}`;
     valsatOx.nodeValue = `${get_SatOxSensor().toFixed(1)}`;
+
+    // updateChartDisplay();
 };

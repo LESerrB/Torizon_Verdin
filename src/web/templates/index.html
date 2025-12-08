@@ -9,6 +9,10 @@
         <link rel="stylesheet" href="../static/css/vars.css">
         <link rel="stylesheet" href="../static/css/style.css">
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/luxon@2.5.0/build/global/luxon.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0/dist/chartjs-adapter-luxon.min.js"></script>
+        
         <script type="module" src="../static/js/main.js"></script>
 
         <title>DUAL</title>
@@ -202,41 +206,68 @@
         <!---------------------------- BARRA INFERIOR --------------------------->
         <!----------------------------------------------------------------------->
         <div class="footer" id="footer">
-  <!-- Fila superior: Paciente y Fecha -->
-  <div class="paciente-lbl">
-    <span class="paciente-label">Paciente:</span>
-    <span class="paciente-fecha" id="date-clk"> --/--/-- --:--:-- </span>
-  </div>
+            <div class="paciente-lbl">
+                <span class="paciente-label">Paciente:</span>
+                <span class="paciente-fecha" id="date-clk"> --/--/-- --:--:-- </span>
+            </div>
 
-  <!-- Fila media: Datos de nombre + botón GRAF -->
-  <div class="paciente-form-row">
-    <!-- Sección de nombres -->
-    <div class="paciente-cnt">
-      <div class="paciente-nmb" id="paciente">
-        <span id="pacienteNom">NOMBRE</span>
-        <span id="apP_Paciente">AP PATERNO</span>
-        <span id="apM_Paciente">AP MATERNO</span>
-      </div>
+            <div class="paciente-form-row">
+                <div class="paciente-cnt">
+                    <div class="paciente-nmb" id="paciente">
+                        <span id="pacienteNom">NOMBRE</span>
+                        <span id="apP_Paciente">AP PATERNO</span>
+                        <span id="apM_Paciente">AP MATERNO</span>
+                    </div>
 
-      <div id="paciente-input" class="input-cont">
-        <input id="nom-input" class="paciente-input" type="text">
-        <input id="apP-input" class="paciente-input" type="text">
-        <input id="apM-input" class="paciente-input" type="text">
-        <button class="btn-sensor active" id="btn-OK"><div class="btn-snsr-lbl"> OK </div></button>
-      </div>
-    </div>
+                    <div id="paciente-input" class="input-cont">
+                        <input id="nom-input" class="paciente-input" type="text">
+                        <input id="apP-input" class="paciente-input" type="text">
+                        <input id="apM-input" class="paciente-input" type="text">
+                        <button class="btn-sensor active" id="btn-OK"><div class="btn-snsr-lbl"> OK </div></button>
+                    </div>
+                </div>
 
-    <!-- Botón GRAF alineado a la derecha -->
-    <div class="graf-btn">
-      <button class="btn-graf" id="btn-tendencias">GRAF</button>
-    </div>
-  </div>
+                <div class="graf-btn">
+                <button class="btn-graf" id="btn-tendencias">GRAF</button>
+                </div>
+            </div>
 
-  <!-- Sección expandible -->
-  <div class="graf-tendencias inactive" id="graf-tendencias">
-    <!-- Aquí va la gráfica -->
-  </div>
-</div>
+            <!-- Sección expandible -->
+            <div class="graf-tendencias" id="graf-tendencias">
+                <!-- Aquí va la gráfica -->
+                <div class="background-graf">
+                    <div class="chart-controls">
+                        <div class="control-group">
+                            <label class="ctrl-txt" for="duration-select">Duración del registro:</label>
+                            <select id="duration-select">
+                                <option value="24">24 horas</option>
+                                <option value="48">48 horas</option>
+                                <option value="72">72 horas</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="ctrl-txt" for="interval-select">Intervalo de guardado:</label>
+                            <select id="interval-select">
+                                <option value="1">1 minuto</option>
+                                <option value="5">5 minutos</option>
+                                <option value="10">10 minutos</option>
+                                <option value="30">30 minutos</option>
+                                <option value="60">1 hora</option>
+                            </select>
+                        </div>
+
+                        <button id="start-recording-btn" class="chart-button">Iniciar Registro</button>
+                        <button id="stop-recording-btn" class="chart-button" disabled>Detener Registro</button>
+                        <button id="clear-chart-btn" class="chart-button">Limpiar Gráfico</button>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="temperatureChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 
         <!----------------------------------------------------------------------->
