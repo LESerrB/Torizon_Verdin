@@ -244,7 +244,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Cambio de las funciones de comunicación con los motores de Altura variable, Inclinación de Bacinete y Altura de la lámpara.
 
-### v0.17 - [5/Diciembre/2025]
+### v0.17 - [8/Diciembre/2025]
 
 - Actualización de Interfaz WEB para cambio de Interfaz.
 - Cambios al Footer para que los campos de texto sean dinámicos.
@@ -284,3 +284,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Función de cambio de Modo de Operación.
 - Retirada función de seleccionar con presionado largo en la interfaz web.
 - Agregado mensaje de alarma con color por prioridad.
+- Agregada funcionalidad de gráfica de temperatura. Botones de Inicio, Detener y Limpiar corregidas la funcionalidad para solo permitir limpiar los datos cuando este detenido el guardado.
