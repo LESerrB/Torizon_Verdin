@@ -286,3 +286,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregado mensaje de alarma con color por prioridad.
 - Agregada funcionalidad de gráfica de temperatura. Botones de Inicio, Detener y Limpiar corregidas la funcionalidad para solo permitir limpiar los datos cuando este detenido el guardado.
 - Creado diagrama de bloques de comunicación de tarjeta Verdin con dispositivos externos.
+- Corrección de edición de Valor de Temperatura Programada y de Potencia de Calefactor. Se activaban cuando estaba bloqueado.

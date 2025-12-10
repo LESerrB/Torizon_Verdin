@@ -206,24 +206,8 @@ def api_modoFunc():
             strStatus = "Error"
             return jsonify({"status": "fail"}), 500
 
-
-
 #------------------------- En Pruebas -------------------------#
-@app.route("/api/tendencias", methods=["POST"])
-def api_tendencias():
-    datos = request.get_json()
 
-    tend_json = agregarDtTemperatura(
-        temp = datos.get("temp")
-    )
-
-    return jsonify({"tend_json": tend_json})
-
-@app.route("/api/tendencias/limpiar", methods=["POST"])
-def api_limpiarTendencias():
-    limpiarDtTemperatura()
-    clear = request.get_json()
-    print("Limpiar datos:", clear)
 #--------------------------------------------------------------#
 
 ##############################################################################

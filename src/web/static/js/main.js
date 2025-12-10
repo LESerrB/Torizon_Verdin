@@ -92,6 +92,8 @@ btn_calefMas.disabled = true;
 
 let intervalId = null;
 
+let lockState = false;
+
 // Funciones Iniciales //
 startSensor();
 setIntensVal(sld_Photo.value, sld_Exam.value);
@@ -127,13 +129,19 @@ btn_Alerta.addEventListener('click', () => {
 });
 
 btn_lock.addEventListener('click', () => {
-    btn_lock.style.opacity = '1'
+    lockState = !lockState;
+
     pantallaBase.classList.toggle('no-clicks');
+    btn_lock.classList.toggle('pressed');
 
-    val_potCalef.classList.toggle('inactive');
+    if(btn_Manual.classList[1] == 'active'){
+        val_potCalef.style.pointerEvents = lockState ? 'none' : '';
+    }
 
-    val_TempProg.classList.toggle('inactive');
-
+    if(btn_Bebe.classList[1] == 'active'){
+        val_TempProg.style.pointerEvents = lockState ? 'none' : '';
+    }
+    
     btn_modoOP.classList.toggle('no-clicks');
 
     document.getElementById('footer').classList.toggle('no-clicks');
