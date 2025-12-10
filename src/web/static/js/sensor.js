@@ -1,7 +1,3 @@
-// import {
-//     updateChartDisplay 
-// } from "./ui";
-
 //~~~~~~~~~~~~~~~~ Definición de Etiquetas ~~~~~~~~~~~~~~~~//
 const lbl_tempSonda = document.getElementById('temp');
 const lbl_tempSondaAux = document.getElementById('sondaAux');
@@ -183,11 +179,9 @@ export async function ctrls_Bascula(accion){
 
     //[[[[[[[[[[[[[[[[[[[ CRONOMETRO ]]]]]]]]]]]]]]]]]]]//
 export function ctrls_CronmApgar(accion){
-    const cronApgar = Array.from(lbl_cronApgar.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
-
     if (accion == 'start') {
         if (segTotApgar == 0)
-            cronApgar.nodeValue = "00:00";
+            lbl_cronApgar.textContent = "00:00";
 
         cronIntervalApgar = setInterval(() => {
             segTotApgar++;
@@ -195,14 +189,14 @@ export function ctrls_CronmApgar(accion){
             const minutos = String(Math.floor(segTotApgar / 60)).padStart(2, '0');
             const segundos = String(segTotApgar % 60).padStart(2, '0');
 
-            cronApgar.nodeValue = `${minutos}:${segundos}`;
+            lbl_cronApgar.textContent = `${minutos}:${segundos}`;
         }, 1000);
     } else if (accion == 'pause'){
         clearInterval(cronIntervalApgar);
         cronIntervalApgar = null;
     } else if (accion == 'clear'){
         segTotApgar = 0;
-        cronApgar.nodeValue = "--:--";
+        lbl_cronApgar.textContent = "mm:ss";
     }
 };
 
@@ -231,7 +225,7 @@ export async function setIntensVal(valFot, val_LExam){
         if (valFot != 0) {
             if (cronIntervalFot == null) {
                 if (segTotFot == 0) {
-                    lbl_tmrPhoto_P.textContent = "00:00";
+                    lbl_tmrPhoto_P.textContent = "HH:mm";
                     lbl_tmrPhoto_S.textContent = "00:00";
                 }
 
@@ -252,7 +246,7 @@ export async function setIntensVal(valFot, val_LExam){
             }
 
             segTotFot = 0;
-            lbl_tmrPhoto_P.textContent = '00:00';
+            lbl_tmrPhoto_P.textContent = 'HH:mm';
             lbl_tmrPhoto_S.textContent = '00:00';
         }
     } catch (error) {

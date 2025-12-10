@@ -242,6 +242,10 @@ body {
   height: 60px;
   position: relative;
 }
+.btn-mode.pressed{
+  background: var(--texto-blanco, #ffffff);
+  border-color: #ffffff;
+}
 .btn-alarm{
   background-color: #0fd640;
   border-color: #0fd640;
@@ -267,21 +271,6 @@ body {
   background-color: #dc3545;
   border-color: #bd2130;
   color: #fff;
-}
-.btn-lock {
-  background: var(--azul-primario, #0c87f2);
-  border-color: #0c87f2;
-  border-radius: 15px 15px 15px 15px;
-  padding: 5px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 120px;
-  height: 60px;
-  position: relative;
 }
 /*+++++++++++++++++ MAIN PANEL ++++++++++++++++*/
 .bkgnd-info {
