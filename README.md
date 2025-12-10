@@ -244,7 +244,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Cambio de las funciones de comunicación con los motores de Altura variable, Inclinación de Bacinete y Altura de la lámpara.
 
-### v0.17 - [8/Diciembre/2025]
+### v0.17 - [10/Diciembre/2025]
 
 - Actualización de Interfaz WEB para cambio de Interfaz.
 - Cambios al Footer para que los campos de texto sean dinámicos.
@@ -287,3 +287,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregada funcionalidad de gráfica de temperatura. Botones de Inicio, Detener y Limpiar corregidas la funcionalidad para solo permitir limpiar los datos cuando este detenido el guardado.
 - Creado diagrama de bloques de comunicación de tarjeta Verdin con dispositivos externos.
 - Corrección de edición de Valor de Temperatura Programada y de Potencia de Calefactor. Se activaban cuando estaba bloqueado.
+- Prueba de privacidad de repositorio.
