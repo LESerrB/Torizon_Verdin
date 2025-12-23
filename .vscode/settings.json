@@ -25,5 +25,6 @@
     "DEBUG_PORT1": "6512",
     "DEBUG_PORT2": "",
     "DEBUG_PORT3": ""
-  }
+  },
+  "docker_registry": null
 }

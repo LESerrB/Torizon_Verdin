@@ -20,7 +20,7 @@ from adc.sonda import read_Sonda, read_Sonda2#, calib_Sonda
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
-from rtc.reloj import reloj
+# from rtc.reloj import reloj
 from gpio.modoFunc import rd_ModoOp, sm_chngModoOp, upRgt_On, upRgt_Off, dwnLft_On, dwnLft_Off, giroMotor#, selDsip
 # from i2c.sht21 import sht21, calibracion#, read_temp275
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura

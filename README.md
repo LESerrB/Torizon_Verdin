@@ -1,6 +1,6 @@
-# Proyecto para Torizon Verdin iMX8MM
+# Proyecto para Torizon Verdin iMX8MP
 
-Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas para ejecutarse en la plataforma **Torizon Verdin iMX8MM** de Toradex. Está enfocado en facilitar el desarrollo y despliegue de soluciones embebidas utilizando esta tarjeta basada en ARM Cortex-A53.
+Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas para ejecutarse en la plataforma **Torizon Verdin iMX8MP** de Toradex. Está enfocado en facilitar el desarrollo y despliegue de soluciones embebidas utilizando esta tarjeta basada en ARM Cortex-A53.
 
 ## Tabla de Contenidos
 
@@ -13,16 +13,17 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Compatible con TorizonCore y Debian.
 - Compatible con Docker y TorizonCore Builder.
-- Comunicación con periféricos vía I2C, SPI, UART, CAN, GPIO.
-- Desarrollo en Python.
-- Preparado para integración CI/CD (GitHub Actions, GitLab CI, etc.).
+- Comunicación con periféricos vía I2C, SPI, UART, GPIO.
+- Desarrollo de backend en Python.
+- Desarrollo de frontend en HTML/CSS/Javascript.
+- [Documentación de funciones](/doc/Funciones.md).
 
 ## Requisitos
 
 - Tarjeta **Verdin iMX8MM** con TorizonCore instalado.
 - Cable USB o conexión Ethernet.
 - [Toradex Easy Installer](https://developer.toradex.com/software/toradex-easy-installer/).
-- [TorizonCore Builder](https://developer.toradex.com/torizon/torizoncore-builder/) (si deseas personalizar el SO).
+- [TorizonCore Builder](https://developer.toradex.com/torizon/torizoncore-builder/).
 - Docker y Docker Compose instalados.
 - Python 3.x y GCC para desarrollos en C y Python.
 - Visual Studio Code con extensiones de Torizon (opcional).
@@ -34,10 +35,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ├── src/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;# Código fuente\
 │ &nbsp; &emsp;├── main.py &emsp; &emsp; &emsp; &nbsp; # Aplicación principal en Python\
 │ &nbsp; &emsp;├── adc \
-│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── calib_Sonda.py &emsp;&emsp;&nbsp;# Joystick \
+│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── calib_Sonda.py &emsp;&emsp;&nbsp;# Joystick \
 │ &nbsp; &emsp;├── files \
-│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── logs.py &emsp;&emsp;&emsp;&nbsp; # Logs \
-│  &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── tendencias.py &nbsp;&nbsp;# Tendencias \
+│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── logs.py &emsp;&emsp;&emsp;&nbsp; # Logs \
+│ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── tendencias.py &nbsp;&nbsp;# Tendencias \
 │ &nbsp; &emsp;├── gpio \
 │ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── hx711.py &emsp;&emsp;&nbsp; # Lector de celdas de pesaje \
 │ &nbsp; &emsp;├── i2c \
@@ -46,7 +47,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │ &nbsp; &emsp;│&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── pwm.py &emsp;&emsp;&nbsp;&nbsp; # Nivel de Luz de Examinación  \
 │ &nbsp; &emsp;├── spi \
 │ &nbsp; &nbsp; &nbsp; │ &emsp;&nbsp; &nbsp; └── bme280.py&emsp;&nbsp;&nbsp;# Sensor de Presion, Temperatura y Humedad&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; \
-│ &nbsp; &emsp;└── web &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;# Pagina WEB con la información de los sensores \
+│ &nbsp; &emsp;└── web &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &nbsp; # Pagina WEB con la información de los sensores \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; ├── static&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp; ├─ css&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&nbsp;│&emsp; ├─ vars.css&emsp;# Variables de Estilo \
@@ -57,7 +58,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; │ &emsp;&emsp;&emsp;&emsp;&emsp;└─ sensor.js&emsp;# Funciones de recuperación de Datos \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── templates&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &emsp;&emsp;&emsp;&emsp; └─ index.html&nbsp; \
-├── overlays/ &emsp; &emsp; &emsp; &emsp; &emsp; # Device Tree Overlays (si aplica)\
+├── overlays/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; # Device Tree Overlays\
+├── doc/\
+│ &nbsp; &nbsp;&emsp;└── Funciones.md &emsp; &emsp; &emsp; &emsp; &emsp;&nbsp;&nbsp;# Documentación de funciones\
 └── README.md   # Control de Versiones
 
 ## Control de Versiones
@@ -244,7 +247,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Cambio de las funciones de comunicación con los motores de Altura variable, Inclinación de Bacinete y Altura de la lámpara.
 
-### v0.17 - [10/Diciembre/2025]
+### v0.17 - [23/Diciembre/2025]
 
 - Actualización de Interfaz WEB para cambio de Interfaz.
 - Cambios al Footer para que los campos de texto sean dinámicos.
@@ -288,3 +291,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creado diagrama de bloques de comunicación de tarjeta Verdin con dispositivos externos.
 - Corrección de edición de Valor de Temperatura Programada y de Potencia de Calefactor. Se activaban cuando estaba bloqueado.
 - Prueba de privacidad de repositorio.
+- Documentación de funciones.

@@ -27,6 +27,13 @@ else:
 #                      Configuración de ADC                     #
 #===============================================================#
 def read_adc(channel):
+    """
+    Función de lectura de voltaje para pines ADC.
+
+    :param channel: Consultar el manual de la PCB base para elegir el número del canal de lectura del pin.
+    :param return: Valor entero de 0 a 1800.
+    :param Precaución: Solo se debe conectar un valor máximo de 1.8v para evitar daños al Hardware.
+    """
     try:
         with open(f"/sys/bus/iio/devices/iio:device0/in_voltage{channel}_raw", "r") as f:
             return int(f.read().strip())
