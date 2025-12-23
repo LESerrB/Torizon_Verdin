@@ -70,34 +70,44 @@ def compensate_temperature(adc_T, calib):
     dig_T1, dig_T2, dig_T3 = calib[0], calib[1], calib[2]
     var1 = (adc_T / 16384.0 - dig_T1 / 1024.0) * dig_T2
     var2 = ((adc_T / 131072.0 - dig_T1 / 8192.0) ** 2) * dig_T3
+
     t_fine = var1 + var2
     T = t_fine / 5120.0
+
     return T, t_fine
 
 def compensate_pressure(adc_P, calib, t_fine):
     dig_P = calib[3:]
+
     var1 = t_fine / 2.0 - 64000.0
     var2 = var1 * var1 * dig_P[5] / 32768.0
     var2 = var2 + var1 * dig_P[4] * 2.0
     var2 = var2 / 4.0 + dig_P[3] * 65536.0
+
     var1 = (dig_P[2] * var1 * var1 / 524288.0 + dig_P[1] * var1) / 524288.0
     var1 = (1.0 + var1 / 32768.0) * dig_P[0]
+
     if var1 == 0:
         return 0
+
     p = 1048576.0 - adc_P
     p = ((p - var2 / 4096.0) * 6250.0) / var1
+
     var1 = dig_P[8] * p * p / 2147483648.0
     var2 = p * dig_P[7] / 32768.0
+
     p = p + (var1 + var2 + dig_P[6]) / 16.0
+
     return p / 100.0
 
 def compensate_humidity(adc_H, calib, t_fine):
     dig_H1, dig_H2, dig_H3, dig_H4, dig_H5, dig_H6 = calib
+
     var_h = t_fine - 76800.0
-    var_h = (adc_H - (dig_H4 * 64.0 + dig_H5 / 16384.0 * var_h)) * (
-        dig_H2 / 65536.0 * (1.0 + dig_H6 / 67108864.0 * var_h * (1.0 + dig_H3 / 67108864.0 * var_h)))
+    var_h = (adc_H - (dig_H4 * 64.0 + dig_H5 / 16384.0 * var_h)) * (dig_H2 / 65536.0 * (1.0 + dig_H6 / 67108864.0 * var_h * (1.0 + dig_H3 / 67108864.0 * var_h)))
     var_h = var_h * (1.0 - dig_H1 * var_h / 524288.0)
     var_h = max(0.0, min(var_h, 100.0))
+
     return var_h
 
 #===============================================================#
