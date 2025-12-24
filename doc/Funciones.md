@@ -1,12 +1,23 @@
 # Documentación Funciones
 
+## Contenido
+
+- [read_Sonda()](#read_sonda)
+- [calib_Sonda()](#calib_sonda)
+- [ctrl_Calef()](#ctrl_calef)
+- [set_PWM_Calef()](#set_pwm_calef)
+- [statusCom_Calef()](#statuscom_calef)
+- [setNvlLuzExam()](#setnvlluzexam)
+- [setNvlFototerapia()](#setnvlfototerapia)
+- [pesaje()](#pesaje)
+- [tare()](#tare)
+- [calib()](#calib)
+
 ## read_Sonda()
 
 ### Descripción
 
 Obtiene el valor de la sonda de temperatura leyendo el valor del voltaje de un divisor de voltaje utilizando una resistencia patrón de 4.3 KΩ y el pin de lectura ADC.
-
-Tiene una función para cada una de las sondas.
 
 ### Syntax
 
@@ -20,17 +31,17 @@ Tiene una función para cada una de las sondas.
 
 ### Parámetros
 
-Esta función no recibe ningún parámetro.
+adc_chn (int): Valor 
 
 ### Returns
 
-Las funciones regresan un valor foltante entre 10 y 45.
+
 
 ## calib_Sonda()
 
 ### Descripción
 
-Función para calibrar la temperatura de la sonda. Es necesario el conectar una sonda patrón antes de iniciar el proceso. La sonda patrón se debe conectar en la entrada principal.
+Función para calibrar la temperatura de la sonda. Es necesario conectar una sonda patrón antes de iniciar el proceso. La sonda patrón se debe conectar en la entrada principal.
 
 ### Syntax
 
@@ -48,13 +59,13 @@ No recibe ningún parámetro.
 
 ### Returns
 
-Esta función no regresa ningún valor.
+Esta función no devuelve ningún valor.
 
 ## ctrl_Calef()
 
 ### Descripción
 
-Función principal de control del calefactor. Esta función se encarga de generar un PWM de 16.32 milisegundos para controlar la potencia del calefactor encendiendo y apagando el pin seleccionado con una lógica inversa (0: Encendido, 1: Apagado). Esta función se ejecuta en hilos para que trabaje de manera paralela obteniendo la potencia de manera recurrente y generando un tren de pulsos.
+Función principal de control del calefactor. Esta función se encarga de generar un PWM de 16.32 ms para controlar la potencia del calefactor encendiendo y apagando el pin seleccionado con una lógica inversa (0: Encendido, 1: Apagado). Esta función se ejecuta en un hilo, lo que permite su operación en paralelo, obteniendo la potencia de forma recurrente y generando un tren de pulsos.
 
 ### Syntax
 
@@ -76,7 +87,7 @@ Esta función no recibe parámetros.
 
 ### Returns
 
-Esta función no regresa ningún valor.
+Esta función no devuelve ningún valor.
 
 ## set_PWM_Calef()
 
@@ -100,7 +111,7 @@ val (int): Valor de potencia del calefactor.
 
 ### Returns
 
-Esta función no regresa ningun valor.
+Esta función no devuelve ningun valor.
 
 ## statusCom_Calef()
 
@@ -127,13 +138,13 @@ Esta función no recibe parámetros.
 
 ### Returns
 
-Esta función no regresa ningún valor
+Esta función no devuelve ningún valor
 
-## setNvlLuzExam()
+## setNvlFototerapia()
 
 ### Descripción
 
-Establece el nivel de intensidad de la luz de Exploración, usando uno de los pines PWM.
+Establece el nivel de intensidad de la luz de fototerapia, usando uno de los pines PWM.
 
 ### Syntax
 
@@ -147,17 +158,17 @@ Establece el nivel de intensidad de la luz de Exploración, usando uno de los pi
 
 ### Parámetros
 
-nvlFototerapia (int): Valor entero para establecer la intensidad de la luz de Fototerapia.
+nvlFototerapia (int): Valor entero para establecer la intensidad de la luz de fototerapia.
 
 ### Returns
 
-Esta función no regresa ningún valor
+Esta función no devuelve ningún valor
 
-## setNvlFototerapia()
+## setNvlLuzExam()
 
 ### Descripción
 
-Establece el nivel de intensidad de la luz de Fototerapia, usando uno de los pines PWM.
+Establece el nivel de intensidad de la luz de fototerapia, usando uno de los pines PWM.
 
 ### Syntax
 
@@ -171,11 +182,11 @@ Establece el nivel de intensidad de la luz de Fototerapia, usando uno de los pin
 
 ### Parámetros
 
-nvlLuzExam: Valor entero para establecer la intensidad de la luz de Exploración.
+nvlLuzExam: Valor entero para establecer la intensidad de la luz de examinación.
 
 ### Returns
 
-Esta función no regresa ningún valor
+Esta función no devuelve ningún valor
 
 ## pesaje()
 
@@ -228,7 +239,7 @@ Esta función no recibe ningún parámetro.
 
 ### Returns
 
--1 si falla; en otro caso no regresa nada.
+-1 si falla; en otro caso no devuelve nada y actualiza el valor de OFFSET.
 
 ## calib()
 
@@ -252,4 +263,4 @@ Esta función no recibe ningún parámetro.
 
 ### Returns
 
--1 si falla; en otro caso no regresa nada.
+-1 si falla; en otro caso no devuelve nada y se actualiza el valor de SCALE.

@@ -45,9 +45,9 @@ def read_adc(channel):
 #================================================================#
 #                Función principal de lectura ADC                #
 #================================================================#
-def read_Sonda():
+def read_Sonda(adc_chn):
     try:
-        valSonda1 = round(4300 * ((1800/read_adc(3)) - 1))  # ADC1_IN0 (SODIMM 8), 4300 ohms de resistencia referencia, 1800 fuente de voltaje de la tarjeta
+        valSonda1 = round(4300 * ((1800/read_adc(adc_chn)) - 1))  # ADC1_IN0 (SODIMM 8), 4300 ohms de resistencia referencia, 1800 fuente de voltaje de la tarjeta
         logaritmo=math.log(valSonda1)
         temperatura = 1/(a0 + b0 * (logaritmo) + c0 * (pow(logaritmo, 3)))
         tempSonda = temperatura - 273
@@ -57,20 +57,6 @@ def read_Sonda():
     except Exception as e:
         # logger.error("Error leyendo SONDA1:", e)
         # print(f"Error leyendo SONDA1: {e}")
-        return 0
-
-def read_Sonda2():
-    try:
-        valSonda2 = round(4300 * ((1800/read_adc(2)) - 1))  # ADC1_IN0 (SODIMM 8)
-        logaritmo=math.log(valSonda2)
-        temperatura = 1/(a0 + b0 * (logaritmo) + c0 * (pow(logaritmo, 3)))
-        tempSonda2 = temperatura - 273
-
-        if 10 < tempSonda2 < 45:
-            return tempSonda2
-    except Exception as e:
-        # logger.error("Error leyendo SONDA2:", e)
-        # print(f"Error leyendo SONDA2: {e}")
         return 0
 
 #================================================================#

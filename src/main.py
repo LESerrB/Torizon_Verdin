@@ -16,7 +16,7 @@ from flask_cors import CORS
 # logger.info('Encendido del sistema')
 
 # from gpio.pwr import pwrBtn_Evnt, blink_calib
-from adc.sonda import read_Sonda, read_Sonda2#, calib_Sonda
+from adc.sonda import read_Sonda#, calib_Sonda
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
@@ -70,8 +70,8 @@ def index():
 # Lectura de las sondas de piel
 @app.route("/api/getTemp", methods=["POST"])
 def api_getTemp():
-    tempSondaPiel = read_Sonda2()#CAMBIAR POR read_Sonda() YA QUE PARA DEBUG ESTA INTERCAMBIADA
-    tempSondaAux = read_Sonda()
+    tempSondaPiel = read_Sonda(3) # Canal ADC
+    tempSondaAux = read_Sonda(2)  # Canal ADC (2 AUX)
 
     if tempSondaPiel != 0 and tempSondaAux != 0:
         return jsonify({
