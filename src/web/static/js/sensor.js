@@ -83,26 +83,45 @@ async function get_TempSonda(){
                 'Content-Type': 'application/json'
             },
         });
-
         const temperaturas = await response.json();
-        lstDtTemp = temperaturas.tempSondaPiel.toFixed(1);
+
+        const tempPiel = (temperaturas && typeof temperaturas.tempSondaPiel === 'number') ? temperaturas.tempSondaPiel : null;
+        const tempAux = (temperaturas && typeof temperaturas.tempSondaAux === 'number') ? temperaturas.tempSondaAux : null;
+
+        lstDtTemp = tempPiel !== null ? tempPiel.toFixed(1) : null;
 
         if (response.status == 200) {
             // console.log("Lectura Sondas:", temperaturas.status, "Código de Error:", response.status);
 
-            valTempNode.nodeValue = `${lstDtTemp}`;
-            valTempAuxNode.nodeValue = `${temperaturas.tempSondaAux.toFixed(1)}`;
+            const mainDisplay = tempPiel !== null ? lstDtTemp : "--.-";
+            const auxDisplay = tempAux !== null ? tempAux.toFixed(1) : "--.-";
+
+            if (valTempNode) valTempNode.nodeValue = `${mainDisplay}`;
+            else lbl_tempSonda.textContent = `${mainDisplay}`;
+
+            if (valTempAuxNode) valTempAuxNode.nodeValue = `${auxDisplay}`;
+            else lbl_tempSondaAux.textContent = `${auxDisplay}`;
         } else if (response.status == 206){
             // console.log("Error en Sonda Aux:", temperaturas.status, "Código de Error:", response.status);
 
-            valTempNode.nodeValue = `${temperaturas.tempSondaPiel.toFixed(1)}`;
-            valTempAuxNode.nodeValue = "--.-";
+            const mainDisplay = tempPiel !== null ? tempPiel.toFixed(1) : "--.-";
+            const auxDisplay = "--.-";
+
+            if (valTempNode) valTempNode.nodeValue = `${mainDisplay}`;
+            else lbl_tempSonda.textContent = `${mainDisplay}`;
+
+            if (valTempAuxNode) valTempAuxNode.nodeValue = auxDisplay;
+            else lbl_tempSondaAux.textContent = auxDisplay;
         }
         else{
             // console.log("ERROR CRÍTICO DE LECTURA DE TEMPERATUA", temperaturas.status, "Código de Error:", response.status);
 
-            valTempNode.nodeValue = "--.-";
-            valTempAuxNode.nodeValue = "--.-";
+            const dash = "--.-";
+            if (valTempNode) valTempNode.nodeValue = dash;
+            else lbl_tempSonda.textContent = dash;
+
+            if (valTempAuxNode) valTempAuxNode.nodeValue = dash;
+            else lbl_tempSondaAux.textContent = dash;
         }
     } catch (error) {
         console.log("Error obteniendo la temperatura de las sondas:", error);
