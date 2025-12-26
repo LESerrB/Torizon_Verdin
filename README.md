@@ -297,3 +297,4 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Documentación de funciones.
 - Corrección de función de lectura de Sonda para recibir como parámetro el canal ADC.
 - Corrección de función de visualización de valores de temperatura. Si no existe un valor se muestra "--.-".
+- Documentación de funciones ya probadas con Docstring.
