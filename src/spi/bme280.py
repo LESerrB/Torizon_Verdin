@@ -45,12 +45,66 @@ spi.mode = 0b00
 #                  Funciones de lectura BME280                  #
 #===============================================================#
 def read_bytes(reg, length):
+    """
+    Lee una secuencia de bytes desde un registro del dispositivo BME280 vía SPI.
+
+    La función realiza una transferencia SPI usando `xfer2`. Para indicar una
+    operación de lectura sobre el registro `reg` se aplica la máscara `| 0x80`.
+
+    Parámetros:
+    - reg (int): Dirección del registro a leer.
+    - length (int): Número de bytes a leer.
+
+    Retorno:
+    - list[int]: Lista de bytes leídos (cada elemento 0..255).
+
+    Excepciones:
+    - Puede lanzar excepciones relacionadas con SPI (p. ej. si el bus no está
+        disponible).
+    """
     return spi.xfer2([reg | 0x80] + [0x00]*length)[1:]
 
 def write_byte(reg, val):
+    """
+    Escribe un byte en un registro del dispositivo BME280 vía SPI.
+
+    Realiza una transferencia SPI con el bit de lectura limpiado (`reg & 0x7F`)
+    seguida del valor `val` a escribir.
+
+    Parámetros:
+    - reg (int): Dirección del registro a escribir.
+    - val (int): Valor del byte a escribir (0..255).
+
+    Retorno:
+    - None
+
+    Excepciones:
+    - Puede lanzar excepciones relacionadas con SPI (p. ej. si el bus no está
+        disponible o hay error de I/O).
+    """
     spi.xfer2([reg & 0x7F, val])
 
 def read_calibration():
+    """
+    Lee y decodifica los parámetros de calibración del sensor BME280.
+
+    Realiza lecturas de los bloques de calibración (temperatura/ presión y
+    humedad) y desempaqueta los valores según el formato esperado por el
+    dispositivo. Calcula también los valores `dig_H4` y `dig_H5` a partir de
+    los bytes de calibración de humedad.
+
+    Retorno:
+    - tuple: (params, hum_params)
+            - params: tupla con los parámetros de calibración para temperatura y
+                presión (desempaquetados según '<HhhHhhhhhhhh').
+            - hum_params: tupla con los parámetros de calibración de humedad
+                (dig_H1, dig_H2, dig_H3, dig_H4, dig_H5, dig_H6).
+
+    Notas:
+    - Los formatos de desempaquetado están basados en la hoja de datos del
+        BME280 y pueden variar entre sensores; comprueba compatibilidad si el
+        sensor no responde correctamente.
+    """
     calib = read_bytes(REG_CALIB, 24)
     calib_h = read_bytes(REG_HUM_CALIB, 7)
 
@@ -67,6 +121,21 @@ def read_calibration():
 #                Funciones de compensación BME280               #
 #===============================================================#
 def compensate_temperature(adc_T, calib):
+    """
+    Compensa la temperatura cruda del ADC del BME280.
+
+    Parámetros:
+    - adc_T (int): Lectura cruda de temperatura (20..20bits según sensor).
+    - calib (tuple): Parámetros de calibración (dig_T1, dig_T2, dig_T3, ...).
+
+    Retorno:
+    - (float, float): Temperatura en grados Celsius (sin offsets externos)
+        y el valor intermedio `t_fine` usado por otras compensaciones.
+
+    Nota:
+    - `t_fine` debe conservarse y pasarse a la compensación de presión
+        y humedad para obtener resultados correctos.
+    """
     dig_T1, dig_T2, dig_T3 = calib[0], calib[1], calib[2]
     var1 = (adc_T / 16384.0 - dig_T1 / 1024.0) * dig_T2
     var2 = ((adc_T / 131072.0 - dig_T1 / 8192.0) ** 2) * dig_T3
@@ -77,6 +146,23 @@ def compensate_temperature(adc_T, calib):
     return T, t_fine
 
 def compensate_pressure(adc_P, calib, t_fine):
+    """
+    Compensa la presión cruda del ADC del BME280.
+
+    Parámetros:
+    - adc_P (int): Lectura cruda de presión.
+    - calib (tuple): Parámetros de calibración (la tupla completa devuelta
+        por `read_calibration`).
+    - t_fine (float): Valor intermedio obtenido en la compensación de
+        temperatura (`compensate_temperature`).
+
+    Retorno:
+    - float: Presión en hPa.
+
+    Notas:
+    - Si se detecta una división por cero en los cálculos internos, la
+        función retorna 0 para indicar fallo en la compensación.
+    """
     dig_P = calib[3:]
 
     var1 = t_fine / 2.0 - 64000.0
@@ -88,7 +174,7 @@ def compensate_pressure(adc_P, calib, t_fine):
     var1 = (1.0 + var1 / 32768.0) * dig_P[0]
 
     if var1 == 0:
-        return 0
+            return 0
 
     p = 1048576.0 - adc_P
     p = ((p - var2 / 4096.0) * 6250.0) / var1
@@ -101,6 +187,22 @@ def compensate_pressure(adc_P, calib, t_fine):
     return p / 100.0
 
 def compensate_humidity(adc_H, calib, t_fine):
+    """
+    Compensa la humedad relativa cruda del ADC del BME280.
+
+    Parámetros:
+    - adc_H (int): Lectura cruda de humedad.
+    - calib (tuple): Parámetros de calibración de humedad (dig_H1..dig_H6).
+    - t_fine (float): Valor intermedio obtenido en la compensación de
+        temperatura (`compensate_temperature`).
+
+    Retorno:
+    - float: Humedad relativa en % (0.0 - 100.0), ya limitada al rango.
+
+    Notas:
+    - La fórmula sigue la recomendación de la hoja de datos del BME280 y
+        aplica saturación para mantener el resultado en el rango válido.
+    """
     dig_H1, dig_H2, dig_H3, dig_H4, dig_H5, dig_H6 = calib
 
     var_h = t_fine - 76800.0
@@ -114,6 +216,22 @@ def compensate_humidity(adc_H, calib, t_fine):
 #              Función principal de lectura BME280              #
 #===============================================================#
 def bme280():
+    """
+    Lee y devuelve una lectura completa del BME280.
+
+    Realiza la inicialización mínima del sensor (configuración de
+    oversampling y modo), lee los parámetros de calibración y obtiene
+    los valores brutos de presión, temperatura y humedad. Aplica las
+    rutinas de compensación y los offsets definidos en el entorno.
+
+    Retorno:
+    - bytes: Paquete `struct.pack("fff", temp, press, hum)` con
+        temperatura (°C), presión (hPa) y humedad (%).
+
+    Efectos secundarios:
+    - Utiliza y puede cerrar el objeto `spi` en caso de error.
+    - Imprime errores si la lectura SPI falla.
+    """
     chip_id = read_bytes(REG_ID, 1)[0]
 
     if chip_id != EXPECTED_CHIP_ID:
@@ -153,6 +271,22 @@ def bme280():
 #                  Función para Detener BME280                  #
 #===============================================================#
 def stop_bme280():
+    """
+    Cierra el bus SPI y libera los recursos asociados al BME280.
+
+    Intenta cerrar el objeto global `spi` mediante `spi.close()`.
+    Si se produce una excepción durante el cierre, la función la captura
+    e imprime un mensaje de error en lugar de propagarla.
+
+    Efectos secundarios:
+    - Cierra el objeto `spi` (libera el descriptor del bus SPI).
+    - No retorna valor (None).
+
+    Notas:
+    - Llamar a esta función varias veces puede provocar excepciones de
+      `spidev` si el dispositivo ya está cerrado; por esto se manejan
+      las excepciones internamente.
+    """
     try:
         spi.close()
         # logger.info("BME280 detenido correctamente.")
