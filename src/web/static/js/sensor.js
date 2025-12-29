@@ -45,7 +45,15 @@ let inTime = null;
 let allCollectedHistoricalData = [];
 
     //[[[[[[[[[[[[[[[[[[ TEMPERATURA ]]]]]]]]]]]]]]]]]]]//
-/* Envío de valor de Temperatura Programada */
+/**
+ * Envía la temperatura programada al servidor y devuelve el valor aplicado.
+ *
+ * @param {number} temp - Nueva temperatura a programar (°C).
+ * @param {number} prev_temp - Temperatura previa usada como respaldo si falla la petición.
+ * @returns {Promise<string|undefined>} Promesa que resuelve con la temperatura aplicada
+ *   (cadena con 1 decimal) si la petición tiene éxito, o con la temperatura previa
+ *   si el servidor responde con error. En caso de excepción de red retorna `undefined`.
+ */
 export async function setTemp_prog(temp, prev_temp){
     const nTempProg = temp.toFixed(1);
     const aTempProg = prev_temp.toFixed(1);
@@ -70,8 +78,16 @@ export async function setTemp_prog(temp, prev_temp){
         console.log("Error al configurar la Temperatura Programada");
     }
 };
-/* Obtiene las temperaturas de la sonda de piel principal
- * y la auxiliar */
+
+/**
+ * Obtiene las temperaturas de las sondas (principal y auxiliar) desde el servidor
+ * y actualiza el DOM con los valores formateados.
+ *
+ * Realiza una petición POST a `/api/getTemp` y procesa la respuesta JSON
+ * esperando campos `tempSondaPiel` y `tempSondaAux`.
+ *
+ * @returns {Promise<void>} No devuelve valor; actualiza `lstDtTemp` y elementos DOM.
+ */
 async function get_TempSonda(){
     const valTempNode = Array.from(lbl_tempSonda.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const valTempAuxNode = Array.from(lbl_tempSondaAux.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
@@ -129,7 +145,12 @@ async function get_TempSonda(){
 };
 
     //[[[[[[[[[[[[[[[[[[[ CALEFACTOR ]]]]]]]]]]]]]]]]]]]//
-/* Envío de valor de Potencia de Calefactor */
+/**
+ * Envía al servidor la potencia deseada del calefactor.
+ *
+ * @param {number} potCalef - Potencia (por ejemplo 0..100) a programar para el calefactor.
+ * @returns {Promise<void>} Promesa que resuelve cuando la petición HTTP finaliza.
+ */
 export async function setPot_prog(potCalef){
     const response = await fetch('/api/potCalef', {
         method: 'POST',
@@ -143,6 +164,12 @@ export async function setPot_prog(potCalef){
 };
 
     //[[[[[[[[[[[[[[[[[[[[ BÁSCULA ]]]]]]]]]]]]]]]]]]]]]//
+/**
+ * Controla operaciones de la báscula: pesar, tarar o calibrar.
+ *
+ * @param {string} accion - Acción a ejecutar: 'pesar', 'tarar' o 'calib'.
+ * @returns {Promise<void>} Actualiza el elemento de peso en la interfaz.
+ */
 export async function ctrls_Bascula(accion){
     let pesoBebe;
 
@@ -197,6 +224,12 @@ export async function ctrls_Bascula(accion){
 };
 
     //[[[[[[[[[[[[[[[[[[[ CRONOMETRO ]]]]]]]]]]]]]]]]]]]//
+/**
+ * Controla el cronómetro de Apgar: iniciar, pausar o reiniciar.
+ *
+ * @param {string} accion - 'start', 'pause' o 'clear'.
+ * @returns {void}
+ */
 export function ctrls_CronmApgar(accion){
     if (accion == 'start') {
         if (segTotApgar == 0)
@@ -220,6 +253,14 @@ export function ctrls_CronmApgar(accion){
 };
 
     //[[[[[[[[[[[[[[[[[[ FOTOTERAPIA ]]]]]]]]]]]]]]]]]]]//
+/**
+ * Configura los valores de intensidad de fototerapia y luz de examen,
+ * actualiza la UI y maneja el temporizador de fototerapia.
+ *
+ * @param {number} valFot - Nivel de fototerapia.
+ * @param {number} val_LExam - Nivel de luz de examen.
+ * @returns {Promise<void>} Promesa que resuelve cuando la petición POST finaliza.
+ */
 export async function setIntensVal(valFot, val_LExam){
     const val_Photo_P = Array.from(lbl_valPhoto_P.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const val_Photo_M = Array.from(lbl_valPhoto_S.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
@@ -274,6 +315,13 @@ export async function setIntensVal(valFot, val_LExam){
 };
 
     //[[[[[[[[[[[[[[[[[[[[ HUMEDAD ]]]]]]]]]]]]]]]]]]]]]//
+/**
+ * Simula/lee la humedad relativa del sensor.
+ *
+ * Actualmente devuelve un valor fijo para pruebas.
+ *
+ * @returns {number} Humedad relativa (%) en punto flotante.
+ */
 function get_HumSensor(){
     const val_HR = 87.0;
 
@@ -281,6 +329,13 @@ function get_HumSensor(){
 };
 
     //[[[[[[[[[[[[[ SATURACIÓN DE OXIGENO ]]]]]]]]]]]]]]//
+/**
+ * Simula/lee la saturación de oxígeno del sensor.
+ *
+ * Actualmente devuelve un valor fijo para pruebas.
+ *
+ * @returns {number} Saturación de oxígeno (%) en punto flotante.
+ */
 function get_SatOxSensor(){
     const val_satOx = 35.0;
 
@@ -288,6 +343,12 @@ function get_SatOxSensor(){
 };
 
     //[[[[[[[[[[[[[[[[ ALTURA VARIABLE ]]]]]]]]]]]]]]]]]//
+/**
+ * Envía comando de ajuste de posición al servidor.
+ *
+ * @param {string} accion - Acción de posición enviada al servidor.
+ * @returns {Promise<void>} Promesa que resuelve cuando la petición HTTP termina.
+ */
 export async function ctrl_AdjPos(accion){
     try {
         const response = await fetch('/api/ctrlPos', {
@@ -305,6 +366,11 @@ export async function ctrl_AdjPos(accion){
 };
 
     //[[[[[[[[[[[[[[[[[[[[[ RELOJ ]]]]]]]]]]]]]]]]]]]]]]//
+/**
+ * Actualiza el reloj visible en la UI y establece `inTime` con la hora actual HH:mm.
+ *
+ * @returns {void}
+ */
 function date(){
     const ahora = new Date();
     const meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
@@ -322,6 +388,11 @@ function date(){
 };
 
     //[[[[[[[[[[[[[[[ MODO DE OPERACIÓN ]]]]]]]]]]]]]]]]//
+/**
+ * Solicita al servidor el cambio de modo de operación.
+ *
+ * @returns {Promise<void>} Promesa que resuelve cuando la petición POST finaliza.
+ */
 export async function modoOp() {
     try {
         const response = await fetch('/api/chng_modoFunc', {
@@ -386,6 +457,14 @@ temperatureChart = new Chart(temperatureChartCanvas, {
     }
 });
 
+/**
+ * Actualiza la visualización del gráfico de temperatura con `allCollectedHistoricalData`.
+ *
+ * - Realiza downsampling si hay demasiados puntos.
+ * - Actualiza `temperatureChart.data` y llama a `temperatureChart.update()`.
+ *
+ * @returns {void}
+ */
 function updateChartDisplay() {
     if (!temperatureChart) return;
 
@@ -452,12 +531,23 @@ clearChartBtn.addEventListener('click', async () => {
 });
 
 ////////////////////// TEMPORIZADORES DE GRAFICACIÓN ////////////////////////
+/**
+ * Inicia el guardado periódico de datos con el intervalo indicado (en minutos).
+ *
+ * @param {number} intervalo - Intervalo en minutos para guardar datos.
+ * @returns {void}
+ */
 function startGuardarDatos(intervalo) {
     if (!intervalDatos) {
         intervalDatos = setInterval(guardarDatos, 1000 * 60 * intervalo);
     }
 };
 
+/**
+ * Detiene el guardado periódico de datos si está activo.
+ *
+ * @returns {void}
+ */
 function stopGuardarDatos() {
     if (intervalDatos) {
         clearInterval(intervalDatos);
@@ -465,6 +555,13 @@ function stopGuardarDatos() {
     }
 };
 
+/**
+ * Guarda el punto de datos actual (`inTime`, `lstDtTemp`) en la colección
+ * `allCollectedHistoricalData` y actualiza el gráfico.
+ *
+ * @returns {Promise<void>} Si se requiere realizar operaciones asíncronas
+ *   adicionales, pueden implementarse aquí; actualmente es síncrona.
+ */
 async function guardarDatos() {
     const nwDt = {
         time: inTime,
@@ -476,6 +573,13 @@ async function guardarDatos() {
     updateChartDisplay();
 };
 //~~~~~~~~~~~~~~~~~~ Lecturas Periódicas ~~~~~~~~~~~~~~~~~~//
+/**
+ * Lectura periódica de sensores y actualización de elementos UI.
+ *
+ * Llama a `date()`, `get_TempSonda()` y actualiza los valores de HR y SatOx.
+ *
+ * @returns {void}
+ */
 export function updateSensors(){
     const valHR = Array.from(lbl_valHR.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const valsatOx = Array.from(lbl_valsatOx.childNodes).find(node => node.nodeType === Node.TEXT_NODE);

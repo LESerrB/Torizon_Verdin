@@ -61,7 +61,7 @@ def read_adc(channel):
 #================================================================#
 #                Función principal de lectura ADC                #
 #================================================================#
-def read_Sonda(adc_chn):
+def read_Sonda(adc_chn: int):
     """
     Lee la sonda desde el canal ADC y devuelve la temperatura en grados Celsius.
 

@@ -18,7 +18,7 @@ import {
     ctrl_AdjPos,
     updateSensors,
     modoOp
-} from './sensor.js'
+} from './sensor.js';
 
 //~~~~~~~~~~~~~~~~ Definición de Variables ~~~~~~~~~~~~~~~~//
 let calef_Lvl = 100;
