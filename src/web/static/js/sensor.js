@@ -318,12 +318,12 @@ export async function setIntensVal(valFot, val_LExam){
 /**
  * Simula/lee la humedad relativa del sensor.
  *
- * Actualmente devuelve un valor fijo para pruebas.
+ * Actualmente devuelve un valor aleatorio para pruebas.
  *
  * @returns {number} Humedad relativa (%) en punto flotante.
  */
 function get_HumSensor(){
-    const val_HR = 87.0;
+    const val_HR = (Math.random() * 100).toFixed(2);
 
     return val_HR;
 };
@@ -332,12 +332,12 @@ function get_HumSensor(){
 /**
  * Simula/lee la saturación de oxígeno del sensor.
  *
- * Actualmente devuelve un valor fijo para pruebas.
+ * Actualmente devuelve un valor aleatorio para pruebas.
  *
  * @returns {number} Saturación de oxígeno (%) en punto flotante.
  */
 function get_SatOxSensor(){
-    const val_satOx = 35.0;
+    const val_satOx = (Math.random() * 100).toFixed(2);
 
     return val_satOx;
 };
