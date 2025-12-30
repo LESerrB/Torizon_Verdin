@@ -59,8 +59,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; └── templates&nbsp; \
 │ &nbsp; &nbsp; &nbsp;&emsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &emsp;&emsp;&emsp;&emsp; └─ index.html&nbsp; \
 ├── overlays/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; # Device Tree Overlays\
-├── doc/\
-│ &nbsp; &nbsp;&emsp;└── Funciones.md &emsp; &emsp; &emsp; &emsp; &emsp;&nbsp;&nbsp;# Documentación de funciones\
+├── doc/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &nbsp; # Documentación de funciones\
+│ &nbsp; &nbsp;&emsp;├── Funciones.md \
+│ &nbsp; &nbsp;&emsp;└── Funciones WEB.md \
 └── README.md   # Control de Versiones
 
 ## Control de Versiones

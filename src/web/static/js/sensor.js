@@ -323,7 +323,7 @@ export async function setIntensVal(valFot, val_LExam){
  * @returns {number} Humedad relativa (%) en punto flotante.
  */
 function get_HumSensor(){
-    const val_HR = (Math.random() * 100).toFixed(2);
+    const val_HR = (Math.random() * 100);
 
     return val_HR;
 };
@@ -337,7 +337,7 @@ function get_HumSensor(){
  * @returns {number} Saturación de oxígeno (%) en punto flotante.
  */
 function get_SatOxSensor(){
-    const val_satOx = (Math.random() * 100).toFixed(2);
+    const val_satOx = (Math.random() * 100);
 
     return val_satOx;
 };
