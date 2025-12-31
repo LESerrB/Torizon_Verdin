@@ -62,7 +62,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ├── doc/ &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &nbsp; # Documentación de funciones\
 │ &nbsp; &nbsp;&emsp;├── Funciones.md \
 │ &nbsp; &nbsp;&emsp;└── Funciones WEB.md \
-└── README.md   # Control de Versiones
+└── README.md&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; # Control de Versiones
 
 ## Control de Versiones
 
