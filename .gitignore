@@ -172,3 +172,5 @@ tcbdir/linux
 tcbdir/imx8mp-pinfunc.h
 tcbdir/tcb-env-setup.sh
 tcbdir/torizon-core-docker-verdin-imx8mp-Tezi_6.8.4+build.40.tar
+
+tcbdir/custom-torizon-docker-verdin-imx8mp
