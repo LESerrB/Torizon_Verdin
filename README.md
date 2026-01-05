@@ -292,7 +292,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creado diagrama de bloques de comunicación de tarjeta Verdin con dispositivos externos.
 - Corrección de edición de Valor de Temperatura Programada y de Potencia de Calefactor. Se activaban cuando estaba bloqueado.
 
-### v0.17.1 - [23/DIciembre/2025]
+### v0.17.1 - [23/Diciembre/2025]
 
 - Cambio de privacidad de repositorio.
 - Documentación de funciones.
