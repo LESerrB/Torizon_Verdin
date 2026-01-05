@@ -28,6 +28,12 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Python 3.x y GCC para desarrollos en C y Python.
 - Visual Studio Code con extensiones de Torizon (opcional).
 
+## Descarga
+
+[Descarga](https://github.com/LESerrB/Torizon_Verdin/releases/tag/v0.17.1-Doc_Funciones)
+
+[Notas de la versión](#v0171---23diciembre2025)
+
 ## Estructura del Proyecto
 
 >&nbsp;.\
