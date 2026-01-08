@@ -2,7 +2,7 @@
 ##
 # Board architecture
 ##
-ARG IMAGE_ARCH=
+ARG IMAGE_ARCH=arm64
 
 ##
 # Base container version
@@ -12,17 +12,17 @@ ARG BASE_VERSION=4
 ##
 # Debug port
 ##
-ARG DEBUG_SSH_PORT=
+ARG DEBUG_SSH_PORT=5002
 
 ##
 # Run as
 ##
-ARG SSHUSERNAME=
+ARG SSHUSERNAME=torizon
 
 ##
 # Directory of the application inside container
 ##
-ARG APP_ROOT=
+ARG APP_ROOT=/home/torizon/app/
 
 
 FROM --platform=linux/${IMAGE_ARCH} \

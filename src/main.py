@@ -129,7 +129,7 @@ def api_pesaje():
         return jsonify({
             "status": "ok",
             "peso": pesoFinal
-        }), 200
+        }), 200 
     else:
         return jsonify({
             "status": "fail"

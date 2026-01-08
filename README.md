@@ -26,13 +26,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - [TorizonCore Builder](https://developer.toradex.com/torizon/torizoncore-builder/).
 - Docker y Docker Compose instalados.
 - Python 3.x y GCC para desarrollos en C y Python.
-- Visual Studio Code con extensiones de Torizon (opcional).
-
-## Descarga
-
-[Descarga](https://github.com/LESerrB/Torizon_Verdin/releases/tag/v0.17.1-Doc_Funciones)
-
-[Notas de la versión](#v0171---23diciembre2025)
+- Visual Studio Code con extensiones de Torizon.
 
 ## Estructura del Proyecto
 
@@ -305,3 +299,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Corrección de función de lectura de Sonda para recibir como parámetro el canal ADC.
 - Corrección de función de visualización de valores de temperatura. Si no existe un valor se muestra "--.-".
 - Documentación de funciones ya probadas con Docstring.
+
+## Descarga
+
+<p align="center">
+	<a href="https://github.com/LESerrB/Torizon_Verdin/releases/tag/v0.17.1-Doc_Funciones">
+		<img src="doc/img/image-1.png" alt="alt text" width="240"/>
+	</a>
+</p>

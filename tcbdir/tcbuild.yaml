@@ -62,9 +62,6 @@ customization:
         # - apalis-imx8_hdmi_overlay.dtbo
       # >> Overlays to add to output image.
       add:
-        - verdin-imx8mp_dsi-to-hdmi_overlay.dts
-        - verdin-imx8mp_hdmi_overlay.dts
-        - verdin-imx8mp_spidev_overlay.dts
         - verdin-imx8mp-qspi-gpio.dts
   # kernel:
     # >> Custom kernel arguments.
@@ -159,10 +156,10 @@ output:
   # >> (2) Parameters for deploying to an Easy Installer image.
   easy-installer:
     # >> Output directory of the customized image (REQUIRED):
-    local: custom-torizon-docker-verdin-imx8mp
+    local: Dual_custom-ISO-torizon-verdin-imx8mp
     # >> Information used by Toradex Easy Installer:
     name: Torizon OS - QSPI GPIO
-    description: "My customized image"
+    description: "Customized image for DUAL"
     # licence: files/custom-licence.html
     # release-notes: files/custom-release-notes.html
     accept-licence: true
