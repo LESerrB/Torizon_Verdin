@@ -36,7 +36,6 @@ ARG APP_ROOT
 # SSH for remote debug
 EXPOSE ${DEBUG_SSH_PORT}
 EXPOSE 6512
-EXPOSE 8080
 
 # Make sure we don't get notifications we can't answer during building.
 ENV DEBIAN_FRONTEND="noninteractive"
@@ -50,7 +49,6 @@ RUN apt-get -q -y update && \
     rsync \
     file \
     screen \
-    curl \
     python3-minimal \
     python3-pip \
     python3-setuptools \
@@ -84,9 +82,6 @@ RUN . ${APP_ROOT}/.venv/bin/activate && \
     rm requirements-debug.txt && \
     chown -R ${SSHUSERNAME}:${SSHUSERNAME} ${APP_ROOT}
 
-# Copy your application (includes src/web folder)
-COPY --chown=${SSHUSERNAME}:${SSHUSERNAME} ./src ${APP_ROOT}/src
-
 # ⚠️ DEBUG PURPOSES ONLY!!
 # THIS CONFIGURES AN INSECURE SSH CONNECTION
 
@@ -109,11 +104,6 @@ RUN mkdir /var/run/sshd && \
 RUN rm -r /etc/ssh/ssh*key && \
     dpkg-reconfigure openssh-server
 
-# Copy and set entrypoint
+# CMD [ "/usr/sbin/sshd", "-D" ]
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-ENV APP_ROOT=${APP_ROOT}
-WORKDIR ${APP_ROOT}
-
 CMD ["/entrypoint.sh"]
