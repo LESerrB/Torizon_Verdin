@@ -7,6 +7,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - [Características](#características)
 - [Requisitos](#requisitos)
 - [Estructura del Proyecto](#estructura-del-proyecto)
+- [Documentación](#documentación)
 - [Control de Versiones](#control-de-versiones)
 
 ## Características
@@ -16,17 +17,16 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Comunicación con periféricos vía I2C, SPI, UART, GPIO.
 - Desarrollo de backend en Python.
 - Desarrollo de frontend en HTML/CSS/Javascript.
-- [Documentación de funciones](/doc/Funciones.md).
 
 ## Requisitos
 
-- Tarjeta **Verdin iMX8MM** con TorizonCore instalado.
-- Cable USB o conexión Ethernet.
-- [Toradex Easy Installer](https://developer.toradex.com/software/toradex-easy-installer/).
-- [TorizonCore Builder](https://developer.toradex.com/torizon/torizoncore-builder/).
+- Tarjeta **Verdin iMX8MP** con TorizonCore instalado.
+- Cable USB C (para transferencia de archivos) y conexión Ethernet.
+- Toradex Easy Installer.
+- TorizonCore Builder.
+- Visual Studio Code con extensiones de Torizon.
 - Docker y Docker Compose instalados.
 - Python 3.x y GCC para desarrollos en C y Python.
-- Visual Studio Code con extensiones de Torizon.
 
 ## Estructura del Proyecto
 
@@ -63,6 +63,13 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │ &nbsp; &nbsp;&emsp;├── Funciones.md \
 │ &nbsp; &nbsp;&emsp;└── Funciones WEB.md \
 └── README.md&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; # Control de Versiones
+
+## Documentación
+
+- [Primeros pasos](/doc/Primeros%20pasos.md)
+- [Funciones](/doc/Funciones.md).
+- [Funciones Web](/doc/Funciones%20Web.md)
+- [Generación Imagen Booteable](/doc/Generar%20imagen%20ISO.md)
 
 ## Control de Versiones
 
@@ -299,6 +306,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Corrección de función de lectura de Sonda para recibir como parámetro el canal ADC.
 - Corrección de función de visualización de valores de temperatura. Si no existe un valor se muestra "--.-".
 - Documentación de funciones ya probadas con Docstring.
+
+### v0.18 - [12/Enero/2026]
+
+- Corrección de archivos Dockerfile para crear imagen booteable en memoria USB.
+- Documentación de Primeros pasos, Funciones y Creación de Imagen booteable.
 
 ## Descarga
 

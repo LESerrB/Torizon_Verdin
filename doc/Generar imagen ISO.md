@@ -1,13 +1,5 @@
 # Generar Imagen de Instalación
 
-Descargar el proyecto en una instancia de WSL.
-
-![Repositorio del proyecto](/doc/img/github-prj.png)
-![Instancia de WSL Torizon](/doc/img/WSL_Torizon.png)
-
-Abrir el proyecto en VS Code y construir el projecto.
-![Build del proyecto](/doc/img/build_prjt.png)
-
 Comprobar que docker este funcionando usando:
 
     docker ps
