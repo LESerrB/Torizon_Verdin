@@ -35,6 +35,7 @@ RUN apt-get -q -y update && \
 # DO NOT REMOVE THIS LABEL: this is used for VS Code automation
     && apt-get clean && apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
+
 # Create virtualenv
 RUN python3 -m venv ${APP_ROOT}/.venv --system-site-packages
 
@@ -44,13 +45,12 @@ RUN . ${APP_ROOT}/.venv/bin/activate && \
     pip3 install --upgrade pip && pip3 install -r requirements-release.txt && \
     rm requirements-release.txt
 
-# Copy the application source code in the workspace to the $APP_ROOT directory
-# path inside the container, where $APP_ROOT is the torizon_app_root
-# configuration defined in settings.json
+# Copy the application source code (includes src/web folder)
 COPY ./src ${APP_ROOT}/src
 
 WORKDIR ${APP_ROOT}
 
 ENV APP_ROOT=${APP_ROOT}
+
 # Activate and run the code
-CMD ["${APP_ROOT}/.venv/bin/python", "-u", "src/main.py", "--no-sandbox"]
+CMD ["/bin/bash", "-c", "source ${APP_ROOT}/.venv/bin/activate && python3 -u src/main.py"]
