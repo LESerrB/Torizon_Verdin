@@ -39,3 +39,5 @@ Generar la carpeta para crear la memoria booteable.
 Copiar la carpeta generada un la memoria.
 
 ![Carpeta con archivos booteables](/doc/img/dirBooteable.png)
+
+Conectar la memoria en el puerto USB durante la visualización de la Interfaz de EasyInstaller y la instalación iniciará automáticamente.
