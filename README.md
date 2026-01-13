@@ -67,7 +67,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ## Documentación
 
 - [Primeros pasos](/doc/Primeros%20pasos.md)
-- [Funciones](/doc/Funciones.md).
+- [Funciones](/doc/Funciones.md)
 - [Funciones Web](/doc/Funciones%20Web.md)
 - [Generación Imagen Booteable](/doc/Generar%20imagen%20ISO.md)
 
@@ -315,7 +315,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 ## Descarga
 
 <p align="center">
-	<a href="https://github.com/LESerrB/Torizon_Verdin/releases/tag/v0.17.1-Doc_Funciones">
+	<a href="https://github.com/LESerrB/Torizon_Verdin/releases">
 		<img src="doc/img/image-1.png" alt="alt text" width="240"/>
 	</a>
 </p>

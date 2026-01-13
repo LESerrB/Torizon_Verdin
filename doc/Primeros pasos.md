@@ -83,3 +83,7 @@ Descargar el proyecto en una instancia de WSL.
 
 Abrir el proyecto en VS Code y construir el proyecto.
 ![Build del proyecto](/doc/img/build_prjt.png)
+
+Asegurar que el compilador de VS Code se encuentre como Torizon arm64.
+
+![Debug](/doc/img/debugOptions.png)
