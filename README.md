@@ -312,10 +312,31 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Corrección de archivos Dockerfile para crear imagen booteable en memoria USB.
 - Documentación de Primeros pasos, Funciones y Creación de Imagen booteable.
 
-## Descarga
+### v0.19 - [14/Enero/2026]
+
+- Cambio de función de pines QSPI a GPIO.
+
+## Descarga e Instalación
 
 <p align="center">
 	<a href="https://github.com/LESerrB/Torizon_Verdin/releases">
 		<img src="doc/img/image-1.png" alt="alt text" width="240"/>
 	</a>
 </p>
+
+1. Descargar el archivo .zip de la versión deseada del repositorio.
+![Release](/doc/img/release.png)
+
+2. Descomprimir la carpeta.
+![Unzip](/doc/img/unzip.png)
+
+3. Copiar el contenido de la carpeta en la raiz de la memoria.
+![Memoria](/doc/img/cpyMem.png)
+
+4. Insertar la memoria durante la interfaz EasyINstaller en la tarjeta SoM y seleccionar "Mass Storage".
+![Mem Install](/doc/img/customInstall.png)
+
+5. Esperar a que termine la instalación.
+![Install Image](/doc/img/Instalando_SO.png)
+
+6. Reiniciar el equipo (Tarjeta y pantalla).

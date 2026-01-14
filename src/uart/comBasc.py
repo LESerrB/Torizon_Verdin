@@ -39,13 +39,10 @@ def uart_send(data):
     try:
         if ser and ser.is_open:
             if isinstance(data, (bytes, bytearray)):
-                # print(f"Enviado (hex): {data.hex()}")
-                # print(data)
                 ser.write(data)
             else:
                 s = str(data)
                 ser.write(s.encode('ascii'))
-                # print(f"Enviado (str): {s.strip()}")
         else:
             print("UART no está abierto")
     except Exception as e:
@@ -127,10 +124,8 @@ def decode_Msg():
         crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
         crc_rec = hex(int(crc_rec, 16))
         crc_calc = hex(crc16_arc(basc_val))
-        # print(crc_calc)
 
         if crc_rec == crc_calc:
-            # print("W:", w_bas)
             return w_bas
     else:
         w_bas = 0.0
@@ -155,8 +150,6 @@ def encode_Msg(msg):
     crc = crc16_arc(dt)
     crc = crc.to_bytes(2, byteorder='big')
     dt = b'\x00' + n_bytes + dt + crc + b'\x63'
-
-    # print(dt.hex())
 
     uart_send(dt)
 #================================================================#
@@ -235,7 +228,6 @@ def pesaje():
     while (c < 4) and (time.monotonic() < finPesaje):
         encode_Msg("55")
         w = decode_Msg()
-        # print(w, pesoAcc, c, time.monotonic(), finPesaje)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w
@@ -247,7 +239,6 @@ def pesaje():
     else:
         pesoTotal = 0.0
 
-    print("Peso Final:", pesoTotal)
     return pesoTotal
 
 def tare():
@@ -274,7 +265,6 @@ def tare():
     while (c < 5) and (time.monotonic() < finPesaje):
         encode_Msg("55")
         w = decode_Msg()
-        print(w, pesoAcc, c, time.monotonic(), finPesaje)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w
@@ -286,7 +276,6 @@ def tare():
         return -1
 
     OFFSET = pesoAcc
-    print("Nuevo Offset:", OFFSET)
 
 def calib(peso_ptrn = 5.0):
     """
@@ -329,5 +318,3 @@ def calib(peso_ptrn = 5.0):
         return -1
 
     SCALE = round((pesoAcc - OFFSET) / float(peso_ptrn), 2)
-
-    print("SCALE:", SCALE)
