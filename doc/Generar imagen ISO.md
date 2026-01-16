@@ -3,7 +3,7 @@
 Seguir los pasos de [Instalar TorizonCore Builder](https://developer.toradex.com/torizon/os-customization/install-torizoncore-builder/) para crear la carpeta `tcbdir` dentro del proyecto, con la siguiente estructura:
 
 ```
- .
+.
 ├── tcbdir
 │      ├── device-trees
 │      ├── dt-bindings
