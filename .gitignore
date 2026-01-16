@@ -166,7 +166,6 @@ credentials.zip
 .conf/.docok
 
 tcbdir/device-trees
-tcbdir/dt-bindings
 tcbdir/linux
 tcbdir/bundle
 

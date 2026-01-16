@@ -1,6 +1,30 @@
 # Generar Imagen de Instalación
 
-Comprobar que docker este funcionando usando:
+Seguir los pasos de [Instalar TorizonCore Builder](https://developer.toradex.com/torizon/os-customization/install-torizoncore-builder/) para crear la carpeta `tcbdir` dentro del proyecto, con la siguiente estructura:
+
+```
+ .
+├── tcbdir
+│      ├── device-trees
+│      ├── dt-bindings
+│      ├── linux
+│      ├── Overlays
+│      │       ├── imx8mp-pinfunc.h
+│      │       └── verdin-imx8mp-qspi-gpio.dts
+│      ├── docker-compose.yml
+│      ├── logo.png
+│      ├── tcb-env-setup.sh
+│      ├── tcbuild.yaml
+│      └── torizon-core-docker-verdin-imx8mp-Tezi_X.X.X+build.XX
+```
+
+Los pasos solo crearán la carpeta tcbdir y los archivos para ejecutar ```torizoncore-builder``` los demás archivos se deberán copiar del repositorio y descargar siguiendo los pasos de [Build Custom Torizon OS Images](https://developer.toradex.com/torizon/os-customization/customize-torizon-os-images). Ahí se deberá seleccionar el modelo y la versión de la tarjeta SoM verdin utilizada para descargar los archivos necesarios para crear la imagen correcta.
+
+En esta versión se esta utilizando la versión del SO:
+
+    torizon-core-docker-verdin-imx8mp-Tezi_6.8.4+build.40
+
+Comprobar que docker este funcionando usando dentro de la carpeta del proyecto:
 
     docker ps
 
@@ -24,7 +48,8 @@ Push al registro local
 
 ![Push imagen al docker local](/doc/img/dockerPush.png)
 
-Generar el el paquete del proyecto.
+Generar el el paquete del proyecto dentro de la carpeta tcbdir (Debe inicarse TorizonCore Builder usando `source tcb-env-setup.sh
+` dentro de la carpeta tcbdir).
 
     torizoncore-builder bundle docker-compose.yml --platform linux/arm64 --bundle-directory bundle --dind-param="--insecure-registry=172.17.0.1:5002"
 

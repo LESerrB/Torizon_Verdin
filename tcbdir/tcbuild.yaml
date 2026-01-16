@@ -62,7 +62,7 @@ customization:
         # - apalis-imx8_hdmi_overlay.dtbo
       # >> Overlays to add to output image.
       add:
-        - verdin-imx8mp-qspi-gpio.dts
+        - Overlays/verdin-imx8mp-qspi-gpio.dts
   # kernel:
     # >> Custom kernel arguments.
     # arguments:
