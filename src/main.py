@@ -123,7 +123,6 @@ def api_potCalef():
 # Pesar
 @app.route("/api/bascPeso", methods=["POST"])
 def api_pesaje():
-    print("pesaje")
     pesoFinal = pesaje()
 
     if pesoFinal != 0.0:
@@ -138,7 +137,6 @@ def api_pesaje():
 # Tarar
 @app.route("/api/bascTar", methods=["POST"])
 def api_bascTar():
-    print("Tara")
     res = tare()
 
     if res != -1:
@@ -155,7 +153,6 @@ def api_bascTar():
 # Calibrar
 @app.route("/api/bascCalib", methods=["POST"])
 def api_bascCalib():
-    print("Calibrar")
     res = calib()
 
     if res != -1:

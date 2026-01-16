@@ -170,7 +170,6 @@ tcbdir/dt-bindings
 tcbdir/linux
 tcbdir/bundle
 
-tcbdir/imx8mp-pinfunc.h
 tcbdir/tcb-env-setup.sh
 tcbdir/torizon-core-docker-verdin-imx8mp-Tezi_6.8.4+build.40.tar
 

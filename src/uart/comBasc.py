@@ -14,7 +14,7 @@ tolerancia = 0.100
 #================================================================#
 #             Función principal de comunicación UART             #
 #================================================================#
-uart_Channel = "/dev/verdin-uart2"
+uart_Channel = "/dev/verdin-uart1"
 baud_rate = 57600
 
 ser = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
@@ -108,7 +108,6 @@ def decode_Msg():
     basc_val = []
 
     trama = uart_receive()
-    # print("Trama:",trama)
 
     if trama and trama.startswith("00") and trama.endswith("63"):
         trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
@@ -233,6 +232,8 @@ def pesaje():
             pesoAcc = pesoAcc + w
             c += 1
 
+    print("Peso acumulado:", pesoAcc)
+
     if pesoAcc > 0:
         pesoTotal = pesoAcc/c
         pesoTotal = (pesoTotal - OFFSET) / SCALE
@@ -269,6 +270,8 @@ def tare():
         if w != 0.0:
             pesoAcc = pesoAcc + w
             c += 1
+
+    print("Peso acumulado:", pesoAcc)
 
     if pesoAcc > 0:
         pesoAcc = pesoAcc/c
@@ -308,6 +311,8 @@ def calib(peso_ptrn = 5.0):
         if w != 0.0:
             pesoAcc = pesoAcc + w
             c += 1
+
+    print("Peso acumulado:", pesoAcc)
 
     if (pesoAcc > 0):
         pesoAcc = pesoAcc/c

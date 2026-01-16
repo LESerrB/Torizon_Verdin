@@ -312,9 +312,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Corrección de archivos Dockerfile para crear imagen booteable en memoria USB.
 - Documentación de Primeros pasos, Funciones y Creación de Imagen booteable.
 
-### v0.19 - [14/Enero/2026]
+### v0.19 - [15/Enero/2026]
 
 - Cambio de función de pines QSPI a GPIO.
+- Cambio de UART2 a UART1.
+- Cambio de función de CAN2 a GPIO.
 
 ## Descarga e Instalación
 
