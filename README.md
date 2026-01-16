@@ -30,57 +30,57 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 ## Estructura del Proyecto
 ```
- .
-├── README.md                                  # Información y Control de Versiones del proyecto
+.
+├── README.md                                             # Información y Control de Versiones del proyecto
 ├── doc                                                   # Documentación de Instalación y Funciones
-│         ├── Primeros pasos.md
-│         ├── Generar imagen ISO.md
-│         ├── Funciones.md
-│         └── Funciones WEB.md
+│   ├── Primeros pasos.md
+│   ├── Generar imagen ISO.md
+│   ├── Funciones.md
+│   └── Funciones WEB.md
 ├── tcbdir                                                # Archivos para crear la imagen booteable
-│         ├── device-trees
-│         ├── dt-bindings
-│         ├── linux
-│         ├── Overlays
-│         │       ├── imx8mp-pinfunc.h
-│         │       └── verdin-imx8mp-qspi-gpio.dts
-│         ├── docker-compose.yml
-│         ├── logo.png
-│         ├── tcb-env-setup.sh
-│         ├── tcbuild.yaml
-│         └── torizon-core-docker-verdin-imx8mp-Tezi_X.X.X+build.XX
-├── docker-compose.yml                       # Configuración de los contenedores
-├── Dockerfile                                        # Configuración del directorio del proyecto (Producción)
-├── Dockerfile.debug                             # Configuración del directorio del proyecto (Debug)
-├── requirements-debug.txt                    # Paquetes de instaladores para el proyecto
+│   ├── device-trees
+│   ├── dt-bindings
+│   ├── linux
+│   ├── Overlays
+│   │   ├── imx8mp-pinfunc.h
+│   │   └── verdin-imx8mp-qspi-gpio.dts
+│   ├── docker-compose.yml
+│   ├── logo.png
+│   ├── tcb-env-setup.sh
+│   ├── tcbuild.yaml
+│   └── torizon-core-docker-verdin-imx8mp-Tezi_X.X.X+build.XX
+├── docker-compose.yml                                    # Configuración de los contenedores
+├── Dockerfile                                            # Configuración del directorio del proyecto (Producción)
+├── Dockerfile.debug                                      # Configuración del directorio del proyecto (Debug)
+├── requirements-debug.txt                                # Paquetes de instaladores para el proyecto
 ├── requirements-local.txt
 ├── requirements-release.txt
-└── src                                                    # Código fuente
-         ├── main.py                                   # Aplicación principal
-         ├── adc 
-         │      └── calib_Sonda.py              # Joystick 
-         ├── files 
-         │      ├── logs.py                           # Logs 
-         │      └── tendencias.py                 # Tendencias 
-         ├── gpio 
-         │      └── hx711.py                        # Lector de celdas de pesaje 
-         ├── i2c 
-         │      └── sht21.py                         # Sensor de Temperatura y Humedad  
-         ├── pwm 
-         │      └── pwm.py                          # Nivel de Luz de Examinación  
-         ├── spi 
-         │      └── bme280.py# Sensor de Presion, Temperatura y Humedad    
-         └── web                                         # Pagina WEB con la información de los sensores 
-                  ├── static 
-                  │      ├─ css 
-                  │      │    ├─ vars.css             # Variables de Estilo 
-                  │      │    └─ style.css            # Hoja de Estilos 
-                  │      └─ js
-                  │            ├─ main.js               # Archivo Principal 
-                  │            ├─ ui.js                    # Animaciones 
-                  │            └─ sensor.js             # Funciones de recuperación de Datos 
-                  └── templates 
-                           └─ index.html               # Página principal
+└── src                                                   # Código fuente
+    ├── main.py                                           # Aplicación principal
+    ├── adc
+    │   └── calib_Sonda.py                                # Joystick
+    ├── files
+    │   ├── logs.py                                       # Logs
+    │   └── tendencias.py                                 # Tendencias
+    ├── gpio
+    │   └── hx711.py                                      # Lector de celdas de pesaje
+    ├── i2c
+    │   └── sht21.py                                      # Sensor de Temperatura y Humedad
+    ├── pwm
+    │   └── pwm.py                                        # Nivel de Luz de Examinación
+    ├── spi 
+    │   └── bme280.py                                     # Sensor de Presion, Temperatura y Humedad    
+    └── web                                               # Pagina WEB con la información de los sensores 
+        ├── static 
+        │   ├─ css                                        # Hojas y variables de estilos
+        │   │  ├─ vars.css
+        │   │  └─ style.css
+        │   └─ js									      # Archivos de funciones para la pag WEB
+        │      ├─ main.js
+        │      ├─ ui.js
+        │      └─ sensor.js
+        └── templates 
+            └─ index.html                                 # Página principal
 ```
 
 ## Documentación
