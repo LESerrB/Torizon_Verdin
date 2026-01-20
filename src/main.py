@@ -26,8 +26,6 @@ from gpio.modoFunc import ctrl_Motores
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from uart.comBasc import tare, calib, pesaje
 #------------------------- En Pruebas -------------------------#
-# from gpio.modoFunc import upRgt_On_AUX, upRgt_Off_AUX, dwnLft_On_AUX, dwnLft_Off_AUX
-# from gpio.modoFunc import upRgt_On_AUX2, upRgt_Off_AUX2, dwnLft_On_AUX2, dwnLft_Off_AUX2
 # from i2c.at18_T2s import readTarjeta2S
 
 # sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO

@@ -126,6 +126,32 @@ def giroMotor(action):
 
 # Control de Motores
 def ctrl_Motores(accion):
+    """
+    Controla los motores según la acción especificada mediante GPIO.
+
+    Parámetros:
+    - accion (str): Acción a ejecutar. Valores soportados:
+        - "up-prsd": Presionar botón altura arriba (motorAV_P a 0).
+        - "up-rlsd": Soltar botón altura arriba (motorAV_P a 1).
+        - "dwn-prsd": Presionar botón altura abajo (motorAV_N a 0).
+        - "dwn-rlsd": Soltar botón altura abajo (motorAV_N a 1).
+        - "incLft-prsd": Presionar inclinación izquierda (motorBAC_N a 0).
+        - "incLft-rlsd": Soltar inclinación izquierda (motorBAC_N a 1).
+        - "incRgt-prsd": Presionar inclinación derecha (motorBAC_P a 0).
+        - "incRgt-rlsd": Soltar inclinación derecha (motorBAC_P a 1).
+        - "upLmp-prsd": Presionar lámpara arriba (motorLMP_N a 0).
+        - "upLmp-rlsd": Soltar lámpara arriba (motorLMP_N a 1).
+        - "dwnLmp-prsd": Presionar lámpara abajo (motorLMP_P a 0).
+        - "dwnLmp-rlsd": Soltar lámpara abajo (motorLMP_P a 1).
+
+    Efectos secundarios:
+    - Modifica los valores GPIO de los motores: motorAV_P, motorAV_N,
+      motorBAC_N, motorBAC_P, motorLMP_N, motorLMP_P.
+    - Los valores 0/1 representan activo/inactivo respectivamente.
+
+    Retorno:
+    - None
+    """
     match accion:
         case "up-prsd":
             motorAV_P.set_value(0)

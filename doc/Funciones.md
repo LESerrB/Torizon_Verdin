@@ -311,11 +311,11 @@ Esta función no recibe ningún parámetro.
 
 ## Funciones de ajuste de posición
 
-Estas funciones se encargan de ajustar la posición del equipo al igual que el modo de funcionamiento.
+Esta funciÓn se encargan de ajustar la posición del equipo al igual que el modo de funcionamiento.
 
 ![Diagrama Tajeta de Báscula](/doc/img/btnsCtrl_FlowDiag.svg)
 
-### upRgt_On(), upRgt_Off(), dwnLft_On(), dwnLft_Off()
+### ctrl_Motores()
 
 ---
 
@@ -325,13 +325,14 @@ Estas funciones se encargan de encender o apagar los pines de control de los mot
 
 #### Syntax
 
+    from gpio.modoFunc import ctrl_Motores
     ...
-    upRgt_On() / upRgt_Off() / dwnLft_On() / dwnLft_Off()
+    ctrl_Motores()
     ...
 
 #### Parámetros
 
-Esta función no recibe ningún valor.
+Esta función recibe una cadena de texto para seleccionar el motor y el encendido de éste.
 
 #### Returns
 

@@ -41,13 +41,13 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │   ├── device-trees
 │   ├── dt-bindings
 │   ├── linux
-│   ├── Overlays
+│   ├── Overlays                                          # Archivos para modificar el funcionamiento del sistema
 │   │   ├── imx8mp-pinfunc.h
 │   │   └── verdin-imx8mp-qspi-gpio.dts
 │   ├── docker-compose.yml
-│   ├── logo.png
+│   ├── logo.png                                          # Imagen que se muestra al iniciar el equipo
 │   ├── tcb-env-setup.sh
-│   ├── tcbuild.yaml
+│   ├── tcbuild.yaml                                      # Archivo de configuración de la imagen
 │   └── torizon-core-docker-verdin-imx8mp-Tezi_X.X.X+build.XX
 ├── docker-compose.yml                                    # Configuración de los contenedores
 ├── Dockerfile                                            # Configuración del directorio del proyecto (Producción)
