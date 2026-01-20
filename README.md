@@ -83,6 +83,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
             └─ index.html                                 # Página principal
 ```
 
+<p align="center">
+    <img src="doc/img/Diagrama de Comunicaciones.png" alt="alt text" width="480"/>
+</p>
+
 ## Documentación
 
 - [Primeros pasos](/doc/Primeros%20pasos.md)
@@ -336,6 +340,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Cambio de función de pines QSPI a GPIO.
 - Cambio de UART2 a UART1.
 - Cambio de función de CAN2 a GPIO.
+
+### v0.20 - [20/Enero/2026]
+
+- Configuración de pines GPIO extensión secundaria como controles de motores y sensores de Cuna/Incubadora.
 
 ## Descarga e Instalación
 

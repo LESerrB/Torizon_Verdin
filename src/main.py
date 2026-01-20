@@ -21,12 +21,13 @@ from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
 # from rtc.reloj import reloj
-from gpio.modoFunc import rd_ModoOp, sm_chngModoOp, upRgt_On, upRgt_Off, dwnLft_On, dwnLft_Off, giroMotor#, selDsip
+from gpio.modoFunc import ctrl_Motores
 # from i2c.sht21 import sht21, calibracion#, read_temp275
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from uart.comBasc import tare, calib, pesaje
 #------------------------- En Pruebas -------------------------#
-from gpio.modoFunc import upRgt_On_AUX, upRgt_Off_AUX, dwnLft_On_AUX, dwnLft_Off_AUX
+# from gpio.modoFunc import upRgt_On_AUX, upRgt_Off_AUX, dwnLft_On_AUX, dwnLft_Off_AUX
+# from gpio.modoFunc import upRgt_On_AUX2, upRgt_Off_AUX2, dwnLft_On_AUX2, dwnLft_Off_AUX2
 # from i2c.at18_T2s import readTarjeta2S
 
 # sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
@@ -42,7 +43,7 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
-fsm = sm_chngModoOp()
+# fsm = sm_chngModoOp()
 ##############################################################################
 #                           Configuracion de entorno                         #
 ##############################################################################
@@ -183,37 +184,30 @@ def api_nvlFototerapia():
 @app.route("/api/ctrlPos", methods=["POST"])
 def api_ctrlPos():
     accion = request.get_json().get("action")
-    print(accion)
+    # print(accion)
 
-    if accion == "up-prsd":
-        upRgt_On()
-    elif accion == "up-rlsd":
-        upRgt_Off()
-    elif accion == "dwn-prsd":
-        dwnLft_On()
-    elif accion == "dwn-rlsd":
-        dwnLft_Off()
+    ctrl_Motores(accion)
 
     return jsonify({
         "status": "ok"
     }), 200
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cambio de Modo de Funcionamiento
-@app.route("/api/chng_modoFunc", methods=["POST"])
-def api_modoFunc():
-    global strStatus
+# @app.route("/api/chng_modoFunc", methods=["POST"])
+# def api_modoFunc():
+#     global strStatus
 
-    while True:
-        fsm.run()
+#     while True:
+#         fsm.run()
 
-        if fsm.state == "edo_0":
-            strStatus = ""
-            return jsonify({"status": "ok"}), 200
-        elif fsm.state == "error" and fsm.errores < 3:
-            strStatus = f"{fsm.errores}"
-            # return jsonify({"status": "retrying"}), 502
-        elif fsm.state == "error" and fsm.errores >= 3:
-            strStatus = "Error"
-            return jsonify({"status": "fail"}), 500
+#         if fsm.state == "edo_0":
+#             strStatus = ""
+#             return jsonify({"status": "ok"}), 200
+#         elif fsm.state == "error" and fsm.errores < 3:
+#             strStatus = f"{fsm.errores}"
+#             # return jsonify({"status": "retrying"}), 502
+#         elif fsm.state == "error" and fsm.errores >= 3:
+#             strStatus = "Error"
+#             return jsonify({"status": "fail"}), 500
 
 #------------------------- En Pruebas -------------------------#
 
