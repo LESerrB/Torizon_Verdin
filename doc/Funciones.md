@@ -17,7 +17,7 @@
 
 Estas funciones se encargan de leer y calibrar la temperatura de la sonda de piel a traves del nivel de voltaje en el ADC.
 
-![Diagrama Sonda Temperatura](/doc/img/adc_FlowDiag.svg)
+![Diagrama Sonda Temperatura](./img/adc_FlowDiag.svg)
 
 ### read_Sonda()
 
@@ -75,7 +75,7 @@ Esta función no devuelve ningún valor, sobrescribe el valor de "a0" para el ca
 
 Funciones de control de potencia de calefactor, establecimiento de potencia y de señal PWM.
 
-![Diagrama de Calefactor](/doc/img/calef_FlowDiag.svg)
+![Diagrama de Calefactor](./img/calef_FlowDiag.svg)
 
 ### ctrl_Calef()
 
@@ -166,7 +166,7 @@ Esta función no devuelve ningún valor
 
 Funciones para establecer los niveles de intensidad de luz.
 
-![Diagrama Nivel de Luz](/doc/img/lfe_FlowDiag.svg)
+![Diagrama Nivel de Luz](./img/lfe_FlowDiag.svg)
 
 ### setNvlFototerapia()
 
@@ -224,7 +224,7 @@ Esta función no devuelve ningún valor
 
 Funciones para pesar, tarar, y calibrar. Los valores se almacenan en la memoria de la terjeta embebida.
 
-![Diagrama Tajeta de Báscula](/doc/img/basc_FlowDiag.svg)
+![Diagrama Tajeta de Báscula](./img/basc_FlowDiag.svg)
 
 ### pesaje()
 
@@ -313,7 +313,7 @@ Esta función no recibe ningún parámetro.
 
 Esta funciÓn se encargan de ajustar la posición del equipo al igual que el modo de funcionamiento.
 
-![Diagrama Tajeta de Báscula](/doc/img/btnsCtrl_FlowDiag.svg)
+![Diagrama Tajeta de Báscula](./img/btnsCtrl_FlowDiag.svg)
 
 ### ctrl_Motores()
 
@@ -375,7 +375,7 @@ Esta función no retorna ningún valor.
 
 Clase que se usa para crear y manejar la máquina de estados.
 
-![Diagrama Tajeta de Báscula](/doc/img/chnmodo_StateMachine.svg)
+![Diagrama Tajeta de Báscula](./img/chnmodo_StateMachine.svg)
 
 #### Syntax
 

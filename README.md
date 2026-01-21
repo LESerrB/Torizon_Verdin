@@ -89,10 +89,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 ## Documentación
 
-- [Primeros pasos](/doc/Primeros%20pasos.md)
-- [Funciones](/doc/Funciones.md)
-- [Funciones Web](/doc/Funciones%20Web.md)
-- [Generación Imagen Booteable](/doc/Generar%20imagen%20ISO.md)
+- [Primeros pasos](./Primeros%20pasos.md)
+- [Funciones](./Funciones.md)
+- [Funciones Web](./Funciones%20Web.md)
+- [Generación Imagen Booteable](./Generar%20imagen%20ISO.md)
 
 ## Control de Versiones
 
@@ -354,18 +354,18 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 </p>
 
 1. Descargar el archivo .zip de la versión deseada del repositorio.
-![Release](/doc/img/release.png)
+![Release](./img/release.png)
 
 2. Descomprimir la carpeta.
-![Unzip](/doc/img/unzip.png)
+![Unzip](./img/unzip.png)
 
 3. Copiar el contenido de la carpeta en la raiz de la memoria.
-![Memoria](/doc/img/cpyMem.png)
+![Memoria](./img/cpyMem.png)
 
 4. Insertar la memoria durante la interfaz EasyINstaller en la tarjeta SoM y seleccionar "Mass Storage".
-![Mem Install](/doc/img/customInstall.png)
+![Mem Install](./img/customInstall.png)
 
 5. Esperar a que termine la instalación.
-![Install Image](/doc/img/Instalando_SO.png)
+![Install Image](./img/Instalando_SO.png)
 
 6. Reiniciar el equipo (Tarjeta y pantalla).
