@@ -341,9 +341,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Cambio de UART2 a UART1.
 - Cambio de función de CAN2 a GPIO.
 
-### v0.20 - [20/Enero/2026]
+### v0.20 - [22/Enero/2026]
 
 - Configuración de pines GPIO extensión secundaria como controles de motores y sensores de Cuna/Incubadora.
+- Reconfiguración de boton de encendido (función de configuración) y led de notificación.0
+- Agregadas funciones de control de Joystick (Simulación de una probable adición de encoder de control de GUI).
 
 ## Descarga e Instalación
 
