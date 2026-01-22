@@ -99,6 +99,7 @@ Descargar el proyecto en una instancia de WSL.
 ![Instancia de WSL Torizon](./img/WSL_Torizon.png)
 
 Abrir el proyecto en VS Code y construir el proyecto.
+
 ![Build del proyecto](./img/build_prjt.png)
 
 Asegurar que el compilador de VS Code se encuentre como Torizon arm64.

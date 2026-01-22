@@ -87,6 +87,8 @@ services:
       - /dev/gpiochip2
       - /dev/gpiochip4
       - /dev/ttymxc0:/dev/verdin-uart1
+      - /dev/ttymxc1:/dev/verdin-uart2
+      - /dev/ttymxc2:/dev/verdin-uart3
     tty: true
     stdin_open: true
     group_add:
@@ -117,6 +119,8 @@ services:
       - /dev/gpiochip2
       - /dev/gpiochip4
       - /dev/ttymxc0:/dev/verdin-uart1
+      - /dev/ttymxc1:/dev/verdin-uart2
+      - /dev/ttymxc2:/dev/verdin-uart3
     tty: true
     stdin_open: true
     group_add:
