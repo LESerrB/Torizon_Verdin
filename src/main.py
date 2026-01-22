@@ -15,13 +15,13 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-# from gpio.pwr import pwrBtn_Evnt, blink_calib
+from gpio.botones import pwrBtn_Evnt, blink_calib
 from adc.sonda import read_Sonda#, calib_Sonda
+from adc.joystick import mv_Joystick
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
 from spi.bme280 import bme280
-# from rtc.reloj import reloj
-from gpio.modoFunc import ctrl_Motores
+from gpio.modoFunc import ctrl_Motores, sm_chngModoOp
 # from i2c.sht21 import sht21, calibracion#, read_temp275
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from uart.comBasc import tare, calib, pesaje
@@ -41,7 +41,7 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
-# fsm = sm_chngModoOp()
+fsm = sm_chngModoOp()
 ##############################################################################
 #                           Configuracion de entorno                         #
 ##############################################################################
@@ -64,8 +64,7 @@ strStatus = ""
 @app.route("/")
 def index():
     return render_template("index.html")
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> TEMPERATURAS
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SONDAS DE TEMPERATURA
 # Lectura de las sondas de piel
 @app.route("/api/getTemp", methods=["POST"])
 def api_getTemp():
@@ -105,6 +104,16 @@ def api_setTemp():
         return jsonify({
             "status": "ERROR NO SE RECIBIÓ VALOR"
         }), 500
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SENSORES HUMEDAD/PRESION
+@app.route("/api/getSnsTPH", methods=["POST"])
+def api_TPH():
+    temp280, pres280, hum280 = struct.unpack("fff", bme280())
+
+    return jsonify({
+        "status": "ok",
+        "pres280": pres280,
+        "hum280": hum280
+    }), 200
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CONTROL DE CALEFACTOR
 # Seleccionar Potencia de calefactor
 @app.route("/api/potCalef", methods=["POST"])
@@ -169,12 +178,10 @@ def api_bascCalib():
 @app.route("/api/nvlFototerapia", methods=["POST"])
 def api_nvlFototerapia():
     nvlFototerapia = request.get_json()
-    Fot = nvlFototerapia.get("nvlFototerapia")
-    Exam = nvlFototerapia.get("nvlExam")
+    # Fot = nvlFototerapia.get("nvlFototerapia")
+    # Exam = nvlFototerapia.get("nvlExam")
 
-    # if Exam:
     setNvlLuzExam(nvlFototerapia.get("nvlExam"))
-    # elif Fot:
     setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
 
     return jsonify({"status": "ok"})
@@ -189,28 +196,37 @@ def api_ctrlPos():
     return jsonify({
         "status": "ok"
     }), 200
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Cambio de Modo de Funcionamiento
-# @app.route("/api/chng_modoFunc", methods=["POST"])
-# def api_modoFunc():
-#     global strStatus
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CAMBIO DE MODO DE FUNCIONAMIENTO
+@app.route("/api/chng_modoFunc", methods=["POST"])
+def api_modoFunc():
+    global strStatus
 
-#     while True:
-#         fsm.run()
+    while True:
+        fsm.run()
 
-#         if fsm.state == "edo_0":
-#             strStatus = ""
-#             return jsonify({"status": "ok"}), 200
-#         elif fsm.state == "error" and fsm.errores < 3:
-#             strStatus = f"{fsm.errores}"
-#             # return jsonify({"status": "retrying"}), 502
-#         elif fsm.state == "error" and fsm.errores >= 3:
-#             strStatus = "Error"
-#             return jsonify({"status": "fail"}), 500
+        if fsm.state == "edo_0":
+            strStatus = ""
+            return jsonify({"status": "ok"}), 200
+        elif fsm.state == "error" and fsm.errores < 3:
+            strStatus = f"{fsm.errores}"
+            # return jsonify({"status": "retrying"}), 502
+        elif fsm.state == "error" and fsm.errores >= 3:
+            strStatus = "Error"
+            return jsonify({"status": "fail"}), 500
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JOYSTICK
+@app.route("/api/joystick", methods=["POST"])
+def joystick():
+    x=mv_Joystick(1)
+    y=mv_Joystick(0)
 
+    return jsonify({
+        "status": "ok",
+        "X": x,
+        "Y": y
+    }), 200
 #------------------------- En Pruebas -------------------------#
 
 #--------------------------------------------------------------#
-
 ##############################################################################
 #                            Funciones de sistema                            #
 ##############################################################################
@@ -231,11 +247,11 @@ def restart_container(threshold=95):
 #===============================================================#
 #                    Inicialización de Hilos                    #
 #===============================================================#
-# thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
-# thread_pwrBtn.start()
+thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
+thread_pwrBtn.start()
 
-# thread_pwrLed = threading.Thread(target=blink_calib, daemon=True)
-# thread_pwrLed.start()
+thread_pwrLed = threading.Thread(target=blink_calib, daemon=True)
+thread_pwrLed.start()
 
 thread_Calef = threading.Thread(target=ctrl_Calef, daemon=True)
 thread_Calef.start()

@@ -322,10 +322,28 @@ export async function setIntensVal(valFot, val_LExam){
  *
  * @returns {number} Humedad relativa (%) en punto flotante.
  */
-function get_HumSensor(){
-    const val_HR = (Math.random() * 100);
+async function get_HumSensor(){
+    const valHR = Array.from(lbl_valHR.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
+    const valsatOx = Array.from(lbl_valsatOx.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
 
-    return val_HR;
+    try {
+        const response = await fetch('/api/getSnsTPH', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        const tph = await response.json();
+
+        const val_HR = tph.hum280.toFixed(1);
+        const val_Pres = tph.pres280.toFixed(1);
+
+        valHR.nodeValue = `${val_HR}`;
+        valsatOx.nodeValue = `${val_Pres}`;
+    } catch (error) {
+        console.log("Error:", error);
+    }
 };
 
     //[[[[[[[[[[[[[ SATURACIÓN DE OXIGENO ]]]]]]]]]]]]]]//
@@ -336,10 +354,29 @@ function get_HumSensor(){
  *
  * @returns {number} Saturación de oxígeno (%) en punto flotante.
  */
-function get_SatOxSensor(){
-    const val_satOx = (Math.random() * 100);
+async function get_SatOxSensor(){
+    try {
+        const response = await fetch('/api/joystick', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
 
-    return val_satOx;
+        const xy = await response.json();
+
+        if (xy.X<100)
+            console.log("Step Right");
+        else if (xy.X>1700)
+            console.log("Step Left");
+        else if (xy.Y<100)
+            console.log("Step Up");
+        else if (xy.Y>1700)
+            console.log("Step Down");
+
+    } catch (error) {
+        console.log("Error:", error);
+    }
 };
 
     //[[[[[[[[[[[[[[[[ ALTURA VARIABLE ]]]]]]]]]]]]]]]]]//
@@ -581,14 +618,10 @@ async function guardarDatos() {
  * @returns {void}
  */
 export function updateSensors(){
-    const valHR = Array.from(lbl_valHR.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
-    const valsatOx = Array.from(lbl_valsatOx.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
-
     date();
     get_TempSonda();
-
-    valHR.nodeValue = `${get_HumSensor().toFixed(1)}`;
-    valsatOx.nodeValue = `${get_SatOxSensor().toFixed(1)}`;
+    get_HumSensor();
+    get_SatOxSensor()
 
     // updateChartDisplay();
 };

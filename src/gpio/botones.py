@@ -4,26 +4,28 @@ import time
 # Pin       23   |   24
 # GPIO      3    |   4
 # SODIMM    210  |   212
-# GPIOCHIP  4    |   4
-# LINE      26   |   27
+# GPIOCHIP  0    |   0
+# LINE      5    |   6
 
+# line   5: "SODIMM_210"       unused  output  active-high
+# line   6: "SODIMM_212"       unused   input  active-high
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
-CHIP_NAME = "/dev/gpiochip4"
+bank = "/dev/gpiochip0"
 
-pin_24 = 27   # Botón de Encendido
-pin_23 = 26   # Led de Botón
+pin_led = 5   # GPIO_3
+pin_pwr = 6   # GPIO_4
 
 cont_modo_calib = 0
-calib = False         # Bandera de habilitación para modo de CAlibración
+calib = False         # Bandera de habilitación para modo de Calibración
 
 # Inicialización chips
-chip = gpiod.Chip(CHIP_NAME)
+chip = gpiod.Chip(bank)
 
 # Líneas individuales
-pwrBtn = chip.get_line(pin_24)
-led = chip.get_line(pin_23)
+pwrBtn = chip.get_line(pin_pwr)
+led = chip.get_line(pin_led)
 
 # Configuración de Acceso
 pwrBtn.request(
@@ -56,6 +58,8 @@ def pwrBtn_Evnt():
     consola el contador de toques; en flanco de subida (`RISING_EDGE`)
     apaga el `led` e incrementa `cont_modo_calib`.
   - Si `cont_modo_calib` alcanza 10, establece la bandera global `calib = True`.
+  - Incluye debouncing (20ms) para evitar brincos en el contador causados
+    por rebotes del botón físico.
 
   Efectos secundarios:
   - Modifica las variables globales `cont_modo_calib` y `calib`.
@@ -70,6 +74,8 @@ def pwrBtn_Evnt():
   global calib
   
   last_event_time = time.monotonic()
+  last_debounce_time = time.monotonic()
+  DEBOUNCE_TIME = 0.02  # 20 milisegundos para filtrar rebotes
   
   while True:
     event = pwrBtn.event_wait(5)
@@ -80,8 +86,15 @@ def pwrBtn_Evnt():
       last_event_time = now
 
     if event:
+      # Aplicar debouncing: ignorar eventos dentro de DEBOUNCE_TIME
+      if now - last_debounce_time < DEBOUNCE_TIME:
+        # Descartar el evento de rebote
+        pwrBtn.event_read()
+        continue
+      
       evt = pwrBtn.event_read()
       last_event_time = now
+      last_debounce_time = now
 
       if evt.type == gpiod.LineEvent.FALLING_EDGE:
         led.set_value(1)
@@ -128,3 +141,4 @@ def blink_calib():
       calib = False
 
     time.sleep(0.1)
+
