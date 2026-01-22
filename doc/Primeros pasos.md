@@ -64,7 +64,24 @@ Activar la extensión seleccionando el icono en la barra lateral.
 
 Durante la primer activación se deben verificar e instalar las distintas dependencias necesarias.
 
-![Verificación Dependencias](./img/Install_Dependencias.png)
+![Verificación Dependencias](./img/Install_Dependences.png)
+
+Instalar Windows Subsystem for Linux. El equipo se reiniciará después de la instalación.
+
+![Instalación de WSL](./img/WSL_Install.png)
+
+Despues del reinicio, volver a abrir VS Code y ejecutar de nuevo la verificación de las dependencias. Si se han completado las verificaciones anteriores de manera correcta. Instalar Torizon WSL 2.
+
+![Verificación Dependencias](./img/WSL-Torizon_Install.png)
+
+Configurar el entorno de Torizon WSL.
+
+![Verificación Dependencias](./img/WSL-Torizon_Config.png)
+![Verificación Dependencias](./img/Config_TZ-WSL.png)
+
+Asignar el Nombre del Sistema y la contraseña ```sudo```
+
+![Verificación Dependencias](./img/Config_TZ-WSL_NomPsw.png)
 
 Después de verificar e instalar las dependencias conectar con WSL.
 
@@ -87,3 +104,7 @@ Abrir el proyecto en VS Code y construir el proyecto.
 Asegurar que el compilador de VS Code se encuentre como Torizon arm64.
 
 ![Debug](./img/debugOptions.png)
+
+Durante la primer carga del proyecto se pedira instalar los paquetes y recursos necesarios para el proyecto. Usar la contraseña configurada con anterioridad.
+
+![Verificación Dependencias](./img/InstallResources.png)
