@@ -83,6 +83,10 @@ Asignar el Nombre del Sistema y la contraseña ```sudo```
 
 ![Verificación Dependencias](./img/Config_TZ-WSL_NomPsw.png)
 
+En versiones actuales no aparece la ventana de Torizon on WSL 2, se abre un cuadro de dialogo en la parte superior para llenar el Nombre de Usuario y Contraseña.
+
+![alt text](./img/usr-psw_WSL_Torixzon.png)
+
 Después de verificar e instalar las dependencias conectar con WSL.
 
 ![Conectar a WSL](./img/ConexionWSL.png)
