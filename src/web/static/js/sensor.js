@@ -355,28 +355,7 @@ async function get_HumSensor(){
  * @returns {number} Saturación de oxígeno (%) en punto flotante.
  */
 async function get_SatOxSensor(){
-    try {
-        const response = await fetch('/api/joystick', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-
-        const xy = await response.json();
-
-        if (xy.X<100)
-            console.log("Step Right");
-        else if (xy.X>1700)
-            console.log("Step Left");
-        else if (xy.Y<100)
-            console.log("Step Up");
-        else if (xy.Y>1700)
-            console.log("Step Down");
-
-    } catch (error) {
-        console.log("Error:", error);
-    }
+    
 };
 
     //[[[[[[[[[[[[[[[[ ALTURA VARIABLE ]]]]]]]]]]]]]]]]]//

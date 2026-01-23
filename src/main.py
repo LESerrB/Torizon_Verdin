@@ -7,6 +7,8 @@ import time
 import shutil
 # import logging
 
+import serial
+
 # from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
@@ -15,11 +17,11 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from gpio.botones import pwrBtn_Evnt, blink_calib
+from gpio.botones import pwrBtn_Evnt#, blink_calib
 from adc.sonda import read_Sonda#, calib_Sonda
-from adc.joystick import mv_Joystick
+from adc.joystick import rd_joystick
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
-from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef, get_PWMstatus
+from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef
 from spi.bme280 import bme280
 from gpio.modoFunc import ctrl_Motores, sm_chngModoOp
 # from i2c.sht21 import sht21, calibracion#, read_temp275
@@ -27,9 +29,6 @@ from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from uart.comBasc import tare, calib, pesaje
 #------------------------- En Pruebas -------------------------#
 # from i2c.at18_T2s import readTarjeta2S
-
-# sensor1075 = TMP1075() # NO ESTA EL DISPOSITIVO
-
 #--------------------------------------------------------------#
 
 ##############################################################################
@@ -213,17 +212,6 @@ def api_modoFunc():
         elif fsm.state == "error" and fsm.errores >= 3:
             strStatus = "Error"
             return jsonify({"status": "fail"}), 500
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JOYSTICK
-@app.route("/api/joystick", methods=["POST"])
-def joystick():
-    x=mv_Joystick(1)
-    y=mv_Joystick(0)
-
-    return jsonify({
-        "status": "ok",
-        "X": x,
-        "Y": y
-    }), 200
 #------------------------- En Pruebas -------------------------#
 
 #--------------------------------------------------------------#
@@ -250,14 +238,14 @@ def restart_container(threshold=95):
 thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
 thread_pwrBtn.start()
 
-thread_pwrLed = threading.Thread(target=blink_calib, daemon=True)
-thread_pwrLed.start()
-
 thread_Calef = threading.Thread(target=ctrl_Calef, daemon=True)
 thread_Calef.start()
 
 thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
 thread_comCalef.start()
+
+thread_Joystick = threading.Thread(target=rd_joystick, daemon=True)
+thread_Joystick.start()
 
 monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
 monitor_thread.start()

@@ -346,7 +346,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Configuración de pines GPIO extensión secundaria como controles de motores y sensores de Cuna/Incubadora.
 - Reconfiguración de boton de encendido (función de configuración) y led de notificación.0
 - Agregadas funciones de control de Joystick (Simulación de una probable adición de encoder de control de GUI).
-- Agregados canales UART 2 y 3 para usarse en el futuro.
+- Agregados canales UART 2 y 3 para usarse en el futuro (Canalaes 3 y 4 requieren desoldar resistencias de USB debug y soldarlas en los canales de pines GPIO).
 
 ## Descarga e Instalación
 

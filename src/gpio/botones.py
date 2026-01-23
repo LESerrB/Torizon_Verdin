@@ -7,8 +7,6 @@ import time
 # GPIOCHIP  0    |   0
 # LINE      5    |   6
 
-# line   5: "SODIMM_210"       unused  output  active-high
-# line   6: "SODIMM_212"       unused   input  active-high
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
@@ -18,7 +16,7 @@ pin_led = 5   # GPIO_3
 pin_pwr = 6   # GPIO_4
 
 cont_modo_calib = 0
-calib = False         # Bandera de habilitación para modo de Calibración
+# calib = False         # Bandera de habilitación para modo de Calibración
 
 # Inicialización chips
 chip = gpiod.Chip(bank)
@@ -71,12 +69,12 @@ def pwrBtn_Evnt():
     del sistema.
   """
   global cont_modo_calib
-  global calib
+  # global calib
   
   last_event_time = time.monotonic()
   last_debounce_time = time.monotonic()
   DEBOUNCE_TIME = 0.02  # 20 milisegundos para filtrar rebotes
-  
+
   while True:
     event = pwrBtn.event_wait(5)
     now = time.monotonic()
@@ -86,12 +84,11 @@ def pwrBtn_Evnt():
       last_event_time = now
 
     if event:
-      # Aplicar debouncing: ignorar eventos dentro de DEBOUNCE_TIME
+      # Descartar el evento de rebote
       if now - last_debounce_time < DEBOUNCE_TIME:
-        # Descartar el evento de rebote
         pwrBtn.event_read()
         continue
-      
+
       evt = pwrBtn.event_read()
       last_event_time = now
       last_debounce_time = now
@@ -104,13 +101,13 @@ def pwrBtn_Evnt():
         cont_modo_calib += 1
 
     if cont_modo_calib >= 10:
-      calib = True
+      blink_calib(True)
 
 #===============================================================#
 #                Parpadeo Led Boton de Encendido                #
 #===============================================================#
 # Parpadeo indicando la activación de la calibración
-def blink_calib():
+def blink_calib(calib):
   """
   Parpadea el LED para indicar que el modo calibración está activo.
 
@@ -126,19 +123,18 @@ def blink_calib():
   - Diseñada para ejecutarse en un hilo dedicado (bucle infinito).
   - Usa `time.monotonic()` para cálculos de tiempo robustos.
   """
-  global calib
+  # global calib
 
-  while True:
-    if calib:
-      start_time = time.monotonic()
+  if calib:
+    start_time = time.monotonic()
 
-      while calib and (time.monotonic() - start_time < 60):
-        led.set_value(0)
-        time.sleep(1)
-        led.set_value(1)
-        time.sleep(1)
+    while calib and (time.monotonic() - start_time < 60):
+      led.set_value(0)
+      time.sleep(1)
+      led.set_value(1)
+      time.sleep(1)
 
-      calib = False
+    calib = False
 
-    time.sleep(0.1)
+  time.sleep(0.1)
 
