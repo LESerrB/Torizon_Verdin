@@ -602,5 +602,5 @@ export function updateSensors(){
     get_HumSensor();
     get_SatOxSensor()
 
-    // updateChartDisplay();
+    updateChartDisplay();
 };

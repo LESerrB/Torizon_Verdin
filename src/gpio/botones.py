@@ -16,7 +16,6 @@ pin_led = 5   # GPIO_3
 pin_pwr = 6   # GPIO_4
 
 cont_modo_calib = 0
-# calib = False         # Bandera de habilitación para modo de Calibración
 
 # Inicialización chips
 chip = gpiod.Chip(bank)
@@ -106,24 +105,22 @@ def pwrBtn_Evnt():
 #===============================================================#
 #                Parpadeo Led Boton de Encendido                #
 #===============================================================#
-# Parpadeo indicando la activación de la calibración
 def blink_calib(calib):
   """
   Parpadea el LED para indicar que el modo calibración está activo.
 
   Comportamiento:
-  - Si la bandera global `calib` es True, inicia un periodo de parpadeo de
+  - Si la bandera `calib` es True, inicia un periodo de parpadeo de
     hasta 60 segundos: alterna `led` apagado/encendido con 1s de separación.
   - Tras el periodo o si `calib` pasa a False, desactiva la bandera `calib`.
 
   Efectos secundarios:
-  - Modifica la salida `led` y la variable global `calib`.
+  - Modifica la salida `led` y la variable `calib`.
 
   Notas:
   - Diseñada para ejecutarse en un hilo dedicado (bucle infinito).
   - Usa `time.monotonic()` para cálculos de tiempo robustos.
   """
-  # global calib
 
   if calib:
     start_time = time.monotonic()

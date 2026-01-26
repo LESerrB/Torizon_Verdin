@@ -23,9 +23,9 @@
         <!---------------------------- BARRA SUPERIOR --------------------------->
         <!----------------------------------------------------------------------->
         <div class="header">
-            <button class="btn-mode" id="btn-mode">Cuna/Incubadora</button>
-            <button class="btn-alarm" id="btn-alarm">ALARMA</button>
-            <button class="btn-mode" id="btn-lock">Lock/Unlock</button>
+            <button class="btn-mode" id="btn-mode" tabindex="1">Cuna/Incubadora</button>
+            <button class="btn-alarm" id="btn-alarm" tabindex="2">ALARMA</button>
+            <button class="btn-mode" id="btn-lock" tabindex="3">Lock/Unlock</button>
         </div>
 
         <!----------------------------------------------------------------------->
@@ -36,7 +36,7 @@
                 <div class="bkgnd-info">
                     <!-------------------------- MODO BEBÉ -------------------------->
                     <div class="side-info">
-                        <div class="info-title active" id="modo-bebe">MODO BEBÉ</div>
+                        <div class="info-title active" id="modo-bebe" tabindex="4">MODO BEBÉ</div>
                             <div class="info-value active" id="temp">--.-<span class="units"> °C </span></div>
 
                         <div class="ctrl-temp">
@@ -47,7 +47,7 @@
                                 </div>
                                 
                                 <div class="ctrl-val active" id="tempProg-val">
-                                    <div class="value" id="tempProg">--.-</div>
+                                    <div class="value" id="tempProg" tabindex="5">--.-</div>
                                     <div class="units">°C</div>
                                 </div>
 
@@ -55,9 +55,9 @@
                             </div>
 
                             <div class="ctrl-btns">
-                                <button class="btn-sensor active" id="tempProgMenos"><div class="btn-snsr-lbl active" id="tempProgMenos-lbl">-</div></button>
-                                <button class="btn-sensor active" id="tempProgAceptar"><div class="btn-snsr-lbl active" id="tempProgAceptar-lbl">Aceptar</div></button>
-                                <button class="btn-sensor active" id="tempProgMas"><div class="btn-snsr-lbl active" id="tempProgMas-lbl">+</div></button>
+                                <button class="btn-sensor active" id="tempProgMenos" tabindex="6"><div class="btn-snsr-lbl active" id="tempProgMenos-lbl">-</div></button>
+                                <button class="btn-sensor active" id="tempProgAceptar" tabindex="8"><div class="btn-snsr-lbl active" id="tempProgAceptar-lbl">Aceptar</div></button>
+                                <button class="btn-sensor active" id="tempProgMas" tabindex="7"><div class="btn-snsr-lbl active" id="tempProgMas-lbl">+</div></button>
                             </div>
                             
                             <div class="ctrl-row">
@@ -76,8 +76,8 @@
 
                     <!------------------------- MODO MANUAL ------------------------->
                     <div class="side-info">
-                        <div class="info-title inactive" id="modo-manual">MODO MANUAL</div>
-                            <div class="info-value inactive" id="potCalef-val">--<span class="units"> % </span></div>
+                        <div class="info-title inactive" id="modo-manual" tabindex="9">MODO MANUAL</div>
+                            <div class="info-value inactive" id="potCalef-val" tabindex="10">--<span class="units"> % </span></div>
 
                             <div class="ctrl-pot">
                                 <div class="pot-indicators">
@@ -94,9 +94,9 @@
                                 </div>
 
                                 <div class="ctrl-btns">
-                                    <button class="btn-sensor inactive" id="calefMenos"><div class="btn-snsr-lbl inactive" id="calefMenos-lbl">-</div></button>
-                                    <button class="btn-sensor inactive" id="calefAceptar"><div class="btn-snsr-lbl inactive" id="calefAceptar-lbl">Aceptar</div></button>
-                                    <button class="btn-sensor inactive" id="calefMas"><div class="btn-snsr-lbl inactive" id="calefMas-lbl">+</div></button>
+                                    <button class="btn-sensor inactive" id="calefMenos" tabindex="11"><div class="btn-snsr-lbl inactive" id="calefMenos-lbl">-</div></button>
+                                    <button class="btn-sensor inactive" id="calefAceptar" tabindex="13"><div class="btn-snsr-lbl inactive" id="calefAceptar-lbl">Aceptar</div></button>
+                                    <button class="btn-sensor inactive" id="calefMas" tabindex="12"><div class="btn-snsr-lbl inactive" id="calefMas-lbl">+</div></button>
                                 </div>
                             </div>
                     </div>
@@ -108,34 +108,34 @@
             <!----------------------------------------------------------------------->
             <div class="bckgnd-btns" id="modules-container">
                 <div class="module inactive" id="mdcnt-bascula">
-                    <div class="mdl-title bg-scale" id="bascula">Báscula</div>
-                    <div><button class="btn-cancel" id="btn-close-Scale"><div class="btn-snsr-lbl active"> Salir </div></button></div>
+                    <div class="mdl-title bg-scale" id="bascula" tabindex="14">Báscula</div>
+                    <div><button class="btn-cancel" id="btn-close-Scale" tabindex="18"><div class="btn-snsr-lbl active"> Salir </div></button></div>
                     <div class="mod-value" id="peso"> -.-- <span class="mod-units"> Kg </span></div>
 
                     <div class="mod-btns">
-                        <button class="btn-sensor active" id="btn-pesar"><div class="btn-snsr-lbl active">Pesar</div></button>
-                        <button class="btn-sensor active" id="btn-tara"><div class="btn-snsr-lbl active">Tara</div></button>
+                        <button class="btn-sensor active" id="btn-pesar" tabindex="15"><div class="btn-snsr-lbl active">Pesar</div></button>
+                        <button class="btn-sensor active" id="btn-tara" tabindex="16"><div class="btn-snsr-lbl active">Tara</div></button>
                     </div>
 
                     <div id="hc-scale" class="hidden-ctrls">
-                        <button class="btn-sensor active" id="btn-calib"><div class="btn-snsr-lbl active">Calibración</div></button>
+                        <button class="btn-sensor active" id="btn-calib" tabindex="17"><div class="btn-snsr-lbl active">Calibración</div></button>
                     </div>
                 </div>
 
                 <div class="module inactive" id="mdcnt-timer">
-                    <div class="mdl-title bg-timer" id="timer">Cronómetro Apgar</div>
-                    <div><button class="btn-cancel" id="btn-close-Timer"><div class="btn-snsr-lbl active"> Salir </div></button></div>
+                    <div class="mdl-title bg-timer" id="timer" tabindex="19">Cronómetro Apgar</div>
+                    <div><button class="btn-cancel" id="btn-close-Timer" tabindex="22"><div class="btn-snsr-lbl active"> Salir </div></button></div>
                     <div class="mod-value" id="cronApgar">mm:ss</div>
 
                     <div class="mod-btns">
-                        <button class="btn-sensor active" id="btn-startpause"><div class="btn-snsr-lbl active">Iniciar</div></button>
-                        <button class="btn-sensor active" id="btn-clear"><div class="btn-snsr-lbl active">Limpiar</div></button>
+                        <button class="btn-sensor active" id="btn-startpause" tabindex="20"><div class="btn-snsr-lbl active">Iniciar</div></button>
+                        <button class="btn-sensor active" id="btn-clear" tabindex="21"><div class="btn-snsr-lbl active">Limpiar</div></button>
                     </div>
                 </div>
 
                 <div class="module inactive" id="mdcnt-photo">
-                    <div class="mdl-title bg-phototherapy" id="photo">Fototerapia</div>
-                    <div><button class="btn-cancel" id="btn-close-Photo"><div class="btn-snsr-lbl active"> Salir </div></button></div>
+                    <div class="mdl-title bg-phototherapy" id="photo" tabindex="23">Fototerapia</div>
+                    <div><button class="btn-cancel" id="btn-close-Photo" tabindex="26"><div class="btn-snsr-lbl active"> Salir </div></button></div>
 
                     <div id="sc-photo">
                         <div class="mod-value" id="timer-value-P"> HH:mm </div>
@@ -145,12 +145,12 @@
                     <div id="hc-photo" class="hidden-ctrls">
                         <div class="sliders-container">
                             <div class="slider-group">
-                                <input type="range" min="0" max="100" value="0" class="slider vertical" id="photo-intensity">
+                                <input type="range" min="0" max="100" value="0" class="slider vertical" id="photo-intensity" tabindex="24">
                                 <label class="slider-label" id="photo-value-S"> -- <span class="mod-units"> % </span></label>
                             </div>
 
                             <div class="slider-group">
-                                <input type="range" min="0" max="100" value="0" class="slider vertical" id="exam-intensity">
+                                <input type="range" min="0" max="100" value="0" class="slider vertical" id="exam-intensity" tabindex="25">
                                 <label class="slider-label" id="exam-value"> -- <span class="mod-units"> % </span></label>
                             </div>
                         </div>
@@ -162,39 +162,39 @@
                 </div>
 
                 <div class="module inactive" id="mdcnt-humed">
-                    <div class="mdl-title bg-humidity" id="humed">Húmedad</div>
-                    <div><button class="btn-cancel" id="btn-close-Humed"><div class="btn-snsr-lbl active"> Salir </div></button></div>
+                    <div class="mdl-title bg-humidity" id="humed" tabindex="27">Húmedad</div>
+                    <div><button class="btn-cancel" id="btn-close-Humed" tabindex="28"><div class="btn-snsr-lbl active"> Salir </div></button></div>
 
                     <div class="mod-value" id="valHR"> --.- <span class="mod-units"> % HR </span></div>
                 </div>
 
                 <div class="module inactive" id="mdcnt-satOx">
-                    <div class="mdl-title bg-oxygen" id="satOx">Oxigeno</div>
-                    <div><button class="btn-cancel" id="btn-close-satOx"><div class="btn-snsr-lbl active"> Salir </div></button></div>
+                    <div class="mdl-title bg-oxygen" id="satOx" tabindex="29">Oxigeno</div>
+                    <div><button class="btn-cancel" id="btn-close-satOx" tabindex="30"><div class="btn-snsr-lbl active"> Salir </div></button></div>
 
                     <div class="mod-value" id="valsatOx"> --.- <span class="mod-units"> % </span></div>
                 </div>
 
                 <div class="module inactive" id="mdcnt-altVar">
-                    <div class="mdl-title bg-height" id="altVar">Altura Variable</div>
-                    <div><button class="btn-cancel" id="btn-close-altVar"><div class="btn-snsr-lbl active"> Salir </div></button></div>
+                    <div class="mdl-title bg-height" id="altVar" tabindex="31">Altura Variable</div>
+                    <div><button class="btn-cancel" id="btn-close-altVar" tabindex="38"><div class="btn-snsr-lbl active"> Salir </div></button></div>
 
                     <div class="ctrl-hgt">
                         <div class="hgt-left">
-                            <button class="btn-hgt" id="btn-upLmp"><div class="btn-hgt-lbl">&lt;&lt;</div></button>
-                            <button class="btn-hgt" id="btn-dwnLmp"><div class="btn-hgt-lbl">&gt;&gt;</div></button>
+                            <button class="btn-hgt" id="btn-upLmp" tabindex="36"><div class="btn-hgt-lbl">&lt;&lt;</div></button>
+                            <button class="btn-hgt" id="btn-dwnLmp" tabindex="37"><div class="btn-hgt-lbl">&gt;&gt;</div></button>
                         </div>
 
                         <div class="hgt-right">
                             <div>
-                                <button class="btn-hgt" id="btn-up"><div class="btn-hgt-lbl">&lt;&lt;</div></button>
+                                <button class="btn-hgt" id="btn-up" tabindex="32"><div class="btn-hgt-lbl">&lt;&lt;</div></button>
 
                                 <div class="ctrl-Bcnt">
-                                    <button class="btn-hgt" id="btn-incLft"><div class="btn-hgt-lbl">&lt;&lt;</div></button>
-                                    <button class="btn-hgt" id="btn-incRgt"><div class="btn-hgt-lbl">&gt;&gt;</div></button>
+                                    <button class="btn-hgt" id="btn-incLft" tabindex="34"><div class="btn-hgt-lbl">&lt;&lt;</div></button>
+                                    <button class="btn-hgt" id="btn-incRgt" tabindex="35"><div class="btn-hgt-lbl">&gt;&gt;</div></button>
                                 </div>
 
-                                <button class="btn-hgt" id="btn-dwn"><div class="btn-hgt-lbl">&gt;&gt;</div></button>
+                                <button class="btn-hgt" id="btn-dwn" tabindex="37"><div class="btn-hgt-lbl">&gt;&gt;</div></button>
                             </div>
                         </div>
                     </div>
@@ -213,7 +213,7 @@
 
             <div class="paciente-form-row">
                 <div class="paciente-cnt">
-                    <div class="paciente-nmb" id="paciente">
+                    <div class="paciente-nmb" id="paciente" tabindex="40">
                         <span id="pacienteNom">NOMBRE</span>
                         <span id="apP_Paciente">AP PATERNO</span>
                         <span id="apM_Paciente">AP MATERNO</span>
@@ -228,7 +228,7 @@
                 </div>
 
                 <div class="graf-btn">
-                <button class="btn-graf" id="btn-tendencias">GRAF</button>
+                <button class="btn-graf" id="btn-tendencias" tabindex="39">GRAF</button>
                 </div>
             </div>
 

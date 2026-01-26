@@ -28,6 +28,7 @@ from gpio.modoFunc import ctrl_Motores, sm_chngModoOp
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from uart.comBasc import tare, calib, pesaje
 #------------------------- En Pruebas -------------------------#
+from multiprocessing import Manager
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
 
@@ -57,6 +58,8 @@ fsm = sm_chngModoOp()
 PWM_Calef = 100
 pesoFinal = 0.0
 strStatus = ""
+
+joystick_data = Manager().dict({"x": 0, "y": 0, "pressed": False})
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
@@ -213,7 +216,13 @@ def api_modoFunc():
             strStatus = "Error"
             return jsonify({"status": "fail"}), 500
 #------------------------- En Pruebas -------------------------#
-
+@app.route("/api/joystick", methods=["GET"])
+def api_joystick():
+    return jsonify({
+        "x": joystick_data["x"],
+        "y": joystick_data["y"],
+        "pressed": joystick_data["pressed"]
+    })
 #--------------------------------------------------------------#
 ##############################################################################
 #                            Funciones de sistema                            #
@@ -244,7 +253,7 @@ thread_Calef.start()
 thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
 thread_comCalef.start()
 
-thread_Joystick = threading.Thread(target=rd_joystick, daemon=True)
+thread_Joystick = threading.Thread(target=rd_joystick, args=(joystick_data,), daemon=True)
 thread_Joystick.start()
 
 monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
