@@ -1,12 +1,21 @@
+import spidev
 import struct
-import spidev                       # SPI
 import os
 
+from api.com_SPI import read_bytes, write_byte, close_COM
 from dotenv import load_dotenv
 # from files.logs import logger
 
 #===============================================================#
-#                    Configuración SPI BME280                   #
+#                Configuración de dispositivo SPI               #
+#===============================================================#
+spi_1 = spidev.SpiDev()
+spi_1.open(1, 0)
+spi_1.max_speed_hz = 1000000
+spi_1.mode = 0b00
+
+#===============================================================#
+#                 Configuración Registros BME280                #
 #===============================================================#
 # BMP-280 registros
 REG_ID = 0xD0
@@ -34,56 +43,8 @@ H_OFFSET = float(os.getenv("H_OFFSET", 1.0))
 EXPECTED_CHIP_ID = int(os.getenv("EXPECTED_CHIP_ID", "0x60"), 16)
 
 #===============================================================#
-#                  Configuración de SPI BME280                  #
+#                         Funciones BME280                      #
 #===============================================================#
-spi = spidev.SpiDev()
-spi.open(1, 0)
-spi.max_speed_hz = 1000000
-spi.mode = 0b00
-
-#===============================================================#
-#                  Funciones de lectura BME280                  #
-#===============================================================#
-def read_bytes(reg, length):
-    """
-    Lee una secuencia de bytes desde un registro del dispositivo BME280 vía SPI.
-
-    La función realiza una transferencia SPI usando `xfer2`. Para indicar una
-    operación de lectura sobre el registro `reg` se aplica la máscara `| 0x80`.
-
-    Parámetros:
-    - reg (int): Dirección del registro a leer.
-    - length (int): Número de bytes a leer.
-
-    Retorno:
-    - list[int]: Lista de bytes leídos (cada elemento 0..255).
-
-    Excepciones:
-    - Puede lanzar excepciones relacionadas con SPI (p. ej. si el bus no está
-        disponible).
-    """
-    return spi.xfer2([reg | 0x80] + [0x00]*length)[1:]
-
-def write_byte(reg, val):
-    """
-    Escribe un byte en un registro del dispositivo BME280 vía SPI.
-
-    Realiza una transferencia SPI con el bit de lectura limpiado (`reg & 0x7F`)
-    seguida del valor `val` a escribir.
-
-    Parámetros:
-    - reg (int): Dirección del registro a escribir.
-    - val (int): Valor del byte a escribir (0..255).
-
-    Retorno:
-    - None
-
-    Excepciones:
-    - Puede lanzar excepciones relacionadas con SPI (p. ej. si el bus no está
-        disponible o hay error de I/O).
-    """
-    spi.xfer2([reg & 0x7F, val])
-
 def read_calibration():
     """
     Lee y decodifica los parámetros de calibración del sensor BME280.
@@ -105,11 +66,11 @@ def read_calibration():
         BME280 y pueden variar entre sensores; comprueba compatibilidad si el
         sensor no responde correctamente.
     """
-    calib = read_bytes(REG_CALIB, 24)
-    calib_h = read_bytes(REG_HUM_CALIB, 7)
+    calib = read_bytes(spi_1, REG_CALIB, 24)
+    calib_h = read_bytes(spi_1, REG_HUM_CALIB, 7)
 
     params = struct.unpack('<HhhHhhhhhhhh', bytes(calib))
-    dig_H1 = read_bytes(0xA1, 1)[0]
+    dig_H1 = read_bytes(spi_1, 0xA1, 1)[0]
     dig_H2, dig_H3, e4, e5, e6, dig_H6, x = struct.unpack('<BbBBBbb', bytes(calib_h))
 
     dig_H4 = (e4 << 4) | (e5 & 0x0F)
@@ -232,20 +193,20 @@ def bme280():
     - Utiliza y puede cerrar el objeto `spi` en caso de error.
     - Imprime errores si la lectura SPI falla.
     """
-    chip_id = read_bytes(REG_ID, 1)[0]
+    chip_id = read_bytes(spi_1, REG_ID, 1)[0]
 
     if chip_id != EXPECTED_CHIP_ID:
         # logger.error(f"ID de chip inesperado: {chip_id}, esperado: {EXPECTED_CHIP_ID}")
         print("Sensor no detectado")
 
-    write_byte(REG_CTRL_HUM, 0x01)      # Humedad oversampling x1
-    write_byte(REG_CTRL_MEAS, 0x27)     # Temp y pres. normal mode, oversampling x1
-    write_byte(REG_CONFIG, 0xA0)
+    write_byte(spi_1, REG_CTRL_HUM, 0x01)      # Humedad oversampling x1
+    write_byte(spi_1, REG_CTRL_MEAS, 0x27)     # Temp y pres. normal mode, oversampling x1
+    write_byte(spi_1, REG_CONFIG, 0xA0)
 
     calib, calib_h = read_calibration()
 
     try:
-        raw = read_bytes(REG_PRESS_MSB, 8)
+        raw = read_bytes(spi_1, REG_PRESS_MSB, 8)
         adc_P = (raw[0] << 12) | (raw[1] << 4) | (raw[2] >> 4)
         adc_T = (raw[3] << 12) | (raw[4] << 4) | (raw[5] >> 4)
         adc_H = (raw[6] << 8) | raw[7]
@@ -262,7 +223,7 @@ def bme280():
         tph = struct.pack("fff", temp, press, hum)
         return tph
     except Exception as e:
-        spi.close()
+        close_COM()
 
         # logger.error("Error de lectura BME280:", e)
         print(f"Error de lectura BME280: {e}")
@@ -288,7 +249,7 @@ def stop_bme280():
       las excepciones internamente.
     """
     try:
-        spi.close()
+        close_COM()
         # logger.info("BME280 detenido correctamente.")
     except Exception as e:
         # logger.error(f"Error al detener BME280: {e}")

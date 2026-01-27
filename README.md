@@ -37,6 +37,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │   ├── Generar imagen ISO.md
 │   ├── Funciones.md
 │   └── Funciones WEB.md
+│
 ├── tcbdir                                                # Archivos para crear la imagen booteable
 │   ├── device-trees
 │   ├── dt-bindings
@@ -44,41 +45,63 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 │   ├── Overlays                                          # Archivos para modificar el funcionamiento del sistema
 │   │   ├── imx8mp-pinfunc.h
 │   │   └── verdin-imx8mp-qspi-gpio.dts
+│   │
 │   ├── docker-compose.yml
 │   ├── logo.png                                          # Imagen que se muestra al iniciar el equipo
 │   ├── tcb-env-setup.sh
 │   ├── tcbuild.yaml                                      # Archivo de configuración de la imagen
 │   └── torizon-core-docker-verdin-imx8mp-Tezi_X.X.X+build.XX
+│
 ├── docker-compose.yml                                    # Configuración de los contenedores
 ├── Dockerfile                                            # Configuración del directorio del proyecto (Producción)
 ├── Dockerfile.debug                                      # Configuración del directorio del proyecto (Debug)
 ├── requirements-debug.txt                                # Paquetes de instaladores para el proyecto
 ├── requirements-local.txt
 ├── requirements-release.txt
+│
 └── src                                                   # Código fuente
     ├── main.py                                           # Aplicación principal
-    ├── adc
-    │   └── calib_Sonda.py                                # Joystick
-    ├── files
-    │   ├── logs.py                                       # Logs
-    │   └── tendencias.py                                 # Tendencias
-    ├── gpio
-    │   └── hx711.py                                      # Lector de celdas de pesaje
+    │
+    ├── api                                               # Funciones de Comunicación
+    │    ├── files
+    │    │    ├── logs.py
+    │    │    └── tendencias.py
+    │    │
+    │    ├── com_SPI.py
+    │    ├── com_UART.py
+    │    ├── pins_ADC.py
+    │    └── pins_PWM.py
+    │
+    ├── dev                                               # Funciones de Control de Dispositivos
+    │    ├── Bascula
+    │    │    └── bascula.py
+    │    ├── Controles
+    │    │    └── joystick.py
+    │    ├── Fototerapia
+    │    │    └── ctrl_Fot_Exam.py
+    │    ├── GPIO
+    │    │    ├── botones.py
+    │    │    ├── calefactor.py
+    │    │    └── modoFunc.py
+    │    ├── Sensores_TPH 
+    │    │    └── bme280.py
+    │    └── Temperatura
+    │         └── sonda.py
     ├── i2c
-    │   └── sht21.py                                      # Sensor de Temperatura y Humedad
-    ├── pwm
-    │   └── pwm.py                                        # Nivel de Luz de Examinación
-    ├── spi 
-    │   └── bme280.py                                     # Sensor de Presion, Temperatura y Humedad    
+    │   ├── at18_T2s.py
+    │   └── sht21.py
+    │
     └── web                                               # Pagina WEB con la información de los sensores 
         ├── static 
         │   ├─ css                                        # Hojas y variables de estilos
         │   │  ├─ vars.css
         │   │  └─ style.css
+        │   │
         │   └─ js									      # Archivos de funciones para la pag WEB
         │      ├─ main.js
         │      ├─ ui.js
         │      └─ sensor.js
+        │
         └── templates 
             └─ index.html                                 # Página principal
 ```
@@ -347,6 +370,12 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Reconfiguración de boton de encendido (función de configuración) y led de notificación.0
 - Agregadas funciones de control de Joystick (Simulación de una probable adición de encoder de control de GUI).
 - Agregados canales UART 2 y 3 para usarse en el futuro (Canalaes 3 y 4 requieren desoldar resistencias de USB debug y soldarlas en los canales de pines GPIO).
+
+### v0.20.1 - [27/Enero/2026]
+
+- Modularizadas APIs y Funciones de comunicación con tarjetas principales.
+- Nuevo árbol de proyectos.
+- Separado en carpeta "api" para funciones de comunicación entre tarjetas y sistema, y carpeta "dev" para dispositivos que hacen uso de las funciones.
 
 ## Descarga e Instalación
 

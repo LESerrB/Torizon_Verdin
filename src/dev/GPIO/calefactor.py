@@ -3,34 +3,36 @@ import time
 import threading
 import struct
 
-# Pin       11  |   12  |   13  |   14  |   15
-# GPIO      3   |   3   |   3   |   3   |   3
-# SODIMM    30  |  32   |   34  |   36  |   38
-# GPIOCHIP  3   |   3   |   3   |   3   |   3
-# LINE      25  |  24   |   26  |   23  |   27
+#      PWM Calef | Señal Calef
+#----------------|-------------
+# Pin       27   |   28
+# GPIO      1    |   2
+# SODIMM    206  |   208
+# GPIOCHIP  0    |   0
+# LINE      0    |   1
+# FUNCTION  Out  |  In
 
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
-# bank = "/dev/gpiochip3" # GPIO3 # Mallow
-bank = "/dev/gpiochip0" # GPIO3 # Dahlia
+bank = "/dev/gpiochip0"
 
-# pin_11 = 25     # Calefactor
-# pin_12 = 24     # Lectura de Señal Calefactor
-
-pin_27 = 0     # Calefactor
-pin_28 = 1     # Lectura de Señal Calefactor
-
-# Inicialización chips
-gpio_chip = gpiod.Chip(bank)
+pin_pwmCalef = 0     # Calefactor
+pin_rdCalef = 1      # Lectura de Señal Calefactor
 
 # Líneas individuales
-calef_pin = gpio_chip.get_line(pin_27)
-calef_read = gpio_chip.get_line(pin_28)
+sgnl_Calef = gpiod.Chip(bank).get_line(pin_pwmCalef)
+sns_Calef = gpiod.Chip(bank).get_line(pin_rdCalef)
 
 # Configuración de Acceso
-calef_pin.request(consumer="calef", type=gpiod.LINE_REQ_DIR_OUT)
-calef_read.request(consumer="calef_read", type=gpiod.LINE_REQ_EV_BOTH_EDGES)
+sgnl_Calef.request(
+    consumer="sgnl_Calef",
+    type=gpiod.LINE_REQ_DIR_OUT
+)
+sns_Calef.request(
+    consumer="sns_Calef",
+    type=gpiod.LINE_REQ_EV_BOTH_EDGES
+)
 
 PWM_Calef = 100  # Valor inicial
 PWM_Calef_lock = threading.Lock()
@@ -122,9 +124,9 @@ def ctrl_Calef():
             potencia = get_PWM_Calef()
 
             if timer_calef <= potencia:
-                calef_pin.set_value(0) # Enciende el calefactor
+                sgnl_Calef.set_value(0) # Enciende el calefactor
             elif timer_calef > potencia:
-                calef_pin.set_value(1) # Apaga el calefactor
+                sgnl_Calef.set_value(1) # Apaga el calefactor
 
             if timer_calef > 100:
                 timer_calef = 0
@@ -154,7 +156,7 @@ def statusCom_Calef():
     while True:
         now = time.monotonic()
 
-        if calef_read.get_value() == 0:
+        if sns_Calef.get_value() == 0:
             if low_Start is None:
                 low_Start = now
             elif now - low_Start > timeout:
