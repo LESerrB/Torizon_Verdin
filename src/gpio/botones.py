@@ -1,7 +1,7 @@
 import gpiod
 import time
 
-# Pin       23   |   24
+# Pin       29   |   30
 # GPIO      3    |   4
 # SODIMM    210  |   212
 # GPIOCHIP  0    |   0

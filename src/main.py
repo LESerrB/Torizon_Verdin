@@ -5,6 +5,7 @@ import struct
 import threading
 import time
 import shutil
+
 # import logging
 
 import serial
@@ -17,18 +18,19 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from gpio.botones import pwrBtn_Evnt#, blink_calib
-from adc.sonda import read_Sonda#, calib_Sonda
+from gpio.botones import pwrBtn_Evnt
+from adc.sonda import read_Sonda, read_SnsOx
 from adc.joystick import rd_joystick
 from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef
 from spi.bme280 import bme280
 from gpio.modoFunc import ctrl_Motores, sm_chngModoOp
-# from i2c.sht21 import sht21, calibracion#, read_temp275
+from i2c.sht21 import sht21, calibracion#, read_temp275
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from uart.comBasc import tare, calib, pesaje
-#------------------------- En Pruebas -------------------------#
+
 from multiprocessing import Manager
+#------------------------- En Pruebas -------------------------#
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
 
@@ -71,7 +73,10 @@ def index():
 @app.route("/api/getTemp", methods=["POST"])
 def api_getTemp():
     tempSondaPiel = read_Sonda(3) # Canal ADC
-    tempSondaAux = read_Sonda(2)  # Canal ADC (2 AUX)
+    # tempSondaAux = read_Sonda(2)  # Canal ADC (2 AUX)
+    tempSondaAux = read_SnsOx(2)
+
+    sht21()
 
     if tempSondaPiel != 0 and tempSondaAux != 0:
         return jsonify({

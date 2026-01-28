@@ -93,6 +93,8 @@ def read_Sonda(adc_chn: int):
         # print(f"Error leyendo SONDA1: {e}")
         return 0
 
+def read_SnsOx(adc_chn: int):
+    return read_adc(adc_chn)
 #================================================================#
 #                       Calibración Sondas                       #
 #================================================================#

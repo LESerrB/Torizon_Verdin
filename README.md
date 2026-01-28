@@ -348,6 +348,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregadas funciones de control de Joystick (Simulación de una probable adición de encoder de control de GUI).
 - Agregados canales UART 2 y 3 para usarse en el futuro (Canalaes 3 y 4 requieren desoldar resistencias de USB debug y soldarlas en los canales de pines GPIO).
 - Creadas funciones para mover y seleccionar los elementos de la interfaz con un jotstick.
+- Agregada función de Sensado de Oxigeno por canal 2 del ADC.
 
 ## Descarga e Instalación
 
