@@ -1,56 +1,86 @@
 import gpiod
 import time
 
+#        Sensor    | Sensor Modo | Motor Altura | Motor Altura | Motor      | Motor      | Motor      | Motor     
+#        Modo Cuna | Incubadora  | Variable P   | Variable N   | Bacinete P | Bacinete N | Lampara P  | Lampara N 
+#------------------|-------------|--------------|--------------|------------|------------|------------|-----------
+# Pin          9   |   10        |    1         |    2         |   5        |   4        |   7        |   6       
+# GPIO         8   |   9         |   26         |   27         |   1        |   0        |   7        |   6       
+# SODIMM      60   |   62        |   24         |   26         |   54       |   52       |   58       |   56      
+# GPIOCHIP     2   |   2         |   3          |   3          |   2        |   2        |   2        |   2       
+# LINE         8   |   9         |   26         |   27         |   1        |   0        |   7        |   6       
+# FUNCTION    In   |   In        |   Out        |   Out        |   Out      |   Out      |   Out      |   Out     
+
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
 bank3 = "/dev/gpiochip3"
 bank2 = "/dev/gpiochip2"
 
-pin_SnsCuna = 8         # GPIO_60
-pin_SnsIncub = 9        # GPIO_62
+pin_SnsCuna = 8
+pin_SnsIncub = 9
 
-pin_MotorAV_N = 26      # GPIO_24
-pin_MotorAV_P = 27      # GPIO_26
+pin_MotorAV_N = 26
+pin_MotorAV_P = 27
 
-pin_MotorBAC_N = 0      # GPIO_52
-pin_MotorBAC_P = 1      # GPIO_54
+pin_MotorBAC_N = 0
+pin_MotorBAC_P = 1
 
-pin_MotorLMP_N = 6      # GPIO_56
-pin_MotorLMP_P = 7      # GPIO_58
+pin_MotorLMP_N = 6
+pin_MotorLMP_P = 7
+
+# Lineas individuales
+sns_Cuna = gpiod.Chip(bank2).get_line(pin_SnsCuna)
+sns_Incb = gpiod.Chip(bank2).get_line(pin_SnsIncub)
+
+motorAV_P = gpiod.Chip(bank3).get_line(pin_MotorAV_N)
+motorAV_N = gpiod.Chip(bank3).get_line(pin_MotorAV_P)
+
+motorBAC_N = gpiod.Chip(bank2).get_line(pin_MotorBAC_N)
+motorBAC_P = gpiod.Chip(bank2).get_line(pin_MotorBAC_P)
+
+motorLMP_N = gpiod.Chip(bank2).get_line(pin_MotorLMP_N)
+motorLMP_P = gpiod.Chip(bank2).get_line(pin_MotorLMP_P)
+
+# Configuración de Acceso
+sns_Cuna.request(
+    consumer="sns_Cuna",
+    type=gpiod.LINE_REQ_EV_BOTH_EDGES
+)
+sns_Incb.request(
+    consumer="sns_Incb",
+    type=gpiod.LINE_REQ_EV_BOTH_EDGES
+)
+
+motorAV_P.request(
+    consumer="motorAV_P",
+    type=gpiod.LINE_REQ_DIR_OUT
+)
+motorAV_N.request(
+    consumer="motorAV_N",
+    type=gpiod.LINE_REQ_DIR_OUT
+)
+
+motorBAC_N.request(
+    consumer="motorBAC_N",
+    type=gpiod.LINE_REQ_DIR_OUT
+)
+motorBAC_P.request(
+    consumer="motorBAC_P",
+    type=gpiod.LINE_REQ_DIR_OUT
+)
+
+motorLMP_N.request(
+    consumer="motorLMP_N",
+    type=gpiod.LINE_REQ_DIR_OUT
+)
+motorLMP_P.request(
+    consumer="motorLMP_P",
+    type=gpiod.LINE_REQ_DIR_OUT
+)
 
 strModoFunc = ""
 tiempo_deApertura = 15 # seg
-
-# Inicialización chips
-gpio_chip3 = gpiod.Chip(bank3)
-gpio_chip2 = gpiod.Chip(bank2)
-
-# Lineas individuales
-sns_Cuna = gpio_chip2.get_line(pin_SnsCuna)
-sns_Incb = gpio_chip2.get_line(pin_SnsIncub)
-
-motorAV_P = gpio_chip3.get_line(pin_MotorAV_N)
-motorAV_N = gpio_chip3.get_line(pin_MotorAV_P)
-
-motorBAC_N = gpio_chip2.get_line(pin_MotorBAC_N)
-motorBAC_P = gpio_chip2.get_line(pin_MotorBAC_P)
-
-motorLMP_N = gpio_chip2.get_line(pin_MotorLMP_N)
-motorLMP_P = gpio_chip2.get_line(pin_MotorLMP_P)
-
-# Configuración de Acceso
-sns_Cuna.request(consumer="sns_Cuna", type=gpiod.LINE_REQ_EV_BOTH_EDGES)
-sns_Incb.request(consumer="sns_Incb", type=gpiod.LINE_REQ_EV_BOTH_EDGES)
-
-motorAV_P.request(consumer="motorAV_P", type=gpiod.LINE_REQ_DIR_OUT)
-motorAV_N.request(consumer="motorAV_N", type=gpiod.LINE_REQ_DIR_OUT)
-
-motorBAC_N.request(consumer="motorBAC_N", type=gpiod.LINE_REQ_DIR_OUT)
-motorBAC_P.request(consumer="motorBAC_P", type=gpiod.LINE_REQ_DIR_OUT)
-
-motorLMP_N.request(consumer="motorLMP_N", type=gpiod.LINE_REQ_DIR_OUT)
-motorLMP_P.request(consumer="motorLMP_P", type=gpiod.LINE_REQ_DIR_OUT)
 
 # Selector MUX Inicial
 # 00  |   Altura Variable

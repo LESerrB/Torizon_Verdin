@@ -1,36 +1,32 @@
 import gpiod
 import time
 
+from api.pins_ADC import read_adc
+
+#         Boton
+#        Joystick 
+#----------------
+# Pin       32   
+# GPIO      5    
+# SODIMM    216  
+# GPIOCHIP  0    
+# LINE      7    
+# FUNCTION  In   
+
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
 bank = "/dev/gpiochip0"
-
-pin_sw = 7  # GPIO_5
-
-# Inicialización chips
-gpio_chip0 = gpiod.Chip(bank)
+pin_sw = 7
 
 # Líneas individuales
-jstkSW = gpio_chip0.get_line(pin_sw)
+jstkSW = gpiod.Chip(bank).get_line(pin_sw)
 
 # Configuración de Acceso
 jstkSW.request(
     consumer="jsSW_button",
     type=gpiod.LINE_REQ_EV_BOTH_EDGES
 )
-#===============================================================#
-#                      Configuración de ADC                     #
-#===============================================================#
-def read_adc(channel):
-    try:
-        with open(f"/sys/bus/iio/devices/iio:device0/in_voltage{channel}_raw", "r") as f:
-            return int(f.read().strip())
-    except FileNotFoundError:
-        # logger.error(f"Canal ADC {channel} no encontrado.")
-        print(f"Canal ADC {channel} no encontrado.")
-        return -1
-
 #================================================================#
 #                Función principal de lectura ADC                #
 #================================================================#
@@ -78,7 +74,7 @@ def rd_joystick():
         if now - last_read_time >= READ_INTERVAL:
             x = rd_jstk_axis(1)
             y = rd_jstk_axis(0)
-            print(f"Joystick - X: {x}, Y: {y}")
+            # print(f"Joystick - X: {x}, Y: {y}")
             last_read_time = now
 
         if jstkSW.event_wait(0):

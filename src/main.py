@@ -7,8 +7,6 @@ import time
 import shutil
 # import logging
 
-import serial
-
 # from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
@@ -17,16 +15,17 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from gpio.botones import pwrBtn_Evnt#, blink_calib
-from adc.sonda import read_Sonda#, calib_Sonda
-from adc.joystick import rd_joystick
-from pwm.pwm import setNvlFototerapia, setNvlLuzExam
-from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef
-from spi.bme280 import bme280
-from gpio.modoFunc import ctrl_Motores, sm_chngModoOp
+from dev.Temperatura.sonda import read_Sonda#, calib_Sonda
+from dev.Controles.joystick import rd_joystick
+from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
+from dev.Sensores_TPH.bme280 import bme280
+from dev.Bascula.bascula import tare, calib, pesaje
+from dev.GPIO.botones import pwrBtn_Evnt#, blink_calib
+from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
+from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
+
 # from i2c.sht21 import sht21, calibracion#, read_temp275
-from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
-from uart.comBasc import tare, calib, pesaje
+# from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
