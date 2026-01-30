@@ -322,25 +322,29 @@ export async function setIntensVal(valFot, val_LExam){
  *
  * @returns {number} Humedad relativa (%) en punto flotante.
  */
-async function get_HumSensor(){
+async function get_SensorBox(){
     const valHR = Array.from(lbl_valHR.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
     const valsatOx = Array.from(lbl_valsatOx.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
 
     try {
-        const response = await fetch('/api/getSnsTPH', {
+        const response = await fetch('/api/getSnsTHO', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
         });
 
-        const tph = await response.json();
+        const tpho = await response.json();
 
-        const val_HR = tph.hum280.toFixed(1);
-        const val_Pres = tph.pres280.toFixed(1);
+        console.log(tpho);
 
-        valHR.nodeValue = `${val_HR}`;
-        valsatOx.nodeValue = `${val_Pres}`;
+        const val_TempAmb = tpho.snsTemp.toFixed(1);
+        const val_Pres = tpho.snsPres.toFixed(1);
+        const val_HumRel = tpho.snsHum.toFixed(1);
+        const val_Ox = tpho.snsOx.toFixed(1);
+
+        valHR.nodeValue = `${val_HumRel}`;
+        valsatOx.nodeValue = `${val_Ox}`;
     } catch (error) {
         console.log("Error:", error);
     }
@@ -599,8 +603,7 @@ async function guardarDatos() {
 export function updateSensors(){
     date();
     get_TempSonda();
-    get_HumSensor();
-    get_SatOxSensor()
+    get_SensorBox();
 
     updateChartDisplay();
 };

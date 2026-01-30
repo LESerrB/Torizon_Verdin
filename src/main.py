@@ -25,7 +25,7 @@ from pwm.pwm import setNvlFototerapia, setNvlLuzExam
 from gpio.calef import ctrl_Calef, set_PWM_Calef, statusCom_Calef
 from spi.bme280 import bme280
 from gpio.modoFunc import ctrl_Motores, sm_chngModoOp
-from i2c.sht21 import sht21, calibracion#, read_temp275
+from i2c.sht21 import sht21, calibracion
 from files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 from uart.comBasc import tare, calib, pesaje
 
@@ -74,21 +74,16 @@ def index():
 def api_getTemp():
     tempSondaPiel = read_Sonda(3) # Canal ADC
     # tempSondaAux = read_Sonda(2)  # Canal ADC (2 AUX)
-    tempSondaAux = read_SnsOx(2)
 
-    sht21()
-
-    if tempSondaPiel != 0 and tempSondaAux != 0:
+    if tempSondaPiel != 0:
         return jsonify({
             "status": "ok",
-            "tempSondaPiel": tempSondaPiel,
-            "tempSondaAux": tempSondaAux
+            "tempSondaPiel": tempSondaPiel
         }), 200
-    elif tempSondaPiel != 0 and tempSondaAux == 0:
+    elif tempSondaPiel != 0:
         return jsonify({
             "status": "Sonda Aux No Conectada",
-            "tempSondaPiel": tempSondaPiel,
-            "tempSondaAux": tempSondaAux
+            "tempSondaPiel": tempSondaPiel
         }), 206
     else:
         return jsonify({
@@ -111,15 +106,20 @@ def api_setTemp():
         return jsonify({
             "status": "ERROR NO SE RECIBIÓ VALOR"
         }), 500
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SENSORES HUMEDAD/PRESION
-@app.route("/api/getSnsTPH", methods=["POST"])
-def api_TPH():
-    temp280, pres280, hum280 = struct.unpack("fff", bme280())
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SENSORES HUMEDAD/TEMPERATURA/OXIGENO
+@app.route("/api/getSnsTHO", methods=["POST"])
+def api_THO():
+    sht21()
+
+    temp_CjSns, pres_CjSns, hum_CjSns = struct.unpack("fff", bme280())
+    SnsOx = read_SnsOx(2)
 
     return jsonify({
         "status": "ok",
-        "pres280": pres280,
-        "hum280": hum280
+        "snsTemp": temp_CjSns,
+        "snsPres": pres_CjSns,
+        "snsHum": hum_CjSns,
+        "snsOx": SnsOx,
     }), 200
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CONTROL DE CALEFACTOR
 # Seleccionar Potencia de calefactor
