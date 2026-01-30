@@ -32,3 +32,6 @@ def read_adc(channel):
         # logger.error(f"Canal ADC {channel} no encontrado.")
         print(f"Canal ADC {channel} no encontrado.")
         return -1
+
+def read_SnsOx(adc_chn: int):
+    return read_adc(adc_chn)

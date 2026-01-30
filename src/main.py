@@ -5,26 +5,28 @@ import struct
 import threading
 import time
 import shutil
+
 # import logging
 
 # from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
+from multiprocessing import Manager
 
 # from files.logs import logger
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from dev.Temperatura.sonda import read_Sonda#, calib_Sonda
+from dev.Temperatura.sonda import read_Sonda, read_SnsOx
 from dev.Controles.joystick import rd_joystick
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
 from dev.Sensores_TPH.bme280 import bme280
 from dev.Bascula.bascula import tare, calib, pesaje
-from dev.GPIO.botones import pwrBtn_Evnt#, blink_calib
+from dev.GPIO.botones import pwrBtn_Evnt
 from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
 from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
 
-# from i2c.sht21 import sht21, calibracion#, read_temp275
+from i2c.sht21 import sht21, calibracion#, read_temp275
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 # from i2c.at18_T2s import readTarjeta2S
@@ -56,6 +58,8 @@ fsm = sm_chngModoOp()
 PWM_Calef = 100
 pesoFinal = 0.0
 strStatus = ""
+
+joystick_data = Manager().dict({"x": 0, "y": 0, "pressed": False})
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
@@ -67,19 +71,17 @@ def index():
 @app.route("/api/getTemp", methods=["POST"])
 def api_getTemp():
     tempSondaPiel = read_Sonda(3) # Canal ADC
-    tempSondaAux = read_Sonda(2)  # Canal ADC (2 AUX)
+    # tempSondaAux = read_Sonda(2)  # Canal ADC (2 AUX)
 
-    if tempSondaPiel != 0 and tempSondaAux != 0:
+    if tempSondaPiel != 0:
         return jsonify({
             "status": "ok",
-            "tempSondaPiel": tempSondaPiel,
-            "tempSondaAux": tempSondaAux
+            "tempSondaPiel": tempSondaPiel
         }), 200
-    elif tempSondaPiel != 0 and tempSondaAux == 0:
+    elif tempSondaPiel != 0:
         return jsonify({
             "status": "Sonda Aux No Conectada",
-            "tempSondaPiel": tempSondaPiel,
-            "tempSondaAux": tempSondaAux
+            "tempSondaPiel": tempSondaPiel
         }), 206
     else:
         return jsonify({
@@ -102,15 +104,20 @@ def api_setTemp():
         return jsonify({
             "status": "ERROR NO SE RECIBIÓ VALOR"
         }), 500
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SENSORES HUMEDAD/PRESION
-@app.route("/api/getSnsTPH", methods=["POST"])
-def api_TPH():
-    temp280, pres280, hum280 = struct.unpack("fff", bme280())
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SENSORES HUMEDAD/TEMPERATURA/OXIGENO
+@app.route("/api/getSnsTHO", methods=["POST"])
+def api_THO():
+    sht21()
+
+    temp_CjSns, pres_CjSns, hum_CjSns = struct.unpack("fff", bme280())
+    SnsOx = read_SnsOx(2)
 
     return jsonify({
         "status": "ok",
-        "pres280": pres280,
-        "hum280": hum280
+        "snsTemp": temp_CjSns,
+        "snsPres": pres_CjSns,
+        "snsHum": hum_CjSns,
+        "snsOx": SnsOx,
     }), 200
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CONTROL DE CALEFACTOR
 # Seleccionar Potencia de calefactor
@@ -212,7 +219,13 @@ def api_modoFunc():
             strStatus = "Error"
             return jsonify({"status": "fail"}), 500
 #------------------------- En Pruebas -------------------------#
-
+@app.route("/api/joystick", methods=["GET"])
+def api_joystick():
+    return jsonify({
+        "x": joystick_data["x"],
+        "y": joystick_data["y"],
+        "pressed": joystick_data["pressed"]
+    })
 #--------------------------------------------------------------#
 ##############################################################################
 #                            Funciones de sistema                            #
@@ -243,7 +256,7 @@ thread_Calef.start()
 thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
 thread_comCalef.start()
 
-thread_Joystick = threading.Thread(target=rd_joystick, daemon=True)
+thread_Joystick = threading.Thread(target=rd_joystick, args=(joystick_data,), daemon=True)
 thread_Joystick.start()
 
 monitor_thread = threading.Thread(target=monitor_disk, daemon=True)

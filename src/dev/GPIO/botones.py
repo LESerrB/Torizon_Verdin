@@ -103,18 +103,17 @@ def pwrBtn_Evnt():
 #===============================================================#
 #                Parpadeo Led Boton de Encendido                #
 #===============================================================#
-# Parpadeo indicando la activación de la calibración
 def blink_calib(calib):
   """
   Parpadea el LED para indicar que el modo calibración está activo.
 
   Comportamiento:
-  - Si la bandera global `calib` es True, inicia un periodo de parpadeo de
+  - Si la bandera `calib` es True, inicia un periodo de parpadeo de
     hasta 60 segundos: alterna `led` apagado/encendido con 1s de separación.
   - Tras el periodo o si `calib` pasa a False, desactiva la bandera `calib`.
 
   Efectos secundarios:
-  - Modifica la salida `led` y la variable global `calib`.
+  - Modifica la salida `led` y la variable `calib`.
 
   Notas:
   - Diseñada para ejecutarse en un hilo dedicado (bucle infinito).

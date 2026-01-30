@@ -63,6 +63,8 @@ def sht21():
             hum = read_humidity(bus)
             th = struct.pack("ff", temp, hum)
 
+            print("SHT21:",temp, hum, th)
+
             return th
     except Exception as e:
         # logger.error("Error de lectura SHT21:", e)
@@ -102,59 +104,3 @@ def stop_sht21():
     except Exception as e:
         print(f"No se pudo finalizar conexión con SHT21: {e}")
         # logger.warning(f"No se pudo finalizar conexión con SHT21: {e}")
-
-#===============================================================#
-#                    Función de Prueba TMP275                   #
-#===============================================================#
-def read_temp275():
-    try:
-        # bus = smbus2.SMBus(I2C_BUS)
-        with SMBus(3) as bus:
-            # Leer 2 bytes desde el registro de temperatura
-            raw = bus.read_i2c_block_data(I2C_ADDR_TMP275, TEMP_REGISTER, 2)
-            temp_raw = (raw[0] << 4) | (raw[1] >> 4)
-
-            # Conversión de complemento a dos si temperatura negativa
-            if temp_raw & (1 << 11):  # TMP275 es de 12 bits
-                temp_raw -= 1 << 12
-
-            temperature = temp_raw * 0.0625  # Cada bit representa 0.0625°C
-            return round(temperature, 2)
-
-    except Exception as e:
-        print(f"Error al leer TMP275: {e}")
-        return None
-
-#===============================================================#
-#                      Prueba  TMP1075DSGR                      #
-#===============================================================#
-# No esta conectado el dispositivo interno pero se queda por el funcionamiento en clases
-# I2C_ADDRESS = 0x4F
-# TEMP_REG = 0x00
-# I2C_BUS = 3
-
-# class TMP1075:
-#     def __init__(self, bus=I2C_BUS, address=I2C_ADDRESS):
-#         self.bus = SMBus(bus)
-#         self.address = address
-
-
-#     def read_temperature(self):
-#         raw = self.bus.read_i2c_block_data(self.address, TEMP_REG, 2)
-#         msb = raw[0]
-#         lsb = raw[1]
-
-
-#         # Combinar bytes en un entero de 12 bits (signado)
-#         temp_raw = ((msb << 4) | (lsb >> 4))
-
-#         if temp_raw & 0x800: # Si es negativo (bit 11)
-#             temp_raw -= 1 << 12
-
-
-#         temperature = temp_raw * 0.0625
-#         return round(temperature, 2)
-
-
-#     def close(self):
-#         self.bus.close()

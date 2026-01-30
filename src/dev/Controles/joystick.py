@@ -49,7 +49,7 @@ def rd_jstk_axis(adc_chn: int):
 #================================================================#
 #              Función integrada de Joystick                    #
 #================================================================#
-def rd_joystick():
+def rd_joystick(joystick_data):
     """
     Monitorea continuamente el joystick:
     - Lee los ejes X (canal 1) e Y (canal 0) del ADC
@@ -75,6 +75,8 @@ def rd_joystick():
             x = rd_jstk_axis(1)
             y = rd_jstk_axis(0)
             # print(f"Joystick - X: {x}, Y: {y}")
+            joystick_data["x"] = x
+            joystick_data["y"] = y
             last_read_time = now
 
         if jstkSW.event_wait(0):
@@ -83,9 +85,11 @@ def rd_joystick():
                 last_debounce_time = now
                 
                 if evt.type == gpiod.LineEvent.FALLING_EDGE:
-                    print("Joystick - Switch Presionado")
+                    # print("Joystick - Switch Presionado")
+                    joystick_data["pressed"] = True
                 elif evt.type == gpiod.LineEvent.RISING_EDGE:
-                    print("Joystick - Switch Liberado")
+                    # print("Joystick - Switch Liberado")
+                    joystick_data["pressed"] = False
             else:
                 jstkSW.event_read()
         

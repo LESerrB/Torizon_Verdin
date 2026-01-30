@@ -117,6 +117,68 @@ function pauseSensor() {
     }
 };
 
+const center = 900;
+const JOY_THRESHOLD = 700;
+let currentIndex = 1;
+
+function focusElement(index) {
+    const el = document.querySelector(`[tabindex="${index}"]`);
+    if (el) el.focus();
+}
+
+function getNextTabindex(direction = 'forward') {
+    const focusables = Array.from(document.querySelectorAll('[tabindex]'))
+        .filter(el => !el.disabled && el.offsetParent !== null)
+        .sort((a, b) => a.tabIndex - b.tabIndex);
+
+    const active = document.activeElement;
+    const current = focusables.indexOf(active);
+
+    if (direction === 'forward')
+        return focusables[(current + 1) % focusables.length].tabIndex;
+    else
+        return focusables[(current - 1 + focusables.length) % focusables.length].tabIndex;
+}
+
+function simulateArrowKey(key) {
+    const event = new KeyboardEvent("keydown", {
+        key: key,
+        bubbles: true,
+        cancelable: true,
+    });
+
+    document.activeElement.dispatchEvent(event);
+}
+
+setInterval(async () => {
+    const res = await fetch("/api/joystick");
+    const js = await res.json();
+
+    if (js.pressed) {
+        document.activeElement.click();
+        // console.log("Select");
+        return;
+    }
+
+    if (js.y < center - JOY_THRESHOLD) {
+        simulateArrowKey("ArrowUp");
+        // console.log("ArrowUp");
+    } else if (js.y > center + JOY_THRESHOLD) {
+        simulateArrowKey("ArrowDown");
+        // console.log("ArrowDown");
+    }
+
+    if (js.x < center - JOY_THRESHOLD) {
+        const idx = getNextTabindex('backward');
+        focusElement(idx);
+        // console.log("Shift+Tab");
+    } else if (js.x > center + JOY_THRESHOLD) {
+        const idx = getNextTabindex('forward');
+        focusElement(idx);
+        // console.log("Tab");
+    }
+}, 300);
+
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 //<<<<<<<<<<<<<<<<<<<<<<<<< Header >>>>>>>>>>>>>>>>>>>>>>>>>//
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
