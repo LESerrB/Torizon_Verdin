@@ -17,7 +17,7 @@ from multiprocessing import Manager
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from dev.Temperatura.sonda import read_Sonda, read_SnsOx
+from dev.Temperatura.sonda import read_Sonda
 from dev.Controles.joystick import rd_joystick
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
 from dev.Sensores_TPH.bme280 import bme280
@@ -25,6 +25,7 @@ from dev.Bascula.bascula import tare, calib, pesaje
 from dev.GPIO.botones import pwrBtn_Evnt
 from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
 from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
+from dev.Sensores_TPH.caja_Sns import read_SnsOx
 
 from i2c.sht21 import sht21, calibracion#, read_temp275
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
