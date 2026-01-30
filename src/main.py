@@ -25,9 +25,9 @@ from dev.Bascula.bascula import tare, calib, pesaje
 from dev.GPIO.botones import pwrBtn_Evnt
 from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
 from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
-from dev.Sensores_TPH.caja_Sns import read_SnsOx
+from dev.Sensores_TPH.sns_Ox import read_SnsOx
+from dev.Sensores_TPH.sht21 import sht21
 
-from i2c.sht21 import sht21, calibracion#, read_temp275
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 # from i2c.at18_T2s import readTarjeta2S

@@ -336,8 +336,6 @@ async function get_SensorBox(){
 
         const tpho = await response.json();
 
-        console.log(tpho);
-
         const val_TempAmb = tpho.snsTemp.toFixed(1);
         const val_Pres = tpho.snsPres.toFixed(1);
         const val_HumRel = tpho.snsHum.toFixed(1);
@@ -348,18 +346,6 @@ async function get_SensorBox(){
     } catch (error) {
         console.log("Error:", error);
     }
-};
-
-    //[[[[[[[[[[[[[ SATURACIÓN DE OXIGENO ]]]]]]]]]]]]]]//
-/**
- * Simula/lee la saturación de oxígeno del sensor.
- *
- * Actualmente devuelve un valor aleatorio para pruebas.
- *
- * @returns {number} Saturación de oxígeno (%) en punto flotante.
- */
-async function get_SatOxSensor(){
-    
 };
 
     //[[[[[[[[[[[[[[[[ ALTURA VARIABLE ]]]]]]]]]]]]]]]]]//
