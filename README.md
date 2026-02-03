@@ -373,7 +373,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creadas funciones para mover y seleccionar los elementos de la interfaz con un jotstick.
 - Agregada función de Sensado de Oxigeno por canal 2 del ADC.
 
-### v0.20.1 - [27/Enero/2026]
+### v0.20.1 - [3/Febrero/2026]
 
 - Modularizadas APIs y Funciones de comunicación con tarjetas principales.
 - Nuevo árbol de proyectos.
