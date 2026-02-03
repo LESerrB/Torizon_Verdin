@@ -90,6 +90,9 @@ btn_calefMenos.disabled = true;
 btn_calefAceptar.disabled = true;
 btn_calefMas.disabled = true;
 
+// Fototerapia //
+sld_Photo.disabled = true;
+
 let intervalId = null;
 
 let lockState = false;
@@ -531,10 +534,19 @@ document.getElementById('btn-close-Photo').addEventListener('click', () => {
 });
         //((((((((((((((( Controles ))))))))))))))))//
 sld_Photo.addEventListener("input", () => {
-    setIntensVal(sld_Photo.value, sld_Exam.value);
+    setIntensVal(sld_Photo.value, sld_Photo.value);
+    sld_Exam.value = sld_Photo.value;
 });
 
 sld_Exam.addEventListener("input", () => {
+    if(sld_Exam.value != 0)
+        sld_Photo.disabled = false;
+    else{
+        sld_Photo.value = 0;
+        sld_Photo.disabled = true;
+        setIntensVal(0, sld_Exam.value);
+    }
+
     setIntensVal(sld_Photo.value, sld_Exam.value);
 });
 
