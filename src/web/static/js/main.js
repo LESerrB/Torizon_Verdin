@@ -30,7 +30,11 @@ let sobreGiro = false;
 let tempProg_ant = 34.0;
 
 let tempProgInterval;
-let isHolding = false;
+
+const center = 900;
+const JOY_THRESHOLD = 700;
+
+let cFW = 0;
 
 // Pantalla Base //
 const pantallaBase = document.querySelector('.pantalla-base');
@@ -119,10 +123,6 @@ function pauseSensor() {
         intervalId = null;
     }
 };
-
-const center = 900;
-const JOY_THRESHOLD = 700;
-let currentIndex = 1;
 
 function focusElement(index) {
     const el = document.querySelector(`[tabindex="${index}"]`);
@@ -278,8 +278,6 @@ btn_tmpPrgMenos.addEventListener('click', () => {
 });
 
 btn_tmpPrgMenos.addEventListener('touchstart', () => {
-    isHolding = true;
-
     tempProgInterval = setInterval(() => {
         if (tempProg_Lvl >= 34.1 && !(btnsCtrl_tmpProgDisabled)) {
             tempProg_Lvl -= 0.2;
@@ -294,7 +292,6 @@ btn_tmpPrgMenos.addEventListener('touchstart', () => {
 
 btn_tmpPrgMenos.addEventListener('touchend', () => {
     clearInterval(tempProgInterval);
-    isHolding = false;
 });
 
 btn_tmpPrgAcept.addEventListener('click', async () => {
@@ -328,8 +325,6 @@ btn_tmpPrgMas.addEventListener('click', () => {
 });
 
 btn_tmpPrgMas.addEventListener('touchstart', () => {
-    isHolding = true;
-
     tempProgInterval = setInterval(() => {
         if (tempProg_Lvl <= 36.9 && !(btnsCtrl_tmpProgDisabled)) {
             tempProg_Lvl += 0.2;
@@ -347,7 +342,6 @@ btn_tmpPrgMas.addEventListener('touchstart', () => {
 
 btn_tmpPrgMas.addEventListener('touchend', () => {
     clearInterval(tempProgInterval);
-    isHolding = false;
 });
 
 btn_sobreGiro.addEventListener('click', () => {
@@ -419,8 +413,6 @@ btn_calefMenos.addEventListener('click', () => {
 });
 
 btn_calefMenos.addEventListener('touchstart', () => {
-    isHolding = true;
-
     tempProgInterval = setInterval(() => {
         if (calef_Lvl > 4 && !(btnsCtrl_potCalefDisabled)) {
             calef_Lvl -= 5;
@@ -432,7 +424,6 @@ btn_calefMenos.addEventListener('touchstart', () => {
 
 btn_calefMenos.addEventListener('touchend', () => {
     clearInterval(tempProgInterval);
-    isHolding = false;
 });
 
 btn_calefAceptar.addEventListener('click', () => {
@@ -455,8 +446,6 @@ btn_calefMas.addEventListener('click', () => {
 });
 
 btn_calefMas.addEventListener('touchstart', () => {
-    isHolding = true;
-
     tempProgInterval = setInterval(() => {
         if (calef_Lvl < 94 && !(btnsCtrl_potCalefDisabled)) {
             calef_Lvl += 5;
@@ -468,7 +457,6 @@ btn_calefMas.addEventListener('touchstart', () => {
 
 btn_calefMas.addEventListener('touchend', () => {
     clearInterval(tempProgInterval);
-    isHolding = false;
 });
 
 //{{{{{{{{{{{{{{{{{{{{{{ Panel Lateral }}}}}}}}}}}}}}}}}}}}}//
@@ -649,5 +637,14 @@ document.getElementById('btn-tendencias').addEventListener('click', () => {
     } else {
         document.getElementById('graf-tendencias').classList.add('inactive');
         document.getElementById('graf-tendencias').classList.remove('active');
+    }
+});
+
+document.getElementById('date-clk').addEventListener('click', () => {
+    if (cFW >= 10) {
+        shwAlert("Versión de FW \n v0.20.1", "success", 2);
+        cFW = 0;
+    } else {
+        cFW++;
     }
 });
