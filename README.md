@@ -379,6 +379,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Nuevo árbol de proyectos.
 - Separado en carpeta "api" para funciones de comunicación entre tarjetas y sistema, y carpeta "dev" para dispositivos que hacen uso de las funciones.
 - Corrección de control de fototerapia. La fototerapia no enciende si la luz de examinación no está encendida.
+- Control de sliders de Fototerapia y Luz de Examinación por joystick.
 
 ## Descarga e Instalación
 
