@@ -642,7 +642,7 @@ document.getElementById('btn-tendencias').addEventListener('click', () => {
 
 document.getElementById('date-clk').addEventListener('click', () => {
     if (cFW >= 10) {
-        shwAlert("Versión de FW \n v0.20.1", "success", 2);
+        shwAlert("Versión de FW \n v0.21", "success", 2);
         cFW = 0;
     } else {
         cFW++;

@@ -30,6 +30,7 @@ from dev.Sensores_TPH.sht21 import sht21
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
+from dev.GPIO.Alertas import alert_VigilarBB
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
 
@@ -108,7 +109,7 @@ def api_setTemp():
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SENSORES HUMEDAD/TEMPERATURA/OXIGENO
 @app.route("/api/getSnsTHO", methods=["POST"])
 def api_THO():
-    sht21()
+    # sht21()
 
     temp_CjSns, pres_CjSns, hum_CjSns = struct.unpack("fff", bme280())
     SnsOx = read_SnsOx(2)
@@ -232,11 +233,15 @@ def api_joystick():
 #                            Funciones de sistema                            #
 ##############################################################################
 def monitor_disk():
-    while True:
-        restart_container()
-        time.sleep(30)
+    cont_minutos = 0
 
-def restart_container(threshold=95):
+    while True:
+        cont_minutos = alert_VigilarBB(cont_minutos)
+
+        restart_container()
+        time.sleep(60)
+
+def restart_container(threshold=85):
     total, used, free = shutil.disk_usage("/")
     used_percent = (used / total) * 100
 
