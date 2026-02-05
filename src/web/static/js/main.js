@@ -6,7 +6,7 @@ import {
     openModule,
     closeModule,
     shwAlert,
-    hdAlerta
+    shtdwnAlarma
 } from './ui.js';
 
 import { 
@@ -198,7 +198,8 @@ btn_modoOP.addEventListener('click', () => {
 });
 
 btn_Alerta.addEventListener('click', () => {
-    shwAlert("Prueba \n De salto de linea", "success", 5);
+    // shwAlert("Prueba \n De salto de linea", "success", 5);
+    shtdwnAlarma()
 });
 
 btn_lock.addEventListener('click', () => {

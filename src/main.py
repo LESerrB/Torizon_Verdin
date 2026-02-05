@@ -228,20 +228,32 @@ def api_joystick():
         "y": joystick_data["y"],
         "pressed": joystick_data["pressed"]
     })
+
+@app.route("/api/alarmas", methods=["POST"])
+def api_Alarma():
+    alarma = request.get_json().get("alarma")
+
+    if alarma == "Silenciar":
+        print("Accion de Alarma", alarma)
+        alert_VigilarBB(time.monotonic())
+
+    return jsonify({
+        "status": "ok"
+    }), 200
 #--------------------------------------------------------------#
 ##############################################################################
 #                            Funciones de sistema                            #
 ##############################################################################
 def monitor_disk():
-    cont_minutos = 0
+    cont_minutos = time.monotonic()
 
     while True:
         cont_minutos = alert_VigilarBB(cont_minutos)
 
         restart_container()
-        time.sleep(60)
+        time.sleep(10)
 
-def restart_container(threshold=85):
+def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")
     used_percent = (used / total) * 100
 

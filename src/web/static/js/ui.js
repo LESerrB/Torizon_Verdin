@@ -320,3 +320,21 @@ export function hdAlerta() {
     ov.classList.add('oculto');
     ov.setAttribute('aria-hidden', 'true');
 };
+
+export async function shtdwnAlarma(){
+    shwAlert("Alarma silenciada", "warning", 5);
+
+    try {
+        const response = await fetch('/api/alarmas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                alarma: "Silenciar"
+            })
+        });
+    } catch (error) {
+        console.log("Error:", error);
+    }
+}
