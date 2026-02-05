@@ -30,7 +30,7 @@ from dev.Sensores_TPH.sht21 import sht21
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
-from dev.GPIO.Alertas import alert_VigilarBB
+from dev.GPIO.Alertas import alarma_VigilarBB
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
 
@@ -235,7 +235,7 @@ def api_Alarma():
 
     if alarma == "Silenciar":
         print("Accion de Alarma", alarma)
-        alert_VigilarBB(time.monotonic())
+        alarma_VigilarBB(time.monotonic())
 
     return jsonify({
         "status": "ok"
@@ -248,7 +248,7 @@ def monitor_disk():
     cont_minutos = time.monotonic()
 
     while True:
-        cont_minutos = alert_VigilarBB(cont_minutos)
+        cont_minutos = alarma_VigilarBB(cont_minutos)
 
         restart_container()
         time.sleep(10)

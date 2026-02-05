@@ -1,6 +1,7 @@
 import gpiod
 import time
 
+start = False
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
@@ -20,19 +21,18 @@ alrmBzz.set_value(1)
 #===============================================================#
 #                      Temporizador Alarma                      #
 #===============================================================#
-def alert_VigilarBB(cont_minutos):
+def alarma_VigilarBB(cont_minutos):
+    global start
+
     print("cont_minutos:", cont_minutos)
-    print(time.monotonic() - cont_minutos)
     if (time.monotonic() - cont_minutos) >= 120:
-        print("Alerta On")
         AlertaOn(True, 60)
         return time.monotonic()
     else:
-        print("Alerta Off")
-        # AlertaOn(False)
+        start = False
         return cont_minutos
 
-def AlertaOn(flag, blink_duration):
+def AlertaOn(flag, blink_duration=0):
     """
     Controla la alarma.
     
@@ -41,13 +41,17 @@ def AlertaOn(flag, blink_duration):
         blink_duration: Si se especifica, genera un blink durante este tiempo (en segundos)
                         sin bloquear otras mediciones
     """
+    global start
+    start = flag
     elapsed = 0
-    print("Start")
-    while flag and (blink_duration > elapsed):
-        alrmBzz.set_value(0)
-        time.sleep(5)
 
-        alrmBzz.set_value(1)
-        time.sleep(5)
-        elapsed += 10 
-    print("End")
+    while (blink_duration > elapsed):
+        if start:
+            alrmBzz.set_value(0)
+            time.sleep(5)
+
+            alrmBzz.set_value(1)
+            time.sleep(5)
+            elapsed += 10 
+        else:
+            break
