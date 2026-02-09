@@ -2,6 +2,7 @@ import gpiod
 import time
 
 from api.pins_ADC import read_adc
+from dev.Controles.sns_Prox import prox_Med
 
 #         Boton
 #        Joystick 
@@ -30,7 +31,7 @@ jstkSW.request(
 #================================================================#
 #                Función principal de lectura ADC                #
 #================================================================#
-def rd_jstk_axis(adc_chn: int):
+def jstk_axis(adc_chn: int):
     """
     Lee un canal ADC del joystick.
     
@@ -47,7 +48,7 @@ def rd_jstk_axis(adc_chn: int):
         return 0
 
 #================================================================#
-#              Función integrada de Joystick                    #
+#                  Función Lectura de Controles                  #
 #================================================================#
 def rd_joystick(joystick_data):
     """
@@ -67,14 +68,15 @@ def rd_joystick(joystick_data):
 
     x = 0
     y = 0
+    startTime = 0
 
     while True:
+        startTime = prox_Med(startTime)
         now = time.monotonic()
 
         if now - last_read_time >= READ_INTERVAL:
-            x = rd_jstk_axis(1)
-            y = rd_jstk_axis(0)
-            # print(f"Joystick - X: {x}, Y: {y}")
+            x = jstk_axis(1)
+            y = jstk_axis(0)
             joystick_data["x"] = x
             joystick_data["y"] = y
             last_read_time = now
