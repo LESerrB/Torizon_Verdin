@@ -61,7 +61,7 @@ PWM_Calef = 100
 pesoFinal = 0.0
 strStatus = ""
 
-joystick_data = Manager().dict({"x": 0, "y": 0, "pressed": False})
+joystick_data = Manager().dict({"x": 0, "y": 0, "pressed": False, "silenciar": False})
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
@@ -223,6 +223,10 @@ def api_modoFunc():
 #------------------------- En Pruebas -------------------------#
 @app.route("/api/joystick", methods=["GET"])
 def api_joystick():
+    if joystick_data["silenciar"]:
+        alarma_VigilarBB(time.monotonic())
+        joystick_data["silenciar"] = False
+
     return jsonify({
         "x": joystick_data["x"],
         "y": joystick_data["y"],
@@ -234,7 +238,6 @@ def api_Alarma():
     alarma = request.get_json().get("alarma")
 
     if alarma == "Silenciar":
-        print("Accion de Alarma", alarma)
         alarma_VigilarBB(time.monotonic())
 
     return jsonify({

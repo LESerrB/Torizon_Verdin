@@ -74,6 +74,10 @@ def rd_joystick(joystick_data):
         startTime = prox_Med(startTime)
         now = time.monotonic()
 
+        if startTime == 99:
+            startTime = 0
+            joystick_data["silenciar"] = True
+
         if now - last_read_time >= READ_INTERVAL:
             x = jstk_axis(1)
             y = jstk_axis(0)

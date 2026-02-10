@@ -382,10 +382,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Control de sliders de Fototerapia y Luz de Examinación por joystick.
 - Muestra de la versión de Firmware al hacer 10 toques sobre la fecha y hora.
 
-### v0.21 - [5/Febrero/2026]
+### v0.21 - [10/Febrero/2026]
 
 - Agregada alarma de "Vigilar Bebé" cada 10 minutos durante 1 minuto.
-- Creada función para silenciar ALarma de "Vigilar Bebé".
+- Creada función para silenciar Alarma de "Vigilar Bebé".
+- Implementado silencio de alarmas con sensor de proximidad.
 
 ## Descarga e Instalación
 

@@ -25,7 +25,7 @@ def alarma_VigilarBB(cont_minutos):
     global start
 
     # print("cont_minutos:", cont_minutos)
-    if (time.monotonic() - cont_minutos) >= 600: # 600 => 10 min * 60 seg
+    if (time.monotonic() - cont_minutos) >= 120: # 600 => 10 min * 60 seg
         AlertaOn(True, 60)
         return time.monotonic()
     else:

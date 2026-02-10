@@ -24,19 +24,19 @@ def prox_Med(startTime):
             lo = bus.read_byte_data(VL53_ADDR, 0x1F)
 
             distance = (hi << 8) | lo
-            # print("Distance:", distance, "mm")
 
-            if 150 < distance < 350:
+            if (150 < distance < 350):
+                print("Distance:", distance, "mm")
+
                 if startTime == 0:
                     startTime = time.monotonic()
             else:
-                if startTime != 0:
-                    if (time.monotonic() - startTime) >= 0.4:
-                        print("\n\n>>>>>>>>>>>>>>>\n\nDESACTIVA ALARMA\n\n>>>>>>>>>>>>>>>\n\n")
+                if startTime != 0 and ((time.monotonic() - startTime) >= 0.4):
+                    return 99
 
                 startTime = 0
 
-        # print("startTime:", startTime)
+        bus.write_byte_data(VL53_ADDR, SYSTEM_INTERRUPT_CLEAR, 0x01)
 
-        bus.write_byte_data(VL53_ADDR, 0x0B, 0x01)
         return startTime
+

@@ -21,6 +21,9 @@ import {
 } from './sensor.js';
 
 //~~~~~~~~~~~~~~~~ Definición de Variables ~~~~~~~~~~~~~~~~//
+const vFW = "0.21.1";
+let cFW = 0;
+
 let calef_Lvl = 100;
 const maxLvl = 100;
 
@@ -33,8 +36,6 @@ let tempProgInterval;
 
 const center = 900;
 const JOY_THRESHOLD = 700;
-
-let cFW = 0;
 
 // Pantalla Base //
 const pantallaBase = document.querySelector('.pantalla-base');
@@ -643,7 +644,7 @@ document.getElementById('btn-tendencias').addEventListener('click', () => {
 
 document.getElementById('date-clk').addEventListener('click', () => {
     if (cFW >= 10) {
-        shwAlert("Versión de FW \n v0.21", "success", 2);
+        shwAlert(`Versión de FW \n v${vFW}`, "success", 2);
         cFW = 0;
     } else {
         cFW++;
