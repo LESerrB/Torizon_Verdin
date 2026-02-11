@@ -157,39 +157,15 @@ function simulateArrowKey(key) {
 
 setInterval(async () => {
     const active = document.activeElement;
-    const res = await fetch("/api/joystick");
+    const res = await fetch("/api/ctrls");
     const js = await res.json();
-    const step = parseFloat(active.step) || 1;
-    const min = parseFloat(active.min) || 0;
-    const max = parseFloat(active.max) || 100;
-    let value = parseFloat(active.value);
 
-    if (js.pressed) {
-        document.activeElement.click();
-        return;
+    if (js.Alerta) {
+        hdAlerta()
+    } else {
+        shwAlert("Suministro de Energía Desconectado", "danger");
     }
 
-    if (active && active.tagName === 'INPUT' && active.type === 'range') {
-        if (js.y < center - JOY_THRESHOLD) {
-            value = Math.min(value + step, max);
-            active.value = value;
-            active.dispatchEvent(new Event('input'));
-            console.log("Slider aumentado:", value);
-        } else if (js.y > center + JOY_THRESHOLD) {
-            value = Math.max(value - step, min);
-            active.value = value;
-            active.dispatchEvent(new Event('input'));
-            console.log("Slider disminuido:", value);
-        }
-    }
-
-    if (js.x < center - JOY_THRESHOLD) {
-        const idx = getNextTabindex('backward');
-        focusElement(idx);
-    } else if (js.x > center + JOY_THRESHOLD) {
-        const idx = getNextTabindex('forward');
-        focusElement(idx);
-    }
 }, 300);
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//

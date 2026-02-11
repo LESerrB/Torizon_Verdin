@@ -382,6 +382,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Control de sliders de Fototerapia y Luz de Examinación por joystick.
 - Muestra de la versión de Firmware al hacer 10 toques sobre la fecha y hora.
 
+### v0.21 - [11/Febrero/2026]
+
+- Implementada función de desconexión de sumninistro eléctrico.
+- Creada alerta continua hasta que se reconecte.
+
 ## Descarga e Instalación
 
 <p align="center">
