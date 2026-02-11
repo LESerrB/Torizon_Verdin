@@ -35,6 +35,8 @@ const center = 900;
 const JOY_THRESHOLD = 700;
 
 let cFW = 0;
+const vFW = "0.20.1";
+const releaseDate = "3/Febrero/2026"
 
 // Pantalla Base //
 const pantallaBase = document.querySelector('.pantalla-base');
@@ -642,7 +644,7 @@ document.getElementById('btn-tendencias').addEventListener('click', () => {
 
 document.getElementById('date-clk').addEventListener('click', () => {
     if (cFW >= 10) {
-        shwAlert("Versión de FW \n v0.20.1", "success", 2);
+        shwAlert(`Versión de FW \n v${vFW} \n Fecha de Liberación: ${releaseDate}`, "success", 2);
         cFW = 0;
     } else {
         cFW++;
