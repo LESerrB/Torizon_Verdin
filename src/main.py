@@ -61,7 +61,7 @@ PWM_Calef = 100
 pesoFinal = 0.0
 strStatus = ""
 
-alertaSumEner = False
+alertaSumEner = ""
 joystick_data = Manager().dict({"x": 0, "y": 0, "pressed": False})
 ##############################################################################
 #                           Rutas de la aplicacion                           #
@@ -226,11 +226,12 @@ def api_modoFunc():
 @app.route("/api/ctrls", methods=["GET"])
 def controles():
     return jsonify({
-        "Alerta": alertaSumEner
+        "Alerta": alertaSumEner,
         # "x": joystick_data["x"],
         # "y": joystick_data["y"],
         # "pressed": joystick_data["pressed"]
     })
+
 #--------------------------------------------------------------#
 ##############################################################################
 #                            Funciones de sistema                            #
@@ -241,7 +242,8 @@ def sys_monitor():
     while True:
         restart_container()
         alertaSumEner = monitoreo_alimentación(2)
-        time.sleep(0.1)
+        
+        time.sleep(0.5)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")

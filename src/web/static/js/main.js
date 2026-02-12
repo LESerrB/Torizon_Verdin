@@ -35,8 +35,8 @@ const center = 900;
 const JOY_THRESHOLD = 700;
 
 let cFW = 0;
-const vFW = "0.20.1";
-const releaseDate = "3/Febrero/2026"
+const vFW = "0.21";
+const releaseDate = "12/Febrero/2026"
 
 // Pantalla Base //
 const pantallaBase = document.querySelector('.pantalla-base');
@@ -160,10 +160,13 @@ setInterval(async () => {
     const res = await fetch("/api/ctrls");
     const js = await res.json();
 
-    if (js.Alerta) {
-        hdAlerta()
-    } else {
-        shwAlert("Suministro de Energía Desconectado", "danger");
+    console.log(js);
+
+    if(js.Alerta == "ALERTA DE SUMINISTRO DE ENERGÍA")
+        shwAlert(js.Alerta, "danger");
+    else if(js.Alerta == "Suministro de Energia Restablecido"){
+        hdAlerta();
+        shwAlert(js.Alerta, "success", 1);
     }
 
 }, 300);
