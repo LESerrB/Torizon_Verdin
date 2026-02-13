@@ -160,13 +160,12 @@ setInterval(async () => {
     const res = await fetch("/api/ctrls");
     const js = await res.json();
 
-    console.log(js);
-
-    if(js.Alerta == "ALERTA DE SUMINISTRO DE ENERGÍA")
+    if(js.Alerta == "ALERTA DE SUMINISTRO DE ENERGÍA"){
         shwAlert(js.Alerta, "danger");
+    }
     else if(js.Alerta == "Suministro de Energia Restablecido"){
         hdAlerta();
-        shwAlert(js.Alerta, "success", 1);
+        shwAlert(js.Alerta, "success", 0.3);
     }
 
 }, 300);

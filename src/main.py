@@ -240,9 +240,8 @@ def sys_monitor():
     global alertaSumEner
 
     while True:
-        restart_container()
-        alertaSumEner = monitoreo_alimentación(2)
-        
+        restart_container()                         # Memoria del contenedor
+        alertaSumEner = monitoreo_alimentación(2)   # Suministro de energía
         time.sleep(0.5)
 
 def restart_container(threshold=90):
