@@ -17,8 +17,6 @@ from multiprocessing import Manager
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-# from dev.Temperatura.sonda import read_Sonda
-from dev.Controles_Alertas.joystick import rd_joystick
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
 from dev.Sensores_TPH.bme280 import bme280
 from dev.Bascula.bascula import tare, calib, pesaje
@@ -30,6 +28,7 @@ from dev.Sensores_TPH.sht21 import sht21
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
+from dev.Controles_Alertas.encoder import valupdt
 # from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
@@ -70,27 +69,6 @@ joystick_data = Manager().dict({"x": 0, "y": 0, "pressed": False})
 def index():
     return render_template("index.html")
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SONDAS DE TEMPERATURA
-# Lectura de las sondas de piel
-@app.route("/api/getTemp", methods=["POST"])
-def api_getTemp():
-    # tempSondaPiel = read_Sonda(3) # Canal ADC
-    # tempSondaAux = read_Sonda(2)  # Canal ADC (2 AUX)
-    tempSondaPiel = 0
-
-    if tempSondaPiel != 0:
-        return jsonify({
-            "status": "ok",
-            "tempSondaPiel": tempSondaPiel
-        }), 200
-    elif tempSondaPiel != 0:
-        return jsonify({
-            "status": "Sonda Aux No Conectada",
-            "tempSondaPiel": tempSondaPiel
-        }), 206
-    else:
-        return jsonify({
-            "status": "ERROR SONDA PRINCIPAL NO CONECTADA"
-        }), 500
 # Seleccionar Temperatura Programada
 @app.route("/api/setTemp", methods=["POST"])
 def api_setTemp():
@@ -232,6 +210,18 @@ def controles():
         # "pressed": joystick_data["pressed"]
     })
 
+@app.route("/api/encdCtrl", methods=["POST"])
+def encdCtrl():
+    tempProg_Lvl = request.get_json().get("tempProg_Lvl")
+    editVal = request.get_json().get("editVal")
+
+    print(editVal, tempProg_Lvl)
+    tempProg_Lvl = valupdt(editVal, tempProg_Lvl)
+
+    return jsonify({
+        "tempProg_Lvl": tempProg_Lvl
+    })
+
 #--------------------------------------------------------------#
 ##############################################################################
 #                            Funciones de sistema                            #
@@ -241,7 +231,7 @@ def sys_monitor():
 
     while True:
         restart_container()                         # Memoria del contenedor
-        alertaSumEner = monitoreo_alimentación(2)   # Suministro de energía
+        # alertaSumEner = monitoreo_alimentación(2)   # Suministro de energía
         time.sleep(0.5)
 
 def restart_container(threshold=90):
@@ -264,9 +254,6 @@ thread_Calef.start()
 
 thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
 thread_comCalef.start()
-
-thread_Joystick = threading.Thread(target=rd_joystick, args=(joystick_data,), daemon=True)
-thread_Joystick.start()
 
 monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
 monitor_thread.start()

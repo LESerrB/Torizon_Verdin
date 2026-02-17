@@ -243,6 +243,26 @@ export function updtTempProg(tempProg_Lvl){
     }
 };
 
+export async function encdCtrl(tempProg_Lvl, editVal){
+    try {
+        const response = await fetch('/api/encdCtrl', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                tempProg_Lvl: tempProg_Lvl,
+                editVal: editVal
+            })
+        });
+
+        const dte = await response.json();
+
+        return dte.tempProg_Lvl;
+    } catch (error) {
+        console.log("Error:", error);
+    }
+}
 ///////////////////////////// FORMULARIO PACIENTE //////////////////////////////
 /* Habilita edición de los datos del paciente */
 export function enablePacienteEditing() {

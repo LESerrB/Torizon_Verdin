@@ -6,7 +6,8 @@ import {
     openModule,
     closeModule,
     shwAlert,
-    hdAlerta
+    hdAlerta,
+    encdCtrl
 } from './ui.js';
 
 import { 
@@ -30,9 +31,7 @@ let sobreGiro = false;
 let tempProg_ant = 34.0;
 
 let tempProgInterval;
-
-const center = 900;
-const JOY_THRESHOLD = 700;
+let tempProgStatus;
 
 let cFW = 0;
 const vFW = "0.21";
@@ -89,6 +88,8 @@ btn_sobreGiro.disabled = true;
 
 btn_sobreGiro.style.display = 'none'
 
+let val = 0;
+
 // Potencia del Calefactor //
 let btnsCtrl_potCalefDisabled = true;
 
@@ -119,6 +120,7 @@ function startSensor(){
         intervalId = setInterval(updateSensors, 1000);
     }
 };
+
 function pauseSensor() {
     if (intervalId) {
         clearInterval(intervalId);
@@ -227,9 +229,14 @@ btn_Bebe.addEventListener('click', () => {
     updtTempProg(tempProg_Lvl);
 });
 
-val_TempProg.addEventListener('click', () => {
+val_TempProg.addEventListener('click', async () => {
     val_TempProg.classList.add('parpadeo');
-    
+
+    tempProgStatus = setInterval(async () => {
+        val = await encdCtrl(tempProg_Lvl, "temProg");
+        console.log(val);
+    }, 200);
+
     tempProg_ant = tempProg_Lvl;
 
     btnsCtrl_tmpProgDisabled = false;
@@ -245,9 +252,12 @@ val_TempProg.addEventListener('click', () => {
     btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
 });
         //(((((((((((((((( Controles ))))))))))))))))//
-btn_tmpPrgMenos.addEventListener('click', () => {
+btn_tmpPrgMenos.addEventListener('click', async () => {
     if (tempProg_Lvl > 34.0) {
         tempProg_Lvl -= 0.1
+
+        val = await encdCtrl(tempProg_Lvl, "temProg");
+        console.log(val);
 
         if (tempProg_Lvl < 37.0) {
             sobreGiro = false;
@@ -257,10 +267,13 @@ btn_tmpPrgMenos.addEventListener('click', () => {
     updtTempProg(tempProg_Lvl);
 });
 
-btn_tmpPrgMenos.addEventListener('touchstart', () => {
-    tempProgInterval = setInterval(() => {
+btn_tmpPrgMenos.addEventListener('touchstart', async () => {
+    tempProgInterval = setInterval(async () => {
         if (tempProg_Lvl >= 34.1 && !(btnsCtrl_tmpProgDisabled)) {
             tempProg_Lvl -= 0.2;
+
+            val = await encdCtrl(tempProg_Lvl, "temProg");
+            console.log(val);
 
             if (tempProg_Lvl < 37.0) 
                 sobreGiro = false;
@@ -275,6 +288,8 @@ btn_tmpPrgMenos.addEventListener('touchend', () => {
 });
 
 btn_tmpPrgAcept.addEventListener('click', async () => {
+    clearInterval(tempProgStatus);
+
     val_TempProg.classList.remove('parpadeo');
     btnsCtrl_tmpProgDisabled = true;
 
@@ -291,29 +306,42 @@ btn_tmpPrgAcept.addEventListener('click', async () => {
     }
 });
 
-btn_tmpPrgMas.addEventListener('click', () => {
+btn_tmpPrgMas.addEventListener('click', async () => {
     if (tempProg_Lvl < 37.0) {
         tempProg_Lvl += 0.1;
+
+        val = await encdCtrl(tempProg_Lvl, "temProg");
+        console.log(val);
     }
 
     if (sobreGiro) {
-        if (tempProg_Lvl < 38.0)
+        if (tempProg_Lvl < 38.0){
             tempProg_Lvl += 0.1;
+
+            val = await encdCtrl(tempProg_Lvl, "temProg");
+            console.log(val);
+        }
     }
 
     updtTempProg(tempProg_Lvl);
 });
 
-btn_tmpPrgMas.addEventListener('touchstart', () => {
-    tempProgInterval = setInterval(() => {
+btn_tmpPrgMas.addEventListener('touchstart', async () => {
+    tempProgInterval = setInterval(async () => {
         if (tempProg_Lvl <= 36.9 && !(btnsCtrl_tmpProgDisabled)) {
             tempProg_Lvl += 0.2;
 
+            val = await encdCtrl(tempProg_Lvl, "temProg");
+            console.log(val);
         }
 
         if (sobreGiro) {
-            if (tempProg_Lvl < 38.0 && !(btnsCtrl_tmpProgDisabled))
+            if (tempProg_Lvl < 38.0 && !(btnsCtrl_tmpProgDisabled)){
                 tempProg_Lvl += 0.2;
+
+                val = await encdCtrl(tempProg_Lvl, "temProg");
+                console.log(val);
+            }
         }
 
         updtTempProg(tempProg_Lvl);
