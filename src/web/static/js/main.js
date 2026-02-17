@@ -234,7 +234,7 @@ val_TempProg.addEventListener('click', async () => {
 
     tempProgStatus = setInterval(async () => {
         val = await encdCtrl(tempProg_Lvl, "temProg");
-        console.log(val);
+        tempProg_Lvl = val;
     }, 200);
 
     tempProg_ant = tempProg_Lvl;
@@ -288,6 +288,7 @@ btn_tmpPrgMenos.addEventListener('touchend', () => {
 });
 
 btn_tmpPrgAcept.addEventListener('click', async () => {
+    clearInterval(tempProgInterval);
     clearInterval(tempProgStatus);
 
     val_TempProg.classList.remove('parpadeo');

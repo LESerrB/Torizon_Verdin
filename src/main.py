@@ -89,7 +89,7 @@ def api_setTemp():
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SENSORES HUMEDAD/TEMPERATURA/OXIGENO
 @app.route("/api/getSnsTHO", methods=["POST"])
 def api_THO():
-    sht21()
+    # sht21()
 
     temp_CjSns, pres_CjSns, hum_CjSns = struct.unpack("fff", bme280())
     SnsOx = 0
@@ -215,7 +215,6 @@ def encdCtrl():
     tempProg_Lvl = request.get_json().get("tempProg_Lvl")
     editVal = request.get_json().get("editVal")
 
-    print(editVal, tempProg_Lvl)
     tempProg_Lvl = valupdt(editVal, tempProg_Lvl)
 
     return jsonify({
