@@ -44,8 +44,7 @@ enc_sw.request(
     type=gpiod.LINE_REQ_EV_BOTH_EDGES
 )
 
-# contador = 0
-# DEBOUNCE_TIME = 0.02  # 20 milisegundos
+DEBOUNCE_TIME = 0.02  # 20 milisegundos
 
 last_DT = enc_dt.get_value()
 last_CLK = enc_clk.get_value()
@@ -53,8 +52,6 @@ last_CLK = enc_clk.get_value()
 def valEdit(editVal, valIni):
     global last_DT
     global last_CLK
-
-    # last_debounce_time = time.monotonic()
 
     if enc_clk.event_wait():
         evt = enc_clk.event_read()
@@ -80,18 +77,15 @@ def valEdit(editVal, valIni):
     else:
         return valIni
 
-        # if enc_sw.event_wait(0):
-        #     if now - last_debounce_time >= DEBOUNCE_TIME:
-        #         evt = enc_sw.event_read()
-        #         last_debounce_time = now
-                
-        #         if evt.type == gpiod.LineEvent.RISING_EDGE:
-        #             # print("Switch Liberado")
-        #             return valIni
-        #     else:
-        #         enc_sw.event_read()
+def swAcept():
+    if enc_sw.event_wait(0):
+        evt = enc_sw.event_read()
+
+        if evt.type == gpiod.LineEvent.RISING_EDGE:
+            print("Switch Liberado")
 
 def valupdt(editVal, tempProg_Lvl):
     tempProg_Lvl = valEdit(editVal, tempProg_Lvl)
+    swAcept()
 
     return round(tempProg_Lvl, 1)
