@@ -75,7 +75,7 @@ def api_setTemp():
     nTempProg = request.get_json()
 
     if nTempProg.get("tempProg"):
-        print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
+        # print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
 
         return jsonify({
             "status": "ok"

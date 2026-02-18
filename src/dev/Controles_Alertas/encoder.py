@@ -45,21 +45,16 @@ enc_sw.request(
 )
 
 # contador = 0
-DEBOUNCE_TIME = 0.02  # 20 milisegundos
+# DEBOUNCE_TIME = 0.02  # 20 milisegundos
 
-def valEdit(valIni):
-    # global contador
+last_DT = enc_dt.get_value()
+last_CLK = enc_clk.get_value()
 
-    last_DT = enc_dt.get_value()
-    last_CLK = enc_clk.get_value()
+def valEdit(editVal, valIni):
+    global last_DT
+    global last_CLK
 
     # last_debounce_time = time.monotonic()
-
-    # if not valIni:
-    #     return
-
-    # while True:
-        # now = time.monotonic()
 
     if enc_clk.event_wait():
         evt = enc_clk.event_read()
@@ -67,24 +62,23 @@ def valEdit(valIni):
         current_DT = enc_dt.get_value()
 
         if current_CLK != last_CLK:
-            print(valIni)
             if current_CLK == current_DT:
-                # if editVal == "temProg":
-                valIni += 0.1
-                return valIni
-                # else:
-                    # valIni += 1
+                if editVal == "temProg":
+                    valIni += 0.1
+                else:
+                    valIni += 1
             else:
-                # if editVal == "temProg":
-                valIni -= 0.1
-                return valIni
-                # else:
-                    # valIni -= 1
-
-            # contador = valIni
+                if editVal == "temProg":
+                    valIni -= 0.1
+                else:
+                    valIni -= 1
 
         last_CLK = current_CLK
         last_DT = current_DT
+
+        return valIni
+    else:
+        return valIni
 
         # if enc_sw.event_wait(0):
         #     if now - last_debounce_time >= DEBOUNCE_TIME:
@@ -98,7 +92,6 @@ def valEdit(valIni):
         #         enc_sw.event_read()
 
 def valupdt(editVal, tempProg_Lvl):
-    tempProg_Lvl = valEdit(tempProg_Lvl)
+    tempProg_Lvl = valEdit(editVal, tempProg_Lvl)
 
-    if tempProg_Lvl:
-        return round(tempProg_Lvl, 1)
+    return round(tempProg_Lvl, 1)
