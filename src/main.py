@@ -11,7 +11,6 @@ import shutil
 # from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
-from multiprocessing import Manager
 
 # from files.logs import logger
 # load_dotenv("/mnt/microsd/.env")
@@ -61,7 +60,6 @@ pesoFinal = 0.0
 strStatus = ""
 
 alertaSumEner = ""
-joystick_data = Manager().dict({"x": 0, "y": 0, "pressed": False})
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################

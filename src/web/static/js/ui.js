@@ -246,6 +246,8 @@ export function updtTempProg(tempProg_Lvl){
 export async function encdCtrl(tempProg_Lvl, editVal){
     let t = 0;
 
+    console.log(tempProg_Lvl);
+
     try {
         const response = await fetch('/api/encdCtrl', {
             method: 'POST',

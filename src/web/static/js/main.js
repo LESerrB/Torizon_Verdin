@@ -235,7 +235,7 @@ val_TempProg.addEventListener('click', async () => {
     tempProgStatus = setInterval(async () => {
         val = await encdCtrl(tempProg_Lvl, "temProg");
         tempProg_Lvl = val;
-    }, 200);
+    }, 50);
 
     tempProg_ant = tempProg_Lvl;
 
@@ -257,7 +257,6 @@ btn_tmpPrgMenos.addEventListener('click', async () => {
         tempProg_Lvl -= 0.1
 
         val = await encdCtrl(tempProg_Lvl, "temProg");
-        console.log(val);
 
         if (tempProg_Lvl < 37.0) {
             sobreGiro = false;
@@ -312,7 +311,6 @@ btn_tmpPrgMas.addEventListener('click', async () => {
         tempProg_Lvl += 0.1;
 
         val = await encdCtrl(tempProg_Lvl, "temProg");
-        console.log(val);
     }
 
     if (sobreGiro) {
@@ -320,7 +318,6 @@ btn_tmpPrgMas.addEventListener('click', async () => {
             tempProg_Lvl += 0.1;
 
             val = await encdCtrl(tempProg_Lvl, "temProg");
-            console.log(val);
         }
     }
 
@@ -333,7 +330,6 @@ btn_tmpPrgMas.addEventListener('touchstart', async () => {
             tempProg_Lvl += 0.2;
 
             val = await encdCtrl(tempProg_Lvl, "temProg");
-            console.log(val);
         }
 
         if (sobreGiro) {
@@ -341,7 +337,6 @@ btn_tmpPrgMas.addEventListener('touchstart', async () => {
                 tempProg_Lvl += 0.2;
 
                 val = await encdCtrl(tempProg_Lvl, "temProg");
-                console.log(val);
             }
         }
 
@@ -353,11 +348,13 @@ btn_tmpPrgMas.addEventListener('touchend', () => {
     clearInterval(tempProgInterval);
 });
 
-btn_sobreGiro.addEventListener('click', () => {
+btn_sobreGiro.addEventListener('click', async () => {
     sobreGiro = !(sobreGiro);
 
     if(!sobreGiro){
         tempProg_Lvl = parseFloat(37.0).toFixed(1);
+        val = await encdCtrl(tempProg_Lvl, "temProg");
+        tempProg_Lvl = val;
         updtTempProg(tempProg_Lvl);
 
         btn_sobreGiro.classList.add('btn-sensor');

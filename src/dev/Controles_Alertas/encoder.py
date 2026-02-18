@@ -61,12 +61,14 @@ def valEdit(editVal, valIni):
         if current_CLK != last_CLK:
             if current_CLK == current_DT:
                 if editVal == "temProg":
-                    valIni += 0.1
+                    if (valIni <= 36.9):
+                        valIni += 0.1
                 else:
                     valIni += 1
             else:
                 if editVal == "temProg":
-                    valIni -= 0.1
+                    if (valIni > 34.0):
+                        valIni -= 0.1
                 else:
                     valIni -= 1
 
