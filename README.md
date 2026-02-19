@@ -386,6 +386,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 - Implementada función de desconexión de sumninistro eléctrico.
 - Creada alerta continua hasta que se reconecte.
+- Lectura de encoder para modificar Temperatura programada.
 
 ## Descarga e Instalación
 

@@ -243,6 +243,38 @@ export function updtTempProg(tempProg_Lvl){
     }
 };
 
+export async function encdCtrl(tempProg_Lvl, editVal, sobreGiro){
+    let t = 0;
+
+    try {
+        const response = await fetch('/api/encdCtrl', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                tempProg_Lvl: tempProg_Lvl,
+                editVal: editVal,
+                sobreGiro: sobreGiro
+            })
+        });
+
+        const dte = await response.json();
+
+        if(dte.tempProg_Lvl){
+            t = dte.tempProg_Lvl;
+        }
+        else{
+            t = tempProg_Lvl;
+        }
+
+        tempProg.textContent = t;
+
+        return t;
+    } catch (error) {
+        console.log("Error:", error);
+    }
+}
 ///////////////////////////// FORMULARIO PACIENTE //////////////////////////////
 /* Habilita edición de los datos del paciente */
 export function enablePacienteEditing() {
