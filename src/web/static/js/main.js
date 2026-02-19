@@ -6,7 +6,8 @@ import {
     openModule,
     closeModule,
     shwAlert,
-    hdAlerta
+    hdAlerta,
+    encdCtrl
 } from './ui.js';
 
 import { 
@@ -30,13 +31,11 @@ let sobreGiro = false;
 let tempProg_ant = 34.0;
 
 let tempProgInterval;
-
-const center = 900;
-const JOY_THRESHOLD = 700;
+let tempProgStatus;
 
 let cFW = 0;
-const vFW = "0.20.1";
-const releaseDate = "3/Febrero/2026"
+const vFW = "0.21";
+const releaseDate = "12/Febrero/2026"
 
 // Pantalla Base //
 const pantallaBase = document.querySelector('.pantalla-base');
@@ -89,6 +88,8 @@ btn_sobreGiro.disabled = true;
 
 btn_sobreGiro.style.display = 'none'
 
+let val = 0;
+
 // Potencia del Calefactor //
 let btnsCtrl_potCalefDisabled = true;
 
@@ -119,6 +120,7 @@ function startSensor(){
         intervalId = setInterval(updateSensors, 1000);
     }
 };
+
 function pauseSensor() {
     if (intervalId) {
         clearInterval(intervalId);
@@ -157,39 +159,17 @@ function simulateArrowKey(key) {
 
 setInterval(async () => {
     const active = document.activeElement;
-    const res = await fetch("/api/joystick");
+    const res = await fetch("/api/ctrls");
     const js = await res.json();
-    const step = parseFloat(active.step) || 1;
-    const min = parseFloat(active.min) || 0;
-    const max = parseFloat(active.max) || 100;
-    let value = parseFloat(active.value);
 
-    if (js.pressed) {
-        document.activeElement.click();
-        return;
+    if(js.Alerta == "ALERTA DE SUMINISTRO DE ENERGÍA"){
+        shwAlert(js.Alerta, "danger");
+    }
+    else if(js.Alerta == "Suministro de Energia Restablecido"){
+        hdAlerta();
+        shwAlert(js.Alerta, "success", 0.3);
     }
 
-    if (active && active.tagName === 'INPUT' && active.type === 'range') {
-        if (js.y < center - JOY_THRESHOLD) {
-            value = Math.min(value + step, max);
-            active.value = value;
-            active.dispatchEvent(new Event('input'));
-            console.log("Slider aumentado:", value);
-        } else if (js.y > center + JOY_THRESHOLD) {
-            value = Math.max(value - step, min);
-            active.value = value;
-            active.dispatchEvent(new Event('input'));
-            console.log("Slider disminuido:", value);
-        }
-    }
-
-    if (js.x < center - JOY_THRESHOLD) {
-        const idx = getNextTabindex('backward');
-        focusElement(idx);
-    } else if (js.x > center + JOY_THRESHOLD) {
-        const idx = getNextTabindex('forward');
-        focusElement(idx);
-    }
 }, 300);
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
@@ -249,9 +229,14 @@ btn_Bebe.addEventListener('click', () => {
     updtTempProg(tempProg_Lvl);
 });
 
-val_TempProg.addEventListener('click', () => {
+val_TempProg.addEventListener('click', async () => {
     val_TempProg.classList.add('parpadeo');
-    
+
+    tempProgStatus = setInterval(async () => {
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
+        tempProg_Lvl = val;
+    }, 50);
+
     tempProg_ant = tempProg_Lvl;
 
     btnsCtrl_tmpProgDisabled = false;
@@ -267,9 +252,11 @@ val_TempProg.addEventListener('click', () => {
     btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
 });
         //(((((((((((((((( Controles ))))))))))))))))//
-btn_tmpPrgMenos.addEventListener('click', () => {
+btn_tmpPrgMenos.addEventListener('click', async () => {
     if (tempProg_Lvl > 34.0) {
         tempProg_Lvl -= 0.1
+
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
 
         if (tempProg_Lvl < 37.0) {
             sobreGiro = false;
@@ -279,10 +266,13 @@ btn_tmpPrgMenos.addEventListener('click', () => {
     updtTempProg(tempProg_Lvl);
 });
 
-btn_tmpPrgMenos.addEventListener('touchstart', () => {
-    tempProgInterval = setInterval(() => {
+btn_tmpPrgMenos.addEventListener('touchstart', async () => {
+    tempProgInterval = setInterval(async () => {
         if (tempProg_Lvl >= 34.1 && !(btnsCtrl_tmpProgDisabled)) {
             tempProg_Lvl -= 0.2;
+
+            val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
+            console.log(val);
 
             if (tempProg_Lvl < 37.0) 
                 sobreGiro = false;
@@ -297,6 +287,9 @@ btn_tmpPrgMenos.addEventListener('touchend', () => {
 });
 
 btn_tmpPrgAcept.addEventListener('click', async () => {
+    clearInterval(tempProgInterval);
+    clearInterval(tempProgStatus);
+
     val_TempProg.classList.remove('parpadeo');
     btnsCtrl_tmpProgDisabled = true;
 
@@ -313,29 +306,38 @@ btn_tmpPrgAcept.addEventListener('click', async () => {
     }
 });
 
-btn_tmpPrgMas.addEventListener('click', () => {
+btn_tmpPrgMas.addEventListener('click', async () => {
     if (tempProg_Lvl < 37.0) {
         tempProg_Lvl += 0.1;
+
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
     }
 
     if (sobreGiro) {
-        if (tempProg_Lvl < 38.0)
+        if (tempProg_Lvl < 38.0){
             tempProg_Lvl += 0.1;
+
+            val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
+        }
     }
 
     updtTempProg(tempProg_Lvl);
 });
 
-btn_tmpPrgMas.addEventListener('touchstart', () => {
-    tempProgInterval = setInterval(() => {
+btn_tmpPrgMas.addEventListener('touchstart', async () => {
+    tempProgInterval = setInterval(async () => {
         if (tempProg_Lvl <= 36.9 && !(btnsCtrl_tmpProgDisabled)) {
             tempProg_Lvl += 0.2;
 
+            val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
         }
 
         if (sobreGiro) {
-            if (tempProg_Lvl < 38.0 && !(btnsCtrl_tmpProgDisabled))
+            if (tempProg_Lvl < 38.0 && !(btnsCtrl_tmpProgDisabled)){
                 tempProg_Lvl += 0.2;
+
+                val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
+            }
         }
 
         updtTempProg(tempProg_Lvl);
@@ -346,12 +348,16 @@ btn_tmpPrgMas.addEventListener('touchend', () => {
     clearInterval(tempProgInterval);
 });
 
-btn_sobreGiro.addEventListener('click', () => {
+btn_sobreGiro.addEventListener('click', async () => {
     sobreGiro = !(sobreGiro);
 
     if(!sobreGiro){
         tempProg_Lvl = parseFloat(37.0).toFixed(1);
+
         updtTempProg(tempProg_Lvl);
+
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
+        tempProg_Lvl = val;
 
         btn_sobreGiro.classList.add('btn-sensor');
         btn_sobreGiro.classList.remove('btn-sensor-pressed');
@@ -360,6 +366,9 @@ btn_sobreGiro.addEventListener('click', () => {
         btn_sobreGiro_lbl.classList.remove('btn-sensor-lbl-pressed');
     }
     else{
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
+        tempProg_Lvl = val;
+
         btn_sobreGiro.classList.remove('btn-sensor');
         btn_sobreGiro.classList.add('btn-sensor-pressed');
     

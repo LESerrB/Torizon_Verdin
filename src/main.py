@@ -11,25 +11,24 @@ import shutil
 # from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
-from multiprocessing import Manager
 
 # from files.logs import logger
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from dev.Temperatura.sonda import read_Sonda
-from dev.Controles.joystick import rd_joystick
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
 from dev.Sensores_TPH.bme280 import bme280
 from dev.Bascula.bascula import tare, calib, pesaje
 from dev.GPIO.botones import pwrBtn_Evnt
 from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
 from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
-from dev.Sensores_TPH.sns_Ox import read_SnsOx
 from dev.Sensores_TPH.sht21 import sht21
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
+from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
+from dev.Controles_Alertas.encoder import valupdt
+# from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
 
@@ -60,7 +59,7 @@ PWM_Calef = 100
 pesoFinal = 0.0
 strStatus = ""
 
-joystick_data = Manager().dict({"x": 0, "y": 0, "pressed": False})
+alertaSumEner = ""
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
@@ -68,33 +67,13 @@ joystick_data = Manager().dict({"x": 0, "y": 0, "pressed": False})
 def index():
     return render_template("index.html")
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SONDAS DE TEMPERATURA
-# Lectura de las sondas de piel
-@app.route("/api/getTemp", methods=["POST"])
-def api_getTemp():
-    tempSondaPiel = read_Sonda(3) # Canal ADC
-    # tempSondaAux = read_Sonda(2)  # Canal ADC (2 AUX)
-
-    if tempSondaPiel != 0:
-        return jsonify({
-            "status": "ok",
-            "tempSondaPiel": tempSondaPiel
-        }), 200
-    elif tempSondaPiel != 0:
-        return jsonify({
-            "status": "Sonda Aux No Conectada",
-            "tempSondaPiel": tempSondaPiel
-        }), 206
-    else:
-        return jsonify({
-            "status": "ERROR SONDA PRINCIPAL NO CONECTADA"
-        }), 500
 # Seleccionar Temperatura Programada
 @app.route("/api/setTemp", methods=["POST"])
 def api_setTemp():
     nTempProg = request.get_json()
 
     if nTempProg.get("tempProg"):
-        print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
+        # print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
 
         return jsonify({
             "status": "ok"
@@ -108,10 +87,10 @@ def api_setTemp():
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SENSORES HUMEDAD/TEMPERATURA/OXIGENO
 @app.route("/api/getSnsTHO", methods=["POST"])
 def api_THO():
-    sht21()
+    # sht21()
 
     temp_CjSns, pres_CjSns, hum_CjSns = struct.unpack("fff", bme280())
-    SnsOx = read_SnsOx(2)
+    SnsOx = 0
 
     return jsonify({
         "status": "ok",
@@ -220,23 +199,40 @@ def api_modoFunc():
             strStatus = "Error"
             return jsonify({"status": "fail"}), 500
 #------------------------- En Pruebas -------------------------#
-@app.route("/api/joystick", methods=["GET"])
-def api_joystick():
+@app.route("/api/ctrls", methods=["GET"])
+def controles():
     return jsonify({
-        "x": joystick_data["x"],
-        "y": joystick_data["y"],
-        "pressed": joystick_data["pressed"]
+        "Alerta": alertaSumEner,
+        # "x": joystick_data["x"],
+        # "y": joystick_data["y"],
+        # "pressed": joystick_data["pressed"]
     })
+
+@app.route("/api/encdCtrl", methods=["POST"])
+def encdCtrl():
+    tempProg_Lvl = request.get_json().get("tempProg_Lvl")
+    editVal = request.get_json().get("editVal")
+    sobreGiro = request.get_json().get("sobreGiro")
+
+    tempProg_Lvl = valupdt(editVal, tempProg_Lvl, sobreGiro)
+
+    return jsonify({
+        "tempProg_Lvl": tempProg_Lvl
+    })
+
 #--------------------------------------------------------------#
 ##############################################################################
 #                            Funciones de sistema                            #
 ##############################################################################
-def monitor_disk():
-    while True:
-        restart_container()
-        time.sleep(30)
+def sys_monitor():
+    global alertaSumEner
 
-def restart_container(threshold=95):
+    while True:
+        restart_container()                         # Memoria del contenedor
+        # alertaSumEner = monitoreo_alimentación(2)   # Suministro de energía
+        time.sleep(0.5)
+
+def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")
     used_percent = (used / total) * 100
 
@@ -257,10 +253,7 @@ thread_Calef.start()
 thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
 thread_comCalef.start()
 
-thread_Joystick = threading.Thread(target=rd_joystick, args=(joystick_data,), daemon=True)
-thread_Joystick.start()
-
-monitor_thread = threading.Thread(target=monitor_disk, daemon=True)
+monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
 monitor_thread.start()
 
 #------------------------- En Pruebas -------------------------#

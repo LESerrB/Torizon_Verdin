@@ -588,7 +588,7 @@ async function guardarDatos() {
  */
 export function updateSensors(){
     date();
-    get_TempSonda();
+    // get_TempSonda();
     get_SensorBox();
 
     updateChartDisplay();
