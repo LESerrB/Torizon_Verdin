@@ -212,8 +212,9 @@ def controles():
 def encdCtrl():
     tempProg_Lvl = request.get_json().get("tempProg_Lvl")
     editVal = request.get_json().get("editVal")
+    sobreGiro = request.get_json().get("sobreGiro")
 
-    tempProg_Lvl = valupdt(editVal, tempProg_Lvl)
+    tempProg_Lvl = valupdt(editVal, tempProg_Lvl, sobreGiro)
 
     return jsonify({
         "tempProg_Lvl": tempProg_Lvl

@@ -243,10 +243,8 @@ export function updtTempProg(tempProg_Lvl){
     }
 };
 
-export async function encdCtrl(tempProg_Lvl, editVal){
+export async function encdCtrl(tempProg_Lvl, editVal, sobreGiro){
     let t = 0;
-
-    console.log(tempProg_Lvl);
 
     try {
         const response = await fetch('/api/encdCtrl', {
@@ -256,7 +254,8 @@ export async function encdCtrl(tempProg_Lvl, editVal){
             },
             body: JSON.stringify({ 
                 tempProg_Lvl: tempProg_Lvl,
-                editVal: editVal
+                editVal: editVal,
+                sobreGiro: sobreGiro
             })
         });
 

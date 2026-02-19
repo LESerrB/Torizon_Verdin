@@ -233,7 +233,7 @@ val_TempProg.addEventListener('click', async () => {
     val_TempProg.classList.add('parpadeo');
 
     tempProgStatus = setInterval(async () => {
-        val = await encdCtrl(tempProg_Lvl, "temProg");
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
         tempProg_Lvl = val;
     }, 50);
 
@@ -256,7 +256,7 @@ btn_tmpPrgMenos.addEventListener('click', async () => {
     if (tempProg_Lvl > 34.0) {
         tempProg_Lvl -= 0.1
 
-        val = await encdCtrl(tempProg_Lvl, "temProg");
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
 
         if (tempProg_Lvl < 37.0) {
             sobreGiro = false;
@@ -271,7 +271,7 @@ btn_tmpPrgMenos.addEventListener('touchstart', async () => {
         if (tempProg_Lvl >= 34.1 && !(btnsCtrl_tmpProgDisabled)) {
             tempProg_Lvl -= 0.2;
 
-            val = await encdCtrl(tempProg_Lvl, "temProg");
+            val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
             console.log(val);
 
             if (tempProg_Lvl < 37.0) 
@@ -310,14 +310,14 @@ btn_tmpPrgMas.addEventListener('click', async () => {
     if (tempProg_Lvl < 37.0) {
         tempProg_Lvl += 0.1;
 
-        val = await encdCtrl(tempProg_Lvl, "temProg");
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
     }
 
     if (sobreGiro) {
         if (tempProg_Lvl < 38.0){
             tempProg_Lvl += 0.1;
 
-            val = await encdCtrl(tempProg_Lvl, "temProg");
+            val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
         }
     }
 
@@ -329,14 +329,14 @@ btn_tmpPrgMas.addEventListener('touchstart', async () => {
         if (tempProg_Lvl <= 36.9 && !(btnsCtrl_tmpProgDisabled)) {
             tempProg_Lvl += 0.2;
 
-            val = await encdCtrl(tempProg_Lvl, "temProg");
+            val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
         }
 
         if (sobreGiro) {
             if (tempProg_Lvl < 38.0 && !(btnsCtrl_tmpProgDisabled)){
                 tempProg_Lvl += 0.2;
 
-                val = await encdCtrl(tempProg_Lvl, "temProg");
+                val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
             }
         }
 
@@ -353,9 +353,11 @@ btn_sobreGiro.addEventListener('click', async () => {
 
     if(!sobreGiro){
         tempProg_Lvl = parseFloat(37.0).toFixed(1);
-        val = await encdCtrl(tempProg_Lvl, "temProg");
-        tempProg_Lvl = val;
+
         updtTempProg(tempProg_Lvl);
+
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
+        tempProg_Lvl = val;
 
         btn_sobreGiro.classList.add('btn-sensor');
         btn_sobreGiro.classList.remove('btn-sensor-pressed');
@@ -364,6 +366,9 @@ btn_sobreGiro.addEventListener('click', async () => {
         btn_sobreGiro_lbl.classList.remove('btn-sensor-lbl-pressed');
     }
     else{
+        val = await encdCtrl(tempProg_Lvl, "temProg", sobreGiro);
+        tempProg_Lvl = val;
+
         btn_sobreGiro.classList.remove('btn-sensor');
         btn_sobreGiro.classList.add('btn-sensor-pressed');
     

@@ -49,7 +49,7 @@ DEBOUNCE_TIME = 0.02  # 20 milisegundos
 last_DT = enc_dt.get_value()
 last_CLK = enc_clk.get_value()
 
-def valEdit(editVal, valIni):
+def valEdit(editVal, valIni, sobreGiro):
     global last_DT
     global last_CLK
 
@@ -61,7 +61,9 @@ def valEdit(editVal, valIni):
         if current_CLK != last_CLK:
             if current_CLK == current_DT:
                 if editVal == "temProg":
-                    if (valIni <= 36.9):
+                    if (valIni < 37.0) and (not sobreGiro):
+                        valIni += 0.1
+                    elif(valIni < 38.0) and sobreGiro:
                         valIni += 0.1
                 else:
                     valIni += 1
@@ -86,8 +88,9 @@ def swAcept():
         if evt.type == gpiod.LineEvent.RISING_EDGE:
             print("Switch Liberado")
 
-def valupdt(editVal, tempProg_Lvl):
-    tempProg_Lvl = valEdit(editVal, tempProg_Lvl)
+def valupdt(editVal, tempProg_Lvl, sobreGiro):
+    tempProg_Lvl = valEdit(editVal, tempProg_Lvl, sobreGiro)
+    print("<<<<<<<", tempProg_Lvl)
     swAcept()
 
     return round(tempProg_Lvl, 1)
