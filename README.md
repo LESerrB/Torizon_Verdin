@@ -387,6 +387,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Implementada función de desconexión de sumninistro eléctrico.
 - Creada alerta continua hasta que se reconecte.
 - Lectura de encoder para modificar Temperatura programada.
+- Agregados módulos de MPU6050 para sensado de inclinación de bacinete.
+- Creadas funciones de lectura y calibración.
 
 ## Descarga e Instalación
 

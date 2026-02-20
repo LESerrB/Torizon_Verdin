@@ -16,14 +16,27 @@ ACCEL_ZOUT = 0x3F
 
 ACCEL_SCALE = 16384.0  # ±2g
 OFFSETS = {
-    MPU1: {"roll": 0.0, "pitch": 0.0},
-    MPU2: {"roll": 0.0, "pitch": 0.0},
+    MPU1: {"lat": 0.0, "frnt": 0.0},
+    MPU2: {"lat": 0.0, "frnt": 0.0},
 }
 
 bus.write_byte_data(MPU1, PWR_MGMT_1, 0)
 bus.write_byte_data(MPU2, PWR_MGMT_1, 0)
 
-def read_word_2c(addr, reg):
+def read_WReg(addr, reg):
+    """
+    Lee un valor de 16 bits desde un registro de un dispositivo I2C (MPU6050).
+    
+    El valor se forma combinando dos bytes consecutivos (MSB y LSB).
+    Si el valor es negativo (>= 0x8000), se convierte a complemento a 2.
+    
+    Args:
+        addr (int): Dirección I2C del dispositivo (0x68 o 0x69).
+        reg (int): Dirección del registro a leer.
+    
+    Returns:
+        int: Valor de 16 bits con signo del registro.
+    """
     high = bus.read_byte_data(addr, reg)
     low  = bus.read_byte_data(addr, reg + 1)
     val = (high << 8) | low
@@ -33,60 +46,91 @@ def read_word_2c(addr, reg):
 
     return val
 
-def tilt_deg_from_accel(ax, ay, az):
+def pos_LatFrnt(ax, ay, az):
+    """
+    Calcula el ángulo de inclinación lateral (pitch) y frontal (roll) a partir de aceleraciones.
+    
+    Convierte las lecturas brutas del acelerómetro a gravedades (g) y luego
+    calcula los ángulos utilizando funciones trigonométricas (atan2).
+    
+    Args:
+        ax (int): Aceleración en el eje X (valores brutos del MPU6050).
+        ay (int): Aceleración en el eje Y (valores brutos del MPU6050).
+        az (int): Aceleración en el eje Z (valores brutos del MPU6050).
+    
+    Returns:
+        tuple: (lat, frnt) - Ángulo lateral y frontal en grados.
+    """
     ax_g = ax / ACCEL_SCALE
     ay_g = ay / ACCEL_SCALE
     az_g = az / ACCEL_SCALE
 
-    # Posición: Roll (lateral) y Pitch (frontal)
-    roll  = math.degrees(math.atan2(ay_g, az_g))
-    pitch = math.degrees(math.atan2(-ax_g, math.sqrt(ay_g*ay_g + az_g*az_g)))
+    lat  = math.degrees(math.atan2(ay_g, az_g))
+    frnt = math.degrees(math.atan2(-ax_g, math.sqrt(ay_g*ay_g + az_g*az_g)))
 
-    return roll, pitch
+    return lat, frnt
 
 def accel_Pos():
-    ax1 = read_word_2c(MPU1, ACCEL_XOUT)
-    ay1 = read_word_2c(MPU1, ACCEL_YOUT)
-    az1 = read_word_2c(MPU1, ACCEL_ZOUT)
+    """
+    Lee las posiciones (ángulos de inclinación) de ambos acelerómetros (MPU1 y MPU2).
+    
+    Obtiene datos de ambos sensores MPU6050, calcula sus ángulos y resta los offsets
+    de calibración previamente almacenados. Imprime los resultados en consola.
+    
+    Returns:
+        None (imprime directamente en consola)
+    """
+    ax1 = read_WReg(MPU1, ACCEL_XOUT)
+    ay1 = read_WReg(MPU1, ACCEL_YOUT)
+    az1 = read_WReg(MPU1, ACCEL_ZOUT)
 
-    roll1, pitch1 = tilt_deg_from_accel(ax1, ay1, az1)
+    lat1, frnt1 = pos_LatFrnt(ax1, ay1, az1)
 
-    roll1  -= OFFSETS[MPU1]["roll"]
-    pitch1 -= OFFSETS[MPU1]["pitch"]
+    lat1  -= OFFSETS[MPU1]["lat"]
+    frnt1 -= OFFSETS[MPU1]["frnt"]
 
-    ax2 = read_word_2c(MPU2, ACCEL_XOUT)
-    ay2 = read_word_2c(MPU2, ACCEL_YOUT)
-    az2 = read_word_2c(MPU2, ACCEL_ZOUT)
+    ax2 = read_WReg(MPU2, ACCEL_XOUT)
+    ay2 = read_WReg(MPU2, ACCEL_YOUT)
+    az2 = read_WReg(MPU2, ACCEL_ZOUT)
 
-    roll2, pitch2 = tilt_deg_from_accel(ax2, ay2, az2)
+    lat2, frnt2 = pos_LatFrnt(ax2, ay2, az2)
 
-    print(f"MPU1 -> Roll: {roll1:7.2f}°  Pitch: {pitch1:7.2f}°")
-    print(f"MPU2 -> Roll: {roll2:7.2f}°  Pitch: {pitch2:7.2f}°")
+    print(f"MPU1 -> lat: {lat1:7.2f}°  frnt: {frnt1:7.2f}°")
+    print(f"MPU2 -> lat: {lat2:7.2f}°  frnt: {frnt2:7.2f}°")
 
 def calib_PosZero(addr=MPU1, samples=300, delay_s=0.01, settle_s=0.2):
     """
-    Calibra para que la posición ACTUAL sea 0°/0°.
-    - samples: cuantas lecturas promediar
-    - delay_s: tiempo entre lecturas
-    - settle_s: espera inicial para que se estabilice
+    Calibra un acelerómetro para establecer su posición actual como punto cero (0°/0°).
+    
+    Realiza múltiples lecturas del sensor, promedia sus ángulos y almacena estos
+    valores como offsets de calibración que se restan posteriormente en los cálculos.
+    
+    Args:
+        addr (int): Dirección I2C del dispositivo a calibrar. Default: MPU1 (0x68).
+        samples (int): Número de lecturas para promediar. Default: 300.
+        delay_s (float): Tiempo entre lecturas en segundos. Default: 0.01 s.
+        settle_s (float): Tiempo de estabilización inicial en segundos. Default: 0.2 s.
+    
+    Returns:
+        tuple: (offset_lat, offset_frnt) - Offsets de calibración calculados en grados.
     """
     time.sleep(settle_s)
 
-    sum_roll = 0.0
-    sum_pitch = 0.0
+    sum_lat = 0.0
+    sum_frnt = 0.0
 
     for _ in range(samples):
-        ax = read_word_2c(addr, ACCEL_XOUT)
-        ay = read_word_2c(addr, ACCEL_YOUT)
-        az = read_word_2c(addr, ACCEL_ZOUT)
+        ax = read_WReg(addr, ACCEL_XOUT)
+        ay = read_WReg(addr, ACCEL_YOUT)
+        az = read_WReg(addr, ACCEL_ZOUT)
 
-        roll, pitch = tilt_deg_from_accel(ax, ay, az)
-        sum_roll += roll
-        sum_pitch += pitch
+        lat, frnt = pos_LatFrnt(ax, ay, az)
+        sum_lat += lat
+        sum_frnt += frnt
         time.sleep(delay_s)
 
-    OFFSETS[addr]["roll"]  = sum_roll / samples
-    OFFSETS[addr]["pitch"] = sum_pitch / samples
+    OFFSETS[addr]["lat"]  = sum_lat / samples
+    OFFSETS[addr]["frnt"] = sum_frnt / samples
 
     # Opcional: regresar el offset aplicado
-    return OFFSETS[addr]["roll"], OFFSETS[addr]["pitch"]
+    return OFFSETS[addr]["lat"], OFFSETS[addr]["frnt"]
