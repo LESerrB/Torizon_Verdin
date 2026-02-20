@@ -28,6 +28,7 @@ from dev.Sensores_TPH.sht21 import sht21
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
 from dev.Controles_Alertas.encoder import valupdt
+from dev.Sensores_TPH.sns_IncBac import accel_Pos
 # from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
@@ -230,7 +231,8 @@ def sys_monitor():
     while True:
         restart_container()                         # Memoria del contenedor
         # alertaSumEner = monitoreo_alimentación(2)   # Suministro de energía
-        time.sleep(0.5)
+        accel_Pos()
+        time.sleep(1)# 0.5
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")
