@@ -1,70 +1,92 @@
-from smbus2 import SMBus
 import math
-import struct
+import time
+
+from smbus2 import SMBus
+
+bus = SMBus(3)   # /dev/i2c-3
 
 MPU1 = 0x68
 MPU2 = 0x69
 
 PWR_MGMT_1 = 0x6B
 
-ACCEL_SCALE = 16384.0
-
-
 ACCEL_XOUT = 0x3B
 ACCEL_YOUT = 0x3D
 ACCEL_ZOUT = 0x3F
 
-def read_word(addr, reg_X, reg_Y, reg_Z):
-    try:
-        with SMBus(3) as bus: # 3 -> /dev/i2c-3
-            bus.write_byte_data(MPU1, PWR_MGMT_1, 0)
-            bus.write_byte_data(MPU2, PWR_MGMT_1, 0)
+ACCEL_SCALE = 16384.0  # ±2g
+OFFSETS = {
+    MPU1: {"roll": 0.0, "pitch": 0.0},
+    MPU2: {"roll": 0.0, "pitch": 0.0},
+}
 
-            high_X = bus.read_byte_data(addr, reg_X)
-            low_X = bus.read_byte_data(addr, reg_X + 1)
-            x_val = (high_X << 8) + low_X
+bus.write_byte_data(MPU1, PWR_MGMT_1, 0)
+bus.write_byte_data(MPU2, PWR_MGMT_1, 0)
 
-            if x_val >= 0x8000:
-                x_val = -((65535 - x_val) + 1)
+def read_word_2c(addr, reg):
+    high = bus.read_byte_data(addr, reg)
+    low  = bus.read_byte_data(addr, reg + 1)
+    val = (high << 8) | low
 
-            high_Y = bus.read_byte_data(addr, reg_Y)
-            low_Y = bus.read_byte_data(addr, reg_Y + 1)
-            y_val = (high_Y << 8) + low_Y
+    if val >= 0x8000:
+        val -= 65536
 
-            if y_val >= 0x8000:
-                y_val = -((65535 - y_val) + 1)
+    return val
 
-            high_Z = bus.read_byte_data(addr, reg_Z)
-            low_Z = bus.read_byte_data(addr, reg_Z + 1)
-            z_val = (high_Z << 8) + low_Z
+def tilt_deg_from_accel(ax, ay, az):
+    ax_g = ax / ACCEL_SCALE
+    ay_g = ay / ACCEL_SCALE
+    az_g = az / ACCEL_SCALE
 
-            if z_val >= 0x8000:
-                z_val = -((65535 - z_val) + 1)
+    # Posición: Roll (lateral) y Pitch (frontal)
+    roll  = math.degrees(math.atan2(ay_g, az_g))
+    pitch = math.degrees(math.atan2(-ax_g, math.sqrt(ay_g*ay_g + az_g*az_g)))
 
-            r_xyz = struct.pack("fff", x_val, y_val, z_val)
-
-            return r_xyz
-    except Exception as e:
-        print("Error", e)
-        r_xyz = struct.pack("fff", 0.0, 0.0, 0.0)
-        return r_xyz
-
+    return roll, pitch
 
 def accel_Pos():
-    r_xyz = read_word(MPU1, ACCEL_XOUT, ACCEL_YOUT, ACCEL_ZOUT)
+    ax1 = read_word_2c(MPU1, ACCEL_XOUT)
+    ay1 = read_word_2c(MPU1, ACCEL_YOUT)
+    az1 = read_word_2c(MPU1, ACCEL_ZOUT)
 
-    ax1, ay1, az1 = struct.unpack("fff", r_xyz)
+    roll1, pitch1 = tilt_deg_from_accel(ax1, ay1, az1)
 
-    gx1 = round(ax1 / ACCEL_SCALE, 1)
-    gy1 = round(ay1 / ACCEL_SCALE, 1)
-    gz1 = round(az1 / ACCEL_SCALE, 1)
+    roll1  -= OFFSETS[MPU1]["roll"]
+    pitch1 -= OFFSETS[MPU1]["pitch"]
 
-    print("MPU1:", "\tX:", gx1, "°\n\tY:", gy1, "°")
+    ax2 = read_word_2c(MPU2, ACCEL_XOUT)
+    ay2 = read_word_2c(MPU2, ACCEL_YOUT)
+    az2 = read_word_2c(MPU2, ACCEL_ZOUT)
 
-    # Roll (eje X)
-    roll = math.degrees(math.atan2(gy1, gz1))
+    roll2, pitch2 = tilt_deg_from_accel(ax2, ay2, az2)
 
-    # Pitch (eje Y)
-    pitch = math.degrees(math.atan2(-gx1, math.sqrt(gy1**2 + gz1**2)))
+    print(f"MPU1 -> Roll: {roll1:7.2f}°  Pitch: {pitch1:7.2f}°")
+    print(f"MPU2 -> Roll: {roll2:7.2f}°  Pitch: {pitch2:7.2f}°")
 
-    print("X:", roll, "\nY:", pitch)
+def calib_PosZero(addr=MPU1, samples=300, delay_s=0.01, settle_s=0.2):
+    """
+    Calibra para que la posición ACTUAL sea 0°/0°.
+    - samples: cuantas lecturas promediar
+    - delay_s: tiempo entre lecturas
+    - settle_s: espera inicial para que se estabilice
+    """
+    time.sleep(settle_s)
+
+    sum_roll = 0.0
+    sum_pitch = 0.0
+
+    for _ in range(samples):
+        ax = read_word_2c(addr, ACCEL_XOUT)
+        ay = read_word_2c(addr, ACCEL_YOUT)
+        az = read_word_2c(addr, ACCEL_ZOUT)
+
+        roll, pitch = tilt_deg_from_accel(ax, ay, az)
+        sum_roll += roll
+        sum_pitch += pitch
+        time.sleep(delay_s)
+
+    OFFSETS[addr]["roll"]  = sum_roll / samples
+    OFFSETS[addr]["pitch"] = sum_pitch / samples
+
+    # Opcional: regresar el offset aplicado
+    return OFFSETS[addr]["roll"], OFFSETS[addr]["pitch"]
