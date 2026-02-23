@@ -66,13 +66,15 @@ def valEdit(editVal, valIni, sobreGiro):
                     elif(valIni < 38.0) and sobreGiro:
                         valIni += 0.1
                 else:
-                    valIni += 1
+                    if valIni < 100:
+                        valIni += 1
             else:
                 if editVal == "temProg":
                     if (valIni > 34.0):
                         valIni -= 0.1
                 else:
-                    valIni -= 1
+                    if valIni > 0:
+                        valIni -= 1
 
         last_CLK = current_CLK
         last_DT = current_DT
@@ -89,8 +91,9 @@ def swAcept():
             print("Switch Liberado")
 
 def valupdt(editVal, tempProg_Lvl, sobreGiro):
+    # print(tempProg_Lvl, "\t<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     tempProg_Lvl = valEdit(editVal, tempProg_Lvl, sobreGiro)
-    print("<<<<<<<", tempProg_Lvl)
+    # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\t", tempProg_Lvl)
     swAcept()
 
     return round(tempProg_Lvl, 1)

@@ -268,7 +268,19 @@ export async function encdCtrl(tempProg_Lvl, editVal, sobreGiro){
             t = tempProg_Lvl;
         }
 
-        tempProg.textContent = t;
+        if (editVal == "temProg") {
+            tempProg.textContent = t;
+        } else {
+            if (potCalef) {
+                const valueTextNode = Array.from(potCalef.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
+
+                if (valueTextNode) {
+                    valueTextNode.nodeValue = `${tempProg_Lvl}`.toString().padStart(2, '0');
+                } else {
+                    potCalef.insertBefore(document.createTextNode(`${tempProg_Lvl}`), span);
+                }
+            }
+        }
 
         return t;
     } catch (error) {
