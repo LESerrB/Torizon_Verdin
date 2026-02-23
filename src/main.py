@@ -73,7 +73,7 @@ def api_setTemp():
     nTempProg = request.get_json()
 
     if nTempProg.get("tempProg"):
-        # print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
+        print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
 
         return jsonify({
             "status": "ok"
@@ -108,6 +108,8 @@ def api_potCalef():
 
     if PWM_Calef is not None:
         set_PWM_Calef(int(PWM_Calef))
+        print("La nueva Potencia Programada es:", PWM_Calef)
+
 
     return jsonify({
         "status": "ok"

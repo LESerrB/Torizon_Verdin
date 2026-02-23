@@ -228,6 +228,7 @@ btn_Bebe.addEventListener('click', () => {
 
     updtBars(calef_Lvl);
     updtTempProg(tempProg_Lvl);
+    setPot_prog(calef_Lvl);
 });
 
 val_TempProg.addEventListener('click', async () => {
@@ -379,7 +380,7 @@ btn_sobreGiro.addEventListener('click', async () => {
 
 });
     //[[[[[[[[[[[[[[[ MODO MANUAL / AIRE ]]]]]]]]]]]]]]]//
-btn_Manual.addEventListener('click', () => {
+btn_Manual.addEventListener('click', async () => {
     actvModo('manual');
     clearInterval(tempProgStatus);
 
@@ -405,7 +406,13 @@ btn_Manual.addEventListener('click', () => {
         updtBars(calef_Lvl);
     }, 50);
 
-    updtTempProg(tempProg_Lvl);
+    // updtTempProg(tempProg_Lvl);
+    try {
+        const t = await setTemp_prog(tempProg_Lvl, tempProg_ant);
+        updtTempProg(t);
+    } catch (error) {
+        console.log("Error al configurar la Temperatura Programada");
+    }
 });
 
 val_potCalef.addEventListener('click', () => {
