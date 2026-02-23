@@ -209,6 +209,7 @@ btn_lock.addEventListener('click', () => {
     //[[[[[[[[[[[[[[[[[[[[ MODO BEBÉ ]]]]]]]]]]]]]]]]]]]//
 btn_Bebe.addEventListener('click', () => {
     actvModo('bebe');
+    clearInterval(tempProgStatus);
 
     btnsCtrl_tmpProgDisabled = true;
     btnsCtrl_potCalefDisabled = true;
@@ -380,6 +381,7 @@ btn_sobreGiro.addEventListener('click', async () => {
     //[[[[[[[[[[[[[[[ MODO MANUAL / AIRE ]]]]]]]]]]]]]]]//
 btn_Manual.addEventListener('click', () => {
     actvModo('manual');
+    clearInterval(tempProgStatus);
 
     btnsCtrl_tmpProgDisabled = true;
     btnsCtrl_potCalefDisabled = false;

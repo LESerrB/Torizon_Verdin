@@ -50,6 +50,27 @@ last_DT = enc_dt.get_value()
 last_CLK = enc_clk.get_value()
 
 def valEdit(editVal, valIni, sobreGiro):
+    """
+    Detecta rotación del encoder y modifica el valor en función de la dirección.
+    
+    Monitorea los cambios de estado del encoder (CLK y DT) para determinar la dirección
+    de rotación e incrementa o decrementa el valor según corresponda.
+    
+    Args:
+        editVal (str): Tipo de valor a editar:
+                      - "temProg": Temperatura Programada
+                      - Otro valor: Potencia del Calefactor
+        valIni (float): Valor inicial a modificar
+        sobreGiro (bool): Bandera que permite sobregiro en temperatura programada
+    
+    Returns:
+        float: Valor modificado después de la rotación del encoder
+               Si no hay evento, retorna el valor original (valIni)
+    
+    Límites de valores:
+        - Temperatura: 34.0°C - 37.0°C (o hasta 38.0°C con sobreGiro)
+        - Potencia: 0 - 100%
+    """
     global last_DT
     global last_CLK
 
@@ -84,16 +105,44 @@ def valEdit(editVal, valIni, sobreGiro):
         return valIni
 
 def swAcept():
+    """
+    Detecta la liberación del botón del encoder (Switch).
+    
+    Monitorea el evento de liberación (RISING_EDGE) del botón pulsador del encoder
+    e imprime un mensaje cuando se detecta. Esta función es principalmente para
+    validar la interacción del usuario con el botón.
+    
+    Returns:
+        None
+    """
     if enc_sw.event_wait(0):
         evt = enc_sw.event_read()
 
         if evt.type == gpiod.LineEvent.RISING_EDGE:
             print("Switch Liberado")
 
-def valupdt(editVal, tempProg_Lvl, sobreGiro):
-    # print(tempProg_Lvl, "\t<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-    tempProg_Lvl = valEdit(editVal, tempProg_Lvl, sobreGiro)
-    # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\t", tempProg_Lvl)
+def valUpdt(editVal, initValue, sobreGiro):
+    """
+    Actualiza el valor del control detectando entrada del encoder.
+    
+    Función principal que orquesta la lectura del encoder y actualiza el valor
+    de control. Procesa tanto la rotación del encoder como la pulsación del botón.
+    
+    Args:
+        editVal (str): Tipo de valor a editar ("temProg" o potencia)
+        initValue (float): Valor inicial del control
+        sobreGiro (bool): Bandera de sobregiro para temperatura
+    
+    Returns:
+        float: Valor actualizado y redondeado a 1 decimal
+    
+    Nota:
+        El valor es redondeado a 1 decimal para evitar problemas de precisión
+        en cálculos posteriores.
+    """
+    # print(initValue, "\t<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+    initValue = valEdit(editVal, initValue, sobreGiro)
+    # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\t", initValue)
     swAcept()
 
-    return round(tempProg_Lvl, 1)
+    return round(initValue, 1)

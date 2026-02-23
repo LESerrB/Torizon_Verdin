@@ -27,7 +27,7 @@ from dev.Sensores_TPH.sht21 import sht21
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
-from dev.Controles_Alertas.encoder import valupdt
+from dev.Controles_Alertas.encoder import valUpdt
 # from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
@@ -210,14 +210,14 @@ def controles():
 
 @app.route("/api/encdCtrl", methods=["POST"])
 def encdCtrl():
-    tempProg_Lvl = request.get_json().get("tempProg_Lvl")
+    initValue = request.get_json().get("initValue")
     editVal = request.get_json().get("editVal")
     sobreGiro = request.get_json().get("sobreGiro")
 
-    tempProg_Lvl = valupdt(editVal, tempProg_Lvl, sobreGiro)
+    initValue = valUpdt(editVal, initValue, sobreGiro)
 
     return jsonify({
-        "tempProg_Lvl": tempProg_Lvl
+        "initValue": initValue
     })
 
 #--------------------------------------------------------------#
