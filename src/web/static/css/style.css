@@ -1,4 +1,6 @@
-/*---------------------------------- Pantalla Principal ----------------------------------*/
+/*------------------------------------------------------------------------------*/
+/*----------------------------- Pantalla Principal -----------------------------*/
+/*------------------------------------------------------------------------------*/
 .pant-prin,
 .pant-prin * {
   box-sizing: border-box;
@@ -63,159 +65,84 @@ html, body {
   bottom: 20px;
 }
 
-
-
-
-
-
-/* Barra de Información */
+/*------------------------------------------------------------------------------*/
+/*---------------------------- Barra de Información ----------------------------*/
+/*------------------------------------------------------------------------------*/
 .frm-Información{
-  /* background: #474547; */
   height: 50px;
   width: 1000px;
-  position: relative;
+  position: absolute;
   top: 73px;
   left: 10px;
 }
-.rtngl-infoPaciente {
-  background: #d9d9d9;
+
+/*------------------------------------------------------------------------------*/
+/*------------------------------ Panel Principal -------------------------------*/
+/*------------------------------------------------------------------------------*/
+.pnl-Principal {
   border-radius: 8px;
-  width: 483px;
-  height: 40px;
-  position: relative;
-  left: 0px;
-  top: 5px;
-}
-.icn-crzn {
-  width: 12px;
-  height: 10px;
+  width: 1000px;
+  height: 375px;
   position: absolute;
+  left: 10px;
+  top: 126px;
+}
+
+
+.title-View {
+  background: #d9d9d9;
+  border-radius: 8px 8px 0px 0px;
+  width: 1000px;
+  height: 22px;
+  position: relative;
+  /* left: 20px;
+  top: 145px; */
+}
+
+.ind-sup {
+  width: 11px;
+  height: 13px;
+  position: relative;
   left: 23px;
-  top: 15px;
+  top: 5px;
+  overflow: hidden;
+  aspect-ratio: 11/13;
+}
+.vector {
+  width: 19%;
+  height: 71.56%;
+  position: absolute;
+  right: 0.02%;
+  left: 80.97%;
+  bottom: 14.23%;
+  top: 14.21%;
   overflow: visible;
 }
-.nom-infante {
+.group {
+  width: 77.71%;
+  height: 99.99%;
+  position: absolute;
+  right: 22.29%;
+  left: 0.01%;
+  bottom: 0.01%;
+  top: 0%;
+  overflow: visible;
+}
+.sist-ctrl-piel {
   color: #474547;
   text-align: left;
-  font-family: "Montserrat-Bold", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  position: absolute;
-  left: calc(10% - 0px);
-  top:  12px;
-  width: 274px;
+  font-family: "Montserrat-Medium", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+  left: calc(50% - 451px);
+  top: -10px;
+  width: 198px;
   height: 16px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-.peso-reg {
-  color: #474547;
-  text-align: right;
-  font-family: "Montserrat-Medium", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  position: absolute;
-  left: calc(70% - 0px);
-  top: 12px;
-  width: 106px;
-  height: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.rtngl-rtm {
-  background: #d9d9d9;
-  border-radius: 8px;
-  width: 141px;
-  height: 40px;
-  position: relative;
-  left: 493px;
-  top: -35px;
-}
-.rtm-hrs {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  position: absolute;
-  left: calc(20% - 12px);
-  top: 9px;
-  width: 112px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ind-modoIncubadora {
-  background: #d9d9d9;
-  border-radius: 8px 0px 0px 8px;
-  width: 178px;
-  height: 40px;
-  position: relative;
-  left: 644px;
-  top: -75px;
-}
-.modo-incubadora {
-  color: #474547;
-  text-align: center;
-  font-family: "Montserrat-Bold", sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  position: absolute;
-  left: calc(5% - -2px);
-  top: 12px;
-  width: 157px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ind-modoCuna {
-  background: #eeeeee;
-  border-radius: 0px 8px 8px 0px;
-  width: 178px;
-  height: 40px;
-  position: relative;
-  left: 822px;
-  top: -115px;
-}
-.modo-cuna {
-  color: #d9d9d9;
-  text-align: center;
-  font-family: "Montserrat-Bold", sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  position: absolute;
-  left: calc(10% - 8px);
-  top: 12px;
-  width: 157px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-
-.rectangle-6 {
-  background: #eeeeee;
-  border-radius: 8px;
-  width: 984px;
-  height: 355px;
-  position: absolute;
-  left: 20px;
-  top: 145px;
-}
-
-
-
-
-
 
 
 
@@ -977,30 +904,8 @@ html, body {
 }
 
 
-.rectangle-111 {
-  background: #d9d9d9;
-  border-radius: 8px 8px 0px 0px;
-  width: 984px;
-  height: 22px;
-  position: absolute;
-  left: 20px;
-  top: 145px;
-}
-.sistema-controlado-por-piel {
-  color: #474547;
-  text-align: left;
-  font-family: "Montserrat-Medium", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  position: absolute;
-  left: calc(50% - 446px);
-  top: 148px;
-  width: 198px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
+
+
 .rectangle-71 {
   background: #d9d9d9;
   border-radius: 10px;
@@ -1068,35 +973,8 @@ html, body {
   align-items: center;
   justify-content: center;
 }
-.botones-superiores {
-  width: 11px;
-  height: 13px;
-  position: absolute;
-  left: 46px;
-  top: 149px;
-  overflow: hidden;
-  aspect-ratio: 11/13;
-}
-.vector {
-  width: 19%;
-  height: 71.56%;
-  position: absolute;
-  right: 0.02%;
-  left: 80.97%;
-  bottom: 14.23%;
-  top: 14.21%;
-  overflow: visible;
-}
-.group {
-  width: 77.71%;
-  height: 99.99%;
-  position: absolute;
-  right: 22.29%;
-  left: 0.01%;
-  bottom: 0.01%;
-  top: 0%;
-  overflow: visible;
-}
+
+
 .btn-152 {
   background: #d9d9d9;
   border-radius: 10px;

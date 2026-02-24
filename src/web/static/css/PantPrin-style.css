@@ -1,0 +1,129 @@
+/* Barra de Información */
+/*==============================================================================*/
+/*========================== Información del Paciente ==========================*/
+/*==============================================================================*/
+.rtngl-infoPaciente {
+  background: #d9d9d9;
+  border-radius: 8px;
+  width: 483px;
+  height: 40px;
+  position: relative;
+  left: 0px;
+  top: 5px;
+}
+.icn-crzn {
+  width: 12px;
+  height: 10px;
+  position: absolute;
+  left: 23px;
+  top: 15px;
+  overflow: visible;
+}
+.nom-infante {
+  color: #474547;
+  text-align: left;
+  font-family: "Montserrat-Bold", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  position: absolute;
+  left: calc(10% - 0px);
+  top:  12px;
+  width: 274px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.peso-reg {
+  color: #474547;
+  text-align: right;
+  font-family: "Montserrat-Medium", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(70% - 0px);
+  top: 12px;
+  width: 106px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+/*==============================================================================*/
+/*============================= Reloj Tiempo Real ==============================*/
+/*==============================================================================*/
+.rtngl-rtm {
+  background: #d9d9d9;
+  border-radius: 8px;
+  width: 141px;
+  height: 40px;
+  position: relative;
+  left: 493px;
+  top: -35px;
+}
+.rtm-hrs {
+  color: #474547;
+  text-align: center;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  position: absolute;
+  left: calc(20% - 12px);
+  top: 9px;
+  width: 112px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/*==============================================================================*/
+/*======================= Indicadores Modo de Operación ========================*/
+/*==============================================================================*/
+.ind-modoIncubadora {
+  background: #d9d9d9;
+  border-radius: 8px 0px 0px 8px;
+  width: 178px;
+  height: 40px;
+  position: relative;
+  left: 644px;
+  top: -75px;
+}
+.modo-incubadora {
+  color: #474547;
+  text-align: center;
+  font-family: "Montserrat-Bold", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  position: absolute;
+  left: calc(5% - -2px);
+  top: 12px;
+  width: 157px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ind-modoCuna {
+  background: #eeeeee;
+  border-radius: 0px 8px 8px 0px;
+  width: 178px;
+  height: 40px;
+  position: relative;
+  left: 822px;
+  top: -115px;
+}
+.modo-cuna {
+  color: #d9d9d9;
+  text-align: center;
+  font-family: "Montserrat-Bold", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  position: absolute;
+  left: calc(10% - 8px);
+  top: 12px;
+  width: 157px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
