@@ -9,7 +9,7 @@ import shutil
 # import logging
 
 # from dotenv import load_dotenv
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, abort
 from flask_cors import CORS
 
 # from files.logs import logger
@@ -35,13 +35,15 @@ from dev.Controles_Alertas.encoder import valupdt
 ##############################################################################
 #                           Configuracion Pag WEB                            #
 ##############################################################################
-template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", 'templates')
-static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
-app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
+template_dir = "web/templates"
+static_dir = "web/static"
+
+app = Flask(__name__,
+            template_folder=template_dir,
+            static_folder=static_dir)
 
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
-fsm = sm_chngModoOp()
 ##############################################################################
 #                           Configuracion de entorno                         #
 ##############################################################################
@@ -54,6 +56,7 @@ fsm = sm_chngModoOp()
 # werkzeug_logger = logging.getLogger('werkzeug')
 # werkzeug_logger.handlers = logger.handlers
 # werkzeug_logger.setLevel(logger.level)
+fsm = sm_chngModoOp()
 
 PWM_Calef = 100
 pesoFinal = 0.0
@@ -66,6 +69,16 @@ alertaSumEner = ""
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/view/<name>")
+def view(name):
+    allowed = ["PantPrin"]   # aquí agregarás más pantallas después
+
+    if name not in allowed:
+        abort(404)
+
+    return render_template(f"{name}.html")
+
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SONDAS DE TEMPERATURA
 # Seleccionar Temperatura Programada
 @app.route("/api/setTemp", methods=["POST"])

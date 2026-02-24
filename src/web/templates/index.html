@@ -1,94 +1,30 @@
 <!DOCTYPE html>
+
 <html lang="es">
+    <head>
+        <meta charset="UTF-8">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./vars.css">
-  <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/vars.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
 
-  <style>
-   a,
-   button,
-   input,
-   select,
-   h1,
-   h2,
-   h3,
-   h4,
-   h5,
-   * {
-       box-sizing: border-box;
-       margin: 0;
-       padding: 0;
-       border: none;
-       text-decoration: none;
-       background: none;
-   
-       -webkit-font-smoothing: antialiased;
-   }
-   
-   menu, ol, ul {
-       list-style-type: none;
-       margin: 0;
-       padding: 0;
-   }
+    <body>
+        <div id="stage">
+            <div class="pant-shell">
+                <div class="frm-Alarma">
+                    <div class="alarma">ALARMA</div>
+                </div>
 
-   .loading {
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       height: 100vh;
-       font-size: 18px;
-       color: #666;
-   }
+                <div id="view">
+                    {% include "PantPrin.html" %}
+                </div>
 
-   .error {
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       height: 100vh;
-       font-size: 18px;
-       color: #d32f2f;
-   }
-  </style>
+                <div class="frm-Footer">
+                    
+                </div>
+            </div>
+        </div>
 
-  <title>Monitor Incubadora</title>
-</head>
-
-<body>
-  <!-- Contenedor para cargar PantPrin.html dinámicamente -->
-  <div id="app" class="loading">Cargando...</div>
-
-  <script>
-    // Cargar el contenido de PantPrin.html dinámicamente
-    async function loadPantPrin() {
-      try {
-        const response = await fetch('./PantPrin.html');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const html = await response.text();
-        const appContainer = document.getElementById('app');
-        appContainer.innerHTML = html;
-        appContainer.classList.remove('loading');
-      } catch (error) {
-        console.error('Error cargando PantPrin.html:', error);
-        const appContainer = document.getElementById('app');
-        appContainer.innerHTML = `<div class="error">Error al cargar la página: ${error.message}</div>`;
-        appContainer.classList.remove('loading');
-        appContainer.classList.add('error');
-      }
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', loadPantPrin);
-    } else {
-      loadPantPrin();
-    }
-  </script>
-
-  <!-- <script type="module" src="../JS/main.js"></script> -->
-</body>
-
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    </body>
 </html>
