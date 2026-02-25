@@ -80,6 +80,7 @@ html, body {
 /*------------------------------ Panel Principal -------------------------------*/
 /*------------------------------------------------------------------------------*/
 .pnl-Principal {
+  background: #eeeeee;
   border-radius: 8px;
   width: 1000px;
   height: 375px;
@@ -89,60 +90,9 @@ html, body {
 }
 
 
-.title-View {
-  background: #d9d9d9;
-  border-radius: 8px 8px 0px 0px;
-  width: 1000px;
-  height: 22px;
-  position: relative;
-  /* left: 20px;
-  top: 145px; */
-}
 
-.ind-sup {
-  width: 11px;
-  height: 13px;
-  position: relative;
-  left: 23px;
-  top: 5px;
-  overflow: hidden;
-  aspect-ratio: 11/13;
-}
-.vector {
-  width: 19%;
-  height: 71.56%;
-  position: absolute;
-  right: 0.02%;
-  left: 80.97%;
-  bottom: 14.23%;
-  top: 14.21%;
-  overflow: visible;
-}
-.group {
-  width: 77.71%;
-  height: 99.99%;
-  position: absolute;
-  right: 22.29%;
-  left: 0.01%;
-  bottom: 0.01%;
-  top: 0%;
-  overflow: visible;
-}
-.sist-ctrl-piel {
-  color: #474547;
-  text-align: left;
-  font-family: "Montserrat-Medium", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  position: relative;
-  left: calc(50% - 451px);
-  top: -10px;
-  width: 198px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
+
+
 
 
 
@@ -150,55 +100,31 @@ html, body {
 .rectangle-69 {
   background: #d9d9d9;
   border-radius: 10px;
-  width: 272px;
-  height: 100px;
+  width: 280px;
+  height: 104px;
   position: absolute;
-  left: 376px;
-  top: 185px;
+  left: 368px;
+  top: 168px;
 }
 .rectangle-72 {
   background: #d9d9d9;
   border-radius: 10px;
-  width: 272px;
-  height: 100px;
+  width: 280px;
+  height: 106px;
   position: absolute;
-  left: 376px;
-  top: 293px;
-}
-.rectangle-70 {
-  background: #d9d9d9;
-  border-radius: 10px;
-  width: 272px;
-  height: 100px;
-  position: absolute;
-  left: 94px;
-  top: 185px;
+  left: 368px;
+  top: 284px;
 }
 .rectangle-73 {
   background: #d9d9d9;
   border-radius: 10px;
-  width: 272px;
-  height: 100px;
+  width: 290px;
+  height: 104px;
   position: absolute;
-  left: 94px;
-  top: 293px;
+  left: 63px;
+  top: 285px;
 }
-._36-5 {
-  color: #333233;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 52px;
-  line-height: 20px;
-  font-weight: 700;
-  position: absolute;
-  left: 165px;
-  top: 224px;
-  width: 128px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 ._36-2 {
   color: #474547;
   text-align: center;
@@ -231,15 +157,7 @@ html, body {
   align-items: center;
   justify-content: center;
 }
-.rectangle-77 {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 5px;
-  width: 252px;
-  height: 24px;
-  position: absolute;
-  left: 104px;
-  top: 193px;
-}
+
 .rectangle-79 {
   background: rgba(255, 255, 255, 0.55);
   border-radius: 5px;
@@ -249,23 +167,7 @@ html, body {
   left: 104px;
   top: 301px;
 }
-.temperatura-piel {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 11px;
-  line-height: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  position: absolute;
-  left: 121px;
-  top: 198px;
-  width: 218px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 .temperatura-auxiliar {
   color: #333233;
   text-align: center;
@@ -308,22 +210,7 @@ html, body {
   left: 386px;
   top: 193px;
 }
-.c {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 284px;
-  top: 228px;
-  width: 30px;
-  height: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 .c2 {
   color: #474547;
   text-align: center;
@@ -909,11 +796,11 @@ html, body {
 .rectangle-71 {
   background: #d9d9d9;
   border-radius: 10px;
-  width: 272px;
-  height: 100px;
+  width: 290px;
+  height: 104px;
   position: absolute;
-  left: 659px;
-  top: 185px;
+  left: 662px;
+  top: 168px;
 }
 ._36-1 {
   color: #474547;

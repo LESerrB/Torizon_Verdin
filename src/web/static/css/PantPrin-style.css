@@ -127,3 +127,131 @@
   align-items: center;
   justify-content: center;
 }
+
+/*==============================================================================*/
+/*============================== Titulo del Panel ==============================*/
+/*==============================================================================*/
+.title-View {
+  background: #d9d9d9;
+  border-radius: 8px 8px 0px 0px;
+  width: 1000px;
+  height: 22px;
+  position: relative;
+}
+
+.ind-sup {
+  width: 11px;
+  height: 13px;
+  position: relative;
+  left: 23px;
+  top: 5px;
+  overflow: hidden;
+  aspect-ratio: 11/13;
+}
+.vector {
+  width: 19%;
+  height: 71.56%;
+  position: absolute;
+  right: 0.02%;
+  left: 80.97%;
+  bottom: 14.23%;
+  top: 14.21%;
+  overflow: visible;
+}
+.group {
+  width: 77.71%;
+  height: 99.99%;
+  position: absolute;
+  right: 22.29%;
+  left: 0.01%;
+  bottom: 0.01%;
+  top: 0%;
+  overflow: visible;
+}
+.sist-ctrl-piel {
+  color: #474547;
+  text-align: left;
+  font-family: "Montserrat-Medium", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+  left: calc(50% - 451px);
+  top: -10px;
+  width: 198px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+/*==============================================================================*/
+/*============================= Paneles de Sensores ============================*/
+/*==============================================================================*/
+.rtngl-Sensor {
+  background: #d9d9d9;
+  border-radius: 10px;
+  width: 290px;
+  height: 104px;
+  position: relative;
+  left: 53px;
+  top: 20px;
+}
+
+.title-Sensor {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 5px;
+  width: 270px;
+  height: 24px;
+  position: relative;
+  left: 10px;
+  top: 8px;
+}
+.lbl-Sensor {
+  color: #333233;
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 11px;
+  line-height: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  position: relative;
+  left: 18px;
+  top: 5px;
+  width: 236px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.val-Sensor {
+  color: #333233;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 52px;
+  line-height: 20px;
+  font-weight: 700;
+  position: relative;
+  left: 63px;
+  top: 18px;
+  width: 128px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.units-Sensor {
+  color: #333233;
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  left: 188px;
+  top: -26px;
+  width: 30px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
