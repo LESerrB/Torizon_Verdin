@@ -93,277 +93,53 @@ html, body {
 
 
 
-
-
-
-
 .rectangle-69 {
   background: #d9d9d9;
   border-radius: 10px;
-  width: 280px;
+  width: 290px;
   height: 104px;
   position: absolute;
-  left: 368px;
-  top: 168px;
+  left: 358px;
+  top: 42px;
 }
-.rectangle-72 {
+
+.rectangle-71 {
   background: #d9d9d9;
   border-radius: 10px;
-  width: 280px;
-  height: 106px;
+  width: 290px;
+  height: 104px;
   position: absolute;
-  left: 368px;
-  top: 284px;
+  left: 663px;
+  top: 42px;
 }
+
 .rectangle-73 {
   background: #d9d9d9;
   border-radius: 10px;
   width: 290px;
   height: 104px;
   position: absolute;
-  left: 63px;
-  top: 285px;
+  left: 53px;
+  top: 158px;
 }
 
-._36-2 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 40px;
-  line-height: 20px;
-  font-weight: 700;
+.rectangle-72 {
+  background: #d9d9d9;
+  border-radius: 10px;
+  width: 290px;
+  height: 106px;
   position: absolute;
-  left: 166px;
-  top: 336px;
-  width: 128px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-._36-52 {
-  color: #333233;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 48px;
-  line-height: 20px;
-  font-weight: 700;
-  position: absolute;
-  left: 447px;
-  top: 225px;
-  width: 128px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  left: 358px;
+  top: 158px;
 }
 
-.rectangle-79 {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 5px;
-  width: 252px;
-  height: 24px;
-  position: absolute;
-  left: 104px;
-  top: 301px;
-}
 
-.temperatura-auxiliar {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 11px;
-  line-height: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  position: absolute;
-  left: 121px;
-  top: 307px;
-  width: 218px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-._36-9 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 40px;
-  line-height: 20px;
-  font-weight: 700;
-  position: absolute;
-  left: 394px;
-  top: 336px;
-  width: 112px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.rectangle-76 {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 5px;
-  width: 252px;
-  height: 24px;
-  position: absolute;
-  left: 386px;
-  top: 193px;
-}
 
-.c2 {
-  color: #474547;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 12px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 278px;
-  top: 339px;
-  width: 30px;
-  height: 14px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-.rectangle-80 {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 5px;
-  width: 252px;
-  height: 24px;
-  position: absolute;
-  left: 386px;
-  top: 301px;
-}
-.temperatura-programada {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 11px;
-  line-height: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  position: absolute;
-  left: 403px;
-  top: 198px;
-  width: 218px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.colch-n-termico {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 11px;
-  line-height: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  position: absolute;
-  left: 403px;
-  top: 307px;
-  width: 218px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.c3 {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 566px;
-  top: 228px;
-  width: 30px;
-  height: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.c4 {
-  color: #474547;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 12px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 489px;
-  top: 339px;
-  width: 30px;
-  height: 14px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-._36-0 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 26px;
-  line-height: 20px;
-  font-weight: 700;
-  position: absolute;
-  left: 553px;
-  top: 338px;
-  width: 66px;
-  height: 19px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.c5 {
-  color: #474547;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 12px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 616px;
-  top: 338px;
-  width: 18px;
-  height: 14px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-.t-programada {
-  color: #474547;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 9px;
-  line-height: 7px;
-  letter-spacing: 0.1em;
-  font-weight: 600;
-  position: absolute;
-  left: 544px;
-  top: 364px;
-  width: 91px;
-  height: 17px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.line-6 {
-  margin-top: -2px;
-  border-style: solid;
-  border-color: rgba(255, 255, 255, 0.55);
-  border-width: 2px 0 0 0;
-  width: 49px;
-  height: 0px;
-  position: absolute;
-  left: 530px;
-  top: 332px;
-  transform-origin: 0 0;
-  transform: rotate(90deg) scale(1, 1);
-}
+
+
+
+
+
 .rectangle-49 {
   background: #d9d9d9;
   border-radius: 8px;
@@ -793,32 +569,8 @@ html, body {
 
 
 
-.rectangle-71 {
-  background: #d9d9d9;
-  border-radius: 10px;
-  width: 290px;
-  height: 104px;
-  position: absolute;
-  left: 662px;
-  top: 168px;
-}
-._36-1 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 48px;
-  line-height: 20px;
-  font-weight: 700;
-  position: absolute;
-  left: 731px;
-  top: 226px;
-  width: 128px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.rectangle-75 {
+
+/* .rectangle-75 {
   background: rgba(255, 255, 255, 0.55);
   border-radius: 5px;
   width: 252px;
@@ -826,40 +578,8 @@ html, body {
   position: absolute;
   left: 669px;
   top: 193px;
-}
-.temperatura-aire {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 11px;
-  line-height: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  position: absolute;
-  left: 686px;
-  top: 198px;
-  width: 218px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.c6 {
-  color: #474547;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 850px;
-  top: 228px;
-  width: 30px;
-  height: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+} */
+
 
 
 .btn-152 {
