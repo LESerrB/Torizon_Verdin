@@ -129,7 +129,7 @@
 }
 
 /*==============================================================================*/
-/*============================== Titulo del Panel ==============================*/
+/*============================= Titulo de la Vista =============================*/
 /*==============================================================================*/
 .title-View {
   background: #d9d9d9;
@@ -186,15 +186,19 @@
 /*==============================================================================*/
 /*============================= Paneles de Sensores ============================*/
 /*==============================================================================*/
-.rtngl-Sensor {
+.panel {
   background: #d9d9d9;
   border-radius: 10px;
   width: 290px;
   height: 104px;
   position: absolute;
-  left: 53px;
-  top: 42px;
 }
+/* Posición de los paneles */
+.t-piel       { left: 53px;   top: 42px; }
+.t-prog       { left: 358px;  top: 42px; }
+.t-aire       { left: 663px;  top: 42px; }
+.t-aux        { left: 53px;   top: 158px; }
+.t-colchon    { left: 358px;  top: 158px; }
 
 .title-Sensor {
   background: rgba(255, 255, 255, 0.55);
@@ -264,7 +268,7 @@
   line-height: 20px;
   font-weight: 700;
   position: relative;
-  left: 20px;
+  left: 10px;
   top: 24px;
   width: 112px;
   height: 34px;
@@ -303,7 +307,7 @@
   transform: rotate(90deg) scale(1, 1);
 }
 
-.tem-progrCol {
+.tem-progCol {
   color: #474547;
   text-align: center;
   font-family: "Inter-Bold", sans-serif;
@@ -311,7 +315,7 @@
   line-height: 20px;
   font-weight: 700;
   position: relative;
-  left: 166px;
+  left: 175px;
   top: -21px;
   width: 66px;
   height: 19px;
@@ -327,7 +331,7 @@
   line-height: 20px;
   font-weight: 600;
   position: absolute;
-  left: 228px;
+  left: 245px;
   top: 52px;
   width: 18px;
   height: 14px;
@@ -335,7 +339,7 @@
   align-items: flex-end;
   justify-content: center;
 }
-.t-progrCol {
+.t-progCol {
   color: #474547;
   text-align: center;
   font-family: "Montserrat-SemiBold", sans-serif;
@@ -344,11 +348,130 @@
   letter-spacing: 0.1em;
   font-weight: 600;
   position: absolute;
-  left: 140px;
+  left: 148px;
   top: 80px;
   width: 140px;
   height: 17px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+/*==============================================================================*/
+/*============================= Paneles Secundarios ============================*/
+/*==============================================================================*/
+.panel-sec {
+  background: #d9d9d9;
+  border-radius: 8px;
+  width: 180px;
+  height: 74px;
+  position: absolute;
+}
+/* Posiciones */
+.snsOx      { left: 31px;   top: 285px; }
+.snsHum     { left: 221px;  top: 285px; }
+.satOx      { left: 411px;  top: 285px; }
+.freccCard  { left: 601px;  top: 285px; }
+.foto       { left: 791px;  top: 285px; }
+
+.title-sns2 {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 3px;
+  width: 162px;
+  height: 16px;
+  position: relative;
+  left: 9px;
+  top: 6px;
+}
+.lbl-sns2 {
+  color: #333233;
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 10px;
+  line-height: 11px;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  position: relative;
+  left: -1px;
+  top: 2px;
+  width: 163px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.val-sns2 {
+  color: #474547;
+  text-align: center;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 36px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  left: 45px;
+  top: 14px;
+  width: 84px;
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.units-sns2 {
+  color: #474547;
+  text-align: center;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  position: relative;
+  left: 115px;
+  top: -2px;
+  width: 23px;
+  height: 14px;
+}
+
+.val-sns3 {
+  color: #474547;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  position: relative;
+  left: 10px;
+  top: -10px;
+  width: 37px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.units-sns3 {
+  color: #474547;
+  text-align: right;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  position: relative;
+  left: 136px;
+  top: -24px;
+  width: 34px;
+  height: 14px;
+}
+.val-sns4 {
+  color: #474547;
+  text-align: right;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  position: relative;
+  left: 142px;
+  top: -23px;
+  width: 28px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }

@@ -93,90 +93,13 @@ html, body {
 
 
 
-.rectangle-69 {
-  background: #d9d9d9;
-  border-radius: 10px;
-  width: 290px;
-  height: 104px;
-  position: absolute;
-  left: 358px;
-  top: 42px;
-}
-
-.rectangle-71 {
-  background: #d9d9d9;
-  border-radius: 10px;
-  width: 290px;
-  height: 104px;
-  position: absolute;
-  left: 663px;
-  top: 42px;
-}
-
-.rectangle-73 {
-  background: #d9d9d9;
-  border-radius: 10px;
-  width: 290px;
-  height: 104px;
-  position: absolute;
-  left: 53px;
-  top: 158px;
-}
-
-.rectangle-72 {
-  background: #d9d9d9;
-  border-radius: 10px;
-  width: 290px;
-  height: 106px;
-  position: absolute;
-  left: 358px;
-  top: 158px;
-}
 
 
 
 
 
 
-
-
-.rectangle-49 {
-  background: #d9d9d9;
-  border-radius: 8px;
-  width: 180px;
-  height: 74px;
-  position: absolute;
-  left: 41px;
-  top: 411px;
-}
-.rectangle-50 {
-  background: #d9d9d9;
-  border-radius: 8px;
-  width: 180px;
-  height: 74px;
-  position: absolute;
-  left: 231px;
-  top: 411px;
-}
-.rectangle-51 {
-  background: #d9d9d9;
-  border-radius: 8px;
-  width: 180px;
-  height: 74px;
-  position: absolute;
-  left: 421px;
-  top: 411px;
-}
-.rectangle-52 {
-  background: #d9d9d9;
-  border-radius: 8px;
-  width: 180px;
-  height: 74px;
-  position: absolute;
-  left: 611px;
-  top: 411px;
-}
-.rectangle-53 {
+/* .rectangle-53 {
   background: #d9d9d9;
   border-radius: 8px;
   width: 180px;
@@ -184,42 +107,6 @@ html, body {
   position: absolute;
   left: 801px;
   top: 411px;
-}
-.rectangle-81 {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 3px;
-  width: 162px;
-  height: 16px;
-  position: absolute;
-  left: 50px;
-  top: 417px;
-}
-.rectangle-82 {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 3px;
-  width: 162px;
-  height: 16px;
-  position: absolute;
-  left: 240px;
-  top: 417px;
-}
-.rectangle-84 {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 3px;
-  width: 162px;
-  height: 16px;
-  position: absolute;
-  left: 430px;
-  top: 417px;
-}
-.rectangle-85 {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 3px;
-  width: 162px;
-  height: 16px;
-  position: absolute;
-  left: 620px;
-  top: 417px;
 }
 .rectangle-86 {
   background: rgba(255, 255, 255, 0.55);
@@ -229,57 +116,6 @@ html, body {
   position: absolute;
   left: 810px;
   top: 417px;
-}
-.humedad {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 11px;
-  line-height: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  position: absolute;
-  left: 272px;
-  top: 419px;
-  width: 97px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.saturaci-n-de-oxigeno {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 10px;
-  line-height: 11px;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  position: absolute;
-  left: 429px;
-  top: 419px;
-  width: 163px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.frecuencia-cardiaca {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 10px;
-  line-height: 11px;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  position: absolute;
-  left: 619px;
-  top: 419px;
-  width: 163px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .fototerapia {
   color: #333233;
@@ -294,100 +130,6 @@ html, body {
   top: 419px;
   width: 163px;
   height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.oxigeno {
-  color: #333233;
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 11px;
-  line-height: 11px;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  position: absolute;
-  left: 81px;
-  top: 419px;
-  width: 101px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-._70 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-SemiBold", sans-serif;
-  font-size: 36px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 279px;
-  top: 441px;
-  width: 84px;
-  height: 31px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.div {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 15px;
-  line-height: 20px;
-  font-weight: 500;
-  position: absolute;
-  left: 347px;
-  top: 455px;
-  width: 23px;
-  height: 14px;
-}
-._22 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-SemiBold", sans-serif;
-  font-size: 36px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 89px;
-  top: 441px;
-  width: 84px;
-  height: 31px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-._97 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-SemiBold", sans-serif;
-  font-size: 30px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 469px;
-  top: 439px;
-  width: 84px;
-  height: 31px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-._129 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-SemiBold", sans-serif;
-  font-size: 30px;
-  line-height: 20px;
-  font-weight: 600;
-  position: absolute;
-  left: 659px;
-  top: 439px;
-  width: 84px;
-  height: 31px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -407,110 +149,14 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.div3 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 15px;
-  line-height: 20px;
-  font-weight: 500;
-  position: absolute;
-  left: 157px;
-  top: 455px;
-  width: 23px;
-  height: 14px;
-}
-.div4 {
-  color: #474547;
-  text-align: center;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 15px;
-  line-height: 20px;
-  font-weight: 500;
-  position: absolute;
-  left: 537px;
-  top: 450px;
-  width: 23px;
-  height: 14px;
-}
-.bpm {
-  color: #474547;
-  text-align: right;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 15px;
-  line-height: 20px;
-  font-weight: 500;
-  position: absolute;
-  left: 747px;
-  top: 434px;
-  width: 34px;
-  height: 14px;
-}
-._90 {
-  color: #474547;
-  text-align: right;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
-  position: absolute;
-  left: 563px;
-  top: 462px;
-  width: 28px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-._902 {
-  color: #474547;
-  text-align: right;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
-  position: absolute;
-  left: 753px;
-  top: 462px;
-  width: 28px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-._99 {
-  color: #474547;
-  text-align: left;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
-  position: absolute;
-  left: 431px;
-  top: 462px;
-  width: 28px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-._200 {
-  color: #474547;
-  text-align: left;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
-  position: absolute;
-  left: 621px;
-  top: 462px;
-  width: 37px;
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
+} */
+
+
+
+
+
+
+
 .btn-15 {
   background: #d9d9d9;
   border-radius: 10px;
@@ -569,16 +215,6 @@ html, body {
 
 
 
-
-/* .rectangle-75 {
-  background: rgba(255, 255, 255, 0.55);
-  border-radius: 5px;
-  width: 252px;
-  height: 24px;
-  position: absolute;
-  left: 669px;
-  top: 193px;
-} */
 
 
 

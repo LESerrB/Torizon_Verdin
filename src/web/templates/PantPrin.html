@@ -34,8 +34,9 @@
       <div class="sist-ctrl-piel">Sistema Controlado por Piel</div>
     </div>
 
-    <!-- Recuadros de Sensores -->
-    <div class="rtngl-Sensor">
+    <!-- Paneles de Sensores Principales -->
+    <!-- Temperatura de Piel -->
+    <div class="panel t-piel">
       <div class="title-Sensor">
         <div class="lbl-Sensor">TEMPERATURA PIEL</div>
       </div>
@@ -45,7 +46,7 @@
     </div>
   
     <!-- Temperatura Programada -->
-    <div class="rectangle-69">
+    <div class="panel t-prog">
       <div class="title-Sensor">
         <div class="lbl-Sensor">TEMPERATURA PROGRAMADA</div>
       </div>
@@ -55,7 +56,7 @@
     </div>
     
     <!-- Temperatura Aire -->
-    <div class="rectangle-71">
+    <div class="panel t-aire">
       <div class="title-Sensor">
         <div class="lbl-Sensor">TEMPERATURA AIRE</div>
       </div>
@@ -65,7 +66,7 @@
     </div>
 
     <!-- Temperatura Auxiliar -->
-    <div class="rectangle-73">
+    <div class="panel t-aux">
       <div class="title-Sensor">
         <div class="lbl-Sensor">TEMPERATURA AUXILIAR</div>
       </div>
@@ -75,7 +76,7 @@
     </div>
 
     <!-- Colchón Térmico -->
-    <div class="rectangle-72">
+    <div class="panel t-colchon">
       <div class="title-Sensor">
         <div class="lbl-Sensor">COLCHÓN TERMICO</div>
       </div>
@@ -85,55 +86,72 @@
 
       <div class="line-div"></div>
 
-      <div class="tem-progrCol">36.0</div>
+      <div class="tem-progCol">36.0</div>
       <div class="units-t-ProgcolTerm">°C</div>
       
-      <div class="t-progrCol">T. PROGRAMADA</div>
+      <div class="t-progCol">T. PROGRAMADA</div>
     </div>
+
+    <!-- Paneles de Sensores Principales -->
+    <!-- Oxigeno -->
+    <div class="panel-sec snsOx">
+      <div class="title-sns2">
+        <div class="lbl-sns2">OXIGENO</div>
+      </div>
+
+      <div class="val-sns2">22</div>
+      <div class="units-sns2">%</div>
+    </div>
+
+    <!-- Humedad -->
+    <div class="panel-sec snsHum">
+      <div class="title-sns2">
+        <div class="lbl-sns2">HUMEDAD</div>
+      </div>
+
+      <div class="val-sns2">70</div>
+      <div class="units-sns2">%</div>
+    </div>
+
+    <!-- Saturación de Oxigeno -->
+    <div class="panel-sec satOx">
+      <div class="title-sns2">
+        <div class="lbl-sns2">SATURACIÓN DE OXIGENO</div>
+      </div>
+      
+      <div class="val-sns2">97</div>
+      <div class="units-sns2">%</div>
+
+      <div class="val-sns3">99</div>
+      <div class="val-sns4">90</div>
+    </div>
+
+    <!-- Frecuencia Cardiaca -->
+    <div class="panel-sec freccCard">
+      <div class="title-sns2">
+        <div class="lbl-sns2">FRECUENCIA CARDIACA</div>
+      </div>
+
+      <div class="val-sns2">129</div>
+      <div class="units-sns3">bpm</div>
+      <div class="val-sns3">200</div>
+      <div class="val-sns4">90</div>
+    </div>
+
+    <!-- Fototerapia -->
+    <div class="panel-sec foto">
+      <div class="title-sns2">
+        <div class="lbl-sns2">FOTOTERAPIA</div>
+      </div>
+
+      <div class="val-sns2">---</div>
+    </div>
+
   </div>
 
 
 
 
-  <div class="rectangle-49"></div>
-  <div class="rectangle-50"></div>
-  <div class="rectangle-51"></div>
-  <div class="rectangle-52"></div>
-  <div class="rectangle-53"></div>
-
-  <div class="rectangle-81"></div>
-  <div class="rectangle-82"></div>
-  <div class="rectangle-84"></div>
-  <div class="rectangle-85"></div>
-  <div class="rectangle-86"></div>
-
-
-
-  <div class="humedad">HUMEDAD</div>
-  <div class="saturaci-n-de-oxigeno">SATURACIÓN DE OXIGENO</div>
-  <div class="frecuencia-cardiaca">FRECUENCIA CARDIACA</div>
-  <div class="fototerapia">FOTOTERAPIA</div>
-  <div class="oxigeno">OXIGENO</div>
-  <div class="_70">70</div>
-  <div class="div">%</div>
-  <div class="_22">22</div>
-  <div class="_97">97</div>
-  <div class="_129">129</div>
-  <div class="div2">---</div>
-  <div class="div3">%</div>
-  <div class="div4">%</div>
-  <div class="bpm">bpm</div>
-  <div class="_90">90</div>
-  <div class="_902">90</div>
-  <div class="_99">99</div>
-  <div class="_200">200</div>
-  
-  
-
-
-  
-
-  
 
   <div class="btns-Footer">
     <img id="btn-fam" class="btn-fam" src="{{ url_for('static', filename='icon/btn-fam0.svg') }}" />
