@@ -28,12 +28,16 @@ html, body {
   inset: 0;
   overflow: hidden;
 }
-
-.frm-Alarma {                   /* Barra Alarma */
+/*------------------------------------------------------------------------------*/
+/*------------------------------ Barra de Alarma -------------------------------*/
+/*------------------------------------------------------------------------------*/
+.frm-Alarma {
   background: #eeeeee;
   border-radius: 10px;
+
   width: 1000px;
   height: 65px;
+
   position: absolute;
   left: 10px;
   top: 5px;
@@ -44,7 +48,7 @@ html, body {
 
   z-index: 50;
 }
-.alarma {
+.lbl-alarma {
   color: #cccdce;
   text-align: center;
   font-family: "Montserrat-Bold", sans-serif;
@@ -55,21 +59,13 @@ html, body {
   align-items: center;
   justify-content: center;
 }
-.frm-Footer {                   /* Barra Inferior */
-  background: #eeeeee;
-  border-radius: 8px;
-  width: 1000px;
-  height: 70px;
-  position: absolute;
-  left: 10px;
-  bottom: 20px;
-}
 /*------------------------------------------------------------------------------*/
 /*----------------------------------- Header -----------------------------------*/
 /*------------------------------------------------------------------------------*/
 .frm-Información{
-  height: 50px;
   width: 1000px;
+  height: 50px;
+
   position: absolute;
   top: 73px;
   left: 10px;
@@ -80,8 +76,10 @@ html, body {
 .pnl-Principal {
   background: #eeeeee;
   border-radius: 8px;
+  
   width: 1000px;
   height: 375px;
+  
   position: absolute;
   left: 10px;
   top: 126px;
@@ -90,11 +88,15 @@ html, body {
 /*----------------------------------- Footer -----------------------------------*/
 /*------------------------------------------------------------------------------*/
 .frm-Footer {
+  background: #eeeeee;
+  border-radius: 8px;
+
+  width: 1000px;
+  height: 70px;
+
   position: absolute;
-  left:10px;
-  bottom:20px;
-  width:1000px;
-  height:70px;
+  left: 10px;
+  bottom: 20px;
 }
 #footer-slot{
   position: relative;
