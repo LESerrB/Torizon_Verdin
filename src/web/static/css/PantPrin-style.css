@@ -475,3 +475,47 @@
   align-items: center;
   justify-content: flex-end;
 }
+/*==============================================================================*/
+/*============================== Botones Inferiores ============================*/
+/*==============================================================================*/
+.btns-Footer{
+  position: absolute;
+  inset: 0;
+}
+.btn-fam {
+  border-radius: 10px;
+  width: 130px;
+  height: 50px;
+  position: absolute;
+  overflow: visible;
+}
+.btns-inf {
+  background: #d9d9d9;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 30px;
+  position: absolute;
+}
+.btn-fam    { left: 41px;   top: 10px; }
+.ajst-Temp  { left: 238px;  top: 10px; }
+.modulos    { left: 422px;  top: 10px; }
+.tendencias { left: 606px;  top: 10px; }
+
+.lbl-btnsInf {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Montserrat-Bold", sans-serif;
+  font-size: 16px;
+  line-height: 121.53%;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
