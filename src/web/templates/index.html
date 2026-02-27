@@ -16,12 +16,29 @@
                     <div class="lbl-alarma">ALARMA</div>
                 </div>
 
+
+
                 <div id="view">
                     {% include "PantPrin.html" %}
                 </div>
 
+
+
                 <div class="frm-Footer">
-                    <div id="footer-slot"></div>
+                    <!-- <div id="footer-slot"></div> -->
+                    <img id="btn-fam" class="btn-fam" src="{{ url_for('static', filename='icon/btn-fam0.svg') }}" />
+
+                    <div class="btns-inf ajst-Temp">
+                        <div class="lbl-btnsInf">Ajuste Temp</div>
+                    </div>
+                    
+                    <div class="btns-inf modulos">
+                        <div class="lbl-btnsInf">Modulos</div>
+                    </div>
+                    
+                    <div class="btns-inf tendencias">
+                        <div class="lbl-btnsInf">Tendencias</div>
+                    </div>
                 </div>
             </div>
         </div>
