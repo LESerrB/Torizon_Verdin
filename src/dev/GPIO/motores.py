@@ -269,7 +269,7 @@ def ctrl_Motores(accion):
     #         muxSelct_1.set_value(1)
 
 #===============================================================#
-#    Máquina de Estados para cambio de Modo de Funcionamiento   #
+#          Máquinas de Estados para Control de Motores          #
 #===============================================================#
 class sm_chngModoOp:
     """
@@ -404,6 +404,26 @@ class sm_chngModoOp:
                     self.next_state = ""
 
 class sm_ajstInclinacion:
+    """
+    Máquina de estados para ajustar la inclinación del bacinete.
+
+    Esta clase lee periódicamente la posición de dos acelerómetros y,
+    en función del ángulo frontal del segundo sensor (`frnt2`), decide
+    mover el bacinete hacia la cabeza o hacia los pies. El flujo de
+    estados es:
+    - "LecturaPos": obtiene las posiciones y calcula el siguiente estado.
+    - "ElevarCabeza": activa el motor de inclinación hacia la cabeza.
+    - "ElevarPies": activa el motor de inclinación hacia los pies.
+    - "CompruebaPos": incrementa un contador para confirmar estabilidad
+      y termina tras suficientes lecturas constantes.
+    - "Fin": detiene la máquina.
+
+    Atributos de instancia:
+        state (str): estado actual de la máquina.
+        prev_state (str): estado anterior guardado.
+        next_state (str): siguiente estado calculado.
+        contComp (int): contador usado en el estado "CompruebaPos".
+    """
     # Variables de estado
     def __init__(self):
         self.state = "LecturaPos"
@@ -413,6 +433,19 @@ class sm_ajstInclinacion:
 
     # Máquina de Estados
     def run(self):
+        """
+        Ejecuta el ciclo de la máquina de estados.
+
+        El método itera indefinidamente hasta que el estado se convierta en
+        "Fin", momento en el que se rompe el bucle. En cada iteración se evalúa
+        `self.state` y se realizan las acciones correspondientes, como la
+        lectura de posiciones, el control de motores mediante `ctrl_Motores`
+        y la transición de estados. El método también imprime información de
+        diagnóstico en la consola.
+
+        No toma parámetros ni devuelve valor; todos los resultados se aplican
+        a los atributos de la instancia y a los actuadores GPIO.
+        """
         while True:
             match self.state:
                 case "LecturaPos":
@@ -434,7 +467,6 @@ class sm_ajstInclinacion:
                     self.state = self.next_state
 
                 case "ElevarCabeza":
-                    print("Elevando Cabezal de Baciente")
                     ctrl_Motores("incLft-prsd")
                     time.sleep(0.1)
                     ctrl_Motores("incLft-rlsd")
@@ -444,8 +476,6 @@ class sm_ajstInclinacion:
                     self.state = self.next_state
 
                 case "ElevarPies":
-                    print("Elevando Pies de Baciente")
-           
                     ctrl_Motores("incRgt-prsd")
                     time.sleep(0.1)
                     ctrl_Motores("incRgt-rlsd")

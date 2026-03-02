@@ -192,6 +192,7 @@ def api_modoFunc():
     ajstPosZero.run()
 
     return jsonify({"status": "ok"}), 200
+
     # global strStatus
 
     # while True:
