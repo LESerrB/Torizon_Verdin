@@ -1,6 +1,8 @@
 import gpiod
 import time
 
+from dev.Sensores_TPH.sns_IncBac import accel_Pos
+
 #        Sensor    | Sensor Modo | Motor Altura | Motor Altura | Motor      | Motor      | Motor      | Motor     
 #        Modo Cuna | Incubadora  | Variable P   | Variable N   | Bacinete P | Bacinete N | Lampara P  | Lampara N 
 #------------------|-------------|--------------|--------------|------------|------------|------------|-----------
@@ -97,6 +99,7 @@ motorBAC_P.set_value(1)
 
 motorLMP_N.set_value(1)
 motorLMP_P.set_value(1)
+
 #===============================================================#
 #           Funciones de Lectura y Control de Sensores          #
 #===============================================================#
@@ -294,6 +297,7 @@ class sm_chngModoOp:
     - Diseñada para ejecutarse repetidamente (por ejemplo en un hilo).
     - Usa `time.monotonic()` y `time.sleep()` para control de tiempos.
     """
+    # Variables de estado
     def __init__(self):
         self.state = "edo_0"
         self.prev_state = ""
@@ -398,3 +402,70 @@ class sm_chngModoOp:
                     print("Error Total")
                     self.prev_state = ""
                     self.next_state = ""
+
+class sm_ajstInclinacion:
+    # Variables de estado
+    def __init__(self):
+        self.state = "LecturaPos"
+        self.prev_state = ""
+        self.next_state = ""
+        self.contComp = 0
+
+    # Máquina de Estados
+    def run(self):
+        while True:
+            match self.state:
+                case "LecturaPos":
+                    lat1, frnt1, lat2, frnt2 = accel_Pos()
+                    print(lat1, frnt1, lat2, frnt2)
+
+                    if frnt2 == -99.99:
+                        print("Error no se puedo leer el módulo")
+                        self.next_state = "Fin"
+                    elif frnt2 < -0.5:
+                        self.next_state = "ElevarCabeza"
+                    elif frnt2 > 0.5:
+                        self.next_state = "ElevarPies"
+                    else:
+                        self.next_state = "CompruebaPos"
+
+                    self.prev_state = self.state
+                    # self.next_state = "edo_6"
+                    self.state = self.next_state
+
+                case "ElevarCabeza":
+                    print("Elevando Cabezal de Baciente")
+                    ctrl_Motores("incLft-prsd")
+                    time.sleep(0.1)
+                    ctrl_Motores("incLft-rlsd")
+
+                    self.prev_state = self.state
+                    self.next_state = "LecturaPos"
+                    self.state = self.next_state
+
+                case "ElevarPies":
+                    print("Elevando Pies de Baciente")
+           
+                    ctrl_Motores("incRgt-prsd")
+                    time.sleep(0.1)
+                    ctrl_Motores("incRgt-rlsd")
+
+                    self.prev_state = self.state
+                    self.next_state = "LecturaPos"
+                    self.state = self.next_state
+
+                case "CompruebaPos":
+                    self.contComp += 1
+                    
+                    if self.contComp > 10:
+                        self.prev_state = self.state
+                        self.next_state = "Fin"
+                        self.state = self.next_state
+                    else:
+                        self.prev_state = self.state
+                        self.next_state = "LecturaPos"
+                        self.state = self.next_state
+
+                case "Fin":
+                    print("Termina Ajuste")
+                    break

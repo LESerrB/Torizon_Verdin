@@ -20,9 +20,19 @@ OFFSETS = {
     MPU2: {"lat": 0.0, "frnt": 0.0},
 }
 
-bus.write_byte_data(MPU1, PWR_MGMT_1, 0)
-bus.write_byte_data(MPU2, PWR_MGMT_1, 0)
+#===============================================================#
+#                    Configuración de Módulos                   #
+#===============================================================#
+try:
+    bus.write_byte_data(MPU1, PWR_MGMT_1, 0)
+    bus.write_byte_data(MPU2, PWR_MGMT_1, 0)
 
+except Exception as e:
+    print("No se pudo configurar el dispositivo:", e)
+
+#===============================================================#
+#                      Lectura de registros                     #
+#===============================================================#
 def read_WReg(addr, reg):
     """
     Lee un valor de 16 bits desde un registro de un dispositivo I2C (MPU6050).
@@ -37,14 +47,17 @@ def read_WReg(addr, reg):
     Returns:
         int: Valor de 16 bits con signo del registro.
     """
-    high = bus.read_byte_data(addr, reg)
-    low  = bus.read_byte_data(addr, reg + 1)
-    val = (high << 8) | low
+    try:
+        high = bus.read_byte_data(addr, reg)
+        low  = bus.read_byte_data(addr, reg + 1)
+        val = (high << 8) | low
 
-    if val >= 0x8000:
-        val -= 65536
+        if val >= 0x8000:
+            val -= 65536
 
-    return val
+        return val
+    except Exception as e:
+        print("No se pudo leer el dispositivo:", e)
 
 def pos_LatFrnt(ax, ay, az):
     """
@@ -70,6 +83,9 @@ def pos_LatFrnt(ax, ay, az):
 
     return lat, frnt
 
+#===============================================================#
+#                 Función Principal de Lectura                  #
+#===============================================================#
 def accel_Pos():
     """
     Lee las posiciones (ángulos de inclinación) de ambos acelerómetros (MPU1 y MPU2).
@@ -84,20 +100,37 @@ def accel_Pos():
     ay1 = read_WReg(MPU1, ACCEL_YOUT)
     az1 = read_WReg(MPU1, ACCEL_ZOUT)
 
-    lat1, frnt1 = pos_LatFrnt(ax1, ay1, az1)
+    # Cálculo de posición
+    if ax1 and ay1 and az1:
+        lat1, frnt1 = pos_LatFrnt(ax1, ay1, az1)
 
-    lat1  -= OFFSETS[MPU1]["lat"]
-    frnt1 -= OFFSETS[MPU1]["frnt"]
+        # Ajuste Calibrado
+        lat1  -= OFFSETS[MPU1]["lat"]
+        frnt1 -= OFFSETS[MPU1]["frnt"]
+    else:
+        lat1  = -99.99
+        frnt1 = -99.99
 
     ax2 = read_WReg(MPU2, ACCEL_XOUT)
     ay2 = read_WReg(MPU2, ACCEL_YOUT)
     az2 = read_WReg(MPU2, ACCEL_ZOUT)
 
-    lat2, frnt2 = pos_LatFrnt(ax2, ay2, az2)
+    # Cálculo de posición
+    if ax2 and ay2 and az2:
+        lat2, frnt2 = pos_LatFrnt(ax2, ay2, az2)
 
-    print(f"MPU1 -> lat: {lat1:7.2f}°  frnt: {frnt1:7.2f}°")
-    print(f"MPU2 -> lat: {lat2:7.2f}°  frnt: {frnt2:7.2f}°")
+        # Ajuste Calibrado
+        lat2  -= OFFSETS[MPU2]["lat"]
+        frnt2 -= OFFSETS[MPU2]["frnt"]
+    else:
+        lat2  = -99.99
+        frnt2 = -99.99
 
+    return lat1, frnt1, lat2, frnt2
+
+#===============================================================#
+#                    Calibración de Punto Zero                  #
+#===============================================================#
 def calib_PosZero(addr=MPU1, samples=300, delay_s=0.01, settle_s=0.2):
     """
     Calibra un acelerómetro para establecer su posición actual como punto cero (0°/0°).
