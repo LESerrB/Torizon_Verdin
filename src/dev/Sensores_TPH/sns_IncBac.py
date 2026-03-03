@@ -126,7 +126,7 @@ def accel_Pos():
         lat2  = -99.99
         frnt2 = -99.99
 
-    return lat1, frnt1, lat2, frnt2
+    return round(lat1, 1), round(frnt1, 1), round(lat2, 1), round(frnt2, 1)
 
 #===============================================================#
 #                    Calibración de Punto Zero                  #

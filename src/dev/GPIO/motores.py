@@ -429,7 +429,6 @@ class sm_ajstInclinacion:
         self.state = "LecturaPos"
         self.prev_state = ""
         self.next_state = ""
-        self.contComp = 0
 
     # Máquina de Estados
     def run(self):
@@ -450,14 +449,13 @@ class sm_ajstInclinacion:
             match self.state:
                 case "LecturaPos":
                     lat1, frnt1, lat2, frnt2 = accel_Pos()
-                    print(lat1, frnt1, lat2, frnt2)
 
                     if frnt2 == -99.99:
                         print("Error no se puedo leer el módulo")
                         self.next_state = "Fin"
-                    elif frnt2 < -0.5:
+                    elif frnt2 < -0.2:
                         self.next_state = "ElevarCabeza"
-                    elif frnt2 > 0.5:
+                    elif frnt2 > 0.2:
                         self.next_state = "ElevarPies"
                     else:
                         self.next_state = "CompruebaPos"
@@ -468,7 +466,7 @@ class sm_ajstInclinacion:
 
                 case "ElevarCabeza":
                     ctrl_Motores("incLft-prsd")
-                    time.sleep(0.1)
+                    time.sleep(0.05)
                     ctrl_Motores("incLft-rlsd")
 
                     self.prev_state = self.state
@@ -477,7 +475,7 @@ class sm_ajstInclinacion:
 
                 case "ElevarPies":
                     ctrl_Motores("incRgt-prsd")
-                    time.sleep(0.1)
+                    time.sleep(0.05)
                     ctrl_Motores("incRgt-rlsd")
 
                     self.prev_state = self.state
@@ -485,9 +483,16 @@ class sm_ajstInclinacion:
                     self.state = self.next_state
 
                 case "CompruebaPos":
-                    self.contComp += 1
-                    
-                    if self.contComp > 10:
+                    sum_frnt = 0.0
+
+                    for _ in range(10):
+                        lat1, frnt1, lat2, frnt2 = accel_Pos()
+                        print(frnt2)
+                        sum_frnt += frnt2
+
+                    frnt2 = sum_frnt / 10
+
+                    if -0.2 < frnt2 < 0.2:
                         self.prev_state = self.state
                         self.next_state = "Fin"
                         self.state = self.next_state
