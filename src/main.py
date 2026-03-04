@@ -188,25 +188,27 @@ def api_ctrlPos():
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CAMBIO DE MODO DE FUNCIONAMIENTO
 @app.route("/api/chng_modoFunc", methods=["POST"])
 def api_modoFunc():
-    ajstPosZero = sm_ajstInclinacion()
-    ajstPosZero.run()
+    # # >>>>>> Máquina de Estados de Posición 0 del Bacinete <<<<<<#
+    # ajstPosZero = sm_ajstInclinacion()
+    # ajstPosZero.run()
 
-    return jsonify({"status": "ok"}), 200
+    # return jsonify({"status": "ok"}), 200
+    # #============================================================#
 
-    # global strStatus
+    global strStatus
 
-    # while True:
-    #     fsm.run()
+    while True:
+        fsm.run()
 
-    #     if fsm.state == "edo_0":
-    #         strStatus = ""
-    #         return jsonify({"status": "ok"}), 200
-    #     elif fsm.state == "error" and fsm.errores < 3:
-    #         strStatus = f"{fsm.errores}"
-    #         # return jsonify({"status": "retrying"}), 502
-    #     elif fsm.state == "error" and fsm.errores >= 3:
-    #         strStatus = "Error"
-    #         return jsonify({"status": "fail"}), 500
+        if fsm.state == "edo_0":
+            strStatus = ""
+            return jsonify({"status": "ok"}), 200
+        elif fsm.state == "error" and fsm.errores < 3:
+            strStatus = f"{fsm.errores}"
+            # return jsonify({"status": "retrying"}), 502
+        elif fsm.state == "error" and fsm.errores >= 3:
+            strStatus = "Error"
+            return jsonify({"status": "fail"}), 500
 #------------------------- En Pruebas -------------------------#
 @app.route("/api/ctrls", methods=["GET"])
 def controles():
@@ -240,8 +242,8 @@ def sys_monitor():
         restart_container()                         # Memoria del contenedor
         # alertaSumEner = monitoreo_alimentación(2)   # Suministro de energía
 
-        lat1, frnt1, lat2, frnt2 = accel_Pos()
-        print(lat1, frnt1, "\n", lat2, frnt2)
+        # lat1, frnt1, lat2, frnt2 = accel_Pos()
+        # print(lat1, frnt1, "\n", lat2, frnt2)
 
         time.sleep(1)# 0.5
 
