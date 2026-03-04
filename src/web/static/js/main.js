@@ -209,6 +209,7 @@ btn_lock.addEventListener('click', () => {
     //[[[[[[[[[[[[[[[[[[[[ MODO BEBÉ ]]]]]]]]]]]]]]]]]]]//
 btn_Bebe.addEventListener('click', () => {
     actvModo('bebe');
+    clearInterval(tempProgStatus);
 
     btnsCtrl_tmpProgDisabled = true;
     btnsCtrl_potCalefDisabled = true;
@@ -227,6 +228,7 @@ btn_Bebe.addEventListener('click', () => {
 
     updtBars(calef_Lvl);
     updtTempProg(tempProg_Lvl);
+    setPot_prog(calef_Lvl);
 });
 
 val_TempProg.addEventListener('click', async () => {
@@ -378,8 +380,9 @@ btn_sobreGiro.addEventListener('click', async () => {
 
 });
     //[[[[[[[[[[[[[[[ MODO MANUAL / AIRE ]]]]]]]]]]]]]]]//
-btn_Manual.addEventListener('click', () => {
+btn_Manual.addEventListener('click', async () => {
     actvModo('manual');
+    clearInterval(tempProgStatus);
 
     btnsCtrl_tmpProgDisabled = true;
     btnsCtrl_potCalefDisabled = false;
@@ -396,12 +399,31 @@ btn_Manual.addEventListener('click', () => {
     val_TempProg.classList.remove('parpadeo');
     val_potCalef.classList.add('parpadeo');
 
-    updtBars(calef_Lvl);
-    updtTempProg(tempProg_Lvl);
+    tempProgStatus = setInterval(async () => {
+        val = await encdCtrl(calef_Lvl, "potCalef", sobreGiro);
+        calef_Lvl= val;
+
+        updtBars(calef_Lvl);
+    }, 50);
+
+    // updtTempProg(tempProg_Lvl);
+    try {
+        const t = await setTemp_prog(tempProg_Lvl, tempProg_ant);
+        updtTempProg(t);
+    } catch (error) {
+        console.log("Error al configurar la Temperatura Programada");
+    }
 });
 
 val_potCalef.addEventListener('click', () => {
     val_potCalef.classList.add('parpadeo');
+
+    tempProgStatus = setInterval(async () => {
+        val = await encdCtrl(calef_Lvl, "potCalef", sobreGiro);
+        calef_Lvl= val;
+
+        updtBars(calef_Lvl);
+    }, 50);
 
     btnsCtrl_tmpProgDisabled = true;
     btnsCtrl_potCalefDisabled = false;
@@ -416,17 +438,24 @@ val_potCalef.addEventListener('click', () => {
     btn_calefMas.disabled = btnsCtrl_potCalefDisabled;
 });
         //((((((((((((((( Controles ))))))))))))))))//
-btn_calefMenos.addEventListener('click', () => {
+btn_calefMenos.addEventListener('click', async () => {
     if (calef_Lvl > 0) {
         calef_Lvl -= 1;
+
+        val = await encdCtrl(calef_Lvl, "potCalef", sobreGiro);
+        calef_Lvl= val;
+
         updtBars(calef_Lvl);
     }
 });
 
 btn_calefMenos.addEventListener('touchstart', () => {
-    tempProgInterval = setInterval(() => {
+    tempProgInterval = setInterval(async () => {
         if (calef_Lvl > 4 && !(btnsCtrl_potCalefDisabled)) {
             calef_Lvl -= 5;
+
+            val = await encdCtrl(calef_Lvl, "potCalef", sobreGiro);
+            calef_Lvl= val;
 
             updtBars(calef_Lvl);
         }
@@ -438,6 +467,7 @@ btn_calefMenos.addEventListener('touchend', () => {
 });
 
 btn_calefAceptar.addEventListener('click', () => {
+    clearInterval(tempProgStatus);
     val_potCalef.classList.remove('parpadeo');
 
     btnsCtrl_potCalefDisabled = true;
@@ -449,17 +479,24 @@ btn_calefAceptar.addEventListener('click', () => {
     setPot_prog(calef_Lvl);
 });
 
-btn_calefMas.addEventListener('click', () => {
+btn_calefMas.addEventListener('click', async () => {
     if (calef_Lvl < maxLvl) {
         calef_Lvl += 1;
+
+        val = await encdCtrl(calef_Lvl, "potCalef", sobreGiro);
+        calef_Lvl= val;
+
         updtBars(calef_Lvl);
     }
 });
 
 btn_calefMas.addEventListener('touchstart', () => {
-    tempProgInterval = setInterval(() => {
+    tempProgInterval = setInterval(async () => {
         if (calef_Lvl < 94 && !(btnsCtrl_potCalefDisabled)) {
             calef_Lvl += 5;
+
+            val = await encdCtrl(calef_Lvl, "potCalef", sobreGiro);
+            calef_Lvl= val;
 
             updtBars(calef_Lvl);
         }
