@@ -21,7 +21,7 @@ from dev.Sensores_TPH.bme280 import bme280
 from dev.Bascula.bascula import tare, calib, pesaje
 from dev.GPIO.botones import pwrBtn_Evnt
 from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
-from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
+from dev.GPIO.motores import ctrl_Motores, sm_chngModoOp, sm_ajstInclinacion
 from dev.Sensores_TPH.sht21 import sht21
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
@@ -30,6 +30,9 @@ from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
 from dev.Controles_Alertas.encoder import valUpdt
 # from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
+
+calib_PosZero()
+calib_PosZero(0x69)
 #--------------------------------------------------------------#
 
 ##############################################################################
@@ -186,6 +189,13 @@ def api_ctrlPos():
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CAMBIO DE MODO DE FUNCIONAMIENTO
 @app.route("/api/chng_modoFunc", methods=["POST"])
 def api_modoFunc():
+    # # >>>>>> Máquina de Estados de Posición 0 del Bacinete <<<<<<#
+    # ajstPosZero = sm_ajstInclinacion()
+    # ajstPosZero.run()
+
+    # return jsonify({"status": "ok"}), 200
+    # #============================================================#
+
     global strStatus
 
     while True:
@@ -232,7 +242,11 @@ def sys_monitor():
     while True:
         restart_container()                         # Memoria del contenedor
         # alertaSumEner = monitoreo_alimentación(2)   # Suministro de energía
-        time.sleep(0.5)
+
+        # lat1, frnt1, lat2, frnt2 = accel_Pos()
+        # print(lat1, frnt1, "\n", lat2, frnt2)
+
+        time.sleep(1)# 0.5
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")

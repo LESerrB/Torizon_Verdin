@@ -382,12 +382,19 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Control de sliders de Fototerapia y Luz de Examinación por joystick.
 - Muestra de la versión de Firmware al hacer 10 toques sobre la fecha y hora.
 
-### v0.21 - [12/Febrero/2026]
+### v0.21 - [3/Marzo/2026]
 
 - Implementada función de desconexión de sumninistro eléctrico.
 - Creada alerta continua hasta que se reconecte.
 - Lectura de encoder para modificar Temperatura programada.
 - Creada función de control de Potencia de Calefactor con encoder.
+- Agregados módulos de MPU6050 para sensado de inclinación de bacinete.
+- Creadas funciones de lectura y calibración.
+- Implementada función de Posición 0.
+
+### v0.22 - [3/Marzo/2026]
+
+
 
 ## Descarga e Instalación
 
