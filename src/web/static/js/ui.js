@@ -243,29 +243,7 @@ export function updtTempProg(tempProg_Lvl){
     }
 };
 
-/**
- * Controla y sincroniza los valores de temperatura programada o potencia del calefactor
- * 
- * Envía una solicitud POST al servidor para actualizar los valores de control
- * y actualiza los elementos del DOM correspondientes según el tipo de edición.
- * 
- * @async
- * @param {number} initValue - Valor inicial a enviar al servidor (temperatura o potencia)
- * @param {string} editVal - Tipo de control a editar:
- *                           - "temProg": Temperatura Programada
- *                           - Cualquier otro valor: Potencia del Calefactor
- * @param {boolean} sobreGiro - Bandera que indica si se debe permitir sobregiro de temperatura
- * @returns {Promise<number>} El valor actualizado desde el servidor o el valor inicial si no hay respuesta
- * 
- * @example
- * // Actualizar temperatura programada
- * const newTemp = await encdCtrl(37.5, "temProg", false);
- * 
- * @example
- * // Actualizar potencia del calefactor
- * const newPower = await encdCtrl(50, "potencia", false);
- */
-export async function encdCtrl(initValue, editVal, sobreGiro){
+export async function encdCtrl(tempProg_Lvl, editVal, sobreGiro){
     let t = 0;
 
     try {
@@ -275,7 +253,7 @@ export async function encdCtrl(initValue, editVal, sobreGiro){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ 
-                initValue: initValue,
+                tempProg_Lvl: tempProg_Lvl,
                 editVal: editVal,
                 sobreGiro: sobreGiro
             })
@@ -283,26 +261,14 @@ export async function encdCtrl(initValue, editVal, sobreGiro){
 
         const dte = await response.json();
 
-        if(dte.initValue){
-            t = dte.initValue;
+        if(dte.tempProg_Lvl){
+            t = dte.tempProg_Lvl;
         }
         else{
-            t = initValue;
+            t = tempProg_Lvl;
         }
 
-        if (editVal == "temProg") {
-            tempProg.textContent = t;
-        } else {
-            if (potCalef) {
-                const valueTextNode = Array.from(potCalef.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
-
-                if (valueTextNode) {
-                    valueTextNode.nodeValue = `${initValue}`.toString().padStart(2, '0');
-                } else {
-                    potCalef.insertBefore(document.createTextNode(`${initValue}`), span);
-                }
-            }
-        }
+        tempProg.textContent = t;
 
         return t;
     } catch (error) {

@@ -27,7 +27,8 @@ from dev.Sensores_TPH.sht21 import sht21
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
-from dev.Controles_Alertas.encoder import valUpdt
+from dev.Controles_Alertas.encoder import valupdt
+from dev.Sensores_TPH.sns_IncBac import accel_Pos, calib_PosZero
 # from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
 
@@ -76,7 +77,7 @@ def api_setTemp():
     nTempProg = request.get_json()
 
     if nTempProg.get("tempProg"):
-        print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
+        # print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
 
         return jsonify({
             "status": "ok"
@@ -111,8 +112,6 @@ def api_potCalef():
 
     if PWM_Calef is not None:
         set_PWM_Calef(int(PWM_Calef))
-        print("La nueva Potencia Programada es:", PWM_Calef)
-
 
     return jsonify({
         "status": "ok"
@@ -222,14 +221,14 @@ def controles():
 
 @app.route("/api/encdCtrl", methods=["POST"])
 def encdCtrl():
-    initValue = request.get_json().get("initValue")
+    tempProg_Lvl = request.get_json().get("tempProg_Lvl")
     editVal = request.get_json().get("editVal")
     sobreGiro = request.get_json().get("sobreGiro")
 
-    initValue = valUpdt(editVal, initValue, sobreGiro)
+    tempProg_Lvl = valupdt(editVal, tempProg_Lvl, sobreGiro)
 
     return jsonify({
-        "initValue": initValue
+        "tempProg_Lvl": tempProg_Lvl
     })
 
 #--------------------------------------------------------------#
