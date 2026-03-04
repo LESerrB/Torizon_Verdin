@@ -21,6 +21,10 @@ import {
     modoOp
 } from './sensor.js';
 
+let cFW = 0;
+const vFW = "0.22";
+const releaseDate = "3/Marzo/2026"
+
 //~~~~~~~~~~~~~~~~ Definición de Variables ~~~~~~~~~~~~~~~~//
 let calef_Lvl = 100;
 const maxLvl = 100;
@@ -32,10 +36,6 @@ let tempProg_ant = 34.0;
 
 let tempProgInterval;
 let tempProgStatus;
-
-let cFW = 0;
-const vFW = "0.21";
-const releaseDate = "12/Febrero/2026"
 
 // Pantalla Base //
 const pantallaBase = document.querySelector('.pantalla-base');

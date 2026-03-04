@@ -90,7 +90,7 @@ def swAcept():
 
 def valupdt(editVal, tempProg_Lvl, sobreGiro):
     tempProg_Lvl = valEdit(editVal, tempProg_Lvl, sobreGiro)
-    print("<<<<<<<", tempProg_Lvl)
+    # print("<<<<<<<", tempProg_Lvl)
     swAcept()
 
     return round(tempProg_Lvl, 1)

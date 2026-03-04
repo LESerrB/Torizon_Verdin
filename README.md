@@ -391,6 +391,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creadas funciones de lectura y calibración.
 - Implementada función de Posición 0.
 
+### v0.22 - [3/Marzo/2026]
+
+
+
 ## Descarga e Instalación
 
 <p align="center">
