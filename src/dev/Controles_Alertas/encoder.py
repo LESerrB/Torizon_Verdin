@@ -120,6 +120,9 @@ def swAcept():
 
         if evt.type == gpiod.LineEvent.RISING_EDGE:
             print("Switch Liberado")
+            return True
+
+    return False
 
 def valUpdt(editVal, initValue, sobreGiro):
     """
