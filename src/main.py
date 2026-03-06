@@ -17,6 +17,9 @@ from dataclasses import dataclass
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
+from collections import deque
+from typing import Deque, Dict, Any
+
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
 from dev.Sensores_TPH.bme280 import bme280
 from dev.Bascula.bascula import tare, calib, pesaje
@@ -30,12 +33,13 @@ from dev.Sensores_TPH.sht21 import sht21
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
 from dev.Controles_Alertas import encoder as hw_encoder
 
-from collections import deque
-from typing import Deque, Dict, Any
+
 
 encoder_events_lock = threading.Lock()
 encoder_events: Deque[Dict[str, Any]] = deque(maxlen=200)
 encoder_event_id = 0
+
+
 
 # from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
@@ -81,20 +85,6 @@ pesoFinal = 0.0
 strStatus = ""
 
 alertaSumEner = ""
-# ##############################################################################
-# #                           Rutas de la aplicacion                           #
-# ##############################################################################
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-
-def clamp_round_temp(v: float, sobre_giro: bool) -> float:
-    vmax = TEMP_MAX_SG if sobre_giro else TEMP_MAX
-    v = max(TEMP_MIN, min(vmax, v))
-
-    return round(v, 1)
 
 @dataclass
 class ControlState:
@@ -103,6 +93,14 @@ class ControlState:
 
 state = ControlState()
 state_lock = threading.Lock()
+
+
+
+def clamp_round_temp(v: float, sobre_giro: bool) -> float:
+    vmax = TEMP_MAX_SG if sobre_giro else TEMP_MAX
+    v = max(TEMP_MIN, min(vmax, v))
+
+    return round(v, 1)
 
 def snapshot_state():
     return {
@@ -116,12 +114,19 @@ def push_encoder_event(evt_type: str, payload: dict):
         encoder_event_id += 1
         encoder_events.append({
             "id": encoder_event_id,
-            "type": evt_type,     # "change" | "accept"
+            "type": evt_type,
             "ts": time.time(),
-            "payload": payload,   # normalmente snapshot_state()
+            "payload": payload,
         })
 
+# ##############################################################################
+# #                           Rutas de la aplicacion                           #
+# ##############################################################################
+@app.route("/")
+def index():
+    return render_template("index.html")
 
+#>>>>>>>>>>>>>>>>>> Temperatura Programada <<<<<<<<<<<<<<<<<<#
 @app.route("/api/tempProg", methods=["GET"])
 def get_tempProg():
     with state_lock:
@@ -161,6 +166,7 @@ def set_tempProg():
 def get_sobreGiro():
     with state_lock:
         s = snapshot_state()
+
     return jsonify({"status": "ok", **s}), 200
 
 @app.route("/api/sobreGiro", methods=["POST"])
@@ -173,19 +179,14 @@ def toggle_sobreGiro():
         else:
             state.sobreGiro = not state.sobreGiro
 
-        # Al cambiar sobreGiro, re-clamp de tempProg
         state.tempProg = clamp_round_temp(state.tempProg, state.sobreGiro)
         s = snapshot_state()
 
     return jsonify({"status": "ok", **s}), 200
 
-
+#>>>>>>>>>>>>>>>>>>>>>>>>> Encoder <<<<<<<<<<<<<<<<<<<<<<<<<<#
 @app.route("/api/encoder/events", methods=["GET"])
 def api_encoder_events():
-    """
-    Poll simple: /api/encoder/events?since=<id>
-    Devuelve eventos con id > since.
-    """
     try:
         since = int(request.args.get("since", "0"))
     except ValueError:
@@ -195,15 +196,6 @@ def api_encoder_events():
         evts = [e for e in encoder_events if e["id"] > since]
 
     return jsonify({"status": "ok", "events": evts}), 200
-
-
-
-def apply_encoder_delta_tempProg(delta: float):
-    """Cuando metas encoder, tu hilo llamará a esto para modificar tempProg."""
-    with state_lock:
-        state.tempProg = clamp_round_temp(state.tempProg + delta, state.sobreGiro)
-
-
 
 ##############################################################################
 #                            Funciones de sistema                            #
@@ -226,24 +218,16 @@ def restart_container(threshold=90):
         os._exit(1)
 
 def encoder_loop():
-    """
-    Lee el encoder y sincroniza tempProg con el state.
-    Además emite eventos para que main.js haga console.log en accept.
-    """
     last_sent_temp = None
 
     while True:
-        # Snapshot de entrada
         with state_lock:
             cur_temp = float(state.tempProg)
             sg = bool(state.sobreGiro)
 
-        # Lee encoder (no bloqueante en swAcept y con event_wait interno en clk)
         try:
             new_temp, accepted = hw_encoder.valUpdt("temProg", cur_temp, sg)
         except Exception as e:
-            # Si falla GPIO por cualquier razón, evita tumbar el server
-            # (puedes loggear con logger si lo tienes)
             time.sleep(0.1)
             continue
 
@@ -251,11 +235,9 @@ def encoder_loop():
 
         if changed:
             with state_lock:
-                # Reaplica clamp por seguridad (tu clamp ya existe)
                 state.tempProg = clamp_round_temp(new_temp, state.sobreGiro)
                 snap = snapshot_state()
 
-            # Evita spamear si rebota el mismo valor
             if last_sent_temp != snap["tempProg"]:
                 last_sent_temp = snap["tempProg"]
                 push_encoder_event("change", snap)
@@ -263,9 +245,10 @@ def encoder_loop():
         if accepted:
             with state_lock:
                 snap = snapshot_state()
+
             push_encoder_event("accept", snap)
 
-        time.sleep(0.01)  # 10ms: suficientemente suave
+        time.sleep(0.01)
 
 
 #============================================================================#

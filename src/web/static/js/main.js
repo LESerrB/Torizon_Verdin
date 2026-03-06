@@ -53,17 +53,13 @@
         const el = $(UI.tempProgText);
         if (el) el.textContent = Number(st.tempProg).toFixed(1);
 
-        // const btn = $(UI.btnSobreGiro);
-        // if (btn) {
-        //   btn.classList.toggle("active", !!st.sobreGiro);
-        //   btn.dataset.enabled = st.sobreGiro ? "1" : "0";
-        //   // si quieres texto dinámico:
-        // //   btn.textContent = st.sobreGiro ? "SOBREGIRO: ON" : "SOBREGIRO: OFF";
-        // }
+        const btn = $(UI.btnSobreGiro);
+        if (btn) {
+            console.log(btn);
+        }
     }
 
     function syncFromServer(d) {
-        // d debe traer tempProg y sobreGiro
         st.tempProg = Number(d.tempProg);
         st.sobreGiro = !!d.sobreGiro;
 
@@ -83,8 +79,8 @@
         st.sobreGiroInFlight = true;
 
         try {
-            const d = await apiPost(API.sobreGiro, {}); // toggle
-            syncFromServer(d); // ojo: tempProg puede cambiar por clamp
+            const d = await apiPost(API.sobreGiro, {});
+            syncFromServer(d);
         } catch (e) {
             console.error(e);
             await loadInit();
@@ -121,7 +117,7 @@
 
         const start = (e) => {
             e?.preventDefault?.();
-            applyDeltaTempProg(delta); // golpe inmediato
+            applyDeltaTempProg(delta);
             timer = setInterval(() => applyDeltaTempProg(delta), periodMs);
             btn.setPointerCapture?.(e.pointerId);
         };
@@ -158,15 +154,13 @@
                 }
 
                 if (e.type === "accept") {
-                    // Confirmación del switch del encoder
                     const tp = e.payload?.tempProg;
                     const sg = e.payload?.sobreGiro;
                     console.log(`[ENCODER] Aceptado. tempProg=${tp} sobreGiro=${sg}`);
                 }
             }
         } catch (err) {
-            // Silencioso para no ensuciar consola si hay cortes momentáneos
-            // console.debug(err);
+            console.debug(err);
         }
     }
 
