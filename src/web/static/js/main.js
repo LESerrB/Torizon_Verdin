@@ -10,6 +10,7 @@
     const API = {
         tempProg: "/api/tempProg",
         sobreGiro: "/api/sobreGiro",
+        encoderEvents: "/api/encoder/events",
     };
 
     // ====== Estado local (solo para render) ======
@@ -138,6 +139,37 @@
         btn.addEventListener("pointerleave", stop);
     }
 
+    let encSince = 0;
+    let encPollTimer = null;
+
+    async function pollEncoderEvents() {
+        try {
+            const r = await fetch(`${API.encoderEvents}?since=${encSince}`, { method: "GET" });
+            const d = await r.json();
+            if (!r.ok || d.status !== "ok") return;
+
+            const evts = Array.isArray(d.events) ? d.events : [];
+            for (const e of evts) {
+                encSince = Math.max(encSince, Number(e.id) || 0);
+
+                if (e.type === "change") {
+                    // e.payload trae {tempProg, sobreGiro}
+                    if (e.payload) syncFromServer(e.payload);
+                }
+
+                if (e.type === "accept") {
+                    // Confirmación del switch del encoder
+                    const tp = e.payload?.tempProg;
+                    const sg = e.payload?.sobreGiro;
+                    console.log(`[ENCODER] Aceptado. tempProg=${tp} sobreGiro=${sg}`);
+                }
+            }
+        } catch (err) {
+            // Silencioso para no ensuciar consola si hay cortes momentáneos
+            // console.debug(err);
+        }
+    }
+
     // ====== Init UI ======
     window.addEventListener("load", async () => {
         await loadInit();
@@ -149,5 +181,7 @@
         if (bMinus) setupHoldButton(bMinus, -0.1);
         if (bPlus) setupHoldButton(bPlus, +0.1);
         if (bSG) bSG.addEventListener("click", toggleSobreGiro);
+
+        if (!encPollTimer) encPollTimer = setInterval(pollEncoderEvents, 120);
     });
 })();

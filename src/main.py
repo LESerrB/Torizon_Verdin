@@ -28,7 +28,15 @@ from dev.Sensores_TPH.sht21 import sht21
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
-# from dev.Controles_Alertas.encoder import valUpdt
+from dev.Controles_Alertas import encoder as hw_encoder
+
+from collections import deque
+from typing import Deque, Dict, Any
+
+encoder_events_lock = threading.Lock()
+encoder_events: Deque[Dict[str, Any]] = deque(maxlen=200)
+encoder_event_id = 0
+
 # from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
 #--------------------------------------------------------------#
@@ -102,6 +110,18 @@ def snapshot_state():
         "sobreGiro": bool(state.sobreGiro),
     }
 
+def push_encoder_event(evt_type: str, payload: dict):
+    global encoder_event_id
+    with encoder_events_lock:
+        encoder_event_id += 1
+        encoder_events.append({
+            "id": encoder_event_id,
+            "type": evt_type,     # "change" | "accept"
+            "ts": time.time(),
+            "payload": payload,   # normalmente snapshot_state()
+        })
+
+
 @app.route("/api/tempProg", methods=["GET"])
 def get_tempProg():
     with state_lock:
@@ -159,9 +179,25 @@ def toggle_sobreGiro():
 
     return jsonify({"status": "ok", **s}), 200
 
-##############################################################################
-# Gancho para encoder (lo usaremos después)
-##############################################################################
+
+@app.route("/api/encoder/events", methods=["GET"])
+def api_encoder_events():
+    """
+    Poll simple: /api/encoder/events?since=<id>
+    Devuelve eventos con id > since.
+    """
+    try:
+        since = int(request.args.get("since", "0"))
+    except ValueError:
+        since = 0
+
+    with encoder_events_lock:
+        evts = [e for e in encoder_events if e["id"] > since]
+
+    return jsonify({"status": "ok", "events": evts}), 200
+
+
+
 def apply_encoder_delta_tempProg(delta: float):
     """Cuando metas encoder, tu hilo llamará a esto para modificar tempProg."""
     with state_lock:
@@ -189,11 +225,59 @@ def restart_container(threshold=90):
         # logger.warning('Espacio casi lleno, reiniciando contenedor...')
         os._exit(1)
 
+def encoder_loop():
+    """
+    Lee el encoder y sincroniza tempProg con el state.
+    Además emite eventos para que main.js haga console.log en accept.
+    """
+    last_sent_temp = None
+
+    while True:
+        # Snapshot de entrada
+        with state_lock:
+            cur_temp = float(state.tempProg)
+            sg = bool(state.sobreGiro)
+
+        # Lee encoder (no bloqueante en swAcept y con event_wait interno en clk)
+        try:
+            new_temp, accepted = hw_encoder.valUpdt("temProg", cur_temp, sg)
+        except Exception as e:
+            # Si falla GPIO por cualquier razón, evita tumbar el server
+            # (puedes loggear con logger si lo tienes)
+            time.sleep(0.1)
+            continue
+
+        changed = (new_temp != cur_temp)
+
+        if changed:
+            with state_lock:
+                # Reaplica clamp por seguridad (tu clamp ya existe)
+                state.tempProg = clamp_round_temp(new_temp, state.sobreGiro)
+                snap = snapshot_state()
+
+            # Evita spamear si rebota el mismo valor
+            if last_sent_temp != snap["tempProg"]:
+                last_sent_temp = snap["tempProg"]
+                push_encoder_event("change", snap)
+
+        if accepted:
+            with state_lock:
+                snap = snapshot_state()
+            push_encoder_event("accept", snap)
+
+        time.sleep(0.01)  # 10ms: suficientemente suave
+
+
 #============================================================================#
 #                                    Hilos                                   #
 #============================================================================#
 monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
 monitor_thread.start()
+
+thread_encoder = threading.Thread(target=encoder_loop, daemon=True)
+thread_encoder.start()
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)

@@ -104,7 +104,7 @@ def valEdit(editVal, valIni, sobreGiro):
     else:
         return valIni
 
-def swAcept():
+def swAcept() -> bool:
     """
     Detecta la liberación del botón del encoder (Switch).
     
@@ -143,9 +143,7 @@ def valUpdt(editVal, initValue, sobreGiro):
         El valor es redondeado a 1 decimal para evitar problemas de precisión
         en cálculos posteriores.
     """
-    # print(initValue, "\t<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-    initValue = valEdit(editVal, initValue, sobreGiro)
-    # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\t", initValue)
-    swAcept()
+    new_value = valEdit(editVal, initValue, sobreGiro)
+    accepted = swAcept()
 
-    return round(initValue, 1)
+    return round(new_value, 1), accepted
