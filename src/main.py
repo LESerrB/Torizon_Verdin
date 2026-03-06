@@ -1,7 +1,6 @@
 #!python
 
 import os
-import struct
 import threading
 import time
 import shutil
@@ -88,8 +87,10 @@ alertaSumEner = ""
 
 @dataclass
 class ControlState:
-    tempProg: float = 34.0
+    tempProg: float = 34.0          # valor confirmado
+    tempProgDraft: float = 34.0     # valor temporal mientras editas
     sobreGiro: bool = False
+    editingTempProg: bool = False   # encoder habilitado para tempProg
 
 state = ControlState()
 state_lock = threading.Lock()
@@ -105,7 +106,9 @@ def clamp_round_temp(v: float, sobre_giro: bool) -> float:
 def snapshot_state():
     return {
         "tempProg": round(state.tempProg, 1),
+        "tempProgDraft": round(state.tempProgDraft, 1),
         "sobreGiro": bool(state.sobreGiro),
+        "editingTempProg": bool(state.editingTempProg),
     }
 
 def push_encoder_event(evt_type: str, payload: dict):
@@ -118,7 +121,33 @@ def push_encoder_event(evt_type: str, payload: dict):
             "ts": time.time(),
             "payload": payload,
         })
+        
+# @app.route("/api/tempProg/edit/start", methods=["POST"])
+# def start_tempProg_edit():
+#     with state_lock:
+#         state.editingTempProg = True
+#         state.tempProgDraft = state.tempProg
+#         s = snapshot_state()
+#     return jsonify({"status": "ok", **s}), 200
 
+
+# @app.route("/api/tempProg/edit/accept", methods=["POST"])
+# def accept_tempProg_edit():
+#     with state_lock:
+#         state.tempProg = clamp_round_temp(state.tempProgDraft, state.sobreGiro)
+#         state.tempProgDraft = state.tempProg
+#         state.editingTempProg = False
+#         s = snapshot_state()
+#     return jsonify({"status": "ok", **s}), 200
+
+
+# @app.route("/api/tempProg/edit/cancel", methods=["POST"])
+# def cancel_tempProg_edit():
+#     with state_lock:
+#         state.tempProgDraft = state.tempProg
+#         state.editingTempProg = False
+#         s = snapshot_state()
+#     return jsonify({"status": "ok", **s}), 200
 # ##############################################################################
 # #                           Rutas de la aplicacion                           #
 # ##############################################################################

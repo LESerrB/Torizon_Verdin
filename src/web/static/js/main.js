@@ -1,16 +1,21 @@
+let encSince = 0;
+let encPollTimer = null;
+
 (() => {
     // ====== Config ======
     const UI = {
-        tempProgText: "tempProg",          // <span id="tempProg">
-        btnMenos: "tempProgMenos",         // <button id="tempProgMenos">
-        btnMas: "tempProgMas",             // <button id="tempProgMas">
-        btnSobreGiro: "tmpPrgSobregiro",   // <button id="tmpPrgSobregiro">
+        tempProgText:       "tempProg",         // <span id="tempProg">
+        btnMenos:           "tempProgMenos",    // <button id="tempProgMenos">
+        btnMas:             "tempProgMas",      // <button id="tempProgMas">
+        btnSobreGiro:       "tmpPrgSobregiro",  // <button id="tmpPrgSobregiro">
+        lblTempProg:        "tempProg-val",     // <div id="tempProg-val">
+        btn_tempProgAcpt:   "tempProgAceptar"   // <button id="tempProgAceptar">
     };
-
+    // ====== Rutas ======
     const API = {
-        tempProg: "/api/tempProg",
-        sobreGiro: "/api/sobreGiro",
-        encoderEvents: "/api/encoder/events",
+        tempProg:       "/api/tempProg",
+        sobreGiro:      "/api/sobreGiro",
+        encoderEvents:  "/api/encoder/events",
     };
 
     // ====== Estado local (solo para render) ======
@@ -51,17 +56,23 @@
 
     function render() {
         const el = $(UI.tempProgText);
-        if (el) el.textContent = Number(st.tempProg).toFixed(1);
+
+        if (el) {
+            const shown = st.editingTempProg ? st.tempProgDraft : st.tempProg;
+            el.textContent = Number(shown).toFixed(1);
+        }
 
         const btn = $(UI.btnSobreGiro);
         if (btn) {
-            console.log(btn);
+            // Boton Sobregiro
         }
     }
 
     function syncFromServer(d) {
         st.tempProg = Number(d.tempProg);
+        st.tempProgDraft = Number(d.tempProgDraft ?? d.tempProg);
         st.sobreGiro = !!d.sobreGiro;
+        st.editingTempProg = !!d.editingTempProg;
 
         render();
     }
@@ -135,32 +146,45 @@
         btn.addEventListener("pointerleave", stop);
     }
 
-    let encSince = 0;
-    let encPollTimer = null;
-
     async function pollEncoderEvents() {
         try {
             const r = await fetch(`${API.encoderEvents}?since=${encSince}`, { method: "GET" });
             const d = await r.json();
+
             if (!r.ok || d.status !== "ok") return;
 
             const evts = Array.isArray(d.events) ? d.events : [];
+
             for (const e of evts) {
                 encSince = Math.max(encSince, Number(e.id) || 0);
 
                 if (e.type === "change") {
-                    // e.payload trae {tempProg, sobreGiro}
                     if (e.payload) syncFromServer(e.payload);
                 }
 
                 if (e.type === "accept") {
                     const tp = e.payload?.tempProg;
                     const sg = e.payload?.sobreGiro;
-                    console.log(`[ENCODER] Aceptado. tempProg=${tp} sobreGiro=${sg}`);
+
+                    enable_Editing("swAceptado")
                 }
             }
         } catch (err) {
             console.debug(err);
+        }
+    }
+
+    async function enable_Editing(value){
+        if(value.target && value.target.id == "tempProg"){
+            if (!encPollTimer) encPollTimer = setInterval(pollEncoderEvents, 120);
+
+            document.getElementById('tempProg-val').classList.add('parpadeo');
+        }
+        else if (value == "swAceptado" || (value.target && value.target.id == "tempProgAceptar-lbl")) {
+            clearInterval(encPollTimer);
+            encPollTimer = null;
+
+            document.getElementById('tempProg-val').classList.remove('parpadeo');
         }
     }
 
@@ -171,11 +195,15 @@
         const bMinus = $(UI.btnMenos);
         const bPlus = $(UI.btnMas);
         const bSG = $(UI.btnSobreGiro);
+        const enEdit_TmpProg = $(UI.lblTempProg);
+        const acpt_ValTempProg = $(UI.btn_tempProgAcpt);
 
         if (bMinus) setupHoldButton(bMinus, -0.1);
         if (bPlus) setupHoldButton(bPlus, +0.1);
         if (bSG) bSG.addEventListener("click", toggleSobreGiro);
 
-        if (!encPollTimer) encPollTimer = setInterval(pollEncoderEvents, 120);
+        if (enEdit_TmpProg) enEdit_TmpProg.addEventListener("click", enable_Editing);
+        if (acpt_ValTempProg) acpt_ValTempProg.addEventListener("click", enable_Editing);
+
     });
 })();
