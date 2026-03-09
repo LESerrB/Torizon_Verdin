@@ -70,6 +70,8 @@ fsm = sm_chngModoOp()
 #-------- Valores Iniciales --------#
 tempProg = 34.0
 sobreGiro = False
+enableEdit = False
+
 
 TEMP_MIN = 34.0
 TEMP_MAX = 37.0
@@ -122,23 +124,22 @@ def push_encoder_event(evt_type: str, payload: dict):
             "payload": payload,
         })
         
-# @app.route("/api/tempProg/edit/start", methods=["POST"])
-# def start_tempProg_edit():
-#     with state_lock:
-#         state.editingTempProg = True
-#         state.tempProgDraft = state.tempProg
-#         s = snapshot_state()
-#     return jsonify({"status": "ok", **s}), 200
+@app.route("/api/tempProg/edit/start", methods=["POST"])
+def start_tempProg_edit():
+    global enableEdit
+
+    enableEdit = True
+
+    return jsonify({"status": "ok"}), 200
 
 
-# @app.route("/api/tempProg/edit/accept", methods=["POST"])
-# def accept_tempProg_edit():
-#     with state_lock:
-#         state.tempProg = clamp_round_temp(state.tempProgDraft, state.sobreGiro)
-#         state.tempProgDraft = state.tempProg
-#         state.editingTempProg = False
-#         s = snapshot_state()
-#     return jsonify({"status": "ok", **s}), 200
+@app.route("/api/tempProg/edit/accept", methods=["POST"])
+def accept_tempProg_edit():
+    global enableEdit
+
+    enableEdit = False
+
+    return jsonify({"status": "ok"}), 200
 
 
 # @app.route("/api/tempProg/edit/cancel", methods=["POST"])
@@ -250,34 +251,35 @@ def encoder_loop():
     last_sent_temp = None
 
     while True:
-        with state_lock:
-            cur_temp = float(state.tempProg)
-            sg = bool(state.sobreGiro)
-
-        try:
-            new_temp, accepted = hw_encoder.valUpdt("temProg", cur_temp, sg)
-        except Exception as e:
-            time.sleep(0.1)
-            continue
-
-        changed = (new_temp != cur_temp)
-
-        if changed:
+        if enableEdit:
             with state_lock:
-                state.tempProg = clamp_round_temp(new_temp, state.sobreGiro)
-                snap = snapshot_state()
+                cur_temp = float(state.tempProg)
+                sg = bool(state.sobreGiro)
 
-            if last_sent_temp != snap["tempProg"]:
-                last_sent_temp = snap["tempProg"]
-                push_encoder_event("change", snap)
+            try:
+                new_temp, accepted = hw_encoder.valUpdt("temProg", cur_temp, sg)
+            except Exception as e:
+                time.sleep(0.1)
+                continue
 
-        if accepted:
-            with state_lock:
-                snap = snapshot_state()
+            changed = (new_temp != cur_temp)
 
-            push_encoder_event("accept", snap)
+            if changed:
+                with state_lock:
+                    state.tempProg = clamp_round_temp(new_temp, state.sobreGiro)
+                    snap = snapshot_state()
 
-        time.sleep(0.01)
+                if last_sent_temp != snap["tempProg"]:
+                    last_sent_temp = snap["tempProg"]
+                    push_encoder_event("change", snap)
+
+            if accepted:
+                with state_lock:
+                    snap = snapshot_state()
+
+                push_encoder_event("accept", snap)
+
+            time.sleep(0.01)
 
 
 #============================================================================#

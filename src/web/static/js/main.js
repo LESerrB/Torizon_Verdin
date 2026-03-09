@@ -16,6 +16,8 @@ let encPollTimer = null;
         tempProg:       "/api/tempProg",
         sobreGiro:      "/api/sobreGiro",
         encoderEvents:  "/api/encoder/events",
+        startEdit:      "/api/tempProg/edit/start",
+        acceptVal:      "/api/tempProg/edit/accept",
     };
 
     // ====== Estado local (solo para render) ======
@@ -179,10 +181,12 @@ let encPollTimer = null;
             if (!encPollTimer) encPollTimer = setInterval(pollEncoderEvents, 120);
 
             document.getElementById('tempProg-val').classList.add('parpadeo');
+            const r = await fetch(API.startEdit, { method: "POST" });
         }
         else if (value == "swAceptado" || (value.target && value.target.id == "tempProgAceptar-lbl")) {
             clearInterval(encPollTimer);
             encPollTimer = null;
+            const r = await fetch(API.acceptVal, { method: "POST" });
 
             document.getElementById('tempProg-val').classList.remove('parpadeo');
         }
