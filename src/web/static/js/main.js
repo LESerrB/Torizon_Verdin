@@ -1,3 +1,5 @@
+import { toggle_btnSG } from "./ui.js";
+
 let encSince = 0;
 let encPollTimer = null;
 let editTimeout = null;
@@ -65,11 +67,6 @@ let editTimeout = null;
             const shown = st.editingTempProg ? st.tempProgDraft : st.tempProg;
             el.textContent = Number(shown).toFixed(1);
         }
-
-        const btn = $(UI.btnSobreGiro);
-        if (btn) {
-            // Boton Sobregiro
-        }
     }
 
     function syncFromServer(d) {
@@ -97,6 +94,8 @@ let editTimeout = null;
         try {
             const d = await apiPost(API.sobreGiro, {});
             syncFromServer(d);
+
+            toggle_btnSG(st.sobreGiro);
         } catch (e) {
             console.error(e);
             await loadInit();
@@ -204,6 +203,10 @@ let editTimeout = null;
         else if (value == "swAceptado" || (value.target && value.target.id == "tempProgAceptar-lbl")) {
             clearInterval(encPollTimer);
             encPollTimer = null;
+
+            clearInterval(editTimeout);
+            editTimeout = null;
+
             const r = await fetch(API.acceptVal, { method: "POST" });
 
             document.getElementById('tempProg-val').classList.remove('parpadeo');
