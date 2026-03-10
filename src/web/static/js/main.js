@@ -1,4 +1,6 @@
-import { toggle_btnSG } from "./ui.js";
+import { toggle_btnSG,
+         set_EditCtrlsEn,
+ } from "./ui.js";
 
 let encSince = 0;
 let encPollTimer = null;
@@ -10,12 +12,16 @@ let editingEnabled = false;
     // ====== Config ======
     const UI = {
         tempProgText:       "tempProg",         // <span id="tempProg">
+        lblTempProg:        "tempProg-val",     // <div id="tempProg-val">
+    };
+
+    const UI_btnsTempProg = {
         btnMenos:           "tempProgMenos",    // <button id="tempProgMenos">
         btnMas:             "tempProgMas",      // <button id="tempProgMas">
         btnSobreGiro:       "tmpPrgSobregiro",  // <button id="tmpPrgSobregiro">
-        lblTempProg:        "tempProg-val",     // <div id="tempProg-val">
-        btn_tempProgAcpt:   "tempProgAceptar"   // <button id="tempProgAceptar">
+        btn_tempProgAcpt:   "tempProgAceptar",  // <button id="tempProgAceptar">
     };
+
     // ====== Rutas ======
     const API = {
         tempProg:       "/api/tempProg",
@@ -78,31 +84,6 @@ let editingEnabled = false;
         st.editingTempProg = !!d.editingTempProg;
 
         render();
-    }
-
-    function setEditingControlsEnabled(enabled) {
-        editingEnabled = !!enabled;
-
-        const btnMenos = document.getElementById("btnMenos");
-        const btnMas = document.getElementById("btnMas");
-        const btnSobreGiro = document.getElementById("btnSobreGiro");
-        const btnAceptar = document.getElementById("btn_tempProgAcpt");
-
-        const controls = [btnMenos, btnMas, btnSobreGiro, btnAceptar];
-
-        controls.forEach(el => {
-            if (!el) return;
-
-            if ("disabled" in el) {
-                el.disabled = !enabled;
-            }
-
-            el.style.pointerEvents = enabled ? "auto" : "none";
-            el.style.opacity = enabled ? "1" : "0.5";
-            el.style.cursor = enabled ? "pointer" : "default";
-
-            el.setAttribute("aria-disabled", enabled ? "false" : "true");
-        });
     }
 
     // ====== Carga inicial ======
@@ -213,7 +194,7 @@ let editingEnabled = false;
 
     async function enable_Editing(value){
         if(value.target && value.target.id == "tempProg"){
-            setEditingControlsEnabled(true);
+            editingEnabled = set_EditCtrlsEn(true, UI_btnsTempProg);
 
             if (!encPollTimer) encPollTimer = setInterval(pollEncoderEvents, 120);
 
@@ -244,30 +225,31 @@ let editingEnabled = false;
 
             const r = await fetch(API.acceptVal, { method: "POST" });
 
-            setEditingControlsEnabled(false);
+            editingEnabled = set_EditCtrlsEn(false, UI_btnsTempProg);
 
             document.getElementById('tempProg-val').classList.remove('parpadeo');
         }
     }
 
-    // ====== Init UI ======
+    // ====== Init UI_btnsTempProg ======
     window.addEventListener("load", async () => {
         await loadInit();
 
-        setEditingControlsEnabled(false);
+        editingEnabled = set_EditCtrlsEn(false, UI_btnsTempProg);
 
-        const bMinus = $(UI.btnMenos);
-        const bPlus = $(UI.btnMas);
-        const bSG = $(UI.btnSobreGiro);
         const enEdit_TmpProg = $(UI.lblTempProg);
-        const acpt_ValTempProg = $(UI.btn_tempProgAcpt);
+
+        const bMinus = $(UI_btnsTempProg.btnMenos);
+        const bPlus = $(UI_btnsTempProg.btnMas);
+        const bSG = $(UI_btnsTempProg.btnSobreGiro);
+        const acpt_ValTempProg = $(UI_btnsTempProg.btn_tempProgAcpt);
+
+        if (enEdit_TmpProg) enEdit_TmpProg.addEventListener("click", enable_Editing);
 
         if (bMinus) setupHoldButton(bMinus, -0.1);
         if (bPlus) setupHoldButton(bPlus, +0.1);
         if (bSG) bSG.addEventListener("click", toggleSobreGiro);
 
-        if (enEdit_TmpProg) enEdit_TmpProg.addEventListener("click", enable_Editing);
         if (acpt_ValTempProg) acpt_ValTempProg.addEventListener("click", enable_Editing);
-
     });
 })();

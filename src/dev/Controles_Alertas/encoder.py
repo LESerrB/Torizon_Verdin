@@ -119,7 +119,6 @@ def swAcept() -> bool:
         evt = enc_sw.event_read()
 
         if evt.type == gpiod.LineEvent.RISING_EDGE:
-            print("Switch Liberado")
             return True
 
     return False

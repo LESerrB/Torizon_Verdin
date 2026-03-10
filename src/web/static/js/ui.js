@@ -17,3 +17,15 @@ export function toggle_btnSG(btn_SG){
         lbl_sobreGiro.classList.remove('btn-sensor-lbl-pressed');
     }
 }
+
+export function set_EditCtrlsEn(enabled, btns) {
+    Object.values(btns).forEach(btnId => {
+        const btn = document.getElementById(btnId);
+
+        if (btn) {
+            btn.disabled = !enabled;
+        }
+    });
+
+    return !!enabled;
+}
