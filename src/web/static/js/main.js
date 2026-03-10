@@ -4,6 +4,8 @@ let encSince = 0;
 let encPollTimer = null;
 let editTimeout = null;
 
+let editingEnabled = false;
+
 (() => {
     // ====== Config ======
     const UI = {
@@ -78,15 +80,42 @@ let editTimeout = null;
         render();
     }
 
+    function setEditingControlsEnabled(enabled) {
+        editingEnabled = !!enabled;
+
+        const btnMenos = document.getElementById("btnMenos");
+        const btnMas = document.getElementById("btnMas");
+        const btnSobreGiro = document.getElementById("btnSobreGiro");
+        const btnAceptar = document.getElementById("btn_tempProgAcpt");
+
+        const controls = [btnMenos, btnMas, btnSobreGiro, btnAceptar];
+
+        controls.forEach(el => {
+            if (!el) return;
+
+            if ("disabled" in el) {
+                el.disabled = !enabled;
+            }
+
+            el.style.pointerEvents = enabled ? "auto" : "none";
+            el.style.opacity = enabled ? "1" : "0.5";
+            el.style.cursor = enabled ? "pointer" : "default";
+
+            el.setAttribute("aria-disabled", enabled ? "false" : "true");
+        });
+    }
+
     // ====== Carga inicial ======
     async function loadInit() {
         const d = await apiGet(API.tempProg);
-        
+
         syncFromServer(d);
     }
 
     // ====== Acciones ======
     async function toggleSobreGiro() {
+        if (!editingEnabled) return;
+
         if (st.sobreGiroInFlight) return;
 
         st.sobreGiroInFlight = true;
@@ -105,6 +134,8 @@ let editTimeout = null;
     }
 
     async function applyDeltaTempProg(delta) {
+        if (!editingEnabled) return;
+
         st.queuedDelta += delta;
 
         if (st.tempProgInFlight) return;
@@ -131,6 +162,8 @@ let editTimeout = null;
         let timer = null;
 
         const start = (e) => {
+            if (!editingEnabled) return;
+
             e?.preventDefault?.();
             applyDeltaTempProg(delta);
             timer = setInterval(() => applyDeltaTempProg(delta), periodMs);
@@ -180,6 +213,8 @@ let editTimeout = null;
 
     async function enable_Editing(value){
         if(value.target && value.target.id == "tempProg"){
+            setEditingControlsEnabled(true);
+
             if (!encPollTimer) encPollTimer = setInterval(pollEncoderEvents, 120);
 
             document.getElementById('tempProg-val').classList.add('parpadeo');
@@ -209,6 +244,8 @@ let editTimeout = null;
 
             const r = await fetch(API.acceptVal, { method: "POST" });
 
+            setEditingControlsEnabled(false);
+
             document.getElementById('tempProg-val').classList.remove('parpadeo');
         }
     }
@@ -216,6 +253,8 @@ let editTimeout = null;
     // ====== Init UI ======
     window.addEventListener("load", async () => {
         await loadInit();
+
+        setEditingControlsEnabled(false);
 
         const bMinus = $(UI.btnMenos);
         const bPlus = $(UI.btnMas);
