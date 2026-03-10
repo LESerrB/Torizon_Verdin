@@ -71,7 +71,7 @@ fsm = sm_chngModoOp()
 tempProg = 34.0
 sobreGiro = False
 enableEdit = False
-
+edit_started_temp = None
 
 TEMP_MIN = 34.0
 TEMP_MAX = 37.0
@@ -126,9 +126,10 @@ def push_encoder_event(evt_type: str, payload: dict):
         
 @app.route("/api/tempProg/edit/start", methods=["POST"])
 def start_tempProg_edit():
-    global enableEdit
+    global enableEdit, edit_started_temp
 
     enableEdit = True
+    edit_started_temp = state.tempProg
 
     return jsonify({"status": "ok"}), 200
 
@@ -138,17 +139,25 @@ def accept_tempProg_edit():
     global enableEdit
 
     enableEdit = False
+    print("La nueva temperatura programada es:", state.tempProg)
 
     return jsonify({"status": "ok"}), 200
 
 
-# @app.route("/api/tempProg/edit/cancel", methods=["POST"])
-# def cancel_tempProg_edit():
-#     with state_lock:
-#         state.tempProgDraft = state.tempProg
-#         state.editingTempProg = False
-#         s = snapshot_state()
-#     return jsonify({"status": "ok", **s}), 200
+@app.route("/api/tempProg/edit/cancel", methods=["POST"])
+def cancel_tempProg_edit():
+    global enableEdit, edit_started_temp
+
+    with state_lock:
+        s = snapshot_state()
+
+    enableEdit = False
+    state.tempProg = edit_started_temp
+    s["tempProg"] = state.tempProg
+    print("Regresando a la temperatura anterior:", edit_started_temp)
+
+
+    return jsonify({"status": "ok", **s}), 200
 # ##############################################################################
 # #                           Rutas de la aplicacion                           #
 # ##############################################################################

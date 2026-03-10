@@ -1,5 +1,6 @@
 let encSince = 0;
 let encPollTimer = null;
+let editTimeout = null;
 
 (() => {
     // ====== Config ======
@@ -18,6 +19,7 @@ let encPollTimer = null;
         encoderEvents:  "/api/encoder/events",
         startEdit:      "/api/tempProg/edit/start",
         acceptVal:      "/api/tempProg/edit/accept",
+        cancelVal:      "/api/tempProg/edit/cancel",
     };
 
     // ====== Estado local (solo para render) ======
@@ -82,6 +84,7 @@ let encPollTimer = null;
     // ====== Carga inicial ======
     async function loadInit() {
         const d = await apiGet(API.tempProg);
+        
         syncFromServer(d);
     }
 
@@ -125,7 +128,7 @@ let encPollTimer = null;
         }
     }
 
-    function setupHoldButton(btn, delta, periodMs = 120) {
+    function setupHoldButton(btn, delta, periodMs = 120) {        
         let timer = null;
 
         const start = (e) => {
@@ -182,6 +185,21 @@ let encPollTimer = null;
 
             document.getElementById('tempProg-val').classList.add('parpadeo');
             const r = await fetch(API.startEdit, { method: "POST" });
+
+            editTimeout = setTimeout(async () => {
+                try {
+                    const d = await apiPost(API.cancelVal, {});
+
+                    syncFromServer(d);
+                } catch (err) {
+                    console.error(err);
+                } finally {
+                    clearInterval(encPollTimer);
+                    encPollTimer = null;
+
+                    document.getElementById('tempProg-val').classList.remove('parpadeo');
+                }
+            }, 30000);
         }
         else if (value == "swAceptado" || (value.target && value.target.id == "tempProgAceptar-lbl")) {
             clearInterval(encPollTimer);
