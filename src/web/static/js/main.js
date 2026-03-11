@@ -1,5 +1,6 @@
 import { toggle_btnSG,
          set_EditCtrlsEn,
+         chngMode,
  } from "./ui.js";
 
 let encSince = 0;
@@ -11,6 +12,9 @@ let editingEnabled = false;
 (() => {
     // ====== Config ======
     const UI = {
+        modoBebe:           "modo-bebe",        // <div id="modo-bebe">
+        modoManual:         "modo-manual",      // <div id="modo-manual">
+
         tempProgText:       "tempProg",         // <span id="tempProg">
         lblTempProg:        "tempProg-val",     // <div id="tempProg-val">
     };
@@ -32,7 +36,7 @@ let editingEnabled = false;
         cancelVal:      "/api/tempProg/edit/cancel",
     };
 
-    // ====== Estado local (solo para render) ======
+    // ====== Estado local ======
     const st = {
         tempProg: 34.0,
         sobreGiro: false,
@@ -231,11 +235,15 @@ let editingEnabled = false;
         }
     }
 
+    
     // ====== Init UI_btnsTempProg ======
     window.addEventListener("load", async () => {
         await loadInit();
 
         editingEnabled = set_EditCtrlsEn(false, UI_btnsTempProg);
+
+        const mBebe = $(UI.modoBebe);
+        const mMan = $(UI.modoManual);
 
         const enEdit_TmpProg = $(UI.lblTempProg);
 
@@ -243,6 +251,9 @@ let editingEnabled = false;
         const bPlus = $(UI_btnsTempProg.btnMas);
         const bSG = $(UI_btnsTempProg.btnSobreGiro);
         const acpt_ValTempProg = $(UI_btnsTempProg.btn_tempProgAcpt);
+
+        if (mBebe) mBebe.addEventListener("click", chngMode);
+        if (mMan) mMan.addEventListener("click", chngMode);
 
         if (enEdit_TmpProg) enEdit_TmpProg.addEventListener("click", enable_Editing);
 
