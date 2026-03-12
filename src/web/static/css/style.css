@@ -1,8 +1,8 @@
-.pantalla-versi-n-12-03,
-.pantalla-versi-n-12-03 * {
+.pantalla-principal-prop-degradado-7,
+.pantalla-principal-prop-degradado-7 * {
   box-sizing: border-box;
 }
-.pantalla-versi-n-12-03 {
+.pantalla-principal-prop-degradado-7 {
   background: #f0f1f3;
   height: 600px;
   position: relative;
@@ -29,6 +29,150 @@
   height: 44px;
   position: relative;
   overflow: visible;
+}
+.encabezado {
+  background: #f8f9fb;
+  border-radius: 6px;
+  padding: 0px 20px 0px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 61px;
+  align-items: center;
+  justify-content: center;
+  width: 524px;
+  height: 30px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 94px;
+}
+.info-paciente {
+  flex-shrink: 0;
+  width: 245px;
+  height: 16px;
+  position: relative;
+}
+.icon-corazon {
+  width: 12px;
+  height: 10px;
+  position: absolute;
+  left: 0px;
+  top: 3px;
+  overflow: visible;
+}
+.nombre-del-infante {
+  color: #2e3a45;
+  text-align: left;
+  font-family: var(--textos-info-font-family, "Montserrat-Bold", sans-serif);
+  font-size: var(--textos-info-font-size, 14px);
+  font-weight: var(--textos-info-font-weight, 700);
+  position: absolute;
+  left: 19px;
+  top: 0px;
+  width: 226px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.ltimo-pesaje-780-g {
+  color: #2e3a45;
+  text-align: right;
+  font-family: var(--textos-info-font-family, "Montserrat-Bold", sans-serif);
+  font-size: var(--textos-info-font-size, 14px);
+  font-weight: var(--textos-info-font-weight, 700);
+  position: relative;
+  width: 160px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.fecha-hora {
+  background: #f8f9fb;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 30px;
+  position: absolute;
+  left: 784px;
+  top: 94px;
+}
+.vector {
+  flex-shrink: 0;
+  width: 19px;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 19/20;
+}
+._2-de-feb {
+  color: #2e3a45;
+  text-align: center;
+  font-family: var(--textos-info-font-family, "Montserrat-Bold", sans-serif);
+  font-size: var(--textos-info-font-size, 14px);
+  font-weight: var(--textos-info-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-hora {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  position: relative;
+  overflow: visible;
+}
+._5-41-h {
+  color: #2e3a45;
+  text-align: center;
+  font-family: var(--textos-info-font-family, "Montserrat-Bold", sans-serif);
+  font-size: var(--textos-info-font-size, 14px);
+  font-weight: var(--textos-info-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modo-activo {
+  background: #f8f9fb;
+  border-radius: 4px;
+  padding: 10px 10px 10px 26px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 754px;
+  height: 22px;
+  position: absolute;
+  left: 250px;
+  top: 134px;
+}
+.icon-m-piel {
+  flex-shrink: 0;
+  width: 10px;
+  height: 15px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 10/15;
+}
+.sistema-controlado-por-piel {
+  color: #2e3a45;
+  text-align: center;
+  font-family: "Montserrat-Medium", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .btns-modo-control {
   background: rgba(255, 255, 255, 0.35);
@@ -70,163 +214,29 @@
   position: relative;
   overflow: visible;
 }
-.encabezado {
-  background: #f8f9fb;
-  border-radius: 6px;
-  padding: 0px 20px 0px 20px;
-  display: flex;
-  flex-direction: row;
-  gap: 61px;
-  align-items: center;
-  justify-content: center;
-  width: 524px;
-  height: 30px;
-  position: absolute;
-  left: 50%;
-  translate: -50%;
-  top: 94px;
-}
-.info-paciente {
-  flex-shrink: 0;
-  width: 245px;
-  height: 16px;
-  position: relative;
-}
-.icon-corazon {
-  width: 12px;
-  height: 10px;
-  position: absolute;
-  left: 0px;
-  top: 3px;
-  overflow: visible;
-}
-.nombre-del-infante {
-  color: #2f3a40;
-  text-align: left;
-  font-family: var(--textos-info-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textos-info-font-size, 14px);
-  font-weight: var(--textos-info-font-weight, 700);
-  position: absolute;
-  left: 19px;
-  top: 0px;
-  width: 226px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.ltimo-pesaje-780-g {
-  color: #2f3a40;
-  text-align: right;
-  font-family: var(--textos-info-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textos-info-font-size, 14px);
-  font-weight: var(--textos-info-font-weight, 700);
-  position: relative;
-  width: 160px;
-  height: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.fecha-hora {
-  background: #f8f9fb;
-  border-radius: 6px;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  width: 220px;
-  height: 30px;
-  position: absolute;
-  left: 784px;
-  top: 94px;
-}
-.vector {
-  flex-shrink: 0;
-  width: 19px;
-  height: 20px;
-  position: relative;
-  overflow: visible;
-  aspect-ratio: 19/20;
-}
-._2-de-feb {
-  color: #2f3a40;
-  text-align: center;
-  font-family: var(--textos-info-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textos-info-font-size, 14px);
-  font-weight: var(--textos-info-font-weight, 700);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.icon-hora {
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  position: relative;
-  overflow: visible;
-}
-._5-41-h {
-  color: #2f3a40;
-  text-align: center;
-  font-family: var(--textos-info-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textos-info-font-size, 14px);
-  font-weight: var(--textos-info-font-weight, 700);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.modo-activo {
-  background: #f8f9fb;
-  border-radius: 4px;
-  padding: 10px 10px 10px 26px;
-  display: flex;
-  flex-direction: row;
-  gap: 6px;
-  align-items: center;
-  justify-content: flex-start;
-  width: 754px;
-  height: 22px;
-  position: absolute;
-  left: 250px;
-  top: 134px;
-}
-.icon-m-piel {
-  flex-shrink: 0;
-  width: 10px;
-  height: 15px;
-  position: relative;
-  overflow: visible;
-  aspect-ratio: 10/15;
-}
-.sistema-controlado-por-piel {
-  color: #2f3a40;
-  text-align: center;
-  font-family: "Montserrat-Medium", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.panel-de-temperatura {
-  border-radius: 10px;
+.frame-3 {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0px;
   align-items: flex-start;
   justify-content: flex-start;
-  width: 984px;
   position: absolute;
   left: 20px;
   top: 166px;
 }
-.temperaturas-medidas {
+.temperaturas-principales {
+  background: #f0f1f3;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.temp-medida-y-programada {
+  background: #f0f1f3;
   display: flex;
   flex-direction: row;
   gap: 0px;
@@ -234,44 +244,43 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   align-content: flex-start;
-  align-self: stretch;
   flex-shrink: 0;
-  height: 240px;
+  width: 652px;
   position: relative;
 }
-.temperatura-medida-piel {
+.temperatura-piel {
   background: #8cced0;
   border-radius: 10px 0px 0px 0px;
   display: flex;
   flex-direction: row;
-  gap: 26px;
+  gap: 20px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 492px;
+  width: 326px;
   height: 120px;
   position: relative;
 }
 .icon-m-piel2 {
   flex-shrink: 0;
-  width: 68px;
-  height: 64px;
+  width: 63px;
+  height: 60px;
   position: relative;
   overflow: visible;
-  aspect-ratio: 68/64;
+  aspect-ratio: 63/60;
 }
-.despliegue-t-piel {
+.despliegue {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
   width: 156px;
   position: relative;
 }
-.temperatura-piel {
-  color: #2f3a40;
+.temperatura-piel2 {
+  color: #2e3a45;
   text-align: left;
   font-family: var(--texto-botones-font-family, "Montserrat-Bold", sans-serif);
   font-size: var(--texto-botones-font-size, 16px);
@@ -294,8 +303,8 @@
   flex-shrink: 0;
   position: relative;
 }
-._36-4 {
-  color: #2f3a40;
+._36-5 {
+  color: #2e3a45;
   text-align: left;
   font-family: "Inter-Bold", sans-serif;
   font-size: 56px;
@@ -309,7 +318,7 @@
   justify-content: flex-start;
 }
 .c {
-  color: #2f3a40;
+  color: #2e3a45;
   text-align: left;
   font-family: "Montserrat-SemiBold", sans-serif;
   font-size: 20px;
@@ -321,24 +330,25 @@
 }
 .temperatura-programada {
   background: #8cced0;
-  border-radius: 0px 10px 0px 0px;
   display: flex;
   flex-direction: row;
-  gap: 26px;
+  gap: 18px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 492px;
+  width: 326px;
   height: 120px;
   position: relative;
 }
 .icon-temperatura {
+  padding: 7px 0px 0px 0px;
   display: flex;
   flex-direction: row;
   gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: flex-end;
+  justify-content: center;
   flex-shrink: 0;
+  height: 58px;
   position: relative;
 }
 .icon-temperatura2 {
@@ -349,17 +359,17 @@
   overflow: visible;
   aspect-ratio: 21/43;
 }
-.despliegue-t-programada {
+.despliegue2 {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 161px;
+  width: 162px;
   position: relative;
 }
-.temp-programada {
+.temperatura-prog {
   color: #236e72;
   text-align: left;
   font-family: var(--texto-botones-font-family, "Montserrat-Bold", sans-serif);
@@ -367,13 +377,13 @@
   line-height: var(--texto-botones-line-height, 16px);
   font-weight: var(--texto-botones-font-weight, 700);
   position: relative;
-  width: 161px;
+  width: 172px;
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-._36-5 {
+._36-52 {
   color: #236e72;
   text-align: left;
   font-family: "Inter-Bold", sans-serif;
@@ -398,85 +408,28 @@
   width: 28px;
   height: 44px;
 }
-.temperatura-auxiliar {
-  background: #a6dcef;
-  display: flex;
-  flex-direction: row;
-  gap: 26px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 492px;
-  height: 120px;
-  position: relative;
-}
-.icon-m-piel3 {
-  flex-shrink: 0;
-  width: 45px;
-  height: 43px;
-  position: relative;
-  overflow: visible;
-  aspect-ratio: 45/43;
-}
-.despliegue-t-auxiliar {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 176px;
-  position: relative;
-}
-.temperatura-auxiliar2 {
-  color: #597781;
-  text-align: left;
-  font-family: var(--texto-botones-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--texto-botones-font-size, 16px);
-  line-height: var(--texto-botones-line-height, 16px);
-  font-weight: var(--texto-botones-font-weight, 700);
-  position: relative;
-  align-self: stretch;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-._35-2 {
-  color: #597781;
-  text-align: left;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 56px;
-  line-height: 20px;
-  font-weight: 700;
-  position: relative;
-  width: 133px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.c3 {
-  color: #597781;
-  text-align: left;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: 600;
-  position: relative;
-  width: 28px;
-  height: 44px;
-}
-.temperatura-aire {
+.temperatura-m-aire {
   background: #cfedee;
+  border-radius: 0px 10px 0px 0px;
   display: flex;
   flex-direction: row;
-  gap: 26px;
+  gap: 18px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 492px;
+  width: 328px;
   height: 120px;
+  position: relative;
+}
+.icon-aire {
+  padding: 4px 0px 0px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  height: 60px;
   position: relative;
 }
 .icon-m-aire {
@@ -507,17 +460,17 @@
   top: 42.04%;
   overflow: visible;
 }
-.despliegue-t-aire {
+.despliegue3 {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 161px;
+  width: 146px;
   position: relative;
 }
-.temperatura-aire2 {
+.temperatura-aire {
   color: #4fafb3;
   text-align: left;
   font-family: var(--texto-botones-font-family, "Montserrat-Bold", sans-serif);
@@ -525,14 +478,93 @@
   line-height: var(--texto-botones-line-height, 16px);
   font-weight: var(--texto-botones-font-weight, 700);
   position: relative;
-  width: 161px;
+  align-self: stretch;
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-._36-52 {
+._36-1 {
   color: #4fafb3;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 56px;
+  line-height: 20px;
+  font-weight: 700;
+  position: relative;
+  width: 118px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.c3 {
+  color: #4fafb3;
+  text-align: left;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  width: 28px;
+  height: 44px;
+}
+.line-15 {
+  flex-shrink: 0;
+  width: 56px;
+  height: 0px;
+  position: absolute;
+  left: calc(50% - 166px);
+  top: 32px;
+  transform: translate(-1px, -1px);
+  overflow: visible;
+}
+.temperaturas-secundarias {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 984px;
+  position: relative;
+}
+.temperatura-auxiliar {
+  background: #a6dcef;
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 326px;
+  height: 120px;
+  position: relative;
+}
+.icon-m-piel3 {
+  flex-shrink: 0;
+  width: 45px;
+  height: 43px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 45/43;
+}
+.temperatura-auxiliar2 {
+  color: #597781;
+  text-align: left;
+  font-family: var(--texto-botones-font-family, "Montserrat-Bold", sans-serif);
+  font-size: var(--texto-botones-font-size, 16px);
+  line-height: var(--texto-botones-line-height, 16px);
+  font-weight: var(--texto-botones-font-weight, 700);
+  position: relative;
+  width: 187px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+._35-2 {
+  color: #597781;
   text-align: left;
   font-family: "Inter-Bold", sans-serif;
   font-size: 56px;
@@ -546,7 +578,7 @@
   justify-content: flex-start;
 }
 .c4 {
-  color: #4fafb3;
+  color: #597781;
   text-align: left;
   font-family: "Montserrat-SemiBold", sans-serif;
   font-size: 20px;
@@ -556,15 +588,146 @@
   width: 28px;
   height: 44px;
 }
+.temperatura-colchon-termico {
+  background: #8ca3d1;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  row-gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+  flex-shrink: 0;
+  width: 326px;
+  height: 120px;
+  position: relative;
+}
+.colch-n-termico {
+  color: #424d63;
+  text-align: center;
+  font-family: var(--texto-botones-font-family, "Montserrat-Bold", sans-serif);
+  font-size: var(--texto-botones-font-size, 16px);
+  line-height: var(--texto-botones-line-height, 16px);
+  font-weight: var(--texto-botones-font-weight, 700);
+  position: relative;
+  width: 260px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.temp-colchon {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+._36-9 {
+  color: #424d63;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 40px;
+  line-height: 20px;
+  font-weight: 700;
+  position: relative;
+  width: 108px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c5 {
+  color: #424d63;
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  width: 20px;
+  height: 39px;
+}
+.line-5 {
+  flex-shrink: 0;
+  width: 30px;
+  height: 0px;
+  position: relative;
+  overflow: visible;
+}
+.t-programada-colchon {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 91px;
+  position: relative;
+}
+.t-progra-col {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._36-0 {
+  color: #424d63;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 28px;
+  line-height: 20px;
+  font-weight: 700;
+  position: relative;
+  width: 68px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c6 {
+  color: #424d63;
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  width: 20px;
+  height: 33px;
+}
+.t-programada {
+  color: #424d63;
+  text-align: center;
+  font-family: "Montserrat-Bold", sans-serif;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  position: relative;
+  align-self: stretch;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .modulos {
   display: flex;
   flex-direction: row;
   gap: 0px;
   align-items: center;
   justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
+  height: 84px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 416px;
 }
 .modulo-oxigeno {
   background: #f5f7f7;
@@ -576,68 +739,67 @@
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 328px;
+  width: 196px;
   height: 84px;
   position: relative;
 }
 .oxigeno {
   border-radius: 4px;
-  padding: 2px 7px 2px 7px;
   display: flex;
   flex-direction: row;
   gap: 10px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 284px;
   height: 18px;
   position: relative;
 }
 .ox-geno {
-  color: #6b7a88;
+  color: #72818e;
   text-align: center;
   font-family: var(
-    --textos-modulos-bold-font-family,
-    "Montserrat-Bold",
+    --textos-regulares-font-family,
+    "Montserrat-Medium",
     sans-serif
   );
-  font-size: var(--textos-modulos-bold-font-size, 14px);
-  font-weight: var(--textos-modulos-bold-font-weight, 700);
+  font-size: var(--textos-regulares-font-size, 14px);
+  font-weight: var(--textos-regulares-font-weight, 500);
   position: relative;
+  width: 160px;
+  height: 15px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
-.oxigeno2 {
+.valores-oxigeno {
   display: flex;
   flex-direction: row;
-  gap: 28px;
+  gap: 7px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 234px;
-  height: 38px;
+  width: 166px;
   position: relative;
 }
 .medida-oxigeno {
   display: flex;
   flex-direction: row;
-  gap: 0px;
+  gap: 1px;
   align-items: flex-end;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 88px;
+  width: 73px;
   position: relative;
 }
-._80 {
-  color: #2f3a40;
+._22 {
+  color: #3f4a4b;
   text-align: center;
   font-family: "Inter-SemiBold", sans-serif;
   font-size: 36px;
   line-height: 20px;
   font-weight: 600;
   position: relative;
-  width: 72px;
+  width: 57px;
   height: 31px;
   display: flex;
   align-items: center;
@@ -654,27 +816,38 @@
   width: 14px;
   height: 20px;
 }
-.line-24 {
-  margin-top: -2px;
-  border-style: solid;
-  border-color: #6b7a88;
-  border-width: 2px 0 0 0;
+.line-8 {
   flex-shrink: 0;
-  width: 24px;
-  height: 0px;
+  width: 0px;
+  height: 24px;
   position: relative;
-  transform-origin: 0 0;
-  transform: rotate(90deg) scale(1, 1);
+  overflow: visible;
 }
-.temp-progra {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-  justify-content: flex-start;
+.group-2 {
   flex-shrink: 0;
   width: 76px;
-  position: relative;
+  height: 32px;
+  position: static;
+}
+.programado {
+  color: #6b7a88;
+  text-align: center;
+  font-family: var(
+    --textos-peque-modulos-font-family,
+    "Montserrat-Medium",
+    sans-serif
+  );
+  font-size: var(--textos-peque-modulos-font-size, 10px);
+  line-height: var(--textos-peque-modulos-line-height, 20px);
+  font-weight: var(--textos-peque-modulos-font-weight, 500);
+  position: absolute;
+  left: 88.5px;
+  top: 23px;
+  width: 76px;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .program-oxigeno {
   display: flex;
@@ -682,19 +855,20 @@
   gap: 2px;
   align-items: center;
   justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
+  width: 74px;
+  position: absolute;
+  left: 89.5px;
+  top: 0px;
 }
-._100 {
-  color: #2f3a40;
+._90 {
+  color: #3f4a4b;
   text-align: center;
   font-family: "Inter-Bold", sans-serif;
   font-size: 24px;
   line-height: 20px;
   font-weight: 700;
   position: relative;
-  width: 48px;
+  width: 40px;
   height: 19px;
   display: flex;
   align-items: center;
@@ -711,24 +885,6 @@
   width: 9px;
   height: 14px;
 }
-.programado {
-  color: #6b7a88;
-  text-align: center;
-  font-family: var(
-    --textos-peque-modulos-font-family,
-    "Montserrat-Medium",
-    sans-serif
-  );
-  font-size: var(--textos-peque-modulos-font-size, 10px);
-  line-height: var(--textos-peque-modulos-line-height, 20px);
-  font-weight: var(--textos-peque-modulos-font-weight, 500);
-  position: relative;
-  align-self: stretch;
-  height: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .modulo-humedad {
   background: #e6ecee;
   padding: 10px 0px 0px 0px;
@@ -738,48 +894,78 @@
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 328px;
+  width: 196px;
   height: 84px;
   position: relative;
 }
 .humedad {
   border-radius: 4px;
-  padding: 2px 7px 2px 7px;
   display: flex;
   flex-direction: row;
   gap: 10px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 284px;
   height: 18px;
   position: relative;
 }
 .humedad2 {
-  color: #6b7a88;
+  color: #72818e;
   text-align: center;
   font-family: var(
-    --textos-modulos-bold-font-family,
-    "Montserrat-Bold",
+    --textos-regulares-font-family,
+    "Montserrat-Medium",
     sans-serif
   );
-  font-size: var(--textos-modulos-bold-font-size, 14px);
-  font-weight: var(--textos-modulos-bold-font-weight, 700);
+  font-size: var(--textos-regulares-font-size, 14px);
+  font-weight: var(--textos-regulares-font-weight, 500);
   position: relative;
+  width: 160px;
+  height: 15px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
-.m-humedad {
+.valores-humedad {
   display: flex;
   flex-direction: row;
-  gap: 28px;
+  gap: 7px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 234px;
-  height: 38px;
+  width: 166px;
   position: relative;
+}
+.medida-humedad {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 73px;
+  position: relative;
+}
+._70 {
+  color: #3f4a4b;
+  text-align: center;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 36px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  width: 57px;
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.line-82 {
+  flex-shrink: 0;
+  width: 0px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
 }
 .programada {
   color: #6b7a88;
@@ -792,66 +978,82 @@
   font-size: var(--textos-peque-modulos-font-size, 10px);
   line-height: var(--textos-peque-modulos-line-height, 20px);
   font-weight: var(--textos-peque-modulos-font-weight, 500);
-  position: relative;
-  align-self: stretch;
+  position: absolute;
+  left: 88.5px;
+  top: 23px;
+  width: 76px;
   height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._80 {
+  color: #3f4a4b;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 24px;
+  line-height: 20px;
+  font-weight: 700;
+  position: relative;
+  width: 40px;
+  height: 19px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .modulo-fototerapia {
   background: #f5f7f7;
-  border-radius: 0px 0px 10px 0px;
+  padding: 10px 0px 0px 0px;
   display: flex;
   flex-direction: row;
-  gap: 28px;
-  row-gap: 7px;
-  align-items: center;
+  row-gap: 6px;
+  align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
-  align-content: center;
+  align-content: flex-start;
   flex-shrink: 0;
-  width: 328px;
+  width: 200px;
   height: 84px;
   position: relative;
 }
 .fototerapia {
   border-radius: 4px;
-  padding: 2px 7px 2px 7px;
   display: flex;
   flex-direction: row;
   gap: 10px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 284px;
+  width: 160px;
   height: 18px;
   position: relative;
 }
 .fototerapia2 {
-  color: #6b7a88;
+  color: #72818e;
   text-align: center;
   font-family: var(
-    --textos-modulos-bold-font-family,
-    "Montserrat-Bold",
+    --textos-regulares-font-family,
+    "Montserrat-Medium",
     sans-serif
   );
-  font-size: var(--textos-modulos-bold-font-size, 14px);
-  font-weight: var(--textos-modulos-bold-font-weight, 700);
+  font-size: var(--textos-regulares-font-size, 14px);
+  font-weight: var(--textos-regulares-font-weight, 500);
   position: relative;
+  width: 160px;
+  height: 15px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
-.foterapia-medida {
-  padding: 10px;
+.medida-fototerapia {
+  margin: 0 0 0 -59px;
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 1px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 107px;
+  width: 120px;
   position: relative;
 }
 ._00-00 {
@@ -862,33 +1064,249 @@
   line-height: 20px;
   font-weight: 600;
   position: relative;
+  width: 116px;
+  height: 31px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.fototerapia-progra {
+.modulo-sp-o-2 {
+  background: #e6ecee;
+  padding: 10px 0px 0px 0px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
-  width: 91px;
+  width: 196px;
+  height: 84px;
   position: relative;
 }
-._00-002 {
-  color: #2f3a40;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 24px;
-  line-height: 20px;
-  font-weight: 700;
+.sat-oxigeno {
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 160px;
+  height: 18px;
   position: relative;
-  width: 81px;
-  height: 19px;
+}
+.sp-o {
+  color: #72818e;
+  text-align: center;
+  font-family: var(
+    --textos-regulares-font-family,
+    "Montserrat-Medium",
+    sans-serif
+  );
+  font-size: var(--textos-regulares-font-size, 14px);
+  font-weight: var(--textos-regulares-font-weight, 500);
+  position: relative;
+  width: 160px;
+  height: 15px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.medida-sat-oxi {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 73px;
+  position: relative;
+}
+.rango-de-alarmas {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 160px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 60px;
+}
+._99 {
+  color: #6b7a88;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  position: relative;
+  width: 28px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+._902 {
+  color: #6b7a88;
+  text-align: right;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  position: relative;
+  width: 28px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.modulo-sp-o-22 {
+  background: #f5f7f7;
+  border-radius: 0px 0px 10px 0px;
+  padding: 10px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 196px;
+  height: 84px;
+  position: relative;
+}
+.oxigeno2 {
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 160px;
+  height: 18px;
+  position: relative;
+}
+.frecuencia-card-aca {
+  color: #72818e;
+  text-align: center;
+  font-family: var(
+    --textos-regulares-font-family,
+    "Montserrat-Medium",
+    sans-serif
+  );
+  font-size: var(--textos-regulares-font-size, 14px);
+  font-weight: var(--textos-regulares-font-weight, 500);
+  position: relative;
+  width: 160px;
+  height: 15px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.medida-humedad2 {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 73px;
+  position: relative;
+}
+._129 {
+  color: #3f4a4b;
+  text-align: center;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 36px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  width: 70px;
+  height: 31px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.rango-de-alarmas-oxi {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 160px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 60px;
+}
+._200 {
+  color: #6b7a88;
+  text-align: left;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  position: relative;
+  width: 39px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.bpm {
+  color: #6b7a88;
+  text-align: right;
+  font-family: "Montserrat-Medium", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  position: absolute;
+  left: 139px;
+  top: 41px;
+  width: 39px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.nivel {
+  flex-shrink: 0;
+  width: 39px;
+  height: 6px;
+  position: static;
+}
+.rectangle-118 {
+  background: #6b7a88;
+  border-style: solid;
+  border-color: #6b7a88;
+  border-width: 1px;
+  width: 12.1px;
+  height: 6px;
+  position: absolute;
+  left: 18px;
+  top: 45px;
+}
+.rectangle-119 {
+  border-style: solid;
+  border-color: #6b7a88;
+  border-width: 1px;
+  width: 12.1px;
+  height: 6px;
+  position: absolute;
+  left: 31.45px;
+  top: 45px;
+}
+.rectangle-120 {
+  border-style: solid;
+  border-color: #6b7a88;
+  border-width: 1px;
+  width: 12.1px;
+  height: 6px;
+  position: absolute;
+  left: 44.9px;
+  top: 45px;
 }
 .btns-principal {
   background: rgba(255, 255, 255, 0.45);
@@ -1111,17 +1529,4 @@
   position: relative;
   overflow: visible;
   aspect-ratio: 23/26.88;
-}
-.line-25 {
-  margin-top: -4px;
-  border-style: solid;
-  border-color: #ffffff;
-  border-width: 4px 0 0 0;
-  width: 65px;
-  height: 0px;
-  position: absolute;
-  left: calc(50% - 2px);
-  top: 193px;
-  transform-origin: 0 0;
-  transform: rotate(90deg) scale(1, 1);
 }
