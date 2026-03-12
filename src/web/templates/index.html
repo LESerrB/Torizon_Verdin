@@ -1,279 +1,205 @@
 <!DOCTYPE html>
-
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link rel="stylesheet" href="../static/css/vars.css">
-        <link rel="stylesheet" href="../static/css/style.css">
-
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/luxon@2.5.0/build/global/luxon.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0/dist/chartjs-adapter-luxon.min.js"></script>
-        
-        <script type="module" src="../static/js/main.js"></script>
-
-        <title>DUAL</title>
-    </head>
-
-    <body>
-        <!----------------------------------------------------------------------->
-        <!---------------------------- BARRA SUPERIOR --------------------------->
-        <!----------------------------------------------------------------------->
-        <div class="header">
-            <button class="btn-mode" id="btn-mode" tabindex="1">Cuna/Incubadora</button>
-            <button class="btn-alarm" id="btn-alarm" tabindex="2">ALARMA</button>
-            <button class="btn-mode" id="btn-lock" tabindex="3">Lock/Unlock</button>
-        </div>
-
-        <!----------------------------------------------------------------------->
-        <!--------------------------- PANEL PRINCIPAL --------------------------->
-        <!----------------------------------------------------------------------->
-        <div class="pantalla-base">
-            <div class="info-mod" id="info-mod">
-                <div class="bkgnd-info">
-                    <!-------------------------- MODO BEBÉ -------------------------->
-                    <div class="side-info">
-                        <div class="info-title active" id="modo-bebe" tabindex="4">MODO BEBÉ</div>
-                            <div class="info-value active" id="temp">--.-<span class="units"> °C </span></div>
-
-                        <div class="ctrl-temp">
-                            <div class="ctrl-row">
-                                <div class="ctrl-label active" id="tempProg-lbl">
-                                    <div>Temp.</div>
-                                    <div>Prog.</div>
-                                </div>
-                                
-                                <div class="ctrl-val active" id="tempProg-val">
-                                    <div class="value" id="tempProg" tabindex="5">--.-</div>
-                                    <div class="units">°C</div>
-                                </div>
-
-                                <button class="btn-sensor active" id="tmpPrgSobregiro"><div class="btn-snsr-lbl active" id="tmpPrgSobregiro-lbl"> &gt; 37 </div></button>
-                            </div>
-
-                            <div class="ctrl-btns">
-                                <button class="btn-sensor active" id="tempProgMenos" tabindex="6"><div class="btn-snsr-lbl active" id="tempProgMenos-lbl">-</div></button>
-                                <button class="btn-sensor active" id="tempProgAceptar" tabindex="8"><div class="btn-snsr-lbl active" id="tempProgAceptar-lbl">Aceptar</div></button>
-                                <button class="btn-sensor active" id="tempProgMas" tabindex="7"><div class="btn-snsr-lbl active" id="tempProgMas-lbl">+</div></button>
-                            </div>
-                            
-                            <div class="ctrl-row">
-                                <div class="ctrl-label active" id="tempAux-lbl">
-                                    <div>Temp.</div>
-                                    <div>Aux.</div>
-                                </div>
-                                
-                                <div class="ctrl-val active" id="tempAux-val">
-                                    <div class="value" id="sondaAux">--.-</div>
-                                    <div class="units">°C</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!------------------------- MODO MANUAL ------------------------->
-                    <div class="side-info">
-                        <div class="info-title inactive" id="modo-manual" tabindex="9">MODO MANUAL</div>
-                            <div class="info-value inactive" id="potCalef-val" tabindex="10">--<span class="units"> % </span></div>
-
-                            <div class="ctrl-pot">
-                                <div class="pot-indicators">
-                                    <div class="bar" style="--level: 1"></div>
-                                    <div class="bar" style="--level: 2"></div>
-                                    <div class="bar" style="--level: 3"></div>
-                                    <div class="bar" style="--level: 4"></div>
-                                    <div class="bar" style="--level: 5"></div>
-                                    <div class="bar" style="--level: 6"></div>
-                                    <div class="bar" style="--level: 7"></div>
-                                    <div class="bar" style="--level: 8"></div>
-                                    <div class="bar" style="--level: 9"></div>
-                                    <div class="bar" style="--level: 10"></div>
-                                </div>
-
-                                <div class="ctrl-btns">
-                                    <button class="btn-sensor inactive" id="calefMenos" tabindex="11"><div class="btn-snsr-lbl inactive" id="calefMenos-lbl">-</div></button>
-                                    <button class="btn-sensor inactive" id="calefAceptar" tabindex="13"><div class="btn-snsr-lbl inactive" id="calefAceptar-lbl">Aceptar</div></button>
-                                    <button class="btn-sensor inactive" id="calefMas" tabindex="12"><div class="btn-snsr-lbl inactive" id="calefMas-lbl">+</div></button>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-            </div>
-
-            <!----------------------------------------------------------------------->
-            <!---------------------------- PANEL LATERAL ---------------------------->
-            <!----------------------------------------------------------------------->
-            <div class="bckgnd-btns" id="modules-container">
-                <div class="module inactive" id="mdcnt-bascula">
-                    <div class="mdl-title bg-scale" id="bascula" tabindex="14">Báscula</div>
-                    <div><button class="btn-cancel" id="btn-close-Scale" tabindex="18"><div class="btn-snsr-lbl active"> Salir </div></button></div>
-                    <div class="mod-value" id="peso"> -.-- <span class="mod-units"> Kg </span></div>
-
-                    <div class="mod-btns">
-                        <button class="btn-sensor active" id="btn-pesar" tabindex="15"><div class="btn-snsr-lbl active">Pesar</div></button>
-                        <button class="btn-sensor active" id="btn-tara" tabindex="16"><div class="btn-snsr-lbl active">Tara</div></button>
-                    </div>
-
-                    <div id="hc-scale" class="hidden-ctrls">
-                        <button class="btn-sensor active" id="btn-calib" tabindex="17"><div class="btn-snsr-lbl active">Calibración</div></button>
-                    </div>
-                </div>
-
-                <div class="module inactive" id="mdcnt-timer">
-                    <div class="mdl-title bg-timer" id="timer" tabindex="19">Cronómetro Apgar</div>
-                    <div><button class="btn-cancel" id="btn-close-Timer" tabindex="22"><div class="btn-snsr-lbl active"> Salir </div></button></div>
-                    <div class="mod-value" id="cronApgar">mm:ss</div>
-
-                    <div class="mod-btns">
-                        <button class="btn-sensor active" id="btn-startpause" tabindex="20"><div class="btn-snsr-lbl active">Iniciar</div></button>
-                        <button class="btn-sensor active" id="btn-clear" tabindex="21"><div class="btn-snsr-lbl active">Limpiar</div></button>
-                    </div>
-                </div>
-
-                <div class="module inactive" id="mdcnt-photo">
-                    <div class="mdl-title bg-phototherapy" id="photo" tabindex="23">Fototerapia</div>
-                    <div><button class="btn-cancel" id="btn-close-Photo" tabindex="26"><div class="btn-snsr-lbl active"> Salir </div></button></div>
-
-                    <div id="sc-photo">
-                        <div class="mod-value" id="timer-value-P"> HH:mm </div>
-                        <div class="mod-value" id="photo-value-P"> -- <span class="mod-units"> % </span></div>
-                    </div>
-
-                    <div id="hc-photo" class="hidden-ctrls">
-                        <div class="sliders-container">
-                            <div class="slider-group">
-                                <input type="range" min="0" max="100" value="0" class="slider vertical" id="photo-intensity" tabindex="24">
-                                <label class="slider-label" id="photo-value-S"> -- <span class="mod-units"> % </span></label>
-                            </div>
-
-                            <div class="slider-group">
-                                <input type="range" min="0" max="100" value="0" class="slider vertical" id="exam-intensity" tabindex="25">
-                                <label class="slider-label" id="exam-value"> -- <span class="mod-units"> % </span></label>
-                            </div>
-                        </div>
-
-                        <div class="slider-group">
-                            <label class="slider-label" id="timer-value-S"> --:-- </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="module inactive" id="mdcnt-humed">
-                    <div class="mdl-title bg-humidity" id="humed" tabindex="27">Húmedad</div>
-                    <div><button class="btn-cancel" id="btn-close-Humed" tabindex="28"><div class="btn-snsr-lbl active"> Salir </div></button></div>
-
-                    <div class="mod-value" id="valHR"> --.- <span class="mod-units"> % HR </span></div>
-                </div>
-
-                <div class="module inactive" id="mdcnt-satOx">
-                    <div class="mdl-title bg-oxygen" id="satOx" tabindex="29">Oxigeno</div>
-                    <div><button class="btn-cancel" id="btn-close-satOx" tabindex="30"><div class="btn-snsr-lbl active"> Salir </div></button></div>
-
-                    <div class="mod-value" id="valsatOx"> --.- <span class="mod-units"> % </span></div>
-                </div>
-
-                <div class="module inactive" id="mdcnt-altVar">
-                    <div class="mdl-title bg-height" id="altVar" tabindex="31">Altura Variable</div>
-                    <div><button class="btn-cancel" id="btn-close-altVar" tabindex="38"><div class="btn-snsr-lbl active"> Salir </div></button></div>
-
-                    <div class="ctrl-hgt">
-                        <div class="hgt-left">
-                            <button class="btn-hgt" id="btn-upLmp" tabindex="36"><div class="btn-hgt-lbl">&lt;&lt;</div></button>
-                            <button class="btn-hgt" id="btn-dwnLmp" tabindex="37"><div class="btn-hgt-lbl">&gt;&gt;</div></button>
-                        </div>
-
-                        <div class="hgt-right">
-                            <div>
-                                <button class="btn-hgt" id="btn-up" tabindex="32"><div class="btn-hgt-lbl">&lt;&lt;</div></button>
-
-                                <div class="ctrl-Bcnt">
-                                    <button class="btn-hgt" id="btn-incLft" tabindex="34"><div class="btn-hgt-lbl">&lt;&lt;</div></button>
-                                    <button class="btn-hgt" id="btn-incRgt" tabindex="35"><div class="btn-hgt-lbl">&gt;&gt;</div></button>
-                                </div>
-
-                                <button class="btn-hgt" id="btn-dwn" tabindex="37"><div class="btn-hgt-lbl">&gt;&gt;</div></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!----------------------------------------------------------------------->
-        <!---------------------------- BARRA INFERIOR --------------------------->
-        <!----------------------------------------------------------------------->
-        <div class="footer" id="footer">
-            <div class="paciente-lbl">
-                <span class="paciente-label">Paciente:</span>
-                <span class="paciente-fecha" id="date-clk"> --/--/-- --:--:-- </span>
-            </div>
-
-            <div class="paciente-form-row">
-                <div class="paciente-cnt">
-                    <div class="paciente-nmb" id="paciente" tabindex="40">
-                        <span id="pacienteNom">NOMBRE</span>
-                        <span id="apP_Paciente">AP PATERNO</span>
-                        <span id="apM_Paciente">AP MATERNO</span>
-                    </div>
-
-                    <div id="paciente-input" class="input-cont">
-                        <input id="nom-input" class="paciente-input" type="text">
-                        <input id="apP-input" class="paciente-input" type="text">
-                        <input id="apM-input" class="paciente-input" type="text">
-                        <button class="btn-sensor active" id="btn-OK"><div class="btn-snsr-lbl"> OK </div></button>
-                    </div>
-                </div>
-
-                <div class="graf-btn">
-                <button class="btn-graf" id="btn-tendencias" tabindex="39">GRAF</button>
-                </div>
-            </div>
-
-            <!-- Sección expandible -->
-            <div class="graf-tendencias" id="graf-tendencias">
-                <!-- Aquí va la gráfica -->
-                <div class="background-graf">
-                    <div class="chart-controls">
-                        <div class="control-group">
-                            <label class="ctrl-txt" for="duration-select">Duración del registro:</label>
-                            <select id="duration-select">
-                                <option value="24">24 horas</option>
-                                <option value="48">48 horas</option>
-                                <option value="72">72 horas</option>
-                            </select>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="ctrl-txt" for="interval-select">Intervalo de guardado:</label>
-                            <select id="interval-select">
-                                <option value="1">1 minuto</option>
-                                <option value="5">5 minutos</option>
-                                <option value="10">10 minutos</option>
-                                <option value="30">30 minutos</option>
-                                <option value="60">1 hora</option>
-                            </select>
-                        </div>
-
-                        <button id="start-recording-btn" class="chart-button">Iniciar Registro</button>
-                        <button id="stop-recording-btn" class="chart-button" disabled>Detener Registro</button>
-                        <button id="clear-chart-btn" class="chart-button">Limpiar Gráfico</button>
-                    </div>
-
-                    <div class="chart-container">
-                        <canvas id="temperatureChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
-
-        <!----------------------------------------------------------------------->
-        <!-------------------------------- ALARMA ------------------------------->
-        <!----------------------------------------------------------------------->
-    <div id="alarma" class="alert-overlay oculto" role="dialog" aria-hidden="true">
-        <div class="alert-box" id="alarma-box"> Mensaje </div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/css/vars.css">
+  <link rel="stylesheet" href="../static/css/style.css">
+  
+  
+  <style>
+   a,
+   button,
+   input,
+   select,
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   * {
+       box-sizing: border-box;
+       margin: 0;
+       padding: 0;
+       border: none;
+       text-decoration: none;
+       background: none;
+   
+       -webkit-font-smoothing: antialiased;
+   }
+   
+   menu, ol, ul {
+       list-style-type: none;
+       margin: 0;
+       padding: 0;
+   }
+   </style>
+  <title>Document</title>
+</head>
+<body>
+  <div class="pantalla-versi-n-12-03">
+    <div class="btn-alarma">
+      <img class="icon-alarma" src="../static/icon/icon-alarma0.svg" />
     </div>
+    <div class="btns-modo-control">
+      <img class="btn-incubadora" src="../static/icon/btn-incubadora0.svg" />
+      <img class="btn-cuna" src="../static/icon/btn-cuna0.svg" />
+    </div>
+    <div class="encabezado">
+      <div class="info-paciente">
+        <img class="icon-corazon" src="../static/icon/icon-corazon0.svg" />
+        <div class="nombre-del-infante">Nombre del Infante</div>
+      </div>
+      <div class="ltimo-pesaje-780-g">Último pesaje: 780 g.</div>
+    </div>
+    <div class="fecha-hora">
+      <img class="vector" src="../static/icon/vector0.svg" />
+      <div class="_2-de-feb">2 de Feb</div>
+      <img class="icon-hora" src="../static/icon/icon-hora0.svg" />
+      <div class="_5-41-h">5:41 h.</div>
+    </div>
+    <div class="modo-activo">
+      <img class="icon-m-piel" src="../static/icon/icon-m-piel0.svg" />
+      <div class="sistema-controlado-por-piel">Sistema Controlado por Piel</div>
+    </div>
+    <div class="panel-de-temperatura">
+      <div class="temperaturas-medidas">
+        <div class="temperatura-medida-piel">
+          <img class="icon-m-piel2" src="../static/icon/icon-m-piel1.svg" />
+          <div class="despliegue-t-piel">
+            <div class="temperatura-piel">Temperatura Piel</div>
+            <div class="frame-2">
+              <div class="_36-4">36.4</div>
+              <div class="c">°C</div>
+            </div>
+          </div>
+        </div>
+        <div class="temperatura-programada">
+          <div class="icon-temperatura">
+            <img class="icon-temperatura2" src="../static/icon/icon-temperatura1.svg" />
+          </div>
+          <div class="despliegue-t-programada">
+            <div class="temp-programada">Temp. Programada</div>
+            <div class="frame-2">
+              <div class="_36-5">36.5</div>
+              <div class="c2">°C</div>
+            </div>
+          </div>
+        </div>
+        <div class="temperatura-auxiliar">
+          <img class="icon-m-piel3" src="../static/icon/icon-m-piel2.svg" />
+          <div class="despliegue-t-auxiliar">
+            <div class="temperatura-auxiliar2">Temperatura Auxiliar</div>
+            <div class="frame-2">
+              <div class="_35-2">35.2</div>
+              <div class="c3">°C</div>
+            </div>
+          </div>
+        </div>
+        <div class="temperatura-aire">
+          <div class="icon-m-aire">
+            <img class="group" src="../static/icon/group0.svg" />
+            <img class="vector2" src="../static/icon/vector1.svg" />
+          </div>
+          <div class="despliegue-t-aire">
+            <div class="temperatura-aire2">Temperatura Aire</div>
+            <div class="frame-2">
+              <div class="_36-52">36.5</div>
+              <div class="c4">°C</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modulos">
+        <div class="modulo-oxigeno">
+          <div class="oxigeno">
+            <div class="ox-geno">Oxígeno</div>
+          </div>
+          <div class="oxigeno2">
+            <div class="medida-oxigeno">
+              <div class="_80">80</div>
+              <div class="div">%</div>
+            </div>
+            <div class="line-24"></div>
+            <div class="temp-progra">
+              <div class="program-oxigeno">
+                <div class="_100">100</div>
+                <div class="div2">%</div>
+              </div>
+              <div class="programado">Programado</div>
+            </div>
+          </div>
+        </div>
+        <div class="modulo-humedad">
+          <div class="humedad">
+            <div class="humedad2">Humedad</div>
+          </div>
+          <div class="m-humedad">
+            <div class="medida-oxigeno">
+              <div class="_80">80</div>
+              <div class="div">%</div>
+            </div>
+            <div class="line-24"></div>
+            <div class="temp-progra">
+              <div class="program-oxigeno">
+                <div class="_100">100</div>
+                <div class="div2">%</div>
+              </div>
+              <div class="programada">Programada</div>
+            </div>
+          </div>
+        </div>
+        <div class="modulo-fototerapia">
+          <div class="fototerapia">
+            <div class="fototerapia2">Fototerapia</div>
+          </div>
+          <div class="foterapia-medida">
+            <div class="_00-00">00:00</div>
+          </div>
+          <div class="line-24"></div>
+          <div class="fototerapia-progra">
+            <div class="program-oxigeno">
+              <div class="_00-002">00:00</div>
+            </div>
+            <div class="programada">Programada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btns-principal">
+      <div class="icon-familiar">
+        <div class="icon-familiar2">
+          <img class="group2" src="../static/icon/group1.svg" />
+          <img class="vector3" src="../static/icon/vector2.svg" />
+        </div>
+      </div>
+      <div class="btns-principales">
+        <div class="icon-ajuste-temp">
+          <img class="icon-ajuste-temp2" src="../static/icon/icon-ajuste-temp1.svg" />
+        </div>
+        <div class="icon-control">
+          <img class="icon-control2" src="../static/icon/icon-control1.svg" />
+        </div>
+        <div class="icon-tendencias">
+          <img class="icon-tendencias2" src="../static/icon/icon-tendencias1.svg" />
+        </div>
+      </div>
+      <div class="btns-bascula-apgar">
+        <div class="btn-bascula">
+          <div class="icon-bascula">
+            <img class="vector4" src="../static/icon/vector3.svg" />
+            <img class="vector5" src="../static/icon/vector4.svg" />
+            <img class="group3" src="../static/icon/group2.svg" />
+          </div>
+        </div>
+        <div class="icon-apgar">
+          <img class="icon-apgar2" src="../static/icon/icon-apgar1.svg" />
+        </div>
+      </div>
+    </div>
+    <div class="line-25"></div>
+  </div>
+  
+</body>
 </html>
