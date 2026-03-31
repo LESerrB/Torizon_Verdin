@@ -19,13 +19,13 @@ from api.pins_ADC import read_adc
 bank = "/dev/gpiochip0"
 bank2 = "/dev/gpiochip2"
 
-enc_CLK = 14
-enc_DT = 16
-enc_SW = 7
+enc_CLK = 7
+enc_DT = 6
+enc_SW = 1
 
 # Líneas individuales
-enc_clk = gpiod.Chip(bank2).get_line(enc_CLK)
-enc_dt = gpiod.Chip(bank2).get_line(enc_DT)
+enc_clk = gpiod.Chip(bank).get_line(enc_CLK)
+enc_dt = gpiod.Chip(bank).get_line(enc_DT)
 enc_sw = gpiod.Chip(bank).get_line(enc_SW)
 
 # Configuración de Acceso

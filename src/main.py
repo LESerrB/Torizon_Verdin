@@ -22,8 +22,8 @@ from typing import Deque, Dict, Any
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
 from dev.Sensores_TPH.bme280 import bme280
 from dev.Bascula.bascula import tare, calib, pesaje
-from dev.GPIO.botones import pwrBtn_Evnt
-from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
+# from dev.GPIO.botones import pwrBtn_Evnt
+# from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
 from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
 from dev.Sensores_TPH.sht21 import sht21
 
