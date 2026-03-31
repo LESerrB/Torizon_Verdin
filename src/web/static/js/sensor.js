@@ -186,7 +186,7 @@ export async function ctrls_Bascula(accion){
         pesoBebe = await response.json();
 
         if (response.status == 200) {
-            valPesoBebe.nodeValue = `${pesoBebe.peso.toFixed(2).toString().padStart(2, '0')}`;
+            valPesoBebe.nodeValue = `${pesoBebe.peso.toFixed(3).toString().padStart(3, '0')}`;
         } else {
             valPesoBebe.nodeValue = "-.--";
         }
@@ -201,7 +201,7 @@ export async function ctrls_Bascula(accion){
         pesoBebe = await response.json();
 
         if (response.status == 200) {
-            valPesoBebe.nodeValue = `${pesoBebe.peso.toFixed(2).toString().padStart(2, '0')}`;
+            valPesoBebe.nodeValue = `${pesoBebe.peso.toFixed(3).toString().padStart(2, '0')}`;
         } else {
             valPesoBebe.nodeValue = "-.--";
         }

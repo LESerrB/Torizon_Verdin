@@ -98,7 +98,7 @@ def tare():
 
     OFFSET = pesoAcc
 
-def calib(peso_ptrn = 5.0):
+def calib(peso_ptrn = 2.0):
     """
     Calibra la constante `SCALE` usando una masa patrón conocida.
 

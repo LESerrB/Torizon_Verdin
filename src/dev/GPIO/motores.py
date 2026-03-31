@@ -93,8 +93,8 @@ tiempo_deApertura = 8 # seg
 # 11  |   Motor cambio de modo de Operación
 # Motores apagados
 
-motorAV_P.set_value(1)
-motorAV_N.set_value(1)
+motorAV_P.set_value(0)
+motorAV_N.set_value(0)
 
 motorBAC_N.set_value(1)
 motorBAC_P.set_value(1)
@@ -184,16 +184,16 @@ def ctrl_Motores(accion):
     """
     match accion:
         case "up-prsd":
-            motorAV_P.set_value(0)
-
-        case "up-rlsd":
             motorAV_P.set_value(1)
 
+        case "up-rlsd":
+            motorAV_P.set_value(0)
+
         case "dwn-prsd":
-            motorAV_N.set_value(0)
+            motorAV_N.set_value(1)
 
         case "dwn-rlsd":
-            motorAV_N.set_value(1)
+            motorAV_N.set_value(0)
 
         case "incLft-prsd":
             motorBAC_N.set_value(0)

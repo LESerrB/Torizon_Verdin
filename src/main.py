@@ -28,12 +28,12 @@ from dev.Sensores_TPH.sht21 import sht21
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
 from dev.Controles_Alertas.encoder import valupdt
-from dev.Sensores_TPH.sns_IncBac import accel_Pos, calib_PosZero
+# from dev.Sensores_TPH.sns_IncBac import accel_Pos, calib_PosZero
 # from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
 
-calib_PosZero()
-calib_PosZero(0x69)
+# calib_PosZero()
+# calib_PosZero(0x69)
 #--------------------------------------------------------------#
 
 ##############################################################################
@@ -259,17 +259,17 @@ def restart_container(threshold=90):
 #===============================================================#
 #                    Inicialización de Hilos                    #
 #===============================================================#
-thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
-thread_pwrBtn.start()
+# thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
+# thread_pwrBtn.start()
 
-thread_Calef = threading.Thread(target=ctrl_Calef, daemon=True)
-thread_Calef.start()
+# thread_Calef = threading.Thread(target=ctrl_Calef, daemon=True)
+# thread_Calef.start()
 
-thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
-thread_comCalef.start()
+# thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
+# thread_comCalef.start()
 
-monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
-monitor_thread.start()
+# monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
+# monitor_thread.start()
 
 #------------------------- En Pruebas -------------------------#
 # # # # # # # # # # # # # readTarjeta2S()
