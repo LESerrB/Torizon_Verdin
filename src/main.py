@@ -28,12 +28,12 @@ from dev.Sensores_TPH.sht21 import sht21
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
 from dev.Controles_Alertas.encoder import valupdt
-from dev.Sensores_TPH.sns_IncBac import accel_Pos, calib_PosZero
+# from dev.Sensores_TPH.sns_IncBac import accel_Pos, calib_PosZero
 # from dev.Sensores_TPH.sns_Ox import read_SnsOx
 # from i2c.at18_T2s import readTarjeta2S
 
-calib_PosZero()
-calib_PosZero(0x69)
+# calib_PosZero()
+# calib_PosZero(0x69)
 #--------------------------------------------------------------#
 
 ##############################################################################
@@ -70,6 +70,15 @@ alertaSumEner = ""
 @app.route("/")
 def index():
     return render_template("index.html")
+@app.route("/home")
+def home():
+    return render_template("home.html")
+@app.route("/AjTemp")
+def AjTemp():
+    return render_template("ajstTemp.html")
+@app.route("/Modulos")
+def Modulos():
+    return render_template("modulos.html")
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SONDAS DE TEMPERATURA
 # Seleccionar Temperatura Programada
 @app.route("/api/setTemp", methods=["POST"])

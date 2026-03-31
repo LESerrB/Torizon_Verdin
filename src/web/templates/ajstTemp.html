@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/css/temperatura/vars.css">
+  <link rel="stylesheet" href="../static/css/temperatura/style.css">
+  
+  
+  <style>
+   a,
+   button,
+   input,
+   select,
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   * {
+       box-sizing: border-box;
+       margin: 0;
+       padding: 0;
+       border: none;
+       text-decoration: none;
+       background: none;
+   
+       -webkit-font-smoothing: antialiased;
+   }
+   
+   menu, ol, ul {
+       list-style-type: none;
+       margin: 0;
+       padding: 0;
+   }
+   </style>
+  <title>Ajst Temperatura</title>
+</head>
+<body>
+  <div class="pantalla-ajuste-temperatura-modo-piel">
+    <div class="pant-ajuste-temp">
+      <div class="group-8">
+        <div class="btn-alarma">
+          <img class="icon-alarma" src="../static/icon/temperatura/icon-alarma0.svg" />
+        </div>
+        <div class="btns-modo-control">
+          <img class="btn-incubadora" src="../static/icon/temperatura/btn-incubadora0.svg" />
+          <img class="btn-cuna" src="../static/icon/temperatura/btn-cuna0.svg" />
+        </div>
+        <div class="encabezado">
+          <div class="info-paciente">
+            <img class="icon-corazon" src="../static/icon/temperatura/icon-corazon0.svg" />
+            <div class="nombre-del-beb">Nombre del bebé</div>
+          </div>
+          <div class="ltimo-peso-0-785-kg">Último peso: 0.785 kg</div>
+        </div>
+        <div class="fecha-hora">
+          <img class="vector" src="../static/icon/temperatura/vector0.svg" />
+          <div class="_2-de-feb">2 de Feb</div>
+          <img class="icon-hora" src="../static/icon/temperatura/icon-hora0.svg" />
+          <div class="_5-41-a-m">5:41 a.m.</div>
+        </div>
+        <div class="modo-activo">
+          <img class="icon-m-piel" src="../static/icon/temperatura/icon-m-piel0.svg" />
+          <div class="sistema-controlado-por-piel">
+            Sistema Controlado por Piel
+          </div>
+        </div>
+        <div class="inclinaci-n-bacinete">
+          <img class="icon-inclinaci-n" src="../static/icon/temperatura/icon-inclinaci-n0.svg" />
+          <div class="inclinaci-n">Inclinación</div>
+          <div class="_00">
+            <span>
+              <span class="_00-span">00</span>
+              <span class="_00-span2">°</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="monitoreo-parametros">
+        <div class="temp-piel">
+          <div class="temperatura-piel">Temperatura Piel</div>
+          <div class="frame-2">
+            <div class="_36-5">36.5</div>
+            <div class="c">°C</div>
+          </div>
+        </div>
+        <div class="temp-programada">
+          <div class="temperatura-prog">Temperatura Prog.</div>
+          <div class="frame-2">
+            <div class="_36-52">36.5</div>
+            <div class="c">°C</div>
+          </div>
+        </div>
+        <div class="temp-aire">
+          <div class="temperatura-aire">Temperatura Aire</div>
+          <div class="frame-2">
+            <div class="_36-1">36.1</div>
+            <div class="c">°C</div>
+          </div>
+        </div>
+        <div class="temp-auxiliar">
+          <div class="temperatura-auxiliar">Temperatura Auxiliar</div>
+          <div class="frame-2">
+            <div class="_35-2">35.2</div>
+            <div class="c">°C</div>
+          </div>
+        </div>
+        <div class="satu-oxigeno">
+          <div class="ox-geno">Oxígeno</div>
+          <div class="frame-2">
+            <div class="_60">60</div>
+            <div class="div">%</div>
+          </div>
+        </div>
+      </div>
+      <div class="group-7">
+        <div class="potencia-calefactura">
+          <div class="segmentos-calefactor">
+            <div class="rectangle-192"></div>
+            <div class="rectangle-191"></div>
+            <div class="rectangle-183"></div>
+            <div class="rectangle-184"></div>
+            <div class="rectangle-185"></div>
+            <div class="rectangle-186"></div>
+            <div class="rectangle-187"></div>
+            <div class="rectangle-188"></div>
+            <div class="rectangle-189"></div>
+            <div class="rectangle-190"></div>
+          </div>
+          <div class="potencia-calefactor">
+            <div class="_80">80</div>
+          </div>
+          <div class="div2">%</div>
+        </div>
+        <div class="menu-lateral">
+          <div class="btn-m-piel">
+            <img class="icon-m-piel2" src="../static/icon/temperatura/icon-m-piel1.svg" />
+            <div class="modo-piel">Modo Piel</div>
+          </div>
+          <div class="btn-m-aire">
+            <img class="icon-m-aire" src="../static/icon/temperatura/icon-m-aire0.svg" />
+            <div class="modo-aire">Modo Aire</div>
+          </div>
+          <div class="btn-m-canguro">
+            <img class="icon-canguro" src="../static/icon/temperatura/icon-canguro0.svg" />
+            <div class="modo-canguro">Modo Canguro</div>
+          </div>
+        </div>
+        <div class="frame-44">
+          <img class="gauge-temperatura" src="../static/icon/temperatura/gauge-temperatura0.svg" />
+          <img class="icon-mas-menos" src="../static/icon/temperatura/icon-mas-menos0.svg" />
+          <div class="ajuste-temp">
+            <div class="_36-53">36.5</div>
+          </div>
+          <div class="c2">°C</div>
+          <div class="indi-ajuste-temp">
+            <div class="texto-indi">
+              <div class="programar-temperatura-de-piel">
+                Programar Temperatura de Piel
+              </div>
+            </div>
+            <img class="icon-temp-piel" src="../static/icon/temperatura/icon-temp-piel0.svg" />
+          </div>
+        </div>
+      </div>
+      <div class="menu-principal">
+        <div id="btn-m-familiar" class="btn-m-familiar">
+          <div class="icon-familiar">
+            <img class="group" src="../static/icon/temperatura/group0.svg" />
+            <img class="vector2" src="../static/icon/temperatura/vector1.svg" />
+          </div>
+        </div>
+        <div class="btns-principales">
+          <div class="icon-ajuste-temp">
+            <img class="icon-ajuste-temp2" src="../static/icon/temperatura/icon-ajuste-temp1.svg" />
+          </div>
+          <div id="btn-modulos-y-ajustes" class="btn-modulos-y-ajustes">
+            <img class="icon-control" src="../static/icon/temperatura/icon-control0.svg" />
+          </div>
+          <div class="icon-tendencias">
+            <img class="icon-tendencias2" src="../static/icon/temperatura/icon-tendencias1.svg" />
+          </div>
+        </div>
+        <div class="btns-bascula-apgar">
+          <div class="btn-bascula">
+            <div class="icon-bascula">
+              <img class="vector3" src="../static/icon/temperatura/vector2.svg" />
+              <img class="vector4" src="../static/icon/temperatura/vector3.svg" />
+              <img class="group2" src="../static/icon/temperatura/group1.svg" />
+            </div>
+          </div>
+          <div class="icon-apgar">
+            <img class="icon-apgar2" src="../static/icon/temperatura/icon-apgar1.svg" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const btnAjusteTemp = document.getElementById("btn-ajuste-temp");
+    const btnModulosYAjustes = document.getElementById("btn-modulos-y-ajustes");
+    const btnHOME = document.getElementById("btn-m-familiar");
+
+    if (btnAjusteTemp) {
+      btnAjusteTemp.addEventListener("click", () => {
+        console.log("Se hizo click en btn-ajuste-temp");
+        window.location.replace("/AjTemp")
+      });
+    }
+
+    if (btnModulosYAjustes) {
+      btnModulosYAjustes.addEventListener("click", () => {
+        console.log("Se hizo click en btn-modulos-y-ajustes");
+        window.location.replace("/Modulos")
+      });
+    }
+
+    if (btnHOME) {
+      btnHOME.addEventListener("click", () => {
+        console.log("Se hizo click en btn-ajuste-temp");
+        window.location.replace("/home")
+      });
+    }
+  </script>
+</body>
+</html>

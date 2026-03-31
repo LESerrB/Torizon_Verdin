@@ -83,8 +83,8 @@ motorLMP_P.request(
     type=gpiod.LINE_REQ_DIR_OUT
 )
 
-strModoFunc = ""
-tiempo_deApertura = 8 # seg
+# strModoFunc = ""
+tiempo_deApertura = 15 # seg
 
 # Selector MUX Inicial
 # 00  |   Altura Variable
@@ -106,7 +106,7 @@ motorLMP_P.set_value(1)
 #           Funciones de Lectura y Control de Sensores          #
 #===============================================================#
 # Lectura del modo de operación
-def rd_ModoOp():
+def rd_ModoOp(strModoFunc):
     """
     Lee los sensores y actualiza/retorna el modo de funcionamiento.
 
@@ -120,12 +120,17 @@ def rd_ModoOp():
     Retorno:
     - str: "Cuna", "Incubadora" o "ERROR" según la lectura de sensores.
     """
-    global strModoFunc
+    # global strModoFunc
 
-    if read_adc(3) < 100:
-        strModoFunc = "Incubadora"
-    elif read_adc(3) > 1700:
-        strModoFunc = "Cuna"
+    # if read_adc(3) < 100:
+    #     strModoFunc = "Incubadora"
+    # elif read_adc(3) > 1700:
+    #     strModoFunc = "Cuna"
+    if strModoFunc == "Incubadora":
+        return "Cuna"
+    elif strModoFunc == "Cuna":
+        return "Incubadora"
+
 
 # Control de motor para Abrir/Cerrar el capelo
 def giroMotor(action):
@@ -296,6 +301,9 @@ class sm_chngModoOp:
     """
     # Variables de estado
     def __init__(self):
+        # self.strModoFunc = "Incubadora"
+        self.strModoFunc = "Cuna"
+
         self.state = "edo_0"
         self.prev_state = ""
         self.next_state = ""
@@ -307,8 +315,8 @@ class sm_chngModoOp:
         match self.state:
 #           >>>>>>>>>>> Inicio - Lectura de Sensor <<<<<<<<<<<
             case "edo_0":
-                # print(">>>>>>>>>>> Inicio - Lectura de Sensor <<<<<<<<<<<")
-                rd_ModoOp()
+                print(">>>>>>>>>>> Inicio - Lectura de Sensor <<<<<<<<<<<")
+                # self.strModoFunc = "Cuna"
 
                 self.prev_state = self.state
                 self.next_state = "edo_1"
@@ -316,19 +324,20 @@ class sm_chngModoOp:
 
 #           >> Elección de Cambio de Modo de Funcionamiento <<
             case "edo_1":
-                # print(">> Elección de Cambio de Modo de Funcionamiento <<")
-                if strModoFunc == "Cuna":
+                print(">> Elección de Cambio de Modo de Funcionamiento <<")
+                if self.strModoFunc == "Cuna":
                     self.prev_state = self.state
                     self.next_state = "edo_2"
                     self.state = self.next_state
-                elif strModoFunc == "Incubadora":
+                elif self.strModoFunc == "Incubadora":
                     self.prev_state = self.state
                     self.next_state = "edo_3"
                     self.state = self.next_state
 
 #           >>>>>>>>>>>>>>> Cerrado de Capelo <<<<<<<<<<<<<<<
             case "edo_2":
-                # print(">>>>>>>>>>>>>>> Cerrado de Capelo <<<<<<<<<<<<<<<")
+                print(">>>>>>>>>>>>>>> Cerrado de Capelo <<<<<<<<<<<<<<<")
+                
                 giroMotor("Cerrar")
 
                 self.startTime = time.monotonic()
@@ -339,7 +348,7 @@ class sm_chngModoOp:
 
 #           >>>>>>>>>>>>>>>> Apertura de Capelo <<<<<<<<<<<<<<<
             case "edo_3":
-                # print(">>>>>>>>>>>>>>>> Apertura de Capelo <<<<<<<<<<<<<<<")
+                print(">>>>>>>>>>>>>>>> Apertura de Capelo <<<<<<<<<<<<<<<")
                 giroMotor("Abrir")
 
                 self.startTime = time.monotonic()
@@ -350,12 +359,12 @@ class sm_chngModoOp:
 
 #           >> Comprobación de Sensor y Tiempo de Cerrado <<
             case "edo_4":
-                # print(">> Comprobación de Sensor y Tiempo de Cerrado <<")
+                print(">> Comprobación de Sensor y Tiempo de Cerrado <<")
                 rst = time.monotonic() - self.startTime
 
                 time.sleep(0.1)
 
-                if (rst >= tiempo_deApertura) or (read_adc(3) < 100):
+                if rst >= tiempo_deApertura:
                     giroMotor("Parar")
 
                     self.prev_state = self.state
@@ -364,12 +373,12 @@ class sm_chngModoOp:
 
 #           >>> Comprobación de Sensor y Tiempo de Apertura <<<
             case "edo_5":
-                # print(">>> Comprobación de Sensor y Tiempo de Apertura <<<")
+                print(">>> Comprobación de Sensor y Tiempo de Apertura <<<")
                 rst = time.monotonic() - self.startTime
 
                 time.sleep(0.1)
 
-                if (rst >= tiempo_deApertura) or (read_adc(3) > 1700):
+                if rst >= (tiempo_deApertura+1):
                     giroMotor("Parar")
 
                     self.prev_state = self.state
@@ -378,12 +387,12 @@ class sm_chngModoOp:
 
 #           >>>>>>> Comprobación de Modo de Operación <<<<<<<<
             case "edo_6":
-                # print(">>> Comprobación de Sensor y Tiempo de Cierre <<<")
-                rd_ModoOp()
+                print(">>> Comprobación de Sensor y Tiempo de Cierre <<<")
+                self.strModoFunc = rd_ModoOp(self.strModoFunc)
 
                 time.sleep(0.1)
 
-                if (self.prev_state == "edo_5" and strModoFunc == "Cuna") or (self.prev_state == "edo_4" and strModoFunc == "Incubadora"):
+                if (self.prev_state == "edo_5" and self.strModoFunc == "Cuna") or (self.prev_state == "edo_4" and self.strModoFunc == "Incubadora"):
                     self.errores = 0
                     self.prev_state = ""
                     self.next_state = ""

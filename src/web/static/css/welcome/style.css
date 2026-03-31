@@ -1,0 +1,29 @@
+.pantalla-principal-versi-n-completa,
+.pantalla-principal-versi-n-completa * {
+  box-sizing: border-box;
+}
+.pantalla-principal-versi-n-completa {
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+.group-6 {
+  width: 57px;
+  height: 57px;
+  position: absolute;
+  left: 713px;
+  top: 345px;
+}
+.icon-aire {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 57px;
+  height: 57px;
+  position: absolute;
+  left: 835px;
+  top: 362px;
+  aspect-ratio: 1;
+}
