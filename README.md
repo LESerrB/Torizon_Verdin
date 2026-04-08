@@ -9,6 +9,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Documentación](#documentación)
 - [Control de Versiones](#control-de-versiones)
+- [Descarga e Instalación](#descarga-e-instalación)
+- [Git](#descarga-e-instalación)
 
 ## Características
 
@@ -393,8 +395,18 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 ### v0.22 - [3/Marzo/2026]
 
+## Como usar Git
 
+Se recomienda seguir estos videos para entender el uso de Git en caso de no haberlo usado con anterioridad, estos primeros 4 enlaces son los indispensables para el uso.
 
+1. [Instalación y Configuración](https://youtu.be/XXdaqtLgOGI?si=O1K7fZNru-t9Wvq_)
+2. [Comandos iniciales](https://youtu.be/vH9pkFf1D7M?si=MobEf6pV3v9PtQ1K)
+3. [Ramas y union de Ramasa](https://youtu.be/-UQulO_0prM?si=I7RdIeBPoNbjW24t)
+4. [Github](https://youtu.be/Qn186NyDqOk?si=a8tvatEha2Nv3F1p)
+
+Este último solo es para tener un mejor control de las versiones y releases.
+
+5. [Tags o Etiquetas](https://youtu.be/wrHWa8OMYOg?si=srRV_p--7-7jQ4km)
 ## Descarga e Instalación
 
 <p align="center">
