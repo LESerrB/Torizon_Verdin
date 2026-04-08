@@ -18,7 +18,7 @@ def uart_send(uart_dev, data):
     """
     try:
         if uart_dev and uart_dev.is_open:
-            # print(">>", data)
+            print(">>", data)
             if isinstance(data, (bytes, bytearray)):
                 uart_dev.write(data)
             else:
@@ -45,7 +45,7 @@ def uart_receive(uart_dev) -> str:
             data = uart_dev.readline().hex()
 
             if data:
-                # print("<<", data)
+                print("<<", data)
                 return data
         else:
             print("UART no está abierto")
