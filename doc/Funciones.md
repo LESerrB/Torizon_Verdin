@@ -224,8 +224,6 @@ Esta función no devuelve ningún valor
 
 Funciones para pesar, tarar, y calibrar. Los valores se almacenan en la memoria de la terjeta embebida.
 
-![Diagrama Tajeta de Báscula](./img/basc_FlowDiag.svg)
-
 ### pesaje()
 
 ---
@@ -233,6 +231,10 @@ Funciones para pesar, tarar, y calibrar. Los valores se almacenan en la memoria 
 #### Descripción
 
 Funcion de comunicación para realizar la comunicación UART con la tarjeta de Báscula y realizar la acción de pesaje.
+
+
+![Diagrama Pesaje Tajeta de Báscula](./img/pesajeBASC_flowchart.svg)
+
 
 #### Syntax
 
@@ -265,6 +267,8 @@ pesoTotal (float):
 
 Función para tarar los valores de peso de la tarjeta de báscula.
 
+![Diagrama Pesaje Tajeta de Báscula](./img/tarajeBASC_flowchart.svg)
+
 #### Syntax
 
     from uart.comBasc import tare
@@ -290,6 +294,8 @@ Esta función no recibe ningún parámetro.
 #### Descripción
 
 Función para calibrar los valores de pesaje de la tarjeta de báscula.
+
+![Diagrama Pesaje Tajeta de Báscula](./img/calibBASC_flowchart.svg)
 
 #### Syntax
 

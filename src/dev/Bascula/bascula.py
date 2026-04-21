@@ -137,7 +137,7 @@ def calib(peso_ptrn = 2.0):
     else:
         return -1
 
-    if not ((pesoAcc-tolerancia) < pesoAcc < (pesoAcc+tolerancia)):
+    if not ((peso_ptrn-tolerancia) < pesoAcc < (peso_ptrn+tolerancia)):
         return -1
 
     SCALE = round((pesoAcc - OFFSET) / float(peso_ptrn), 2)
