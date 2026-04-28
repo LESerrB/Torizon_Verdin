@@ -1,6 +1,6 @@
 # Proyecto para Torizon Verdin iMX8MP
 
-Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas para ejecutarse en la plataforma **Torizon Verdin iMX8MP** de Toradex. Está enfocado en facilitar el desarrollo y despliegue de soluciones embebidas utilizando esta tarjeta basada en ARM Cortex-A53.
+Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas para ejecutarse en la plataforma **Torizon Verdin iMX8MP** de Toradex. Está enfocado en facilitar el desarrollo y despliegue de soluciones embebidas utilizando esta tarjeta basada en ARM Cortex-A53 para el proyecto Dual de Cuna/Incubadora.
 
 ## Tabla de Contenidos
 
@@ -393,7 +393,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creadas funciones de lectura y calibración.
 - Implementada función de Posición 0.
 
-### v0.22 - [3/Marzo/2026]
+<!-- ### v0.22 - [3/Marzo/2026] -->
 
 ## Como usar Git
 
