@@ -1,0 +1,85 @@
+/* Figma Styles of your File */
+:root {
+  /* Colors */
+  /* Fonts */
+  --text-encabezado-font-family: Montserrat-Bold, sans-serif;
+  --text-encabezado-font-size: 14px;
+  --text-encabezado-line-height: normal;
+  --text-encabezado-font-weight: 700;
+  --text-encabezado-font-style: normal;
+  --num-temp-prin-font-family: Inter-Bold, sans-serif;
+  --num-temp-prin-font-size: 100px;
+  --num-temp-prin-line-height: 80px;
+  --num-temp-prin-font-weight: 700;
+  --num-temp-prin-font-style: normal;
+  --text-regular-1-font-family: Inter-Bold, sans-serif;
+  --text-regular-1-font-size: 24px;
+  --text-regular-1-line-height: 20px;
+  --text-regular-1-font-weight: 700;
+  --text-regular-1-font-style: normal;
+  --text-temp-titulo-font-family: Montserrat-Bold, sans-serif;
+  --text-temp-titulo-font-size: 18px;
+  --text-temp-titulo-line-height: 16px;
+  --text-temp-titulo-font-weight: 700;
+  --text-temp-titulo-font-style: normal;
+  --num-temp-secun-font-family: Inter-Bold, sans-serif;
+  --num-temp-secun-font-size: 36px;
+  --num-temp-secun-line-height: 36px;
+  --num-temp-secun-font-weight: 700;
+  --num-temp-secun-font-style: normal;
+  --text-temp-secun-font-family: Montserrat-Medium, sans-serif;
+  --text-temp-secun-font-size: 14px;
+  --text-temp-secun-line-height: 16px;
+  --text-temp-secun-font-weight: 500;
+  --text-temp-secun-font-style: normal;
+  --num-temp-terc-font-family: Inter-Bold, sans-serif;
+  --num-temp-terc-font-size: 24px;
+  --num-temp-terc-line-height: 20px;
+  --num-temp-terc-font-weight: 700;
+  --num-temp-terc-font-style: normal;
+  --text-temp-terc-font-family: Montserrat-Medium, sans-serif;
+  --text-temp-terc-font-size: 10px;
+  --text-temp-terc-line-height: 20px;
+  --text-temp-terc-font-weight: 500;
+  --text-temp-terc-font-style: normal;
+  --text-modulo-titulo-font-family: Montserrat-Bold, sans-serif;
+  --text-modulo-titulo-font-size: 15px;
+  --text-modulo-titulo-line-height: 16px;
+  --text-modulo-titulo-font-weight: 700;
+  --text-modulo-titulo-font-style: normal;
+  --num-modulos-lat-font-family: Inter-Bold, sans-serif;
+  --num-modulos-lat-font-size: 40px;
+  --num-modulos-lat-line-height: 36px;
+  --num-modulos-lat-font-weight: 700;
+  --num-modulos-lat-font-style: normal;
+
+  /* Effects */
+}
+/* Figma Color Variables of your File */
+:root,
+[data-coleccion-variable-mode="mode-1"] {
+  /* mode-1 */
+  --blanco: #ffffff;
+  --textoactivo: #2f3a40;
+  --verde-btn: #92d1bc;
+  --tpiel-prin: #bee1e5;
+  --tpiel-oscuro: #8fc3c9;
+  --t-piel-texto: #2f4a4d;
+  --text-desactivado: #72818e;
+  --gris-desactivado: #f2f2f2;
+  --oxigeno-prin: #c6e1b8;
+  --humedad-principal: #bfd9e8;
+  --fototerapia-prin: #c2d2ec;
+  --gris-btn: #8a8e91;
+  --claro-btn: #f8f8fa;
+  --taire-prin: #faeccf;
+  --t-aire-texto: #6b5a43;
+  --t-aire-oscuro: #c5b394;
+  --mod-lat-fondo: #f5f7f7;
+  --fondo-btn-gris: #d8dee2;
+  --claro-medio: #e6ecee;
+  --oxigeno-oscuro: #86ad79;
+  --oxigeno-claro: #e8f5da;
+  --humedad-claro: #e6f2f8;
+  --humedad-oscuro: #5f97b1;
+}

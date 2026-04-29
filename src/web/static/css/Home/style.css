@@ -1,0 +1,1206 @@
+.frame-73,
+.frame-73 * {
+  box-sizing: border-box;
+}
+.frame-73 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 15px;
+  top: 25px;
+}
+.frame-72 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.btn-alarma {
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 984px;
+  height: 64px;
+  position: relative;
+  overflow: visible;
+}
+.btn-cambio-modo {
+  border-radius: 38px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 192px;
+  height: auto;
+  position: relative;
+  overflow: visible;
+}
+.encabezado {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.group-6 {
+  flex-shrink: 0;
+  width: 524px;
+  height: 57px;
+  position: static;
+}
+.fecha-y-hora {
+  background: var(--blanco, #ffffff);
+  border-radius: 6px;
+  padding: 0px 12px 0px 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  width: 524px;
+  height: 20px;
+  position: absolute;
+  left: 0px;
+  top: 37px;
+}
+.fecha {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon-calendario {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  position: relative;
+  overflow: visible;
+}
+._2-de-feb {
+  color: var(--textoactivo, #2f3a40);
+  text-align: left;
+  font-family: var(
+    --text-encabezado-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-encabezado-font-size, 14px);
+  font-weight: var(--text-encabezado-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.hora {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon-reloj {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  position: relative;
+  overflow: visible;
+}
+._5-41-a-m {
+  color: var(--textoactivo, #2f3a40);
+  text-align: left;
+  font-family: var(
+    --text-encabezado-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-encabezado-font-size, 14px);
+  font-weight: var(--text-encabezado-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.datos-paciente {
+  background: var(--blanco, #ffffff);
+  border-radius: 6px;
+  padding: 7px 15px 7px 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 524px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: hidden;
+}
+.nombre-paciente {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon-corazon {
+  flex-shrink: 0;
+  width: 12px;
+  height: 10px;
+  position: relative;
+  overflow: visible;
+}
+.beb-mateo {
+  color: var(--textoactivo, #2f3a40);
+  text-align: left;
+  font-family: var(
+    --text-encabezado-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-encabezado-font-size, 14px);
+  font-weight: var(--text-encabezado-font-weight, 700);
+  position: relative;
+  width: 113px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.ltimo-peso-0-785-kg {
+  color: var(--textoactivo, #2f3a40);
+  text-align: right;
+  font-family: var(
+    --text-encabezado-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-encabezado-font-size, 14px);
+  font-weight: var(--text-encabezado-font-weight, 700);
+  position: relative;
+  width: 158px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.inclinaci-n-bacinete {
+  background: var(--blanco, #ffffff);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 248px;
+  height: 57px;
+  position: relative;
+}
+.icon-inclinaci-n {
+  flex-shrink: 0;
+  width: 38px;
+  height: 33px;
+  position: relative;
+  overflow: visible;
+}
+.inclinaci-n {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(
+    --text-encabezado-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-encabezado-font-size, 14px);
+  font-weight: var(--text-encabezado-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._00 {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: "-", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._00-span {
+  font-family: "Montserrat-Bold", sans-serif;
+  font-weight: 700;
+}
+._00-span2 {
+  font-family: "Montserrat-Regular", sans-serif;
+}
+.modulo-de-temperatura {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.modo-activo {
+  background: var(--tpiel-oscuro, #8fc3c9);
+  border-radius: 8px 8px 0px 0px;
+  padding: 7px 40px 7px 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 984px;
+  height: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.sistema-controlado-por-piel {
+  color: var(--blanco, #ffffff);
+  text-align: left;
+  font-family: var(
+    --text-encabezado-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-encabezado-font-size, 14px);
+  font-weight: var(--text-encabezado-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.temperatura-piel-modo-piel {
+  background: var(--tpiel-prin, #bee1e5);
+  padding: 24px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 656px;
+  height: 218px;
+  position: relative;
+  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.temperatura-piel {
+  color: var(--t-piel-texto, #2f4a4d);
+  text-align: center;
+  font-family: var(
+    --text-temp-titulo-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-temp-titulo-font-size, 18px);
+  line-height: var(--text-temp-titulo-line-height, 16px);
+  font-weight: var(--text-temp-titulo-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.temperaturas-modo-piel {
+  padding: 0px 10px 10px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.temp-medida-piel {
+  padding: 10px;
+  flex-shrink: 0;
+  width: 272px;
+  height: 100px;
+  position: relative;
+  left: 65px;
+}
+._36-5 {
+  color: var(--t-piel-texto, #2f4a4d);
+  text-align: center;
+  font-family: var(--num-temp-prin-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-prin-font-size, 100px);
+  line-height: var(--num-temp-prin-line-height, 80px);
+  font-weight: var(--num-temp-prin-font-weight, 700);
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c {
+  color: var(--t-piel-texto, #2f4a4d);
+  text-align: left;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 600;
+  position: absolute;
+  left: 215px;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.line-27 {
+  margin-top: -3px;
+  border-style: solid;
+  border-color: var(--t-piel-texto, #2f4a4d);
+  border-width: 3px 0 0 0;
+  flex-shrink: 0;
+  width: 124px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+  left: 55px;
+}
+.progra-y-aux {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 114px;
+  position: relative;
+  right: 75px;
+}
+.temperatura-programada {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.temp-programada {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100px;
+  position: relative;
+}
+.valor-programado {
+  padding: 4px 4px 2px 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._36-7 {
+  color: var(--t-piel-texto, #2f4a4d);
+  text-align: center;
+  font-family: var(--num-temp-secun-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-secun-font-size, 36px);
+  line-height: var(--num-temp-secun-line-height, 36px);
+  font-weight: var(--num-temp-secun-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.programada {
+  color: var(--t-piel-texto, #2f4a4d);
+  text-align: center;
+  font-family: var(
+    --text-temp-secun-font-family,
+    "Montserrat-Medium",
+    sans-serif
+  );
+  font-size: var(--text-temp-secun-font-size, 14px);
+  line-height: var(--text-temp-secun-line-height, 16px);
+  font-weight: var(--text-temp-secun-font-weight, 500);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.frame-71 {
+  padding: 9px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 14px;
+  position: relative;
+}
+.c2 {
+  color: var(--t-piel-texto, #2f4a4d);
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  align-self: stretch;
+  height: 15px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.temperatura-auxiliar {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.valor-medido {
+  padding: 4px 4px 2px 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._34-6 {
+  color: var(--t-piel-texto, #2f4a4d);
+  text-align: center;
+  font-family: var(--num-temp-secun-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-secun-font-size, 36px);
+  line-height: var(--num-temp-secun-line-height, 36px);
+  font-weight: var(--num-temp-secun-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auxiliar {
+  color: var(--t-piel-texto, #2f4a4d);
+  text-align: center;
+  font-family: var(
+    --text-temp-secun-font-family,
+    "Montserrat-Medium",
+    sans-serif
+  );
+  font-size: var(--text-temp-secun-font-size, 14px);
+  line-height: var(--text-temp-secun-line-height, 16px);
+  font-weight: var(--text-temp-secun-font-weight, 500);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-modo-piel {
+  flex-shrink: 0;
+  width: 192.73px;
+  height: 185.04px;
+  position: absolute;
+  left: -68px;
+  top: 50%;
+  translate: 0 -50%;
+  overflow: visible;
+}
+.temperatura-aire-modo-piel {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+}
+.temperatura-aire {
+  background: var(--gris-desactivado, #f2f2f2);
+  padding: 24px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 294px;
+  height: 218px;
+  position: relative;
+}
+.temperatura-aire2 {
+  color: var(--text-desactivado, #72818e);
+  text-align: center;
+  font-family: var(
+    --text-temp-titulo-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-temp-titulo-font-size, 18px);
+  line-height: var(--text-temp-titulo-line-height, 16px);
+  font-weight: var(--text-temp-titulo-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.temp-medida-aire {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._36-3 {
+  color: var(--text-desactivado, #72818e);
+  text-align: center;
+  font-family: var(--num-temp-prin-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-prin-font-size, 100px);
+  line-height: var(--num-temp-prin-line-height, 80px);
+  font-weight: var(--num-temp-prin-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.c3 {
+  color: var(--text-desactivado, #72818e);
+  text-align: left;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.potencia-calefacor {
+  background: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 218px;
+  position: relative;
+}
+.segmentos-calefactor {
+  opacity: 0.67;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 168px;
+  position: relative;
+}
+.rectangle-192 {
+  background: #c8c8c8;
+  border-radius: 3px 3px 0px 0px;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-191 {
+  background: #c8c8c8;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-183 {
+  background: #990808;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-184 {
+  background: #b94420;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-185 {
+  background: #c65f28;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-186 {
+  background: #d0782f;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-187 {
+  background: #d88d35;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-188 {
+  background: #dfa23c;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-189 {
+  background: #e5b643;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-190 {
+  background: #ebc94a;
+  border-radius: 0px 0px 3px 3px;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.valor-potencia {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._80 {
+  color: #72818e;
+  text-align: center;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 10px;
+  font-weight: 600;
+  position: relative;
+  width: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.div {
+  color: #72818e;
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 6px;
+  line-height: 10px;
+  font-weight: 600;
+  position: relative;
+  width: 5px;
+}
+.modulos-basicos {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.modulo-oxigeno {
+  background: var(--oxigeno-prin, #c6e1b8);
+  border-radius: 0px 0px 0px 10px;
+  padding: 10px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 328px;
+  height: 84px;
+  position: relative;
+  box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+}
+.ox-geno {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(
+    --text-modulo-titulo-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-modulo-titulo-font-size, 15px);
+  line-height: var(--text-modulo-titulo-line-height, 16px);
+  font-weight: var(--text-modulo-titulo-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.valores-oxigeno {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 270px;
+  position: relative;
+}
+._60 {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(--num-temp-secun-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-secun-font-size, 36px);
+  line-height: var(--num-temp-secun-line-height, 36px);
+  font-weight: var(--num-temp-secun-font-weight, 700);
+  position: relative;
+  width: 68px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.line-24 {
+  margin-top: -2px;
+  border-style: solid;
+  border-color: var(--textoactivo, #2f3a40);
+  border-width: 2px 0 0 0;
+  flex-shrink: 0;
+  width: 24px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+}
+.prog-oxigeno {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 76px;
+  position: relative;
+}
+._802 {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(--num-temp-terc-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-terc-font-size, 24px);
+  line-height: var(--num-temp-terc-line-height, 20px);
+  font-weight: var(--num-temp-terc-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.programado {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(
+    --text-temp-terc-font-family,
+    "Montserrat-Medium",
+    sans-serif
+  );
+  font-size: var(--text-temp-terc-font-size, 10px);
+  line-height: var(--text-temp-terc-line-height, 20px);
+  font-weight: var(--text-temp-terc-font-weight, 500);
+  position: relative;
+  align-self: stretch;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modulo-humedad {
+  background: var(--humedad-principal, #bfd9e8);
+  padding: 10px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 328px;
+  height: 84px;
+  position: relative;
+  box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+}
+.humedad {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(
+    --text-modulo-titulo-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-modulo-titulo-font-size, 15px);
+  line-height: var(--text-modulo-titulo-line-height, 16px);
+  font-weight: var(--text-modulo-titulo-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.valores-humedad {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 270px;
+  position: relative;
+}
+.prog-humedad {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 76px;
+  position: relative;
+}
+._602 {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(--num-temp-terc-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-terc-font-size, 24px);
+  line-height: var(--num-temp-terc-line-height, 20px);
+  font-weight: var(--num-temp-terc-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.programada2 {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(
+    --text-temp-terc-font-family,
+    "Montserrat-Medium",
+    sans-serif
+  );
+  font-size: var(--text-temp-terc-font-size, 10px);
+  line-height: var(--text-temp-terc-line-height, 20px);
+  font-weight: var(--text-temp-terc-font-weight, 500);
+  position: relative;
+  align-self: stretch;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modulo-fototerapia {
+  background: var(--fototerapia-prin, #c2d2ec);
+  border-radius: 0px 0px 10px 0px;
+  padding: 10px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 328px;
+  height: 84px;
+  position: relative;
+  box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+}
+.fototerapia-h {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(
+    --text-modulo-titulo-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--text-modulo-titulo-font-size, 15px);
+  line-height: var(--text-modulo-titulo-line-height, 16px);
+  font-weight: var(--text-modulo-titulo-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.valores-fototerapia {
+  display: flex;
+  flex-direction: row;
+  gap: 22px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  height: 38px;
+  position: relative;
+}
+.fototerapia-medida {
+  padding: 0px 2px 0px 2px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 120px;
+  position: relative;
+}
+._00-00 {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(--num-temp-secun-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-secun-font-size, 36px);
+  line-height: var(--num-temp-secun-line-height, 36px);
+  font-weight: var(--num-temp-secun-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prog-fototerapia {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 83px;
+  height: 38px;
+  position: relative;
+}
+._00-002 {
+  color: var(--textoactivo, #2f3a40);
+  text-align: center;
+  font-family: var(--num-temp-terc-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-terc-font-size, 24px);
+  line-height: var(--num-temp-terc-line-height, 20px);
+  font-weight: var(--num-temp-terc-font-weight, 700);
+  position: relative;
+  align-self: stretch;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-principal {
+  padding: 10px 14px 10px 14px;
+  display: flex;
+  flex-direction: row;
+  gap: 488px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 70px;
+  position: relative;
+}
+.cont-menu {
+  border-radius: 0px;
+  flex-shrink: 0;
+  width: 984px;
+  height: 70px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+.btn-m-familiar {
+  background: var(--claro-btn, #f8f8fa);
+  border-radius: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 108px;
+  height: 50px;
+  position: relative;
+  box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.25),
+    0px 2px 6px 0px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.icon-familiar {
+  flex-shrink: 0;
+  width: 38px;
+  height: 27px;
+  position: relative;
+  overflow: hidden;
+}
+.group {
+  width: 100%;
+  height: 100.01%;
+  position: absolute;
+  right: 0%;
+  left: 0%;
+  bottom: 0%;
+  top: -0.01%;
+  overflow: visible;
+}
+.vector {
+  width: 15.25%;
+  height: 21.24%;
+  position: absolute;
+  right: 42.26%;
+  left: 42.5%;
+  bottom: 14.06%;
+  top: 64.71%;
+  overflow: visible;
+}
+.btns-funciones {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 360px;
+  position: relative;
+}
+.icon-tendencias {
+  border-radius: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 108px;
+  height: 50px;
+  position: relative;
+  overflow: visible;
+}
+.btn-bascula {
+  background: var(--claro-btn, #f8f8fa);
+  border-radius: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 108px;
+  height: 50px;
+  position: relative;
+  box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.25),
+    0px 2px 6px 0px rgba(0, 0, 0, 0.25);
+}
+.icon-bascula {
+  flex-shrink: 0;
+  width: 29px;
+  height: 28px;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 29/28;
+}
+.vector2 {
+  width: 31.68%;
+  height: 55%;
+  position: absolute;
+  right: -0.02%;
+  left: 68.34%;
+  bottom: 44.98%;
+  top: 0.02%;
+  overflow: visible;
+}
+.vector3 {
+  width: 14.09%;
+  height: 22.26%;
+  position: absolute;
+  right: 8.8%;
+  left: 77.1%;
+  bottom: 54.5%;
+  top: 23.24%;
+  overflow: visible;
+}
+.group2 {
+  width: 61.22%;
+  height: 99.96%;
+  position: absolute;
+  right: 38.76%;
+  left: 0.01%;
+  bottom: 0.04%;
+  top: 0%;
+  overflow: visible;
+}
+.btn-apgar {
+  background: var(--claro-btn, #f8f8fa);
+  border-radius: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 108px;
+  height: 50px;
+  position: relative;
+  box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.25),
+    0px 2px 6px 0px rgba(0, 0, 0, 0.25);
+}
+.icon-apgar {
+  flex-shrink: 0;
+  width: 23px;
+  height: 26.88px;
+  position: relative;
+  overflow: visible;
+  aspect-ratio: 23/26.88;
+}

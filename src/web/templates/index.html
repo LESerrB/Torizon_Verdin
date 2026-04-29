@@ -1,48 +1,216 @@
 <!DOCTYPE html>
 
-<html lang="es">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/css/Home/vars.css">
+        <link rel="stylesheet" href="../static/css/Home/style.css">
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/vars.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/PantPrin-style.css') }}">
+        <style>
+            a,
+            button,
+            input,
+            select,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                border: none;
+                text-decoration: none;
+                background: none;
+
+                -webkit-font-smoothing: antialiased;
+            }
+        
+            menu, ol, ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+
+        <script type="module" src="../static/js/main.js"></script>
+
+        <title>Home</title>
     </head>
 
-    <body>
-        <div id="stage">
-            <div class="pant-shell">
-                <div class="frm-Alarma">
-                    <div class="lbl-alarma">ALARMA</div>
-                </div>
+    <body style="background-color: #E9EEF2;">
+        <div class="frame-73">
+            <div class="frame-72">
+                <img class="btn-alarma" src="../static/icon/Home/btn-alarma0.svg" />
+                <img class="btn-cambio-modo" src="../static/icon/Home/btn-cambio-modo0.svg" />
 
+                <div class="encabezado">
+                    <div class="group-6">
+                        <div class="fecha-y-hora">
+                            <div class="fecha">
+                                <img class="icon-calendario" src="../static/icon/Home/icon-calendario0.svg" />
+                                <div class="_2-de-feb">2 de Feb</div>
+                            </div>
 
+                            <div class="hora">
+                                <img class="icon-reloj" src="../static/icon/Home/icon-reloj0.svg" />
+                                <div class="_5-41-a-m">5:41 a.m.</div>
+                            </div>
+                        </div>
 
-                <div id="view">
-                    {% include "PantPrin.html" %}
-                </div>
+                        <div class="datos-paciente">
+                            <div class="nombre-paciente">
+                                <img class="icon-corazon" src="../static/icon/Home/icon-corazon0.svg" />
+                                <div class="beb-mateo">Bebé Mateo</div>
+                            </div>
 
-
-
-                <div class="frm-Footer">
-                    <!-- <div id="footer-slot"></div> -->
-                    <img id="btn-fam" class="btn-fam" src="{{ url_for('static', filename='icon/btn-fam0.svg') }}" />
-
-                    <div class="btns-inf ajst-Temp">
-                        <div class="lbl-btnsInf">Ajuste Temp</div>
+                            <div class="ltimo-peso-0-785-kg">Último peso: 0.785 kg</div>
+                        </div>
                     </div>
-                    
-                    <div class="btns-inf modulos">
-                        <div class="lbl-btnsInf">Modulos</div>
-                    </div>
-                    
-                    <div class="btns-inf tendencias">
-                        <div class="lbl-btnsInf">Tendencias</div>
+
+                    <div class="inclinaci-n-bacinete">
+                        <img class="icon-inclinaci-n" src="../static/icon/Home/icon-inclinaci-n0.svg" />
+                        <div class="inclinaci-n">Inclinación</div>
+                        
+                        <div class="_00">
+                            <span>
+                                <span class="_00-span">00</span>
+                                <span class="_00-span2">°</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+            <div class="modulo-de-temperatura">
+                <div class="modo-activo">
+                    <div class="sistema-controlado-por-piel">Sistema Controlado por Piel</div>
+                </div>
+            <div class="temperatura-piel-modo-piel">
+                <div class="temperatura-piel">Temperatura Piel</div>
+                <div class="temperaturas-modo-piel">
+                <div class="temp-medida-piel">
+                    <div class="_36-5" id="_36-5">--.-</div>
+                    <div class="c">°C</div>
+                </div>
+                <div class="line-27"></div>
+                <div class="progra-y-aux">
+                    <div class="temperatura-programada">
+                    <div class="temp-programada">
+                        <div class="valor-programado">
+                        <div class="_36-7">36.7</div>
+                        </div>
+                        <div class="programada">Programada</div>
+                    </div>
+                    <div class="frame-71">
+                        <div class="c2">°C</div>
+                    </div>
+                    </div>
+                    <div class="temperatura-auxiliar">
+                    <div class="temp-programada">
+                        <div class="valor-medido">
+                        <div class="_34-6">34.6</div>
+                        </div>
+                        <div class="auxiliar">Auxiliar</div>
+                    </div>
+                    <div class="frame-71">
+                        <div class="c2">°C</div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <img class="icon-modo-piel" src="../static/icon/Home/icon-modo-piel0.svg" />
+            </div>
+            <div class="temperatura-aire-modo-piel">
+                <div class="temperatura-aire">
+                <div class="temperatura-aire2">Temperatura Aire</div>
+                <div class="temp-medida-aire">
+                    <div class="_36-3" id="_36-3">36.3</div>
+                    <div class="c3">°C</div>
+                </div>
+                </div>
+                <div class="potencia-calefacor">
+                <div class="segmentos-calefactor">
+                    <div class="rectangle-192"></div>
+                    <div class="rectangle-191"></div>
+                    <div class="rectangle-183"></div>
+                    <div class="rectangle-184"></div>
+                    <div class="rectangle-185"></div>
+                    <div class="rectangle-186"></div>
+                    <div class="rectangle-187"></div>
+                    <div class="rectangle-188"></div>
+                    <div class="rectangle-189"></div>
+                    <div class="rectangle-190"></div>
+                </div>
+                <div class="valor-potencia">
+                    <div class="_80">80</div>
+                    <div class="div">%</div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="modulos-basicos">
+            <div class="modulo-oxigeno">
+                <div class="ox-geno">Oxígeno %</div>
+                <div class="valores-oxigeno">
+                <div class="_60">60</div>
+                <div class="line-24"></div>
+                <div class="prog-oxigeno">
+                    <div class="_802">80</div>
+                    <div class="programado">Programado</div>
+                </div>
+                </div>
+            </div>
+            <div class="modulo-humedad">
+                <div class="humedad">Humedad %</div>
+                <div class="valores-humedad">
+                <div class="_60">60</div>
+                <div class="line-24"></div>
+                <div class="prog-humedad">
+                    <div class="_602">60</div>
+                    <div class="programada2">Programada</div>
+                </div>
+                </div>
+            </div>
+            <div class="modulo-fototerapia">
+                <div class="fototerapia-h">Fototerapia h</div>
+                <div class="valores-fototerapia">
+                <div class="fototerapia-medida">
+                    <div class="_00-00">00:00</div>
+                </div>
+                <div class="line-24"></div>
+                <div class="prog-fototerapia">
+                    <div class="_00-002">00:00</div>
+                    <div class="programada2">Programada</div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="menu-principal">
+            <img class="cont-menu" src="../static/icon/Home/cont-menu0.svg" />
+            <div class="btn-m-familiar">
+                <div class="icon-familiar">
+                <img class="group" src="../static/icon/Home/group0.svg" />
+                <img class="vector" src="../static/icon/Home/vector0.svg" />
+                </div>
+            </div>
+            <div class="btns-funciones">
+                <img class="icon-tendencias" src="../static/icon/Home/icon-tendencias0.svg" />
+                <div class="btn-bascula">
+                <div class="icon-bascula">
+                    <img class="vector2" src="../static/icon/Home/vector1.svg" />
+                    <img class="vector3" src="../static/icon/Home/vector2.svg" />
+                    <img class="group2" src="../static/icon/Home/group1.svg" />
+                </div>
+                </div>
+                <div class="btn-apgar">
+                <img class="icon-apgar" src="../static/icon/Home/icon-apgar0.svg" />
+                </div>
+            </div>
+            </div>
+        </div>
     </body>
 </html>
