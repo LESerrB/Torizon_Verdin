@@ -16,6 +16,9 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
+from collections import deque
+from typing import Deque, Dict, Any
+
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
 from dev.Sensores_TPH.bme280 import bme280
 from dev.Bascula.bascula import tare, calib, pesaje
@@ -27,9 +30,13 @@ from dev.Sensores_TPH.sht21 import sht21
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
-from dev.Controles_Alertas.encoder import valupdt
-# from dev.Sensores_TPH.sns_Ox import read_SnsOx
-# from i2c.at18_T2s import readTarjeta2S
+from dev.Controles_Alertas import encoder as hw_encoder
+
+
+
+encoder_events_lock = threading.Lock()
+encoder_events: Deque[Dict[str, Any]] = deque(maxlen=200)
+encoder_event_id = 0
 #--------------------------------------------------------------#
 
 ##############################################################################
@@ -58,7 +65,21 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 # werkzeug_logger.setLevel(logger.level)
 fsm = sm_chngModoOp()
 
-PWM_Calef = 100
+#-------- Valores Iniciales --------#
+tempProg = 34.0
+sobreGiro = False
+enableEdit = False
+edit_started_temp = None
+
+TEMP_MIN = 34.0
+TEMP_MAX = 37.0
+TEMP_MAX_SG = 38.0
+
+pot_Calef = 100
+
+nvlLuzExam = 0
+nvlLuzFot = 0
+
 pesoFinal = 0.0
 strStatus = ""
 
@@ -121,6 +142,47 @@ def api_potCalef():
 
     if PWM_Calef is not None:
         set_PWM_Calef(int(PWM_Calef))
+
+#>>>>>>>>>>>>>>>>>> Temperatura Programada <<<<<<<<<<<<<<<<<<#
+@app.route("/api/tempProg", methods=["GET"])
+def get_tempProg():
+    with state_lock:
+        s = snapshot_state()
+
+    return jsonify({"status": "ok", **s}), 200
+
+@app.route("/api/tempProg", methods=["POST"])
+def set_tempProg():
+    body = request.get_json(force=True, silent=True) or {}
+
+    with state_lock:
+        if "delta" in body:
+            try:
+                delta = float(body["delta"])
+            except (TypeError, ValueError):
+                return jsonify({"status": "fail", "error": "delta inválido"}), 400
+
+            state.tempProg = clamp_round_temp(state.tempProg + delta, state.sobreGiro)
+
+        elif "tempProg" in body:
+            try:
+                v = float(body["tempProg"])
+            except (TypeError, ValueError):
+                return jsonify({"status": "fail", "error": "tempProg inválido"}), 400
+
+            state.tempProg = clamp_round_temp(v, state.sobreGiro)
+
+        else:
+            return jsonify({"status": "fail", "error": "Falta delta o tempProg"}), 400
+
+        s = snapshot_state()
+
+    return jsonify({"status": "ok", **s}), 200
+
+@app.route("/api/sobreGiro", methods=["GET"])
+def get_sobreGiro():
+    with state_lock:
+        s = snapshot_state()
 
     return jsonify({
         "status": "ok"
