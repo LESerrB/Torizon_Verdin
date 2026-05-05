@@ -26,5 +26,6 @@
     "DEBUG_PORT1": "6512",
     "DEBUG_PORT2": "",
     "DEBUG_PORT3": ""
-  }
+  },
+  "host_arch": "amd64"
 }
