@@ -19,6 +19,7 @@ def uart_send(uart_dev, data):
     try:
         if uart_dev and uart_dev.is_open:
             if isinstance(data, (bytes, bytearray)):
+                print(">>>>", data)
                 uart_dev.write(data)
             else:
                 s = str(data)
@@ -86,33 +87,37 @@ def decode_Msg(basc_UART1):
     - float: peso en kg si la trama y el CRC son válidos.
     - 0.0 si la trama no es válida o no cumple el formato.
     """
-    basc_val = []
+    # basc_val = []
 
     trama = uart_receive(basc_UART1)
+    print("<<<<", trama)
+    if trama != None:
+        return trama
 
-    if trama and trama.startswith("00") and trama.endswith("63"):
-        trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
-        n_bytes = int(trama[1], 16)
+    # if trama and trama.startswith("00") and trama.endswith("63"):
+    #     trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
+    #     n_bytes = int(trama[1], 16)
 
-        for i in range(2, (2 + n_bytes)):
-            basc_val.append(trama[i])
+    #     for i in range(2, (2 + n_bytes)):
+    #         basc_val.append(trama[i])
 
-        basc_val = ''.join(basc_val)
-        basc_val = bytes.fromhex(basc_val)
-        w_bas = (int.from_bytes(basc_val, byteorder='big'))/1000
+    #     basc_val = ''.join(basc_val)
+    #     basc_val = bytes.fromhex(basc_val)
+    #     w_bas = (int.from_bytes(basc_val, byteorder='big'))/1000
 
-        crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
-        crc_rec = hex(int(crc_rec, 16))
-        crc_calc = hex(crc16_arc(basc_val))
+    #     crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
+    #     crc_rec = hex(int(crc_rec, 16))
+    #     crc_calc = hex(crc16_arc(basc_val))
 
-        if crc_rec == crc_calc:
-            return w_bas
-    else:
-        w_bas = 0.0
+    #     if crc_rec == crc_calc:
+    #         return w_bas
+    # else:
+    #     w_bas = 0.0
 
-    return w_bas
+    # return w_bas
 
 def encode_Msg(basc_UART1, msg):
+    # {0x00,0x00,0x55,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
     """
     Construye y envía una trama hacia la tarjeta de báscula.
 
@@ -124,12 +129,14 @@ def encode_Msg(basc_UART1, msg):
     - Calcula el número de bytes, añade CRC-16 y el terminador `0x63`, y
         envía la trama completa mediante `uart_send()`.
     """
-    n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
-    dt = bytes.fromhex(msg)
+    # n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
+    # dt = bytes.fromhex(msg)
 
-    crc = crc16_arc(dt)
-    crc = crc.to_bytes(2, byteorder='big')
-    dt = b'\x00' + n_bytes + dt + crc + b'\x63'
+    # crc = crc16_arc(dt)
+    # crc = crc.to_bytes(2, byteorder='big')
+    # dt = b'\x00' + n_bytes + dt + crc + b'\x63'
+
+    dt = b'\x00' + b'\x00' + b'\x55' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00'
 
     uart_send(basc_UART1, dt)
 #================================================================#

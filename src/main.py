@@ -19,19 +19,26 @@ from dataclasses import dataclass
 from collections import deque
 from typing import Deque, Dict, Any
 
-from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
-from dev.Sensores_TPH.bme280 import bme280
-from dev.Bascula.bascula import tare, calib, pesaje
+# from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
+# from dev.Sensores_TPH.bme280 import bme280
+# from dev.Bascula.bascula import tare, calib, pesaje
 # from dev.GPIO.botones import pwrBtn_Evnt
 # from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
-from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
-from dev.Sensores_TPH.sht21 import sht21
+# from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
+# from dev.Sensores_TPH.sht21 import sht21
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
 from dev.Controles_Alertas import encoder as hw_encoder
 
+import serial
+
+from api.com_UART import decode_Msg, encode_Msg
+
+uart_Channel = "/dev/verdin-uart1"
+baud_rate = 115200
+basc_UART1 = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
 
 
 encoder_events_lock = threading.Lock()
@@ -53,7 +60,7 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
-fsm = sm_chngModoOp()
+# fsm = sm_chngModoOp()
 ##############################################################################
 #                           Configuracion de entorno                         #
 ##############################################################################
@@ -68,6 +75,7 @@ fsm = sm_chngModoOp()
 # werkzeug_logger.setLevel(logger.level)
 
 #-------- Valores Iniciales --------#
+W = 0
 tempProg = 34.0
 sobreGiro = False
 enableEdit = False
@@ -97,7 +105,8 @@ class ControlState:
 state = ControlState()
 state_lock = threading.Lock()
 
-
+encode_Msg(basc_UART1, "55")
+W = decode_Msg(basc_UART1)
 
 def clamp_round_temp(v: float, sobre_giro: bool) -> float:
     vmax = TEMP_MAX_SG if sobre_giro else TEMP_MAX
@@ -254,9 +263,14 @@ def restart_container(threshold=90):
         os._exit(1)
 
 def encoder_loop():
+    global W
     last_sent_temp = None
 
     while True:
+        # Comunicación temperatura
+        encode_Msg(basc_UART1, "55")
+        W = decode_Msg(basc_UART1)
+
         if enableEdit:
             with state_lock:
                 cur_temp = float(state.tempProg)
@@ -287,6 +301,34 @@ def encoder_loop():
 
             time.sleep(0.01)
 
+##############################################################################
+#                                  Sensores                                  #
+##############################################################################
+@app.route("/api/getTemp", methods=["POST"])
+def getTempPiel():
+    global W
+
+    d1 = W[4:6]
+    d2 = W[6:8]      # Temp Aire
+
+    d3 = W[8:10]     # Temp Piel
+    d4 = W[10:12]
+
+    d5 = W[12:14]    # Sonda Aux
+    d6 = W[14:16]
+
+    tempAire = int((d1 + d2), 16)/10
+    tempPiel = int((d4 + d3), 16)/10
+    tempSondaAux = int((d6 + d5), 16)/10
+
+    print(d1, d2, tempAire, d4, d3, tempPiel, d6, d5, tempSondaAux)
+
+    return jsonify({
+        "status": "ok",
+        "temAire": tempAire,
+        "temPiel": tempPiel,
+        "temSondaAux": tempSondaAux
+    }), 200
 
 #============================================================================#
 #                                    Hilos                                   #
