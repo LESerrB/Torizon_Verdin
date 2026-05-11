@@ -87,34 +87,32 @@ def decode_Msg(basc_UART1):
     - float: peso en kg si la trama y el CRC son válidos.
     - 0.0 si la trama no es válida o no cumple el formato.
     """
-    # basc_val = []
+    bytes_array = []
 
     trama = uart_receive(basc_UART1)
     print("<<<<", trama)
-    if trama != None:
-        return trama
 
-    # if trama and trama.startswith("00") and trama.endswith("63"):
-    #     trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
-    #     n_bytes = int(trama[1], 16)
+    if trama and trama.startswith("00") and trama.endswith("63"):
+        trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
+        n_bytes = int(trama[1], 16)
 
-    #     for i in range(2, (2 + n_bytes)):
-    #         basc_val.append(trama[i])
+        for i in range(2, (2 + n_bytes)):
+            bytes_array.append(trama[i])
 
-    #     basc_val = ''.join(basc_val)
-    #     basc_val = bytes.fromhex(basc_val)
-    #     w_bas = (int.from_bytes(basc_val, byteorder='big'))/1000
+        bytes_array = ''.join(bytes_array)
+        bytes_array = bytes.fromhex(bytes_array)
+        # w_bas = (int.from_bytes(bytes_array, byteorder='big'))/1000
 
-    #     crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
-    #     crc_rec = hex(int(crc_rec, 16))
-    #     crc_calc = hex(crc16_arc(basc_val))
+        crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
+        crc_rec = hex(int(crc_rec, 16))
+        crc_calc = hex(crc16_arc(bytes_array))
 
-    #     if crc_rec == crc_calc:
-    #         return w_bas
-    # else:
-    #     w_bas = 0.0
+        if crc_rec == crc_calc:
+            return bytes_array
+    else:
+        bytes_array = 00
 
-    # return w_bas
+    return bytes_array
 
 def encode_Msg(basc_UART1, msg):
     # {0x00,0x00,0x55,0x00,0x00,0x00,0x00,0x00,0x00,0x00};

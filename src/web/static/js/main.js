@@ -3,6 +3,7 @@ let intervalId = null;
 const tempPiel = document.getElementById("_36-5");
 const tempAire = document.getElementById("_36-3");
 const tempSondaAux = document.getElementById("_34-6");
+const tempProg = document.getElementById("_36-7");
 
 startSensor();
 
@@ -16,12 +17,11 @@ async function getTemp() {
         });
 
         const temperaturas = await res.json();
-        console.log(temperaturas);
-        
 
         tempPiel.textContent = temperaturas.temPiel;
         tempAire.textContent = temperaturas.temAire;
         tempSondaAux.textContent = temperaturas.temSondaAux;
+        tempProg.textContent = temperaturas.tempProg + " / " + temperaturas.tempProgBb;
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada");
     }

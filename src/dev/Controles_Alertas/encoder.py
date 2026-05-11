@@ -78,6 +78,7 @@ def valEdit(editVal, valIni, sobreGiro):
         evt = enc_clk.event_read()
         current_CLK = 1 if evt.type == gpiod.LineEvent.RISING_EDGE else 0
         current_DT = enc_dt.get_value()
+        print(current_DT)
 
         if current_CLK != last_CLK:
             if current_CLK == current_DT:

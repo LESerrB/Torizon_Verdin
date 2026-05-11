@@ -308,26 +308,21 @@ def encoder_loop():
 def getTempPiel():
     global W
 
-    d1 = W[4:6]
-    d2 = W[6:8]      # Temp Aire
+    tempAire = int((W[4:8]), 16)/10
+    tempPiel = int((W[8:12]), 16)/10
+    tempSondaAux = int((W[12:16]), 16)/10
+    tempProg = int((W[16:20]), 16)/10
+    tempProgBb = int((W[20:24]), 16)/10
 
-    d3 = W[8:10]     # Temp Piel
-    d4 = W[10:12]
-
-    d5 = W[12:14]    # Sonda Aux
-    d6 = W[14:16]
-
-    tempAire = int((d1 + d2), 16)/10
-    tempPiel = int((d4 + d3), 16)/10
-    tempSondaAux = int((d6 + d5), 16)/10
-
-    print(d1, d2, tempAire, d4, d3, tempPiel, d6, d5, tempSondaAux)
+    # print(d1, d2, tempAire, d4, d3, tempPiel, d6, d5, tempSondaAux, d7, d8, tempProg, d9, d10, tempProgBb)
 
     return jsonify({
         "status": "ok",
         "temAire": tempAire,
         "temPiel": tempPiel,
-        "temSondaAux": tempSondaAux
+        "temSondaAux": tempSondaAux,
+        "tempProg": tempProg,
+        "tempProgBb": tempProgBb
     }), 200
 
 #============================================================================#
