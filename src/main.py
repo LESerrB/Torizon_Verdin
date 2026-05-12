@@ -308,13 +308,13 @@ def encoder_loop():
 def getTempPiel():
     global W
 
-    tempAire = int((W[4:8]), 16)/10
-    tempPiel = int((W[8:12]), 16)/10
-    tempSondaAux = int((W[12:16]), 16)/10
-    tempProg = int((W[16:20]), 16)/10
-    tempProgBb = int((W[20:24]), 16)/10
+    tempAire = int.from_bytes(W[0:2], byteorder='big')/10
+    tempPiel = int.from_bytes(W[2:4], byteorder='big')/10
+    tempSondaAux = int.from_bytes(W[4:6], byteorder='big')/10
+    tempProg = int.from_bytes(W[6:8], byteorder='big')/10
+    tempProgBb = int.from_bytes(W[8:10], byteorder='big')/10
 
-    # print(d1, d2, tempAire, d4, d3, tempPiel, d6, d5, tempSondaAux, d7, d8, tempProg, d9, d10, tempProgBb)
+    # print("->", tempAire, tempPiel, tempSondaAux, tempProg, tempProgBb, W[10:12])
 
     return jsonify({
         "status": "ok",
