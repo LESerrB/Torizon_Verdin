@@ -38,7 +38,7 @@ from api.com_UART import decode_Msg, encode_Msg
 
 uart_Channel = "/dev/verdin-uart1"
 baud_rate = 115200
-basc_UART1 = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
+tcd_UART1 = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
 
 
 encoder_events_lock = threading.Lock()
@@ -104,9 +104,6 @@ class ControlState:
 
 state = ControlState()
 state_lock = threading.Lock()
-
-encode_Msg(basc_UART1, "55")
-W = decode_Msg(basc_UART1)
 
 def clamp_round_temp(v: float, sobre_giro: bool) -> float:
     vmax = TEMP_MAX_SG if sobre_giro else TEMP_MAX
@@ -268,8 +265,8 @@ def encoder_loop():
 
     while True:
         # Comunicación temperatura
-        encode_Msg(basc_UART1, "55")
-        W = decode_Msg(basc_UART1)
+        encode_Msg(tcd_UART1, "01")
+        W = decode_Msg(tcd_UART1)
 
         if enableEdit:
             with state_lock:
