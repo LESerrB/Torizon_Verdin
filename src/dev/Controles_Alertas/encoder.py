@@ -16,11 +16,10 @@ from api.pins_ADC import read_adc
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
-bank = "/dev/gpiochip0"
-bank2 = "/dev/gpiochip2"
+bank = "/dev/gpiochip3"
 
-enc_CLK = 7
-enc_DT = 6
+enc_CLK = 26
+enc_DT = 27
 enc_SW = 1
 
 # Líneas individuales
