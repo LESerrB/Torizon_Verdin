@@ -1,3 +1,6 @@
+import random
+import math
+
 #================================================================#
 #                 Funciones de comunicación UART                 #
 #================================================================#
@@ -126,17 +129,28 @@ def encode_Msg(UART_dev, msg):
     - Calcula el número de bytes, añade CRC-16 y el terminador `0x63`, y
         envía la trama completa mediante `uart_send()`.
     """
-    # n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
-    # dt = bytes.fromhex(msg)
+    n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
+    dt = bytes.fromhex(msg)
 
-    # crc = crc16_arc(dt)
-    # crc = crc.to_bytes(2, byteorder='big')
-    # dt = b'\x00' + n_bytes + dt + crc + b'\x63'
+    crc = crc16_arc(dt)
+    crc = crc.to_bytes(2, byteorder='big')
+    dt = b'\x00' + n_bytes + dt + crc + b'\x63'
+    # numbers = [random.uniform(35.5, 36.5) for _ in range(5)]
+    
+    # nums = []
 
-          #  00       0A         00        6F        00        DE        01        4D        01        BC        02        2B        00        00        63
-    dt = b'\x00' + b'\x0A' + b'\x00' + b'\x7B' + b'\x01' + b'\x63' + b'\x01' + b'\x18' + b'\x01' + b'\x68' + b'\x02' + b'\x2B' + b'\x00' + b'\x00' + b'\x63'
+    # for num in numbers:
+    #     nums.append(math.trunc(num * 10))
+
+    # dt = b'\x00' + b'\x0A' + nums[0].to_bytes(2, byteorder='big') + nums[1].to_bytes(2, byteorder='big') + nums[2].to_bytes(2, byteorder='big') + nums[3].to_bytes(2, byteorder='big') + nums[4].to_bytes(2, byteorder='big') + b'\x00' + b'\x00' + b'\x63'
+    # print(dt)
+
+    #       #  00       0A   |     00        6F  |     00        DE  |     01        4D  |     01        BC  |     02        2B  |     00        00        63
+    # dt = b'\x00' + b'\x0A' + b'\x00' + b'\x6F' + b'\x00' + b'\xDE' + b'\x01' + b'\x4D' + b'\x01' + b'\xBC' + b'\x02' + b'\x2B' + b'\x00' + b'\x00' + b'\x63'
+    # print(dt)
 
     uart_send(UART_dev, dt)
+    # return(nums)
 #================================================================#
 #                  Función de creación de CRC                    #
 #================================================================#

@@ -1,18 +1,3 @@
-export function chngMode(modo) {
-    const panel = document.getElementById(modo.target.id);
-    
-    panel.classList.add('active');
-    panel.classList.remove('inactive');
-
-    if (modo.target.id == "modo-bebe") {
-        document.getElementById("modo-manual").classList.add('inactive');
-        document.getElementById("modo-manual").classList.remove('active');
-    } else {
-        document.getElementById("modo-bebe").classList.add('inactive');
-        document.getElementById("modo-bebe").classList.remove('active');
-    }
-};
-
 export function toggle_btnSG(btn_SG){
     const btn_sobreGiro = document.getElementById('tmpPrgSobregiro');
     const lbl_sobreGiro = document.getElementById('tmpPrgSobregiro-lbl');
@@ -34,13 +19,15 @@ export function toggle_btnSG(btn_SG){
 };
 
 export function set_EditCtrlsEn(enabled, btns) {
-    Object.values(btns).forEach(btnId => {
-        const btn = document.getElementById(btnId);
+    // Object.values(btns).forEach(btnId => {
+    //     const btn = document.getElementById(btnId);
 
-        if (btn) {
-            btn.disabled = !enabled;
-        }
-    });
+    //     if (btn) {
+    //         btn.disabled = !enabled;
+    //     }
+    // });
 
-    return !!enabled;
+    // return !!enabled;
+    
+    console.log("Clck");
 };

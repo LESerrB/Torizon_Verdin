@@ -76,6 +76,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 #-------- Valores Iniciales --------#
 W = 0
+nums = []
 tempProg = 34.0
 sobreGiro = False
 enableEdit = False
@@ -261,12 +262,14 @@ def restart_container(threshold=90):
 
 def encoder_loop():
     global W
+    global nums
     last_sent_temp = None
 
     while True:
         # Comunicación temperatura
-        encode_Msg(tcd_UART1, "01")
-        W = decode_Msg(tcd_UART1)
+        # nums = encode_Msg(tcd_UART1, "55")
+        # W = decode_Msg(tcd_UART1)
+        # time.sleep(3)
 
         if enableEdit:
             with state_lock:
@@ -304,12 +307,21 @@ def encoder_loop():
 @app.route("/api/getTemp", methods=["POST"])
 def getTempPiel():
     global W
+    global nums
 
-    tempAire = int.from_bytes(W[0:2], byteorder='big')/10
-    tempPiel = int.from_bytes(W[2:4], byteorder='big')/10
-    tempSondaAux = int.from_bytes(W[4:6], byteorder='big')/10
-    tempProg = int.from_bytes(W[6:8], byteorder='big')/10
-    tempProgBb = int.from_bytes(W[8:10], byteorder='big')/10
+    # tempAire = int.from_bytes(W[0:2], byteorder='big')/10
+    # tempPiel = int.from_bytes(W[2:4], byteorder='big')/10
+    # tempSondaAux = int.from_bytes(W[4:6], byteorder='big')/10
+    # tempProg = int.from_bytes(W[6:8], byteorder='big')/10
+    # tempProgBb = int.from_bytes(W[8:10], byteorder='big')/10
+    tempAire = 10
+    tempPiel = 10
+    tempSondaAux = 10
+    tempProg = 10
+    tempProgBb = 10
+
+    # peso = int.from_bytes(W[0:2], byteorder='big')/1000
+    peso = 10
 
     # print("->", tempAire, tempPiel, tempSondaAux, tempProg, tempProgBb, W[10:12])
 
@@ -319,7 +331,8 @@ def getTempPiel():
         "temPiel": tempPiel,
         "temSondaAux": tempSondaAux,
         "tempProg": tempProg,
-        "tempProgBb": tempProgBb
+        "tempProgBb": tempProgBb,
+        "kgs": peso,
     }), 200
 
 #============================================================================#
