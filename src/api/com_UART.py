@@ -22,7 +22,7 @@ def uart_send(uart_dev, data):
     try:
         if uart_dev and uart_dev.is_open:
             if isinstance(data, (bytes, bytearray)):
-                print(">>>>", data)
+                # print(">>>>", data)
                 uart_dev.write(data)
             else:
                 s = str(data)
@@ -90,32 +90,37 @@ def decode_Msg(UART_dev):
     - float: peso en kg si la trama y el CRC son válidos.
     - 0.0 si la trama no es válida o no cumple el formato.
     """
-    bytes_list = []
+    try:
+        bytes_list = []
 
-    trama = uart_receive(UART_dev)
-    print("<<<<", trama)
+        trama = uart_receive(UART_dev)
+        print("<<<<", trama)
 
-    if trama and trama.startswith("00") and trama.endswith("63"):
-        trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
-        n_bytes = int(trama[1], 16)
+        if trama and trama.startswith("00") and trama.endswith("63"):
+            trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
+            n_bytes = int(trama[1], 16)
 
-        for i in range(2, (2 + n_bytes)):
-            bytes_list.append(trama[i])
+            for i in range(2, (2 + n_bytes)):
+                bytes_list.append(trama[i])
 
-        bytes_list = ''.join(bytes_list)
-        bytes_list = bytes.fromhex(bytes_list)
-        # w_bas = (int.from_bytes(bytes_list, byteorder='big'))/1000
+            bytes_list = ''.join(bytes_list)
+            bytes_list = bytes.fromhex(bytes_list)
+            # w_bas = (int.from_bytes(bytes_list, byteorder='big'))/1000
 
-        crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
-        crc_rec = hex(int(crc_rec, 16))
-        crc_calc = hex(crc16_arc(bytes_list))
+            crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
+            crc_rec = hex(int(crc_rec, 16))
+            crc_calc = hex(crc16_arc(bytes_list))
 
-        if crc_rec == crc_calc:
-            return bytes_list
-    else:
-        bytes_list = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+            if crc_rec == crc_calc:
+                return bytes_list
+        else:
+            bytes_list = b'\x99\x00'
 
-    return bytes_list
+        return bytes_list
+    except Exception as e:
+        # logger.error("Error leyendo SONDA1:", e)
+        print(f"Error al recibir trama: {e}")
+        return b'\x99\x00'
 
 def encode_Msg(UART_dev, msg):
     """
@@ -129,28 +134,27 @@ def encode_Msg(UART_dev, msg):
     - Calcula el número de bytes, añade CRC-16 y el terminador `0x63`, y
         envía la trama completa mediante `uart_send()`.
     """
-    n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
-    dt = bytes.fromhex(msg)
+    try:
+        n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
+        dt = bytes.fromhex(msg)
+        # print(dt)
 
-    crc = crc16_arc(dt)
-    crc = crc.to_bytes(2, byteorder='big')
-    dt = b'\x00' + n_bytes + dt + crc + b'\x63'
-    # numbers = [random.uniform(35.5, 36.5) for _ in range(5)]
-    
-    # nums = []
+        crc = crc16_arc(dt)
+        crc = crc.to_bytes(2, byteorder='big')
 
-    # for num in numbers:
-    #     nums.append(math.trunc(num * 10))
+        if msg != "55":
+            dt = b'\x00' + b'\x0A' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + dt + b'\x00' + b'\x00' + crc + b'\x63'
+            # print("->", dt)
 
-    # dt = b'\x00' + b'\x0A' + nums[0].to_bytes(2, byteorder='big') + nums[1].to_bytes(2, byteorder='big') + nums[2].to_bytes(2, byteorder='big') + nums[3].to_bytes(2, byteorder='big') + nums[4].to_bytes(2, byteorder='big') + b'\x00' + b'\x00' + b'\x63'
-    # print(dt)
+        #       #  00       0A   |     00        6F  |     00        DE  |     01        4D  |     01        BC  |     02        2B  |     00        00        63
+        else:
+            dt = b'\x00' + n_bytes + dt + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + crc + b'\x63'
+            # print("=>", dt)
 
-    #       #  00       0A   |     00        6F  |     00        DE  |     01        4D  |     01        BC  |     02        2B  |     00        00        63
-    # dt = b'\x00' + b'\x0A' + b'\x00' + b'\x6F' + b'\x00' + b'\xDE' + b'\x01' + b'\x4D' + b'\x01' + b'\xBC' + b'\x02' + b'\x2B' + b'\x00' + b'\x00' + b'\x63'
-    # print(dt)
+        uart_send(UART_dev, dt)
+    except Exception as e:
+        print(f"Error al mandar trama: {e}")
 
-    uart_send(UART_dev, dt)
-    # return(nums)
 #================================================================#
 #                  Función de creación de CRC                    #
 #================================================================#

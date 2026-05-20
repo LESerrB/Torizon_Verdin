@@ -17,15 +17,16 @@ from api.pins_ADC import read_adc
 #                      Configuración GPIOs                      #
 #===============================================================#
 bank = "/dev/gpiochip3"
+bank2 = "/dev/gpiochip2"
 
 enc_CLK = 26
 enc_DT = 27
-enc_SW = 1
+enc_SW = 0
 
 # Líneas individuales
 enc_clk = gpiod.Chip(bank).get_line(enc_CLK)
 enc_dt = gpiod.Chip(bank).get_line(enc_DT)
-enc_sw = gpiod.Chip(bank).get_line(enc_SW)
+enc_sw = gpiod.Chip(bank2).get_line(enc_SW)
 
 # Configuración de Acceso
 enc_clk.request(
@@ -77,7 +78,6 @@ def valEdit(editVal, valIni, sobreGiro):
         evt = enc_clk.event_read()
         current_CLK = 1 if evt.type == gpiod.LineEvent.RISING_EDGE else 0
         current_DT = enc_dt.get_value()
-        print(current_DT)
 
         if current_CLK != last_CLK:
             if current_CLK == current_DT:

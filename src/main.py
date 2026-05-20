@@ -31,6 +31,7 @@ from typing import Deque, Dict, Any
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
 from dev.Controles_Alertas import encoder as hw_encoder
+from dev.Temperatura.sonda import read_Sonda
 
 import serial
 
@@ -77,8 +78,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 #-------- Valores Iniciales --------#
 W = 0
 nums = []
-tempProg = 34.0
-sobreGiro = False
+
 enableEdit = False
 edit_started_temp = None
 
@@ -213,19 +213,38 @@ def api_encoder_events():
 def start_tempProg_edit():
     global enableEdit, edit_started_temp
 
+    monitor_pause.clear()
+
+    with state_lock:
+        s = snapshot_state()
+
     enableEdit = True
     edit_started_temp = state.tempProg
+    s["tempProg"] = state.tempProg
 
-    return jsonify({"status": "ok"}), 200
+    return jsonify({"status": "ok", **s}), 200
 
 @app.route("/api/tempProg/edit/accept", methods=["POST"])
 def accept_tempProg_edit():
     global enableEdit
 
+    with state_lock:
+        s = snapshot_state()
+
     enableEdit = False
+    s["tempProg"] = state.tempProg
+    p = int(state.tempProg * 10)
+    q = int(round(read_Sonda(3), 1) * 10)
+    p = f"{q:04X}{p:04X}"
+    print("\n", p, "\n")
+    encode_Msg(tcd_UART1, p)
+
+    time.sleep(0.5)
+
+    monitor_pause.set()
 
     print("La nueva temperatura programada es:", state.tempProg)
-    return jsonify({"status": "ok"}), 200
+    return jsonify({"status": "ok", **s}), 200
 
 @app.route("/api/tempProg/edit/cancel", methods=["POST"])
 def cancel_tempProg_edit():
@@ -238,6 +257,8 @@ def cancel_tempProg_edit():
     state.tempProg = edit_started_temp
     s["tempProg"] = state.tempProg
 
+    # monitor_pause.set()
+
     print("Regresando a la temperatura anterior:", edit_started_temp)
     return jsonify({"status": "ok", **s}), 200
 ##############################################################################
@@ -245,11 +266,21 @@ def cancel_tempProg_edit():
 ##############################################################################
 def sys_monitor():
     # global alertaSumEner
+    global W
 
     while True:
+        monitor_pause.wait()
         restart_container()                         # Memoria del contenedor
         # alertaSumEner = monitoreo_alimentación(2)   # Suministro de energía
-        time.sleep(0.5)
+
+# Comunicación temperatura
+        encode_Msg(tcd_UART1, "55")
+        Q = decode_Msg(tcd_UART1)
+
+        if not (Q.hex().startswith("99") and Q.hex().endswith("00")):
+            W = Q
+
+        time.sleep(0.3)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")
@@ -261,16 +292,9 @@ def restart_container(threshold=90):
         os._exit(1)
 
 def encoder_loop():
-    global W
-    global nums
     last_sent_temp = None
 
     while True:
-        # Comunicación temperatura
-        # nums = encode_Msg(tcd_UART1, "55")
-        # W = decode_Msg(tcd_UART1)
-        # time.sleep(3)
-
         if enableEdit:
             with state_lock:
                 cur_temp = float(state.tempProg)
@@ -307,37 +331,37 @@ def encoder_loop():
 @app.route("/api/getTemp", methods=["POST"])
 def getTempPiel():
     global W
-    global nums
 
-    # tempAire = int.from_bytes(W[0:2], byteorder='big')/10
-    # tempPiel = int.from_bytes(W[2:4], byteorder='big')/10
-    # tempSondaAux = int.from_bytes(W[4:6], byteorder='big')/10
-    # tempProg = int.from_bytes(W[6:8], byteorder='big')/10
-    # tempProgBb = int.from_bytes(W[8:10], byteorder='big')/10
-    tempAire = 10
-    tempPiel = 10
-    tempSondaAux = 10
-    tempProg = 10
-    tempProgBb = 10
+    if not isinstance(W, (bytes, bytearray)) or len(W) < 10:
+        return jsonify({
+            "status": "fail"
+        }), 400
 
-    # peso = int.from_bytes(W[0:2], byteorder='big')/1000
+    t_Aire = int.from_bytes(W[0:2], byteorder='big') / 10
+    t_Piel = int.from_bytes(W[2:4], byteorder='big') / 10
+    # t_SondaAux = int.from_bytes(W[4:6], byteorder='big') / 10
+    t_SondaAux = round(read_Sonda(3), 1)
+    state.tempProg = int.from_bytes(W[6:8], byteorder='big') / 10
+    t_ProgBb = int.from_bytes(W[8:10], byteorder='big') / 10
+
     peso = 10
-
-    # print("->", tempAire, tempPiel, tempSondaAux, tempProg, tempProgBb, W[10:12])
 
     return jsonify({
         "status": "ok",
-        "temAire": tempAire,
-        "temPiel": tempPiel,
-        "temSondaAux": tempSondaAux,
-        "tempProg": tempProg,
-        "tempProgBb": tempProgBb,
+        "temAire": t_Aire,
+        "temPiel": t_Piel,
+        "temSondaAux": t_SondaAux,
+        "tempProg": state.tempProg,
+        "tempProgBb": t_ProgBb,
         "kgs": peso,
     }), 200
 
 #============================================================================#
 #                                    Hilos                                   #
 #============================================================================#
+monitor_pause = threading.Event()
+monitor_pause.set()
+
 monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
 monitor_thread.start()
 

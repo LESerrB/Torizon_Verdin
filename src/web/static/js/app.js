@@ -1,3 +1,8 @@
+import { 
+    startSensor,
+    pauseSensor,
+} from "./sensor.js";
+
 let encSince = 0;
 let encPollTimer = null;
 let editTimeout = null;
@@ -55,6 +60,7 @@ let editingEnabled = false;
         if (!el) return;
 
         const shown = st.editingTempProg ? st.tempProgDraft : st.tempProg;
+
         el.textContent = Number(shown).toFixed(1);
     }
 
@@ -84,6 +90,8 @@ let editingEnabled = false;
 
         editingEnabled = false;
         $(UI.tempProg)?.classList.remove("parpadeo");
+
+        startSensor();
     }
 
     async function pollEncoderEvents() {
@@ -128,9 +136,11 @@ let editingEnabled = false;
     async function enable_Editing(event) {
         if (!event?.target || event.target.id !== UI.tempProg) return;
         if (editingEnabled) return;
+        pauseSensor();
 
         try {
             const d = await apiPost(API.startEdit, {});
+
             syncFromServer(d);
 
             editingEnabled = true;
@@ -160,6 +170,8 @@ let editingEnabled = false;
         await loadInit();
 
         const tempProgEl = $(UI.tempProg);
+        startSensor();
+
         if (tempProgEl) {
             tempProgEl.addEventListener("click", enable_Editing);
         }
