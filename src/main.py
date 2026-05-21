@@ -277,6 +277,12 @@ def sys_monitor():
         encode_Msg(tcd_UART1, "55")
         Q = decode_Msg(tcd_UART1)
 
+        p = int(state.tempProg * 10)
+        q = int(round(read_Sonda(3), 1) * 10)
+        p = f"{q:04X}{p:04X}"
+
+        encode_Msg(tcd_UART1, p)
+        
         if not (Q.hex().startswith("99") and Q.hex().endswith("00")):
             W = Q
 

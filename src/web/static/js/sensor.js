@@ -5,6 +5,7 @@ const tempAire = document.getElementById("_36-3");
 const tempSondaAux = document.getElementById("_34-6");
 const tempProg = document.getElementById("_36-7");
 
+const btn_pesaje = document.getElementById("pesar")
 // const peso = document.getElementById("peso");
 
 async function getTemp() {
@@ -30,6 +31,11 @@ async function getTemp() {
         console.log("Error al obtener la Temperatura Programada");
     }
 };
+
+btn_pesaje.addEventListener('click', () => {
+    console.log("Pesando...");
+    
+});
 
 export function startSensor(){
     if (!intervalId) {

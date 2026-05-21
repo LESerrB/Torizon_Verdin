@@ -137,19 +137,17 @@ def encode_Msg(UART_dev, msg):
     try:
         n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
         dt = bytes.fromhex(msg)
-        # print(dt)
+        # print(dt, n_bytes)
 
         crc = crc16_arc(dt)
         crc = crc.to_bytes(2, byteorder='big')
 
         if msg != "55":
-            dt = b'\x00' + b'\x0A' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + dt + b'\x00' + b'\x00' + crc + b'\x63'
-            # print("->", dt)
+                    #00       0A   |     00        6F  |     00        DE  |     01        4D  |     01        BC  |     02        2B  |     00        00        63
+            dt = b'\x00' + b'\x0A' + b'\x00' + b'\x6F' + b'\x00' + b'\xDE' +  dt + b'\x00' + b'\x00' + crc + b'\x63'
 
-        #       #  00       0A   |     00        6F  |     00        DE  |     01        4D  |     01        BC  |     02        2B  |     00        00        63
         else:
             dt = b'\x00' + n_bytes + dt + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + crc + b'\x63'
-            # print("=>", dt)
 
         uart_send(UART_dev, dt)
     except Exception as e:

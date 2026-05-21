@@ -15,10 +15,10 @@ tolerancia = 0.100
 #================================================================#
 #             Función principal de comunicación UART             #
 #================================================================#
-uart_Channel = "/dev/verdin-uart1"
-baud_rate = 57600
+channel_Dev = "/dev/verdin-uart2"
+br = 57600
 
-basc_UART1 = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
+basc_UART = serial.Serial(channel_Dev, br, 8, 'N', 1, timeout=1)
 
 #================================================================#
 #                 Funciones de obtención de Peso                 #
@@ -43,8 +43,8 @@ def pesaje():
     finPesaje = time.monotonic() + 5
 
     while (c < 4) and (time.monotonic() < finPesaje):
-        encode_Msg(basc_UART1, "55")
-        w = decode_Msg(basc_UART1)
+        encode_Msg(basc_UART, "55")
+        w = decode_Msg(basc_UART)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w
@@ -82,8 +82,8 @@ def tare():
     finPesaje = time.monotonic() + 10
 
     while (c < 5) and (time.monotonic() < finPesaje):
-        encode_Msg(basc_UART1, "55")
-        w = decode_Msg(basc_UART1)
+        encode_Msg(basc_UART, "55")
+        w = decode_Msg(basc_UART)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w
@@ -123,8 +123,8 @@ def calib(peso_ptrn = 5.0):
     finPesaje = time.monotonic() + 5
 
     while (c < 4) and (time.monotonic() < finPesaje):
-        encode_Msg(basc_UART1, "55")
-        w = decode_Msg(basc_UART1)
+        encode_Msg(basc_UART, "55")
+        w = decode_Msg(basc_UART)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w
