@@ -6,7 +6,7 @@ const tempSondaAux = document.getElementById("_34-6");
 const tempProg = document.getElementById("_36-7");
 
 const btn_pesaje = document.getElementById("pesar")
-// const peso = document.getElementById("peso");
+const peso_Basc = document.getElementById("peso");
 
 async function getTemp() {
     try {
@@ -24,17 +24,30 @@ async function getTemp() {
             tempAire.textContent = temperaturas.temAire;
             tempSondaAux.textContent = temperaturas.temSondaAux;
             tempProg.textContent = temperaturas.tempProg;
-
-            peso.textContent = temperaturas.kgs + " kg";
         }
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada");
     }
 };
 
-btn_pesaje.addEventListener('click', () => {
-    console.log("Pesando...");
-    
+btn_pesaje.addEventListener('click', async () => {
+    try {
+        const res = await fetch('/api/pesar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if(res.status == 200){
+            const peso = await res.json();
+            console.log(peso.peso);
+            
+            peso_Basc.textContent = peso.peso + " kg";
+        }
+    } catch (error) {
+        console.log("Error:", error);
+    }
 });
 
 export function startSensor(){

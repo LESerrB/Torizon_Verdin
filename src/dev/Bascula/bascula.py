@@ -36,27 +36,24 @@ def pesaje():
     - float: peso calculado; 0.0 si no se obtienen lecturas válidas.
     """
     pesoAcc = 0
-    c = 0
+    weight_prom = 0
 
-    print("Iniciando Pesaje")
+    print("=========Iniciando Pesaje=========")
 
-    finPesaje = time.monotonic() + 5
-
-    while (c < 4) and (time.monotonic() < finPesaje):
+    for i in range(10):
         encode_Msg(basc_UART, "55")
-        w = decode_Msg(basc_UART)
-
-        if w != 0.0:
-            pesoAcc = pesoAcc + w
-            c += 1
-
-    print("Peso acumulado:", pesoAcc)
+        weight = decode_Msg(basc_UART)
+        
+        if weight != b'\x99\x00':
+            weight = int.from_bytes(weight, "big")/1000
+            pesoAcc = pesoAcc + weight
+            weight_prom += 1
 
     if pesoAcc > 0:
-        pesoTotal = pesoAcc/c
+        pesoTotal = pesoAcc/weight_prom
         pesoTotal = (pesoTotal - OFFSET) / SCALE
     else:
-        pesoTotal = 0.0
+        pesoTotal = 999
 
     return pesoTotal
 

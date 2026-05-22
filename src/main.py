@@ -21,7 +21,7 @@ from typing import Deque, Dict, Any
 
 # from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
 # from dev.Sensores_TPH.bme280 import bme280
-# from dev.Bascula.bascula import tare, calib, pesaje
+from dev.Bascula.bascula import tare, calib, pesaje
 # from dev.GPIO.botones import pwrBtn_Evnt
 # from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
 # from dev.GPIO.modoFunc import ctrl_Motores, sm_chngModoOp
@@ -77,7 +77,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 #-------- Valores Iniciales --------#
 W = 0
-nums = []
+pesoTCD = 0
 
 enableEdit = False
 edit_started_temp = None
@@ -267,6 +267,7 @@ def cancel_tempProg_edit():
 def sys_monitor():
     # global alertaSumEner
     global W
+    global pesoTCD
 
     while True:
         monitor_pause.wait()
@@ -279,7 +280,7 @@ def sys_monitor():
 
         p = int(state.tempProg * 10)
         q = int(round(read_Sonda(3), 1) * 10)
-        p = f"{q:04X}{p:04X}"
+        p = f"{q:04X}{p:04X}{pesoTCD:04X}"
 
         encode_Msg(tcd_UART1, p)
         
@@ -362,6 +363,24 @@ def getTempPiel():
         "kgs": peso,
     }), 200
 
+@app.route("/api/pesar", methods=["POST"])
+def api_Pesaje():
+    global pesoTCD
+
+    peso = round(pesaje(), 3)
+
+    print(f"=======Fin Pesaje: {peso}=======")
+
+    if peso != 999:
+        pesoTCD = int(peso * 1000)
+
+        if peso > 10:
+            pesoTCD = int((peso - 7) * 1000)
+            peso = round((pesoTCD/1000), 3)
+
+        return jsonify({"status": "ok", "peso": peso}), 200
+    else:
+        return jsonify({"status": "fail"}), 400
 #============================================================================#
 #                                    Hilos                                   #
 #============================================================================#
