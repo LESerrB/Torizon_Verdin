@@ -76,7 +76,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 # werkzeug_logger.setLevel(logger.level)
 
 #-------- Valores Iniciales --------#
-W = 0
+W = b"\x00" * 10
 pesoTCD = 0
 
 enableEdit = False
@@ -278,11 +278,13 @@ def sys_monitor():
         encode_Msg(tcd_UART1, "55")
         Q = decode_Msg(tcd_UART1)
 
-        p = int(state.tempProg * 10)
-        q = int(round(read_Sonda(3), 1) * 10)
-        p = f"{q:04X}{p:04X}{pesoTCD:04X}"
+        tc = int(state.tempProg * 10)
+        taux = int(round(read_Sonda(3), 1) * 10)
+        ta = int.from_bytes(W[0:2], byteorder="big")
+        tp = int.from_bytes(W[2:4], byteorder="big")
+        TCD_trama = f"{ta:04X}{tp:04X}{taux:04X}{tc:04X}{pesoTCD:04X}"
 
-        encode_Msg(tcd_UART1, p)
+        encode_Msg(tcd_UART1, TCD_trama)
         
         if not (Q.hex().startswith("99") and Q.hex().endswith("00")):
             W = Q

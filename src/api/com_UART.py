@@ -145,7 +145,7 @@ def encode_Msg(UART_dev, msg):
         if msg != "55":
                     #00        0A   |       1111       |        2222       |        3333       |        4444       |        5555       |         CRC             63
                     #00        0A   |    00        6F  |     00        DE  |     01        4D  |     01        BC  |     27        10  |     00        00        63
-            dt = b'\x00' + b'\x0A' + b'\x00' + b'\x6F' + b'\x00' + b'\xDE' +  dt + crc + b'\x63'
+            dt = b'\x00' + b'\x0A' + dt + crc + b'\x63'
 
         else:
             dt = b'\x00' + n_bytes + dt + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + crc + b'\x63'
