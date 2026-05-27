@@ -22,7 +22,6 @@ def uart_send(uart_dev, data):
     try:
         if uart_dev and uart_dev.is_open:
             if isinstance(data, (bytes, bytearray)):
-                # print(">>>>", data)
                 uart_dev.write(data)
             else:
                 s = str(data)
@@ -135,21 +134,23 @@ def encode_Msg(UART_dev, msg):
         envía la trama completa mediante `uart_send()`.
     """
     try:
-        n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
+        n_bytes = int(len(msg)/2)
         dt = bytes.fromhex(msg)
-        # print(dt, n_bytes)
 
         crc = crc16_arc(dt)
         crc = crc.to_bytes(2, byteorder='big')
 
-        if msg != "55":
-                    #00        0A   |       1111       |        2222       |        3333       |        4444       |        5555       |         CRC             63
-                    #00        0A   |    00        6F  |     00        DE  |     01        4D  |     01        BC  |     27        10  |     00        00        63
-            dt = b'\x00' + b'\x0A' + dt + crc + b'\x63'
+        rpt = 10 - n_bytes
 
+        if rpt > 0:
+            void_dt = b'\x00' * rpt
         else:
-            dt = b'\x00' + n_bytes + dt + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + crc + b'\x63'
+            void_dt = b''
 
+        n_bytes = n_bytes.to_bytes(1, byteorder='big')
+        dt = b'\x00' + n_bytes + dt + void_dt + crc + b'\x63'
+
+        print(">>>>", n_bytes, dt, crc)
         uart_send(UART_dev, dt)
     except Exception as e:
         print(f"Error al mandar trama: {e}")

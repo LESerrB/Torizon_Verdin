@@ -234,8 +234,7 @@ def accept_tempProg_edit():
     enableEdit = False
     s["tempProg"] = state.tempProg
     p = int(state.tempProg * 10)
-    q = int(round(read_Sonda(3), 1) * 10)
-    p = f"{q:04X}{p:04X}"
+    p = f"{0:02X}{p:04X}"
     print("\n", p, "\n")
     encode_Msg(tcd_UART1, p)
 
@@ -257,7 +256,7 @@ def cancel_tempProg_edit():
     state.tempProg = edit_started_temp
     s["tempProg"] = state.tempProg
 
-    # monitor_pause.set()
+    monitor_pause.set()
 
     print("Regresando a la temperatura anterior:", edit_started_temp)
     return jsonify({"status": "ok", **s}), 200
@@ -288,6 +287,7 @@ def sys_monitor():
         
         if not (Q.hex().startswith("99") and Q.hex().endswith("00")):
             W = Q
+            print(f"\n==>{W}\n{W[0:2]} | {W[2:4]} | {W[4:6]} | {W[6:8]} | {W[8:10]} | {W[10:12]}\n")
 
         time.sleep(0.3)
 
