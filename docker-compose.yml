@@ -64,6 +64,7 @@ services:
 
   quickstart1-debug:
     container_name: quickstart1-debug
+    platform: linux/arm64
     build:
       context: .
       dockerfile: Dockerfile.debug
@@ -89,6 +90,7 @@ services:
       - /dev/ttymxc0:/dev/verdin-uart1
       - /dev/ttymxc1:/dev/verdin-uart2
       - /dev/ttymxc2:/dev/verdin-uart3
+      # - /dev/ttymxc3:/dev/verdin-uart4
     tty: true
     stdin_open: true
     group_add:
@@ -99,6 +101,7 @@ services:
 
   quickstart1:
     container_name: quickstart1
+    platform: linux/arm64
     build:
       context: .
       dockerfile: Dockerfile
@@ -121,10 +124,11 @@ services:
       - /dev/ttymxc0:/dev/verdin-uart1
       - /dev/ttymxc1:/dev/verdin-uart2
       - /dev/ttymxc2:/dev/verdin-uart3
+      # - /dev/ttymxc3:/dev/verdin-uart4
     tty: true
     stdin_open: true
     group_add:
       - "${SPI_GID:-52}"
-      - "${GPIO_GID:-51}"
-      - "${SI2C_GID:-49}"
+      - "${I2C_GID:-51}"
+      - "${GPIO_GID:-49}"
     privileged: true
