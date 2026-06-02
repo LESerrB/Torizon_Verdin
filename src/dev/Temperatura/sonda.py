@@ -54,6 +54,8 @@ def read_Sonda(adc_chn: int):
 
         if 10 < tempSonda < 45:
             return tempSonda
+        else:
+            return 0
     except Exception as e:
         # logger.error("Error leyendo SONDA1:", e)
         # print(f"Error leyendo SONDA1: {e}")

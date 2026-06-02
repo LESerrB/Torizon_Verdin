@@ -278,12 +278,12 @@ def sys_monitor():
         Q = decode_Msg(tcd_UART1)
 
         tc = int(state.tempProg * 10)
-        # taux = int(round(read_Sonda(3), 1) * 10)
+        taux = int(round(read_Sonda(3), 1) * 10)
         ta = int.from_bytes(W[0:2], byteorder="big")
         tp = int.from_bytes(W[2:4], byteorder="big")
-        # TCD_trama = f"{ta:04X}{tp:04X}{taux:04X}{tc:04X}{pesoTCD:04X}"
+        TCD_trama = f"{ta:04X}{tp:04X}{taux:04X}{tc:04X}{pesoTCD:04X}"
 
-        # encode_Msg(tcd_UART1, TCD_trama)
+        encode_Msg(tcd_UART1, TCD_trama)
         
         if not (Q.hex().startswith("99") and Q.hex().endswith("00")):
             W = Q

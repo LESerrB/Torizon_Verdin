@@ -89,7 +89,7 @@ services:
       - /dev/gpiochip4
       - /dev/ttymxc0:/dev/verdin-uart1
       - /dev/ttymxc1:/dev/verdin-uart2
-      # - /dev/ttymxc2:/dev/verdin-uart3
+      - /dev/ttymxc2:/dev/verdin-uart3
       # - /dev/ttymxc3:/dev/verdin-uart4
     tty: true
     stdin_open: true
@@ -123,12 +123,12 @@ services:
       - /dev/gpiochip4
       - /dev/ttymxc0:/dev/verdin-uart1
       - /dev/ttymxc1:/dev/verdin-uart2
-      # - /dev/ttymxc2:/dev/verdin-uart3
+      - /dev/ttymxc2:/dev/verdin-uart3
       # - /dev/ttymxc3:/dev/verdin-uart4
     tty: true
     stdin_open: true
     group_add:
       - "${SPI_GID:-52}"
-      - "${GPIO_GID:-51}"
-      - "${I2C_GID:-49}"
+      - "${I2C_GID:-51}"
+      - "${GPIO_GID:-49}"
     privileged: true

@@ -174,3 +174,5 @@ tcbdir/torizon-core-docker-verdin-imx8mp-Tezi_6.8.4+build.40.tar
 
 tcbdir/Dual_custom-ISO-torizon-verdin-imx8mp
 *.zip
+
+*.tar
