@@ -174,3 +174,5 @@ tcbdir/*.tar
 
 tcbdir/Dual_custom-ISO-torizon-verdin-imx8mp
 *.zip
+
+*:Zone.Identifier

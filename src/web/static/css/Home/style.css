@@ -8,6 +8,32 @@
   position: relative;
   overflow: hidden;
 }
+
+/*#######################################*/
+/*          TEXTO BARRA SUPERIOR         */
+/*#######################################*/
+.text-header-active,
+.beb-mateo,
+.ltimo-peso,
+._0-785,
+.kg,
+._2-de-feb,
+.ti-hora,
+.p-m,
+.inclinaci-n,
+._0,/*<<<<<<<<<<<<< Hasta aqui esta siendo analizado*/
+._60,
+._80,
+.programado,
+.humedad,
+._602,
+.programada {
+  color: var(--colortextactivo, #2f3a40);
+  font-family: var(--textencabezado-font-family, "Montserrat-Bold", sans-serif);
+  font-size: var(--textencabezado-font-size, 14px);
+  font-weight: var(--textencabezado-font-weight, 700);
+}
+
 /*#######################################*/
 /*            Boton de Alarma            */
 /*#######################################*/
@@ -31,7 +57,21 @@
 /*#######################################*/
 .barra_Informacion{
   position: relative;
-  /* left: 17.5%; */
+  overflow: visible;
+}
+
+.f-en-btn-cmodo {
+  border-radius: 27px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  width: 192px;
+  height: 57px;
+  position: absolute;
+  left: 20px;
+  top: 94px;
   overflow: visible;
 }
 
@@ -49,49 +89,31 @@
   left: 222px;
   top: 94px;
   overflow: hidden;
-}cont-vm-tpiel
-.cont-datpac {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  position: relative;
 }
+/*#######################################*/
+/*            Nombre Paciente            */
+/*#######################################*/
 .icon-corazon {
   flex-shrink: 0;
-  width: 12px;
+  width: 15px;
   height: 10px;
-  position: relative;
+  position: absolute;
   overflow: visible;
-}
-.ti-nompac {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
+  top: 10px;
 }
 .beb-mateo {
-  color: var(--colortextactivo, #2f3a40);
   text-align: left;
-  font-family: var(
-    --text-encabezado-font-family,
-    "Montserrat-Bold",
-    sans-serif
-  );
-  font-size: var(--text-encabezado-font-size, 14px);
-  font-weight: var(--text-encabezado-font-weight, 700);
   position: relative;
   width: 113px;
   height: 16px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  left: 20px;
 }
+/*#######################################*/
+/*             Peso Paciente             */
+/*#######################################*/
 .cont-pespac {
   display: flex;
   flex-direction: row;
@@ -102,11 +124,7 @@
   position: relative;
 }
 .ltimo-peso {
-  color: var(--colortextactivo, #2f3a40);
   text-align: right;
-  font-family: var(--textencabezado-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textencabezado-font-size, 14px);
-  font-weight: var(--textencabezado-font-weight, 700);
   position: relative;
   width: 96px;
   height: 15px;
@@ -114,21 +132,8 @@
   align-items: center;
   justify-content: flex-end;
 }
-.v-ti-pespac {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-}
 ._0-785 {
-  color: var(--colortextactivo, #2f3a40);
   text-align: center;
-  font-family: var(--textencabezado-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textencabezado-font-size, 14px);
-  font-weight: var(--textencabezado-font-weight, 700);
   position: relative;
   width: 43px;
   display: flex;
@@ -136,17 +141,16 @@
   justify-content: center;
 }
 .kg {
-  color: var(--colortextactivo, #2f3a40);
   text-align: left;
-  font-family: var(--textencabezado-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textencabezado-font-size, 14px);
-  font-weight: var(--textencabezado-font-weight, 700);
   position: relative;
   width: 22px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
+/*#######################################*/
+/*               Fecha/Hora              */
+/*#######################################*/
 .f-en-fecha-hora {
   background: var(--colorblanco, #ffffff);
   border-radius: 6px;
@@ -178,22 +182,8 @@
   position: relative;
   overflow: visible;
 }
-.ti-fecha {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 68px;
-  position: relative;
-}
 ._2-de-feb {
-  color: var(--colortextactivo, #2f3a40);
   text-align: left;
-  font-family: var(--textencabezado-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textencabezado-font-size, 14px);
-  font-weight: var(--textencabezado-font-weight, 700);
   position: relative;
   display: flex;
   align-items: center;
@@ -225,11 +215,7 @@
   position: relative;
 }
 .ti-hora {
-  color: var(--colortextactivo, #2f3a40);
   text-align: center;
-  font-family: var(--textencabezado-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textencabezado-font-size, 14px);
-  font-weight: var(--textencabezado-font-weight, 700);
   position: relative;
   width: 40px;
   display: flex;
@@ -237,17 +223,188 @@
   justify-content: center;
 }
 .p-m {
-  color: var(--colortextactivo, #2f3a40);
   text-align: left;
-  font-family: var(--textencabezado-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textencabezado-font-size, 14px);
-  font-weight: var(--textencabezado-font-weight, 700);
   position: relative;
   width: 32px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
+
+.f-en-incli {
+  background: var(--blanco, #ffffff);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  width: 248px;
+  height: 57px;
+  position: absolute;
+  left: 756px;
+  top: 94px;
+}
+.icon-inclinacion {
+  flex-shrink: 0;
+  width: 38px;
+  height: 33px;
+  position: relative;
+  overflow: visible;
+}
+.inclinaci-n {
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.v-ti-incli {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+._0 {
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._0-span {
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+._0-span2 {
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 22px;
+}
+
+
+/*#######################################*/
+/*               Fecha/Hora              */
+/*#######################################*/
+.f-pp-menuprin {
+  padding: 10px 14px 10px 14px;
+  display: flex;
+  flex-direction: row;
+  gap: 488px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 984px;
+  height: 70px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  bottom: 20px;
+}
+.cont-menu {
+  border-radius: 0px;
+  flex-shrink: 0;
+  width: 984px;
+  height: 70px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+.btn-modfam {
+  border-radius: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 108px;
+  height: 50px;
+  position: relative;
+  overflow: visible;
+}
+
+
+/* Botones inferiores */
+.cont-btns-menuprin {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 360px;
+  position: relative;
+}
+.btn-tendencias {
+  border-radius: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 108px;
+  height: 50px;
+  position: relative;
+  overflow: visible;
+}
+.btn-bascula {
+  border-radius: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 108px;
+  height: 50px;
+  position: relative;
+  overflow: visible;
+}
+.btn-apgar-piel {
+  border-radius: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 108px;
+  height: 50px;
+  position: relative;
+  overflow: visible;
+}
+
+.btn-img {
+  width: 108px;
+  height: 42px;
+  border: none;
+  border-radius: 85px;
+  background-color: #F8F8FA;
+  padding: 25px;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-img img {
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.btn-img:active {
+  transform: scale(0.97);
+}
+
+
+/*============================================================================*/
+
 .mp-prin-mc-mactivo {
   background: var(--coloroscuropiel, #d9a79d);
   border-radius: 8px 8px 0px 0px;
@@ -337,7 +494,6 @@
   position: relative;
 }
 ._60 {
-  color: var(--colortextactivo, #2f3a40);
   text-align: center;
   font-family: var(--numtempsecun-font-family, "Inter-Bold", sans-serif);
   font-size: var(--numtempsecun-font-size, 36px);
@@ -383,7 +539,6 @@
   position: relative;
 }
 ._80 {
-  color: var(--colortextactivo, #2f3a40);
   text-align: center;
   font-family: var(--num-temp-terc-font-family, "Inter-Bold", sans-serif);
   font-size: var(--num-temp-terc-font-size, 24px);
@@ -397,7 +552,6 @@
   justify-content: center;
 }
 .programado {
-  color: var(--colortextactivo, #2f3a40);
   text-align: center;
   font-family: var(
     --texttemptercer-font-family,
@@ -428,7 +582,6 @@
   position: relative;
 }
 .humedad {
-  color: var(--colortextactivo, #2f3a40);
   text-align: center;
   font-family: var(--textmodutitulo-font-family, "Montserrat-Bold", sans-serif);
   font-size: var(--textmodutitulo-font-size, 15px);
@@ -491,7 +644,6 @@
   position: relative;
 }
 ._602 {
-  color: var(--colortextactivo, #2f3a40);
   text-align: center;
   font-family: var(--num-temp-terc-font-family, "Inter-Bold", sans-serif);
   font-size: var(--num-temp-terc-font-size, 24px);
@@ -505,7 +657,6 @@
   justify-content: center;
 }
 .programada {
-  color: var(--colortextactivo, #2f3a40);
   text-align: center;
   font-family: var(
     --texttemptercer-font-family,
@@ -615,106 +766,6 @@
   flex-shrink: 0;
   height: 15px;
   position: relative;
-}
-.f-pp-menuprin {
-  padding: 10px 14px 10px 14px;
-  display: flex;
-  flex-direction: row;
-  gap: 488px;
-  align-items: center;
-  justify-content: flex-start;
-  width: 984px;
-  height: 70px;
-  position: absolute;
-  left: 50%;
-  translate: -50%;
-  bottom: 20px;
-}
-.cont-menu {
-  border-radius: 0px;
-  flex-shrink: 0;
-  width: 984px;
-  height: 70px;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  overflow: visible;
-}
-.btn-modfam {
-  border-radius: 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 108px;
-  height: 50px;
-  position: relative;
-  overflow: visible;
-}
-.cont-btns-menuprin {
-  display: flex;
-  flex-direction: row;
-  gap: 18px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 360px;
-  position: relative;
-}
-.btn-tendencias {
-  border-radius: 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 108px;
-  height: 50px;
-  position: relative;
-  overflow: visible;
-}
-.btn-bascula {
-  border-radius: 44px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 108px;
-  height: 50px;
-  position: relative;
-  overflow: visible;
-}
-.btn-apgar-piel {
-  border-radius: 44px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 108px;
-  height: 50px;
-  position: relative;
-  overflow: visible;
-}
-.f-en-btn-cmodo {
-  border-radius: 27px;
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  align-items: center;
-  justify-content: center;
-  width: 192px;
-  height: 57px;
-  position: absolute;
-  left: 20px;
-  top: 94px;
-  overflow: visible;
 }
 .mp-prin-mc-taire {
   display: flex;
@@ -984,7 +1035,9 @@
   justify-content: flex-start;
   flex-shrink: 0;
   position: relative;
+  left: 55px;
 }
+
 .ti-vm-piel {
   color: var(--colortexttpiel, #6f423d);
   text-align: center;
@@ -1020,6 +1073,7 @@
   position: relative;
   transform-origin: 0 0;
   transform: rotate(90deg) scale(1, 1);
+  left: 70px;
 }
 .cont-tprogp-taux {
   display: flex;
@@ -1030,6 +1084,7 @@
   flex-shrink: 0;
   width: 114px;
   position: relative;
+  right: 40px;
 }
 .tprogp {
   display: flex;
@@ -1165,62 +1220,5 @@
   align-items: center;
   justify-content: center;
 }
-.f-en-incli {
-  background: var(--blanco, #ffffff);
-  border-radius: 6px;
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  align-items: center;
-  justify-content: center;
-  width: 248px;
-  height: 57px;
-  position: absolute;
-  left: 756px;
-  top: 94px;
-}
-.icon-inclinacion {
-  flex-shrink: 0;
-  width: 38px;
-  height: 33px;
-  position: relative;
-  overflow: visible;
-}
-.inclinaci-n {
-  color: var(--textoactivo, #2f3a40);
-  text-align: center;
-  font-family: var(--textencabezado-font-family, "Montserrat-Bold", sans-serif);
-  font-size: var(--textencabezado-font-size, 14px);
-  font-weight: var(--textencabezado-font-weight, 700);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.v-ti-incli {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-}
-._0 {
-  color: var(--textoactivo, #2f3a40);
-  text-align: center;
-  font-family: "-", sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-._0-span {
-  font-family: "Inter-Bold", sans-serif;
-  font-weight: 700;
-}
-._0-span2 {
-  font-family: "Inter-Regular", sans-serif;
-}
+
+
