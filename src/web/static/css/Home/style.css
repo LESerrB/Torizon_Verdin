@@ -37,20 +37,9 @@
 /*#######################################*/
 /*            Boton de Alarma            */
 /*#######################################*/
-.f-en-btn-alarma {
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-end;
-  width: 984px;
-  height: auto;
-  position: absolute;
-  left: 50%;
-  translate: -50%;
+.btn-alarma {
+  left: 458px;
   top: 20px;
-  overflow: visible;
 }
 /*#######################################*/
 /*          Barra de Información         */
@@ -59,22 +48,10 @@
   position: relative;
   overflow: visible;
 }
-
-.f-en-btn-cmodo {
-  border-radius: 27px;
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  align-items: center;
-  justify-content: center;
-  width: 192px;
-  height: 57px;
-  position: absolute;
-  left: 20px;
-  top: 94px;
-  overflow: visible;
+.btn-cmodo {
+  left: 62px;
+  top: 44px
 }
-
 .f-en-infopac {
   background: var(--colorblanco, #ffffff);
   border-radius: 6px;
@@ -87,7 +64,7 @@
   height: 30px;
   position: absolute;
   left: 222px;
-  top: 94px;
+  top: 40px;
   overflow: hidden;
 }
 /*#######################################*/
@@ -164,7 +141,7 @@
   height: 20px;
   position: absolute;
   left: 222px;
-  top: 131px;
+  top: 76px ;
 }
 .cont-fecha {
   display: flex;
@@ -243,7 +220,7 @@
   height: 57px;
   position: absolute;
   left: 756px;
-  top: 94px;
+  top: 40px;
 }
 .icon-inclinacion {
   flex-shrink: 0;
@@ -313,20 +290,6 @@
   top: 0px;
   overflow: visible;
 }
-.btn-modfam {
-  border-radius: 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 108px;
-  height: 50px;
-  position: relative;
-  overflow: visible;
-}
-
 
 /* Botones inferiores */
 .cont-btns-menuprin {
@@ -338,45 +301,6 @@
   flex-shrink: 0;
   width: 360px;
   position: relative;
-}
-.btn-tendencias {
-  border-radius: 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 108px;
-  height: 50px;
-  position: relative;
-  overflow: visible;
-}
-.btn-bascula {
-  border-radius: 44px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 108px;
-  height: 50px;
-  position: relative;
-  overflow: visible;
-}
-.btn-apgar-piel {
-  border-radius: 44px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 108px;
-  height: 50px;
-  position: relative;
-  overflow: visible;
 }
 
 .btn-img {
@@ -401,6 +325,8 @@
 .btn-img:active {
   transform: scale(0.97);
 }
+
+
 
 
 /*============================================================================*/
