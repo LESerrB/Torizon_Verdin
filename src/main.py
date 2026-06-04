@@ -234,8 +234,7 @@ def accept_tempProg_edit():
     enableEdit = False
     s["tempProg"] = state.tempProg
     p = int(state.tempProg * 10)
-    p = f"{0:02X}{p:04X}"
-    print("\n", p, "\n")
+    p = f"{0:04}{0:04}{0:04}{p:04X}"
     encode_Msg(tcd_UART1, p)
 
     time.sleep(0.5)
@@ -277,17 +276,25 @@ def sys_monitor():
         encode_Msg(tcd_UART1, "55")
         Q = decode_Msg(tcd_UART1)
 
-        tc = int(state.tempProg * 10)
-        taux = int(round(read_Sonda(3), 1) * 10)
-        ta = int.from_bytes(W[0:2], byteorder="big")
-        tp = int.from_bytes(W[2:4], byteorder="big")
-        TCD_trama = f"{ta:04X}{tp:04X}{taux:04X}{tc:04X}{pesoTCD:04X}"
-
-        encode_Msg(tcd_UART1, TCD_trama)
-        
         if not (Q.hex().startswith("99") and Q.hex().endswith("00")):
             W = Q
-            print(f"\n==>{W}\n{W[0:2]} | {W[2:4]} | {W[4:6]} | {W[6:8]} | {W[8:10]} | {W[10:12]}\n")
+
+            t_Aire = int.from_bytes(W[0:2], byteorder="big")
+            t_Piel = int.from_bytes(W[2:4], byteorder="big")
+            s_Aux = int.from_bytes(W[4:6], byteorder="big")
+
+            basc = int.from_bytes(W[8:10], byteorder="big")
+
+            t_Ctrl = int.from_bytes(W[6:8], byteorder="big")
+            pot_Calef = int.from_bytes(W[10:12], byteorder="big")
+
+            # print(f"\n==>{W}\n{t_Aire} | {t_Piel} | {s_Aux} | {basc} | {pot_Calef} | {t_Ctrl}\n")
+
+        # tc = int(state.tempProg * 10)
+        # taux = int(round(read_Sonda(3), 1) * 10)
+        # TCD_trama = f"{ta:04X}{tp:04X}{taux:04X}{tc:04X}{pesoTCD:04X}"
+
+        # encode_Msg(tcd_UART1, TCD_trama)
 
         time.sleep(0.3)
 
@@ -346,12 +353,18 @@ def getTempPiel():
             "status": "fail"
         }), 400
 
+
+    # basc = int.from_bytes(W[8:10], byteorder="big")
+
+    # t_Ctrl = int.from_bytes(W[6:8], byteorder="big")
+    # pot_Calef = int.from_bytes(W[10:12], byteorder="big")
+
     t_Aire = int.from_bytes(W[0:2], byteorder='big') / 10
     t_Piel = int.from_bytes(W[2:4], byteorder='big') / 10
-    # t_SondaAux = int.from_bytes(W[4:6], byteorder='big') / 10
-    t_SondaAux = round(read_Sonda(3), 1)
+    s_Aux = int.from_bytes(W[4:6], byteorder="big") / 10
+
     state.tempProg = int.from_bytes(W[6:8], byteorder='big') / 10
-    t_ProgBb = int.from_bytes(W[8:10], byteorder='big') / 10
+    # t_ProgBb = int.from_bytes(W[8:10], byteorder='big') / 10
 
     peso = 10
 
@@ -359,9 +372,9 @@ def getTempPiel():
         "status": "ok",
         "temAire": t_Aire,
         "temPiel": t_Piel,
-        "temSondaAux": t_SondaAux,
+        "temSondaAux": s_Aux,
         "tempProg": state.tempProg,
-        "tempProgBb": t_ProgBb,
+        # "tempProgBb": t_ProgBb,
         "kgs": peso,
     }), 200
 

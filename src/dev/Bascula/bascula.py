@@ -18,7 +18,7 @@ tolerancia = 0.100
 channel_Dev = "/dev/verdin-uart2"
 br = 57600
 
-basc_UART = serial.Serial(channel_Dev, br, 8, 'N', 1, timeout=1)
+basc_UART2 = serial.Serial(channel_Dev, br, 8, 'N', 1, timeout=1)
 
 #================================================================#
 #                 Funciones de obtención de Peso                 #
@@ -41,8 +41,8 @@ def pesaje():
     print("=========Iniciando Pesaje=========")
 
     for i in range(10):
-        encode_Msg(basc_UART, "55")
-        weight = decode_Msg(basc_UART)
+        encode_Msg(basc_UART2, "55")
+        weight = decode_Msg(basc_UART2)
         
         if weight != b'\x99\x00':
             weight = int.from_bytes(weight, "big")/1000
@@ -79,8 +79,8 @@ def tare():
     finPesaje = time.monotonic() + 10
 
     while (c < 5) and (time.monotonic() < finPesaje):
-        encode_Msg(basc_UART, "55")
-        w = decode_Msg(basc_UART)
+        encode_Msg(basc_UART2, "55")
+        w = decode_Msg(basc_UART2)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w
@@ -120,8 +120,8 @@ def calib(peso_ptrn = 5.0):
     finPesaje = time.monotonic() + 5
 
     while (c < 4) and (time.monotonic() < finPesaje):
-        encode_Msg(basc_UART, "55")
-        w = decode_Msg(basc_UART)
+        encode_Msg(basc_UART2, "55")
+        w = decode_Msg(basc_UART2)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w

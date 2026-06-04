@@ -11,6 +11,7 @@ let editingEnabled = false;
 (() => {
     const UI = {
         tempProg: "_36-7",
+        potCalef: "temp-medida-aire",
     };
 
     const API = {
@@ -170,10 +171,17 @@ let editingEnabled = false;
         await loadInit();
 
         const tempProgEl = $(UI.tempProg);
+        const potCalefEl = $(UI.potCalef);
+
         startSensor();
 
         if (tempProgEl) {
             tempProgEl.addEventListener("click", enable_Editing);
+        }
+        if (potCalefEl) {
+            potCalefEl.addEventListener("click", () => {
+                console.log("potCalef clicked");
+            });
         }
     });
 })();
