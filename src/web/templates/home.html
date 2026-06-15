@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/Home/vars.css">
+    <link rel="stylesheet" href="../static/css/Home/style.css">
+
+    <style>
+      a,
+      button,
+      input,
+      select,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        border: none;
+        text-decoration: none;
+        background: none;
+
+        -webkit-font-smoothing: antialiased;
+      }
+      menu, ol, ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <title>Home</title>
+  </head>
+
+  <body>
+    <div class="mp-pprin">
+      <!--################################### Barra Alarma ###################################-->
+      <button class="btn-alarma" type="button">
+        <img src="../static/icon/Home/f-en-btn-alarma0.svg">
+      </button>
+      <!--################################ Barra Información #################################-->
+      <div class="barra_Informacion">
+        <label class="switch-btn">
+          <input type="checkbox" id="modoSwitch">
+
+          <span class="switch-bg">
+            <span class="switch-option switch-left">
+              <img src="../static/icon/Home/ICON_INCUBADORA.svg">
+            </span>
+
+            <span class="switch-option switch-right">
+              <img src="../static/icon/Home/ICON_CUNA.svg">
+            </span>
+          </span>
+        </label>
+
+        <div class="f-en-infopac">
+          <img class="icon-corazon" src="../static/icon/Home/icon-corazon0.svg" />
+          <div class="beb-mateo">Bebé Mateo</div>
+
+          <div class="cont-pespac">
+            <div class="ltimo-peso">Último peso:</div>
+            <div class="_0-785">0.785</div>
+            <div class="kg">kg</div>
+          </div>
+        </div>
+
+        <div class="f-en-fecha-hora">
+          <div class="cont-fecha">
+            <img class="icon-calendario" src="../static/icon/Home/icon-calendario0.svg" />
+            <div class="_2-de-feb">2 de Feb</div>
+          </div>
+
+          <div class="cont-hora">
+            <img class="icon-reloj" src="../static/icon/Home/icon-reloj0.svg" />
+            <div class="sub-hora">
+              <div class="ti-hora">05:41</div>
+              <div class="p-m">p.m.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="f-en-incli">
+          <img class="icon-inclinacion" src="../static/icon/Home/ICON_INCLINACION.svg" />
+          <div class="inclinaci-n">Inclinación</div>
+
+          <div class="v-ti-incli">
+            <div class="_0">
+              <span class="_0-span">0</span>
+              <span class="_0-span2">°</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--################################### Panel Central ##################################-->
+      <div class="panel-prin">
+        <!-- Titulo de panel -->
+        <div class="mp-prin-mc-mactivo">
+          <div class="sistema-controlado-por-piel">Sistema Controlado por Piel</div>
+        </div>
+
+        <!-- Panel Izquierdo -->
+        <div class="mp-prin-mc-tpiel">
+          <img class="icon-tpiel" src="../static/icon/Home/icon-piel0.svg" />
+
+          <div class="temperatura-piel">Temperatura Piel</div>
+
+          <div class="cont-vm-tpiel">
+            <div class="tpiel">
+              <div class="ti-vm-piel">36.5</div>
+              <div class="c2">°C</div>
+            </div>
+
+            <div class="line-01"></div>
+
+            <div class="cont-tprogp-taux">
+              <div class="tprogp">
+                <div class="vprogp">
+                  <div class="ti-vp-progp">
+                    <div class="_36-7">36.7</div>
+                  </div>
+                  <div class="programada2">Programada</div>
+                </div>
+                <div class="c3">°C</div>
+              </div>
+
+              <div class="taux">
+                <div class="vaux">
+                  <div class="ti-vm-aux">
+                    <div class="_34-6">34.6</div>
+                  </div>
+                  <div class="auxiliar">Auxiliar</div>
+                </div>
+                <div class="c3">°C</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Dertecho -->
+        <div class="mp-prin-mc-taire">
+          <div class="cont-taire">
+            <div class="temperatura-aire">Temperatura Aire</div>
+            <div class="taire">
+              <div class="ti-vm-taire">
+                <div class="_36-3">36.3</div>
+              </div>
+              <div class="c">°C</div>
+            </div>
+          </div>
+
+          <div class="cont-potcal">
+            <div class="seg-calefactor">
+              <div class="rectangle-192"></div>
+              <div class="rectangle-191"></div>
+              <div class="rectangle-183"></div>
+              <div class="rectangle-184"></div>
+              <div class="rectangle-185"></div>
+              <div class="rectangle-186"></div>
+              <div class="rectangle-187"></div>
+              <div class="rectangle-188"></div>
+              <div class="rectangle-189"></div>
+              <div class="rectangle-190"></div>
+            </div>
+
+            <div class="v-potcal">
+              <div class="_802">80</div>
+              <div class="div">%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--############################# Barra Módulos de Sensores ############################-->
+      <div class="mp-prin-mc-msoporte">
+        <!-- Módulo Oxigeno -->
+        <div class="mod-ox">
+          <div class="ox-geno">Oxígeno %</div>
+
+          <div class="vox">
+            <div class="_60">60</div>
+
+            <div class="line-02"></div>
+
+            <div class="vp-ox">
+              <div class="_80">80</div>
+              <div class="programado">Programado</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modulo Humedad -->
+        <div class="mod-hum">
+          <div class="humedad">Humedad %</div>
+
+          <div class="vhum">
+            <div class="_60">60</div>
+
+            <div class="line-03"></div>
+
+            <div class="vp-hum">
+              <div class="_602">60</div>
+              <div class="programada">Programada</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Módulo Fototerapia -->
+        <div class="mod-fot">
+          <div class="fototerapia-hh-mm">Fototerapia hh:mm</div>
+
+          <div class="ti-vm-fot">
+            <div class="_00-00">00:00</div>
+          </div>
+
+          <div class="seg-potencia-fot">
+            <div class="rectangle-237"></div>
+            <div class="rectangle-238"></div>
+            <div class="rectangle-239"></div>
+          </div>
+        </div>
+      </div>
+
+      <!--#################################### Barra Menus ###################################-->
+      <div class="f-pp-menuprin">
+        <img class="cont-menu" src="../static/icon/Home/cont-menu0.svg" />
+
+        <button class="btn-img" type="button">
+          <img src="../static/icon/Home/ICON_FAMILIAR.svg">
+        </button>
+
+        <div class="cont-btns-menuprin">
+          <button class="btn-img" type="button">
+            <img src="../static/icon/Home/ICON_TENDENCIAS.svg">
+          </button>
+          
+          <button class="btn-img" type="button">
+            <img src="../static/icon/Home/ICON_BASCULA.svg">
+          </button>
+
+          <button class="btn-img" type="button">
+            <img src="../static/icon/Home/ICON_APGAR.svg">
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

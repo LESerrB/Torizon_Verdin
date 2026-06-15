@@ -136,7 +136,7 @@ def push_encoder_event(evt_type: str, payload: dict):
 # ##############################################################################
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("home.html")
 
 #>>>>>>>>>>>>>>>>>> Temperatura Programada <<<<<<<<<<<<<<<<<<#
 @app.route("/api/tempProg", methods=["GET"])
@@ -288,7 +288,7 @@ def sys_monitor():
             t_Ctrl = int.from_bytes(W[6:8], byteorder="big")
             pot_Calef = int.from_bytes(W[10:12], byteorder="big")
 
-            # print(f"\n==>{W}\n{t_Aire} | {t_Piel} | {s_Aux} | {basc} | {pot_Calef} | {t_Ctrl}\n")
+            print(f"\n==>{W}\n{t_Aire} | {t_Piel} | {s_Aux} | {basc} | {pot_Calef} | {t_Ctrl}\n")
 
         # tc = int(state.tempProg * 10)
         # taux = int(round(read_Sonda(3), 1) * 10)

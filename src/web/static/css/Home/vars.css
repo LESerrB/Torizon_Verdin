@@ -2,84 +2,106 @@
 :root {
   /* Colors */
   /* Fonts */
-  --text-encabezado-font-family: Montserrat-Bold, sans-serif;
-  --text-encabezado-font-size: 14px;
-  --text-encabezado-line-height: normal;
-  --text-encabezado-font-weight: 700;
-  --text-encabezado-font-style: normal;
-  --num-temp-prin-font-family: Inter-Bold, sans-serif;
-  --num-temp-prin-font-size: 100px;
-  --num-temp-prin-line-height: 80px;
-  --num-temp-prin-font-weight: 700;
-  --num-temp-prin-font-style: normal;
-  --text-regular-1-font-family: Inter-Bold, sans-serif;
-  --text-regular-1-font-size: 24px;
-  --text-regular-1-line-height: 20px;
-  --text-regular-1-font-weight: 700;
-  --text-regular-1-font-style: normal;
-  --text-temp-titulo-font-family: Montserrat-Bold, sans-serif;
-  --text-temp-titulo-font-size: 18px;
-  --text-temp-titulo-line-height: 16px;
-  --text-temp-titulo-font-weight: 700;
-  --text-temp-titulo-font-style: normal;
-  --num-temp-secun-font-family: Inter-Bold, sans-serif;
-  --num-temp-secun-font-size: 36px;
-  --num-temp-secun-line-height: 36px;
-  --num-temp-secun-font-weight: 700;
-  --num-temp-secun-font-style: normal;
-  --text-temp-secun-font-family: Montserrat-Medium, sans-serif;
-  --text-temp-secun-font-size: 14px;
-  --text-temp-secun-line-height: 16px;
-  --text-temp-secun-font-weight: 500;
-  --text-temp-secun-font-style: normal;
-  --num-temp-terc-font-family: Inter-Bold, sans-serif;
-  --num-temp-terc-font-size: 24px;
-  --num-temp-terc-line-height: 20px;
-  --num-temp-terc-font-weight: 700;
-  --num-temp-terc-font-style: normal;
-  --text-temp-terc-font-family: Montserrat-Medium, sans-serif;
-  --text-temp-terc-font-size: 10px;
-  --text-temp-terc-line-height: 20px;
-  --text-temp-terc-font-weight: 500;
-  --text-temp-terc-font-style: normal;
-  --text-modulo-titulo-font-family: Montserrat-Bold, sans-serif;
-  --text-modulo-titulo-font-size: 15px;
-  --text-modulo-titulo-line-height: 16px;
-  --text-modulo-titulo-font-weight: 700;
-  --text-modulo-titulo-font-style: normal;
-  --num-modulos-lat-font-family: Inter-Bold, sans-serif;
-  --num-modulos-lat-font-size: 40px;
-  --num-modulos-lat-line-height: 36px;
-  --num-modulos-lat-font-weight: 700;
-  --num-modulos-lat-font-style: normal;
+  --textencabezado-font-family: Montserrat-Bold, sans-serif;
+  --textencabezado-font-size: 14px;
+  --textencabezado-line-height: normal;
+  --textencabezado-font-weight: 700;
+  --textencabezado-font-style: normal;
 
+  --numtempprin-font-family: Inter-Bold, sans-serif;
+  --numtempprin-font-size: 100px;
+  --numtempprin-line-height: 80px;
+  --numtempprin-font-weight: 700;
+  --numtempprin-font-style: normal;
+
+  --numtempsecun-font-family: Inter-Bold, sans-serif;
+  --numtempsecun-font-size: 36px;
+  --numtempsecun-line-height: 36px;
+  --numtempsecun-font-weight: 700;
+  --numtempsecun-font-style: normal;
+
+  --texttemptitulo-font-family: Montserrat-Bold, sans-serif;
+  --texttemptitulo-font-size: 18px;
+  --texttemptitulo-line-height: 16px;
+  --texttemptitulo-font-weight: 700;
+  --texttemptitulo-font-style: normal;
+
+  --texttempsecun-font-family: Montserrat-Medium, sans-serif;
+  --texttempsecun-font-size: 14px;
+  --texttempsecun-line-height: 16px;
+  --texttempsecun-font-weight: 500;
+  --texttempsecun-font-style: normal;
+
+  --textmodutitulo-font-family: Montserrat-Bold, sans-serif;
+  --textmodutitulo-font-size: 15px;
+  --textmodutitulo-line-height: 16px;
+  --textmodutitulo-font-weight: 700;
+  --textmodutitulo-font-style: normal;
+
+  --texttemptercer-font-family: Montserrat-Medium, sans-serif;
+  --texttemptercer-font-size: 10px;
+  --texttemptercer-line-height: 20px;
+  --texttemptercer-font-weight: 500;
+  --texttemptercer-font-style: normal;
+
+  --nummodulat-font-family: Inter-Bold, sans-serif;
+  --nummodulat-font-size: 40px;
+  --nummodulat-line-height: 36px;
+  --nummodulat-font-weight: 700;
+  --nummodulat-font-style: normal;
+
+  --numtempmodif-font-family: Inter-Bold, sans-serif;
+  --numtempmodif-font-size: 48px;
+  --numtempmodif-line-height: 36px;
+  --numtempmodif-font-weight: 700;
+  --numtempmodif-font-style: normal;
+
+  --texttitulobtnspop-font-family: Montserrat-Bold, sans-serif;
+  --texttitulobtnspop-font-size: 24px;
+  --texttitulobtnspop-line-height: 16px;
+  --texttitulobtnspop-font-weight: 700;
+  --texttitulobtnspop-font-style: normal;
+
+  --numapgar-font-family: Inter-Bold, sans-serif;
+  --numapgar-font-size: 68px;
+  --numapgar-line-height: 64px;
+  --numapgar-font-weight: 700;
+  --numapgar-font-style: normal;
+
+  --numgrafapgar-font-family: Inter-Bold, sans-serif;
+  --numgrafapgar-font-size: 16px;
+  --numgrafapgar-line-height: 16px;
+  --numgrafapgar-font-weight: 700;
+  --numgrafapgar-font-style: normal;
   /* Effects */
 }
 /* Figma Color Variables of your File */
 :root,
 [data-coleccion-variable-mode="mode-1"] {
   /* mode-1 */
-  --blanco: #ffffff;
-  --textoactivo: #2f3a40;
-  --verde-btn: #92d1bc;
-  --tpiel-prin: #bee1e5;
-  --tpiel-oscuro: #8fc3c9;
-  --t-piel-texto: #2f4a4d;
-  --text-desactivado: #72818e;
-  --gris-desactivado: #f2f2f2;
-  --oxigeno-prin: #c6e1b8;
-  --humedad-principal: #bfd9e8;
-  --fototerapia-prin: #c2d2ec;
-  --gris-btn: #8a8e91;
-  --claro-btn: #f8f8fa;
-  --taire-prin: #faeccf;
-  --t-aire-texto: #6b5a43;
-  --t-aire-oscuro: #c5b394;
-  --mod-lat-fondo: #f5f7f7;
-  --fondo-btn-gris: #d8dee2;
-  --claro-medio: #e6ecee;
-  --oxigeno-oscuro: #86ad79;
-  --oxigeno-claro: #e8f5da;
-  --humedad-claro: #e6f2f8;
-  --humedad-oscuro: #5f97b1;
+  --colorblanco: #ffffff;
+  --colorverdebtn: #92d1bc;
+  --colorgrisbtn: #8a8e91;
+  --colortextactivo: #2f3a40;
+  --colorclarobtn: #f8f8fa;
+  --colorfondobtns: #d8dee2;
+  --colortexttpiel: #6f423d;
+  --colorfondopiel: #f5cfc3;
+  --colorclaropiel: #fae7e1;
+  --colorfondoinactivo: #f2f2f2;
+  --colortextoinactivo: #72818e;
+  --colorfondooxigeno: #c6e1b8;
+  --colorfondooxigen: #bfd9e8;
+  --colorfondofot: #c2d2ec;
+  --colorfondo: #e9eef2;
+  --coloroscuropiel: #d9a79d;
+  --coloroscurooxigeno: #86ad79;
+  --colormoddesacti: #f5f7f7;
+  --colorfondohum: #bfd9e8;
+  --coloroscurohum: #5f97b1;
+  --coloroscuroaire: #8fc3c9;
+  --colorfondoaire: #bee1e5;
+  --colortexttaire: #2f4a4d;
+  --colorbtnsnuevos: #d9d9d9;
+  --coloroscurofot: #5f82b8;
 }

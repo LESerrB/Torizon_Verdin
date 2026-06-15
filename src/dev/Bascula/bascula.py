@@ -43,6 +43,7 @@ def pesaje():
     for i in range(10):
         encode_Msg(basc_UART2, "55")
         weight = decode_Msg(basc_UART2)
+        print("W:", weight)
         
         if weight != b'\x99\x00':
             weight = int.from_bytes(weight, "big")/1000
