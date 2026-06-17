@@ -1236,3 +1236,11 @@
 }
 
 
+/*+++++++++++++++++ ANIMACIÓN +++++++++++++++++*/ 
+.parpadeo {
+    animation: parpadeo 1s infinite;
+}
+@keyframes parpadeo {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}

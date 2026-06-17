@@ -295,8 +295,8 @@ def sys_monitor():
         # TCD_trama = f"{ta:04X}{tp:04X}{taux:04X}{tc:04X}{pesoTCD:04X}"
 
         # encode_Msg(tcd_UART1, TCD_trama)
-        pesaje()
-        time.sleep(1)
+        # pesaje()
+        time.sleep(0.1)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")

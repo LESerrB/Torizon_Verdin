@@ -2,7 +2,7 @@ let intervalId = null;
 let valueTimerId = null;
 let counterSeconds = 0;
 
-const tempPiel = document.getElementById("_36-5");
+const tempPiel = document.getElementById("ti-vm-piel");
 const tempAire = document.getElementById("_36-3");
 const tempSondaAux = document.getElementById("_34-6");
 const tempProg = document.getElementById("_36-7");
@@ -35,6 +35,12 @@ async function getTemp() {
             tempSondaAux.textContent = temperaturas.temSondaAux;
             tempProg.textContent = temperaturas.tempProg;
         }
+        else{
+            tempPiel.textContent = "--.-";
+            tempAire.textContent = "--.-";
+            tempSondaAux.textContent = "--.-";
+            tempProg.textContent = "--.-";
+        }
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada");
     }
@@ -49,8 +55,6 @@ btn_pesaje.addEventListener('click', async () => {
 
     // // Real
     try {
-        console.log("Inicio de pesaje");
-
         const res = await fetch('/api/pesar', {
             method: 'POST',
             headers: {
