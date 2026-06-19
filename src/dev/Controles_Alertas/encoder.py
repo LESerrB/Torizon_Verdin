@@ -6,11 +6,10 @@ from api.pins_ADC import read_adc
 #         Boton  |       |
 #        Encoder |  CLK  |  DT
 #----------------|-------|------
-# Pin        32  |   34  |   35
-# GPIO        5  |    7  |    8
-# SODIMM    216  |  220  |  222
-# GPIOCHIP    0  |    3  |    3
-# LINE        7  |    3  |    1
+# Pin         4  |    1  |    2
+# GPIO        0  |   26  |   27
+# SODIMM     52  |   24  |   26
+# GPIOCHIP    2  |    3  |    3
 # FUNCTION   In  |   In  |   In
 
 #===============================================================#

@@ -274,25 +274,37 @@ def sys_monitor():
 
 # Comunicación temperatura
         encode_Msg(tcd_UART1, "55")
-        Q = decode_Msg(tcd_UART1)
+        Q, Q_len = decode_Msg(tcd_UART1)
 
-        if not (Q.hex().startswith("99") and Q.hex().endswith("00")):
+        if (Q_len == 28) and (not (Q.hex().startswith("99") and Q.hex().endswith("00"))):
             W = Q
 
             t_Aire = int.from_bytes(W[0:2], byteorder="big")
             t_Piel = int.from_bytes(W[2:4], byteorder="big")
             s_Aux = int.from_bytes(W[4:6], byteorder="big")
 
+            ta_Ctrl = int.from_bytes(W[6:8], byteorder="big")
+
             basc = int.from_bytes(W[8:10], byteorder="big")
 
-            t_Ctrl = int.from_bytes(W[6:8], byteorder="big")
             pot_Calef = int.from_bytes(W[10:12], byteorder="big")
 
-            print(f"\n==>{W}\n{t_Aire} | {t_Piel} | {s_Aux} | {basc} | {pot_Calef} | {t_Ctrl}\n")
+            tp_Ctrl = int.from_bytes(W[12:14], byteorder="big")
 
-        # tc = int(state.tempProg * 10)
-        # taux = int(round(read_Sonda(3), 1) * 10)
-        # TCD_trama = f"{ta:04X}{tp:04X}{taux:04X}{tc:04X}{pesoTCD:04X}"
+            s_Ox = int.from_bytes(W[14:16], byteorder="big")
+            ox_Ctrl = int.from_bytes(W[16:18], byteorder="big")
+
+            s_Hum = int.from_bytes(W[18:20], byteorder="big")
+            hum_Ctrl = int.from_bytes(W[20:22], byteorder="big")
+
+            fot_Hrs = int.from_bytes(W[22:24], byteorder="big")
+            fot_Mins = int.from_bytes(W[24:26], byteorder="big")
+
+            zero = W[26]
+            alrm = W[27]
+
+            print(f"\n==>Trama: {W}\nTemp Aire: {t_Aire} \n Temp Piel: {t_Piel} \n Sonda Aux: {s_Aux} \n Temp Aire Ctrl: {ta_Ctrl} \n Bascula: {basc} \n Pot Cal: {pot_Calef} \n Temp Piel Ctrl: {tp_Ctrl} \n Sens O2: {s_Ox} \n O2 Ctrl: {ox_Ctrl} \n Sens Hum: {s_Hum} \n Hum Ctrl: {fot_Hrs} \n Fot Hrs: {fot_Mins} \n Fot Mins: {hum_Ctrl} \n Cero: {zero} \n Alarmas: {alrm}")
+
 
         # encode_Msg(tcd_UART1, TCD_trama)
         # pesaje()
@@ -353,20 +365,28 @@ def getTempPiel():
             "status": "fail"
         }), 400
 
-
-    # basc = int.from_bytes(W[8:10], byteorder="big")
-
-    # t_Ctrl = int.from_bytes(W[6:8], byteorder="big")
-    # pot_Calef = int.from_bytes(W[10:12], byteorder="big")
-
     t_Aire = int.from_bytes(W[0:2], byteorder='big') / 10
     t_Piel = int.from_bytes(W[2:4], byteorder='big') / 10
     s_Aux = int.from_bytes(W[4:6], byteorder="big") / 10
 
     state.tempProg = int.from_bytes(W[6:8], byteorder='big') / 10
-    # t_ProgBb = int.from_bytes(W[8:10], byteorder='big') / 10
 
-    peso = 10
+    # ta_Ctrl = int.from_bytes(W[6:8], byteorder="big")
+
+    # basc = int.from_bytes(W[8:10], byteorder="big")+-
+
+    # pot_Calef = int.from_bytes(W[10:12], byteorder="big")
+
+    # tp_Ctrl = int.from_bytes(W[12:14], byteorder="big")
+
+    s_Ox = int.from_bytes(W[14:16], byteorder="big")
+    # ox_Ctrl = int.from_bytes(W[16:18], byteorder="big")
+
+    s_Hum = int.from_bytes(W[18:20], byteorder="big")
+    # hum_Ctrl = int.from_bytes(W[20:22], byteorder="big")
+
+    # fot_Hrs = int.from_bytes(W[22:24], byteorder="big")
+    # fot_Mins = int.from_bytes(W[24:26], byteorder="big")
 
     return jsonify({
         "status": "ok",
@@ -374,8 +394,9 @@ def getTempPiel():
         "temPiel": t_Piel,
         "temSondaAux": s_Aux,
         "tempProg": state.tempProg,
-        # "tempProgBb": t_ProgBb,
-        "kgs": peso,
+        "kgs": 10,
+        "sensOx": s_Ox,
+        "sensHum": s_Hum,
     }), 200
 
 @app.route("/api/pesar", methods=["POST"])

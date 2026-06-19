@@ -7,6 +7,9 @@ const tempAire = document.getElementById("_36-3");
 const tempSondaAux = document.getElementById("_34-6");
 const tempProg = document.getElementById("_36-7");
 
+const sensOx = document.getElementById("percOx");
+const sensHum = document.getElementById("percHum");
+
 const btn_pesaje = document.getElementById("pesar")
 const peso_Basc = document.getElementById("peso");
 
@@ -34,12 +37,18 @@ async function getTemp() {
             tempAire.textContent = temperaturas.temAire;
             tempSondaAux.textContent = temperaturas.temSondaAux;
             tempProg.textContent = temperaturas.tempProg;
+
+            sensOx.textContent = temperaturas.sensOx;
+            sensHum.textContent = temperaturas.sensHum;
         }
         else{
             tempPiel.textContent = "--.-";
             tempAire.textContent = "--.-";
             tempSondaAux.textContent = "--.-";
             tempProg.textContent = "--.-";
+
+            sensOx.textContent = "--"
+            sensHum.textContent = "--"
         }
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada");

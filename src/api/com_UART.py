@@ -85,9 +85,11 @@ def decode_Msg(UART_dev):
     - Extrae el número de bytes y la carga útil, calcula y compara CRC.
     - Convierte la carga útil a un valor de peso en kg (divide por 1000).
 
-    Retorno:
-    - float: peso en kg si la trama y el CRC son válidos.
-    - 0.0 si la trama no es válida o no cumple el formato.
+        Retorno:
+        - tuple(bytes, int): siempre retorna una tupla con la carga útil
+            como `bytes` y la longitud de la carga útil (número de bytes).
+            En caso de error devuelve una carga indicadora `b'\x99\x00'` y
+            su longitud.
     """
     try:
         bytes_list = []
@@ -97,29 +99,29 @@ def decode_Msg(UART_dev):
 
         if trama and trama.startswith("00") and trama.endswith("63"):
             trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
-            n_bytes = int(trama[1], 16)
+            # n_bytes = int(trama[1], 16)
+            n_bytes = len(trama) - 5
 
             for i in range(2, (2 + n_bytes)):
                 bytes_list.append(trama[i])
 
             bytes_list = ''.join(bytes_list)
             bytes_list = bytes.fromhex(bytes_list)
-            # w_bas = (int.from_bytes(bytes_list, byteorder='big'))/1000
 
             crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
             crc_rec = hex(int(crc_rec, 16))
             crc_calc = hex(crc16_arc(bytes_list))
 
             if crc_rec == crc_calc:
-                return bytes_list
+                return bytes_list, len(bytes_list)
         else:
             bytes_list = b'\x99\x00'
 
-        return bytes_list
+        return bytes_list, len(bytes_list)
     except Exception as e:
         # logger.error("Error leyendo SONDA1:", e)
         print(f"Error al recibir trama: {e}")
-        return b'\x99\x00'
+        return b'\x99\x00', len(b'\x99\x00')
 
 def encode_Msg(UART_dev, msg):
     """

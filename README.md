@@ -389,6 +389,12 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Lectura de encoder para modificar Temperatura programada.
 - Creada función de control de Potencia de Calefactor con encoder.
 
+### v0.22 - [18/Junio/2026]
+
+- Pruebas de comunicación Verdin-UART de sensores y controles de temperatura, oxigeno y humedad.
+- Agregado byte de alarmas. *Versión MCU_control-18062026*
+- Envío de valores de sensado de: t_Aire, t_Piel, s_Aux, ta_Ctrl, basc, pot_Calef, tp_Ctrl, s_Ox, ox_Ctrl, s_Hum, hum_Ctrl, fot_Hrs, fot_Mins, zero, alrm
+
 ## Descarga e Instalación
 
 <p align="center">
