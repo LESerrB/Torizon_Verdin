@@ -1,33 +1,38 @@
-export function toggle_btnSG(btn_SG){
-    const btn_sobreGiro = document.getElementById('tmpPrgSobregiro');
-    const lbl_sobreGiro = document.getElementById('tmpPrgSobregiro-lbl');
+let intervalEncod = null;
 
-    if(btn_SG){
-        btn_sobreGiro.classList.remove('btn-sensor');
-        btn_sobreGiro.classList.add('btn-sensor-pressed');
-    
-        lbl_sobreGiro.classList.remove('btn-snsr-lbl');
-        lbl_sobreGiro.classList.add('btn-sensor-lbl-pressed');
+const btn_edit_tempProg = document.getElementById('edittemp');
+const tempProg = document.getElementById("_36-7");
+
+
+btn_edit_tempProg.addEventListener('click', async () => {
+    tempProg.classList.add('parpadeo');
+
+    if (!intervalEncod) {
+        intervalEncod = setInterval(startEdit_tempProg, 100);
     }
-    else{
-        btn_sobreGiro.classList.add('btn-sensor');
-        btn_sobreGiro.classList.remove('btn-sensor-pressed');
-    
-        lbl_sobreGiro.classList.add('btn-snsr-lbl');
-        lbl_sobreGiro.classList.remove('btn-sensor-lbl-pressed');
+});
+
+async function startEdit_tempProg(){
+    try {
+        const res = await fetch('/api/temProg', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if(res.status == 200){
+            const encd = await res.json();
+            tempProg.textContent = encd.val
+        }
+    } catch (error) {
+        console.log("Error:", error);
     }
-};
+}
+
+
+
 
 export function set_EditCtrlsEn(enabled, btns) {
-    // Object.values(btns).forEach(btnId => {
-    //     const btn = document.getElementById(btnId);
-
-    //     if (btn) {
-    //         btn.disabled = !enabled;
-    //     }
-    // });
-
-    // return !!enabled;
-    
     console.log("Clck");
 };

@@ -5,7 +5,6 @@ let counterSeconds = 0;
 const tempPiel = document.getElementById("ti-vm-piel");
 const tempAire = document.getElementById("_36-3");
 const tempSondaAux = document.getElementById("_34-6");
-const tempProg = document.getElementById("_36-7");
 
 const sensOx = document.getElementById("percOx");
 const sensHum = document.getElementById("percHum");
@@ -36,7 +35,7 @@ async function getTemp() {
             tempPiel.textContent = temperaturas.temPiel;
             tempAire.textContent = temperaturas.temAire;
             tempSondaAux.textContent = temperaturas.temSondaAux;
-            tempProg.textContent = temperaturas.tempProg;
+            // tempProg.textContent = temperaturas.tempProg;
 
             sensOx.textContent = temperaturas.sensOx;
             sensHum.textContent = temperaturas.sensHum;
@@ -45,7 +44,7 @@ async function getTemp() {
             tempPiel.textContent = "--.-";
             tempAire.textContent = "--.-";
             tempSondaAux.textContent = "--.-";
-            tempProg.textContent = "--.-";
+            // tempProg.textContent = "--.-";
 
             sensOx.textContent = "--"
             sensHum.textContent = "--"
