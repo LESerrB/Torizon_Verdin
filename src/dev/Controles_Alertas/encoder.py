@@ -44,28 +44,26 @@ enc_sw.request(
 )
 
 # Valores para Encoder
-DEBOUNCE_TIME = 0.1         # Valor para evitar rebotes en el switch de 20 milisegundos
+DEBOUNCE_TIME_SW = 0.1      # Valor para evitar rebotes en el switch de 20 milisegundos
 
-DEBOUNCE_TIME = 0.030       # 30 ms: ignora rebotes rápidos
-SETTLE_TIME = 0.002         # 2 ms: espera pequeña antes de leer DT
+DEBOUNCE_TIME = 0.03        # 30 ms: ignora rebotes rápidos
+SETTLE_TIME = 0.001         # 2 ms: espera pequeña antes de leer DT
 
-STEP_LOCK_TIME = 0.050      # 50 ms: bloqueo después de aceptar un paso
-STEP_VALUE = 0.1            # Valor de cambio
+STEP_LOCK_TIME = 0.040      # 50 ms: bloqueo después de aceptar un paso
+STEP_VALUE_TP = 0.1         # Valor de cambio Temperatura Programada de Aire/Piel
+STEP_VALUE_POT = 1          # Valor de cambio de Potencia Porcentual de 
+
+STEP_VALUE = 0.1              # Valor ajustado de cambio
 
 last_valid_time = 0.0
 last_SW_time = 0.0
 
 def clear_encoder_events():
-    """
-    Limpia eventos pendientes del buffer del GPIO.
-    """
     while enc_clk.event_wait(0):
         enc_clk.event_read()
 
 def valEdit(valIni):
     global last_valid_time
-
-    swAcept()
 
     if not enc_clk.event_wait():
         return valIni
@@ -116,34 +114,32 @@ def swAcept() -> bool:
         if evt.type == gpiod.LineEvent.RISING_EDGE:
             current_time = time.monotonic()
 
-            if (current_time - last_SW_time) >= DEBOUNCE_TIME:
+            if (current_time - last_SW_time) >= DEBOUNCE_TIME_SW:
                 last_SW_time = current_time
-                print(True)
                 return True
 
     return False
 
-# def valUpdt(editVal, initValue, sobreGiro):
-#     """
-#     Actualiza el valor del control detectando entrada del encoder.
+def valUpdt(Value):
+    """
+    Actualiza el valor del control detectando entrada del encoder.
     
-#     Función principal que orquesta la lectura del encoder y actualiza el valor
-#     de control. Procesa tanto la rotación del encoder como la pulsación del botón.
+    Función principal que orquesta la lectura del encoder y actualiza el valor
+    de control. Procesa tanto la rotación del encoder como la pulsación del botón.
     
-#     Args:
-#         editVal (str): Tipo de valor a editar ("temProg" o potencia)
-#         initValue (float): Valor inicial del control
-#         sobreGiro (bool): Bandera de sobregiro para temperatura
+    Args:
+        editVal (str): Tipo de valor a editar ("temProg" o potencia)
+        initValue (float): Valor inicial del control
+        sobreGiro (bool): Bandera de sobregiro para temperatura
     
-#     Returns:
-#         float: Valor actualizado y redondeado a 1 decimal
+    Returns:
+        float: Valor actualizado y redondeado a 1 decimal
     
-#     Nota:
-#         El valor es redondeado a 1 decimal para evitar problemas de precisión
-#         en cálculos posteriores.
-#     """
-#     new_value = valEdit(editVal, initValue, sobreGiro)
+    Nota:
+        El valor es redondeado a 1 decimal para evitar problemas de precisión
+        en cálculos posteriores.
+    """
+    value = valEdit(Value)
+    check = swAcept()
 
-#     accepted = swAcept()
-
-#     return round(new_value, 1), accepted
+    return value, check

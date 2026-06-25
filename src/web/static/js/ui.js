@@ -6,15 +6,16 @@ const tempProg = document.getElementById("_36-7");
 
 btn_edit_tempProg.addEventListener('click', async () => {
     tempProg.classList.add('parpadeo');
+    console.log("Temperatura programada")
 
     if (!intervalEncod) {
-        intervalEncod = setInterval(startEdit_tempProg, 100);
+        intervalEncod = setInterval(edit_valProg, 30);
     }
 });
 
-async function startEdit_tempProg(){
+async function edit_valProg(){
     try {
-        const res = await fetch('/api/temProg', {
+        const res = await fetch('/api/editValProg', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -23,16 +24,22 @@ async function startEdit_tempProg(){
 
         if(res.status == 200){
             const encd = await res.json();
-            tempProg.textContent = encd.val
+            tempProg.textContent = encd.val;
+
+            if (encd.confirm && intervalEncod) {
+                tempProg.classList.remove('parpadeo');
+                clearInterval(intervalEncod);
+                intervalEncod = null;
+            }
         }
     } catch (error) {
         console.log("Error:", error);
     }
-}
+};
 
 
 
 
-export function set_EditCtrlsEn(enabled, btns) {
+export function set_EditValsEn(enabled, btns) {
     console.log("Clck");
 };

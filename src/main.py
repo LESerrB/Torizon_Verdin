@@ -56,7 +56,10 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 
 #--------------------- Valores Inicailes ---------------------#
-val = 34.0
+val = 32.0
+
+val_ajuste_tp = 34.0
+val_ajuste_pot = 100
 
 W = b"\x00" * 10
 pesoTCD = 0
@@ -77,7 +80,6 @@ def index():
 def sys_monitor():
     global W
     global pesoTCD
-    global val
 
     while True:
         monitor_pause.wait()
@@ -115,13 +117,6 @@ def sys_monitor():
         #     alrm = W[27]
 
             # print(f"\n==>Trama: {W}\nTemp Aire: {t_Aire} \n Temp Piel: {t_Piel} \n Sonda Aux: {s_Aux} \n Temp Aire Ctrl: {ta_Ctrl} \n Bascula: {basc} \n Pot Cal: {pot_Calef} \n Temp Piel Ctrl: {tp_Ctrl} \n Sens O2: {s_Ox} \n O2 Ctrl: {ox_Ctrl} \n Sens Hum: {s_Hum} \n Hum Ctrl: {fot_Hrs} \n Fot Hrs: {fot_Mins} \n Fot Mins: {hum_Ctrl} \n Cero: {zero} \n Alarmas: {alrm}")
-
-        # n_val = hw_encoder.valEdit(val)
-
-        # if n_val != val:
-        #     val = n_val
-
-        # print(val)
 
         time.sleep(0.1)
 
@@ -195,16 +190,22 @@ def api_Pesaje():
     else:
         return jsonify({"status": "fail"}), 400
 
-@app.route("/api/temProg", methods=["POST"])
+
+
+@app.route("/api/editValProg", methods=["POST"])
 def tempProgEncd():
     global val
 
-    n_val = hw_encoder.valEdit(val)
+    n_val, check = hw_encoder.valUpdt(val)
 
     if n_val != val:
         val = n_val
 
-    return jsonify({"status": "ok", "val": val}), 200
+    return jsonify({
+        "status": "ok",
+        "val": val,
+        "confirm": check,
+        }), 200
 #============================================================================#
 #                                    Hilos                                   #
 #============================================================================#
