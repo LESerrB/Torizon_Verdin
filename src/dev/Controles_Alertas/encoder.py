@@ -46,12 +46,12 @@ enc_sw.request(
 # Valores para Encoder
 DEBOUNCE_TIME_SW = 0.1      # Valor para evitar rebotes en el switch de 20 milisegundos
 
-DEBOUNCE_TIME = 0.03        # 30 ms: ignora rebotes rápidos
-SETTLE_TIME = 0.001         # 2 ms: espera pequeña antes de leer DT
+DEBOUNCE_TIME = 0.050       # 30 ms: ignora rebotes rápidos
+SETTLE_TIME = 0.010         # 2 ms: espera pequeña antes de leer DT
+STEP_LOCK_TIME = 0.100      # 100 ms: bloqueo después de aceptar un paso
 
-STEP_LOCK_TIME = 0.040      # 50 ms: bloqueo después de aceptar un paso
 STEP_VALUE_TP = 0.1         # Valor de cambio Temperatura Programada de Aire/Piel
-STEP_VALUE_POT = 1          # Valor de cambio de Potencia Porcentual de 
+STEP_VALUE_POT = 1          # Valor de cambio de Potencia Porcentual de Controles
 
 STEP_VALUE = 0.1              # Valor ajustado de cambio
 
@@ -82,9 +82,9 @@ def valEdit(valIni):
 
     current_DT = enc_dt.get_value()
 
-    if current_DT == 0:
+    if (current_DT == 0) and (34.0 < valIni):
         valIni -= STEP_VALUE
-    else:
+    elif (valIni < 37.0):
         valIni += STEP_VALUE
 
     last_valid_time = now
@@ -116,11 +116,11 @@ def swAcept() -> bool:
 
             if (current_time - last_SW_time) >= DEBOUNCE_TIME_SW:
                 last_SW_time = current_time
-                return True
+                return False
 
-    return False
+    return True
 
-def valUpdt(Value):
+def valUpdt(Value, Ctrl="TempProg"):
     """
     Actualiza el valor del control detectando entrada del encoder.
     
@@ -139,6 +139,13 @@ def valUpdt(Value):
         El valor es redondeado a 1 decimal para evitar problemas de precisión
         en cálculos posteriores.
     """
+    global STEP_VALUE
+
+    if Ctrl == "TempProg":
+        STEP_VALUE = STEP_VALUE_TP
+    elif Ctrl == "CtrlPot":
+        STEP_VALUE = STEP_VALUE_POT
+
     value = valEdit(Value)
     check = swAcept()
 

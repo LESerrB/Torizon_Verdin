@@ -58,14 +58,17 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 #--------------------- Valores Inicailes ---------------------#
 val = 34.0
 
-val_ajuste_tp = 34.0
-val_ajuste_pot = 100
+valores_ctrl = {
+    "tempProg": 34.0,       # Ajuste de Temperatura programada de Piel
+    "ajuste_pot": 100,      # Ajuste de Potencia de Calefactor
+    "confirm": False        # Habilitación / Deshabilitación Encoder
+}
 
 W = b"\x00" * 10
 pesoTCD = 0
 
-enableEdit = False
-edit_started_temp = None
+# enableEdit = False
+# edit_started_temp = None
 
 # ##############################################################################
 # #                           Rutas de la aplicacion                           #
@@ -118,7 +121,7 @@ def sys_monitor():
 
             # print(f"\n==>Trama: {W}\nTemp Aire: {t_Aire} \n Temp Piel: {t_Piel} \n Sonda Aux: {s_Aux} \n Temp Aire Ctrl: {ta_Ctrl} \n Bascula: {basc} \n Pot Cal: {pot_Calef} \n Temp Piel Ctrl: {tp_Ctrl} \n Sens O2: {s_Ox} \n O2 Ctrl: {ox_Ctrl} \n Sens Hum: {s_Hum} \n Hum Ctrl: {fot_Hrs} \n Fot Hrs: {fot_Mins} \n Fot Mins: {hum_Ctrl} \n Cero: {zero} \n Alarmas: {alrm}")
 
-        time.sleep(0.)
+        time.sleep(0.1)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")
@@ -128,6 +131,21 @@ def restart_container(threshold=90):
         print("Espacio casi lleno, reiniciando contenedor...")
         # logger.warning('Espacio casi lleno, reiniciando contenedor...')
         os._exit(1)
+
+def encoder_Reader():
+    global val
+
+    while True:
+        if valores_ctrl["confirm"]:
+            nuevo_val = hw_encoder.valEdit(val)
+
+            if nuevo_val != val:
+                val = nuevo_val
+
+            valores_ctrl["confirm"] = hw_encoder.swAcept()
+
+        time.sleep(0.005)
+
 ##############################################################################
 #                                  Sensores                                  #
 ##############################################################################
@@ -190,21 +208,23 @@ def api_Pesaje():
     else:
         return jsonify({"status": "fail"}), 400
 
+@app.route("/api/enEdit", methods=["POST"])
+def enEditCtrls():
+    ctrl = request.get_json()
 
+    edit_Ctrl = ctrl.get("Ctrl")
+    valores_ctrl["confirm"] = ctrl.get("Enable")
+
+    return jsonify({"status": "ok"}), 200
 
 @app.route("/api/editValProg", methods=["POST"])
 def tempProgEncd():
     global val
 
-    n_val, check = hw_encoder.valUpdt(val)
-
-    if n_val != val:
-        val = n_val
-
     return jsonify({
         "status": "ok",
         "val": val,
-        "confirm": check,
+        "confirm": valores_ctrl["confirm"],
         }), 200
 #============================================================================#
 #                                    Hilos                                   #
@@ -214,6 +234,9 @@ monitor_pause.set()
 
 monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
 monitor_thread.start()
+
+encoder_Thread = threading.Thread(target=encoder_Reader, daemon=True)
+encoder_Thread.start()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)

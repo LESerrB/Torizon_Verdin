@@ -3,15 +3,42 @@ let intervalEncod = null;
 const btn_edit_tempProg = document.getElementById('edittemp');
 const tempProg = document.getElementById("_36-7");
 
+const controls = {
+    // nombreControl: document.getElementById("id-elemento"),
+    tempProg: tempProg,
+};
+
 tempProg.textContent = 34.0.toFixed(1);
 
-btn_edit_tempProg.addEventListener('click', async () => {
-    tempProg.classList.add('parpadeo');
-    console.log("Temperatura programada")
+async function set_EditCtrlsEn(ctrl_lbl) {
+    const element = controls[ctrl_lbl];
 
-    if (!intervalEncod) {
-        intervalEncod = setInterval(edit_valProg, 30);
+    if (element) {
+        element.classList.add('parpadeo');
+
+        try {
+            const res = await fetch('/api/enEdit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    Ctrl: ctrl_lbl,
+                    Enable: true,
+                })
+            });
+
+            if (!intervalEncod) {
+                intervalEncod = setInterval(edit_valProg, 10);
+            }
+        } catch (error) {
+            console.log("Error:", error);
+        }
     }
+};
+
+btn_edit_tempProg.addEventListener('click', async () => {
+    set_EditCtrlsEn("tempProg");
 });
 
 async function edit_valProg(){
@@ -28,8 +55,9 @@ async function edit_valProg(){
 
             tempProg.textContent = encd.val.toFixed(1);
 
-            if (encd.confirm && intervalEncod) {
+            if ((!encd.confirm) && intervalEncod) {
                 tempProg.classList.remove('parpadeo');
+
                 clearInterval(intervalEncod);
                 intervalEncod = null;
             }
@@ -39,7 +67,3 @@ async function edit_valProg(){
     }
 };
 
-
-export function set_EditValsEn(enabled, btns) {
-    console.log("Clck");
-};
