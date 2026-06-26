@@ -12,6 +12,8 @@ const sensHum = document.getElementById("percHum");
 const btn_pesaje = document.getElementById("pesar")
 const peso_Basc = document.getElementById("peso");
 
+peso_Basc.textContent = "-.---"
+
 function generateRandomFloat(base, variancePercent, decimals = 3) {
     const variance = base * variancePercent;
     const min = base - variance;
@@ -35,7 +37,6 @@ async function getTemp() {
             tempPiel.textContent = temperaturas.temPiel;
             tempAire.textContent = temperaturas.temAire;
             tempSondaAux.textContent = temperaturas.temSondaAux;
-            // tempProg.textContent = temperaturas.tempProg;
 
             sensOx.textContent = temperaturas.sensOx;
             sensHum.textContent = temperaturas.sensHum;
@@ -44,7 +45,6 @@ async function getTemp() {
             tempPiel.textContent = "--.-";
             tempAire.textContent = "--.-";
             tempSondaAux.textContent = "--.-";
-            // tempProg.textContent = "--.-";
 
             sensOx.textContent = "--"
             sensHum.textContent = "--"
@@ -55,13 +55,6 @@ async function getTemp() {
 };
 
 btn_pesaje.addEventListener('click', async () => {
-    // // Simulación
-    // setTimeout(() => {
-    //     const r = generateRandomFloat(5, 0.02);
-    //     peso_Basc.textContent = r.toFixed(3);
-    // }, 5000);
-
-    // // Real
     try {
         const res = await fetch('/api/pesar', {
             method: 'POST',
@@ -74,12 +67,15 @@ btn_pesaje.addEventListener('click', async () => {
             const peso = await res.json();
             console.log(peso.peso);
             
-            peso_Basc.textContent = peso.peso + " kg";
+            peso_Basc.textContent = peso.peso.toFixed(3);
         }
     } catch (error) {
         console.log("Error:", error);
     }
 });
+
+
+
 
 export function startSensor(){
     if (!intervalId) {

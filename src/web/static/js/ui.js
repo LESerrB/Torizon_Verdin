@@ -3,6 +3,7 @@ let intervalEncod = null;
 const btn_edit_tempProg = document.getElementById('edittemp');
 const tempProg = document.getElementById("_36-7");
 
+tempProg.textContent = 34.0.toFixed(1);
 
 btn_edit_tempProg.addEventListener('click', async () => {
     tempProg.classList.add('parpadeo');
@@ -24,7 +25,8 @@ async function edit_valProg(){
 
         if(res.status == 200){
             const encd = await res.json();
-            tempProg.textContent = encd.val;
+
+            tempProg.textContent = encd.val.toFixed(1);
 
             if (encd.confirm && intervalEncod) {
                 tempProg.classList.remove('parpadeo');
@@ -36,8 +38,6 @@ async function edit_valProg(){
         console.log("Error:", error);
     }
 };
-
-
 
 
 export function set_EditValsEn(enabled, btns) {

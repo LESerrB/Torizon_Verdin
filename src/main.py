@@ -56,7 +56,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 
 #--------------------- Valores Inicailes ---------------------#
-val = 32.0
+val = 34.0
 
 val_ajuste_tp = 34.0
 val_ajuste_pot = 100
@@ -118,7 +118,7 @@ def sys_monitor():
 
             # print(f"\n==>Trama: {W}\nTemp Aire: {t_Aire} \n Temp Piel: {t_Piel} \n Sonda Aux: {s_Aux} \n Temp Aire Ctrl: {ta_Ctrl} \n Bascula: {basc} \n Pot Cal: {pot_Calef} \n Temp Piel Ctrl: {tp_Ctrl} \n Sens O2: {s_Ox} \n O2 Ctrl: {ox_Ctrl} \n Sens Hum: {s_Hum} \n Hum Ctrl: {fot_Hrs} \n Fot Hrs: {fot_Mins} \n Fot Mins: {hum_Ctrl} \n Cero: {zero} \n Alarmas: {alrm}")
 
-        time.sleep(0.1)
+        time.sleep(0.)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")

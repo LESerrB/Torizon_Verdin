@@ -5,4 +5,4 @@ import {
 
 import {  } from "./ui.js";
 
-// startSensor();
+startSensor();
