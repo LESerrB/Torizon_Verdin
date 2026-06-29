@@ -47,41 +47,43 @@ enc_sw.request(
 DEBOUNCE_TIME_SW = 0.1      # Valor para evitar rebotes en el switch de 20 milisegundos
 last_SW_time = 0            # Timestamp para el boton del encoder
 
+
+
 # =====================================
 # Configuración de Valores para Encoder
 # =====================================
-# Tiempo mínimo entre transiciones aceptadas
-TRANSITION_DEBOUNCE_TIME = 0.002   # 2 ms
-# Tiempo mínimo entre pasos completos
-STEP_DEBOUNCE_TIME = 0.040         # 25 ms
-# Número de transiciones necesarias para un paso
-# Si tu encoder cuenta muy lento, prueba con 2.
-TRANSITIONS_PER_STEP = 2
-# Si la dirección queda invertida, cambia a True
-INVERT_DIRECTION = True
+# Tiempo entre lecturas del encoder
+POLL_TIME = 0.001          # 1 ms
+# Tiempo mínimo entre pasos completos aceptados
+STEP_DEBOUNCE_TIME = 0.030 # 30 ms
+# Estado de reposo del encoder.
+# Muchos encoders con pull-up descansan en 0b11.
+# Si tu encoder descansa en bajo, usa 0b00.
+DETENT_STATE = 0b11
+# Cambia a True si el sentido queda invertido
+INVERT_DIRECTION = False
 
-# ==================
+# ===========
 # Incrementos 
-# ==================
+# ===========
 STEP_VALUE_TP = 0.1         # Valor de cambio Temperatura Programada de Aire/Piel
 STEP_VALUE_POT = 1          # Valor de cambio de Potencia Porcentual de Controles
-########################################################
+######################################################
 STEP_VALUE = 0.1            # Valor ajustado de cambio
 
-# =========================
+# ==================
 # Variables internas
-# =========================
+# ==================
 last_state = None
-last_transition_time = 0.0
 last_step_time = 0.0
 encoder_accum = 0
 
 
 
-def read_stable_gpio(line, samples=5, delay=0.0005):
+def read_stable_gpio(line, samples=5, delay=0.0002):
     """
-    Lee una entrada GPIO varias veces y devuelve el valor dominante.
-    Esto reduce errores por ruido o rebote breve.
+    Lee un GPIO varias veces y devuelve el valor dominante.
+    Esto ayuda a rechazar ruido corto o rebotes pequeños.
     """
     total = 0
 
@@ -89,14 +91,14 @@ def read_stable_gpio(line, samples=5, delay=0.0005):
         total += line.get_value()
         time.sleep(delay)
 
-    return 1 if total >= ((samples // 2) + 1) else 0
+    return 1 if total >= 3 else 0
+
 
 def read_encoder_state():
     """
-    Lee CLK y DT de forma filtrada.
+    Lee CLK y DT como un estado de 2 bits.
 
-    Retorna:
-        Estado de 2 bits:
+    Estado:
         CLK DT
          0   0  -> 0b00
          0   1  -> 0b01
@@ -109,52 +111,45 @@ def read_encoder_state():
 
     return (clk << 1) | dt
 
-def clear_encoder_events():
-    """
-    Limpia eventos pendientes en CLK.
-    Si también tienes DT configurado con eventos, puedes limpiar DT también.
-    """
-    while enc_clk.event_wait(sec=0):
-        enc_clk.event_read()
+
 
 def init_encoder():
     """
-    Inicializa el estado actual del encoder.
-    Llama esta función una vez al iniciar el programa.
+    Inicializa el estado del encoder.
+    Llamar una sola vez antes del while principal.
     """
+
     global last_state
-    global last_transition_time
     global last_step_time
     global encoder_accum
 
-    clear_encoder_events()
-
     last_state = read_encoder_state()
-    last_transition_time = time.monotonic()
     last_step_time = time.monotonic()
     encoder_accum = 0
 
 
+
 def valEdit(valIni):
     """
-    Lee el encoder usando validación de cuadratura.
+    Lee el encoder con máquina de estados.
 
-    Esta función evita que el valor aumente cuando se intenta disminuir
-    debido a rebotes o lecturas falsas de DT/CLK.
+    Esta función evita que al girar en sentido antihorario
+    el valor siga aumentando por culpa de rebotes en DT o CLK.
     """
 
     global last_state
-    global last_transition_time
     global last_step_time
     global encoder_accum
 
-    # Tabla de transiciones válidas
+    # Tabla de cuadratura
     #
     # Sentido A:
     # 00 -> 01 -> 11 -> 10 -> 00
     #
     # Sentido B:
     # 00 -> 10 -> 11 -> 01 -> 00
+    #
+    # Las transiciones inválidas se ignoran.
 
     transition_table = {
         (0b00, 0b01): +1,
@@ -168,40 +163,24 @@ def valEdit(valIni):
         (0b01, 0b00): -1,
     }
 
-    # Esperar evento en CLK
-    if not enc_clk.event_wait():
-        return valIni
-
-    # Leer y descartar el evento.
-    # La dirección ya no se decide con evt.type.
-    enc_clk.event_read()
-
-    now = time.monotonic()
-
-    # Antirrebote entre transiciones
-    if now - last_transition_time < TRANSITION_DEBOUNCE_TIME:
-        clear_encoder_events()
-        return valIni
-
     current_state = read_encoder_state()
 
     if last_state is None:
         last_state = current_state
         return valIni
 
-    # Si no cambió realmente el estado, ignorar
+    # Si no hubo cambio real, no hacer nada
     if current_state == last_state:
         return valIni
 
     transition = transition_table.get((last_state, current_state), 0)
 
+    # Actualizar estado
     last_state = current_state
-    last_transition_time = now
 
-    # Transición inválida: probablemente ruido o rebote
+    # Si la transición no existe en la tabla, probablemente fue ruido
     if transition == 0:
         encoder_accum = 0
-        clear_encoder_events()
         return valIni
 
     if INVERT_DIRECTION:
@@ -209,26 +188,33 @@ def valEdit(valIni):
 
     encoder_accum += transition
 
-    # Solo aceptar un paso cuando se acumularon transiciones consistentes
-    if encoder_accum >= TRANSITIONS_PER_STEP:
-        if now - last_step_time >= STEP_DEBOUNCE_TIME:
+    now = time.monotonic()
+
+    # Solo aceptar el paso cuando el encoder vuelve al estado de reposo
+    if current_state == DETENT_STATE:
+
+        if now - last_step_time < STEP_DEBOUNCE_TIME:
+            encoder_accum = 0
+            return valIni
+
+        # Se requiere una acumulación consistente.
+        # Valores positivos: un sentido.
+        # Valores negativos: sentido contrario.
+        if (encoder_accum >= 2) and (valIni < 37.0):
             valIni += STEP_VALUE
             valIni = round(valIni, 1)
             last_step_time = now
 
-        encoder_accum = 0
-        clear_encoder_events()
-
-    elif encoder_accum <= -TRANSITIONS_PER_STEP:
-        if now - last_step_time >= STEP_DEBOUNCE_TIME:
+        elif (encoder_accum <= -2) and (34.0 < valIni):
             valIni -= STEP_VALUE
             valIni = round(valIni, 1)
             last_step_time = now
 
         encoder_accum = 0
-        clear_encoder_events()
 
     return valIni
+
+
 
 def swAcept() -> bool:
     """
