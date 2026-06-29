@@ -15,12 +15,12 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from dev.Bascula.bascula import tare, calib, pesaje
+from dev.Comunicacion import bascula as com_bascula
+from dev.Controles_Alertas import encoder as hw_encoder
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
-from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
-from dev.Controles_Alertas import encoder as hw_encoder
+# from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
 
 import serial
 
@@ -29,8 +29,6 @@ from api.com_UART import decode_Msg, encode_Msg
 uart_Channel = "/dev/verdin-uart1"
 baud_rate = 115200
 tcd_UART1 = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
-
-
 
 # ##############################################################################
 # #                           Configuracion Pag WEB                            #
@@ -66,9 +64,6 @@ valores_ctrl = {
 
 W = b"\x00" * 10
 pesoTCD = 0
-
-# enableEdit = False
-# edit_started_temp = None
 
 # ##############################################################################
 # #                           Rutas de la aplicacion                           #
@@ -135,6 +130,8 @@ def restart_container(threshold=90):
 def encoder_Reader():
     global val
 
+    hw_encoder.init_encoder()
+
     while True:
         if valores_ctrl["confirm"]:
             nuevo_val = hw_encoder.valEdit(val)
@@ -193,7 +190,7 @@ def getTempPiel():
 def api_Pesaje():
     global pesoTCD
 
-    peso = round(pesaje(), 3)
+    peso = round(com_bascula.pesaje(), 3)
 
     print(f"=======Fin Pesaje: {peso}=======")
 
