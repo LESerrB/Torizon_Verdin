@@ -29,7 +29,7 @@ async function set_EditCtrlsEn(ctrl_lbl) {
             });
 
             if (!intervalEncod) {
-                intervalEncod = setInterval(edit_valProg, 10);
+                intervalEncod = setInterval(edit_valProg, 100);
             }
         } catch (error) {
             console.log("Error:", error);

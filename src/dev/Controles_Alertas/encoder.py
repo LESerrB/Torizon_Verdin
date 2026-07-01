@@ -61,7 +61,7 @@ STEP_DEBOUNCE_TIME = 0.030 # 30 ms
 # Si tu encoder descansa en bajo, usa 0b00.
 DETENT_STATE = 0b11
 # Cambia a True si el sentido queda invertido
-INVERT_DIRECTION = False
+INVERT_DIRECTION = True
 
 # ===========
 # Incrementos 
