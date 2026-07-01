@@ -99,11 +99,11 @@ def read_encoder_state():
     Lee CLK y DT como un estado de 2 bits.
 
     Estado:
-        CLK DT
-         0   0  -> 0b00
-         0   1  -> 0b01
-         1   0  -> 0b10
-         1   1  -> 0b11
+        CLK | DT
+         0  |  0  -> 0b00
+         0  |  1  -> 0b01
+         1  |  0  -> 0b10
+         1  |  1  -> 0b11
     """
 
     clk = read_stable_gpio(enc_clk)
