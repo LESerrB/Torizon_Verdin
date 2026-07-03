@@ -46,7 +46,7 @@ enc_sw.request(
 # =============
 # Botón Encoder
 # =============
-DEBOUNCE_TIME_SW = 0.5      # Valor para evitar rebotes en el switch de 20 milisegundos
+DEBOUNCE_TIME_SW = 0.8      # Valor para evitar rebotes en el switch de 20 milisegundos
 last_SW_time = 0            # Timestamp para el boton del encoder
 
 # ===========
