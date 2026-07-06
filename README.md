@@ -391,9 +391,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creadas funciones de lectura y calibración.
 - Implementada función de Posición 0.
 
-### v0.22 - [3/Marzo/2026]
+### v0.22.1 - [3/Marzo/2026]
 
-
+- Creados los contenedores y componentes de la pagina principal de la UI.
+- Asignados ids para control de interfaz.
 
 ## Descarga e Instalación
 

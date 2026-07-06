@@ -79,35 +79,35 @@
 :root,
 [data-coleccion-variable-mode="mode-1"] {
   /* mode-1 */
-  --colorblanco: #ffffff;
+  --colorblanco:        #ffffff;
   
-  --colortextactivo: #2f3a40;
+  --colortextactivo:    #2f3a40;
   --colortextoinactivo: #72818e;
-  --colortexttpiel: #6f423d;
-  --colortexttaire: #2f4a4d;
+  --colortexttpiel:     #6f423d;
+  --colortexttaire:     #2f4a4d;
   
-  --colorfondo: #e9eef2;
+  --colorfondo:         #e9eef2;
   --colorfondoinactivo: #f2f2f2;
-  --colorfondopiel: #f5cfc3;
-  --colorfondoaire: #bee1e5;
-  --colorfondooxigeno: #c6e1b8;
-  --colorfondooxigen: #bfd9e8;
-  --colorfondofot: #c2d2ec;
-  --colorfondohum: #bfd9e8;
+  --colorfondopiel:     #f5cfc3;
+  --colorfondoaire:     #bee1e5;
+  --colorfondooxigeno:  #c6e1b8;
+  --colorfondooxigen:   #bfd9e8;
+  --colorfondofot:      #c2d2ec;
+  --colorfondohum:      #bfd9e8;
   
-  --coloroscuropiel: #d9a79d;
-  --coloroscuroaire: #8fc3c9;
+  --coloroscuropiel:    #d9a79d;
+  --coloroscuroaire:    #8fc3c9;
   --coloroscurooxigeno: #86ad79;
-  --coloroscurofot: #5f82b8;
-  --coloroscurohum: #5f97b1;
+  --coloroscurofot:     #5f82b8;
+  --coloroscurohum:     #5f97b1;
 
-  --colorclaropiel: #fae7e1;
+  --colorclaropiel:     #fae7e1;
 
-  --colorverdebtn: #92d1bc;
-  --colorgrisbtn: #8a8e91;
-  --colorclarobtn: #f8f8fa;
-  --colorfondobtns: #d8dee2;
-  --colorbtnsnuevos: #d9d9d9;
+  --colorverdebtn:      #92d1bc;
+  --colorgrisbtn:       #8a8e91;
+  --colorclarobtn:      #f8f8fa;
+  --colorfondobtns:     #d8dee2;
+  --colorbtnsnuevos:    #d9d9d9;
 
-  --colormoddesacti: #f5f7f7;
+  --colormoddesacti:    #f5f7f7;
 }

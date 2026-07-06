@@ -1028,17 +1028,6 @@
 /*============================================================================*/
 
 
-
-
-
-
-
-
-
-
-
-
-
 .ti-vm-taire {
   display: flex;
   flex-direction: row;
@@ -1048,9 +1037,6 @@
   flex-shrink: 0;
   position: relative;
 }
-
-
-
 .seg-calefactor {
   display: flex;
   flex-direction: column;
@@ -1061,7 +1047,6 @@
   flex-shrink: 0;
   position: relative;
 }
-
 .rectangle-192 {
   background: #c7463c;
   border-radius: 3px 3px 0px 0px;
@@ -1134,7 +1119,6 @@
   height: 15px;
   position: relative;
 }
-
 .v-potcal {
   display: flex;
   flex-direction: row;
@@ -1168,14 +1152,6 @@
   position: relative;
   width: 5px;
 }
-
-
-
-
-
-
-
-
 .cont-tprogp-taux {
   display: flex;
   flex-direction: column;
@@ -1220,9 +1196,6 @@
   flex-shrink: 0;
   position: relative;
 }
-
-
-
 .taux {
   display: flex;
   flex-direction: row;
@@ -1256,7 +1229,3 @@
   flex-shrink: 0;
   position: relative;
 }
-
-
-
-
