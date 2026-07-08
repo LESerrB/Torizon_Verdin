@@ -209,13 +209,15 @@ def api_Pesaje():
 def enEditCtrls():
     ctrl = request.get_json()
 
+    print(ctrl)
+
     edit_Ctrl = ctrl.get("Ctrl")
     valores_ctrl["confirm"] = ctrl.get("Enable")
 
     return jsonify({"status": "ok"}), 200
 
 @app.route("/api/editValProg", methods=["POST"])
-def tempProgEncd():
+def ctrlEncd():
     global val
 
     return jsonify({

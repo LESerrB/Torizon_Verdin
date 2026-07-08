@@ -1,3 +1,5 @@
+// ========== Provisional
+import { actualizarDesdeValor } from "./encdProb.js";
 let intervalEncod = null;
 
 const pnlBebe = document.getElementById('pnl-modoBebe');
@@ -56,7 +58,7 @@ btn_cancel.addEventListener('click', () => {
 
 
 const tempProg = document.getElementById("tp_prog");
-const val_Ctrl = document.getElementById("val_Ctrl");
+const val_Ctrl = document.getElementById("texto-valor");
 
 const controls = {
     // nombreControl: document.getElementById("id-elemento"),
@@ -100,6 +102,7 @@ async function edit_valProg(){
             const encd = await res.json();
 
             val_Ctrl.textContent = encd.val.toFixed(1);
+            actualizarDesdeValor(encd.val.toFixed(1));
 
             if ((!encd.confirm) && intervalEncod) {
                 clearInterval(intervalEncod);

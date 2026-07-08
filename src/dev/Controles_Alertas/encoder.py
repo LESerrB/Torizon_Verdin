@@ -163,7 +163,7 @@ def valEdit(valIni):
     encoder_accum += transition
 
     if encoder_accum >= TRANSITIONS_PER_STEP:
-        if (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < 37.0):
+        if (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < 38.0):
             valIni += STEP_VALUE
             valIni = round(valIni, 1)
             last_step_time = now

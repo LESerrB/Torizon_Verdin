@@ -5,10 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/vars.css">
+    <link rel="stylesheet" href="../static/css/encdProb.css">
     <link rel="stylesheet" href="../static/css/Home/style.css">
     <link rel="stylesheet" href="../static/css/PanelControl/style.css">
 
     <script type="module" src="../static/js/app.js"></script>
+    <script type="module" src="../static/js/encdProb.js"></script>
 
     <style>
       a,
@@ -269,12 +271,38 @@
               <div class="mp-info-ctrl">
                 <img class="icon-piel" src="../static/icon/Home/icon-piel0.svg" />                <!-- Icono -->
                 <!-------- Control -------->
-                <div class="per-graf"></div>
-                <div class="fon-graf"></div>
-                <img class="igraf-tpiel" src="../static/icon/Control/igraf-tpiel0.svg" />         <!-- Grafico indicador Potencia -->
-                <img class="icons-mas-menos" src="../static/icon/Control/icons-mas-menos0.svg" />
-                <div id="val_Ctrl" class="ti-vp-value">36.5</div>                             <!-- Valor -->
-                <div class="ti-vp-units">°C</div>                                                 <!-- Unidades -->
+                <!-- <div class="per-graf"></div> -->
+                <!-- <div class="fon-graf"></div> -->
+                <!--<img class="igraf-tpiel" src="../static/icon/Control/igraf-tpiel0.svg" />         <!-- Grafico indicador Potencia -->
+                <!-- <img class="icons-mas-menos" src="../static/icon/Control/icons-mas-menos0.svg" /> -->
+                <!--<div id="val_Ctrl" class="ti-vp-value">36.5</div>                             <!-- Valor -->
+                <!--<div class="ti-vp-units">°C</div>                                                 <!-- Unidades -->
+                <div class="widget-container">
+                  <div class="svg-container">
+                    <svg viewBox="0 0 200 200" id="slider-svg">
+                      <defs>
+                        <mask id="mascara-relleno">
+                          <path id="path-mascara" fill="none" stroke="white" stroke-width="24" stroke-linecap="round" />
+                        </mask>
+                      </defs>
+
+                      <!-- Riel base -->
+                      <path id="pista-fondo" fill="none" stroke="var(--track-bg)" stroke-width="24" stroke-linecap="round" />
+
+                      <!-- Grupo de colores enmascarado -->
+                      <g id="arco-segmentos" mask="url(#mascara-relleno)"></g>
+
+                      <!-- Puntero -->
+                      <circle id="knob" r="0" fill="#FFFFFF" stroke="#2c3e50" stroke-width="3" filter="drop-shadow(0px 2px 4px rgba(0,0,0,0.4))"/>
+                    </svg>
+                  </div>
+
+                  <div class="display-central" id="centro-color">
+                    <div class="valor-temperatura" id="contenedor-texto">
+                      <span id="texto-valor">34.0</span><span class="unidad">°C</span>
+                    </div>
+                  </div>
+                </div>
                 <!---- Boton Cancelar ----->
                 <button id="cancel-ctrl" class="btn-cancel-salir" type="button">
                   <div class="cancelar">Cancelar</div>
