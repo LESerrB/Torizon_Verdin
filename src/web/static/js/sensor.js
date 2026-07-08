@@ -54,32 +54,9 @@ async function getTemp() {
     }
 };
 
-btn_pesaje.addEventListener('click', async () => {
-    try {
-        const res = await fetch('/api/pesar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if(res.status == 200){
-            const peso = await res.json();
-            console.log(peso.peso);
-            
-            peso_Basc.textContent = peso.peso.toFixed(3);
-        }
-    } catch (error) {
-        console.log("Error:", error);
-    }
-});
-
-
-
-
 export function startSensor(){
     if (!intervalId) {
-        intervalId = setInterval(getTemp, 300);
+        intervalId = setInterval(getTemp, 500);
     }
 };
 
@@ -89,3 +66,26 @@ export function pauseSensor() {
         intervalId = null;
     }
 };
+
+// =======================================
+// Próxima actualización en un nuevo panel
+// =======================================
+// btn_pesaje.addEventListener('click', async () => {
+//     try {
+//         const res = await fetch('/api/pesar', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+
+//         if(res.status == 200){
+//             const peso = await res.json();
+//             console.log(peso.peso);
+            
+//             peso_Basc.textContent = peso.peso.toFixed(3);
+//         }
+//     } catch (error) {
+//         console.log("Error:", error);
+//     }
+// });

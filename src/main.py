@@ -139,7 +139,7 @@ def encoder_Reader():
             if nuevo_val != val:
                 val = nuevo_val
 
-            valores_ctrl["confirm"] = hw_encoder.swAcept()
+            # valores_ctrl["confirm"] = hw_encoder.swAcept()
 
         time.sleep(0.005)
 

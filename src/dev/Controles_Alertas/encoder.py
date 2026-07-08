@@ -92,8 +92,6 @@ def read_encoder_state():
 
     return (clk << 1) | dt
 
-
-
 def init_encoder():
     """
     Inicializa el estado actual del encoder.
@@ -111,8 +109,6 @@ def init_encoder():
     last_transition_time = now
     last_step_time = now
     encoder_accum = 0
-
-
 
 def valEdit(valIni):
     """
@@ -238,6 +234,6 @@ def valUpdt(Value, Ctrl="TempProg"):
         STEP_VALUE = STEP_VALUE_POT
 
     value = valEdit(Value)
-    check = swAcept()
+    # check = swAcept()
 
-    return value, check
+    return value#, check

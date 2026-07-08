@@ -1,3 +1,5 @@
+let intervalEncod = null;
+
 const pnlBebe = document.getElementById('pnl-modoBebe');
 const pnlAire = document.getElementById('pnl-modoAire');
 
@@ -23,8 +25,8 @@ function toggleHomePanel(showPanelControl) {
 }
 
 pnlBebe.addEventListener('click', () => {
-    console.log("Ajuste de Ctrl de Temperatura de Piel");
     toggleHomePanel(true);
+    set_EditCtrlsEn("tempProg");
 });
 
 pnlAire.addEventListener('click', () => {
@@ -46,76 +48,66 @@ ajstCtrl_Fot.addEventListener('click', () => {
 
 // Boton Cancelar
 btn_cancel.addEventListener('click', () => {
+    clearInterval(intervalEncod);
+    intervalEncod = null;
     toggleHomePanel(false);
 });
-let intervalEncod = null;
 
 
 
-// const btn_edit_tempProg = document.getElementById('edittemp');
-// const tempProg = document.getElementById("_36-7");
+const tempProg = document.getElementById("tp_prog");
+const val_Ctrl = document.getElementById("val_Ctrl");
 
-// const controls = {
-//     // nombreControl: document.getElementById("id-elemento"),
-//     tempProg: tempProg,
-// };
+const controls = {
+    // nombreControl: document.getElementById("id-elemento"),
+    tempProg: tempProg,
+};
 
-// tempProg.textContent = 34.0.toFixed(1);
+tempProg.textContent = 34.0.toFixed(1);
+val_Ctrl.textContent = tempProg.textContent;
 
-// async function set_EditCtrlsEn(ctrl_lbl) {
-//     const element = controls[ctrl_lbl];
+async function set_EditCtrlsEn(ctrl_lbl) {
+    try {
+        const res = await fetch('/api/enEdit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                Ctrl: ctrl_lbl,
+                Enable: true,
+            })
+        });
 
-//     if (element) {
-//         element.classList.add('parpadeo');
+        if (!intervalEncod) {
+            intervalEncod = setInterval(edit_valProg, 100);
+        }
+    } catch (error) {
+        console.log("Error:", error);
+    }
+};
 
-//         try {
-//             const res = await fetch('/api/enEdit', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify({ 
-//                     Ctrl: ctrl_lbl,
-//                     Enable: true,
-//                 })
-//             });
+async function edit_valProg(){
+    try {
+        const res = await fetch('/api/editValProg', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-//             if (!intervalEncod) {
-//                 intervalEncod = setInterval(edit_valProg, 100);
-//             }
-//         } catch (error) {
-//             console.log("Error:", error);
-//         }
-//     }
-// };
+        if(res.status == 200){
+            const encd = await res.json();
 
-// btn_edit_tempProg.addEventListener('click', async () => {
-//     set_EditCtrlsEn("tempProg");
-// });
+            val_Ctrl.textContent = encd.val.toFixed(1);
 
-// async function edit_valProg(){
-//     try {
-//         const res = await fetch('/api/editValProg', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         });
-
-//         if(res.status == 200){
-//             const encd = await res.json();
-
-//             tempProg.textContent = encd.val.toFixed(1);
-
-//             if ((!encd.confirm) && intervalEncod) {
-//                 tempProg.classList.remove('parpadeo');
-
-//                 clearInterval(intervalEncod);
-//                 intervalEncod = null;
-//             }
-//         }
-//     } catch (error) {
-//         console.log("Error:", error);
-//     }
-// };
+            if ((!encd.confirm) && intervalEncod) {
+                clearInterval(intervalEncod);
+                intervalEncod = null;
+            }
+        }
+    } catch (error) {
+        console.log("Error:", error);
+    }
+};
 
