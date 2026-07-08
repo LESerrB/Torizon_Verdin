@@ -5,4 +5,6 @@ import {
 
 import {  } from "./ui.js";
 
+console.log("App loaded");
+
 startSensor();

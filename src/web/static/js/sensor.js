@@ -6,8 +6,8 @@ const tempPiel = document.getElementById("ti-vm-piel");
 const tempAire = document.getElementById("_36-3");
 const tempSondaAux = document.getElementById("_34-6");
 
-const sensOx = document.getElementById("percOx");
-const sensHum = document.getElementById("percHum");
+const sensOx = document.getElementById("valOx");
+const sensHum = document.getElementById("valHum");
 
 const btn_pesaje = document.getElementById("pesar")
 const peso_Basc = document.getElementById("peso");

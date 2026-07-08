@@ -1,6 +1,10 @@
 import gpiod
 import time
 
+from dev.Sensores_TPH.sns_IncBac import accel_Pos
+from api.pins_ADC import read_adc
+
+
 #        Sensor    | Sensor Modo | Motor Altura | Motor Altura | Motor      | Motor      | Motor      | Motor     
 #        Modo Cuna | Incubadora  | Variable P   | Variable N   | Bacinete P | Bacinete N | Lampara P  | Lampara N 
 #------------------|-------------|--------------|--------------|------------|------------|------------|-----------
@@ -80,7 +84,7 @@ motorLMP_P.request(
 )
 
 strModoFunc = ""
-tiempo_deApertura = 15 # seg
+tiempo_deApertura = 8 # seg
 
 # Selector MUX Inicial
 # 00  |   Altura Variable
@@ -97,6 +101,7 @@ motorBAC_P.set_value(1)
 
 motorLMP_N.set_value(1)
 motorLMP_P.set_value(1)
+
 #===============================================================#
 #           Funciones de Lectura y Control de Sensores          #
 #===============================================================#
@@ -117,15 +122,10 @@ def rd_ModoOp():
     """
     global strModoFunc
 
-    if sns_Cuna.get_value():
-        strModoFunc = "Cuna"
-        return strModoFunc
-    elif sns_Incb.get_value():
+    if read_adc(3) < 100:
         strModoFunc = "Incubadora"
-        return strModoFunc
-    else:
-        strModoFunc = "ERROR"
-        return strModoFunc
+    elif read_adc(3) > 1700:
+        strModoFunc = "Cuna"
 
 # Control de motor para Abrir/Cerrar el capelo
 def giroMotor(action):
@@ -145,14 +145,14 @@ def giroMotor(action):
         giroMotor("Abrir")
     """
     if action == "Abrir":
-        motorAV_P.set_value(1)
-        motorAV_N.set_value(0)
+        motorLMP_P.set_value(1)
+        motorLMP_N.set_value(0)
     elif action == "Cerrar":
-        motorAV_P.set_value(0)
-        motorAV_N.set_value(1)
+        motorLMP_P.set_value(0)
+        motorLMP_N.set_value(1)
     else:
-        motorAV_P.set_value(1)
-        motorAV_N.set_value(1)
+        motorLMP_P.set_value(1)
+        motorLMP_N.set_value(1)
 
 # Control de Motores
 def ctrl_Motores(accion):
@@ -266,7 +266,7 @@ def ctrl_Motores(accion):
     #         muxSelct_1.set_value(1)
 
 #===============================================================#
-#    Máquina de Estados para cambio de Modo de Funcionamiento   #
+#          Máquinas de Estados para Control de Motores          #
 #===============================================================#
 class sm_chngModoOp:
     """
@@ -294,10 +294,12 @@ class sm_chngModoOp:
     - Diseñada para ejecutarse repetidamente (por ejemplo en un hilo).
     - Usa `time.monotonic()` y `time.sleep()` para control de tiempos.
     """
+    # Variables de estado
     def __init__(self):
         self.state = "edo_0"
         self.prev_state = ""
         self.next_state = ""
+
         self.startTime = 0
         self.errores = 0
 
@@ -305,8 +307,8 @@ class sm_chngModoOp:
         match self.state:
 #           >>>>>>>>>>> Inicio - Lectura de Sensor <<<<<<<<<<<
             case "edo_0":
+                # print(">>>>>>>>>>> Inicio - Lectura de Sensor <<<<<<<<<<<")
                 rd_ModoOp()
-                # selDsip("motorModOp")
 
                 self.prev_state = self.state
                 self.next_state = "edo_1"
@@ -314,6 +316,7 @@ class sm_chngModoOp:
 
 #           >> Elección de Cambio de Modo de Funcionamiento <<
             case "edo_1":
+                # print(">> Elección de Cambio de Modo de Funcionamiento <<")
                 if strModoFunc == "Cuna":
                     self.prev_state = self.state
                     self.next_state = "edo_2"
@@ -323,9 +326,10 @@ class sm_chngModoOp:
                     self.next_state = "edo_3"
                     self.state = self.next_state
 
-#           >>>>>>>>>>>>>>> Apertura de Capelo <<<<<<<<<<<<<<<
+#           >>>>>>>>>>>>>>> Cerrado de Capelo <<<<<<<<<<<<<<<
             case "edo_2":
-                giroMotor("Abrir")
+                # print(">>>>>>>>>>>>>>> Cerrado de Capelo <<<<<<<<<<<<<<<")
+                giroMotor("Cerrar")
 
                 self.startTime = time.monotonic()
 
@@ -333,9 +337,10 @@ class sm_chngModoOp:
                 self.next_state = "edo_4"
                 self.state = self.next_state
 
-#           >>>>>>>>>>>>>>>> Cerrado de Capelo <<<<<<<<<<<<<<<
+#           >>>>>>>>>>>>>>>> Apertura de Capelo <<<<<<<<<<<<<<<
             case "edo_3":
-                giroMotor("Cerrar")
+                # print(">>>>>>>>>>>>>>>> Apertura de Capelo <<<<<<<<<<<<<<<")
+                giroMotor("Abrir")
 
                 self.startTime = time.monotonic()
 
@@ -343,26 +348,28 @@ class sm_chngModoOp:
                 self.next_state = "edo_5"
                 self.state = self.next_state
 
-#           >> Comprobación de Sensor y Tiempo de Apertura <<
+#           >> Comprobación de Sensor y Tiempo de Cerrado <<
             case "edo_4":
+                # print(">> Comprobación de Sensor y Tiempo de Cerrado <<")
                 rst = time.monotonic() - self.startTime
 
                 time.sleep(0.1)
 
-                if (rst >= tiempo_deApertura) or sns_Incb.get_value():
+                if (rst >= tiempo_deApertura) or (read_adc(3) < 100):
                     giroMotor("Parar")
 
                     self.prev_state = self.state
                     self.next_state = "edo_6"
                     self.state = self.next_state
 
-#           >>> Comprobación de Sensor y Tiempo de Cierre <<<
+#           >>> Comprobación de Sensor y Tiempo de Apertura <<<
             case "edo_5":
+                # print(">>> Comprobación de Sensor y Tiempo de Apertura <<<")
                 rst = time.monotonic() - self.startTime
 
                 time.sleep(0.1)
 
-                if (rst >= tiempo_deApertura) or sns_Cuna.get_value():
+                if (rst >= tiempo_deApertura) or (read_adc(3) > 1700):
                     giroMotor("Parar")
 
                     self.prev_state = self.state
@@ -371,6 +378,7 @@ class sm_chngModoOp:
 
 #           >>>>>>> Comprobación de Modo de Operación <<<<<<<<
             case "edo_6":
+                # print(">>> Comprobación de Sensor y Tiempo de Cierre <<<")
                 rd_ModoOp()
 
                 time.sleep(0.1)
@@ -398,3 +406,105 @@ class sm_chngModoOp:
                     print("Error Total")
                     self.prev_state = ""
                     self.next_state = ""
+
+class sm_ajstInclinacion:
+    """
+    Máquina de estados para ajustar la inclinación del bacinete.
+
+    Esta clase lee periódicamente la posición de dos acelerómetros y,
+    en función del ángulo frontal del segundo sensor (`frnt2`), decide
+    mover el bacinete hacia la cabeza o hacia los pies. El flujo de
+    estados es:
+    - "LecturaPos": obtiene las posiciones y calcula el siguiente estado.
+    - "ElevarCabeza": activa el motor de inclinación hacia la cabeza.
+    - "ElevarPies": activa el motor de inclinación hacia los pies.
+    - "CompruebaPos": incrementa un contador para confirmar estabilidad
+      y termina tras suficientes lecturas constantes.
+    - "Fin": detiene la máquina.
+
+    Atributos de instancia:
+        state (str): estado actual de la máquina.
+        prev_state (str): estado anterior guardado.
+        next_state (str): siguiente estado calculado.
+        contComp (int): contador usado en el estado "CompruebaPos".
+    """
+    # Variables de estado
+    def __init__(self):
+        self.state = "LecturaPos"
+        self.prev_state = ""
+        self.next_state = ""
+
+    # Máquina de Estados
+    def run(self):
+        """
+        Ejecuta el ciclo de la máquina de estados.
+
+        El método itera indefinidamente hasta que el estado se convierta en
+        "Fin", momento en el que se rompe el bucle. En cada iteración se evalúa
+        `self.state` y se realizan las acciones correspondientes, como la
+        lectura de posiciones, el control de motores mediante `ctrl_Motores`
+        y la transición de estados. El método también imprime información de
+        diagnóstico en la consola.
+
+        No toma parámetros ni devuelve valor; todos los resultados se aplican
+        a los atributos de la instancia y a los actuadores GPIO.
+        """
+        while True:
+            match self.state:
+                case "LecturaPos":
+                    lat1, frnt1, lat2, frnt2 = accel_Pos()
+
+                    if frnt2 == -99.99:
+                        print("Error no se puedo leer el módulo")
+                        self.next_state = "Fin"
+                    elif frnt2 < -0.2:
+                        self.next_state = "ElevarCabeza"
+                    elif frnt2 > 0.2:
+                        self.next_state = "ElevarPies"
+                    else:
+                        self.next_state = "CompruebaPos"
+
+                    self.prev_state = self.state
+                    # self.next_state = "edo_6"
+                    self.state = self.next_state
+
+                case "ElevarCabeza":
+                    ctrl_Motores("incLft-prsd")
+                    time.sleep(0.05)
+                    ctrl_Motores("incLft-rlsd")
+
+                    self.prev_state = self.state
+                    self.next_state = "LecturaPos"
+                    self.state = self.next_state
+
+                case "ElevarPies":
+                    ctrl_Motores("incRgt-prsd")
+                    time.sleep(0.05)
+                    ctrl_Motores("incRgt-rlsd")
+
+                    self.prev_state = self.state
+                    self.next_state = "LecturaPos"
+                    self.state = self.next_state
+
+                case "CompruebaPos":
+                    sum_frnt = 0.0
+
+                    for _ in range(10):
+                        lat1, frnt1, lat2, frnt2 = accel_Pos()
+                        print(frnt2)
+                        sum_frnt += frnt2
+
+                    frnt2 = sum_frnt / 10
+
+                    if -0.2 < frnt2 < 0.2:
+                        self.prev_state = self.state
+                        self.next_state = "Fin"
+                        self.state = self.next_state
+                    else:
+                        self.prev_state = self.state
+                        self.next_state = "LecturaPos"
+                        self.state = self.next_state
+
+                case "Fin":
+                    print("Termina Ajuste")
+                    break

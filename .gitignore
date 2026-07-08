@@ -171,6 +171,7 @@ tcbdir/bundle
 
 tcbdir/tcb-env-setup.sh
 tcbdir/*.tar
+tcbdir/*.tar
 
 tcbdir/Dual_custom-ISO-torizon-verdin-imx8mp
 *.zip
