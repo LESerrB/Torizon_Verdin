@@ -5,14 +5,28 @@ const ajstCtrl_Ox = document.getElementById('mod-ox');
 const ajstCtrl_Hum = document.getElementById('mod-hum');
 const ajstCtrl_Fot = document.getElementById('mod-fot');
 
+const homeDiv = document.getElementById('home');
+const panelControl = document.getElementById('panel-control');
 
+function toggleHomePanel(showPanelControl) {
+    if (!homeDiv || !panelControl) return;
+
+    if (showPanelControl) {
+        homeDiv.style.display = 'none';
+        panelControl.style.display = 'block';
+    } else {
+        homeDiv.style.display = 'block';
+        panelControl.style.display = 'none';
+    }
+}
 
 pnlBebe.addEventListener('click', () => {
-    console.log("Ajuste de Ctrl de Temperatura de Piel")
+    console.log("Ajuste de Ctrl de Temperatura de Piel");
+    toggleHomePanel(true);
 });
 
 pnlAire.addEventListener('click', () => {
-    console.log("Ajuste de Ctrl de Temperatura de Bebe")
+    console.log("Ajuste de Ctrl de Temperatura de Bebe");
 });
 
 

@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/Home/vars.css">
+    <link rel="stylesheet" href="../static/css/vars.css">
     <link rel="stylesheet" href="../static/css/Home/style.css">
+    <link rel="stylesheet" href="../static/css/PanelControl/style.css">
 
     <script type="module" src="../static/js/main.js"></script>
 
@@ -101,130 +102,188 @@
 
       <!--################################### Panel Central ##################################-->
       <div class="panel-prin">
-        <!--================= Titulo de panel =================-->
-        <div class="ttl-pnl-prin bckgnd-ctrl-piel">
-          <div class="txt-ttl-pnl-prin">Sistema Controlado por Piel</div>
-        </div>
+        <!--                          Home                          -->
+        <div id="home">
+          <!--================= Titulo de panel =================-->
+          <div class="ttl-pnl-prin bckgnd-ctrl-piel">
+            <div class="txt-ttl-pnl-prin">Sistema Controlado por Piel</div>
+          </div>
 
-        <!--================= Panel Izquierdo =================-->
-        <div id="pnl-modoBebe" class="mp-prin-mc-tpiel active">
-          <img class="icon-tpiel" src="../static/icon/Home/icon-piel0.svg" />
+          <!--================= Panel Izquierdo =================-->
+          <div id="pnl-modoBebe" class="mp-prin-mc-tpiel active">
+            <img class="icon-tpiel" src="../static/icon/Home/icon-piel0.svg" />
 
-          <div class="lbl-temp-piel active">Temperatura Piel</div>
+            <div class="lbl-temp-piel active">Temperatura Piel</div>
 
-          <div class="cont-vm-tpiel">
-            <div class="tpiel">
-              <div class="txt-Temps active">36.5</div>
-              <div class="units-tempPiel-Prin active">°C</div>
-            </div>
+            <div class="cont-vm-tpiel">
+              <div class="tpiel">
+                <div class="txt-Temps active">36.5</div>
+                <div class="units-tempPiel-Prin active">°C</div>
+              </div>
 
-            <div class="cont-tprogp-taux">
-              <div class="line-01"></div>
+              <div class="cont-tprogp-taux">
+                <div class="line-01"></div>
 
-              <div class="tprogp">
-                <div class="vprogp">
-                  <div class="temps-AuxProg active">36.7</div>
-                  <div class="t_auxiliar active">Programada</div>
+                <div class="tprogp">
+                  <div class="vprogp">
+                    <div class="temps-AuxProg active">36.7</div>
+                    <div class="t_auxiliar active">Programada</div>
+                  </div>
+
+                  <div class="c3 active">°C</div>
                 </div>
 
-                <div class="c3 active">°C</div>
-              </div>
+                <div class="taux">
+                  <div class="vaux">
+                    <div class="temps-AuxProg active">34.6</div>
+                    <div class="t_auxiliar active">Auxiliar</div>
+                  </div>
 
-              <div class="taux">
-                <div class="vaux">
-                  <div class="temps-AuxProg active">34.6</div>
-                  <div class="t_auxiliar active">Auxiliar</div>
+                  <div class="c3 active">°C</div>
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <div class="c3 active">°C</div>
+          <!--================= Panel Dertecho ==================-->
+          <div id="pnl-modoAire" class="mp-prin-mc-taire">
+            <div class="cont-taire">
+              <div class="lbl-temp-aire">Temperatura Aire</div>
+
+              <div class="taire">
+                <div class="text-Temps">36.3</div>
+                <div class="units-tempAire-Prin">°C</div>
+              </div>
+            </div>
+
+            <div class="cont-potcal">
+              <div class="seg-calefactor">
+                <div class="rectangle-192"></div>
+                <div class="rectangle-191"></div>
+                <div class="rectangle-183"></div>
+                <div class="rectangle-184"></div>
+                <div class="rectangle-185"></div>
+                <div class="rectangle-186"></div>
+                <div class="rectangle-187"></div>
+                <div class="rectangle-188"></div>
+                <div class="rectangle-189"></div>
+                <div class="rectangle-190"></div>
+              </div>
+
+              <div class="v-potcal">
+                <div class="_802">80</div>
+                <div class="div">%</div>
+              </div>
+            </div>
+          </div>
+
+          <!--############################# Barra Módulos de Sensores ############################-->
+          <div class="mp-prin-mc-msoporte">
+            <!-- Módulo Oxigeno -->
+            <div id="mod-ox" class="modulo ox">
+              <div class="ttl-mod-sensores active">Oxígeno %</div>
+
+              <div class="vox">
+                <div class="_60">60</div>
+    
+                <div class="line-02"></div>
+    
+                <div class="vp-ox">
+                  <div class="_80">80</div>
+                  <div class="programado">Programado</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modulo Humedad -->
+            <div id="mod-hum" class="modulo hum">
+              <div class="ttl-mod-sensores active">Humedad %</div>
+
+              <div class="vhum">
+                <div class="_60">60</div>
+
+                <div class="line-03"></div>
+
+                <div class="vp-hum">
+                  <div class="_602">60</div>
+                  <div class="programada">Programada</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Módulo Fototerapia -->
+            <div id="mod-fot" class="modulo fot">
+              <div class="ttl-mod-sensores">Fototerapia hh:mm</div>
+
+              <div class="ti-vm-fot">
+                <div class="_00-00">00:00</div>
+              </div>
+
+              <div class="seg-potencia-fot">
+                <div class="rectangle-237"></div>
+                <div class="rectangle-238"></div>
+                <div class="rectangle-239"></div>
               </div>
             </div>
           </div>
         </div>
+        <!--                         Control                        -->
+        <div id="panel-control">
+          <div class="mp-atpiel">
+            <!--################### Panel Lateral ###################-->
+            <div class="mp-atpiel-lat-modmon">
+              <div class="mp-atpiel-lat enable">
+                <div class="lbl-ttl-cont-lat enable">Temperatura Piel</div>
+                <div class="ti-vm-sens enable">36.5</div>
+                <div class="val-units-sens-cont-lat enable">°C</div>
+              </div>
 
-        <!--================= Panel Dertecho ==================-->
-        <div id="pnl-modoAire" class="mp-prin-mc-taire">
-          <div class="cont-taire">
-            <div class="lbl-temp-aire">Temperatura Aire</div>
+              <div class="mp-atpiel-lat enable">
+                <div class="lbl-ttl-cont-lat enable">Temp. Piel Programada</div>
+                <div class="ti-vm-sens enable">36.5</div>
+                <div class="val-units-sens-cont-lat enable">°C</div>
+              </div>
 
-            <div class="taire">
-              <div class="text-Temps">36.3</div>
-              <div class="units-tempAire-Prin">°C</div>
+              <div class="mp-atpiel-lat">
+                <div class="lbl-ttl-cont-lat">Temperatura Aire</div>
+                <div class="ti-vm-sens">36.3</div>
+                <div class="val-units-sens-cont-lat">°C</div>
+              </div>
+
+              <div class="mp-atpiel-lat">
+                <div class="lbl-ttl-cont-lat">Oxígeno</div>
+                <div class="ti-vm-sens">60</div>
+                <div class="val-perc-sens-cont-lat">%</div>
+              </div>
             </div>
-          </div>
 
-          <div class="cont-potcal">
-            <div class="seg-calefactor">
-              <div class="rectangle-192"></div>
-              <div class="rectangle-191"></div>
-              <div class="rectangle-183"></div>
-              <div class="rectangle-184"></div>
-              <div class="rectangle-185"></div>
-              <div class="rectangle-186"></div>
-              <div class="rectangle-187"></div>
-              <div class="rectangle-188"></div>
-              <div class="rectangle-189"></div>
-              <div class="rectangle-190"></div>
-            </div>
-
-            <div class="v-potcal">
-              <div class="_802">80</div>
-              <div class="div">%</div>
-            </div>
-          </div>
-        </div>
-
-        <!--############################# Barra Módulos de Sensores ############################-->
-        <div class="mp-prin-mc-msoporte">
-          <!-- Módulo Oxigeno -->
-          <div id="mod-ox" class="modulo ox">
-            <div class="ttl-mod-sensores active">Oxígeno %</div>
-  
-            <div class="vox">
-              <div class="_60">60</div>
-  
-              <div class="line-02"></div>
-  
-              <div class="vp-ox">
-                <div class="_80">80</div>
-                <div class="programado">Programado</div>
+            <!--################# Panel de Control ##################-->
+            <div class="mp-atpiel-cont-atpiel">
+              <!-- Titulo de Panel de Control -->
+              <div class="mp-atpiel-mc-ttl">
+                <div class="mp-atpiel-mc-lbl">
+                  Ajuste de Control de Temperatura de Piel
+                </div>
+              </div>
+              <!-- Información de Control -->
+              <div class="mp-info-ctrl">
+                <img class="icon-piel" src="../static/icon/Home/icon-piel0.svg" />        <!-- Icono -->
+                <div class="per-graf"></div>
+                <div class="fon-graf"></div>
+                <img class="igraf-tpiel" src="../static/icon/Control/igraf-tpiel0.svg" /> <!-- Grafico indicador Potencia -->
+                <img class="icons-mas-menos" src="../static/icon/Control/icons-mas-menos0.svg" />
+                <div class="ti-vp-value">36.5</div>                                       <!-- Valor -->
+                <div class="ti-vp-units">°C</div>                                         <!-- Unidades -->
+                <!-- Boton Cancelar -->
+                <button class="btn-cancel-salir" type="button">
+                  <div class="cancelar">Cancelar</div>
+                </button>
               </div>
             </div>
           </div>
-  
-          <!-- Modulo Humedad -->
-          <div id="mod-hum" class="modulo hum">
-            <div class="ttl-mod-sensores active">Humedad %</div>
-  
-            <div class="vhum">
-              <div class="_60">60</div>
-  
-              <div class="line-03"></div>
-  
-              <div class="vp-hum">
-                <div class="_602">60</div>
-                <div class="programada">Programada</div>
-              </div>
-            </div>
-          </div>
-  
-          <!-- Módulo Fototerapia -->
-          <div id="mod-fot" class="modulo fot">
-            <div class="ttl-mod-sensores">Fototerapia hh:mm</div>
-  
-            <div class="ti-vm-fot">
-              <div class="_00-00">00:00</div>
-            </div>
-  
-            <div class="seg-potencia-fot">
-              <div class="rectangle-237"></div>
-              <div class="rectangle-238"></div>
-              <div class="rectangle-239"></div>
-            </div>
-          </div>
         </div>
+        <!------------------------------------------------------------>
       </div>
-
       <!--#################################### Barra Menus ###################################-->
       <div class="f-pp-menuprin">
         <img class="cont-menu" src="../static/icon/Home/cont-menu0.svg" />

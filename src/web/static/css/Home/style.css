@@ -30,7 +30,8 @@
 /*#######################################*/
 .btn,
 .btn-alarma,
-.btn-img {
+.btn-img,
+.btn-cancel-salir {
   background-color: #FFFFFF;
   border: none;
   border-radius: 10px;
@@ -68,7 +69,8 @@
 
 .btn:active,
 .btn-alarma:active,
-.btn-img:active {
+.btn-img:active,
+.btn-cancel-salir:active {
   transform: scale(0.97);
 }
 
@@ -359,6 +361,14 @@
 ._0-span2 {
   font-family: "Inter-Regular", sans-serif;
   font-size: 22px;
+}
+
+#home {
+  display: none;
+}
+
+#panel-control {
+  display: block;
 }
 /*#######################################*/
 /*            Panel Principal            */
