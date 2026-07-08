@@ -364,11 +364,11 @@
 }
 
 #home {
-  display: none;
+  display: block;
 }
 
 #panel-control {
-  display: block;
+  display: none;
 }
 /*#######################################*/
 /*            Panel Principal            */
