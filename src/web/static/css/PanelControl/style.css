@@ -304,9 +304,64 @@
   height: 13px;
 }
 
+/* Slider */
+.ctrl-slider {
+  position: absolute;
 
+  width: 296px;
+  height: 232px;
 
+  left: 50%;
+  top: 48%;
 
+  transform: translate(-50%, -50%);
+  user-select: none;
+  touch-action: none;
+  z-index: 2;
+}
+
+.ctrl-slider-svg {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+  overflow: visible;
+}
+
+.ctrl-slider-seg {
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease, filter 120ms ease, transform 120ms ease;
+}
+
+.ctrl-slider-seg.active {
+  opacity: 1;
+}
+
+.ctrl-slider-seg.selected {
+  filter: drop-shadow(0px 2px 4px rgba(92, 51, 46, 0.35));
+}
+
+.ctrl-slider-hit-area {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 70;
+  cursor: pointer;
+}
+
+/* Tonalidades del control */
+.ctrl-slider-seg.seg-t_piel-0 { fill: #FFFAF8; }
+.ctrl-slider-seg.seg-t_piel-1 { fill: #FBE9E4; }
+.ctrl-slider-seg.seg-t_piel-2 { fill: #F6D4CD; }
+.ctrl-slider-seg.seg-t_piel-3 { fill: #F0BEB6; }
+.ctrl-slider-seg.seg-t_piel-4 { fill: #E8A79E; }
+.ctrl-slider-seg.seg-t_piel-5 { fill: #D98E85; }
+.ctrl-slider-seg.seg-t_piel-6 { fill: #C2746C; }
+.ctrl-slider-seg.seg-t_piel-7 { fill: #A35C55; }
+.ctrl-slider-seg.seg-t_piel-8 { fill: #7F4741; }
+.ctrl-slider-seg.seg-t_piel-9 { fill: #5C332E; }
+
+/* Boton Cancelar */
 .btn-cancel-salir {
   background: var(--colorclarobtn);
   border-radius: 30px;
@@ -324,9 +379,7 @@
   left: calc(50% - -200px);
   top: calc(50% - -80px);
 }
-
-
-
+/* Etiqueta Cancelar */
 .cancelar {
   color: var(--colorgrisbtn, #8a8e91);
   text-align: left;
@@ -338,15 +391,4 @@
   font-size: var(--textbtnsestandar-font-size, 15px);
   font-weight: var(--textbtnsestandar-font-weight, 700);
   position: relative;
-}
-.igraf-tpiel {
-  flex-shrink: 0;
-  width: 39.26%;
-  height: 74.36%;
-  position: absolute;
-  right: 30.37%;
-  left: 30.37%;
-  bottom: 15.38%;
-  top: 10.26%;
-  overflow: visible;
 }

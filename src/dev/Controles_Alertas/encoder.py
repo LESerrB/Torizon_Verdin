@@ -57,6 +57,11 @@ STEP_VALUE_POT = 1          # Valor de cambio de Potencia Porcentual de Controle
 ############################
 STEP_VALUE = 0.1            # Valor ajustado de cambio
 
+# ==================
+# Valores de Control
+# ==================
+MIN_TP = 34.0
+MAX_TP = 38.0
 
 # =====================================
 # Configuración de Valores para Encoder
@@ -117,7 +122,6 @@ def valEdit(valIni):
     Esta versión está ajustada para un encoder de 24 pulsos
     con señales alrededor de 4 ms.
     """
-
     global last_state
     global last_transition_time
     global last_step_time
@@ -163,7 +167,7 @@ def valEdit(valIni):
     encoder_accum += transition
 
     if encoder_accum >= TRANSITIONS_PER_STEP:
-        if (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < 38.0):
+        if (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < MAX_TP):
             valIni += STEP_VALUE
             valIni = round(valIni, 1)
             last_step_time = now
@@ -171,7 +175,7 @@ def valEdit(valIni):
         encoder_accum = 0
 
     elif encoder_accum <= -TRANSITIONS_PER_STEP:
-        if (now - last_step_time >= STEP_DEBOUNCE_TIME) and (34.0 < valIni):
+        if (now - last_step_time >= STEP_DEBOUNCE_TIME) and (MIN_TP < valIni):
             valIni -= STEP_VALUE
             valIni = round(valIni, 1)
             last_step_time = now
@@ -179,8 +183,6 @@ def valEdit(valIni):
         encoder_accum = 0
 
     return valIni
-
-
 
 def swAcept() -> bool:
     """

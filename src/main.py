@@ -139,7 +139,7 @@ def encoder_Reader():
             if nuevo_val != val:
                 val = nuevo_val
 
-            # valores_ctrl["confirm"] = hw_encoder.swAcept()
+            valores_ctrl["confirm"] = hw_encoder.swAcept()
 
         time.sleep(0.005)
 
@@ -209,8 +209,6 @@ def api_Pesaje():
 def enEditCtrls():
     ctrl = request.get_json()
 
-    print(ctrl)
-
     edit_Ctrl = ctrl.get("Ctrl")
     valores_ctrl["confirm"] = ctrl.get("Enable")
 
@@ -219,6 +217,11 @@ def enEditCtrls():
 @app.route("/api/editValProg", methods=["POST"])
 def ctrlEncd():
     global val
+
+    # No se que haga esto pero ahi va
+    if valores_ctrl["confirm"] == False:
+        tdc_s = "550000000000000000000000000000" + f"{int(val * 10):04x}"
+        encode_Msg(tcd_UART1, tdc_s)
 
     return jsonify({
         "status": "ok",
