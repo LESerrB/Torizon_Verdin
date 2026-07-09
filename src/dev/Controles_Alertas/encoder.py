@@ -209,7 +209,7 @@ def swAcept() -> bool:
 
     return True
 
-def valUpdt(Value, Ctrl="TempProg"):
+def valConfig(Ctrl="TempProg"):
     """
     Actualiza el valor del control detectando entrada del encoder.
     
@@ -235,7 +235,7 @@ def valUpdt(Value, Ctrl="TempProg"):
     elif Ctrl == "CtrlPot":
         STEP_VALUE = STEP_VALUE_POT
 
-    value = valEdit(Value)
+    # value = valEdit(Value)
     # check = swAcept()
 
-    return value#, check
+    # return value

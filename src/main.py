@@ -53,11 +53,9 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 # werkzeug_logger.setLevel(logger.level)
 
 
-#--------------------- Valores Inicailes ---------------------#
-val = 34.0
-
+#--------------------- Valores Iniciales ---------------------#
 valores_ctrl = {
-    "tempProg": 34.0,       # Ajuste de Temperatura programada de Piel
+    "tp_Prog": 34.0,        # Ajuste de Temperatura programada de Piel
     "ajuste_pot": 100,      # Ajuste de Potencia de Calefactor
     "confirm": False        # Habilitación / Deshabilitación Encoder
 }
@@ -128,16 +126,14 @@ def restart_container(threshold=90):
         os._exit(1)
 
 def encoder_Reader():
-    global val
-
     hw_encoder.init_encoder()
 
     while True:
         if valores_ctrl["confirm"]:
-            nuevo_val = hw_encoder.valEdit(val)
+            nuevo_val = hw_encoder.valEdit(valores_ctrl["tp_Prog"])
 
-            if nuevo_val != val:
-                val = nuevo_val
+            if nuevo_val != valores_ctrl["tp_Prog"]:
+                valores_ctrl["tp_Prog"] = nuevo_val
 
             valores_ctrl["confirm"] = hw_encoder.swAcept()
 
@@ -146,6 +142,15 @@ def encoder_Reader():
 ##############################################################################
 #                                  Sensores                                  #
 ##############################################################################
+@app.route("/api/setInitVals", methods=["POST"])
+def setInitVals():
+    return jsonify(
+        {
+            "vals": valores_ctrl,
+            "status": "ok"
+        }
+    ), 200
+
 @app.route("/api/getTemp", methods=["POST"])
 def getTempPiel():
     global W
@@ -176,15 +181,17 @@ def getTempPiel():
     # fot_Hrs = int.from_bytes(W[22:24], byteorder="big")
     # fot_Mins = int.from_bytes(W[24:26], byteorder="big")
 
-    return jsonify({
-        "status": "ok",
-        "temAire": t_Aire,
-        "temPiel": t_Piel,
-        "temSondaAux": s_Aux,
-        "kgs": 10,
-        "sensOx": s_Ox,
-        "sensHum": s_Hum,
-    }), 200
+    return jsonify(
+        {
+            "status": "ok",
+            "temAire": t_Aire,
+            "temPiel": t_Piel,
+            "temSondaAux": s_Aux,
+            "kgs": 10,
+            "sensOx": s_Ox,
+            "sensHum": s_Hum,
+        }
+    ), 200
 
 @app.route("/api/pesar", methods=["POST"])
 def api_Pesaje():
@@ -212,22 +219,26 @@ def enEditCtrls():
     edit_Ctrl = ctrl.get("Ctrl")
     valores_ctrl["confirm"] = ctrl.get("Enable")
 
-    return jsonify({"status": "ok"}), 200
+    return jsonify(
+        {
+            "status": "ok"
+        }
+    ), 200
 
 @app.route("/api/editValProg", methods=["POST"])
 def ctrlEncd():
-    global val
-
     # No se que haga esto pero ahi va
     if valores_ctrl["confirm"] == False:
-        tdc_s = "550000000000000000000000000000" + f"{int(val * 10):04x}"
+        tdc_s = "550000000000000000000000000000" + f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
         encode_Msg(tcd_UART1, tdc_s)
 
-    return jsonify({
-        "status": "ok",
-        "val": val,
-        "confirm": valores_ctrl["confirm"],
-        }), 200
+    return jsonify(
+        {
+            "status": "ok",
+            "val": valores_ctrl["tp_Prog"],
+            "confirm": valores_ctrl["confirm"],
+        }
+    ), 200
 #============================================================================#
 #                                    Hilos                                   #
 #============================================================================#

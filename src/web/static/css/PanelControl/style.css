@@ -375,20 +375,26 @@
 
   width: 124px;
   height: 48px;
+
   position: absolute;
+
   left: calc(50% - -200px);
   top: calc(50% - -80px);
 }
+.btn-cancel-salir:active {
+  background-color: var(--colorgrisbtn);
+}
 /* Etiqueta Cancelar */
 .cancelar {
-  color: var(--colorgrisbtn, #8a8e91);
+  color: var(--colorgrisbtn);
   text-align: left;
-  font-family: var(
-    --textbtnsestandar-font-family,
-    "Montserrat-Bold",
-    sans-serif
-  );
-  font-size: var(--textbtnsestandar-font-size, 15px);
-  font-weight: var(--textbtnsestandar-font-weight, 700);
+
+  font-family: var(--textbtnsestandar-font-family);
+  font-size: var(--textbtnsestandar-font-size);
+  font-weight: var(--textbtnsestandar-font-weight);
+
   position: relative;
+}
+.btn-cancel-salir:active .cancelar {
+  color: var(--colorclarobtn);
 }

@@ -408,6 +408,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Limitación inferior y superior de valores para temperatura programada.
 - Envío del valor a la interfaz y control de la habilitación, desde la UI WEB.
 - Asignado tiempo de rebote para el click del botón del encoder y evitar falsos clicks.
+- Creado control y animación para encoder.
 
 ## Descarga e Instalación
 

@@ -17,21 +17,27 @@ const tempProg = document.getElementById("tp_prog");
 const val_Ctrl = document.getElementById("val_Ctrl");
 const view_Ctrl = document.getElementById("vw-valProg");
 
-const controls = {
-    // nombreControl: document.getElementById("id-elemento"),
-    tempProg: tempProg,
+
+export async function setInitValues(){
+    try {
+        const res = await fetch('/api/setInitVals', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if(res.status == 200){
+            const vals_Ctrl = await res.json();
+
+            tempProg.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
+            val_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
+            view_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
+        }
+    } catch (error) {
+        console.log("Error al obtener la Temperatura Programada");
+    }
 };
-
-if (tempProg) {
-    tempProg.textContent = 34.0.toFixed(1);
-}
-if (val_Ctrl) {
-    val_Ctrl.textContent = 34.0.toFixed(1);
-}
-if (view_Ctrl) {
-    view_Ctrl.textContent = 34.0.toFixed(1);
-}
-
 
 function toggleHomePanel(showPanelControl) {
     if (!homeDiv || !panelControl) return;
@@ -43,7 +49,7 @@ function toggleHomePanel(showPanelControl) {
         homeDiv.style.display = 'block';
         panelControl.style.display = 'none';
     }
-}
+};
 
 pnlBebe.addEventListener('click', () => {
     toggleHomePanel(true);
@@ -65,8 +71,6 @@ ajstCtrl_Hum.addEventListener('click', () => {
 ajstCtrl_Fot.addEventListener('click', () => {
     console.log("Ajuste de Ctrl de Temperatura de Fototerapia")
 });
-
-
 
 async function set_EditCtrlsEn(ctrl_lbl) {
     try {
@@ -102,15 +106,9 @@ async function edit_valProg(){
             const encd = await res.json();
             const nuevoValor = encd.val.toFixed(1);
 
-            if (tempProg) {
-                tempProg.textContent = nuevoValor;
-            }
-            if (val_Ctrl) {
-                val_Ctrl.textContent = nuevoValor;
-            }
-            if (typeof updateSliderValue === "function") {
-                updateSliderValue(parseFloat(nuevoValor));
-            }
+            tempProg.textContent = nuevoValor;
+            val_Ctrl.textContent = nuevoValor;
+            updateSliderValue(parseFloat(nuevoValor));
 
             if ((!encd.confirm) && intervalEncod) {
                 view_Ctrl.textContent = nuevoValor;
@@ -130,86 +128,86 @@ async function edit_valProg(){
 // Animacion de Slider de Encoder
 // ------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-        const slider = document.getElementById("tpielSlider");
-        const knob = document.getElementById("tpielKnob");
-        const valueDisplay = document.getElementById("val_Ctrl");
-        const valueProgDisplay = document.getElementById("vw-valProg");
+    const slider = document.getElementById("tpielSlider");
+    const knob = document.getElementById("tpielKnob");
+    const valueDisplay = document.getElementById("val_Ctrl");
+    const valueProgDisplay = document.getElementById("vw-valProg");
 
-        if (!slider || !knob) return;
+    if (!slider || !knob) return;
 
-        const min = parseFloat(slider.dataset.min ?? "34.0");
-        const max = parseFloat(slider.dataset.max ?? "38.0");
-        const step = parseFloat(slider.dataset.step ?? "0.1");
+    const min = parseFloat(slider.dataset.min ?? "34.0");
+    const max = parseFloat(slider.dataset.max ?? "38.0");
+    const step = parseFloat(slider.dataset.step ?? "0.1");
 
-        const segments = [...slider.querySelectorAll(".ctrl-slider-seg")];
+    const segments = [...slider.querySelectorAll(".ctrl-slider-seg")];
 
-        const points = [
-            { x: 36,  y: 218 }, // segmento 0
-            { x: 18,  y: 147 }, // segmento 1
-            { x: 32,  y: 92  }, // segmento 2
-            { x: 68,  y: 48  }, // segmento 3
-            { x: 120, y: 20  }, // segmento 4
-            { x: 176, y: 20  }, // segmento 5
-            { x: 228, y: 48  }, // segmento 6
-            { x: 264, y: 92  }, // segmento 7
-            { x: 278, y: 147 }, // segmento 8
-            { x: 260, y: 218 }  // segmento 9
-        ];
+    const points = [
+        { x: 36,  y: 218 }, // segmento 0
+        { x: 18,  y: 147 }, // segmento 1
+        { x: 32,  y: 92  }, // segmento 2
+        { x: 68,  y: 48  }, // segmento 3
+        { x: 120, y: 20  }, // segmento 4
+        { x: 176, y: 20  }, // segmento 5
+        { x: 228, y: 48  }, // segmento 6
+        { x: 264, y: 92  }, // segmento 7
+        { x: 278, y: 147 }, // segmento 8
+        { x: 260, y: 218 }  // segmento 9
+    ];
 
-        let isDragging = false;
+    let isDragging = false;
 
-        function clamp(value, minValue, maxValue) {
-            return Math.min(Math.max(value, minValue), maxValue);
+    function clamp(value, minValue, maxValue) {
+        return Math.min(Math.max(value, minValue), maxValue);
+    }
+
+    function roundToStep(value) {
+        return Math.round(value / step) * step;
+    }
+
+    function valueToSegment(value) {
+        const ratio = (value - min) / (max - min);
+
+        return clamp(Math.round(ratio * 9), 0, 9);
+    }
+
+    function updateSlider(value) {
+        value = clamp(roundToStep(value), min, max);
+
+        const selectedSegment = valueToSegment(value);
+        const point = points[selectedSegment];
+
+        knob.setAttribute("cx", point.x);
+        knob.setAttribute("cy", point.y);
+
+        segments.forEach((seg) => {
+            const index = Number(seg.dataset.seg);
+
+            seg.classList.toggle("active", index <= selectedSegment);
+            seg.classList.toggle("selected", index === selectedSegment);
+        });
+
+        slider.dataset.value = value.toFixed(1);
+
+        if (valueDisplay) {
+            valueDisplay.textContent = value.toFixed(1);
         }
 
-        function roundToStep(value) {
-            return Math.round(value / step) * step;
+        if (valueProgDisplay) {
+            valueProgDisplay.textContent = value.toFixed(1);
         }
 
-        function valueToSegment(value) {
-            const ratio = (value - min) / (max - min);
+        slider.dispatchEvent(
+            new CustomEvent("tpiel-slider-change", {
+                detail: {
+                    value,
+                    segment: selectedSegment
+                }
+            })
+        );
+    }
 
-            return clamp(Math.round(ratio * 9), 0, 9);
-        }
-
-        function updateSlider(value) {
-            value = clamp(roundToStep(value), min, max);
-
-            const selectedSegment = valueToSegment(value);
-            const point = points[selectedSegment];
-
-            knob.setAttribute("cx", point.x);
-            knob.setAttribute("cy", point.y);
-
-            segments.forEach((seg) => {
-                const index = Number(seg.dataset.seg);
-
-                seg.classList.toggle("active", index <= selectedSegment);
-                seg.classList.toggle("selected", index === selectedSegment);
-            });
-
-            slider.dataset.value = value.toFixed(1);
-
-            if (valueDisplay) {
-                valueDisplay.textContent = value.toFixed(1);
-            }
-
-            if (valueProgDisplay) {
-                valueProgDisplay.textContent = value.toFixed(1);
-            }
-
-            slider.dispatchEvent(
-                new CustomEvent("tpiel-slider-change", {
-                    detail: {
-                        value,
-                        segment: selectedSegment
-                    }
-                })
-            );
-        }
-
-        updateSliderValue = updateSlider;
-    });
+    updateSliderValue = updateSlider;
+});
 
 
 

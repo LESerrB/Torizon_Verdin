@@ -1,6 +1,4 @@
 let intervalId = null;
-let valueTimerId = null;
-let counterSeconds = 0;
 
 const tempPiel = document.getElementById("ti-vm-piel");
 const tempAire = document.getElementById("_36-3");
@@ -13,14 +11,6 @@ const btn_pesaje = document.getElementById("pesar")
 const peso_Basc = document.getElementById("peso");
 
 peso_Basc.textContent = "-.---"
-
-function generateRandomFloat(base, variancePercent, decimals = 3) {
-    const variance = base * variancePercent;
-    const min = base - variance;
-    const max = base + variance;
-    const value = Math.random() * (max - min) + min;
-    return Number(value.toFixed(decimals));
-}
 
 async function getTemp() {
     try {
