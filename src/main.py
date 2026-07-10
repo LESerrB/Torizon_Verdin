@@ -229,7 +229,7 @@ def enEditCtrls():
 def ctrlEncd():
     # No se que haga esto pero ahi va
     if valores_ctrl["confirm"] == False:
-        tdc_s = "550000000000000000000000000000" + f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
+        tdc_s = f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
         encode_Msg(tcd_UART1, tdc_s)
 
     return jsonify(

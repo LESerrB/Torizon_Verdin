@@ -88,28 +88,27 @@ function desactivarTodo() {
 // Eventos
 // ------------------------
 botones.familiar.btn.addEventListener("click", () => {
-  const nuevoEstado = !botones.familiar.activo;
+    const nuevoEstado = !botones.familiar.activo;
 
-  if (nuevoEstado) {
-    setBoton("familiar", true);
-  } else {
-    desactivarTodo();
-  }
+    if (nuevoEstado) {
+        setBoton("familiar", true);
+    } else {
+        desactivarTodo();
+    }
 });
 
 ["tendencias", "bascula", "apgar"].forEach((nombre) => {
-  botones[nombre].btn.addEventListener("click", () => {
-    const nuevoEstado = !botones[nombre].activo;
+    botones[nombre].btn.addEventListener("click", () => {
+        const nuevoEstado = !botones[nombre].activo;
 
-    activarFamiliar();
-    desactivarSubBotones(nombre);
-    setBoton(nombre, nuevoEstado);
-  });
+        activarFamiliar();
+        desactivarSubBotones(nombre);
+        setBoton(nombre, nuevoEstado);
+    });
 });
 
 
-// =============================================================================
-
+// ==========================================================
 
 
 export async function setInitValues(){

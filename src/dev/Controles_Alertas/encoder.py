@@ -54,7 +54,7 @@ en_HMI.set_value(1) # Enciende Habilitación HMI
 # =============
 # Botón Encoder
 # =============
-DEBOUNCE_TIME_SW = 0.8      # Valor para evitar rebotes en el switch de 20 milisegundos
+DEBOUNCE_TIME_SW = 1        # Valor para evitar rebotes en el switch de 20 milisegundos
 last_SW_time = 0            # Timestamp para el boton del encoder
 
 # ===========
@@ -81,8 +81,7 @@ TRANSITION_DEBOUNCE = 0.0001    # 0.1 ms
 STEP_DEBOUNCE_TIME = 0.003      # 3 ms
 TRANSITIONS_PER_STEP = 2
 
-INVERT_DIRECTION = True
-
+INVERT_DIRECTION = False
 
 # ==================
 # Variables internas

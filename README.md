@@ -410,6 +410,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Asignado tiempo de rebote para el click del botón del encoder y evitar falsos clicks.
 - Creado control y animación para encoder.
 
+### v0.23.1 - [10/Julio/2026]
+ - Animación de presionado de botones del menú inferior.
+
 ## Descarga e Instalación
 
 <p align="center">

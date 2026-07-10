@@ -149,7 +149,7 @@ def encode_Msg(UART_dev, msg):
         n_bytes = n_bytes.to_bytes(1, byteorder='big')
         dt = b'\x00' + n_bytes + dt + void_dt + crc + b'\x63'
 
-        # print(">>>>", dt)
+        print(">>>>", dt)
         uart_send(UART_dev, dt)
     except Exception as e:
         print(f"Error al mandar trama: {e}")
