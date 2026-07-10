@@ -74,6 +74,10 @@
   transform: scale(0.97);
 }
 
+.btn-img.pressed{
+  background: var(--colorgrisbtn);
+}
+
 .switch-btn {
   width: 194px;
   height: 57px;

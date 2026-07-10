@@ -92,7 +92,7 @@ def decode_Msg(UART_dev):
         bytes_list = []
 
         trama = uart_receive(UART_dev)
-        # print("<<<<", trama)
+        print("<<<<", trama)
 
         if trama and trama.startswith("00") and trama.endswith("63"):
             trama = [trama[i:i+2] for i in range(0, len(trama), 2)]

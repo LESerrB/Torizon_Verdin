@@ -15,8 +15,8 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from dev.Comunicacion import bascula as com_bascula
 from dev.Controles_Alertas import encoder as hw_encoder
+from dev.Comunicacion import bascula as com_bascula
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#

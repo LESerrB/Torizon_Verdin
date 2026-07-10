@@ -17,6 +17,100 @@ const tempProg = document.getElementById("tp_prog");
 const val_Ctrl = document.getElementById("val_Ctrl");
 const view_Ctrl = document.getElementById("vw-valProg");
 
+// ---------------------------------
+// Configuración de botones de menú
+// ---------------------------------
+const botones = {
+    familiar: {
+        btn: document.getElementById("btn-md-fam"),
+        off: "../static/icon/Home/ICON_FAMILIAR.svg",
+        on: "../static/icon/Home/btns_pressed/ICON_HOME.svg",
+        activo: false
+    },
+
+    tendencias: {
+        btn: document.getElementById("btn-tend"),
+        off: "../static/icon/Home/ICON_TENDENCIAS.svg",
+        on: "../static/icon/Home/btns_pressed/ICON_HOME.svg",
+        activo: false
+    },
+
+    bascula: {
+        btn: document.getElementById("btn-basc"),
+        off: "../static/icon/Home/ICON_BASCULA.svg",
+        on: "../static/icon/Home/btns_pressed/ICON_BASCULA.svg",
+        activo: false
+    },
+
+    apgar: {
+        btn: document.getElementById("btn-apgr"),
+        off: "../static/icon/Home/ICON_APGAR.svg",
+        on: "../static/icon/Home/btns_pressed/ICON_APGAR.svg",
+        activo: false
+    }
+};
+
+Object.values(botones).forEach((item) => {
+    item.img = item.btn.querySelector("img");
+});
+
+// ------------------------
+// Funciones auxiliares
+// ------------------------
+function setBoton(nombre, activo) {
+    const item = botones[nombre];
+
+    item.activo = activo;
+    item.img.src = activo ? item.on : item.off;
+
+    if (nombre != "familiar")
+        item.btn.classList.toggle("pressed", activo);
+}
+
+function desactivarSubBotones(excepto = null) {
+    ["tendencias", "bascula", "apgar"].forEach((nombre) => {
+        if (nombre !== excepto) {
+            setBoton(nombre, false);
+        }
+    });
+}
+
+function activarFamiliar() {
+    setBoton("familiar", true);
+}
+
+function desactivarTodo() {
+    setBoton("familiar", false);
+    desactivarSubBotones();
+}
+
+// ------------------------
+// Eventos
+// ------------------------
+botones.familiar.btn.addEventListener("click", () => {
+  const nuevoEstado = !botones.familiar.activo;
+
+  if (nuevoEstado) {
+    setBoton("familiar", true);
+  } else {
+    desactivarTodo();
+  }
+});
+
+["tendencias", "bascula", "apgar"].forEach((nombre) => {
+  botones[nombre].btn.addEventListener("click", () => {
+    const nuevoEstado = !botones[nombre].activo;
+
+    activarFamiliar();
+    desactivarSubBotones(nombre);
+    setBoton(nombre, nuevoEstado);
+  });
+});
+
+
+// =============================================================================
+
+
 
 export async function setInitValues(){
     try {
@@ -51,6 +145,13 @@ function toggleHomePanel(showPanelControl) {
     }
 };
 
+
+
+
+
+
+
+// Paneles
 pnlBebe.addEventListener('click', () => {
     toggleHomePanel(true);
     set_EditCtrlsEn("tempProg");
@@ -71,6 +172,8 @@ ajstCtrl_Hum.addEventListener('click', () => {
 ajstCtrl_Fot.addEventListener('click', () => {
     console.log("Ajuste de Ctrl de Temperatura de Fototerapia")
 });
+
+
 
 async function set_EditCtrlsEn(ctrl_lbl) {
     try {
@@ -131,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const slider = document.getElementById("tpielSlider");
     const knob = document.getElementById("tpielKnob");
     const valueDisplay = document.getElementById("val_Ctrl");
-    const valueProgDisplay = document.getElementById("vw-valProg");
+    // const valueProgDisplay = document.getElementById("vw-valProg");
 
     if (!slider || !knob) return;
 
@@ -188,13 +291,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         slider.dataset.value = value.toFixed(1);
 
-        if (valueDisplay) {
-            valueDisplay.textContent = value.toFixed(1);
-        }
+        valueDisplay.textContent = value.toFixed(1);
 
-        if (valueProgDisplay) {
-            valueProgDisplay.textContent = value.toFixed(1);
-        }
+        // if (valueProgDisplay) {
+        //     valueProgDisplay.textContent = value.toFixed(1);
+        // }
 
         slider.dispatchEvent(
             new CustomEvent("tpiel-slider-change", {
