@@ -22,14 +22,14 @@ async function getTemp() {
         });
 
         if(res.status == 200){
-            const temperaturas = await res.json();
+            const vls_snsrsTCD = await res.json();
+            
+            tempPiel.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Piel.toFixed(1);
+            tempAire.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1);
+            tempSondaAux.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Aux.toFixed(1);
 
-            tempPiel.textContent = temperaturas.temPiel;
-            tempAire.textContent = temperaturas.temAire;
-            tempSondaAux.textContent = temperaturas.temSondaAux;
-
-            sensOx.textContent = temperaturas.sensOx;
-            sensHum.textContent = temperaturas.sensHum;
+            sensOx.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Ox.toFixed(1);
+            sensHum.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Hum.toFixed(1);
         }
         else{
             tempPiel.textContent = "--.-";

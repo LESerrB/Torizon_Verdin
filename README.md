@@ -402,13 +402,15 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregado byte de alarmas. *Versión MCU_control-18062026*
 - Envío de valores de sensado de: t_Aire, t_Piel, s_Aux, ta_Ctrl, basc, pot_Calef, tp_Ctrl, s_Ox, ox_Ctrl, s_Hum, hum_Ctrl, fot_Hrs, fot_Mins, zero, alrm
 
-### v0.23 - [03/Julio/2026]
+### v0.23 - [13/Julio/2026]
 
 - Pruebas de integración de encoder de 24 pasos con acopladores de nivel de 1.8 -> 5 -> 1.8 volts.
 - Limitación inferior y superior de valores para temperatura programada.
 - Envío del valor a la interfaz y control de la habilitación, desde la UI WEB.
 - Asignado tiempo de rebote para el click del botón del encoder y evitar falsos clicks.
 - Creado control y animación para encoder.
+- Modularización de función para comunicación UART - TCD.
+- Estructuras de datos para valores de control y de sensado.
 
 ## Descarga e Instalación
 
