@@ -56,8 +56,18 @@ pnlBebe.addEventListener('click', () => {
     set_EditCtrlsEn("tempProg");
 });
 
-pnlAire.addEventListener('click', () => {
-    console.log("Ajuste de Ctrl de Temperatura de Bebe");
+pnlAire.addEventListener('click', async () => {
+    console.log("Ajuste de Ctrl de Temperatura de Aire");
+    try {
+        const res = await fetch('/api/editValProg', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (error) {
+        console.log("Error al obtener la Temperatura Programada");
+    }
 });
 
 ajstCtrl_Ox.addEventListener('click', () => {

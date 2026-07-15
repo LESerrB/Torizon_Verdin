@@ -158,7 +158,7 @@ output:
     # >> Output directory of the customized image (REQUIRED):
     local: Dual_custom-ISO-torizon-verdin-imx8mp
     # >> Information used by Toradex Easy Installer:
-    name: Torizon OS - QSPI GPIO
+    name: Dual v0.23 - Torizon OS 6
     description: "Customized image for DUAL"
     # licence: files/custom-licence.html
     # release-notes: files/custom-release-notes.html

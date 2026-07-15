@@ -431,6 +431,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 4. Insertar la memoria durante la interfaz EasyINstaller en la tarjeta SoM y seleccionar "Mass Storage".
 ![Mem Install](./doc/img/customInstall.png)
+En caso de necesitar volver a cargar la ISO del sistema es necesario reiniciar de fábrica la tarjeta siguiendo los pasos descritos en: https://developer.toradex.com/easy-installer/toradex-easy-installer/loading-toradex-easy-installer/?module=verdin_imx8mp&carrier=dahlia#windows
 
 5. Esperar a que termine la instalación.
 ![Install Image](./doc/img/Instalando_SO.png)

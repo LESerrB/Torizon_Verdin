@@ -38,15 +38,15 @@ Obtener la dirección IP del contenedor.
 
 Build de la imagen del proyecto,
 
-    docker build -t 172.17.0.1:5002/quickstart1-debug:arm64 .
+    docker buildx build --platform linux/arm64 -t 172.17.0.1:5002/quickstart1-debug:latest -f Dockerfile.debug . --push
 
 ![Build de la imagen](./img/dockerBuild.png)
 
-Push al registro local
+<!-- Push al registro local
 
     docker push 172.17.0.1:5002/quickstart1-debug:arm64
 
-![Push imagen al docker local](./img/dockerPush.png)
+![Push imagen al docker local](./img/dockerPush.png) -->
 
 Generar el el paquete del proyecto dentro de la carpeta tcbdir (Debe inicarse TorizonCore Builder usando `source tcb-env-setup.sh
 ` dentro de la carpeta tcbdir).

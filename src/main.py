@@ -19,10 +19,11 @@ from dev.Comunicacion import bascula as com_bascula
 from dev.Controles_Alertas import encoder as hw_encoder
 #------------------------- En Pruebas -------------------------#
 from dev.Comunicacion.TCD import com_TCD as TCD
+from dev.Comunicacion.TCD import set_tProg as t_progTCD
 
-# ##############################################################################
-# #                           Configuracion Pag WEB                            #
-# ##############################################################################
+#****************************************************************************#
+#                           Configuracion Pag WEB                            #
+#****************************************************************************#
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
@@ -71,71 +72,6 @@ vls_snsrsTCD = {
 
 pesoTCD = 0
 
-# ##############################################################################
-# #                           Rutas de la aplicacion                           #
-# ##############################################################################
-@app.route("/")
-def index():
-    return render_template("home.html")
-
-##############################################################################
-#                            Funciones de sistema                            #
-##############################################################################
-def sys_monitor():
-    global pesoTCD
-
-    while True:
-        monitor_pause.wait()
-        restart_container()          # Memoria del contenedor
-
-        TCD(vls_snsrsTCD)
-
-        time.sleep(0.1)
-
-def restart_container(threshold=90):
-    total, used, free = shutil.disk_usage("/")
-    used_percent = (used / total) * 100
-
-    if used_percent >= threshold:
-        print("Espacio casi lleno, reiniciando contenedor...")
-        # logger.warning('Espacio casi lleno, reiniciando contenedor...')
-        os._exit(1)
-
-def encoder_Reader():
-    hw_encoder.init_encoder()
-
-    while True:
-        if valores_ctrl["confirm"]:
-            nuevo_val = hw_encoder.valEdit(valores_ctrl["tp_Prog"])
-
-            if nuevo_val != valores_ctrl["tp_Prog"]:
-                valores_ctrl["tp_Prog"] = nuevo_val
-
-            valores_ctrl["confirm"] = hw_encoder.swAcept()
-
-        time.sleep(0.005)
-
-##############################################################################
-#                                  Sensores                                  #
-##############################################################################
-@app.route("/api/setInitVals", methods=["POST"])
-def setInitVals():
-    return jsonify(
-        {
-            "vals": valores_ctrl,
-            "status": "ok"
-        }
-    ), 200
-
-@app.route("/api/getTemp", methods=["POST"])
-def getTempPiel():
-    return jsonify(
-        {
-            "vls_snsrsTCD": vls_snsrsTCD,
-            "status": "ok",
-        }
-    ), 200
-
 @app.route("/api/pesar", methods=["POST"])
 def api_Pesaje():
     global pesoTCD
@@ -164,6 +100,41 @@ def api_Pesaje():
             }
         ), 400
 
+##############################################################################
+#                           Rutas de la aplicacion                           #
+##############################################################################
+@app.route("/")
+def index():
+    return render_template("home.html")
+
+##############################################################################
+#                                  Sensores                                  #
+##############################################################################
+@app.route("/api/setInitVals", methods=["POST"])
+def setInitVals():
+    return jsonify(
+        {
+            "vals": valores_ctrl,
+            "status": "ok"
+        }
+    ), 200
+
+@app.route("/api/getTemp", methods=["POST"])
+def getTempPiel():
+    if vls_snsrsTCD["alrm"] != 128:
+        return jsonify(
+            {
+                "vls_snsrsTCD": vls_snsrsTCD,
+                "status": "ok",
+            }
+        ), 200
+    else:
+        return jsonify(
+            {
+                "status": "fail",
+            }
+        ), 400
+
 @app.route("/api/enEdit", methods=["POST"])
 def enEditCtrls():
     ctrl = request.get_json()
@@ -180,9 +151,9 @@ def enEditCtrls():
 @app.route("/api/editValProg", methods=["POST"])
 def ctrlEncd():
     # No se que haga esto pero ahi va
-    if valores_ctrl["confirm"] == False:
-        tdc_s = "550000000000000000000000000000" + f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
-        # encode_Msg(tcd_UART1, tdc_s)
+    # if valores_ctrl["confirm"] == False:
+    #     tdc_s = f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
+    t_progTCD(37)
 
     return jsonify(
         {
@@ -191,6 +162,42 @@ def ctrlEncd():
             "confirm": valores_ctrl["confirm"],
         }
     ), 200
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>#
+#                            Funciones de sistema                            #
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<#
+def sys_monitor():
+    while True:
+        monitor_pause.wait()
+        restart_container()         # Memoria del contenedor
+
+        TCD(vls_snsrsTCD)           # Envío de datos a la TCD
+
+        time.sleep(0.1)
+
+def restart_container(threshold=90):
+    total, used, free = shutil.disk_usage("/")
+    used_percent = (used / total) * 100
+
+    if used_percent >= threshold:
+        print("Espacio casi lleno, reiniciando contenedor...")
+        # logger.warning('Espacio casi lleno, reiniciando contenedor...')
+        os._exit(1)
+
+def encoder_Reader():
+    hw_encoder.init_encoder()
+
+    while True:
+        if valores_ctrl["confirm"]:
+            nuevo_val = hw_encoder.valEdit(valores_ctrl["tp_Prog"])
+
+            if nuevo_val != valores_ctrl["tp_Prog"]:
+                valores_ctrl["tp_Prog"] = nuevo_val
+
+            valores_ctrl["confirm"] = hw_encoder.swAcept()
+
+        time.sleep(0.005)
+
 #============================================================================#
 #                                    Hilos                                   #
 #============================================================================#
