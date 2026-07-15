@@ -233,25 +233,25 @@
           <div class="mp-atpiel">
             <!--################### Panel Lateral ###################-->
             <div class="mp-atpiel-lat-modmon">
-              <div class="mp-atpiel-lat enable">
-                <div class="lbl-ttl-cont-lat enable">Temperatura Piel</div>
-                <div class="ti-vm-sens enable">36.5</div>
-                <div class="val-units-sens-cont-lat enable">°C</div>
+              <div class="mp-atpiel-lat" data-control="tempPiel">
+                <div class="lbl-ttl-cont-lat" data-control="tempPiel">Temperatura Piel</div>
+                <div class="ti-vm-sens" data-control="tempPiel">36.5</div>
+                <div class="val-units-sens-cont-lat" data-control="tempPiel">°C</div>
               </div>
 
-              <div class="mp-atpiel-lat enable">
-                <div class="lbl-ttl-cont-lat enable">Temp. Piel Programada</div>
-                <div id="vw-valProg" class="ti-vm-sens enable">36.5</div>
-                <div class="val-units-sens-cont-lat enable">°C</div>
+              <div class="mp-atpiel-lat" data-control="tempProg">
+                <div class="lbl-ttl-cont-lat" data-control="tempProg">Temp. Piel Programada</div>
+                <div id="vw-valProg" class="ti-vm-sens"data-control="tempProg">36.5</div>
+                <div class="val-units-sens-cont-lat" data-control="tempProg">°C</div>
               </div>
 
-              <div class="mp-atpiel-lat">
+              <div class="mp-atpiel-lat" data-control="tempAire">
                 <div class="lbl-ttl-cont-lat">Temperatura Aire</div>
                 <div class="ti-vm-sens">36.3</div>
                 <div class="val-units-sens-cont-lat">°C</div>
               </div>
 
-              <div class="mp-atpiel-lat">
+              <div class="mp-atpiel-lat" data-control="oxigeno">
                 <div class="lbl-ttl-cont-lat">Oxígeno</div>
                 <div class="ti-vm-sens">60</div>
                 <div class="val-perc-sens-cont-lat">%</div>
@@ -262,9 +262,7 @@
             <div class="mp-atpiel-cont-atpiel">
               <!-- Titulo de Panel de Control -->
               <div class="mp-atpiel-mc-ttl">
-                <div class="mp-atpiel-mc-lbl">
-                  Ajuste de Control de Temperatura de Piel
-                </div>
+                <div class="mp-atpiel-mc-lbl"> Ajuste de Control de Temperatura de Piel </div>
               </div>
               <!-- Información de Control -->
               <div class="mp-info-ctrl">

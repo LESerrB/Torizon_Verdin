@@ -132,17 +132,49 @@ export async function setInitValues(){
     }
 };
 
+const infoCtrl = document.querySelector(".mp-info-ctrl");
+const tituloCtrl = document.querySelector(".mp-atpiel-mc-ttl");
+
+const controlesTempProg = document.querySelectorAll(
+    '.mp-atpiel-lat[data-control="tempPiel"], ' +
+    '.mp-atpiel-lat[data-control="tempProg"]'
+);
+
 function toggleHomePanel(showPanelControl) {
     if (!homeDiv || !panelControl) return;
 
-    if (showPanelControl) {
-        homeDiv.style.display = 'none';
-        panelControl.style.display = 'block';
+    console.log(showPanelControl);
+
+    const habilitarTempProg = showPanelControl === "tempProg";
+
+    [infoCtrl, tituloCtrl].forEach(elemento => {
+        elemento?.classList.toggle("tp", habilitarTempProg);
+        elemento?.classList.toggle("enable", habilitarTempProg);
+    });
+
+    controlesTempProg.forEach(control => {
+        control.classList.toggle("tp", habilitarTempProg);
+        control.classList.toggle("enable", habilitarTempProg);
+
+        const elementosInternos = control.querySelectorAll(
+            ".lbl-ttl-cont-lat, " +
+            ".ti-vm-sens, " +
+            ".val-units-sens-cont-lat"
+        );
+
+        elementosInternos.forEach(elemento => {
+            elemento.classList.toggle("enable", habilitarTempProg);
+        });
+    });
+
+    if (showPanelControl === "home") {
+        homeDiv.style.display = "block";
+        panelControl.style.display = "none";
     } else {
-        homeDiv.style.display = 'block';
-        panelControl.style.display = 'none';
+        homeDiv.style.display = "none";
+        panelControl.style.display = "block";
     }
-};
+}
 
 
 
@@ -152,7 +184,7 @@ function toggleHomePanel(showPanelControl) {
 
 // Paneles
 pnlBebe.addEventListener('click', () => {
-    toggleHomePanel(true);
+    toggleHomePanel("tempProg");
     set_EditCtrlsEn("tempProg");
 });
 
@@ -162,6 +194,7 @@ pnlAire.addEventListener('click', () => {
 
 ajstCtrl_Ox.addEventListener('click', () => {
     console.log("Ajuste de Ctrl de Temperatura de Oxigeno")
+    toggleHomePanel("ajstOx");
 });
 
 ajstCtrl_Hum.addEventListener('click', () => {
@@ -233,7 +266,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const slider = document.getElementById("tpielSlider");
     const knob = document.getElementById("tpielKnob");
     const valueDisplay = document.getElementById("val_Ctrl");
-    // const valueProgDisplay = document.getElementById("vw-valProg");
 
     if (!slider || !knob) return;
 
@@ -292,10 +324,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         valueDisplay.textContent = value.toFixed(1);
 
-        // if (valueProgDisplay) {
-        //     valueProgDisplay.textContent = value.toFixed(1);
-        // }
-
         slider.dispatchEvent(
             new CustomEvent("tpiel-slider-change", {
                 detail: {
@@ -320,5 +348,5 @@ btn_cancel.addEventListener('click', () => {
 
     clearInterval(intervalEncod);
     intervalEncod = null;
-    toggleHomePanel(false);
+    toggleHomePanel("home");
 });

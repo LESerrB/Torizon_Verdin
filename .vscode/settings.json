@@ -1,15 +1,15 @@
 {
-  "torizon_login": "torizon",
-  "torizon_ip": "192.168.1.100",
-  "torizon_ssh_port": "22",
-  "host_ip": "192.168.1.101",
+  "torizon_login": "",
+  "torizon_ip": "",
+  "torizon_ssh_port": "",
+  "host_ip": "",
   "torizon_workspace": "${workspaceFolder}",
   "torizon_debug_ssh_port": "6502",
   "torizon_debug_port1": "6512",
   "torizon_debug_port2": "",
   "torizon_debug_port3": "",
-  "torizon_gpu": "-imx8",
-  "torizon_arch": "aarch64",
+  "torizon_gpu": "",
+  "torizon_arch": "",
   "wait_sync": "1",
   "torizon_run_as": "torizon",
   "torizon_app_root": "/home/torizon/app",
@@ -20,12 +20,5 @@
   "python.defaultInterpreterPath": "./.venv/bin/python3",
   "docker_registry": "null",
   "host_arch": "amd64",
-  "torizon_psswd": "arroba",
-  "containers.environment": {
-    "DOCKER_HOST": "tcp://192.168.1.100:2375",
-    "DEBUG_SSH_PORT": "6502",
-    "DEBUG_PORT1": "6512",
-    "DEBUG_PORT2": "",
-    "DEBUG_PORT3": ""
-  }
+  "torizon_psswd": ""
 }

@@ -22,7 +22,7 @@
   left: 20px;
   top: 161px;
 }
-/* Contenedores Sensores */
+/*>>>>>>>>>>>> Contenedores Sensores <<<<<<<<<<<*/
 .mp-atpiel-lat {
   background: var(--colormoddesacti);
 
@@ -35,13 +35,14 @@
   flex-shrink: 0;
   height: 85px;
   position: relative;
+}
+.mp-atpiel-lat.tp.enable{ background: var(--colorfondopiel); }      /* Control Temperatura de Piel */
+.mp-atpiel-lat.ta.enable{ background: var(--colorfondoaire); }      /* Control Temperatura de Piel */
+.mp-atpiel-lat.ox.enable{ background: var(--colorfondooxigeno); }   /* Control Oxigeno */
+.mp-atpiel-lat.hum.enable{ background: var(--colorfondohum); }      /* Control Humedad */
+.mp-atpiel-lat.fot.enable{ background: var(--colorfondofot); }      /* Control Fototerapia */
 
-  /* border-radius: 10px 0px 0px 0px; */
-}
-.mp-atpiel-lat.enable{
-  background: var(--colorfondopiel);
-}
-/* Titulo Contenedores Laterales */
+/*>>>>>>>>>>>> Titulo Contenedores Laterales <<<<<<<<<<<<*/
 .lbl-ttl-cont-lat {
   color: var(--colortextoinactivo);
 
@@ -57,10 +58,7 @@
   align-items: center;
   justify-content: center;
 }
-.lbl-ttl-cont-lat.enable{
-  color: var(--colortexttpiel);
-}
-/* Valores de Sensores Laterales */
+/*>>>>>>>>>>>> Valores de Sensores Laterales */
 .ti-vm-sens {
   color: var(--colortextoinactivo);
 
@@ -77,10 +75,7 @@
   align-items: center;
   justify-content: center;
 }
-.ti-vm-sens.enable {
-  color: var(--colortexttpiel);
-}
-/* Unidades de Sensores Laterales */
+/*>>>>>>>>>>>> Unidades de Sensores Laterales <<<<<<<<<<<<*/
 .val-units-sens-cont-lat {
   color: var(--colortextoinactivo);
 
@@ -121,6 +116,8 @@
   width: 14px;
   height: 15px;
 }
+.ti-vm-sens.enable,
+.lbl-ttl-cont-lat.enable,
 .val-perc-sens-cont-lat.enable,
 .val-units-sens-cont-lat.enable {
   color: var(--colortexttpiel);
@@ -143,11 +140,10 @@
 
   box-shadow: -9px 0px 4px 0px rgba(0, 0, 0, 0.25);
 }
-/* Contenedor Titulo Panel */
+/*>>>>>>>>>>>> Contenedor Titulo Panel <<<<<<<<<<<<*/
 .mp-atpiel-mc-ttl {
-  background: var(--coloroscuropiel);
+  background: var(--colorblanco);
 
-  /* border-radius: 0px 8px 0px 0px; */
   padding: 7px 40px 7px 15px;
 
   display: flex;
@@ -165,7 +161,13 @@
   position: relative;
   overflow: hidden;
 }
-/* Titulo de Panel */
+.mp-atpiel-mc-ttl.tp.enable{ background: var(--coloroscuropiel); }
+.mp-atpiel-mc-ttl.ta.enable{ background: var(--coloroscuroaire); }
+.mp-atpiel-mc-ttl.ox.enable{ background: var(--coloroscurooxigeno); }
+.mp-atpiel-mc-ttl.hum.enable{ background: var(--coloroscurohum); }
+.mp-atpiel-mc-ttl.fot.enable{ background: var(--coloroscurofot); }
+
+/*>>>>>>>>>>>> Titulo de Panel <<<<<<<<<<<<*/
 .mp-atpiel-mc-lbl {
   color: var(--colorblanco);
 
@@ -179,10 +181,9 @@
   align-items: center;
   justify-content: flex-start;
 }
-/* Información de Control */
+/*>>>>>>>>>>>> Información de Control <<<<<<<<<<<<*/
 .mp-info-ctrl {
-  background: var(--colorfondopiel);
-  /* border-radius: 0px 0px 8px 0px; */
+  background: var(--colorblanco);
   padding: 10px;
   display: flex;
   flex-direction: row;
@@ -199,6 +200,12 @@
   position: relative;
   overflow: hidden;
 }
+.mp-info-ctrl.tp.enable{ background: var(--colorfondopiel); }
+.mp-info-ctrl.ta.enable{ background: var(--colorfondoaire); }
+.mp-info-ctrl.ox.enable{ background: var(--colorfondooxigeno); }
+.mp-info-ctrl.hum.enable{ background: var(--colorfondohum); }
+.mp-info-ctrl.fot.enable{ background: var(--colorfondofot); }
+
 /* Icono de Panel */
 .icon-piel {
   opacity: 0.6;
@@ -360,6 +367,11 @@
 .ctrl-slider-seg.seg-t_piel-7 { fill: #A35C55; }
 .ctrl-slider-seg.seg-t_piel-8 { fill: #7F4741; }
 .ctrl-slider-seg.seg-t_piel-9 { fill: #5C332E; }
+
+.ctrl-slider-seg:not(.active) {
+  fill: #ffffff;
+  fill-opacity: 0.63;
+}
 
 /* Boton Cancelar */
 .btn-cancel-salir {
