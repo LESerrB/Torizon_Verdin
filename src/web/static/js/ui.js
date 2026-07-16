@@ -140,33 +140,96 @@ const controlesTempProg = document.querySelectorAll(
     '.mp-atpiel-lat[data-control="tempProg"]'
 );
 
+const controlest_AireProg = document.querySelectorAll(
+    '.mp-atpiel-lat[data-control="tempAire"], ' +
+    '.mp-atpiel-lat[data-control="tempProg"]'
+);
+
+const controlesOxProg = document.querySelectorAll(
+    '.mp-atpiel-lat[data-control="oxigeno"]'
+);
+
 function toggleHomePanel(showPanelControl) {
     if (!homeDiv || !panelControl) return;
 
     console.log(showPanelControl);
 
-    const habilitarTempProg = showPanelControl === "tempProg";
+    const enabTempProg = showPanelControl === "tempPielProg";
+    const enabT_AireProg = showPanelControl === "tempAireProg";
+    const enabOxProg = showPanelControl === "ajstOx";
+    const enabHumProg = showPanelControl === "ajstHum";
+    const enabFotProg = showPanelControl === "ajstFot";
 
+//     [infoCtrl, tituloCtrl].forEach(elemento => {
+//         elemento?.classList.toggle("tp", enabTempProg);
+//         elemento?.classList.toggle("enable", enabTempProg);
+//     });
+
+//     controlesTempProg.forEach(control => {
+//         control.classList.toggle("tp", enabTempProg);
+//         control.classList.toggle("enable", enabTempProg);
+
+//         const elementosInternos = control.querySelectorAll(
+//             ".lbl-ttl-cont-lat, " +
+//             ".ti-vm-sens, " +
+//             ".val-units-sens-cont-lat"
+//         );
+
+//         elementosInternos.forEach(elemento => {
+//             elemento.classList.toggle("enable", enabTempProg);
+//         });
+//     });
+
+//     [infoCtrl, tituloCtrl].forEach(elemento => {
+//         elemento?.classList.toggle("ta", enabT_AireProg);
+//         elemento?.classList.toggle("enable", enabT_AireProg);
+//     });
+
+//     controlest_AireProg.forEach(control => {
+//         control.classList.toggle("ta", enabT_AireProg);
+//         control.classList.toggle("enable", enabT_AireProg);
+
+//         const elementosInternos = control.querySelectorAll(
+//             ".lbl-ttl-cont-lat, " +
+//             ".ti-vm-sens, " +
+//             ".val-units-sens-cont-lat"
+//         );
+
+//         elementosInternos.forEach(elemento => {
+//             elemento.classList.toggle("enable", enabT_AireProg);
+//         });
+//     });
+
+//     [infoCtrl, tituloCtrl].forEach(elemento => {
+//         elemento?.classList.toggle("ox", enabOxProg);
+//         elemento?.classList.toggle("enable", enabOxProg);
+//     });
+
+//     controlesOxProg.forEach(control => {
+//         control.classList.toggle("ox", enabOxProg);
+//         control.classList.toggle("enable", enabOxProg);
+
+//         const elementosInternos = control.querySelectorAll(
+//             ".lbl-ttl-cont-lat, " +
+//             ".ti-vm-sens, " +
+//             ".val-units-sens-cont-lat"
+//         );
+
+//         elementosInternos.forEach(elemento => {
+//             elemento.classList.toggle("enable", enabOxProg);
+//         });
+//     });
+
+//     [infoCtrl, tituloCtrl].forEach(elemento => {
+//         elemento?.classList.toggle("hum", enabHumProg);
+//         elemento?.classList.toggle("enable", enabHumProg);
+//     });
     [infoCtrl, tituloCtrl].forEach(elemento => {
-        elemento?.classList.toggle("tp", habilitarTempProg);
-        elemento?.classList.toggle("enable", habilitarTempProg);
+        elemento?.classList.toggle("fot", enabFotProg);
+        elemento?.classList.toggle("enable", enabFotProg);
     });
 
-    controlesTempProg.forEach(control => {
-        control.classList.toggle("tp", habilitarTempProg);
-        control.classList.toggle("enable", habilitarTempProg);
-
-        const elementosInternos = control.querySelectorAll(
-            ".lbl-ttl-cont-lat, " +
-            ".ti-vm-sens, " +
-            ".val-units-sens-cont-lat"
-        );
-
-        elementosInternos.forEach(elemento => {
-            elemento.classList.toggle("enable", habilitarTempProg);
-        });
-    });
-
+// *************************************************************
     if (showPanelControl === "home") {
         homeDiv.style.display = "block";
         panelControl.style.display = "none";
@@ -184,26 +247,28 @@ function toggleHomePanel(showPanelControl) {
 
 // Paneles
 pnlBebe.addEventListener('click', () => {
-    toggleHomePanel("tempProg");
+    toggleHomePanel("tempPielProg");
     set_EditCtrlsEn("tempProg");
 });
 
 pnlAire.addEventListener('click', () => {
-    console.log("Ajuste de Ctrl de Temperatura de Bebe");
+    toggleHomePanel("tempAireProg");
 });
 
 ajstCtrl_Ox.addEventListener('click', () => {
-    console.log("Ajuste de Ctrl de Temperatura de Oxigeno")
     toggleHomePanel("ajstOx");
 });
 
 ajstCtrl_Hum.addEventListener('click', () => {
-    console.log("Ajuste de Ctrl de Temperatura de Humedad")
+    toggleHomePanel("ajstHum");
 });
 
 ajstCtrl_Fot.addEventListener('click', () => {
-    console.log("Ajuste de Ctrl de Temperatura de Fototerapia")
+    toggleHomePanel("ajstFot");
 });
+
+
+
 
 
 
