@@ -108,8 +108,6 @@ botones.familiar.btn.addEventListener("click", () => {
 });
 
 
-// ==========================================================
-
 
 export async function setInitValues(){
     try {
@@ -132,120 +130,127 @@ export async function setInitValues(){
     }
 };
 
+
+
+// ==========================================================
+
 const infoCtrl = document.querySelector(".mp-info-ctrl");
 const tituloCtrl = document.querySelector(".mp-atpiel-mc-ttl");
 
-const controlesTempProg = document.querySelectorAll(
-    '.mp-atpiel-lat[data-control="tempPiel"], ' +
-    '.mp-atpiel-lat[data-control="tempProg"]'
-);
+const CLASES_CONTROL = ["tp", "ta", "ox", "hum", "fot"];
 
-const controlest_AireProg = document.querySelectorAll(
-    '.mp-atpiel-lat[data-control="tempAire"], ' +
-    '.mp-atpiel-lat[data-control="tempProg"]'
-);
+const SELECTOR_ELEMENTOS_INTERNOS = [
+    ".lbl-ttl-cont-lat",
+    ".ti-vm-sens",
+    ".val-units-sens-cont-lat",
+    ".val-perc-sens-cont-lat"
+].join(", ");
 
-const controlesOxProg = document.querySelectorAll(
-    '.mp-atpiel-lat[data-control="oxigeno"]'
-);
+const configuracionPaneles = {
+    tempPielProg: {
+        claseColor: "tp",
+        controles: ["tempPiel", "tempProg"]
+    },
+
+    tempAireProg: {
+        claseColor: "ta",
+        controles: ["tempAire", "tempProg"]
+    },
+
+    ajstOx: {
+        claseColor: "ox",
+        controles: ["oxigeno"]
+    },
+
+    ajstHum: {
+        claseColor: "hum",
+        controles: ["humedad"]
+    },
+
+    ajstFot: {
+        claseColor: "fot",
+        controles: ["fototerapia"]
+    }
+};
+
+function limpiarEstadoElemento(elemento) {
+    if (!elemento) return;
+
+    elemento.classList.remove(...CLASES_CONTROL, "enable");
+}
+
+function habilitarEstadoElemento(elemento, claseColor) {
+    if (!elemento) return;
+
+    elemento.classList.add(claseColor, "enable");
+}
+
+function limpiarControlesLaterales() {
+    const controles = document.querySelectorAll(".mp-atpiel-lat");
+
+    controles.forEach(control => {
+        limpiarEstadoElemento(control);
+
+        control
+            .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
+            .forEach(elemento => {
+                elemento.classList.remove("enable");
+            });
+    });
+}
+
+function habilitarControlesLaterales(controles, claseColor) {
+    controles.forEach(nombreControl => {
+        if (nombreControl != "humedad" || nombreControl != "fototerapia") {
+            const control = document.querySelector(
+                `.mp-atpiel-lat[data-control="${nombreControl}"]`
+            );
+        }
+
+        if (!control) {
+            console.warn(
+                `No se encontró .mp-atpiel-lat[data-control="${nombreControl}"]`
+            );
+            return;
+        }
+
+        habilitarEstadoElemento(control, claseColor);
+
+        control
+            .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
+            .forEach(elemento => {
+                elemento.classList.add("enable");
+            });
+    });
+}
 
 function toggleHomePanel(showPanelControl) {
     if (!homeDiv || !panelControl) return;
 
-    console.log(showPanelControl);
+    const mostrarHome = showPanelControl === "home";
+    const configuracion = configuracionPaneles[showPanelControl];
 
-    const enabTempProg = showPanelControl === "tempPielProg";
-    const enabT_AireProg = showPanelControl === "tempAireProg";
-    const enabOxProg = showPanelControl === "ajstOx";
-    const enabHumProg = showPanelControl === "ajstHum";
-    const enabFotProg = showPanelControl === "ajstFot";
+    limpiarEstadoElemento(infoCtrl);
+    limpiarEstadoElemento(tituloCtrl);
+    limpiarControlesLaterales();
 
-//     [infoCtrl, tituloCtrl].forEach(elemento => {
-//         elemento?.classList.toggle("tp", enabTempProg);
-//         elemento?.classList.toggle("enable", enabTempProg);
-//     });
+    if (configuracion) {
+        const { claseColor, controles } = configuracion;
 
-//     controlesTempProg.forEach(control => {
-//         control.classList.toggle("tp", enabTempProg);
-//         control.classList.toggle("enable", enabTempProg);
-
-//         const elementosInternos = control.querySelectorAll(
-//             ".lbl-ttl-cont-lat, " +
-//             ".ti-vm-sens, " +
-//             ".val-units-sens-cont-lat"
-//         );
-
-//         elementosInternos.forEach(elemento => {
-//             elemento.classList.toggle("enable", enabTempProg);
-//         });
-//     });
-
-//     [infoCtrl, tituloCtrl].forEach(elemento => {
-//         elemento?.classList.toggle("ta", enabT_AireProg);
-//         elemento?.classList.toggle("enable", enabT_AireProg);
-//     });
-
-//     controlest_AireProg.forEach(control => {
-//         control.classList.toggle("ta", enabT_AireProg);
-//         control.classList.toggle("enable", enabT_AireProg);
-
-//         const elementosInternos = control.querySelectorAll(
-//             ".lbl-ttl-cont-lat, " +
-//             ".ti-vm-sens, " +
-//             ".val-units-sens-cont-lat"
-//         );
-
-//         elementosInternos.forEach(elemento => {
-//             elemento.classList.toggle("enable", enabT_AireProg);
-//         });
-//     });
-
-//     [infoCtrl, tituloCtrl].forEach(elemento => {
-//         elemento?.classList.toggle("ox", enabOxProg);
-//         elemento?.classList.toggle("enable", enabOxProg);
-//     });
-
-//     controlesOxProg.forEach(control => {
-//         control.classList.toggle("ox", enabOxProg);
-//         control.classList.toggle("enable", enabOxProg);
-
-//         const elementosInternos = control.querySelectorAll(
-//             ".lbl-ttl-cont-lat, " +
-//             ".ti-vm-sens, " +
-//             ".val-units-sens-cont-lat"
-//         );
-
-//         elementosInternos.forEach(elemento => {
-//             elemento.classList.toggle("enable", enabOxProg);
-//         });
-//     });
-
-//     [infoCtrl, tituloCtrl].forEach(elemento => {
-//         elemento?.classList.toggle("hum", enabHumProg);
-//         elemento?.classList.toggle("enable", enabHumProg);
-//     });
-    [infoCtrl, tituloCtrl].forEach(elemento => {
-        elemento?.classList.toggle("fot", enabFotProg);
-        elemento?.classList.toggle("enable", enabFotProg);
-    });
-
-// *************************************************************
-    if (showPanelControl === "home") {
-        homeDiv.style.display = "block";
-        panelControl.style.display = "none";
-    } else {
-        homeDiv.style.display = "none";
-        panelControl.style.display = "block";
+        habilitarEstadoElemento(infoCtrl, claseColor);
+        habilitarEstadoElemento(tituloCtrl, claseColor);
+        habilitarControlesLaterales(controles, claseColor);
+    } else if (!mostrarHome) {
+        console.warn(
+            `No existe configuración para el panel: "${showPanelControl}"`
+        );
     }
+
+    homeDiv.style.display = mostrarHome ? "block" : "none";
+    panelControl.style.display = mostrarHome ? "none" : "block";
 }
 
-
-
-
-
-
-
-// Paneles
+//************* Paneles *************//
 pnlBebe.addEventListener('click', () => {
     toggleHomePanel("tempPielProg");
     set_EditCtrlsEn("tempProg");
@@ -268,6 +273,7 @@ ajstCtrl_Fot.addEventListener('click', () => {
 });
 
 
+// ==========================================================
 
 
 
