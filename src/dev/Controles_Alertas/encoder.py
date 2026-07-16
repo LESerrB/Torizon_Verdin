@@ -3,29 +3,31 @@ import time
 
 from api.pins_ADC import read_adc
 
-#         Boton  |       |
-#        Encoder |  CLK  |  DT
-#----------------|-------|------
-# Pin         4  |    1  |    2
-# GPIO        0  |   26  |   27
-# SODIMM     52  |   24  |   26
-# GPIOCHIP    2  |    3  |    3
-# FUNCTION   In  |   In  |   In
+#              SW   |  CLK   |  DT
+#-------------------|--------|--------
+# Pin        x20.29 | x20.28 | x20.27
+# SODIMM       210  |  208   |  206
+# GPIOCHIP      0   |   0    |   0
+# GPIO          5   |   1    |   0
+# FUNCTION      In  |   In   |   In
 
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
-bank = "/dev/gpiochip3"
-bank2 = "/dev/gpiochip2"
+bank = "/dev/gpiochip0"
 
-enc_CLK = 26
-enc_DT = 27
-enc_SW = 0
+enc_SW = 5
+enc_CLK = 1
+enc_DT = 0
+
+pin_ACTV = 8
 
 # Líneas individuales
 enc_clk = gpiod.Chip(bank).get_line(enc_CLK)
 enc_dt = gpiod.Chip(bank).get_line(enc_DT)
-enc_sw = gpiod.Chip(bank2).get_line(enc_SW)
+enc_sw = gpiod.Chip(bank).get_line(enc_SW)
+
+en_HMI = gpiod.Chip(bank).get_line(pin_ACTV)
 
 # Configuración de Acceso
 enc_clk.request(
@@ -43,10 +45,16 @@ enc_sw.request(
     type=gpiod.LINE_REQ_EV_BOTH_EDGES
 )
 
+en_HMI.request(
+    consumer="en_HMI",
+    type=gpiod.LINE_REQ_DIR_OUT
+)
+
+en_HMI.set_value(1) # Enciende Habilitación HMI
 # =============
 # Botón Encoder
 # =============
-DEBOUNCE_TIME_SW = 0.8      # Valor para evitar rebotes en el switch de 20 milisegundos
+DEBOUNCE_TIME_SW = 1        # Valor para evitar rebotes en el switch de 20 milisegundos
 last_SW_time = 0            # Timestamp para el boton del encoder
 
 # ===========
@@ -73,8 +81,7 @@ TRANSITION_DEBOUNCE = 0.0001    # 0.1 ms
 STEP_DEBOUNCE_TIME = 0.003      # 3 ms
 TRANSITIONS_PER_STEP = 2
 
-INVERT_DIRECTION = True
-
+INVERT_DIRECTION = False
 
 # ==================
 # Variables internas
