@@ -1,6 +1,8 @@
 let intervalEncod = null;
 let updateSliderValue = null;
 
+let vals_Ctrl;
+
 const pnlBebe = document.getElementById('pnl-modoBebe');
 const pnlAire = document.getElementById('pnl-modoAire');
 
@@ -13,11 +15,17 @@ const panelControl = document.getElementById('panel-control');
 
 const btn_cancel = document.getElementById('cancel-ctrl');
 
+// Vista principal (Home)
 const tempProg = document.getElementById("tp_prog");
+const hum_Ctrl = document.getElementById("hum_prog");
+const ox_Ctrl = document.getElementById("ox_prog");
+
+// Valor Encoder
 const val_Ctrl = document.getElementById("val_Ctrl");
+const units_Ctrl = document.getElementById("units_Ctrl");
+
+// Vista lateral
 const view_Ctrl = document.getElementById("vw-valProg");
-
-
 
 export async function setInitValues(){
     try {
@@ -29,10 +37,12 @@ export async function setInitValues(){
         });
 
         if(res.status == 200){
-            const vals_Ctrl = await res.json();
+            vals_Ctrl = await res.json();
 
             tempProg.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
-            val_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
+            hum_Ctrl.textContent = vals_Ctrl.vals.pot_Hum.toFixed(0);
+            ox_Ctrl.textContent = vals_Ctrl.vals.pot_Ox.toFixed(0);
+
             view_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
         }
     } catch (error) {
@@ -40,6 +50,36 @@ export async function setInitValues(){
     }
 };
 
+//************* Paneles *************//
+pnlBebe.addEventListener('click', () => {
+    set_EditCtrlsEn("tp_Prog");
+
+    toggleHomePanel("tempPielProg");
+
+    val_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
+    units_Ctrl.textContent = "°C";
+});
+
+pnlAire.addEventListener('click', () => {
+    toggleHomePanel("tempAireProg");
+});
+
+ajstCtrl_Ox.addEventListener('click', () => {
+    toggleHomePanel("ajstOx");
+});
+
+ajstCtrl_Hum.addEventListener('click', () => {
+    set_EditCtrlsEn("pot_Hum");
+
+    toggleHomePanel("ajstHum");
+
+    val_Ctrl.textContent = vals_Ctrl.vals.pot_Hum.toFixed(0);
+    units_Ctrl.textContent = "%";
+});
+
+ajstCtrl_Fot.addEventListener('click', () => {
+    toggleHomePanel("ajstFot");
+});
 
 // =================================
 // Configuración de botones de menú
@@ -134,7 +174,6 @@ botones.familiar.btn.addEventListener("click", () => {
 // =============================
 // Control de cambio de paneles
 // =============================
-
 const infoCtrl = document.querySelector(".mp-info-ctrl");
 const tituloCtrl = document.querySelector(".mp-atpiel-mc-ttl");
 const iconoControl = document.querySelector(".icon-ctrl");
@@ -261,31 +300,14 @@ function toggleHomePanel(showPanelControl) {
     panelControl.style.display = mostrarHome ? "none" : "block";
 }
 
-//************* Paneles *************//
-pnlBebe.addEventListener('click', () => {
-    toggleHomePanel("tempPielProg");
-    set_EditCtrlsEn("tempProg");
-});
-
-pnlAire.addEventListener('click', () => {
-    toggleHomePanel("tempAireProg");
-});
-
-ajstCtrl_Ox.addEventListener('click', () => {
-    toggleHomePanel("ajstOx");
-});
-
-ajstCtrl_Hum.addEventListener('click', () => {
-    toggleHomePanel("ajstHum");
-});
-
-ajstCtrl_Fot.addEventListener('click', () => {
-    toggleHomePanel("ajstFot");
-});
-
-
-
-
+/*
+ * "tp_Prog"
+ * "ta_Prog"
+ * "pot_Ox"
+ * "pot_Hum"
+ * "pot_Fot"
+ * "pot_Calef"
+ */
 async function set_EditCtrlsEn(ctrl_lbl) {
     try {
         const res = await fetch('/api/enEdit', {
@@ -320,7 +342,6 @@ async function edit_valProg(){
             const encd = await res.json();
             const nuevoValor = encd.val.toFixed(1);
 
-            tempProg.textContent = nuevoValor;
             val_Ctrl.textContent = nuevoValor;
             updateSliderValue(parseFloat(nuevoValor));
 
@@ -417,14 +438,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
 // Boton Cancelar
 btn_cancel.addEventListener('click', () => {
-    const valorActual = val_Ctrl.textContent;
-
-    tempProg.textContent = valorActual;
-    view_Ctrl.textContent = valorActual;
-
     clearInterval(intervalEncod);
     intervalEncod = null;
     toggleHomePanel("home");

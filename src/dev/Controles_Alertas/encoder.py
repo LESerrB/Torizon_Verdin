@@ -68,8 +68,8 @@ STEP_VALUE = 0.1            # Valor ajustado de cambio
 # ==================
 # Valores de Control
 # ==================
-MIN_TP = 34.0
-MAX_TP = 38.0
+MIN_TP = 0.0
+MAX_TP = 100.0
 
 # =====================================
 # Configuración de Valores para Encoder

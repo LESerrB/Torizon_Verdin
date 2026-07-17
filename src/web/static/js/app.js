@@ -5,7 +5,7 @@ import {
 
 import { 
     setInitValues,
- } from "./ui.js";
+} from "./ui.js";
 
 setInitValues();
 startSensor();

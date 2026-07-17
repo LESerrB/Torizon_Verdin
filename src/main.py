@@ -15,7 +15,7 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-# from dev.Controles_Alertas import encoder as hw_encoder
+from dev.Controles_Alertas import encoder as hw_encoder
 # from dev.Comunicacion import bascula as com_bascula
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
@@ -52,11 +52,15 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 # werkzeug_logger.handlers = logger.handlers
 # werkzeug_logger.setLevel(logger.level)
 
-
+edit_Ctrl = ""
 #--------------------- Valores Iniciales ---------------------#
 valores_ctrl = {
     "tp_Prog": 34.0,        # Ajuste de Temperatura programada de Piel
-    "ajuste_pot": 100,      # Ajuste de Potencia de Calefactor
+    "ta_Prog": 35.0,        # Ajuste de Temperatura programada de Aire
+    "pot_Ox": 60,           # Ajuste de Potencia de Oxigeno
+    "pot_Hum": 50,          # Ajuste de Potencia de Humedad
+    "pot_Fot": 30,          # Ajuste de Potencia de Fototerapia
+    "pot_Calef": 100,       # Ajuste de Potencia de Calefactor
     "confirm": False        # Habilitación / Deshabilitación Encoder
 }
 
@@ -125,19 +129,20 @@ def restart_container(threshold=90):
         # logger.warning('Espacio casi lleno, reiniciando contenedor...')
         os._exit(1)
 
-# def encoder_Reader():
-#     hw_encoder.init_encoder()
+def encoder_Reader():
+    global edit_Ctrl
+    hw_encoder.init_encoder()
 
-#     while True:
-#         if valores_ctrl["confirm"]:
-#             nuevo_val = hw_encoder.valEdit(valores_ctrl["tp_Prog"])
+    while True:
+        if valores_ctrl["confirm"]:
+            nuevo_val = hw_encoder.valEdit(valores_ctrl[edit_Ctrl])
 
-#             if nuevo_val != valores_ctrl["tp_Prog"]:
-#                 valores_ctrl["tp_Prog"] = nuevo_val
+            if nuevo_val != valores_ctrl[edit_Ctrl]:
+                valores_ctrl[edit_Ctrl] = nuevo_val
 
-#             valores_ctrl["confirm"] = hw_encoder.swAcept()
+            valores_ctrl["confirm"] = hw_encoder.swAcept()
 
-#         time.sleep(0.005)
+        time.sleep(0.005)
 
 ##############################################################################
 #                                  Sensores                                  #
@@ -214,6 +219,8 @@ def api_Pesaje():
 
 @app.route("/api/enEdit", methods=["POST"])
 def enEditCtrls():
+    global edit_Ctrl
+
     ctrl = request.get_json()
 
     edit_Ctrl = ctrl.get("Ctrl")
@@ -227,18 +234,28 @@ def enEditCtrls():
 
 @app.route("/api/editValProg", methods=["POST"])
 def ctrlEncd():
-    # No se que haga esto pero ahi va
-    # if valores_ctrl["confirm"] == False:
-    #     tdc_s = f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
-        # encode_Msg(tcd_UART1, tdc_s)
+    try:
+        global edit_Ctrl
 
-    return jsonify(
-        {
-            "status": "ok",
-            "val": valores_ctrl["tp_Prog"],
-            "confirm": valores_ctrl["confirm"],
-        }
-    ), 200
+        # No se que haga esto pero ahi va
+        # if valores_ctrl["confirm"] == False:
+        #     tdc_s = f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
+            # encode_Msg(tcd_UART1, tdc_s)
+
+        return jsonify(
+            {
+                "status": "ok",
+                "val": valores_ctrl[edit_Ctrl],
+                "confirm": valores_ctrl["confirm"],
+            }
+        ), 200
+    except:
+        return jsonify(
+            {
+                "status": "fail"
+            }
+        ), 400
+
 #============================================================================#
 #                                    Hilos                                   #
 #============================================================================#
@@ -248,8 +265,8 @@ monitor_pause.set()
 monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
 monitor_thread.start()
 
-# encoder_Thread = threading.Thread(target=encoder_Reader, daemon=True)
-# encoder_Thread.start()
+encoder_Thread = threading.Thread(target=encoder_Reader, daemon=True)
+encoder_Thread.start()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
