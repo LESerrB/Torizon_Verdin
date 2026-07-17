@@ -17,9 +17,33 @@ const tempProg = document.getElementById("tp_prog");
 const val_Ctrl = document.getElementById("val_Ctrl");
 const view_Ctrl = document.getElementById("vw-valProg");
 
-// ---------------------------------
+
+
+export async function setInitValues(){
+    try {
+        const res = await fetch('/api/setInitVals', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if(res.status == 200){
+            const vals_Ctrl = await res.json();
+
+            tempProg.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
+            val_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
+            view_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
+        }
+    } catch (error) {
+        console.log("Error al obtener la Temperatura Programada");
+    }
+};
+
+
+// =================================
 // Configuración de botones de menú
-// ---------------------------------
+// =================================
 const botones = {
     familiar: {
         btn: document.getElementById("btn-md-fam"),
@@ -54,9 +78,9 @@ Object.values(botones).forEach((item) => {
     item.img = item.btn.querySelector("img");
 });
 
-// ------------------------
-// Funciones auxiliares
-// ------------------------
+// --------------------------------
+// Funciones auxiliares de botones
+// --------------------------------
 function setBoton(nombre, activo) {
     const item = botones[nombre];
 
@@ -107,35 +131,13 @@ botones.familiar.btn.addEventListener("click", () => {
     });
 });
 
-
-
-export async function setInitValues(){
-    try {
-        const res = await fetch('/api/setInitVals', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if(res.status == 200){
-            const vals_Ctrl = await res.json();
-
-            tempProg.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
-            val_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
-            view_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
-        }
-    } catch (error) {
-        console.log("Error al obtener la Temperatura Programada");
-    }
-};
-
-
-
-// ==========================================================
+// =============================
+// Control de cambio de paneles
+// =============================
 
 const infoCtrl = document.querySelector(".mp-info-ctrl");
 const tituloCtrl = document.querySelector(".mp-atpiel-mc-ttl");
+const iconoControl = document.querySelector(".icon-ctrl");
 
 const CLASES_CONTROL = ["tp", "ta", "ox", "hum", "fot"];
 
@@ -149,27 +151,32 @@ const SELECTOR_ELEMENTOS_INTERNOS = [
 const configuracionPaneles = {
     tempPielProg: {
         claseColor: "tp",
-        controles: ["tempPiel", "tempProg"]
+        controles: ["tempPiel", "tempProg"],
+        icono: "../static/icon/Control/Icon_ModoBebe.svg"
     },
 
     tempAireProg: {
         claseColor: "ta",
-        controles: ["tempAire", "tempProg"]
+        controles: ["tempAire", "tempProg"],
+        icono: "../static/icon/Control/Icon_ModoAire.svg"
     },
 
     ajstOx: {
         claseColor: "ox",
-        controles: ["oxigeno"]
+        controles: ["oxigeno"],
+        icono: "../static/icon/Control/Icon_Oxigeno.svg"
     },
 
     ajstHum: {
         claseColor: "hum",
-        controles: ["humedad"]
+        controles: ["humedad"],
+        icono: "../static/icon/Control/Icon_Humedad.svg"
     },
 
     ajstFot: {
         claseColor: "fot",
-        controles: ["fototerapia"]
+        controles: ["fototerapia"],
+        icono: "../static/icon/Control/Icon_Fototerapia.svg"
     }
 };
 
@@ -201,11 +208,9 @@ function limpiarControlesLaterales() {
 
 function habilitarControlesLaterales(controles, claseColor) {
     controles.forEach(nombreControl => {
-        if (nombreControl != "humedad" || nombreControl != "fototerapia") {
-            const control = document.querySelector(
-                `.mp-atpiel-lat[data-control="${nombreControl}"]`
-            );
-        }
+        const control = document.querySelector(
+            `.mp-atpiel-lat[data-control="${nombreControl}"]`
+        );
 
         if (!control) {
             console.warn(
@@ -235,12 +240,18 @@ function toggleHomePanel(showPanelControl) {
     limpiarControlesLaterales();
 
     if (configuracion) {
-        const { claseColor, controles } = configuracion;
+        const { claseColor, controles, icono } = configuracion;
 
         habilitarEstadoElemento(infoCtrl, claseColor);
         habilitarEstadoElemento(tituloCtrl, claseColor);
-        habilitarControlesLaterales(controles, claseColor);
-    } else if (!mostrarHome) {
+
+        if (controles[0] !== "humedad" && controles[0] !== "fototerapia")
+            habilitarControlesLaterales(controles, claseColor);
+
+        if (iconoControl && icono)
+            iconoControl.src = icono;
+    }
+    else if (!mostrarHome) {
         console.warn(
             `No existe configuración para el panel: "${showPanelControl}"`
         );
@@ -271,9 +282,6 @@ ajstCtrl_Hum.addEventListener('click', () => {
 ajstCtrl_Fot.addEventListener('click', () => {
     toggleHomePanel("ajstFot");
 });
-
-
-// ==========================================================
 
 
 

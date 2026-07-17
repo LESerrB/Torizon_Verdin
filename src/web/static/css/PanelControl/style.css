@@ -207,19 +207,19 @@
 .mp-info-ctrl.fot.enable{ background: var(--colorfondofot); }
 
 /* Icono de Panel */
-.icon-piel {
+.icon-ctrl {
   opacity: 0.6;
   flex-shrink: 0;
 
-  width: 181px;
-  height: 267px;
+  width: 355px;
+  height: 423px;
 
   position: absolute;
 
-  left: -26px;
+  left: -38px;
   top: 50%;
 
-  translate: 0 -50%;
+  translate: -74px -50%;
   overflow: visible;
   aspect-ratio: 181/267;
 }

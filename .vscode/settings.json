@@ -2,7 +2,7 @@
   "torizon_login": "torizon",
   "torizon_ip": "192.168.1.101",
   "torizon_ssh_port": "22",
-  "host_ip": "192.168.1.100",
+  "host_ip": "192.168.1.105",
   "torizon_workspace": "${workspaceFolder}",
   "torizon_debug_ssh_port": "6502",
   "torizon_debug_port1": "6512",
