@@ -224,6 +224,7 @@ def enEditCtrls():
     ctrl = request.get_json()
 
     edit_Ctrl = ctrl.get("Ctrl")
+    hw_encoder.valConfig(edit_Ctrl)
     valores_ctrl["confirm"] = ctrl.get("Enable")
 
     return jsonify(

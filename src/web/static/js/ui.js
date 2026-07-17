@@ -1,83 +1,159 @@
 let intervalEncod = null;
 let updateSliderValue = null;
+let sliderConfig = { min: 34.0, max: 38.0, step: 0.1 };
+let valsCtrl = null;
 
-let vals_Ctrl;
+const pnlBebe = document.getElementById("pnl-modoBebe");
+const pnlAire = document.getElementById("pnl-modoAire");
+const ajstCtrlOx = document.getElementById("mod-ox");
+const ajstCtrlHum = document.getElementById("mod-hum");
+const ajstCtrlFot = document.getElementById("mod-fot");
 
-const pnlBebe = document.getElementById('pnl-modoBebe');
-const pnlAire = document.getElementById('pnl-modoAire');
-
-const ajstCtrl_Ox = document.getElementById('mod-ox');
-const ajstCtrl_Hum = document.getElementById('mod-hum');
-const ajstCtrl_Fot = document.getElementById('mod-fot');
-
-const homeDiv = document.getElementById('home');
-const panelControl = document.getElementById('panel-control');
-
-const btn_cancel = document.getElementById('cancel-ctrl');
+const homeDiv = document.getElementById("home");
+const panelControl = document.getElementById("panel-control");
+const btnCancel = document.getElementById("cancel-ctrl");
 
 // Vista principal (Home)
 const tempProg = document.getElementById("tp_prog");
-const hum_Ctrl = document.getElementById("hum_prog");
-const ox_Ctrl = document.getElementById("ox_prog");
+const humCtrl = document.getElementById("hum_prog");
+const oxCtrl = document.getElementById("ox_prog");
 
-// Valor Encoder
-const val_Ctrl = document.getElementById("val_Ctrl");
-const units_Ctrl = document.getElementById("units_Ctrl");
+// Valor del encoder / control
+const valCtrl = document.getElementById("val_Ctrl");
+const unitsCtrl = document.getElementById("units_Ctrl");
 
 // Vista lateral
-const view_Ctrl = document.getElementById("vw-valProg");
+const viewCtrl = document.getElementById("vw-valProg");
 
-export async function setInitValues(){
+/**
+ * Obtiene los valores iniciales del control desde la API.
+ */
+export async function setInitValues() {
     try {
-        const res = await fetch('/api/setInitVals', {
-            method: 'POST',
+        const res = await fetch("/api/setInitVals", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             }
         });
 
-        if(res.status == 200){
-            vals_Ctrl = await res.json();
+        if (res.status === 200) {
+            valsCtrl = await res.json();
 
-            tempProg.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
-            hum_Ctrl.textContent = vals_Ctrl.vals.pot_Hum.toFixed(0);
-            ox_Ctrl.textContent = vals_Ctrl.vals.pot_Ox.toFixed(0);
-
-            view_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
+            if (tempProg) {
+                tempProg.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+            }
+            if (humCtrl) {
+                humCtrl.textContent = valsCtrl.vals.pot_Hum.toFixed(0);
+            }
+            if (oxCtrl) {
+                oxCtrl.textContent = valsCtrl.vals.pot_Ox.toFixed(0);
+            }
+            if (viewCtrl) {
+                viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+            }
         }
     } catch (error) {
-        console.log("Error al obtener la Temperatura Programada");
+        console.log("Error al obtener la Temperatura Programada", error);
     }
-};
+}
 
-//************* Paneles *************//
-pnlBebe.addEventListener('click', () => {
+/**
+ * Actualiza la visualización del valor del control.
+ * @param {number|string} value Valor actual.
+ * @param {string} unit Unidad de medición.
+ */
+function updateControlDisplay(value, unit = "°C") {
+    if (valCtrl) {
+        valCtrl.textContent = formatValue(value, sliderConfig.step);
+    }
+    if (unitsCtrl) {
+        unitsCtrl.textContent = unit;
+    }
+}
+
+/**
+ * Formatea un valor usando la precisión definida por el paso del slider.
+ * @param {number|string} value Valor a formatear.
+ * @param {number} step Paso del slider.
+ * @returns {string} Valor formateado.
+ */
+function formatValue(value, step) {
+    const precision = Math.max(0, getDecimalPlaces(step));
+    return Number(value).toFixed(precision);
+}
+
+/**
+ * Obtiene la cantidad de decimales de un valor.
+ * @param {number} value Valor numérico.
+ * @returns {number} Cantidad de decimales.
+ */
+function getDecimalPlaces(value) {
+    if (!Number.isFinite(value)) {
+        return 1;
+    }
+
+    const parts = value.toString().split(".");
+    return parts[1] ? parts[1].length : 0;
+}
+
+/**
+ * Lee la configuración del slider desde los atributos data del elemento.
+ * @param {HTMLElement|null} slider Elemento SVG/slider.
+ * @returns {{min:number,max:number,step:number}} Configuración del slider.
+ */
+function getSliderConfig(slider) {
+    const defaults = { min: 34.0, max: 38.0, step: 0.1 };
+
+    if (!slider) {
+        return defaults;
+    }
+
+    const parsedMin = Number.parseFloat(slider.dataset.min);
+    const parsedMax = Number.parseFloat(slider.dataset.max);
+    const parsedStep = Number.parseFloat(slider.dataset.step);
+
+    return {
+        min: Number.isFinite(parsedMin) ? parsedMin : defaults.min,
+        max: Number.isFinite(parsedMax) ? parsedMax : defaults.max,
+        step: Number.isFinite(parsedStep) && parsedStep > 0 ? parsedStep : defaults.step
+    };
+}
+
+// =============================
+// Paneles de control
+// =============================
+pnlBebe?.addEventListener("click", () => {
     set_EditCtrlsEn("tp_Prog");
-
     toggleHomePanel("tempPielProg");
 
-    val_Ctrl.textContent = vals_Ctrl.vals.tp_Prog.toFixed(1);
-    units_Ctrl.textContent = "°C";
+    sliderConfig = { min: 34.0, max: 38.0, step: 0.1 };
+
+    if (valsCtrl?.vals) {
+        updateControlDisplay(valsCtrl.vals.tp_Prog, "°C");
+    }
 });
 
-pnlAire.addEventListener('click', () => {
+pnlAire?.addEventListener("click", () => {
     toggleHomePanel("tempAireProg");
 });
 
-ajstCtrl_Ox.addEventListener('click', () => {
+ajstCtrlOx?.addEventListener("click", () => {
     toggleHomePanel("ajstOx");
 });
 
-ajstCtrl_Hum.addEventListener('click', () => {
+ajstCtrlHum?.addEventListener("click", () => {
     set_EditCtrlsEn("pot_Hum");
-
     toggleHomePanel("ajstHum");
 
-    val_Ctrl.textContent = vals_Ctrl.vals.pot_Hum.toFixed(0);
-    units_Ctrl.textContent = "%";
+    sliderConfig = { min: 0, max: 100, step: 1 };
+
+    if (valsCtrl?.vals) {
+        updateControlDisplay(valsCtrl.vals.pot_Hum, "%");
+    }
 });
 
-ajstCtrl_Fot.addEventListener('click', () => {
+ajstCtrlFot?.addEventListener("click", () => {
     toggleHomePanel("ajstFot");
 });
 
@@ -115,7 +191,7 @@ const botones = {
 };
 
 Object.values(botones).forEach((item) => {
-    item.img = item.btn.querySelector("img");
+    item.img = item.btn?.querySelector("img");
 });
 
 // --------------------------------
@@ -124,11 +200,18 @@ Object.values(botones).forEach((item) => {
 function setBoton(nombre, activo) {
     const item = botones[nombre];
 
-    item.activo = activo;
-    item.img.src = activo ? item.on : item.off;
+    if (!item) {
+        return;
+    }
 
-    if (nombre != "familiar")
+    item.activo = activo;
+    if (item.img) {
+        item.img.src = activo ? item.on : item.off;
+    }
+
+    if (nombre !== "familiar" && item.btn) {
         item.btn.classList.toggle("pressed", activo);
+    }
 }
 
 function desactivarSubBotones(excepto = null) {
@@ -149,9 +232,9 @@ function desactivarTodo() {
 }
 
 // ------------------------
-// Eventos
+// Eventos de menú
 // ------------------------
-botones.familiar.btn.addEventListener("click", () => {
+botones.familiar.btn?.addEventListener("click", () => {
     const nuevoEstado = !botones.familiar.activo;
 
     if (nuevoEstado) {
@@ -162,7 +245,7 @@ botones.familiar.btn.addEventListener("click", () => {
 });
 
 ["tendencias", "bascula", "apgar"].forEach((nombre) => {
-    botones[nombre].btn.addEventListener("click", () => {
+    botones[nombre].btn?.addEventListener("click", () => {
         const nuevoEstado = !botones[nombre].activo;
 
         activarFamiliar();
@@ -219,57 +302,78 @@ const configuracionPaneles = {
     }
 };
 
+/**
+ * Limpia los estados visuales aplicados a un elemento.
+ * @param {HTMLElement|null} elemento Elemento a limpiar.
+ */
 function limpiarEstadoElemento(elemento) {
-    if (!elemento) return;
+    if (!elemento) {
+        return;
+    }
 
     elemento.classList.remove(...CLASES_CONTROL, "enable");
 }
 
+/**
+ * Habilita el estado visual de un elemento con una clase de color.
+ * @param {HTMLElement|null} elemento Elemento a modificar.
+ * @param {string} claseColor Clase de color a aplicar.
+ */
 function habilitarEstadoElemento(elemento, claseColor) {
-    if (!elemento) return;
+    if (!elemento) {
+        return;
+    }
 
     elemento.classList.add(claseColor, "enable");
 }
 
+/**
+ * Limpia los estados visuales de los controles laterales.
+ */
 function limpiarControlesLaterales() {
     const controles = document.querySelectorAll(".mp-atpiel-lat");
 
-    controles.forEach(control => {
+    controles.forEach((control) => {
         limpiarEstadoElemento(control);
 
-        control
-            .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
-            .forEach(elemento => {
-                elemento.classList.remove("enable");
-            });
+        control.querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS).forEach((elemento) => {
+            elemento.classList.remove("enable");
+        });
     });
 }
 
+/**
+ * Habilita los controles laterales para un panel concreto.
+ * @param {string[]} controles Lista de nombres de control.
+ * @param {string} claseColor Clase de color a aplicar.
+ */
 function habilitarControlesLaterales(controles, claseColor) {
-    controles.forEach(nombreControl => {
+    controles.forEach((nombreControl) => {
         const control = document.querySelector(
             `.mp-atpiel-lat[data-control="${nombreControl}"]`
         );
 
         if (!control) {
-            console.warn(
-                `No se encontró .mp-atpiel-lat[data-control="${nombreControl}"]`
-            );
+            console.warn(`No se encontró .mp-atpiel-lat[data-control="${nombreControl}"]`);
             return;
         }
 
         habilitarEstadoElemento(control, claseColor);
 
-        control
-            .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
-            .forEach(elemento => {
-                elemento.classList.add("enable");
-            });
+        control.querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS).forEach((elemento) => {
+            elemento.classList.add("enable");
+        });
     });
 }
 
+/**
+ * Cambia el panel activo de la interfaz y aplica el tema del control.
+ * @param {string} showPanelControl Nombre del panel a mostrar.
+ */
 function toggleHomePanel(showPanelControl) {
-    if (!homeDiv || !panelControl) return;
+    if (!homeDiv || !panelControl) {
+        return;
+    }
 
     const mostrarHome = showPanelControl === "home";
     const configuracion = configuracionPaneles[showPanelControl];
@@ -284,40 +388,35 @@ function toggleHomePanel(showPanelControl) {
         habilitarEstadoElemento(infoCtrl, claseColor);
         habilitarEstadoElemento(tituloCtrl, claseColor);
 
-        if (controles[0] !== "humedad" && controles[0] !== "fototerapia")
+        if (controles[0] !== "humedad" && controles[0] !== "fototerapia") {
             habilitarControlesLaterales(controles, claseColor);
+        }
 
-        if (iconoControl && icono)
+        if (iconoControl && icono) {
             iconoControl.src = icono;
-    }
-    else if (!mostrarHome) {
-        console.warn(
-            `No existe configuración para el panel: "${showPanelControl}"`
-        );
+        }
+    } else if (!mostrarHome) {
+        console.warn(`No existe configuración para el panel: "${showPanelControl}"`);
     }
 
     homeDiv.style.display = mostrarHome ? "block" : "none";
     panelControl.style.display = mostrarHome ? "none" : "block";
 }
 
-/*
- * "tp_Prog"
- * "ta_Prog"
- * "pot_Ox"
- * "pot_Hum"
- * "pot_Fot"
- * "pot_Calef"
+/**
+ * Habilita la edición del control indicado.
+ * @param {string} ctrlLbl Etiqueta del control a editar.
  */
-async function set_EditCtrlsEn(ctrl_lbl) {
+async function set_EditCtrlsEn(ctrlLbl) {
     try {
-        const res = await fetch('/api/enEdit', {
-            method: 'POST',
+        await fetch("/api/enEdit", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({ 
-                Ctrl: ctrl_lbl,
-                Enable: true,
+            body: JSON.stringify({
+                Ctrl: ctrlLbl,
+                Enable: true
             })
         });
 
@@ -327,68 +426,72 @@ async function set_EditCtrlsEn(ctrl_lbl) {
     } catch (error) {
         console.log("Error:", error);
     }
-};
+}
 
-async function edit_valProg(){
+/**
+ * Lee el valor actualizado desde la API y lo refleja en la interfaz.
+ */
+async function edit_valProg() {
     try {
-        const res = await fetch('/api/editValProg', {
-            method: 'POST',
+        const res = await fetch("/api/editValProg", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             }
         });
 
-        if(res.status == 200){
+        if (res.status === 200) {
             const encd = await res.json();
-            const nuevoValor = encd.val.toFixed(1);
+            const nuevoValor = Number(encd.val);
 
-            val_Ctrl.textContent = nuevoValor;
-            updateSliderValue(parseFloat(nuevoValor));
+            if (valCtrl) {
+                valCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+            }
+            // if (typeof updateSliderValue === "function") {
+            //     updateSliderValue(nuevoValor);
+            // }
 
-            if ((!encd.confirm) && intervalEncod) {
-                view_Ctrl.textContent = nuevoValor;
+            if (!encd.confirm && intervalEncod) {
+                if (viewCtrl) {
+                    viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                }
 
                 clearInterval(intervalEncod);
                 intervalEncod = null;
             }
-        }   
+        }
     } catch (error) {
         console.log("Error:", error);
     }
-};
-
-
+}
 
 // ------------------------------
-// Animacion de Slider de Encoder
+// Animación del slider de encoder
 // ------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     const slider = document.getElementById("tpielSlider");
     const knob = document.getElementById("tpielKnob");
-    const valueDisplay = document.getElementById("val_Ctrl");
 
-    if (!slider || !knob) return;
+    if (!slider || !knob) {
+        return;
+    }
 
-    const min = parseFloat(slider.dataset.min ?? "34.0");
-    const max = parseFloat(slider.dataset.max ?? "38.0");
-    const step = parseFloat(slider.dataset.step ?? "0.1");
-
+    sliderConfig = getSliderConfig(slider);
+    const { min, max, step } = sliderConfig;
     const segments = [...slider.querySelectorAll(".ctrl-slider-seg")];
 
     const points = [
-        { x: 36,  y: 218 }, // segmento 0
-        { x: 18,  y: 147 }, // segmento 1
-        { x: 32,  y: 92  }, // segmento 2
-        { x: 68,  y: 48  }, // segmento 3
-        { x: 120, y: 20  }, // segmento 4
-        { x: 176, y: 20  }, // segmento 5
-        { x: 228, y: 48  }, // segmento 6
-        { x: 264, y: 92  }, // segmento 7
-        { x: 278, y: 147 }, // segmento 8
-        { x: 260, y: 218 }  // segmento 9
+        { x: 36, y: 218 },
+        { x: 18, y: 147 },
+        { x: 32, y: 92 },
+        { x: 68, y: 48 },
+        { x: 120, y: 20 },
+        { x: 176, y: 20 },
+        { x: 228, y: 48 },
+        { x: 264, y: 92 },
+        { x: 278, y: 147 },
+        { x: 260, y: 218 }
     ];
-
-    let isDragging = false;
 
     function clamp(value, minValue, maxValue) {
         return Math.min(Math.max(value, minValue), maxValue);
@@ -400,14 +503,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function valueToSegment(value) {
         const ratio = (value - min) / (max - min);
-
         return clamp(Math.round(ratio * 9), 0, 9);
     }
 
     function updateSlider(value) {
-        value = clamp(roundToStep(value), min, max);
-
-        const selectedSegment = valueToSegment(value);
+        const clampedValue = clamp(roundToStep(value), min, max);
+        const selectedSegment = valueToSegment(clampedValue);
         const point = points[selectedSegment];
 
         knob.setAttribute("cx", point.x);
@@ -415,19 +516,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         segments.forEach((seg) => {
             const index = Number(seg.dataset.seg);
-
             seg.classList.toggle("active", index <= selectedSegment);
             seg.classList.toggle("selected", index === selectedSegment);
         });
 
-        slider.dataset.value = value.toFixed(1);
-
-        valueDisplay.textContent = value.toFixed(1);
+        slider.dataset.value = formatValue(clampedValue, step);
+        if (valCtrl) {
+            valCtrl.textContent = formatValue(clampedValue, step);
+        }
 
         slider.dispatchEvent(
             new CustomEvent("tpiel-slider-change", {
                 detail: {
-                    value,
+                    value: clampedValue,
                     segment: selectedSegment
                 }
             })
@@ -437,9 +538,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSliderValue = updateSlider;
 });
 
-
-// Boton Cancelar
-btn_cancel.addEventListener('click', () => {
+// Botón Cancelar
+btnCancel?.addEventListener("click", () => {
     clearInterval(intervalEncod);
     intervalEncod = null;
     toggleHomePanel("home");
