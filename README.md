@@ -412,6 +412,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Modularización de función para comunicación UART - TCD.
 - Estructuras de datos para valores de control y de sensado.
 
+### v0.23.1 - [10/Julio/2026]
+ - Animación de presionado de botones del menú inferior.
+
 ## Descarga e Instalación
 
 <p align="center">

@@ -216,7 +216,7 @@ def swAcept() -> bool:
 
     return True
 
-def valConfig(Ctrl="TempProg"):
+def valConfig(Ctrl):
     """
     Actualiza el valor del control detectando entrada del encoder.
     
@@ -235,14 +235,13 @@ def valConfig(Ctrl="TempProg"):
         El valor es redondeado a 1 decimal para evitar problemas de precisión
         en cálculos posteriores.
     """
-    global STEP_VALUE
+    global STEP_VALUE, MIN_TP, MAX_TP
 
-    if Ctrl == "TempProg":
+    if Ctrl == "tp_Prog":
         STEP_VALUE = STEP_VALUE_TP
-    elif Ctrl == "CtrlPot":
+        MIN_TP = 34.0
+        MAX_TP = 38.0
+    else:
         STEP_VALUE = STEP_VALUE_POT
-
-    # value = valEdit(Value)
-    # check = swAcept()
-
-    # return value
+        MIN_TP = 0
+        MAX_TP = 100

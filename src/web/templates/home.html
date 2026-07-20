@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="../static/css/vars.css">
-    <!-- <link rel="stylesheet" href="../static/css/encdProb.css"> -->
     <link rel="stylesheet" href="../static/css/Home/style.css">
     <link rel="stylesheet" href="../static/css/PanelControl/style.css">
 
     <script type="module" src="../static/js/app.js"></script>
-    <!-- <script type="module" src="../static/js/encdProb.js"></script> -->
 
     <style>
       a,
@@ -191,7 +190,7 @@
                 <div class="line-02"></div>
     
                 <div class="vp-ox">
-                  <div class="_80">80</div>
+                  <div id="ox_prog" class="_80">80</div>
                   <div class="programado">Programado</div>
                 </div>
               </div>
@@ -207,7 +206,7 @@
                 <div class="line-03"></div>
 
                 <div class="vp-hum">
-                  <div class="_602">60</div>
+                  <div id="hum_prog" class="_602">60</div>
                   <div class="programada">Programada</div>
                 </div>
               </div>
@@ -234,28 +233,28 @@
           <div class="mp-atpiel">
             <!--################### Panel Lateral ###################-->
             <div class="mp-atpiel-lat-modmon">
-              <div class="mp-atpiel-lat enable">
-                <div class="lbl-ttl-cont-lat enable">Temperatura Piel</div>
-                <div class="ti-vm-sens enable">36.5</div>
-                <div class="val-units-sens-cont-lat enable">°C</div>
+              <div class="mp-atpiel-lat" data-control="tempPiel">
+                <div class="lbl-ttl-cont-lat" data-control="tempPiel">Temperatura Piel</div>
+                <div class="ti-vm-sens" data-control="tempPiel">36.5</div>
+                <div class="val-units-sens-cont-lat" data-control="tempPiel">°C</div>
               </div>
 
-              <div class="mp-atpiel-lat enable">
-                <div class="lbl-ttl-cont-lat enable">Temp. Piel Programada</div>
-                <div id="vw-valProg" class="ti-vm-sens enable">36.5</div>
-                <div class="val-units-sens-cont-lat enable">°C</div>
+              <div class="mp-atpiel-lat" data-control="tempProg">
+                <div class="lbl-ttl-cont-lat" data-control="tempProg">Temp. Piel Programada</div>
+                <div id="vw-valProg" class="ti-vm-sens"data-control="tempProg">36.5</div>
+                <div class="val-units-sens-cont-lat" data-control="tempProg">°C</div>
               </div>
 
-              <div class="mp-atpiel-lat">
-                <div class="lbl-ttl-cont-lat">Temperatura Aire</div>
-                <div class="ti-vm-sens">36.3</div>
-                <div class="val-units-sens-cont-lat">°C</div>
+              <div class="mp-atpiel-lat" data-control="tempAire">
+                <div class="lbl-ttl-cont-lat" data-control="tempAire">Temperatura Aire</div>
+                <div class="ti-vm-sens" data-control="tempAire">36.3</div>
+                <div class="val-units-sens-cont-lat" data-control="tempAire">°C</div>
               </div>
 
-              <div class="mp-atpiel-lat">
-                <div class="lbl-ttl-cont-lat">Oxígeno</div>
-                <div class="ti-vm-sens">60</div>
-                <div class="val-perc-sens-cont-lat">%</div>
+              <div class="mp-atpiel-lat" data-control="oxigeno">
+                <div class="lbl-ttl-cont-lat" data-control="oxigeno">Oxígeno</div>
+                <div class="ti-vm-sens" data-control="oxigeno">60</div>
+                <div class="val-perc-sens-cont-lat" data-control="oxigeno">%</div>
               </div>
             </div>
 
@@ -263,13 +262,13 @@
             <div class="mp-atpiel-cont-atpiel">
               <!-- Titulo de Panel de Control -->
               <div class="mp-atpiel-mc-ttl">
-                <div class="mp-atpiel-mc-lbl">
-                  Ajuste de Control de Temperatura de Piel
-                </div>
+                <div class="mp-atpiel-mc-lbl"> Ajuste de Control de Temperatura de Piel </div>
               </div>
               <!-- Información de Control -->
               <div class="mp-info-ctrl">
-                <img class="icon-piel" src="../static/icon/Home/icon-piel0.svg" />                <!-- Icono -->
+                
+                <img class="icon-ctrl" src="../static/icon/Home/icon-piel0.svg"/>
+                
                 <!-------- Control -------->
                 <div class="per-graf"></div>
                 <div class="fon-graf"></div>
@@ -326,7 +325,7 @@
 
                 <img class="icons-mas-menos" src="../static/icon/Control/icons-mas-menos0.svg" />
                 <div id="val_Ctrl" class="ti-vp-value">36.5</div>
-                <div class="ti-vp-units">°C</div>
+                <div id="units_Ctrl" class="ti-vp-units">°C</div>
 
                 <!---- Boton Cancelar ----->
                 <button id="cancel-ctrl" class="btn-cancel-salir" type="button">
@@ -342,21 +341,21 @@
       <div class="f-pp-menuprin">
         <img class="cont-menu" src="../static/icon/Home/cont-menu0.svg" />
 
-        <button class="btn-img" type="button">
-          <img src="../static/icon/Home/ICON_FAMILIAR.svg">
+        <button id="btn-md-fam" class="btn-img" type="button">
+          <img src="../static/icon/Home/ICON_FAMILIAR.svg" alt="Familiar">
         </button>
 
         <div class="cont-btns-menuprin">
-          <button class="btn-img" type="button">
-            <img src="../static/icon/Home/ICON_TENDENCIAS.svg">
+          <button id="btn-tend" class="btn-img" type="button">
+            <img src="../static/icon/Home/ICON_TENDENCIAS.svg" alt="Familiar">
           </button>
           
-          <button class="btn-img" type="button">
-            <img src="../static/icon/Home/ICON_BASCULA.svg">
+          <button id="btn-basc" class="btn-img" type="button">
+            <img src="../static/icon/Home/ICON_BASCULA.svg" alt="Familiar">
           </button>
 
-          <button class="btn-img" type="button">
-            <img src="../static/icon/Home/ICON_APGAR.svg">
+          <button id="btn-apgr" class="btn-img" type="button">
+            <img src="../static/icon/Home/ICON_APGAR.svg" alt="Familiar">
           </button>
         </div>
       </div>

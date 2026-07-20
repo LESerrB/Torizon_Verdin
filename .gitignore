@@ -178,4 +178,5 @@ tcbdir/Dual_custom-ISO-torizon-verdin-imx8mp
 
 *:Zone.Identifier
 
-settings.json
+.vscode/settings.json
+.vscode/settings.json
