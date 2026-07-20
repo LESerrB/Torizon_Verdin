@@ -413,7 +413,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Estructuras de datos para valores de control y de sensado.
 
 ### v0.23.1 - [10/Julio/2026]
+
  - Animación de presionado de botones del menú inferior.
+ - Removido grafico indicador de potencia en el panel de control debido a incompatibilidad entre valores de temperatura y potencia.
+ - Cambio de panel de control a home al aceptar el valor desde en switch del encoder.
+ - Pruebas de comunicación con TCD con software MCU_control_17072026.hex
 
 ## Descarga e Instalación
 
