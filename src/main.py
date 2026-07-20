@@ -16,7 +16,7 @@ from flask_cors import CORS
 # logger.info('Encendido del sistema')
 
 from dev.Controles_Alertas import encoder as hw_encoder
-# from dev.Comunicacion import bascula as com_bascula
+from dev.Comunicacion import bascula as com_bascula
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
@@ -79,34 +79,6 @@ vls_snsrsTCD = {
 
 pesoTCD = 0
 
-@app.route("/api/pesar", methods=["POST"])
-def api_Pesaje():
-    global pesoTCD
-
-    peso = round(com_bascula.pesaje(), 3)
-
-    print(f"=======Fin Pesaje: {peso}=======")
-
-    if peso != 999:
-        pesoTCD = int(peso * 1000)
-
-        if peso > 10:
-            pesoTCD = int((peso - 7) * 1000)
-            peso = round((pesoTCD/1000), 3)
-
-        return jsonify(
-            {
-                "status": "ok",
-                "peso": peso,
-            }
-        ), 200
-    else:
-        return jsonify(
-            {
-                "status": "fail"
-            }
-        ), 400
-
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
@@ -144,31 +116,68 @@ def getTempPiel():
 
 @app.route("/api/enEdit", methods=["POST"])
 def enEditCtrls():
+    global edit_Ctrl, val_Encd
+
     ctrl = request.get_json()
 
     edit_Ctrl = ctrl.get("Ctrl")
+
+    val_Encd = valores_ctrl[edit_Ctrl]
     valores_ctrl["confirm"] = ctrl.get("Enable")
+
+    hw_encoder.valConfig(edit_Ctrl)
 
     return jsonify(
         {
-            "status": "ok"
+            "status": "ok",
+            "valor": valores_ctrl[edit_Ctrl],
         }
     ), 200
 
 @app.route("/api/editValProg", methods=["POST"])
 def ctrlEncd():
-    # No se que haga esto pero ahi va
-    # if valores_ctrl["confirm"] == False:
-    #     tdc_s = f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
-    t_progTCD(37)
+    try:
+        global edit_Ctrl, val_Encd
 
-    return jsonify(
-        {
-            "status": "ok",
-            "val": valores_ctrl["tp_Prog"],
-            "confirm": valores_ctrl["confirm"],
-        }
-    ), 200
+        if valores_ctrl["confirm"] == False:
+            valores_ctrl[edit_Ctrl] = val_Encd
+            t_progTCD(37)
+        #     tdc_s = f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
+            # encode_Msg(tcd_UART1, tdc_s)
+
+        return jsonify(
+            {
+                "status": "ok",
+                "ctrl": edit_Ctrl,
+                "val": val_Encd,
+                "confirm": valores_ctrl["confirm"],
+            }
+        ), 200
+    except:
+        return jsonify(
+            {
+                "status": "fail"
+            }
+        ), 400
+
+@app.route("/api/pesar", methods=["POST"])
+def api_Pesaje():
+    global pesoTCD
+
+    # peso = round(com_bascula.pesaje(), 3)
+
+    # print(f"=======Fin Pesaje: {peso}=======")
+
+    # if peso != 999:
+    #     pesoTCD = int(peso * 1000)
+
+    #     if peso > 10:
+    #         pesoTCD = int((peso - 7) * 1000)
+    #         peso = round((pesoTCD/1000), 3)
+
+    #     return jsonify({"status": "ok", "peso": peso}), 200
+    # else:
+    return jsonify({"status": "fail"}), 400
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #                            Funciones de sistema                            #
@@ -205,124 +214,6 @@ def encoder_Reader():
             valores_ctrl["confirm"] = hw_encoder.swAcept()
 
         time.sleep(0.005)
-
-##############################################################################
-#                                  Sensores                                  #
-##############################################################################
-@app.route("/api/setInitVals", methods=["POST"])
-def setInitVals():
-    return jsonify(
-        {
-            "vals": valores_ctrl,
-            "status": "ok"
-        }
-    ), 200
-
-@app.route("/api/getTemp", methods=["POST"])
-def getTempPiel():
-    global W
-
-    if not isinstance(W, (bytes, bytearray)) or len(W) < 10:
-        return jsonify({
-            "status": "fail"
-        }), 400
-
-    t_Aire = int.from_bytes(W[0:2], byteorder='big') / 10
-    t_Piel = int.from_bytes(W[2:4], byteorder='big') / 10
-    s_Aux = int.from_bytes(W[4:6], byteorder="big") / 10
-
-    # ta_Ctrl = int.from_bytes(W[6:8], byteorder="big")
-
-    # basc = int.from_bytes(W[8:10], byteorder="big")+-
-
-    # pot_Calef = int.from_bytes(W[10:12], byteorder="big")
-
-    # tp_Ctrl = int.from_bytes(W[12:14], byteorder="big")
-
-    s_Ox = int.from_bytes(W[14:16], byteorder="big")
-    # ox_Ctrl = int.from_bytes(W[16:18], byteorder="big")
-
-    s_Hum = int.from_bytes(W[18:20], byteorder="big")
-    # hum_Ctrl = int.from_bytes(W[20:22], byteorder="big")
-
-    # fot_Hrs = int.from_bytes(W[22:24], byteorder="big")
-    # fot_Mins = int.from_bytes(W[24:26], byteorder="big")
-
-    return jsonify(
-        {
-            "status": "ok",
-            "temAire": t_Aire,
-            "temPiel": t_Piel,
-            "temSondaAux": s_Aux,
-            "kgs": 10,
-            "sensOx": s_Ox,
-            "sensHum": s_Hum,
-        }
-    ), 200
-
-@app.route("/api/pesar", methods=["POST"])
-def api_Pesaje():
-    global pesoTCD
-
-    # peso = round(com_bascula.pesaje(), 3)
-
-    # print(f"=======Fin Pesaje: {peso}=======")
-
-    # if peso != 999:
-    #     pesoTCD = int(peso * 1000)
-
-    #     if peso > 10:
-    #         pesoTCD = int((peso - 7) * 1000)
-    #         peso = round((pesoTCD/1000), 3)
-
-    #     return jsonify({"status": "ok", "peso": peso}), 200
-    # else:
-    return jsonify({"status": "fail"}), 400
-
-@app.route("/api/enEdit", methods=["POST"])
-def enEditCtrls():
-    global edit_Ctrl, val_Encd
-
-    ctrl = request.get_json()
-
-    edit_Ctrl = ctrl.get("Ctrl")
-
-    val_Encd = valores_ctrl[edit_Ctrl]
-    valores_ctrl["confirm"] = ctrl.get("Enable")
-
-    hw_encoder.valConfig(edit_Ctrl)
-
-    return jsonify(
-        {
-            "status": "ok",
-            "valor": valores_ctrl[edit_Ctrl],
-        }
-    ), 200
-
-@app.route("/api/editValProg", methods=["POST"])
-def ctrlEncd():
-    try:
-        global edit_Ctrl, val_Encd
-
-        if valores_ctrl["confirm"] == False:
-            valores_ctrl[edit_Ctrl] = val_Encd
-        #     tdc_s = f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
-            # encode_Msg(tcd_UART1, tdc_s)
-
-        return jsonify(
-            {
-                "status": "ok",
-                "ctrl": edit_Ctrl,
-                "val": val_Encd,
-                "confirm": valores_ctrl["confirm"],
-            }
-        ), 200
-    except:
-        return jsonify(
-            {
-                "status": "fail"
-            }
-        ), 400
 
 #============================================================================#
 #                                    Hilos                                   #
