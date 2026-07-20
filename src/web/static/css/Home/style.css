@@ -1,0 +1,1248 @@
+.mp-pprin,
+.mp-pprin * {
+  box-sizing: border-box;
+}
+.mp-pprin {
+  background: #e9eef2;
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+
+/*#######################################*/
+/*          TEXTO BARRA SUPERIOR         */
+/*#######################################*/
+.lbl-info,
+._60,
+._80,
+.programado,
+._602,
+.programada {
+  color:        var(--colortextactivo);
+
+  font-family:  var(--textencabezado-font-family);
+  font-size:    var(--textencabezado-font-size);
+  font-weight:  var(--textencabezado-font-weight);
+}
+
+/*#######################################*/
+/*             Botones Generales         */
+/*#######################################*/
+.btn,
+.btn-alarma,
+.btn-img,
+.btn-cancel-salir {
+  background-color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  padding: 25px;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-alarma {
+  width: 984px;
+  height: 64px;
+  left: 20px;
+  top: 20px;
+}
+
+.btn-cmodo {
+  left: 62px;
+  top: 44px;
+}
+
+.btn-img {
+  width: 106px;
+  height: 50px;
+  border-radius: 85px;
+  background: var(--colorblanco);
+}
+
+.btn img {
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.btn:active,
+.btn-alarma:active,
+.btn-img:active,
+.btn-cancel-salir:active {
+  transform: scale(0.97);
+}
+
+.btn-img.pressed{
+  background: var(--colorgrisbtn);
+}
+
+.switch-btn {
+  width: 194px;
+  height: 57px;
+  display: inline-block;
+  position: relative;
+  top: 38px;
+  left: 21px;
+}
+
+.switch-btn input {
+  display: none;
+}
+
+.switch-bg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  border-radius: 30px;
+  overflow: hidden;
+  background: #cfd6d8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.switch-option {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 0.25s ease, opacity 0.25s ease;
+}
+
+.switch-left {
+  background-color: #92d1bc;
+}
+
+.switch-right {
+  background-color: #d8dee2;
+}
+
+.switch-option img {
+  width: 47px;
+  height: 47px;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.switch-btn input:not(:checked) ~ .switch-bg .switch-left {
+  background-color: #d8dee2;
+  opacity: 0.55;
+}
+
+.switch-btn input:not(:checked) ~ .switch-bg .switch-right {
+  background-color: #92d1bc;
+  opacity: 1;
+}
+
+.switch-btn input:checked ~ .switch-bg .switch-left {
+  background-color: #92d1bc;
+  opacity: 1;
+}
+
+.switch-btn input:checked ~ .switch-bg .switch-right {
+  background-color: #d8dee2;
+  opacity: 0.55;
+}
+/*#######################################*/
+/*          Barra de Información         */
+/*#######################################*/
+.barra_Informacion{
+  top: -10px;
+
+  position: relative;
+  overflow: visible;
+}
+.f-en-infopac {
+  background: var(--colorblanco);
+  border-radius: 6px;
+  padding: 7px 15px 7px 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 524px;
+  height: 30px;
+  position: absolute;
+  left: 222px;
+  top: 40px;
+  overflow: hidden;
+}
+/*#######################################*/
+/*            Nombre Paciente            */
+/*#######################################*/
+.icon-corazon {
+  flex-shrink: 0;
+  width: 15px;
+  height: 10px;
+  position: absolute;
+  overflow: visible;
+  top: 10px;
+}
+.lbl-info.nom-bebe {
+  text-align: left;
+  position: relative;
+
+  width: 113px;
+  height: 16px;
+
+  left: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+/*#######################################*/
+/*             Peso Paciente             */
+/*#######################################*/
+.cont-pespac {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.lbl-info.peso {
+  text-align: right;
+  position: relative;
+
+  width: 96px;
+  height: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.lbl-info.val-peso {
+  text-align: center;
+  position: relative;
+  width: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lbl-info.kg {
+  text-align: left;
+  position: relative;
+
+  width: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+/*#######################################*/
+/*               Fecha/Hora              */
+/*#######################################*/
+.f-en-fecha-hora {
+  background: var(--colorblanco);
+
+  border-radius: 6px;
+  padding: 0px 12px 0px 12px;
+
+  display: flex;
+  flex-direction: row;
+  
+  gap: 40px;
+  
+  align-items: center;
+  justify-content: center;
+  
+  width: 524px;
+  height: 20px;
+  
+  position: absolute;
+  
+  left: 222px;
+  top: 76px ;
+}
+.cont-fecha {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon-calendario {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  position: relative;
+  overflow: visible;
+}
+.lbl-info.fecha {
+  text-align: left;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.cont-hora {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon-reloj {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  position: relative;
+  overflow: visible;
+}
+.sub-hora {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.lbl-info.hora {
+  text-align: center;
+  position: relative;
+
+  width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lbl-info.p-m {
+  text-align: left;
+  position: relative;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+/*#######################################*/
+/*            Info Inclinación           */
+/*#######################################*/
+.f-en-incli {
+  background: var(--colorblanco);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  width: 248px;
+  height: 57px;
+  position: absolute;
+  left: 756px;
+  top: 40px;
+}
+.icon-inclinacion {
+  flex-shrink: 0;
+  width: 38px;
+  height: 33px;
+  position: relative;
+  overflow: visible;
+}
+.lbl-info.inclinacion {
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._0-span {
+  font-size: 22px;
+
+  font-family: "Inter-Bold", sans-serif;
+  font-weight: 700;
+}
+._0-span2 {
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 22px;
+}
+
+/*#######################################*/
+/*                 Paneles               */
+/*#######################################*/
+#home {
+  display: block;
+}
+
+#panel-control {
+  display: none;
+}
+/*#######################################*/
+/*            Panel Principal            */
+/*#######################################*/
+.panel-prin{
+  /* background: black; */
+  border-radius: 8px 8px 8px 8px;
+  padding: 7px 40px 7px 15px;
+  width: 984px;
+  height: 339px;
+  position: absolute;
+  left: 50%;
+  top: 161px;
+  translate: -50%;
+  overflow: hidden;
+}
+
+.txt-Temps,
+.text-Temps {
+  color:        var(--colortextoinactivo);
+
+  font-family:  var(--numtempprin-font-family);
+  font-size:    var(--numtempprin-font-size);
+  line-height:  var(--numtempprin-line-height);
+  font-weight:  var(--numtempprin-font-weight);
+
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.txt-Temps.active {
+  color:        var(--colortexttpiel);
+}
+.text-Temps.active {
+  color:        var(--colortexttaire);
+}
+
+/*              Titulo Panel             */
+.ttl-pnl-prin {
+  /* border-radius: 0px 0px 0px 0px; */
+  padding: 7px 40px 7px 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 984px;
+  height: 27px;
+
+  position: absolute;
+
+  left: 50%;
+  top: 0px;
+  
+  translate: -50%;
+  overflow: hidden;
+}
+.ttl-pnl-prin.bckgnd-ctrl-piel{background: var(--coloroscuropiel);}
+.ttl-pnl-prin.bckgnd-ctrl-aire{background: var(--coloroscuroaire);}
+.ttl-pnl-prin.bckgnd-ajst-ox{background: var(--coloroscurooxigeno);}
+.ttl-pnl-prin.bckgnd-ajst-fot{background: var(--coloroscurofot);}
+.ttl-pnl-prin.bckgnd-ajst-hum{background: var(--coloroscurohum);}
+
+.txt-ttl-pnl-prin {
+  color: var(--colorblanco);
+
+  font-family: var(--textencabezado-font-family);
+  font-size: var(--textencabezado-font-size);
+  font-weight: var(--textencabezado-font-weight);
+
+  text-align: left;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.lbl-temp-aire,
+.lbl-temp-piel {
+  color: var(--colortextoinactivo);
+
+  font-family:  var(--texttemptitulo-font-family);
+  font-size:    var(--texttemptitulo-font-size);
+  line-height:  var(--texttemptitulo-line-height);
+  font-weight:  var(--texttemptitulo-font-weight);
+
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lbl-tem-aire.active {
+  color:        var(--colortexttaire);
+}
+.lbl-temp-piel.active {
+  color:        var(--colortexttpiel);
+}
+
+.units-tempAire-Prin,
+.units-tempPiel-Prin {
+  color: var(--colortextoinactivo);
+
+  text-align: left;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.units-tempAire-Prin.active {
+  color: var(--colortexttaire);
+}
+.units-tempPiel-Prin.active {
+  color: var(--colortexttpiel);
+}
+
+
+/*################## Panel Izquierdo ##################*/
+.mp-prin-mc-tpiel {
+  background: var(--colorfondoinactivo);
+
+  padding: 24px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 328px;
+  height: 218px;
+  position: absolute;
+
+  left: 0px;
+  top: 27px;
+
+  overflow: hidden;
+}
+.mp-prin-mc-tpiel.chng{
+  background: var(--colorfondopiel);
+}
+.mp-prin-mc-tpiel.active{
+  background: var(--colorfondopiel);
+
+  width: 656px;
+  height: 218px;
+}
+/* Icono Panel */
+.icon-tpiel {
+  opacity: 0.6;
+  flex-shrink: 0;
+  width: 192.73px;
+  height: 185.04px;
+  position: absolute;
+  left: calc(50% - 380px);
+  top: 50%;
+  translate: 0 -50%;
+  overflow: visible;
+}
+/* Contenedor Temperatura Piel Principal */
+.cont-vm-tpiel {
+  padding: 0px 40px 10px 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 656px;
+  position: relative;
+}
+.tpiel {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  left: -7px;
+}
+
+/*----------------------*/
+.line-01 {
+  margin-top: -3px;
+  border-style: solid;
+  border-color: var(--colortexttpiel, #6f423d);
+  border-width: 3px 0 0 0;
+  flex-shrink: 0;
+  width: 124px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+  left: -4px;
+}
+/*----------------------*/
+
+/* Contenedor Temperaturas Secundarias */
+.temps-AuxProg {
+  color: var(--colortextoinactivo);
+
+  font-family: var(--numtempsecun-font-family);
+  font-size: var(--numtempsecun-font-size);
+  line-height: var(--numtempsecun-line-height);
+  font-weight: var(--numtempsecun-font-weight);
+
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.temps-AuxProg.active {
+  color: var(--colortexttpiel);
+}
+.c3 {
+  color: var(--colortextoinactivo);
+
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+
+  text-align: center;
+  position: absolute;
+
+  right: 0px;
+  left: 100px;
+  top: 9px;
+  height: 15px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.c3.active{
+  color: var(--colortexttpiel);
+}
+.t_auxiliar {
+  color: var(--colortextoinactivo);
+
+  font-family: var(--texttempsecun-font-family);
+  font-size: var(--texttempsecun-font-size);
+  line-height: var(--texttempsecun-line-height);
+  font-weight: var(--texttempsecun-font-weight);
+
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.t_auxiliar.active {
+  color: var(--colortexttpiel);
+}
+
+
+/*################### Panel Derecho ###################*/
+.mp-prin-mc-taire {
+  background: var(--colorfondoinactivo);
+
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  
+  width: 328px;
+  height: 218px;
+  position: absolute;
+  
+  right: 0px;
+  top: 27px;
+}
+.mp-prin-mc-taire.chng{
+  background: var(--colorfondoaire);
+}
+.mp-prin-mc-taire.active{
+  background: var(--colorfondoaire);
+
+  width: 656px;
+  height: 218px;
+}
+
+.cont-taire {
+  padding: 24px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 294px;
+  height: 218px;
+  position: relative;
+}
+.taire {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+
+
+
+
+.cont-potcal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 34px;
+  height: 218px;
+
+  position: absolute;
+  right: 0;
+  top: 50%;
+
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+
+
+/* Modulos de Sensores */
+.mp-prin-mc-msoporte {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 255px;
+}
+.modulo {
+  padding: 10px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  
+  width: 328px;
+  height: 84px;
+  
+  position: relative;
+}
+/* Módulo de Oxigeno */
+.modulo.ox  { background: var(--colorfondooxigeno); }
+/* Modulo de humedad */
+.modulo.hum { background: var(--colorfondohum); }
+/* Modulo Fototerapia */
+.modulo.fot { background: var(--colorfondofot); }
+
+.ttl-mod-sensores {
+  color: var(--colortextoinactivo);
+
+  font-family: var(--textmodutitulo-font-family);
+  font-size: var(--textmodutitulo-font-size);
+  line-height: var(--textmodutitulo-line-height);
+  font-weight: var(--textmodutitulo-font-weight);
+  
+  position: relative;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.ttl-mod-sensores.active {
+  color: var(--colortextactivo);
+}
+
+
+.vox {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 270px;
+  position: relative;
+}
+.vhum {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 270px;
+  position: relative;
+}
+.ti-vm-fot {
+  padding: 0px 2px 0px 2px;
+  flex-shrink: 0;
+  width: 120px;
+  height: 36px;
+  position: relative;
+}
+
+
+
+._60 {
+  text-align: center;
+
+  font-family: var(--numtempsecun-font-family);
+  font-size: var(--numtempsecun-font-size);
+  line-height: var(--numtempsecun-line-height);
+  font-weight: var(--numtempsecun-font-weight);
+
+  width: 68px;
+  height: 36px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.line-02 {
+  margin-top: -2px;
+  border-style: solid;
+  border-color: var(--colortextactivo, #2f3a40);
+  border-width: 2px 0 0 0;
+  flex-shrink: 0;
+  width: 24px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+
+  left: 12px;
+  top: -9px;
+}
+.vp-ox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 76px;
+  position: relative;
+}
+._80 {
+  text-align: center;
+
+  font-family: var(--num-temp-terc-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-terc-font-size, 24px);
+  line-height: var(--num-temp-terc-line-height, 20px);
+  font-weight: var(--num-temp-terc-font-weight, 700);
+  position: relative;
+  flex: 1;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.programado {
+  text-align: center;
+  font-family: var(
+    --texttemptercer-font-family,
+    "Montserrat-Medium",
+    sans-serif
+  );
+  font-size: var(--texttemptercer-font-size, 10px);
+  line-height: var(--texttemptercer-line-height, 20px);
+  font-weight: var(--texttemptercer-font-weight, 500);
+  position: relative;
+  align-self: stretch;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.line-03 {
+  margin-top: -2px;
+  border-style: solid;
+  border-color: var(--colortextactivo, #2f3a40);
+  border-width: 2px 0 0 0;
+  flex-shrink: 0;
+  width: 24px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+
+  left: 14px;
+  top: -9px;
+}
+.vp-hum {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 76px;
+  position: relative;
+}
+._602 {
+  text-align: center;
+  font-family: var(--num-temp-terc-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--num-temp-terc-font-size, 24px);
+  line-height: var(--num-temp-terc-line-height, 20px);
+  font-weight: var(--num-temp-terc-font-weight, 700);
+  position: relative;
+  flex: 1;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.programada {
+  text-align: center;
+  font-family: var(
+    --texttemptercer-font-family,
+    "Montserrat-Medium",
+    sans-serif
+  );
+  font-size: var(--texttemptercer-font-size, 10px);
+  line-height: var(--texttemptercer-line-height, 20px);
+  font-weight: var(--texttemptercer-font-weight, 500);
+  position: relative;
+  align-self: stretch;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+._00-00 {
+  color: var(--colortextoinactivo, #72818e);
+  text-align: center;
+  font-family: var(--numtempsecun-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--numtempsecun-font-size, 36px);
+  line-height: var(--numtempsecun-line-height, 36px);
+  font-weight: var(--numtempsecun-font-weight, 700);
+  position: absolute;
+  left: 12px;
+  top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.seg-potencia-fot {
+  opacity: 0.5;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 20px;
+  position: absolute;
+  left: 294px;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+
+
+/*Segmentos de Potencia*/
+.rectangle-237 {
+  background: #90aacf;
+  border-radius: 3px 3px 0px 0px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 15px;
+  position: relative;
+}
+.rectangle-238 {
+  background: #556f91;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 15px;
+  position: relative;
+}
+.rectangle-239 {
+  background: #556f91;
+  border-radius: 0px 0px 3px 3px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 15px;
+  position: relative;
+}
+
+
+
+
+
+
+
+
+/*#######################################*/
+/*            Barra Inferior             */
+/*#######################################*/
+.f-pp-menuprin {
+  padding: 10px 14px 10px 14px;
+  display: flex;
+  flex-direction: row;
+  gap: 488px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 984px;
+  height: 70px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  bottom: 20px;
+}
+.cont-menu {
+  border-radius: 0px;
+  flex-shrink: 0;
+  width: 984px;
+  height: 70px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+/* Contenedor Menú Principal */
+.cont-btns-menuprin {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 360px;
+  position: relative;
+}
+
+
+
+
+
+
+
+
+
+/*============================================================================*/
+
+
+.ti-vm-taire {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.seg-calefactor {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.rectangle-192 {
+  background: #c7463c;
+  border-radius: 3px 3px 0px 0px;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-191 {
+  background: #cc5848;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-183 {
+  background: #d06a53;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-184 {
+  background: #d57c5f;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-185 {
+  background: #df896f;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-186 {
+  background: #e29d7a;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-187 {
+  background: #e6b085;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-188 {
+  background: #e9c38f;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-189 {
+  background: #edd69a;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.rectangle-190 {
+  background: #f0e9a5;
+  border-radius: 0px 0px 3px 3px;
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+}
+.v-potcal {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+._802 {
+  color: var(--colortextoinactivo, #72818e);
+  text-align: center;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 10px;
+  font-weight: 600;
+  position: relative;
+  width: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.div {
+  color: var(--colortextoinactivo, #72818e);
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 6px;
+  line-height: 10px;
+  font-weight: 600;
+  position: relative;
+  width: 5px;
+}
+.cont-tprogp-taux {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 114px;
+  position: relative;
+  right: -12px;
+}
+.tprogp {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  top: -7px;
+  left: 10px;
+}
+.vprogp {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100px;
+  position: relative;
+}
+.ti-vp-progp {
+  padding: 4px 4px 2px 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.taux {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  top: -7px;
+  left: 10px;
+}
+.vaux {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100px;
+  position: relative;
+}
+.ti-vm-aux {
+  padding: 4px 4px 2px 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
