@@ -40,18 +40,10 @@ export async function setInitValues() {
         if (res.status === 200) {
             valsCtrl = await res.json();
 
-            if (tempProg) {
-                tempProg.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
-            }
-            if (humCtrl) {
-                humCtrl.textContent = valsCtrl.vals.pot_Hum.toFixed(0);
-            }
-            if (oxCtrl) {
-                oxCtrl.textContent = valsCtrl.vals.pot_Ox.toFixed(0);
-            }
-            if (viewCtrl) {
-                viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
-            }
+            tempProg.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+            humCtrl.textContent = valsCtrl.vals.pot_Hum.toFixed(0);
+            oxCtrl.textContent = valsCtrl.vals.pot_Ox.toFixed(0);
+            viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
         }
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada", error);
@@ -64,12 +56,8 @@ export async function setInitValues() {
  * @param {string} unit Unidad de medición.
  */
 function updateControlDisplay(value, unit = "°C") {
-    if (valCtrl) {
-        valCtrl.textContent = formatValue(value, sliderConfig.step);
-    }
-    if (unitsCtrl) {
-        unitsCtrl.textContent = unit;
-    }
+    valCtrl.textContent = formatValue(value, sliderConfig.step);
+    unitsCtrl.textContent = unit;
 }
 
 /**
@@ -129,9 +117,9 @@ pnlBebe?.addEventListener("click", () => {
 
     sliderConfig = { min: 34.0, max: 38.0, step: 0.1 };
 
-    if (valsCtrl?.vals) {
-        updateControlDisplay(valsCtrl.vals.tp_Prog, "°C");
-    }
+    // if (valsCtrl?.vals) {
+    //     updateControlDisplay(valsCtrl.vals.tp_Prog, "°C");
+    // }
 });
 
 pnlAire?.addEventListener("click", () => {
@@ -148,9 +136,9 @@ ajstCtrlHum?.addEventListener("click", () => {
 
     sliderConfig = { min: 0, max: 100, step: 1 };
 
-    if (valsCtrl?.vals) {
-        updateControlDisplay(valsCtrl.vals.pot_Hum, "%");
-    }
+    // if (valsCtrl?.vals) {
+    //     updateControlDisplay(valsCtrl.vals.pot_Hum, "%");
+    // }
 });
 
 ajstCtrlFot?.addEventListener("click", () => {
@@ -409,7 +397,7 @@ function toggleHomePanel(showPanelControl) {
  */
 async function set_EditCtrlsEn(ctrlLbl) {
     try {
-        await fetch("/api/enEdit", {
+        const res = await fetch("/api/enEdit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -420,6 +408,16 @@ async function set_EditCtrlsEn(ctrlLbl) {
             })
         });
 
+        if (res.status === 200) {
+            const rt = await res.json();
+
+            if (ctrlLbl == "tp_Prog") {
+                updateControlDisplay(rt.valor, "°C");
+            }
+            else{
+                updateControlDisplay(rt.valor, "%");
+            }
+        }
         if (!intervalEncod) {
             intervalEncod = setInterval(edit_valProg, 100);
         }
@@ -444,17 +442,31 @@ async function edit_valProg() {
             const encd = await res.json();
             const nuevoValor = Number(encd.val);
 
-            if (valCtrl) {
-                valCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
-            }
+            
+            valCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+            
             // if (typeof updateSliderValue === "function") {
             //     updateSliderValue(nuevoValor);
             // }
-
+                
             if (!encd.confirm && intervalEncod) {
-                if (viewCtrl) {
-                    viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                switch (encd.ctrl) {
+                    case "tp_Prog":
+                        tempProg.textContent = formatValue(nuevoValor, sliderConfig.step);
+                        viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                    break;
+
+                    case "pot_Hum":
+                        humCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                    break;
+                
+                    default:
+                    break;
                 }
+                // if (viewCtrl) {
+                //     viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                // }
+                toggleHomePanel("home");
 
                 clearInterval(intervalEncod);
                 intervalEncod = null;
@@ -465,9 +477,9 @@ async function edit_valProg() {
     }
 }
 
-// ------------------------------
+// --------------------------------
 // Animación del slider de encoder
-// ------------------------------
+// --------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     const slider = document.getElementById("tpielSlider");
     const knob = document.getElementById("tpielKnob");

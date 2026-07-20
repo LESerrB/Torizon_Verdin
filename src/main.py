@@ -53,6 +53,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 # werkzeug_logger.setLevel(logger.level)
 
 edit_Ctrl = ""
+val_Encd = 0
 #--------------------- Valores Iniciales ---------------------#
 valores_ctrl = {
     "tp_Prog": 34.0,        # Ajuste de Temperatura programada de Piel
@@ -130,15 +131,15 @@ def restart_container(threshold=90):
         os._exit(1)
 
 def encoder_Reader():
-    global edit_Ctrl
+    global edit_Ctrl, val_Encd
     hw_encoder.init_encoder()
 
     while True:
         if valores_ctrl["confirm"]:
-            nuevo_val = hw_encoder.valEdit(valores_ctrl[edit_Ctrl])
+            nuevo_val = hw_encoder.valEdit(val_Encd)
 
-            if nuevo_val != valores_ctrl[edit_Ctrl]:
-                valores_ctrl[edit_Ctrl] = nuevo_val
+            if nuevo_val != val_Encd:
+                val_Encd = nuevo_val
 
             valores_ctrl["confirm"] = hw_encoder.swAcept()
 
@@ -219,34 +220,39 @@ def api_Pesaje():
 
 @app.route("/api/enEdit", methods=["POST"])
 def enEditCtrls():
-    global edit_Ctrl
+    global edit_Ctrl, val_Encd
 
     ctrl = request.get_json()
 
     edit_Ctrl = ctrl.get("Ctrl")
-    hw_encoder.valConfig(edit_Ctrl)
+
+    val_Encd = valores_ctrl[edit_Ctrl]
     valores_ctrl["confirm"] = ctrl.get("Enable")
+
+    hw_encoder.valConfig(edit_Ctrl)
 
     return jsonify(
         {
-            "status": "ok"
+            "status": "ok",
+            "valor": valores_ctrl[edit_Ctrl],
         }
     ), 200
 
 @app.route("/api/editValProg", methods=["POST"])
 def ctrlEncd():
     try:
-        global edit_Ctrl
+        global edit_Ctrl, val_Encd
 
-        # No se que haga esto pero ahi va
-        # if valores_ctrl["confirm"] == False:
+        if valores_ctrl["confirm"] == False:
+            valores_ctrl[edit_Ctrl] = val_Encd
         #     tdc_s = f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
             # encode_Msg(tcd_UART1, tdc_s)
 
         return jsonify(
             {
                 "status": "ok",
-                "val": valores_ctrl[edit_Ctrl],
+                "ctrl": edit_Ctrl,
+                "val": val_Encd,
                 "confirm": valores_ctrl["confirm"],
             }
         ), 200

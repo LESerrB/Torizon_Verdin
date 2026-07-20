@@ -241,7 +241,7 @@ def valConfig(Ctrl):
         STEP_VALUE = STEP_VALUE_TP
         MIN_TP = 34.0
         MAX_TP = 38.0
-    elif Ctrl == "pot_Hum":
+    else:
         STEP_VALUE = STEP_VALUE_POT
         MIN_TP = 0
         MAX_TP = 100
