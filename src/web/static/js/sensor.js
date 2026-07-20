@@ -28,8 +28,8 @@ async function getTemp() {
             tempAire.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1);
             tempSondaAux.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Aux.toFixed(1);
 
-            sensOx.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Ox.toFixed(1);
-            sensHum.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Hum.toFixed(1);
+            sensOx.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Ox;
+            sensHum.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Hum;
         }
         else{
             tempPiel.textContent = "--.-";

@@ -417,7 +417,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de presionado de botones del menú inferior.
  - Removido grafico indicador de potencia en el panel de control debido a incompatibilidad entre valores de temperatura y potencia.
  - Cambio de panel de control a home al aceptar el valor desde en switch del encoder.
- - Pruebas de comunicación con TCD con software MCU_control_17072026.hex
+ - Pruebas de comunicación con TCD con software MCU_control_17072026.hex.
+ - Corrección de despliegue de valores de potencia sin decimales.
 
 ## Descarga e Instalación
 

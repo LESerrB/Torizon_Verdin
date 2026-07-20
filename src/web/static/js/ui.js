@@ -41,8 +41,8 @@ export async function setInitValues() {
             valsCtrl = await res.json();
 
             tempProg.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
-            humCtrl.textContent = valsCtrl.vals.pot_Hum.toFixed(0);
-            oxCtrl.textContent = valsCtrl.vals.pot_Ox.toFixed(0);
+            humCtrl.textContent = valsCtrl.vals.pot_Hum;
+            oxCtrl.textContent = valsCtrl.vals.pot_Ox;
             viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
         }
     } catch (error) {
