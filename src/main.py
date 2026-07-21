@@ -21,7 +21,7 @@ from dev.Comunicacion import bascula as com_bascula
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
 from dev.Comunicacion.TCD import com_TCD as TCD
-from dev.Comunicacion.TCD import set_tProg as t_progTCD
+from dev.Comunicacion.TCD import set_dtProg as dt_progTCD
 
 #****************************************************************************#
 #                           Configuracion Pag WEB                            #
@@ -98,8 +98,8 @@ def setInitVals():
         }
     ), 200
 
-@app.route("/api/getTemp", methods=["POST"])
-def getTempPiel():
+@app.route("/api/getDtSensores", methods=["POST"])
+def get_DtSensores():
     if vls_snsrsTCD["alrm"] != 128:
         return jsonify(
             {
@@ -141,9 +141,7 @@ def ctrlEncd():
 
         if valores_ctrl["confirm"] == False:
             valores_ctrl[edit_Ctrl] = val_Encd
-            t_progTCD(37)
-        #     tdc_s = f"{int(valores_ctrl['tp_Prog'] * 10):04x}"
-            # encode_Msg(tcd_UART1, tdc_s)
+            dt_progTCD(37)
 
         return jsonify(
             {

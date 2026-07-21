@@ -92,7 +92,7 @@ def decode_Msg(UART_dev):
         bytes_list = []
 
         trama = uart_receive(UART_dev)
-        print("<<<<", trama)
+        # print("<<<<", trama)
 
         if trama and trama.startswith("00") and trama.endswith("63"):
             trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
@@ -149,7 +149,7 @@ def encode_Msg(UART_dev, msg):
         n_bytes = n_bytes.to_bytes(1, byteorder='big')
         dt = b'\x00' + n_bytes + dt + void_dt + crc + b'\x63'
 
-        print(">>>>", dt)
+        # print(">>>>", dt)
         uart_send(UART_dev, dt)
     except Exception as e:
         print(f"Error al mandar trama: {e}")

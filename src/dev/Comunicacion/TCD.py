@@ -1,6 +1,6 @@
 import serial
 
-from api.com_UART import decode_Msg, encode_Msg, uart_send, crc16_arc
+from api.com_UART import decode_Msg, encode_Msg, uart_send, crc16_arc, uart_receive
 
 uart_Channel = "/dev/verdin-uart1"
 baud_rate = 115200
@@ -28,11 +28,11 @@ def com_TCD(vls_snsrsTCD):
             vls_snsrsTCD["zero"] = W[26]
             vls_snsrsTCD["alrm"] = W[27]
 
-            print(vls_snsrsTCD["ta_Ctrl"])
+            # print(vls_snsrsTCD["ta_Ctrl"])
     else:
         vls_snsrsTCD["alrm"] = 128 # MSB Indica error de comunicación UART
 
-def set_tProg(tdc_s):
+def set_dtProg(tdc_s):
     # n_bytes = int(len(tdc_s)/2)
     # tdc_s = "55" + tdc_s
     print(tdc_s)
@@ -49,9 +49,10 @@ def set_tProg(tdc_s):
     #     void_dt = b''
 
     # n_bytes = n_bytes.to_bytes(1, byteorder='big')
-    #        00        00        00        00        00        00       00         00       01        72         00       00         00        00       01         77        00        00        00       00         00        00        00        00        00        00        00       00        63
-    dt = b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x01' + b'\x75' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x01' + b'\x77' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x63'
-                           # |Temp Aire        | temp Piel         | temp Piel Aux     | t Aire ctrl       | Bascula            | Pot Calefactor   | t Piel Ctrl       | O2 Medido         | O2 Ctrl           |  Hum Medido        | Hum Ctrl         | Fot Hrs           | Fot Mins
+    
+#            00        AA        0C  |     Temp Aire     |      Temp Piel    |    Temp Piel Aux  |    T Aire ctrl    |      Bascula      |   Pot Calefactor  |    t Piel Ctrl    |     O2 Medido     |      O2 Ctrl      |    Hum Medido     |     Hum Ctrl      |      Fot Hrs      |     Fot Mins      |
+    dt = b'\x00' + b'\xAA' + b'\x0C' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x01' + b'\x68' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x63'
+    
     print(">>>>", dt)
     uart_send(tcd_UART1, dt)
-    decode_Msg(tcd_UART1)
+    print("<<<<<", uart_receive(tcd_UART1))

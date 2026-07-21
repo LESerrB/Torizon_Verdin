@@ -12,9 +12,9 @@ const peso_Basc = document.getElementById("peso");
 
 peso_Basc.textContent = "-.---"
 
-async function getTemp() {
+async function get_DtSensores() {
     try {
-        const res = await fetch('/api/getTemp', {
+        const res = await fetch('/api/getDtSensores', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ async function getTemp() {
 
 export function startSensor(){
     if (!intervalId) {
-        intervalId = setInterval(getTemp, 500);
+        intervalId = setInterval(get_DtSensores, 500);
     }
 };
 
