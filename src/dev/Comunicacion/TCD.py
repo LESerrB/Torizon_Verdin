@@ -50,8 +50,8 @@ def set_dtProg(tdc_s):
 
     # n_bytes = n_bytes.to_bytes(1, byteorder='big')
     
-#            00        AA        0C  |     Temp Aire     |      Temp Piel    |    Temp Piel Aux  |    T Aire ctrl    |      Bascula      |   Pot Calefactor  |    t Piel Ctrl    |     O2 Medido     |      O2 Ctrl      |    Hum Medido     |     Hum Ctrl      |      Fot Hrs      |     Fot Mins      |
-    dt = b'\x00' + b'\xAA' + b'\x0C' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x01' + b'\x68' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x63'
+#            00        AA        0C  |    T Aire ctrl    |   Pot Calefactor  |    t Piel Ctrl    |      O2 Ctrl      |     Hum Ctrl      |        CRC        
+    dt = b'\x00' + b'\xAA' + b'\x0C' + b'\x01' + b'\x68' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x63'
     
     print(">>>>", dt)
     uart_send(tcd_UART1, dt)
