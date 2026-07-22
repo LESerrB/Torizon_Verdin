@@ -412,13 +412,14 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Modularización de función para comunicación UART - TCD.
 - Estructuras de datos para valores de control y de sensado.
 
-### v0.23.1 - [10/Julio/2026]
+### v0.23.1 - [22/Julio/2026]
 
  - Animación de presionado de botones del menú inferior.
  - Removido grafico indicador de potencia en el panel de control debido a incompatibilidad entre valores de temperatura y potencia.
  - Cambio de panel de control a home al aceptar el valor desde en switch del encoder.
- - Pruebas de comunicación con TCD con software MCU_control_17072026.hex.
+ - Pruebas de comunicación con TCD con FW MCU_control_17072026.hex.
  - Corrección de despliegue de valores de potencia sin decimales.
+ - Control de valores de programación de TCD (FW TCD: MCU_control_22072026).
 
 ## Descarga e Instalación
 

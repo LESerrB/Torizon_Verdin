@@ -139,9 +139,13 @@ def ctrlEncd():
     try:
         global edit_Ctrl, val_Encd
 
-        if valores_ctrl["confirm"] == False:
+        if not valores_ctrl["confirm"]:
+            monitor_pause.clear()               # Pausa monitoreo para enviar datos de control
+
             valores_ctrl[edit_Ctrl] = val_Encd
             dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
+
+            monitor_pause.set()                 # Reinicio de Monitoreo
 
         return jsonify(
             {
@@ -152,6 +156,8 @@ def ctrlEncd():
             }
         ), 200
     except:
+        monitor_pause.set()                 # Reinicio de Monitoreo
+
         return jsonify(
             {
                 "status": "fail"

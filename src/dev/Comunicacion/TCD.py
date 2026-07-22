@@ -27,31 +27,58 @@ def com_TCD(vls_snsrsTCD):
             vls_snsrsTCD["fot_Mins"] = int.from_bytes(W[24:26], byteorder="big")
             vls_snsrsTCD["zero"] = W[26]
             vls_snsrsTCD["alrm"] = W[27]
-
-            # print(vls_snsrsTCD["ta_Ctrl"])
     else:
         vls_snsrsTCD["alrm"] = 128 # MSB Indica error de comunicación UART
 
 def set_dtProg(tdc_v, edit_Ctrl):
-    # n_bytes = int(len(tdc_v)/2)
-    # tdc_v = "55" + tdc_v
-    # print(tdc_v, edit_Ctrl)
+    control_config = {
+        "ta_Prog":   (3, 2),
+        "pot_Calef": (6, 1),
+        "tp_Prog":   (7, 2),
+        "pot_Ox":    (10, 1),
+        "pot_Hum":   (12, 1),
+        # "pot_Fot": (8, 1),
+    }
 
-    if edit_Ctrl == "tp_Prog":
-        value = int(float(tdc_v) * 10)
-        t_MSB = (value >> 8) & 0xFF
-        t_LSB = value & 0xFF
-        t_MSB_hex = bytes([t_MSB])
-        t_LSB_hex = bytes([t_LSB])
-#                00        AA        0C  |    T Aire ctrl    |   Pot Calefactor  |    t Piel Ctrl        |      O2 Ctrl      |     Hum Ctrl      |        CRC        
-        dt = b'\x00' + b'\xAA' + b'\x0C' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + t_MSB_hex + t_LSB_hex + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x63'
-    else:
-        value = int(tdc_v)
-        t_LSB = value & 0xFF
-        t_LSB_hex = bytes([t_LSB])
-        dt = b'\x00' + b'\xAA' + b'\x0C' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + t_LSB_hex + b'\x00' + b'\x00' + b'\x63'
+    config = control_config.get(edit_Ctrl)
 
+    if config is None:
+        return "Unknown Status Code"
 
-    print(">>>>", dt)
-    uart_send(tcd_UART1, dt)
-    print("<<<<<", uart_receive(tcd_UART1))
+    position, byte_count = config
+
+    try:
+        if byte_count == 2:
+            value = int(float(tdc_v) * 10)
+            max_value = 0xFFFF
+        else:
+            value = int(tdc_v)
+            max_value = 0xFF
+    except (TypeError, ValueError):
+        return "Invalid Value"
+
+    if not 0 <= value <= max_value:
+        return "Value Out of Range"
+
+    # Trama base de 16 bytes
+    dt = bytearray([
+        0x00, 0xAA, 0x0C,              # Header
+        0x00, 0x00,                    # Temperatura aire
+        0x00, 0x00,                    # Potencia calefactor
+        0x00, 0x00,                    # Temperatura piel
+        0x00, 0x00,                    # Oxígeno
+        0x00, 0x00,                    # Humedad
+        0xFF, 0xFF,                    # CRC
+        0x63                           # Tail
+    ])
+
+    dt[position:position + byte_count] = value.to_bytes(
+        byte_count,
+        byteorder="big"
+    )
+
+    print(dt)
+
+    uart_send(tcd_UART1, bytes(dt))
+
+    return bytes(dt)
