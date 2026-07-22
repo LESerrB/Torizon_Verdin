@@ -141,7 +141,7 @@ def ctrlEncd():
 
         if valores_ctrl["confirm"] == False:
             valores_ctrl[edit_Ctrl] = val_Encd
-            dt_progTCD(37)
+            dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
 
         return jsonify(
             {
@@ -158,9 +158,9 @@ def ctrlEncd():
             }
         ), 400
 
-@app.route("/api/pesar", methods=["POST"])
-def api_Pesaje():
-    global pesoTCD
+# @app.route("/api/pesar", methods=["POST"])
+# def api_Pesaje():
+#     global pesoTCD
 
     # peso = round(com_bascula.pesaje(), 3)
 
@@ -175,7 +175,7 @@ def api_Pesaje():
 
     #     return jsonify({"status": "ok", "peso": peso}), 200
     # else:
-    return jsonify({"status": "fail"}), 400
+    # return jsonify({"status": "fail"}), 400
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #                            Funciones de sistema                            #

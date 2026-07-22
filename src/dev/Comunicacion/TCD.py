@@ -32,27 +32,26 @@ def com_TCD(vls_snsrsTCD):
     else:
         vls_snsrsTCD["alrm"] = 128 # MSB Indica error de comunicación UART
 
-def set_dtProg(tdc_s):
-    # n_bytes = int(len(tdc_s)/2)
-    # tdc_s = "55" + tdc_s
-    print(tdc_s)
-    # dt = bytes.fromhex(tdc_s)
+def set_dtProg(tdc_v, edit_Ctrl):
+    # n_bytes = int(len(tdc_v)/2)
+    # tdc_v = "55" + tdc_v
+    # print(tdc_v, edit_Ctrl)
 
-    # crc = crc16_arc(dt)
-    # crc = crc.to_bytes(2, byteorder='big')
+    if edit_Ctrl == "tp_Prog":
+        value = int(float(tdc_v) * 10)
+        t_MSB = (value >> 8) & 0xFF
+        t_LSB = value & 0xFF
+        t_MSB_hex = bytes([t_MSB])
+        t_LSB_hex = bytes([t_LSB])
+#                00        AA        0C  |    T Aire ctrl    |   Pot Calefactor  |    t Piel Ctrl        |      O2 Ctrl      |     Hum Ctrl      |        CRC        
+        dt = b'\x00' + b'\xAA' + b'\x0C' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + t_MSB_hex + t_LSB_hex + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x63'
+    else:
+        value = int(tdc_v)
+        t_LSB = value & 0xFF
+        t_LSB_hex = bytes([t_LSB])
+        dt = b'\x00' + b'\xAA' + b'\x0C' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + t_LSB_hex + b'\x00' + b'\x00' + b'\x63'
 
-    # rpt = 10 - n_bytes
 
-    # if rpt > 0:
-    #     void_dt = b'\x00' * rpt
-    # else:
-    #     void_dt = b''
-
-    # n_bytes = n_bytes.to_bytes(1, byteorder='big')
-    
-#            00        AA        0C  |    T Aire ctrl    |   Pot Calefactor  |    t Piel Ctrl    |      O2 Ctrl      |     Hum Ctrl      |        CRC        
-    dt = b'\x00' + b'\xAA' + b'\x0C' + b'\x01' + b'\x68' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x00' + b'\x63'
-    
     print(">>>>", dt)
     uart_send(tcd_UART1, dt)
     print("<<<<<", uart_receive(tcd_UART1))

@@ -116,9 +116,9 @@
   width: 14px;
   height: 15px;
 }
-.ti-vm-sens.enable,
-.lbl-ttl-cont-lat.enable,
-.val-perc-sens-cont-lat.enable,
+/* .ti-vm-sens.enable, */
+/* .lbl-ttl-cont-lat.enable, */
+/* .val-perc-sens-cont-lat.enable, */
 .val-units-sens-cont-lat.enable {
   color: var(--colortexttpiel);
 }
