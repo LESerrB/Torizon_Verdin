@@ -116,11 +116,20 @@
   width: 14px;
   height: 15px;
 }
-.ti-vm-sens.enable,
-.lbl-ttl-cont-lat.enable,
-.val-perc-sens-cont-lat.enable,
-.val-units-sens-cont-lat.enable {
+.ti-vm-sens.tp.enable,
+.lbl-ttl-cont-lat.tp.enable,
+.val-units-sens-cont-lat.tp.enable {
   color: var(--colortexttpiel);
+}
+.ti-vm-sens.ta.enable,
+.lbl-ttl-cont-lat.ta.enable,
+.val-units-sens-cont-lat.ta.enable {
+  color: var(--colortexttaire);
+}
+.ti-vm-sens.ox.enable,
+.lbl-ttl-cont-lat.ox.enable,
+.val-perc-sens-cont-lat.ox.enable {
+  color: var(--colortextactivo);
 }
 /* Panel de Información Control */
 .mp-atpiel-cont-atpiel {

@@ -300,6 +300,10 @@ function limpiarEstadoElemento(elemento) {
     }
 
     elemento.classList.remove(...CLASES_CONTROL, "enable");
+
+    elemento.querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS).forEach((elementoInterno) => {
+        elementoInterno.classList.remove(...CLASES_CONTROL, "enable");
+    });
 }
 
 /**
@@ -349,7 +353,7 @@ function habilitarControlesLaterales(controles, claseColor) {
         habilitarEstadoElemento(control, claseColor);
 
         control.querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS).forEach((elemento) => {
-            elemento.classList.add("enable");
+            elemento.classList.add(claseColor, "enable");
         });
     });
 }
