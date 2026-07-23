@@ -49,8 +49,8 @@ edit_Ctrl = ""
 val_Encd = 0
 #--------------------- Valores Iniciales ---------------------#
 valores_ctrl = {
-    "tp_Prog": 36.0,        # Ajuste de Temperatura programada de Piel
-    "ta_Prog": 35.0,        # Ajuste de Temperatura programada de Aire
+    "tp_Prog": 35.0,        # Ajuste de Temperatura programada de Piel
+    "ta_Prog": 37.0,        # Ajuste de Temperatura programada de Aire
     "pot_Ox": 60,           # Ajuste de Potencia de Oxigeno
     "pot_Hum": 50,          # Ajuste de Potencia de Humedad
     "pot_Fot": 30,          # Ajuste de Potencia de Fototerapia

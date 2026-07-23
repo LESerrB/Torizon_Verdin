@@ -170,11 +170,37 @@ pnlAire?.addEventListener("click", () => {
     toggleHomePanel("tempAireProg");
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire"
     ttl_programada.textContent = "Temp. Aire Programada";
+
+    const valor = valsCtrl?.vals?.ta_Prog ?? 34.0;
+
+    setSliderConfig({
+        min: 34.0,
+        max: 38.0,
+        step: 0.1,
+        value: valor,
+        unit: "°C",
+        theme: "seg-t_aire"
+    });
+
+    set_EditCtrlsEn("ta_Prog");
 });
 
 ajstCtrlOx?.addEventListener("click", () => {
     toggleHomePanel("ajstOx");
     ttl_pnl_ctrl.textContent = "Ajuste de Oxigeno Programado"
+
+    const valor = valsCtrl?.vals?.pot_Ox ?? 0;
+
+    setSliderConfig({
+        min: 0,
+        max: 100,
+        step: 1,
+        value: valor,
+        unit: "%",
+        theme: "seg-p_ox"
+    });
+
+    set_EditCtrlsEn("pot_Ox");
 });
 
 ajstCtrlHum?.addEventListener("click", () => {
@@ -539,7 +565,9 @@ async function edit_valProg() {
 
 const SLIDER_THEMES = [
     "seg-t_piel",
-    "seg-p_hum"
+    "seg-t_aire",
+    "seg-p_ox",
+    "seg-p_hum",
 ];
 
 function setSegmentTheme(seg, index, theme) {

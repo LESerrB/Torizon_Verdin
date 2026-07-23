@@ -367,7 +367,7 @@
 /* ##########################
  * Tonalidades del control 
  * ########################## */
-/* Temperatura Programada de Piel */
+/* Temperatura Programada Piel */
 .ctrl-slider-seg.seg-t_piel-0 { fill: #FFFAF8; }
 .ctrl-slider-seg.seg-t_piel-1 { fill: #FBE9E4; }
 .ctrl-slider-seg.seg-t_piel-2 { fill: #F6D4CD; }
@@ -378,6 +378,30 @@
 .ctrl-slider-seg.seg-t_piel-7 { fill: #A35C55; }
 .ctrl-slider-seg.seg-t_piel-8 { fill: #7F4741; }
 .ctrl-slider-seg.seg-t_piel-9 { fill: #5C332E; }
+
+/* Temperatura Programada Aire */
+.ctrl-slider-seg.seg-t_aire-0 { fill: #D4EFF1; }
+.ctrl-slider-seg.seg-t_aire-1 { fill: #C2E6E8; }
+.ctrl-slider-seg.seg-t_aire-2 { fill: #AFDDE0; }
+.ctrl-slider-seg.seg-t_aire-3 { fill: #9BD3D6; }
+.ctrl-slider-seg.seg-t_aire-4 { fill: #79C1C4; }
+.ctrl-slider-seg.seg-t_aire-5 { fill: #5EADB0; }
+.ctrl-slider-seg.seg-t_aire-6 { fill: #4A9799; }
+.ctrl-slider-seg.seg-t_aire-7 { fill: #368183; }
+.ctrl-slider-seg.seg-t_aire-8 { fill: #24696B; }
+.ctrl-slider-seg.seg-t_aire-9 { fill: #174F51; }
+
+/* Ajuste Potencia de Oxigeno */
+.ctrl-slider-seg.seg-p_ox-0 { fill: #EAF4DF; }
+.ctrl-slider-seg.seg-p_ox-1 { fill: #E0EFD3; }
+.ctrl-slider-seg.seg-p_ox-2 { fill: #D1E6C1; }
+.ctrl-slider-seg.seg-p_ox-3 { fill: #C0DBAD; }
+.ctrl-slider-seg.seg-p_ox-4 { fill: #AED099; }
+.ctrl-slider-seg.seg-p_ox-5 { fill: #99C281; }
+.ctrl-slider-seg.seg-p_ox-6 { fill: #82B068; }
+.ctrl-slider-seg.seg-p_ox-7 { fill: #6A9952; }
+.ctrl-slider-seg.seg-p_ox-8 { fill: #527E3E; }
+.ctrl-slider-seg.seg-p_ox-9 { fill: #3F6B32; }
 
 /* Ajuste Potencia de Humedad */
 .ctrl-slider-seg.seg-p_hum-0 { fill: #E6F2F8; }
@@ -391,9 +415,20 @@
 .ctrl-slider-seg.seg-p_hum-8 { fill: #447FA2; }
 .ctrl-slider-seg.seg-p_hum-9 { fill: #2F6E8A; }
 
-.ctrl-slider-seg.active {
-  fill-opacity: 1;
-}
+/* Ajuste Potencia de Fototerapia */
+/* .ctrl-slider-seg.seg-p_fot-0 { fill: #FFFAF8; }
+.ctrl-slider-seg.seg-p_fot-1 { fill: #FBE9E4; }
+.ctrl-slider-seg.seg-p_fot-2 { fill: #F6D4CD; }
+.ctrl-slider-seg.seg-p_fot-3 { fill: #F0BEB6; }
+.ctrl-slider-seg.seg-p_fot-4 { fill: #E8A79E; }
+.ctrl-slider-seg.seg-p_fot-5 { fill: #D98E85; }
+.ctrl-slider-seg.seg-p_fot-6 { fill: #C2746C; }
+.ctrl-slider-seg.seg-p_fot-7 { fill: #A35C55; }
+.ctrl-slider-seg.seg-p_fot-8 { fill: #7F4741; }
+.ctrl-slider-seg.seg-p_fot-9 { fill: #5C332E; } */
+
+/* Estados de segmentos */
+.ctrl-slider-seg.active { fill-opacity: 1;}
 
 .ctrl-slider-seg.inactive:not(.active) {
   fill: #ffffff;
