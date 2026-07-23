@@ -346,7 +346,6 @@
 
 .ctrl-slider-seg {
   cursor: pointer;
-  opacity: 0;
   transition: opacity 120ms ease, filter 120ms ease, transform 120ms ease;
 }
 
@@ -365,7 +364,10 @@
   cursor: pointer;
 }
 
-/* Tonalidades del control */
+/* ##########################
+ * Tonalidades del control 
+ * ########################## */
+/* Temperatura Programada de Piel */
 .ctrl-slider-seg.seg-t_piel-0 { fill: #FFFAF8; }
 .ctrl-slider-seg.seg-t_piel-1 { fill: #FBE9E4; }
 .ctrl-slider-seg.seg-t_piel-2 { fill: #F6D4CD; }
@@ -377,7 +379,23 @@
 .ctrl-slider-seg.seg-t_piel-8 { fill: #7F4741; }
 .ctrl-slider-seg.seg-t_piel-9 { fill: #5C332E; }
 
-.ctrl-slider-seg:not(.active) {
+/* Ajuste Potencia de Humedad */
+.ctrl-slider-seg.seg-p_hum-0 { fill: #E6F2F8; }
+.ctrl-slider-seg.seg-p_hum-1 { fill: #D7EAF3; }
+.ctrl-slider-seg.seg-p_hum-2 { fill: #C6DFEC; }
+.ctrl-slider-seg.seg-p_hum-3 { fill: #B3D3E4; }
+.ctrl-slider-seg.seg-p_hum-4 { fill: #9FC5DA; }
+.ctrl-slider-seg.seg-p_hum-5 { fill: #89B5CE; }
+.ctrl-slider-seg.seg-p_hum-6 { fill: #72A4C1; }
+.ctrl-slider-seg.seg-p_hum-7 { fill: #5A92B3; }
+.ctrl-slider-seg.seg-p_hum-8 { fill: #447FA2; }
+.ctrl-slider-seg.seg-p_hum-9 { fill: #2F6E8A; }
+
+.ctrl-slider-seg.active {
+  fill-opacity: 1;
+}
+
+.ctrl-slider-seg.inactive:not(.active) {
   fill: #ffffff;
   fill-opacity: 0.63;
 }

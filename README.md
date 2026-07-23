@@ -425,6 +425,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Ajuste de gráfico para distintos valores de control y diferentes limites mínimo y máximo.
  - Titulos de paneles de control cambian de acuerdo al panel.
  - Indicador de módulos laterales activos en panel de control.
+ - Agregado colores de segmentos de gráfico inactivo.
 
 ## Descarga e Instalación
 

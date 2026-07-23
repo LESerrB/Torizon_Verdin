@@ -136,16 +136,6 @@ function setSliderConfig({ min, max, step, value, unit }) {
 // Paneles de control
 // =============================
 pnlBebe?.addEventListener("click", () => {
-    // set_EditCtrlsEn("tp_Prog");
-    // toggleHomePanel("tempPielProg");
-    // ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel"
-    // ttl_programada.textContent = "Temp. Piel Programada";
-
-    // sliderConfig = { min: 34.0, max: 38.0, step: 0.1 };
-
-    // if (valsCtrl?.vals) {
-    //     updateControlDisplay(valsCtrl.vals.tp_Prog, "°C");
-    // }
     toggleHomePanel("tempPielProg");
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
     ttl_programada.textContent = "Temp. Piel Programada";
@@ -175,15 +165,6 @@ ajstCtrlOx?.addEventListener("click", () => {
 });
 
 ajstCtrlHum?.addEventListener("click", () => {
-    // set_EditCtrlsEn("pot_Hum");
-    // toggleHomePanel("ajstHum");
-    // ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada"
-
-    // sliderConfig = { min: 0, max: 100, step: 1 };
-
-    // if (valsCtrl?.vals) {
-    //     updateControlDisplay(valsCtrl.vals.pot_Hum, "%");
-    // }
     toggleHomePanel("ajstHum");
     ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada";
 
@@ -588,14 +569,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const ratio = clamp((value - min) / (max - min), 0, 1);
 
-        /*
-            Con 10 segmentos:
-            - Para humedad 0-100:
-              0=seg0, 10=seg1, 20=seg2 ... 90=seg9
-
-            - Para temperatura 34.0-38.0:
-              34.0=seg0, 34.4=seg1, 34.8=seg2 ... 37.6=seg9
-        */
         return clamp(Math.floor(ratio * 10), 0, 9);
     }
 
@@ -614,9 +587,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         segments.forEach((seg) => {
             const index = Number(seg.dataset.seg);
+            const isActive = index <= selectedSegment;
+            const isSelected = index === selectedSegment;
 
-            seg.classList.toggle("active", index <= selectedSegment);
-            seg.classList.toggle("selected", index === selectedSegment);
+            seg.classList.toggle("active", isActive);
+            seg.classList.toggle("inactive", !isActive);
+            seg.classList.toggle("selected", isSelected);
         });
 
         slider.dataset.value = formatValue(clampedValue, step);
