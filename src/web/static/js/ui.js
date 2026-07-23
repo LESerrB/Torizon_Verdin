@@ -1,7 +1,13 @@
 let intervalEncod = null;
 let updateSliderValue = null;
-let sliderConfig = { min: 34.0, max: 38.0, step: 0.1 };
 let valsCtrl = null;
+
+let sliderConfig = {
+    min: 34.0,
+    max: 38.0,
+    step: 0.1,
+    theme: "seg-t_piel"
+};
 
 const pnlBebe = document.getElementById("pnl-modoBebe");
 const pnlAire = document.getElementById("pnl-modoAire");
@@ -112,8 +118,13 @@ function getSliderConfig(slider) {
     };
 }
 
-function setSliderConfig({ min, max, step, value, unit }) {
-    sliderConfig = { min, max, step };
+function setSliderConfig({ min, max, step, value, unit, theme }) {
+    sliderConfig = {
+        min,
+        max,
+        step,
+        theme: theme ?? sliderConfig.theme
+    };
 
     const slider = document.getElementById("tpielSlider");
 
@@ -121,6 +132,7 @@ function setSliderConfig({ min, max, step, value, unit }) {
         slider.dataset.min = String(min);
         slider.dataset.max = String(max);
         slider.dataset.step = String(step);
+        slider.dataset.theme = sliderConfig.theme;
     }
 
     if (typeof updateSliderValue === "function" && value !== undefined) {
@@ -147,7 +159,8 @@ pnlBebe?.addEventListener("click", () => {
         max: 38.0,
         step: 0.1,
         value: valor,
-        unit: "°C"
+        unit: "°C",
+        theme: "seg-t_piel"
     });
 
     set_EditCtrlsEn("tp_Prog");
@@ -175,7 +188,8 @@ ajstCtrlHum?.addEventListener("click", () => {
         max: 100,
         step: 1,
         value: valor,
-        unit: "%"
+        unit: "%",
+        theme: "seg-p_hum"
     });
 
     set_EditCtrlsEn("pot_Hum");
@@ -523,6 +537,18 @@ async function edit_valProg() {
     }
 }
 
+const SLIDER_THEMES = [
+    "seg-t_piel",
+    "seg-p_hum"
+];
+
+function setSegmentTheme(seg, index, theme) {
+    SLIDER_THEMES.forEach((themeName) => {
+        seg.classList.remove(`${themeName}-${index}`);
+    });
+
+    seg.classList.add(`${theme}-${index}`);
+}
 // --------------------------------
 // Animación del slider de encoder
 // --------------------------------
@@ -589,6 +615,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const index = Number(seg.dataset.seg);
             const isActive = index <= selectedSegment;
             const isSelected = index === selectedSegment;
+
+            setSegmentTheme(seg, index, sliderConfig.theme);
 
             seg.classList.toggle("active", isActive);
             seg.classList.toggle("inactive", !isActive);

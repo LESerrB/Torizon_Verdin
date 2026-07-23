@@ -426,6 +426,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Titulos de paneles de control cambian de acuerdo al panel.
  - Indicador de módulos laterales activos en panel de control.
  - Agregado colores de segmentos de gráfico inactivo.
+ - Color independiente de cada slider para indicar el valor de control del panel.
 
 ## Descarga e Instalación
 
