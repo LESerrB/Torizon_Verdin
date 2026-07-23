@@ -18,11 +18,15 @@ const tempProg = document.getElementById("tp_prog");
 const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 
+// Vista Panel de Control
+const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl")
+
 // Valor del encoder / control
 const valCtrl = document.getElementById("val_Ctrl");
 const unitsCtrl = document.getElementById("units_Ctrl");
 
 // Vista lateral
+const ttl_programada = document.getElementById("ttl-programada")
 const viewCtrl = document.getElementById("vw-valProg");
 
 /**
@@ -108,41 +112,97 @@ function getSliderConfig(slider) {
     };
 }
 
+function setSliderConfig({ min, max, step, value, unit }) {
+    sliderConfig = { min, max, step };
+
+    const slider = document.getElementById("tpielSlider");
+
+    if (slider) {
+        slider.dataset.min = String(min);
+        slider.dataset.max = String(max);
+        slider.dataset.step = String(step);
+    }
+
+    if (typeof updateSliderValue === "function" && value !== undefined) {
+        updateSliderValue(Number(value));
+    }
+
+    if (value !== undefined) {
+        updateControlDisplay(Number(value), unit);
+    }
+}
+
 // =============================
 // Paneles de control
 // =============================
 pnlBebe?.addEventListener("click", () => {
-    set_EditCtrlsEn("tp_Prog");
-    toggleHomePanel("tempPielProg");
+    // set_EditCtrlsEn("tp_Prog");
+    // toggleHomePanel("tempPielProg");
+    // ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel"
+    // ttl_programada.textContent = "Temp. Piel Programada";
 
-    sliderConfig = { min: 34.0, max: 38.0, step: 0.1 };
+    // sliderConfig = { min: 34.0, max: 38.0, step: 0.1 };
 
     // if (valsCtrl?.vals) {
     //     updateControlDisplay(valsCtrl.vals.tp_Prog, "°C");
     // }
+    toggleHomePanel("tempPielProg");
+    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
+    ttl_programada.textContent = "Temp. Piel Programada";
+
+    const valor = valsCtrl?.vals?.tp_Prog ?? 34.0;
+
+    setSliderConfig({
+        min: 34.0,
+        max: 38.0,
+        step: 0.1,
+        value: valor,
+        unit: "°C"
+    });
+
+    set_EditCtrlsEn("tp_Prog");
 });
 
 pnlAire?.addEventListener("click", () => {
     toggleHomePanel("tempAireProg");
+    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire"
+    ttl_programada.textContent = "Temp. Aire Programada";
 });
 
 ajstCtrlOx?.addEventListener("click", () => {
     toggleHomePanel("ajstOx");
+    ttl_pnl_ctrl.textContent = "Ajuste de Oxigeno Programado"
 });
 
 ajstCtrlHum?.addEventListener("click", () => {
-    set_EditCtrlsEn("pot_Hum");
-    toggleHomePanel("ajstHum");
+    // set_EditCtrlsEn("pot_Hum");
+    // toggleHomePanel("ajstHum");
+    // ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada"
 
-    sliderConfig = { min: 0, max: 100, step: 1 };
+    // sliderConfig = { min: 0, max: 100, step: 1 };
 
     // if (valsCtrl?.vals) {
     //     updateControlDisplay(valsCtrl.vals.pot_Hum, "%");
     // }
+    toggleHomePanel("ajstHum");
+    ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada";
+
+    const valor = valsCtrl?.vals?.pot_Hum ?? 0;
+
+    setSliderConfig({
+        min: 0,
+        max: 100,
+        step: 1,
+        value: valor,
+        unit: "%"
+    });
+
+    set_EditCtrlsEn("pot_Hum");
 });
 
 ajstCtrlFot?.addEventListener("click", () => {
     toggleHomePanel("ajstFot");
+    ttl_pnl_ctrl.textContent = "Ajuste de Potencia de Fototerapia"
 });
 
 // =================================
@@ -417,11 +477,15 @@ async function set_EditCtrlsEn(ctrlLbl) {
 
             if (ctrlLbl == "tp_Prog") {
                 updateControlDisplay(rt.valor, "°C");
-            }
-            else{
+            } else {
                 updateControlDisplay(rt.valor, "%");
             }
+
+            if (typeof updateSliderValue === "function") {
+                updateSliderValue(Number(rt.valor));
+            }
         }
+
         if (!intervalEncod) {
             intervalEncod = setInterval(edit_valProg, 100);
         }
@@ -449,9 +513,9 @@ async function edit_valProg() {
             
             valCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
             
-            // if (typeof updateSliderValue === "function") {
-            //     updateSliderValue(nuevoValor);
-            // }
+            if (typeof updateSliderValue === "function") {
+                updateSliderValue(nuevoValor);
+            }
                 
             if (!encd.confirm && intervalEncod) {
                 switch (encd.ctrl) {
@@ -467,9 +531,6 @@ async function edit_valProg() {
                     default:
                     break;
                 }
-                // if (viewCtrl) {
-                //     viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
-                // }
                 toggleHomePanel("home");
 
                 clearInterval(intervalEncod);
@@ -493,7 +554,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     sliderConfig = getSliderConfig(slider);
-    const { min, max, step } = sliderConfig;
+
     const segments = [...slider.querySelectorAll(".ctrl-slider-seg")];
 
     const points = [
@@ -514,16 +575,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function roundToStep(value) {
+        const { step } = sliderConfig;
         return Math.round(value / step) * step;
     }
 
     function valueToSegment(value) {
-        const ratio = (value - min) / (max - min);
-        return clamp(Math.round(ratio * 9), 0, 9);
+        const { min, max } = sliderConfig;
+
+        if (max <= min) {
+            return 0;
+        }
+
+        const ratio = clamp((value - min) / (max - min), 0, 1);
+
+        /*
+            Con 10 segmentos:
+            - Para humedad 0-100:
+              0=seg0, 10=seg1, 20=seg2 ... 90=seg9
+
+            - Para temperatura 34.0-38.0:
+              34.0=seg0, 34.4=seg1, 34.8=seg2 ... 37.6=seg9
+        */
+        return clamp(Math.floor(ratio * 10), 0, 9);
     }
 
     function updateSlider(value) {
-        const clampedValue = clamp(roundToStep(value), min, max);
+        const { min, max, step } = sliderConfig;
+
+        const numericValue = Number(value);
+        const safeValue = Number.isFinite(numericValue) ? numericValue : min;
+
+        const clampedValue = clamp(roundToStep(safeValue), min, max);
         const selectedSegment = valueToSegment(clampedValue);
         const point = points[selectedSegment];
 
@@ -532,11 +614,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         segments.forEach((seg) => {
             const index = Number(seg.dataset.seg);
+
             seg.classList.toggle("active", index <= selectedSegment);
             seg.classList.toggle("selected", index === selectedSegment);
         });
 
         slider.dataset.value = formatValue(clampedValue, step);
+
         if (valCtrl) {
             valCtrl.textContent = formatValue(clampedValue, step);
         }
@@ -545,13 +629,19 @@ document.addEventListener("DOMContentLoaded", () => {
             new CustomEvent("tpiel-slider-change", {
                 detail: {
                     value: clampedValue,
-                    segment: selectedSegment
+                    segment: selectedSegment,
+                    min,
+                    max,
+                    step
                 }
             })
         );
     }
 
     updateSliderValue = updateSlider;
+
+    const initialValue = Number(slider.dataset.value ?? sliderConfig.min);
+    updateSlider(initialValue);
 });
 
 // Botón Cancelar
