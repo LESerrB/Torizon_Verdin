@@ -427,6 +427,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Indicador de módulos laterales activos en panel de control.
  - Agregado colores de segmentos de gráfico inactivo.
  - Color independiente de cada slider para indicar el valor de control del panel.
+ - Agregado panel de cronómetro APGAR.
 
 ## Descarga e Instalación
 

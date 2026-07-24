@@ -25,7 +25,12 @@ const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 
 // Vista Panel de Control
-const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl")
+const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
+
+// Control de Sensores
+const ctrl_sens = document.getElementById("ctrl-sensores");
+const ctrl_basc = document.getElementById("ctrl-bascula");
+const ctrl_apgar = document.getElementById("ctrl-apgar");
 
 // Valor del encoder / control
 const valCtrl = document.getElementById("val_Ctrl");
@@ -264,6 +269,12 @@ btn_tend?.addEventListener("mousedown", () => {
 
 btn_tend?.addEventListener("mouseup", () => {
     imgTendencias.src = tendencias.off;
+
+    toggleHomePanel("tendencias");
+    ttl_pnl_ctrl.textContent = "Tendencias";
+
+    btn_tend.style.backgroundColor = "#8A8E91";
+    imgTendencias.src = tendencias.on;
 });
 
 btn_basc?.addEventListener("mousedown", () => {
@@ -272,6 +283,12 @@ btn_basc?.addEventListener("mousedown", () => {
 
 btn_basc?.addEventListener("mouseup", () => {
     imgBascula.src = bascula.off;
+
+    toggleHomePanel("bascula");
+    ttl_pnl_ctrl.textContent = "Báscula";
+
+    btn_basc.style.backgroundColor = "#8A8E91";
+    imgBascula.src = bascula.on;
 });
 
 btn_apgr?.addEventListener("mousedown", () => {
@@ -280,6 +297,12 @@ btn_apgr?.addEventListener("mousedown", () => {
 
 btn_apgr?.addEventListener("mouseup", () => {
     imgApgar.src = apgar.off;
+
+    toggleHomePanel("apgar");
+    ttl_pnl_ctrl.textContent = "Cronometro APGAR";
+
+    btn_apgr.style.backgroundColor = "#8A8E91";
+    imgApgar.src = apgar.on;
 });
 
 btn_md_fam?.addEventListener("mousedown", () => {
@@ -335,6 +358,21 @@ const configuracionPaneles = {
         claseColor: "fot",
         controles: ["fototerapia"],
         icono: "../static/icon/Control/Icon_Fototerapia.svg"
+    },
+
+    tendencias: {
+        claseColor: "tp",
+        controles: ["tendencias"],
+    },
+
+    bascula: {
+        claseColor: "tp",
+        controles: ["bascula"],
+    },
+
+    apgar: {
+        claseColor: "tp",
+        controles: ["apgar"],
     }
 };
 
@@ -428,8 +466,24 @@ function toggleHomePanel(showPanelControl) {
         habilitarEstadoElemento(infoCtrl, claseColor);
         habilitarEstadoElemento(tituloCtrl, claseColor);
 
-        if (controles[0] !== "humedad" && controles[0] !== "fototerapia") {
+        if (controles[0] == "tempPiel" || controles[0] == "tempAire" || controles[0] == "oxigeno") {
             habilitarControlesLaterales(controles, claseColor);
+        }
+
+        if (controles[0] == "bascula" || controles[0] == "tendencias") {
+            ctrl_sens.style.display = "none";
+            ctrl_apgar.style.display = "none";
+            ctrl_basc.style.display = "block";
+        }
+        else if (controles[0] == "apgar"){
+            ctrl_sens.style.display = "none";
+            ctrl_apgar.style.display = "block";
+            ctrl_basc.style.display = "none";
+        }
+        else{
+            ctrl_sens.style.display = "block";
+            ctrl_apgar.style.display = "none";
+            ctrl_basc.style.display = "none";
         }
 
         if (iconoControl && icono) {
