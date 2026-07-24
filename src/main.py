@@ -208,7 +208,7 @@ def encoder_Reader():
     #     if valores_ctrl["confirm"]:
     #         nuevo_val = hw_encoder.valEdit(val_Encd)
 
-    #         if nuevo_val != val_Encd:
+    #         if nuevo_v    al != val_Encd:
     #             val_Encd = nuevo_val
 
     #         valores_ctrl["confirm"] = hw_encoder.swAcept()

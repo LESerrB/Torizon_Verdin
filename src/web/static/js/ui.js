@@ -227,102 +227,68 @@ ajstCtrlFot?.addEventListener("click", () => {
 });
 
 // =================================
-// Configuración de botones de menú
+// Botones Menú Inferior
 // =================================
-// const botones = {
-//     familiar: {
-//         btn: document.getElementById("btn-md-fam"),
-//         off: "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
-//         on: "../static/icon/Home/btns/Icono_MFamiliar_Active.svg",
-//         activo: false
-//     },
+const btn_tend = document.getElementById("btn-tend");
+const imgTendencias = btn_tend?.querySelector("img");
+const tendencias = {
+    off: "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
+    on: "../static/icon/Home/btns/Icono_Tendencias_Active.svg",
+};
 
-//     tendencias: {
-//         btn: document.getElementById("btn-tend"),
-//         off: "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
-//         on: "../static/icon/Home/btns/Icono_Tendencias_Active.svg",
-//         activo: false
-//     },
+const btn_basc = document.getElementById("btn-basc");
+const imgBascula = btn_basc?.querySelector("img");
+const bascula = {
+    off: "../static/icon/Home/btns/Icono_Bascula_Default.svg",
+    on: "../static/icon/Home/btns/Icono_Bascula_Active.svg",
+};
 
-//     bascula: {
-//         btn: document.getElementById("btn-basc"),
-//         off: "../static/icon/Home/btns/Icono_Bascula_Default.svg",
-//         on: "../static/icon/Home/btns/Icono_Bascula_Active.svg",
-//         activo: false
-//     },
+const btn_apgr = document.getElementById("btn-apgr");
+const imgApgar = btn_apgr?.querySelector("img");
+const apgar = {
+    off: "../static/icon/Home/btns/Icono_APGAR_Default.svg",
+    on: "../static/icon/Home/btns/Icono_APGAR_Active.svg",
+};
 
-//     apgar: {
-//         btn: document.getElementById("btn-apgr"),
-//         off: "../static/icon/Home/btns/Icono_APGAR_Default.svg",
-//         on: "../static/icon/Home/btns/Icono_APGAR_Active.svg",
-//         activo: false
-//     }
-// };
+const btn_md_fam = document.getElementById("btn-md-fam");
+const imgFam = btn_md_fam?.querySelector("img");
+const familiar = {
+    off: "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
+    on: "../static/icon/Home/btns/Icono_MFamiliar_Active.svg",
+};
 
-// Object.values(botones).forEach((item) => {
-//     item.img = item.btn?.querySelector("img");
-// });
 
-// --------------------------------
-// Funciones auxiliares de botones
-// --------------------------------
-// function setBoton(nombre, activo) {
-//     const item = botones[nombre];
+btn_tend?.addEventListener("mousedown", () => {
+    imgTendencias.src = tendencias.on;
+});
 
-//     if (!item) {
-//         return;
-//     }
+btn_tend?.addEventListener("mouseup", () => {
+    imgTendencias.src = tendencias.off;
+});
 
-//     item.activo = activo;
+btn_basc?.addEventListener("mousedown", () => {
+    imgBascula.src = bascula.on;
+});
 
-//     if (item.img) {
-//         item.img.src = activo ? item.on : item.off;
-//     }
+btn_basc?.addEventListener("mouseup", () => {
+    imgBascula.src = bascula.off;
+});
 
-//     if (nombre !== "familiar" && item.btn) {
-//         item.btn.classList.toggle("pressed", activo);
-//     }
-// }
+btn_apgr?.addEventListener("mousedown", () => {
+    imgApgar.src = apgar.on;
+});
 
-// function desactivarSubBotones(excepto = null) {
-//     ["familiar", "tendencias", "bascula", "apgar"].forEach((nombre) => {
-//         if (nombre !== excepto) {
-//             setBoton(nombre, false);
-//         }
-//     });
-// }
+btn_apgr?.addEventListener("mouseup", () => {
+    imgApgar.src = apgar.off;
+});
 
-// function activarFamiliar() {
-//     setBoton("familiar", true);
-// }
+btn_md_fam?.addEventListener("mousedown", () => {
+    imgFam.src = familiar.on;
+});
 
-// function desactivarTodo() {
-//     setBoton("familiar", false);
-//     desactivarSubBotones();
-// }
-
-// ------------------------
-// Eventos de menú
-// ------------------------
-// ["familiar", "tendencias", "bascula", "apgar"].forEach((nombre) => {
-//     botones[nombre].btn?.addEventListener("click", () => {
-//         const nuevoEstado = !botones[nombre].activo;
-
-//         // activarFamiliar();
-//         // desactivarSubBotones(nombre);
-//         setBoton(nombre, nuevoEstado);
-//     });
-// });
-
-// botones.familiar.btn?.addEventListener("click", () => {
-//     const nuevoEstado = !botones.familiar.activo;
-
-//     if (nuevoEstado) {
-//         setBoton("familiar", true);
-//     } else {
-//         desactivarTodo();
-//     }
-// });
+btn_md_fam?.addEventListener("mouseup", () => {
+    imgFam.src = familiar.off;
+});
 
 // =============================
 // Control de cambio de paneles
