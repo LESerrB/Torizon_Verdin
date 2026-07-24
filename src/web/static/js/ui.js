@@ -229,99 +229,100 @@ ajstCtrlFot?.addEventListener("click", () => {
 // =================================
 // Configuración de botones de menú
 // =================================
-const botones = {
-    familiar: {
-        btn: document.getElementById("btn-md-fam"),
-        off: "../static/icon/Home/ICON_FAMILIAR.svg",
-        on: "../static/icon/Home/btns_pressed/ICON_HOME.svg",
-        activo: false
-    },
+// const botones = {
+//     familiar: {
+//         btn: document.getElementById("btn-md-fam"),
+//         off: "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
+//         on: "../static/icon/Home/btns/Icono_MFamiliar_Active.svg",
+//         activo: false
+//     },
 
-    tendencias: {
-        btn: document.getElementById("btn-tend"),
-        off: "../static/icon/Home/ICON_TENDENCIAS.svg",
-        on: "../static/icon/Home/btns_pressed/ICON_HOME.svg",
-        activo: false
-    },
+//     tendencias: {
+//         btn: document.getElementById("btn-tend"),
+//         off: "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
+//         on: "../static/icon/Home/btns/Icono_Tendencias_Active.svg",
+//         activo: false
+//     },
 
-    bascula: {
-        btn: document.getElementById("btn-basc"),
-        off: "../static/icon/Home/ICON_BASCULA.svg",
-        on: "../static/icon/Home/btns_pressed/ICON_BASCULA.svg",
-        activo: false
-    },
+//     bascula: {
+//         btn: document.getElementById("btn-basc"),
+//         off: "../static/icon/Home/btns/Icono_Bascula_Default.svg",
+//         on: "../static/icon/Home/btns/Icono_Bascula_Active.svg",
+//         activo: false
+//     },
 
-    apgar: {
-        btn: document.getElementById("btn-apgr"),
-        off: "../static/icon/Home/ICON_APGAR.svg",
-        on: "../static/icon/Home/btns_pressed/ICON_APGAR.svg",
-        activo: false
-    }
-};
+//     apgar: {
+//         btn: document.getElementById("btn-apgr"),
+//         off: "../static/icon/Home/btns/Icono_APGAR_Default.svg",
+//         on: "../static/icon/Home/btns/Icono_APGAR_Active.svg",
+//         activo: false
+//     }
+// };
 
-Object.values(botones).forEach((item) => {
-    item.img = item.btn?.querySelector("img");
-});
+// Object.values(botones).forEach((item) => {
+//     item.img = item.btn?.querySelector("img");
+// });
 
 // --------------------------------
 // Funciones auxiliares de botones
 // --------------------------------
-function setBoton(nombre, activo) {
-    const item = botones[nombre];
+// function setBoton(nombre, activo) {
+//     const item = botones[nombre];
 
-    if (!item) {
-        return;
-    }
+//     if (!item) {
+//         return;
+//     }
 
-    item.activo = activo;
-    if (item.img) {
-        item.img.src = activo ? item.on : item.off;
-    }
+//     item.activo = activo;
 
-    if (nombre !== "familiar" && item.btn) {
-        item.btn.classList.toggle("pressed", activo);
-    }
-}
+//     if (item.img) {
+//         item.img.src = activo ? item.on : item.off;
+//     }
 
-function desactivarSubBotones(excepto = null) {
-    ["tendencias", "bascula", "apgar"].forEach((nombre) => {
-        if (nombre !== excepto) {
-            setBoton(nombre, false);
-        }
-    });
-}
+//     if (nombre !== "familiar" && item.btn) {
+//         item.btn.classList.toggle("pressed", activo);
+//     }
+// }
 
-function activarFamiliar() {
-    setBoton("familiar", true);
-}
+// function desactivarSubBotones(excepto = null) {
+//     ["familiar", "tendencias", "bascula", "apgar"].forEach((nombre) => {
+//         if (nombre !== excepto) {
+//             setBoton(nombre, false);
+//         }
+//     });
+// }
 
-function desactivarTodo() {
-    setBoton("familiar", false);
-    desactivarSubBotones();
-}
+// function activarFamiliar() {
+//     setBoton("familiar", true);
+// }
+
+// function desactivarTodo() {
+//     setBoton("familiar", false);
+//     desactivarSubBotones();
+// }
 
 // ------------------------
 // Eventos de menú
 // ------------------------
-botones.familiar.btn?.addEventListener("click", () => {
-    const nuevoEstado = !botones.familiar.activo;
+// ["familiar", "tendencias", "bascula", "apgar"].forEach((nombre) => {
+//     botones[nombre].btn?.addEventListener("click", () => {
+//         const nuevoEstado = !botones[nombre].activo;
 
-    if (nuevoEstado) {
-        setBoton("familiar", true);
-    } else {
-        desactivarTodo();
-    }
-});
+//         // activarFamiliar();
+//         // desactivarSubBotones(nombre);
+//         setBoton(nombre, nuevoEstado);
+//     });
+// });
 
-["tendencias", "bascula", "apgar"].forEach((nombre) => {
-    botones[nombre].btn?.addEventListener("click", () => {
-        const nuevoEstado = !botones[nombre].activo;
+// botones.familiar.btn?.addEventListener("click", () => {
+//     const nuevoEstado = !botones.familiar.activo;
 
-        activarFamiliar();
-        desactivarSubBotones(nombre);
-        setBoton(nombre, nuevoEstado);
-    });
-});
+//     if (nuevoEstado) {
+//         setBoton("familiar", true);
+//     } else {
+//         desactivarTodo();
+//     }
+// });
 
 // =============================
 // Control de cambio de paneles
@@ -496,7 +497,7 @@ async function set_EditCtrlsEn(ctrlLbl) {
         if (res.status === 200) {
             const rt = await res.json();
 
-            if (ctrlLbl == "tp_Prog") {
+            if (ctrlLbl == "tp_Prog" || ctrlLbl == "ta_Prog") {
                 updateControlDisplay(rt.valor, "°C");
             } else {
                 updateControlDisplay(rt.valor, "%");

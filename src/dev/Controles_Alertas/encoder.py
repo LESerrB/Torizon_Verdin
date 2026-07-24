@@ -237,7 +237,7 @@ def valConfig(Ctrl):
     """
     global STEP_VALUE, MIN_TP, MAX_TP
 
-    if Ctrl == "tp_Prog":
+    if Ctrl == "tp_Prog" or Ctrl == "ta_Prog":
         STEP_VALUE = STEP_VALUE_TP
         MIN_TP = 34.0
         MAX_TP = 38.0

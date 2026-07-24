@@ -71,6 +71,7 @@
 .btn-alarma:active,
 .btn-img:active,
 .btn-cancel-salir:active {
+  background-color: #8A8E91;
   transform: scale(0.97);
 }
 
