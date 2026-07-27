@@ -428,6 +428,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Agregado colores de segmentos de gráfico inactivo.
  - Color independiente de cada slider para indicar el valor de control del panel.
  - Agregado panel de cronómetro APGAR.
+ - Correción a funcionamiento visual de botones inferiores.
 
 ## Descarga e Instalación
 
