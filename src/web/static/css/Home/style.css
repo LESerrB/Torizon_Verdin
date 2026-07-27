@@ -68,15 +68,22 @@
 }
 
 .btn:active,
-.btn-alarma:active,
 .btn-img:active,
 .btn-cancel-salir:active {
-  background-color: #8A8E91;
+  background-color: var(--colorgrisbtn);
+  transform: scale(0.97);
+}
+
+.btn-alarma:active{
   transform: scale(0.97);
 }
 
 .btn-img.pressed{
-  background: var(--colorgrisbtn);
+  background-color: var(--colorgrisbtn);
+}
+
+.btn-collapsed {
+  display: none !important;
 }
 
 .switch-btn {

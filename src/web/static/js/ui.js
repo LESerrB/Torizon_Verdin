@@ -29,6 +29,7 @@ const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 
 // Control de Sensores
 const ctrl_sens = document.getElementById("ctrl-sensores");
+const view_tend = document.getElementById("view-tend");
 const ctrl_basc = document.getElementById("ctrl-bascula");
 const ctrl_apgar = document.getElementById("ctrl-apgar");
 
@@ -262,56 +263,104 @@ const familiar = {
     on: "../static/icon/Home/btns/Icono_MFamiliar_Active.svg",
 };
 
+const btn_home = document.getElementById("btn-home");
+const imgHome = btn_home?.querySelector("img");
+const home = {
+    off: "../static/icon/Home/btns/Icono_Home_Default.svg",
+    on: "../static/icon/Home/btns/Icono_Home_Active.svg",
+};
 
 btn_tend?.addEventListener("mousedown", () => {
+    clear_Btns();
     imgTendencias.src = tendencias.on;
 });
 
 btn_tend?.addEventListener("mouseup", () => {
+    btn_md_fam.classList.add("btn-collapsed");
+    btn_home.classList.remove("btn-collapsed");
+
     imgTendencias.src = tendencias.off;
 
     toggleHomePanel("tendencias");
     ttl_pnl_ctrl.textContent = "Tendencias";
 
-    btn_tend.style.backgroundColor = "#8A8E91";
+    btn_tend.classList.add("pressed");
     imgTendencias.src = tendencias.on;
 });
 
 btn_basc?.addEventListener("mousedown", () => {
+    clear_Btns();
     imgBascula.src = bascula.on;
 });
 
 btn_basc?.addEventListener("mouseup", () => {
+    btn_md_fam.classList.add("btn-collapsed");
+    btn_home.classList.remove("btn-collapsed");
+
     imgBascula.src = bascula.off;
 
     toggleHomePanel("bascula");
     ttl_pnl_ctrl.textContent = "Báscula";
 
-    btn_basc.style.backgroundColor = "#8A8E91";
+    btn_basc.classList.add("pressed");
     imgBascula.src = bascula.on;
 });
 
 btn_apgr?.addEventListener("mousedown", () => {
+    clear_Btns();
     imgApgar.src = apgar.on;
 });
 
 btn_apgr?.addEventListener("mouseup", () => {
+    btn_md_fam.classList.add("btn-collapsed");
+    btn_home.classList.remove("btn-collapsed");
+
     imgApgar.src = apgar.off;
 
     toggleHomePanel("apgar");
     ttl_pnl_ctrl.textContent = "Cronometro APGAR";
 
-    btn_apgr.style.backgroundColor = "#8A8E91";
+    btn_apgr.classList.add("pressed");
     imgApgar.src = apgar.on;
 });
 
 btn_md_fam?.addEventListener("mousedown", () => {
+    clear_Btns();
     imgFam.src = familiar.on;
 });
 
 btn_md_fam?.addEventListener("mouseup", () => {
     imgFam.src = familiar.off;
 });
+
+btn_home?.addEventListener("mousedown", () => {
+    clear_Btns();
+    imgHome.src = home.on;
+});
+
+btn_home?.addEventListener("mouseup", () => {
+    btn_home.classList.add("btn-collapsed");
+    btn_md_fam.classList.remove("btn-collapsed");
+
+    imgHome.src = home.off;
+
+    toggleHomePanel("home");
+});
+
+// ====================
+// Funciones Botones
+// ====================
+function clear_Btns() {
+    imgFam.src = familiar.off;
+    imgTendencias.src = tendencias.off;
+    imgBascula.src = bascula.off;
+    imgApgar.src = apgar.off;
+
+    btn_md_fam?.classList.remove("pressed");
+    btn_tend?.classList.remove("pressed");
+    btn_basc?.classList.remove("pressed");
+    btn_apgr?.classList.remove("pressed");
+}
 
 // =============================
 // Control de cambio de paneles
@@ -470,18 +519,27 @@ function toggleHomePanel(showPanelControl) {
             habilitarControlesLaterales(controles, claseColor);
         }
 
-        if (controles[0] == "bascula" || controles[0] == "tendencias") {
+        if (controles[0] == "bascula") {
             ctrl_sens.style.display = "none";
+            view_tend.style.display = "none";
             ctrl_apgar.style.display = "none";
             ctrl_basc.style.display = "block";
         }
         else if (controles[0] == "apgar"){
             ctrl_sens.style.display = "none";
+            view_tend.style.display = "none";
             ctrl_apgar.style.display = "block";
             ctrl_basc.style.display = "none";
         }
-        else{
+        else if (controles[0] == "tendencias"){
+            ctrl_sens.style.display = "none";
+            view_tend.style.display = "block";
+            ctrl_apgar.style.display = "none";
+            ctrl_basc.style.display = "none";
+        }
+        else {
             ctrl_sens.style.display = "block";
+            view_tend.style.display = "none";
             ctrl_apgar.style.display = "none";
             ctrl_basc.style.display = "none";
         }
