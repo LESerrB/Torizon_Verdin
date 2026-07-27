@@ -26,6 +26,8 @@ const oxCtrl = document.getElementById("ox_prog");
 
 // Vista Panel de Control
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
+const slider10 = document.getElementById("tpielSlider");
+const sliderFot = document.getElementById("fotSlider");
 
 // Control de Sensores
 const ctrl_sens = document.getElementById("ctrl-sensores");
@@ -170,6 +172,8 @@ pnlBebe?.addEventListener("click", () => {
         theme: "seg-t_piel"
     });
 
+    slider10.classList.remove("slider-collapsed");
+    sliderFot.classList.add("slider-collapsed");
     set_EditCtrlsEn("tp_Prog");
 });
 
@@ -189,6 +193,8 @@ pnlAire?.addEventListener("click", () => {
         theme: "seg-t_aire"
     });
 
+    slider10.classList.remove("slider-collapsed");
+    sliderFot.classList.add("slider-collapsed");
     set_EditCtrlsEn("ta_Prog");
 });
 
@@ -207,6 +213,8 @@ ajstCtrlOx?.addEventListener("click", () => {
         theme: "seg-p_ox"
     });
 
+    slider10.classList.remove("slider-collapsed");
+    sliderFot.classList.add("slider-collapsed");
     set_EditCtrlsEn("pot_Ox");
 });
 
@@ -225,148 +233,151 @@ ajstCtrlHum?.addEventListener("click", () => {
         theme: "seg-p_hum"
     });
 
+    slider10.classList.remove("slider-collapsed");
+    sliderFot.classList.add("slider-collapsed");
     set_EditCtrlsEn("pot_Hum");
 });
 
 ajstCtrlFot?.addEventListener("click", () => {
     toggleHomePanel("ajstFot");
     ttl_pnl_ctrl.textContent = "Ajuste de Potencia de Fototerapia"
+
+    slider10.classList.add("slider-collapsed");
+    sliderFot.classList.remove("slider-collapsed");
 });
 
 // =================================
 // Botones Menú Inferior
 // =================================
-const btn_tend = document.getElementById("btn-tend");
-const imgTendencias = btn_tend?.querySelector("img");
-const tendencias = {
-    off: "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
-    on: "../static/icon/Home/btns/Icono_Tendencias_Active.svg",
-};
-
-const btn_basc = document.getElementById("btn-basc");
-const imgBascula = btn_basc?.querySelector("img");
-const bascula = {
-    off: "../static/icon/Home/btns/Icono_Bascula_Default.svg",
-    on: "../static/icon/Home/btns/Icono_Bascula_Active.svg",
-};
-
-const btn_apgr = document.getElementById("btn-apgr");
-const imgApgar = btn_apgr?.querySelector("img");
-const apgar = {
-    off: "../static/icon/Home/btns/Icono_APGAR_Default.svg",
-    on: "../static/icon/Home/btns/Icono_APGAR_Active.svg",
-};
-
 const btn_md_fam = document.getElementById("btn-md-fam");
-const imgFam = btn_md_fam?.querySelector("img");
-const familiar = {
-    off: "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
-    on: "../static/icon/Home/btns/Icono_MFamiliar_Active.svg",
-};
-
 const btn_home = document.getElementById("btn-home");
-const imgHome = btn_home?.querySelector("img");
-const home = {
-    off: "../static/icon/Home/btns/Icono_Home_Default.svg",
-    on: "../static/icon/Home/btns/Icono_Home_Active.svg",
-};
+const menuButtons = {};
 
-btn_tend?.addEventListener("mousedown", () => {
-    clear_Btns();
-    imgTendencias.src = tendencias.on;
+function updateBottomNavLayout(isHomeView = false) {
+    if (isHomeView) {
+        btn_home?.classList.add("btn-collapsed");
+        btn_md_fam?.classList.remove("btn-collapsed");
+        return;
+    }
+
+    btn_md_fam?.classList.add("btn-collapsed");
+    btn_home?.classList.remove("btn-collapsed");
+}
+
+function bindMenuButton(config) {
+    const button = document.getElementById(config.id);
+    const image = button?.querySelector("img");
+
+    const state = {
+        button,
+        image,
+        icons: config.icons,
+        panel: config.panel,
+        title: config.title,
+        pressed: config.pressed ?? true,
+        isHomeView: config.isHomeView ?? false
+    };
+
+    menuButtons[config.key] = state;
+
+    button?.addEventListener("mousedown", () => {
+        clear_Btns();
+        if (image) {
+            image.src = config.icons.on;
+        }
+    });
+
+    button?.addEventListener("mouseup", () => {
+        updateBottomNavLayout(state.isHomeView);
+
+        if (image) {
+            image.src = config.icons.off;
+        }
+
+        toggleHomePanel(config.panel);
+
+        if (config.title) {
+            ttl_pnl_ctrl.textContent = config.title;
+        }
+
+        if (state.pressed) {
+            button?.classList.add("pressed");
+            if (image) {
+                image.src = config.icons.on;
+            }
+        }
+    });
+
+    return state;
+}
+
+bindMenuButton({
+    key: "tendencias",
+    id: "btn-tend",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
+        on: "../static/icon/Home/btns/Icono_Tendencias_Active.svg"
+    },
+    panel: "tendencias",
+    title: "Tendencias"
 });
 
-btn_tend?.addEventListener("mouseup", () => {
-    btn_md_fam.classList.add("btn-collapsed");
-    btn_home.classList.remove("btn-collapsed");
-
-    imgTendencias.src = tendencias.off;
-
-    toggleHomePanel("tendencias");
-    ttl_pnl_ctrl.textContent = "Tendencias";
-
-    btn_tend.classList.add("pressed");
-    imgTendencias.src = tendencias.on;
+bindMenuButton({
+    key: "bascula",
+    id: "btn-basc",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_Bascula_Default.svg",
+        on: "../static/icon/Home/btns/Icono_Bascula_Active.svg"
+    },
+    panel: "bascula",
+    title: "Báscula"
 });
 
-btn_basc?.addEventListener("mousedown", () => {
-    clear_Btns();
-    imgBascula.src = bascula.on;
+bindMenuButton({
+    key: "apgar",
+    id: "btn-apgr",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_APGAR_Default.svg",
+        on: "../static/icon/Home/btns/Icono_APGAR_Active.svg"
+    },
+    panel: "apgar",
+    title: "Cronometro APGAR"
 });
 
-btn_basc?.addEventListener("mouseup", () => {
-    btn_md_fam.classList.add("btn-collapsed");
-    btn_home.classList.remove("btn-collapsed");
-
-    imgBascula.src = bascula.off;
-
-    toggleHomePanel("bascula");
-    ttl_pnl_ctrl.textContent = "Báscula";
-
-    btn_basc.classList.add("pressed");
-    imgBascula.src = bascula.on;
+bindMenuButton({
+    key: "familiar",
+    id: "btn-md-fam",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
+        on: "../static/icon/Home/btns/Icono_MFamiliar_Active.svg"
+    },
+    panel: "familiar",
+    title: "Modo Familia",
+    pressed: false
 });
 
-btn_apgr?.addEventListener("mousedown", () => {
-    clear_Btns();
-    imgApgar.src = apgar.on;
-});
-
-btn_apgr?.addEventListener("mouseup", () => {
-    btn_md_fam.classList.add("btn-collapsed");
-    btn_home.classList.remove("btn-collapsed");
-
-    imgApgar.src = apgar.off;
-
-    toggleHomePanel("apgar");
-    ttl_pnl_ctrl.textContent = "Cronometro APGAR";
-
-    btn_apgr.classList.add("pressed");
-    imgApgar.src = apgar.on;
-});
-
-btn_md_fam?.addEventListener("mousedown", () => {
-    clear_Btns();
-    imgFam.src = familiar.on;
-});
-
-btn_md_fam?.addEventListener("mouseup", () => {
-    btn_md_fam.classList.add("btn-collapsed");
-    btn_home.classList.remove("btn-collapsed");
-
-    imgFam.src = familiar.off;
-
-    toggleHomePanel("familiar");
-    ttl_pnl_ctrl.textContent = "Modo Familia";
-});
-
-btn_home?.addEventListener("mousedown", () => {
-    clear_Btns();
-    imgHome.src = home.on;
-});
-
-btn_home?.addEventListener("mouseup", () => {
-    btn_home.classList.add("btn-collapsed");
-    btn_md_fam.classList.remove("btn-collapsed");
-
-    imgHome.src = home.off;
-
-    toggleHomePanel("home");
+bindMenuButton({
+    key: "home",
+    id: "btn-home",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_Home_Default.svg",
+        on: "../static/icon/Home/btns/Icono_Home_Active.svg"
+    },
+    panel: "home",
+    pressed: false,
+    isHomeView: true
 });
 
 // ====================
 // Funciones Botones
 // ====================
 function clear_Btns() {
-    imgFam.src = familiar.off;
-    imgTendencias.src = tendencias.off;
-    imgBascula.src = bascula.off;
-    imgApgar.src = apgar.off;
-
-    btn_md_fam?.classList.remove("pressed");
-    btn_tend?.classList.remove("pressed");
-    btn_basc?.classList.remove("pressed");
-    btn_apgr?.classList.remove("pressed");
+    Object.values(menuButtons).forEach(({ button, image, icons }) => {
+        if (image) {
+            image.src = icons.off;
+        }
+        button?.classList.remove("pressed");
+    });
 }
 
 // =============================
@@ -435,6 +446,44 @@ const configuracionPaneles = {
         claseColor: "tp",
         controles: ["familiar"],
     },
+};
+
+const visibilidadPaneles = {
+    bascula: {
+        ctrl_sens: false,
+        view_fam: false,
+        view_tend: false,
+        ctrl_apgar: false,
+        ctrl_basc: true
+    },
+    apgar: {
+        ctrl_sens: false,
+        view_fam: false,
+        view_tend: false,
+        ctrl_apgar: true,
+        ctrl_basc: false
+    },
+    tendencias: {
+        ctrl_sens: false,
+        view_fam: false,
+        view_tend: true,
+        ctrl_apgar: false,
+        ctrl_basc: false
+    },
+    familiar: {
+        ctrl_sens: false,
+        view_fam: true,
+        view_tend: false,
+        ctrl_apgar: false,
+        ctrl_basc: false
+    },
+    default: {
+        ctrl_sens: true,
+        view_fam: false,
+        view_tend: false,
+        ctrl_apgar: false,
+        ctrl_basc: false
+    }
 };
 
 /**
@@ -523,49 +572,21 @@ function toggleHomePanel(showPanelControl) {
 
     if (configuracion) {
         const { claseColor, controles, icono } = configuracion;
+        const panelKey = controles[0];
+        const visibilidad = visibilidadPaneles[panelKey] ?? visibilidadPaneles.default;
 
         habilitarEstadoElemento(infoCtrl, claseColor);
         habilitarEstadoElemento(tituloCtrl, claseColor);
 
-        if (controles[0] == "tempPiel" || controles[0] == "tempAire" || controles[0] == "oxigeno") {
+        if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno") {
             habilitarControlesLaterales(controles, claseColor);
         }
 
-        if (controles[0] == "bascula") {
-            ctrl_sens.style.display = "none";
-            view_fam.style.display = "none";
-            view_tend.style.display = "none";
-            ctrl_apgar.style.display = "none";
-            ctrl_basc.style.display = "block";
-        }
-        else if (controles[0] == "apgar"){
-            ctrl_sens.style.display = "none";
-            view_fam.style.display = "none";
-            view_tend.style.display = "none";
-            ctrl_apgar.style.display = "block";
-            ctrl_basc.style.display = "none";
-        }
-        else if (controles[0] == "tendencias"){
-            ctrl_sens.style.display = "none";
-            view_fam.style.display = "none";
-            view_tend.style.display = "block";
-            ctrl_apgar.style.display = "none";
-            ctrl_basc.style.display = "none";
-        }
-        else if (controles[0] == "familiar"){
-            ctrl_sens.style.display = "none";
-            view_fam.style.display = "block";
-            view_tend.style.display = "none";
-            ctrl_apgar.style.display = "none";
-            ctrl_basc.style.display = "none";
-        }
-        else {
-            ctrl_sens.style.display = "block";
-            view_fam.style.display = "none";
-            view_tend.style.display = "none";
-            ctrl_apgar.style.display = "none";
-            ctrl_basc.style.display = "none";
-        }
+        ctrl_sens.style.display = visibilidad.ctrl_sens ? "block" : "none";
+        view_fam.style.display = visibilidad.view_fam ? "block" : "none";
+        view_tend.style.display = visibilidad.view_tend ? "block" : "none";
+        ctrl_apgar.style.display = visibilidad.ctrl_apgar ? "block" : "none";
+        ctrl_basc.style.display = visibilidad.ctrl_basc ? "block" : "none";
 
         if (iconoControl && icono) {
             iconoControl.src = icono;

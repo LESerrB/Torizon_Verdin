@@ -336,6 +336,12 @@
   z-index: 2;
 }
 
+
+.slider-collapsed {
+  display: none !important;
+}
+
+
 .ctrl-slider-svg {
   width: 100%;
   height: 100%;
@@ -416,16 +422,9 @@
 .ctrl-slider-seg.seg-p_hum-9 { fill: #2F6E8A; }
 
 /* Ajuste Potencia de Fototerapia */
-/* .ctrl-slider-seg.seg-p_fot-0 { fill: #FFFAF8; }
-.ctrl-slider-seg.seg-p_fot-1 { fill: #FBE9E4; }
-.ctrl-slider-seg.seg-p_fot-2 { fill: #F6D4CD; }
-.ctrl-slider-seg.seg-p_fot-3 { fill: #F0BEB6; }
-.ctrl-slider-seg.seg-p_fot-4 { fill: #E8A79E; }
-.ctrl-slider-seg.seg-p_fot-5 { fill: #D98E85; }
-.ctrl-slider-seg.seg-p_fot-6 { fill: #C2746C; }
-.ctrl-slider-seg.seg-p_fot-7 { fill: #A35C55; }
-.ctrl-slider-seg.seg-p_fot-8 { fill: #7F4741; }
-.ctrl-slider-seg.seg-p_fot-9 { fill: #5C332E; } */
+.ctrl-slider-seg.seg-p_fot-0 { fill: #8194B8; }
+.ctrl-slider-seg.seg-p_fot-1 { fill: #63779A; }
+.ctrl-slider-seg.seg-p_fot-2 { fill: #4A5E7C; }
 
 /* Estados de segmentos */
 .ctrl-slider-seg.active { fill-opacity: 1;}
@@ -476,20 +475,8 @@
 /* ******************
  * Cronómetro APGAR 
  ********************/
-.mp-apgar-cont-capgar {
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  align-items: center;
-  justify-content: center;
-  width: 754px;
-  position: absolute;
-  left: 250px;
-  top: 161px;
-  box-shadow: -9px 0px 4px 0px rgba(0, 0, 0, 0.25);
-}
 .mp-apgar-mc-capgar {
-  background: var(--colorblanco, #ffffff);
+  background: var(--colorblanco);
   border-radius: 0px 0px 8px 0px;
   padding: 10px;
   display: flex;
@@ -589,7 +576,7 @@
   top: 32px;
 }
 .fon-graf-apgar {
-  background: var(--colorfondoinactivo, #f2f2f2);
+  background: var(--colorfondoinactivo);
   border-radius: 50%;
   width: 100%;
   height: 246px;
@@ -601,7 +588,7 @@
   aspect-ratio: 1;
 }
 .int-graf-activ {
-  background: var(--coloroscuroaire, #8fc3c9);
+  background: var(--coloroscuroaire);
   border-radius: 50%;
   width: 100%;
   height: 246px;

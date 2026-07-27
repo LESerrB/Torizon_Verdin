@@ -430,6 +430,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Agregado panel de cronómetro APGAR.
  - Correción a funcionamiento visual de botones inferiores.
  - Agregado panel Modo Familiar.
+ - Creado slider para fototerapia.
 
 ## Descarga e Instalación
 
