@@ -429,6 +429,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Color independiente de cada slider para indicar el valor de control del panel.
  - Agregado panel de cronómetro APGAR.
  - Correción a funcionamiento visual de botones inferiores.
+ - Agregado panel Modo Familiar.
 
 ## Descarga e Instalación
 
