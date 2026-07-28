@@ -49,32 +49,32 @@ edit_Ctrl = ""
 val_Encd = 0
 #--------------------- Valores Iniciales ---------------------#
 valores_ctrl = {
-    "tp_Prog": 35.0,        # Ajuste de Temperatura programada de Piel
-    "ta_Prog": 37.0,        # Ajuste de Temperatura programada de Aire
-    "pot_Ox": 60,           # Ajuste de Potencia de Oxigeno
-    "pot_Hum": 50,          # Ajuste de Potencia de Humedad
-    "pot_Fot": 30,          # Ajuste de Potencia de Fototerapia
+    "tp_Prog":   35.0,      # Ajuste de Temperatura programada de Piel
+    "ta_Prog":   37.0,      # Ajuste de Temperatura programada de Aire
+    "pot_Ox":    60,        # Ajuste de Potencia de Oxigeno
+    "pot_Hum":   50,        # Ajuste de Potencia de Humedad
+    "pot_Fot":   0,         # Ajuste de Potencia de Fototerapia
     "pot_Calef": 100,       # Ajuste de Potencia de Calefactor
-    "confirm": False,       # Habilitación / Deshabilitación Encoder
+    "confirm":   False,     # Habilitación / Deshabilitación Encoder
 }
 
 #--------------------- Valores Sensados ----------------------#
 vls_snsrsTCD = {
-    "t_Aire" : 0,
-    "t_Piel" : 0,
-    "s_Aux" : 0,
-    "ta_Ctrl" : 0,
-    "basc" : 0,
+    "t_Aire" :    0,
+    "t_Piel" :    0,
+    "s_Aux" :     0,
+    "ta_Ctrl" :   0,
+    "basc" :      0,
     "pot_Calef" : 0,
-    "tp_Ctrl" : 0,
-    "s_Ox" : 0,
-    "ox_Ctrl" : 0,
-    "s_Hum" : 0,
-    "hum_Ctrl" : 0,
-    "fot_Hrs" : 0,
-    "fot_Mins" : 0,
-    "zero" : 0,
-    "alrm" : 0,
+    "tp_Ctrl" :   0,
+    "s_Ox" :      0,
+    "ox_Ctrl" :   0,
+    "s_Hum" :     0,
+    "hum_Ctrl" :  0,
+    "fot_Hrs" :   0,
+    "fot_Mins" :  0,
+    "zero" :      0,
+    "alrm" :      0,
 }
 
 pesoTCD = 0

@@ -241,6 +241,10 @@ def valConfig(Ctrl):
         STEP_VALUE = STEP_VALUE_TP
         MIN_TP = 34.0
         MAX_TP = 38.0
+    elif Ctrl == "fot":
+        STEP_VALUE = STEP_VALUE_POT
+        MIN_TP = 1
+        MAX_TP = 3
     else:
         STEP_VALUE = STEP_VALUE_POT
         MIN_TP = 0

@@ -77,6 +77,11 @@
   --textbtnsestandar-font-family: Montserrat-Bold, sans-serif;
   --textbtnsestandar-font-size: 15px;
   --textbtnsestandar-font-weight: 700;
+
+  --textindicaciones-font-family: Montserrat-SemiBold, sans-serif;
+  --textindicaciones-font-size: 13px;
+  --textindicaciones-line-height: 15px;
+  --textindicaciones-font-weight: 600;
   /* Effects */
 }
 /* Figma Color Variables of your File */

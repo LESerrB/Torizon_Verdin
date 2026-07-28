@@ -392,10 +392,11 @@
                 <!--####################-->
                 <!-- Slider Fototerapia -->
                 <!--####################-->
-                <div id="fotSlider" class="ctrl-slider" data-min="0" data-max="100" data-step="1" data-theme="seg-p_fot">
+                <div id="fotSlider" class="ctrl-slider" data-min="0" data-max="2" data-step="1" data-theme="seg-p_fot">
                   <svg class="ctrl-slider-svg" viewBox="0 0 296 232" aria-label="Control potencia">
                     <path class="ctrl-slider-hit-area" d="M36 218 A132 132 0 1 1 260 218"></path>
 
+                    <!-- Segmento 0 -->
                     <path class="ctrl-slider-seg seg-p_fot-0" data-seg="0"
                       d="M21.809 225.330
                         A148 148 0 0 1 51.882 35.460
@@ -405,7 +406,7 @@
                         Z">
                     </path>
 
-                    <!-- Segmento 1: 33 - 65 -->
+                    <!-- Segmento 1 -->
                     <path class="ctrl-slider-seg seg-p_fot-1" data-seg="1"
                       d="M51.882 35.460
                         A148 148 0 0 1 244.118 35.460
@@ -413,7 +414,7 @@
                         75.911 63.595 Z">
                     </path>
 
-                    <!-- Segmento 2: 66 - 100 -->
+                    <!-- Segmento 2 -->
                     <path class="ctrl-slider-seg seg-p_fot-2" data-seg="2"
                       d="M244.118 35.460
                         A148 148 0 0 1 274.191 225.330
@@ -442,14 +443,39 @@
                   Modo Familiar
               </div>
 
-              <!--------------- Modulos Secundarios -------------->
+              <!------------------- Tendencias ------------------->
               <div id="view-tend" class="mp-info-ctrl">
                   Tendencias
               </div>
 
-              <!--------------- Modulos Secundarios -------------->
+              <!--------------------- Báscula -------------------->
               <div id="ctrl-bascula" class="mp-info-ctrl">
-                  Báscula
+                <div class="cont-bas-anima">
+                  <img class="icon-bebebas" src="../static/icon/Bascula/icon-bebebas0.svg" />
+                  <img class="icon-bas" src="../static/icon/Bascula/icon-bas0.svg" />
+
+                  <div class="cont-te-tara">
+                    Presione la tecla TARAR y, a continuación, levante al paciente durante 10 segundos.
+                  </div>
+                </div>
+
+                <div class="mp-basc-mc-bascula">
+                  <div class="crono-bascula-piel">
+                    <div class="cronometro-bas">
+                      <div class="fon-graf-bas"></div>
+                      <div class="cont-bas-1"></div>
+                    </div>
+
+                    <div class="timer-tara">
+                      <div class="timer-tara-nums">0</div>
+                      <div class="timer-tara-nums">0</div>
+                    </div>
+                  </div>
+
+                  <button class="btns-apgr" type="button">
+                    <div class="tarar">Tarar</div>
+                  </button>
+                </div>
               </div>
 
               <!---------------- Cronómetro APGAR ---------------->
@@ -461,11 +487,11 @@
                     </div>
 
                     <div class="btns-ctapgar">
-                      <button class="btn-apgr" type="button">
+                      <button class="btns-apgr" type="button">
                         <img src="../static/icon/Control/btns/ICON_PLAY.svg" alt="Apgar_Play">
                       </button>
 
-                      <button class="btn-apgr" type="button">
+                      <button class="btns-apgr" type="button">
                         <img src="../static/icon/Control/btns/ICON_RETURN.svg" alt="Apgar_Return">
                       </button>
                     </div>
