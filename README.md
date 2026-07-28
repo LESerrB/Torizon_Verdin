@@ -432,6 +432,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Agregado panel Modo Familiar.
  - Creado slider para fototerapia.
  - Añadido panel de báscula.
+ - Control de Intensidad de fototerapia.
+ - Cambio de titulo de "Ajuste de Potencia de Fototerapia" por "Ajuste de Intensidad de Fototerapia"
 
 ## Descarga e Instalación
 
