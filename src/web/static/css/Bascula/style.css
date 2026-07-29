@@ -1,0 +1,135 @@
+/*************
+ * Bascula   *
+ ************/
+.cont-bas-anima {
+  background: var(--colorfondopiel);
+  border-radius: 0px 0px 8px 0px;
+  padding: 0px 0px 45px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  justify-content: flex-end;
+  width: 268px;
+  height: 312px;
+  position: absolute;
+  left: 486px;
+  top: 0px;
+  overflow: hidden;
+}
+
+/* Iconos */
+.icon-bebebas {
+  flex-shrink: 0;
+  width: 165px;
+  height: 67.71px;
+  position: relative;
+  overflow: visible;
+}
+.icon-bas {
+  flex-shrink: 0;
+  width: 180.01px;
+  height: 75px;
+  position: relative;
+  overflow: visible;
+}
+
+.cont-te-tara {
+  color: var(--colortexttpiel);
+  text-align: center;
+  font-family: var(--textindicaciones-font-family);
+  font-size: var(--textindicaciones-font-size);
+  line-height: var(--textindicaciones-line-height);
+  font-weight: var(--textindicaciones-font-weight);
+
+  padding: 30px 0px 0px 0px;
+  flex-shrink: 0;
+
+  width: 218px;
+  height: 75px;
+
+  position: absolute;
+  left: 25px;
+  top: 0px;
+}
+.mp-basc-mc-bascula {
+  background: var(--colorblanco);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  width: 486px;
+  height: 312px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.crono-bascula-piel {
+  flex-shrink: 0;
+  width: 210px;
+  height: 210px;
+  position: static;
+}
+.cronometro-bas {
+  width: 210px;
+  height: 210px;
+  position: static;
+}
+.fon-graf-bas {
+  background: var(--colorfondoinactivo, #f2f2f2);
+  border-radius: 50%;
+  width: 43.21%;
+  height: 210px;
+  position: absolute;
+  right: 28.4%;
+  left: 28.4%;
+  top: calc(50% - 137px);
+  aspect-ratio: 1;
+}
+.cont-bas-1 {
+  background: var(--coloroscuroaire, #8fc3c9);
+  border-radius: 50%;
+  width: 43.21%;
+  height: 210px;
+  position: absolute;
+  right: 28.4%;
+  left: 28.4%;
+  top: calc(50% - 137px);
+  aspect-ratio: 1;
+}
+
+
+.timer-tara {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  left: 195px;
+  top: 93px;
+}
+.timer-tara-nums {
+  color: var(--colortextactivo);
+  text-align: center;
+  font-family: var(--numcontbas-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--numcontbas-font-size, 72px);
+  line-height: var(--numcontbas-line-height, 64px);
+  font-weight: var(--numcontbas-font-weight, 700);
+  position: relative;
+  width: 47px;
+  height: 63px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tarar {
+  color: var(--colortextactivo);
+  text-align: center;
+  font-family: var(--textbtnsestandar-font-family);
+  font-size: var(--textbtnsestandar-font-size);
+  font-weight: var(--textbtnsestandar-font-weight);
+  position: relative;
+}

@@ -7,7 +7,7 @@ import {
     setInitValues,
 } from "./ui.js";
 
-import {  } from "./cronom_Apgar.js";
+import {  } from "./crono_Apgar.js";
 
 setInitValues();
 startSensor();

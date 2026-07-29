@@ -436,6 +436,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Cambio de titulo de "Ajuste de Potencia de Fototerapia" por "Ajuste de Intensidad de Fototerapia".
  - Funcionamiento de cronómetro Apgar.
  - Animación de botones de Play/Pause y Reset de conómetro.
+ - Animación slider de cronómetro Apgar.
 
 ## Descarga e Instalación
 
