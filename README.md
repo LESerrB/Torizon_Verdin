@@ -420,7 +420,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Pruebas de comunicación con TCD con software MCU_control_17072026.hex.
  - Corrección de despliegue de valores de potencia sin decimales.
 
- ### v0.23.2 - [28/Juliio/2026]
+ ### v0.23.2 - [29/Juliio/2026]
 
  - Ajuste de gráfico para distintos valores de control y diferentes limites mínimo y máximo.
  - Titulos de paneles de control cambian de acuerdo al panel.
@@ -433,7 +433,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Creado slider para fototerapia.
  - Añadido panel de báscula.
  - Control de Intensidad de fototerapia.
- - Cambio de titulo de "Ajuste de Potencia de Fototerapia" por "Ajuste de Intensidad de Fototerapia"
+ - Cambio de titulo de "Ajuste de Potencia de Fototerapia" por "Ajuste de Intensidad de Fototerapia".
+ - Funcionamiento de cronómetro Apgar.
+ - Animación de botones de Play/Pause y Reset de conómetro.
 
 ## Descarga e Instalación
 
