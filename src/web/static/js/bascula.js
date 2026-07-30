@@ -1,12 +1,13 @@
 const btn_tarar = document.getElementById('btn-tarar');
 const timerTaraDigito1 = document.getElementById('timer-tara-digito-1');
 const timerTaraDigito2 = document.getElementById('timer-tara-digito-2');
+const contBasAnima = document.querySelector(".cont-bas-anima");
+const lbl_tara = document.getElementById('lbl-tara');
 
 let tiempoTranscurrido = 0;
 let intervaloCronometro = null;
 
 const sliderTmBasc = document.getElementById("bascTimerSlider");
-
 const TOTAL_SEGMENTS = 10;
 
 const sliderGeometry = {
@@ -27,7 +28,7 @@ btn_tarar?.addEventListener("touchstart", () => {
 
 btn_tarar?.addEventListener("touchend", () => {
     startCrono();
-    animBascula();
+    animBascula({tiempoDifuminado: 2000, tiempoMovimiento: 2000, tiempoFlecha: 1000});
 });
 
 // =================
@@ -66,6 +67,8 @@ function startCrono(duracion = 10) {
 
         if (tiempoTranscurrido >= (duracion)) {
             pauseCrono();
+            lbl_tara.textContent = 'Presione el botón Pesar';
+            contBasAnima.classList.add("mostrar-kg");
         }
     }, 1000);
 }
@@ -73,6 +76,8 @@ function startCrono(duracion = 10) {
 function pauseCrono() {
     clearInterval(intervaloCronometro);
     intervaloCronometro = null;
+
+    reiniciarAnimBascula();
 }
 
 function restartCrono() {
@@ -233,9 +238,31 @@ function clearAllSegments() {
 // ///////////////////////
 // Transición Tara
 // ///////////////////////
-function animBascula(){
+function animBascula({tiempoDifuminado = 2000, tiempoMovimiento = 2000, tiempoFlecha = 1000} = {}) {
+  if (!contBasAnima) return;
 
+  contBasAnima.style.setProperty(
+    "--tiempo-difuminado",
+    `${tiempoDifuminado}ms`
+  );
+
+  contBasAnima.style.setProperty(
+    "--tiempo-movimiento",
+    `${tiempoMovimiento}ms`
+  );
+
+  contBasAnima.style.setProperty(
+    "--tiempo-flecha",
+    `${tiempoFlecha}ms`
+  );
+
+  contBasAnima.classList.add("animar");
 }
 
+function reiniciarAnimBascula() {
+  if (!contBasAnima) return;
+
+  contBasAnima.classList.remove("animar");
+}
 
 createApgarSegments();

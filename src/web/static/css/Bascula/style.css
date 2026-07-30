@@ -1,40 +1,118 @@
-/*************
- * Bascula   *
- ************/
+/******************* 
+*  Panel Lateral  *
+*******************/
 .cont-bas-anima {
   background: var(--colorfondopiel);
-  border-radius: 0px 0px 8px 0px;
-  padding: 0px 0px 45px 0px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  align-items: center;
-  justify-content: flex-end;
+  border-radius: 0 0 8px 0;
+
   width: 268px;
   height: 312px;
+
   position: absolute;
   left: 486px;
-  top: 0px;
+  top: 0;
+
   overflow: hidden;
+
+  --tiempo-difuminado: 2000ms;
+  --tiempo-movimiento: 2000ms;
+  --tiempo-flecha: 1000ms;
 }
 
-/* Iconos */
+/* Icono del bebé */
 .icon-bebebas {
-  flex-shrink: 0;
   width: 165px;
   height: 67.71px;
-  position: relative;
-  overflow: visible;
+
+  position: absolute;
+  left: 51.5px;
+  top: 110px;
+
+  z-index: 2;
+
+  transform: translateY(0);
+  transition:
+    transform var(--tiempo-movimiento) ease-in-out;
 }
-.icon-bas {
-  flex-shrink: 0;
-  width: 180.01px;
-  height: 75px;
-  position: relative;
-  overflow: visible;
+.cont-bas-anima.animar .icon-bebebas {
+  transform: translateY(-58px);
 }
 
-/* Panel */
+/* Flecha */
+.icon-arrow {
+  width: 180.01px;
+  height: 58px;
+
+  position: absolute;
+  left: 41px;
+  top: 127px;
+
+  z-index: 1;
+
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+}
+.cont-bas-anima.animar .icon-arrow {
+  visibility: visible;
+
+  animation:
+    parpadeo-flecha var(--tiempo-flecha) ease-in-out infinite;
+}
+
+@keyframes parpadeo-flecha {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Báscula */
+.icon-bas {
+  width: 180.01px;
+  height: 75px;
+
+  position: absolute;
+  left: 44px;
+  bottom: 45px;
+
+  z-index: 2;
+}
+
+/* Kg */
+.icon-kg {
+  position: absolute;
+  left: 117px;
+  bottom: 55px;
+
+  z-index: 3;
+
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity var(--tiempo-icono-kg, 1000ms) ease,
+    visibility 0s linear var(--tiempo-icono-kg, 1000ms);
+}
+
+/* Estado visible */
+.cont-bas-anima.mostrar-kg .icon-kg {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+
+  transition:
+    opacity var(--tiempo-icono-kg, 1000ms) ease,
+    visibility 0s linear 0s;
+}
+
+/* Texto */
 .cont-te-tara {
   color: var(--colortexttpiel);
   text-align: center;
@@ -43,16 +121,31 @@
   line-height: var(--textindicaciones-line-height);
   font-weight: var(--textindicaciones-font-weight);
 
-  padding: 30px 0px 0px 0px;
-  flex-shrink: 0;
+  padding: 30px 0 0;
 
   width: 218px;
   height: 75px;
 
   position: absolute;
   left: 25px;
-  top: 0px;
+  top: 0;
+
+  z-index: 3;
+
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transition:
+    opacity var(--tiempo-difuminado) ease,
+    visibility 0s linear var(--tiempo-difuminado);
 }
+.cont-bas-anima.animar .cont-te-tara {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .mp-basc-mc-bascula {
   background: var(--colorblanco);
   display: flex;
@@ -168,15 +261,3 @@
   fill: #f2f2f2;
   opacity: 1;
 }
-
-/* Segmento seleccionado */
-/* .ctrl-timer.selected {
-  fill: #c8877a;
-
-  filter:
-    drop-shadow(
-        0 2px 3px
-        rgba(92, 51, 46, 0.25)
-    );
-} */
-

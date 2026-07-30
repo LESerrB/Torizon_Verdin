@@ -439,6 +439,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación slider de cronómetro Apgar.
  - Corrección de bug visual de botones.
  - Animación slider timer de función Tarar de Báscula.
+ - Animación de panel lateral módulo de báscula.
 
 ## Descarga e Instalación
 

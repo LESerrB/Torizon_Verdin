@@ -234,14 +234,3 @@
   fill: #f2f2f2;
   opacity: 1;
 }
-
-/* Segmento seleccionado */
-.ctrl-cronometro.selected {
-  fill: #c8877a;
-
-  filter:
-    drop-shadow(
-        0 2px 3px
-        rgba(92, 51, 46, 0.25)
-    );
-}
