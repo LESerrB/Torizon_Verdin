@@ -34,6 +34,7 @@
   overflow: visible;
 }
 
+/* Panel */
 .cont-te-tara {
   color: var(--colortexttpiel);
   text-align: center;
@@ -65,27 +66,16 @@
   left: 0px;
   top: 0px;
 }
-.crono-bascula-piel {
+.timer-bascula-piel {
   flex-shrink: 0;
   width: 210px;
   height: 210px;
   position: static;
 }
-.cronometro-bas {
+.timer-bas {
   width: 210px;
   height: 210px;
   position: static;
-}
-.fon-graf-bas {
-  background: var(--colorfondoinactivo, #f2f2f2);
-  border-radius: 50%;
-  width: 43.21%;
-  height: 210px;
-  position: absolute;
-  right: 28.4%;
-  left: 28.4%;
-  top: calc(50% - 137px);
-  aspect-ratio: 1;
 }
 .cont-bas-1 {
   background: var(--coloroscuroaire, #8fc3c9);
@@ -99,7 +89,7 @@
   aspect-ratio: 1;
 }
 
-
+/* Display timer */
 .timer-tara {
   display: flex;
   flex-direction: row;
@@ -113,10 +103,10 @@
 .timer-tara-nums {
   color: var(--colortextactivo);
   text-align: center;
-  font-family: var(--numcontbas-font-family, "Inter-Bold", sans-serif);
-  font-size: var(--numcontbas-font-size, 72px);
-  line-height: var(--numcontbas-line-height, 64px);
-  font-weight: var(--numcontbas-font-weight, 700);
+  font-family: var(--numcontbas-font-family);
+  font-size: var(--numcontbas-font-size);
+  line-height: var(--numcontbas-line-height);
+  font-weight: var(--numcontbas-font-weight);
   position: relative;
   width: 47px;
   height: 63px;
@@ -125,6 +115,7 @@
   justify-content: center;
 }
 
+/* Boton Tara */
 .tarar {
   color: var(--colortextactivo);
   text-align: center;
@@ -133,3 +124,59 @@
   font-weight: var(--textbtnsestandar-font-weight);
   position: relative;
 }
+.tarar:active {
+  color: var(--colorblanco);
+}
+
+.cont-basct {
+  width: 215px;
+  height: 248px;
+
+  position: relative;
+
+  bottom: 18px;
+  right: 2px;
+}
+
+.basc-slider {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+  overflow: visible;
+}
+
+/* Slider Timer */
+.ctrl-timer {
+  fill: #f2f2f2;
+  cursor: pointer;
+
+  transition:
+    fill 150ms ease,
+    opacity 150ms ease,
+    filter 150ms ease;
+}
+
+/* Segmento activado */
+.ctrl-timer.active {
+  fill: #d9a79d;
+  opacity: 1;
+}
+
+/* Segmento desactivado */
+.ctrl-timer.inactive {
+  fill: #f2f2f2;
+  opacity: 1;
+}
+
+/* Segmento seleccionado */
+/* .ctrl-timer.selected {
+  fill: #c8877a;
+
+  filter:
+    drop-shadow(
+        0 2px 3px
+        rgba(92, 51, 46, 0.25)
+    );
+} */
+

@@ -1,16 +1,11 @@
-const btn_playpause = document.getElementById("btn-play-pause");
-const img_playpause = btn_playpause.querySelector("img");
+const btn_tarar = document.getElementById('btn-tarar');
+const timerTaraDigito1 = document.getElementById('timer-tara-digito-1');
+const timerTaraDigito2 = document.getElementById('timer-tara-digito-2');
 
-const btn_reset = document.getElementById("btn-reset");
-const img_reset = btn_reset.querySelector("img");
+let tiempoTranscurrido = 0;
+let intervaloCronometro = null;
 
-const timer_crono = document.getElementById("timer-crono");
-
-const num_1 = document.querySelector(".nums-clk._1");
-const num_5 = document.querySelector(".nums-clk._5");
-const num_10 = document.querySelector(".nums-clk._10");
-
-const sliderApgar = document.getElementById("apgarSlider");
+const sliderTmBasc = document.getElementById("bascTimerSlider");
 
 const TOTAL_SEGMENTS = 10;
 
@@ -20,86 +15,54 @@ const sliderGeometry = {
     outerRadius: 122,
     innerRadius: 90,
     gapDegrees: 0
-};
+}
 
-let tiempoTranscurrido = 0;
-let intervaloCronometro = null;
-
-let pause = false;
-
-// ###########
+// ##########
 // Botones
-// ###########
-btn_playpause?.addEventListener("touchstart", () => {
-    if (pause) {
-        img_playpause.src = "../static/icon/Apgar/btns/Icon_Pause_Active.svg"
-    } else {
-        img_playpause.src = "../static/icon/Apgar/btns/Icon_Play_Active.svg"
-    }
-});
-
-btn_playpause?.addEventListener("touchend", () => {
-    pause = !pause;
-
-    if (pause) {
-        startCrono(10 * 60);
-        img_playpause.src = "../static/icon/Apgar/btns/Icon_Pause_Default.svg"
-    } else {
-        pauseCrono();
-        img_playpause.src = "../static/icon/Apgar/btns/Icon_Play_Default.svg"
-    }
-});
-
-
-btn_reset?.addEventListener("touchstart", () => {
-    img_reset.src = "../static/icon/Apgar/btns/Icon_Regresar_Active.svg"
-});
-
-btn_reset?.addEventListener("touchend", () => {
+// ##########
+btn_tarar?.addEventListener("touchstart", () => {
     restartCrono();
-    pause = false;
-    img_reset.src = "../static/icon/Apgar/btns/Icon_Regresar_Default.svg"
-    img_playpause.src = "../static/icon/Apgar/btns/Icon_Play_Default.svg"
+    clearAllSegments();
 });
 
-// ================================
-// Funciones de Cronometro
-// ================================
-function actualizarMarcadoresCrono() {
-    const minutosTranscurridos = Math.floor(tiempoTranscurrido / 60);
+btn_tarar?.addEventListener("touchend", () => {
+    startCrono();
+    animBascula();
+});
 
-    if (minutosTranscurridos === 1) {
-        num_1?.classList.add("enable");
-    } else if (minutosTranscurridos === 5) {
-        num_5?.classList.add("enable");
-    } else if (minutosTranscurridos === 10) {
-        num_10?.classList.add("enable");
+// =================
+// Funciones Timer
+// =================
+function actualizarTimerTara() {
+    const valor = String(tiempoTranscurrido).padStart(2, "0");
+    const [primerDigito, segundoDigito] = valor.split("");
+
+    if (timerTaraDigito1) {
+        timerTaraDigito1.textContent = primerDigito;
     }
 
-    if (minutosTranscurridos >= 1) {
-        setSegmentState(minutosTranscurridos - 1, true);
+    if (timerTaraDigito2) {
+        timerTaraDigito2.textContent = segundoDigito;
+    }
+
+    if (tiempoTranscurrido >= 1) {
+        setSegmentState(tiempoTranscurrido - 1, true);
+    }
+    else if (tiempoTranscurrido > 9) {
+        setSegmentState(9, true);
     }
 }
 
-function borrarMarcadoresCrono(){
-    num_1?.classList.remove("enable");
-    num_5?.classList.remove("enable");
-    num_10?.classList.remove("enable");
-}
-
-function startCrono(duracion) {
+function startCrono(duracion = 10) {
     if (intervaloCronometro !== null || tiempoTranscurrido >= (duracion)) {
         return;
     }
 
+    actualizarTimerTara();
+
     intervaloCronometro = setInterval(() => {
         tiempoTranscurrido++;
-
-        const minutos = String(Math.floor(tiempoTranscurrido / 60)).padStart(2, "0");
-        const segundos = String(tiempoTranscurrido % 60).padStart(2, "0");
-
-        timer_crono.textContent = `${minutos}:${segundos}`;
-        actualizarMarcadoresCrono();
+        actualizarTimerTara();
 
         if (tiempoTranscurrido >= (duracion)) {
             pauseCrono();
@@ -116,18 +79,12 @@ function restartCrono() {
     pauseCrono();
 
     tiempoTranscurrido = 0;
-
-    const minutos = String(Math.floor(tiempoTranscurrido / 60)).padStart(2, "0");
-    const segundos = String(tiempoTranscurrido % 60).padStart(2, "0");
-
-    timer_crono.textContent = `${minutos}:${segundos}`;
-    borrarMarcadoresCrono();
-    clearAllSegments();
+    actualizarTimerTara();
 }
 
-// ================================
-// Funciones Slider Cronómetro
-// ================================
+// ======================
+// Control Timer Bascula
+// ======================
 function polarToCartesian(
     centerX,
     centerY,
@@ -204,11 +161,11 @@ function createRingSegmentPath(
 }
 
 function createApgarSegments() {
-    if (!sliderApgar) {
+    if (!sliderTmBasc) {
         return;
     }
 
-    sliderApgar.innerHTML = "";
+    sliderTmBasc.innerHTML = "";
 
     const {
         centerX,
@@ -235,17 +192,17 @@ function createApgarSegments() {
             endAngle
         ));
 
-        segment.classList.add("ctrl-cronometro", "inactive");
+        segment.classList.add("ctrl-timer", "inactive");
 
         segment.dataset.segment = index;
         segment.setAttribute("aria-label", `Segmento ${index + 1}`);
 
-        sliderApgar.appendChild(segment);
+        sliderTmBasc.appendChild(segment);
     }
 }
 
 function getSegment(index) {
-    return sliderApgar?.querySelector(`[data-segment="${index}"]`);
+    return sliderTmBasc?.querySelector(`[data-segment="${index}"]`);
 }
 
 
@@ -272,5 +229,13 @@ function setActiveSegmentCount(count) {
 function clearAllSegments() {
     setActiveSegmentCount(0);
 }
+
+// ///////////////////////
+// Transición Tara
+// ///////////////////////
+function animBascula(){
+
+}
+
 
 createApgarSegments();

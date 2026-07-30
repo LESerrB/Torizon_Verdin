@@ -180,8 +180,7 @@ function setSliderConfig({ min, max, step, value, unit, theme }) {
 pnlBebe?.addEventListener("click", () => {
     toggleHomePanel("tempPielProg");
 
-    ttl_pnl_ctrl.textContent =
-        "Ajuste de Control de Temperatura de Piel";
+    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
 
     ttl_programada.textContent = "Temp. Piel Programada";
 
@@ -205,8 +204,7 @@ pnlBebe?.addEventListener("click", () => {
 pnlAire?.addEventListener("click", () => {
     toggleHomePanel("tempAireProg");
 
-    ttl_pnl_ctrl.textContent =
-        "Ajuste de Control de Temperatura de Aire";
+    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire";
 
     ttl_programada.textContent = "Temp. Aire Programada";
 
@@ -252,8 +250,7 @@ ajstCtrlOx?.addEventListener("click", () => {
 ajstCtrlHum?.addEventListener("click", () => {
     toggleHomePanel("ajstHum");
 
-    ttl_pnl_ctrl.textContent =
-        "Ajuste de Humedad Programada";
+    ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada";
 
     const valor = valsCtrl?.vals?.pot_Hum ?? 0;
 
@@ -275,8 +272,7 @@ ajstCtrlHum?.addEventListener("click", () => {
 ajstCtrlFot?.addEventListener("click", () => {
     toggleHomePanel("ajstFot");
 
-    ttl_pnl_ctrl.textContent =
-        "Ajuste de Intensidad de Fototerapia";
+    ttl_pnl_ctrl.textContent = "Ajuste de Intensidad de Fototerapia";
 
     activeSlider = "sliderFot";
 
@@ -305,6 +301,7 @@ function updateBottomNavLayout(isHomeView = false) {
     if (isHomeView) {
         btn_home?.classList.add("btn-collapsed");
         btn_md_fam?.classList.remove("btn-collapsed");
+
         return;
     }
 
@@ -328,7 +325,7 @@ function bindMenuButton(config) {
 
     menuButtons[config.key] = state;
 
-    button?.addEventListener("mousedown", () => {
+    button?.addEventListener("touchstart", () => {
         clear_Btns();
 
         if (image) {
@@ -336,7 +333,7 @@ function bindMenuButton(config) {
         }
     });
 
-    button?.addEventListener("mouseup", () => {
+    button?.addEventListener("touchend", () => {
         updateBottomNavLayout(state.isHomeView);
 
         if (image) {
@@ -422,15 +419,13 @@ bindMenuButton({
 // Funciones Botones
 // ====================
 function clear_Btns() {
-    Object.values(menuButtons).forEach(
-        ({ button, image, icons }) => {
-            if (image) {
-                image.src = icons.off;
-            }
-
-            button?.classList.remove("pressed");
+    Object.values(menuButtons).forEach(({ button, image, icons }) => {
+        if (image) {
+            image.src = icons.off;
         }
-    );
+
+        button?.classList.remove("pressed");
+    });
 }
 
 // =============================
@@ -590,9 +585,7 @@ function habilitarEstadoElemento(elemento, claseColor) {
  * Limpia los estados visuales de los controles laterales.
  */
 function limpiarControlesLaterales() {
-    const controles = document.querySelectorAll(
-        ".mp-atpiel-lat"
-    );
+    const controles = document.querySelectorAll(".mp-atpiel-lat");
 
     controles.forEach((control) => {
         limpiarEstadoElemento(control);
@@ -610,19 +603,12 @@ function limpiarControlesLaterales() {
  * @param {string[]} controles Lista de nombres de control.
  * @param {string} claseColor Clase de color a aplicar.
  */
-function habilitarControlesLaterales(
-    controles,
-    claseColor
-) {
+function habilitarControlesLaterales(controles, claseColor) {
     controles.forEach((nombreControl) => {
-        const control = document.querySelector(
-            `.mp-atpiel-lat[data-control="${nombreControl}"]`
-        );
+        const control = document.querySelector(`.mp-atpiel-lat[data-control="${nombreControl}"]`);
 
         if (!control) {
-            console.warn(
-                `No se encontró .mp-atpiel-lat[data-control="${nombreControl}"]`
-            );
+            console.warn(`No se encontró .mp-atpiel-lat[data-control="${nombreControl}"]`);
 
             return;
         }
@@ -651,8 +637,7 @@ function toggleHomePanel(showPanelControl) {
 
     const mostrarHome = showPanelControl === "home";
 
-    const configuracion =
-        configuracionPaneles[showPanelControl];
+    const configuracion = configuracionPaneles[showPanelControl];
 
     limpiarEstadoElemento(infoCtrl);
     limpiarEstadoElemento(tituloCtrl);
@@ -667,74 +652,30 @@ function toggleHomePanel(showPanelControl) {
 
         const panelKey = controles[0];
 
-        const visibilidad =
-            visibilidadPaneles[panelKey] ??
-            visibilidadPaneles.default;
+        const visibilidad = visibilidadPaneles[panelKey] ?? visibilidadPaneles.default;
 
-        habilitarEstadoElemento(
-            infoCtrl,
-            claseColor
-        );
+        habilitarEstadoElemento(infoCtrl, claseColor);
+        habilitarEstadoElemento(tituloCtrl, claseColor);
 
-        habilitarEstadoElemento(
-            tituloCtrl,
-            claseColor
-        );
-
-        if (
-            panelKey === "tempPiel" ||
-            panelKey === "tempAire" ||
-            panelKey === "oxigeno"
-        ) {
-            habilitarControlesLaterales(
-                controles,
-                claseColor
-            );
+        if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno") {
+            habilitarControlesLaterales(controles, claseColor);
         }
 
-        ctrl_sens.style.display =
-            visibilidad.ctrl_sens
-                ? "block"
-                : "none";
-
-        view_fam.style.display =
-            visibilidad.view_fam
-                ? "block"
-                : "none";
-
-        view_tend.style.display =
-            visibilidad.view_tend
-                ? "block"
-                : "none";
-
-        ctrl_apgar.style.display =
-            visibilidad.ctrl_apgar
-                ? "block"
-                : "none";
-
-        ctrl_basc.style.display =
-            visibilidad.ctrl_basc
-                ? "block"
-                : "none";
+        ctrl_sens.style.display = visibilidad.ctrl_sens ? "block" : "none";
+        view_fam.style.display = visibilidad.view_fam ? "block" : "none";
+        view_tend.style.display = visibilidad.view_tend ? "block" : "none";
+        ctrl_apgar.style.display = visibilidad.ctrl_apgar ? "block" : "none";
+        ctrl_basc.style.display = visibilidad.ctrl_basc ? "block" : "none";
 
         if (iconoControl && icono) {
             iconoControl.src = icono;
         }
     } else if (!mostrarHome) {
-        console.warn(
-            `No existe configuración para el panel: "${showPanelControl}"`
-        );
+        console.warn(`No existe configuración para el panel: "${showPanelControl}"`);
     }
 
-    homeDiv.style.display =
-        mostrarHome
-            ? "block"
-            : "none";
-
-    panelControl.style.display =
-        mostrarHome
-            ? "none"
-            : "block";
+    homeDiv.style.display = mostrarHome ? "block" : "none";
+    panelControl.style.display = mostrarHome ? "none" : "block";
 }
 
 /**
@@ -757,42 +698,23 @@ async function set_EditCtrlsEn(ctrlLbl) {
         if (res.status === 200) {
             const rt = await res.json();
 
-            if (
-                ctrlLbl === "tp_Prog" ||
-                ctrlLbl === "ta_Prog"
-            ) {
-                updateControlDisplay(
-                    rt.valor,
-                    "°C"
-                );
+            if (ctrlLbl === "tp_Prog" || ctrlLbl === "ta_Prog") {
+                updateControlDisplay(rt.valor, "°C");
             } else if (ctrlLbl === "pot_Fot") {
-                updateControlDisplay(
-                    rt.valor,
-                    ""
-                );
+                updateControlDisplay(rt.valor, "");
             } else {
-                updateControlDisplay(
-                    rt.valor,
-                    "%"
-                );
+                updateControlDisplay(rt.valor, "%");
             }
 
             if (activeSlider === "sliderFot") {
-                updateFotSliderValue?.(
-                    Number(rt.valor)
-                );
+                updateFotSliderValue?.(Number(rt.valor));
             } else {
-                updateSlider10Value?.(
-                    Number(rt.valor)
-                );
+                updateSlider10Value?.(Number(rt.valor));
             }
         }
 
         if (!intervalEncod) {
-            intervalEncod = setInterval(
-                edit_valProg,
-                100
-            );
+            intervalEncod = setInterval(edit_valProg, 100);
         }
     } catch (error) {
         console.log("Error:", error);
@@ -804,73 +726,41 @@ async function set_EditCtrlsEn(ctrlLbl) {
  */
 async function edit_valProg() {
     try {
-        const res = await fetch(
-            "/api/editValProg",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                }
+        const res = await fetch("/api/editValProg",{
+            method: "POST",
+            headers: {
+                "Content-Type":
+                    "application/json"
             }
-        );
+        });
 
         if (res.status === 200) {
             const encd = await res.json();
             const nuevoValor = Number(encd.val);
 
             if (encd.ctrl === "pot_Fot") {
-                updateControlDisplay(
-                    nuevoValor,
-                    ""
-                );
-
-                updateFotSliderValue?.(
-                    nuevoValor
-                );
+                updateControlDisplay(nuevoValor, "");
+                updateFotSliderValue?.(nuevoValor);
             } else {
-                const unidad =
-                    encd.ctrl === "tp_Prog" ||
-                    encd.ctrl === "ta_Prog"
-                        ? "°C"
-                        : "%";
+                const unidad = encd.ctrl === "tp_Prog" || encd.ctrl === "ta_Prog" ? "°C" : "%";
 
-                updateControlDisplay(
-                    nuevoValor,
-                    unidad
-                );
-
-                updateSlider10Value?.(
-                    nuevoValor
-                );
+                updateControlDisplay(nuevoValor, unidad);
+                updateSlider10Value?.(nuevoValor);
             }
 
             if (!encd.confirm && intervalEncod) {
                 switch (encd.ctrl) {
                     case "tp_Prog":
-                        tempProg.textContent =
-                            formatValue(
-                                nuevoValor,
-                                sliderConfig.step
-                            );
-
-                        viewCtrl.textContent =
-                            formatValue(
-                                nuevoValor,
-                                sliderConfig.step
-                            );
-                        break;
+                        tempProg.textContent = formatValue(nuevoValor, sliderConfig.step);
+                        viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                    break;
 
                     case "pot_Hum":
-                        humCtrl.textContent =
-                            formatValue(
-                                nuevoValor,
-                                sliderConfig.step
-                            );
-                        break;
+                        humCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                    break;
 
                     default:
-                        break;
+                    break;
                 }
 
                 toggleHomePanel("home");
@@ -893,343 +783,192 @@ const SLIDER_THEMES = [
 
 function setSegmentTheme(seg, index, theme) {
     SLIDER_THEMES.forEach((themeName) => {
-        seg.classList.remove(
-            `${themeName}-${index}`
-        );
+        seg.classList.remove(`${themeName}-${index}`);
     });
 
     seg.classList.add(`${theme}-${index}`);
 }
 
 // --------------------------------
-// Slider de 10 segmentos
+// Slider Temperatura y Potencia
 // --------------------------------
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-        const slider =
-            document.getElementById(
-                "tpielSlider"
-            );
+document.addEventListener("DOMContentLoaded", () => {
+    const slider = document.getElementById("tpielSlider");
+    const knob = document.getElementById("tpielKnob");
 
-        const knob =
-            document.getElementById(
-                "tpielKnob"
-            );
+    if (!slider || !knob) {
+        return;
+    }
 
-        if (!slider || !knob) {
-            return;
+    sliderConfig = getSliderConfig(slider);
+
+    const segments = [
+        ...slider.querySelectorAll(".ctrl-slider-seg")
+    ];
+
+    const points = [
+        { x: 36, y: 218 },
+        { x: 18, y: 147 },
+        { x: 32, y: 92 },
+        { x: 68, y: 48 },
+        { x: 120, y: 20 },
+        { x: 176, y: 20 },
+        { x: 228, y: 48 },
+        { x: 264, y: 92 },
+        { x: 278, y: 147 },
+        { x: 260, y: 218 }
+    ];
+
+    function clamp(value, minValue, maxValue) {
+        return Math.min(Math.max(value, minValue), maxValue);
+    }
+
+    function roundToStep(value) {
+        const { step } = sliderConfig;
+
+        return (Math.round(value / step) * step);
+    }
+
+    function valueToSegment(value) {
+        const { min, max } = sliderConfig;
+
+        if (max <= min) {
+            return 0;
         }
 
-        sliderConfig =
-            getSliderConfig(slider);
+        const ratio = clamp((value - min) / (max - min), 0, 1);
 
-        const segments = [
-            ...slider.querySelectorAll(
-                ".ctrl-slider-seg"
-            )
-        ];
+        return clamp(Math.floor(ratio * 10), 0, 9);
+    }
 
-        const points = [
-            { x: 36, y: 218 },
-            { x: 18, y: 147 },
-            { x: 32, y: 92 },
-            { x: 68, y: 48 },
-            { x: 120, y: 20 },
-            { x: 176, y: 20 },
-            { x: 228, y: 48 },
-            { x: 264, y: 92 },
-            { x: 278, y: 147 },
-            { x: 260, y: 218 }
-        ];
+    function updateSlider(value) {
+        const {
+            min,
+            max,
+            step
+        } = sliderConfig;
 
-        function clamp(
-            value,
-            minValue,
-            maxValue
-        ) {
-            return Math.min(
-                Math.max(value, minValue),
-                maxValue
-            );
+        const numericValue = Number(value);
+        const safeValue = Number.isFinite(numericValue) ? numericValue : min;
+        const clampedValue = clamp(roundToStep(safeValue), min, max);
+        const selectedSegment = valueToSegment(clampedValue);
+        const point = points[selectedSegment];
+
+        knob.setAttribute("cx", point.x);
+        knob.setAttribute("cy", point.y);
+
+        segments.forEach((seg) => {
+            const index = Number(seg.dataset.seg);
+            const isActive = index <= selectedSegment;
+            const isSelected = index === selectedSegment;
+
+            setSegmentTheme(seg, index, sliderConfig.theme);
+
+            seg.classList.toggle("active", isActive);
+            seg.classList.toggle("inactive", !isActive);
+            seg.classList.toggle("selected", isSelected);
+        });
+
+        slider.dataset.value = formatValue(clampedValue, step);
+
+        if (valCtrl) {
+            valCtrl.textContent = formatValue(clampedValue, step);
         }
 
-        function roundToStep(value) {
-            const { step } = sliderConfig;
-
-            return (
-                Math.round(value / step) *
-                step
-            );
-        }
-
-        function valueToSegment(value) {
-            const { min, max } =
-                sliderConfig;
-
-            if (max <= min) {
-                return 0;
-            }
-
-            const ratio = clamp(
-                (value - min) / (max - min),
-                0,
-                1
-            );
-
-            return clamp(
-                Math.floor(ratio * 10),
-                0,
-                9
-            );
-        }
-
-        function updateSlider(value) {
-            const {
-                min,
-                max,
-                step
-            } = sliderConfig;
-
-            const numericValue =
-                Number(value);
-
-            const safeValue =
-                Number.isFinite(numericValue)
-                    ? numericValue
-                    : min;
-
-            const clampedValue = clamp(
-                roundToStep(safeValue),
-                min,
-                max
-            );
-
-            const selectedSegment =
-                valueToSegment(clampedValue);
-
-            const point =
-                points[selectedSegment];
-
-            knob.setAttribute(
-                "cx",
-                point.x
-            );
-
-            knob.setAttribute(
-                "cy",
-                point.y
-            );
-
-            segments.forEach((seg) => {
-                const index =
-                    Number(seg.dataset.seg);
-
-                const isActive =
-                    index <= selectedSegment;
-
-                const isSelected =
-                    index === selectedSegment;
-
-                setSegmentTheme(
-                    seg,
-                    index,
-                    sliderConfig.theme
-                );
-
-                seg.classList.toggle(
-                    "active",
-                    isActive
-                );
-
-                seg.classList.toggle(
-                    "inactive",
-                    !isActive
-                );
-
-                seg.classList.toggle(
-                    "selected",
-                    isSelected
-                );
-            });
-
-            slider.dataset.value =
-                formatValue(
-                    clampedValue,
-                    step
-                );
-
-            if (valCtrl) {
-                valCtrl.textContent =
-                    formatValue(
-                        clampedValue,
-                        step
-                    );
-            }
-
-            slider.dispatchEvent(
-                new CustomEvent(
-                    "tpiel-slider-change",
-                    {
-                        detail: {
-                            value:
-                                clampedValue,
-                            segment:
-                                selectedSegment,
+        slider.dispatchEvent(
+            new CustomEvent("tpiel-slider-change",{
+                detail: {
+                    value: clampedValue,
+                    segment: selectedSegment,
                             min,
                             max,
                             step
-                        }
-                    }
-                )
-            );
-        }
-
-        updateSlider10Value =
-            updateSlider;
-
-        const initialValue = Number(
-            slider.dataset.value ??
-            sliderConfig.min
+                }
+            })
         );
+    }
 
-        updateSlider(initialValue);
+    updateSlider10Value = updateSlider;
+
+    const initialValue = Number(slider.dataset.value ?? sliderConfig.min);
+
+    updateSlider(initialValue);
     }
 );
 
 // --------------------------------
 // Slider de Fototerapia
-// 3 segmentos
 // --------------------------------
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-        const slider =
-            document.getElementById(
-                "fotSlider"
-            );
+document.addEventListener("DOMContentLoaded", () => {
+    const slider = document.getElementById("fotSlider");
+    const knob = document.getElementById("fotKnob");
 
-        const knob =
-            document.getElementById(
-                "fotKnob"
-            );
+    if (!slider) {
+        return;
+    }
 
-        if (!slider) {
-            return;
+    const segments = [
+        ...slider.querySelectorAll(
+            ".ctrl-slider-seg"
+        )
+    ];
+
+    const min = 1;
+    const max = 3;
+
+    const points = [
+        { x: 36, y: 218 },
+        { x: 148, y: 18.5 },
+        { x: 260, y: 218 }
+    ];
+
+    function updateFotSlider(value) {
+        const numericValue = Number(value);
+        const safeValue = Number.isFinite(numericValue) ? numericValue : min;
+        const clampedValue = Math.min(Math.max(Math.round(safeValue), min), max);
+        const selectedSegment = clampedValue - min;
+
+        if (knob) {
+            const point = points[selectedSegment];
+
+            knob.setAttribute("cx", point.x);
+            knob.setAttribute("cy", point.y);
         }
 
-        const segments = [
-            ...slider.querySelectorAll(
-                ".ctrl-slider-seg"
-            )
-        ];
+        segments.forEach((seg) => {
+            const index = Number(seg.dataset.seg);
 
-        const min = 1;
-        const max = 3;
+            seg.classList.toggle("active", index <= selectedSegment);
+            seg.classList.toggle("inactive", index > selectedSegment);
+            seg.classList.toggle("selected", index === selectedSegment);
+        });
 
-        const points = [
-            { x: 36, y: 218 },
-            { x: 148, y: 18.5 },
-            { x: 260, y: 218 }
-        ];
+        slider.dataset.value = String(clampedValue);
 
-        function updateFotSlider(value) {
-            const numericValue =
-                Number(value);
+        if (activeSlider === "sliderFot") {
+            updateControlDisplay(clampedValue, "");
+        }
 
-            const safeValue =
-                Number.isFinite(numericValue)
-                    ? numericValue
-                    : min;
-
-            const clampedValue = Math.min(
-                Math.max(
-                    Math.round(safeValue),
-                    min
-                ),
-                max
-            );
-
-            const selectedSegment =
-                clampedValue - min;
-
-            if (knob) {
-                const point =
-                    points[selectedSegment];
-
-                knob.setAttribute(
-                    "cx",
-                    point.x
-                );
-
-                knob.setAttribute(
-                    "cy",
-                    point.y
-                );
-            }
-
-            segments.forEach((seg) => {
-                const index =
-                    Number(seg.dataset.seg);
-
-                seg.classList.toggle(
-                    "active",
-                    index <= selectedSegment
-                );
-
-                seg.classList.toggle(
-                    "inactive",
-                    index > selectedSegment
-                );
-
-                seg.classList.toggle(
-                    "selected",
-                    index === selectedSegment
-                );
-            });
-
-            slider.dataset.value =
-                String(clampedValue);
-
-            if (
-                activeSlider ===
-                "sliderFot"
-            ) {
-                updateControlDisplay(
-                    clampedValue,
-                    ""
-                );
-            }
-
-            slider.dispatchEvent(
-                new CustomEvent(
-                    "fot-slider-change",
-                    {
-                        detail: {
-                            value:
-                                clampedValue,
-                            segment:
-                                selectedSegment,
+        slider.dispatchEvent(
+            new CustomEvent("fot-slider-change",
+                {
+                    detail: {
+                        value: clampedValue,
+                        segment: 
+                            selectedSegment,
                             min,
                             max,
                             step: 1
-                        }
                     }
-                )
-            );
-        }
-
-        updateFotSliderValue =
-            updateFotSlider;
-
-        updateFotSlider(
-            Number(
-                slider.dataset.value ??
-                min
+                }
             )
         );
     }
-);
+
+    updateFotSliderValue = updateFotSlider;
+
+    updateFotSlider(Number(slider.dataset.value ?? min));
+});
 
 // Botón Cancelar
 btnCancel?.addEventListener("click", () => {

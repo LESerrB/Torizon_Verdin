@@ -9,5 +9,7 @@ import {
 
 import {  } from "./crono_Apgar.js";
 
+import {  } from "./bascula.js";
+
 setInitValues();
 startSensor();

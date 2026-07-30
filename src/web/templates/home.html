@@ -470,19 +470,28 @@
                 </div>
 
                 <div class="mp-basc-mc-bascula">
-                  <div class="crono-bascula-piel">
-                    <div class="cronometro-bas">
-                      <div class="fon-graf-bas"></div>
-                      <div class="cont-bas-1"></div>
+                  <div class="timer-bascula-piel">
+                    <div class="timer-bas">
+                      <div class="cont-basct">
+                        <svg id="bascTimerSlider"
+                            class="basc-slider"
+                            width="246"
+                            height="248"
+                            viewBox="0 0 246 248"
+                            fill="none"
+                            aria-label="Timer Bascula">
+                        </svg>
+                      </div>
+                      
                     </div>
 
                     <div class="timer-tara">
-                      <div class="timer-tara-nums">0</div>
-                      <div class="timer-tara-nums">0</div>
+                      <div id="timer-tara-digito-1" class="timer-tara-nums">0</div>
+                      <div id="timer-tara-digito-2" class="timer-tara-nums">0</div>
                     </div>
                   </div>
 
-                  <button class="btns-apgr" type="button">
+                  <button id="btn-tarar" class="btns-apgr" type="button">
                     <div class="tarar">Tarar</div>
                   </button>
                 </div>
@@ -517,7 +526,7 @@
                            fill="none"
                            aria-label="Control APGAR">
                       </svg>
-                  </div>
+                    </div>
 
                     <img class="ejes-reloj" src="../static/icon/Apgar/ejes-reloj0.svg" />
                     <div class="nums-clk _1">1</div>

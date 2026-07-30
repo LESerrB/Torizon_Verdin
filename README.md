@@ -437,6 +437,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Funcionamiento de cronómetro Apgar.
  - Animación de botones de Play/Pause y Reset de conómetro.
  - Animación slider de cronómetro Apgar.
+ - Corrección de bug visual de botones.
+ - Animación slider timer de función Tarar de Báscula.
 
 ## Descarga e Instalación
 

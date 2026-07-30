@@ -82,6 +82,11 @@
   --textindicaciones-font-size: 13px;
   --textindicaciones-line-height: 15px;
   --textindicaciones-font-weight: 600;
+
+  --numcontbas-font-family: Inter-Bold, sans-serif;
+  --numcontbas-font-size: 72px;
+  --numcontbas-line-height: 64px;
+  --numcontbas-font-weight: 700;
   /* Effects */
 }
 /* Figma Color Variables of your File */
