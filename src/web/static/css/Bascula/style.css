@@ -1,0 +1,365 @@
+/******************* 
+*  Panel Lateral  *
+*******************/
+.cont-bas-anima {
+  background: var(--colorfondopiel);
+  border-radius: 0 0 8px 0;
+
+  width: 268px;
+  height: 312px;
+
+  position: absolute;
+  left: 486px;
+  top: 0;
+
+  overflow: hidden;
+
+  --tiempo-difuminado: 2000ms;
+  --tiempo-movimiento: 2000ms;
+  --tiempo-flecha: 1000ms;
+}
+
+/* Icono del bebé */
+.icon-bebebas {
+  width: 165px;
+  height: 67.71px;
+
+  position: absolute;
+  left: 51.5px;
+  top: 110px;
+
+  z-index: 2;
+
+  transform: translateY(0);
+  transition:
+    transform var(--tiempo-movimiento) ease-in-out;
+}
+.cont-bas-anima.animar .icon-bebebas {
+  transform: translateY(-58px);
+}
+
+/* Flecha */
+.icon-arrow {
+  width: 180.01px;
+  height: 58px;
+
+  position: absolute;
+  left: 41px;
+  top: 127px;
+
+  z-index: 1;
+
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+}
+.cont-bas-anima.animar .icon-arrow {
+  visibility: visible;
+
+  animation:
+    parpadeo-flecha var(--tiempo-flecha) ease-in-out infinite;
+}
+
+@keyframes parpadeo-flecha {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Báscula */
+.icon-bas {
+  width: 180.01px;
+  height: 75px;
+
+  position: absolute;
+  left: 44px;
+  bottom: 45px;
+
+  z-index: 2;
+}
+
+/* Kg */
+.icon-kg {
+  position: absolute;
+  left: 117px;
+  bottom: 55px;
+
+  z-index: 3;
+
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity var(--tiempo-icono-kg, 1000ms) ease,
+    visibility 0s linear var(--tiempo-icono-kg, 1000ms);
+}
+
+/* Estado visible */
+.cont-bas-anima.mostrar-kg .icon-kg {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+
+  transition:
+    opacity var(--tiempo-icono-kg, 1000ms) ease,
+    visibility 0s linear 0s;
+}
+
+/* Texto */
+.cont-te-tara {
+  color: var(--colortexttpiel);
+  text-align: center;
+  font-family: var(--textindicaciones-font-family);
+  font-size: var(--textindicaciones-font-size);
+  line-height: var(--textindicaciones-line-height);
+  font-weight: var(--textindicaciones-font-weight);
+
+  padding: 30px 0 0;
+
+  width: 218px;
+  height: 75px;
+
+  position: absolute;
+  left: 25px;
+  top: 0;
+
+  z-index: 3;
+
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transition:
+    opacity var(--tiempo-difuminado) ease,
+    visibility 0s linear var(--tiempo-difuminado);
+}
+.cont-bas-anima.animar .cont-te-tara {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Panel de Tara/Pesaje */
+.mp-basc-mc-tara {
+  opacity: 0;
+  visibility: hidden;
+
+  background: var(--colorblanco);
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+  align-items: center;
+
+  justify-content: center;
+
+  width: 486px;
+  height: 312px;
+
+  position: absolute;
+
+  left: 0px;
+  top: 0px;
+}
+.mp-basc-mc-tara.enable {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mp-basc-mc-pesar {
+  opacity: 0;
+  visibility: hidden;
+
+  background: var(--colorblanco);
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+  align-items: center;
+
+  justify-content: center;
+
+  width: 486px;
+  height: 312px;
+
+  position: absolute;
+
+  left: 0px;
+  top: 0px;
+}
+.mp-basc-mc-pesar.enable {
+  opacity: 1;
+  visibility: visible;
+}
+
+.timer-bascula-piel {
+  flex-shrink: 0;
+  width: 210px;
+  height: 210px;
+  position: static;
+}
+.timer-bas {
+  width: 210px;
+  height: 210px;
+  position: static;
+}
+.cont-bas-1 {
+  background: var(--coloroscuroaire, #8fc3c9);
+  border-radius: 50%;
+  width: 43.21%;
+  height: 210px;
+  position: absolute;
+  right: 28.4%;
+  left: 28.4%;
+  top: calc(50% - 137px);
+  aspect-ratio: 1;
+}
+
+/* Display timer */
+.timer-tara {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  left: 195px;
+  top: 93px;
+}
+.timer-tara-nums {
+  color: var(--colortextactivo);
+  text-align: center;
+  font-family: var(--numcontbas-font-family);
+  font-size: var(--numcontbas-font-size);
+  line-height: var(--numcontbas-line-height);
+  font-weight: var(--numcontbas-font-weight);
+  position: relative;
+  width: 47px;
+  height: 63px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Boton Tara */
+.lbl-btn {
+  color: var(--colortextactivo);
+  text-align: center;
+  font-family: var(--textbtnsestandar-font-family);
+  font-size: var(--textbtnsestandar-font-size);
+  font-weight: var(--textbtnsestandar-font-weight);
+  position: relative;
+}
+.lbl-btn:active {
+  color: var(--colorblanco);
+}
+
+.cont-basct {
+  width: 215px;
+  height: 248px;
+
+  position: relative;
+
+  bottom: 18px;
+  right: 2px;
+}
+
+.basc-slider {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+  overflow: visible;
+}
+
+/* Slider Timer */
+.ctrl-timer {
+  fill: #f2f2f2;
+  cursor: pointer;
+
+  transition:
+    fill 150ms ease,
+    opacity 150ms ease,
+    filter 150ms ease;
+}
+
+/* Segmento activado */
+.ctrl-timer.active {
+  fill: #d9a79d;
+  opacity: 1;
+}
+
+/* Segmento desactivado */
+.ctrl-timer.inactive {
+  fill: #f2f2f2;
+  opacity: 1;
+}
+
+/*******************
+ * Panel de Pesaje *
+ *******************/
+.ti-v-vpeso {
+  background: var(--coloroscuropiel, #d9a79d);
+  border-radius: 10px;
+  padding: 12px 10px 12px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 294px;
+  height: 88px;
+  position: relative;
+}
+.ti-v-peso {
+  color: var(--colorblanco, #ffffff);
+  text-align: center;
+  font-family: var(--numapgar-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--numapgar-font-size, 68px);
+  line-height: var(--numapgar-line-height, 64px);
+  font-weight: var(--numapgar-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cont-bts-pesaje {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.kg2 {
+  color: var(--colortextactivo, #2f3a40);
+  text-align: center;
+  font-family: var(
+    --texttitulobtnspop-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--texttitulobtnspop-font-size, 24px);
+  line-height: var(--texttitulobtnspop-line-height, 16px);
+  font-weight: var(--texttitulobtnspop-font-weight, 700);
+  position: absolute;
+  left: 399px;
+  top: 119px;
+  width: 41px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -15,8 +15,8 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from dev.Controles_Alertas import encoder as hw_encoder
-from dev.Comunicacion import bascula as com_bascula
+# from dev.Controles_Alertas import encoder as hw_encoder
+# from dev.Comunicacion import bascula as com_bascula
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
@@ -49,32 +49,32 @@ edit_Ctrl = ""
 val_Encd = 0
 #--------------------- Valores Iniciales ---------------------#
 valores_ctrl = {
-    "tp_Prog": 34.0,        # Ajuste de Temperatura programada de Piel
-    "ta_Prog": 35.0,        # Ajuste de Temperatura programada de Aire
-    "pot_Ox": 60,           # Ajuste de Potencia de Oxigeno
-    "pot_Hum": 50,          # Ajuste de Potencia de Humedad
-    "pot_Fot": 30,          # Ajuste de Potencia de Fototerapia
+    "tp_Prog":   35.0,      # Ajuste de Temperatura programada de Piel
+    "ta_Prog":   37.0,      # Ajuste de Temperatura programada de Aire
+    "pot_Ox":    60,        # Ajuste de Potencia de Oxigeno
+    "pot_Hum":   50,        # Ajuste de Potencia de Humedad
+    "pot_Fot":   1,         # Ajuste de Potencia de Fototerapia
     "pot_Calef": 100,       # Ajuste de Potencia de Calefactor
-    "confirm": False,       # Habilitación / Deshabilitación Encoder
+    "confirm":   False,     # Habilitación / Deshabilitación Encoder
 }
 
 #--------------------- Valores Sensados ----------------------#
 vls_snsrsTCD = {
-    "t_Aire" : 0,
-    "t_Piel" : 0,
-    "s_Aux" : 0,
-    "ta_Ctrl" : 0,
-    "basc" : 0,
+    "t_Aire" :    0,
+    "t_Piel" :    0,
+    "s_Aux" :     0,
+    "ta_Ctrl" :   0,
+    "basc" :      0,
     "pot_Calef" : 0,
-    "tp_Ctrl" : 0,
-    "s_Ox" : 0,
-    "ox_Ctrl" : 0,
-    "s_Hum" : 0,
-    "hum_Ctrl" : 0,
-    "fot_Hrs" : 0,
-    "fot_Mins" : 0,
-    "zero" : 0,
-    "alrm" : 0,
+    "tp_Ctrl" :   0,
+    "s_Ox" :      0,
+    "ox_Ctrl" :   0,
+    "s_Hum" :     0,
+    "hum_Ctrl" :  0,
+    "fot_Hrs" :   0,
+    "fot_Mins" :  0,
+    "zero" :      0,
+    "alrm" :      0,
 }
 
 pesoTCD = 0
@@ -125,7 +125,7 @@ def enEditCtrls():
     val_Encd = valores_ctrl[edit_Ctrl]
     valores_ctrl["confirm"] = ctrl.get("Enable")
 
-    hw_encoder.valConfig(edit_Ctrl)
+    # hw_encoder.valConfig(edit_Ctrl)
 
     return jsonify(
         {
@@ -191,7 +191,7 @@ def sys_monitor():
         monitor_pause.wait()
         restart_container()         # Memoria del contenedor
 
-        TCD(vls_snsrsTCD)           # Envío de datos a la TCD
+        # TCD(vls_snsrsTCD)           # Envío de datos a la TCD
 
         time.sleep(0.1)
 
@@ -206,18 +206,18 @@ def restart_container(threshold=90):
 
 def encoder_Reader():
     global edit_Ctrl, val_Encd
-    hw_encoder.init_encoder()
+    # hw_encoder.init_encoder()
 
-    while True:
-        if valores_ctrl["confirm"]:
-            nuevo_val = hw_encoder.valEdit(val_Encd)
+    # while True:
+    #     if valores_ctrl["confirm"]:
+    #         nuevo_val = hw_encoder.valEdit(val_Encd)
 
-            if nuevo_val != val_Encd:
-                val_Encd = nuevo_val
+    #         if nuevo_val != val_Encd:
+    #             val_Encd = nuevo_val
 
-            valores_ctrl["confirm"] = hw_encoder.swAcept()
+    #         valores_ctrl["confirm"] = hw_encoder.swAcept()
 
-        time.sleep(0.005)
+    #     time.sleep(0.005)
 
 #============================================================================#
 #                                    Hilos                                   #

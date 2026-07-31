@@ -116,11 +116,20 @@
   width: 14px;
   height: 15px;
 }
-/* .ti-vm-sens.enable, */
-/* .lbl-ttl-cont-lat.enable, */
-/* .val-perc-sens-cont-lat.enable, */
-.val-units-sens-cont-lat.enable {
+.ti-vm-sens.tp.enable,
+.lbl-ttl-cont-lat.tp.enable,
+.val-units-sens-cont-lat.tp.enable {
   color: var(--colortexttpiel);
+}
+.ti-vm-sens.ta.enable,
+.lbl-ttl-cont-lat.ta.enable,
+.val-units-sens-cont-lat.ta.enable {
+  color: var(--colortexttaire);
+}
+.ti-vm-sens.ox.enable,
+.lbl-ttl-cont-lat.ox.enable,
+.val-perc-sens-cont-lat.ox.enable {
+  color: var(--colortextactivo);
 }
 /* Panel de Información Control */
 .mp-atpiel-cont-atpiel {
@@ -327,6 +336,12 @@
   z-index: 2;
 }
 
+
+.slider-collapsed {
+  display: none !important;
+}
+
+
 .ctrl-slider-svg {
   width: 100%;
   height: 100%;
@@ -337,7 +352,6 @@
 
 .ctrl-slider-seg {
   cursor: pointer;
-  opacity: 0;
   transition: opacity 120ms ease, filter 120ms ease, transform 120ms ease;
 }
 
@@ -356,7 +370,10 @@
   cursor: pointer;
 }
 
-/* Tonalidades del control */
+/* ##########################
+ * Tonalidades del control 
+ * ########################## */
+/* Temperatura Programada Piel */
 .ctrl-slider-seg.seg-t_piel-0 { fill: #FFFAF8; }
 .ctrl-slider-seg.seg-t_piel-1 { fill: #FBE9E4; }
 .ctrl-slider-seg.seg-t_piel-2 { fill: #F6D4CD; }
@@ -368,7 +385,51 @@
 .ctrl-slider-seg.seg-t_piel-8 { fill: #7F4741; }
 .ctrl-slider-seg.seg-t_piel-9 { fill: #5C332E; }
 
-.ctrl-slider-seg:not(.active) {
+/* Temperatura Programada Aire */
+.ctrl-slider-seg.seg-t_aire-0 { fill: #D4EFF1; }
+.ctrl-slider-seg.seg-t_aire-1 { fill: #C2E6E8; }
+.ctrl-slider-seg.seg-t_aire-2 { fill: #AFDDE0; }
+.ctrl-slider-seg.seg-t_aire-3 { fill: #9BD3D6; }
+.ctrl-slider-seg.seg-t_aire-4 { fill: #79C1C4; }
+.ctrl-slider-seg.seg-t_aire-5 { fill: #5EADB0; }
+.ctrl-slider-seg.seg-t_aire-6 { fill: #4A9799; }
+.ctrl-slider-seg.seg-t_aire-7 { fill: #368183; }
+.ctrl-slider-seg.seg-t_aire-8 { fill: #24696B; }
+.ctrl-slider-seg.seg-t_aire-9 { fill: #174F51; }
+
+/* Ajuste Potencia de Oxigeno */
+.ctrl-slider-seg.seg-p_ox-0 { fill: #EAF4DF; }
+.ctrl-slider-seg.seg-p_ox-1 { fill: #E0EFD3; }
+.ctrl-slider-seg.seg-p_ox-2 { fill: #D1E6C1; }
+.ctrl-slider-seg.seg-p_ox-3 { fill: #C0DBAD; }
+.ctrl-slider-seg.seg-p_ox-4 { fill: #AED099; }
+.ctrl-slider-seg.seg-p_ox-5 { fill: #99C281; }
+.ctrl-slider-seg.seg-p_ox-6 { fill: #82B068; }
+.ctrl-slider-seg.seg-p_ox-7 { fill: #6A9952; }
+.ctrl-slider-seg.seg-p_ox-8 { fill: #527E3E; }
+.ctrl-slider-seg.seg-p_ox-9 { fill: #3F6B32; }
+
+/* Ajuste Potencia de Humedad */
+.ctrl-slider-seg.seg-p_hum-0 { fill: #E6F2F8; }
+.ctrl-slider-seg.seg-p_hum-1 { fill: #D7EAF3; }
+.ctrl-slider-seg.seg-p_hum-2 { fill: #C6DFEC; }
+.ctrl-slider-seg.seg-p_hum-3 { fill: #B3D3E4; }
+.ctrl-slider-seg.seg-p_hum-4 { fill: #9FC5DA; }
+.ctrl-slider-seg.seg-p_hum-5 { fill: #89B5CE; }
+.ctrl-slider-seg.seg-p_hum-6 { fill: #72A4C1; }
+.ctrl-slider-seg.seg-p_hum-7 { fill: #5A92B3; }
+.ctrl-slider-seg.seg-p_hum-8 { fill: #447FA2; }
+.ctrl-slider-seg.seg-p_hum-9 { fill: #2F6E8A; }
+
+/* Ajuste Potencia de Fototerapia */
+.ctrl-slider-seg.seg-p_fot-0 { fill: #8194B8; }
+.ctrl-slider-seg.seg-p_fot-1 { fill: #63779A; }
+.ctrl-slider-seg.seg-p_fot-2 { fill: #4A5E7C; }
+
+/* Estados de segmentos */
+.ctrl-slider-seg.active { fill-opacity: 1;}
+
+.ctrl-slider-seg.inactive:not(.active) {
   fill: #ffffff;
   fill-opacity: 0.63;
 }

@@ -1,3 +1,13 @@
+<!-- 
+ - Esta página web a estado cambiando tanto en su diseño y funciones que a día
+ - de hoy ya no tengo ni la más remota idea de que hace cada sección y función.
+
+ - Si estas dando mantenimiento a la página web u optimizando funciones y no 
+ - le entiendes y falla puedes usar esta sección para anotar tus intentos.
+
+ - total de horas desperdiciadas: 51
+  -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,6 +18,8 @@
     <link rel="stylesheet" href="../static/css/vars.css">
     <link rel="stylesheet" href="../static/css/Home/style.css">
     <link rel="stylesheet" href="../static/css/PanelControl/style.css">
+    <link rel="stylesheet" href="../static/css/Apgar/style.css">
+    <link rel="stylesheet" href="../static/css/Bascula/style.css">
 
     <script type="module" src="../static/js/app.js"></script>
 
@@ -240,7 +252,7 @@
               </div>
 
               <div class="mp-atpiel-lat" data-control="tempProg">
-                <div class="lbl-ttl-cont-lat" data-control="tempProg">Temp. Piel Programada</div>
+                <div id="ttl-programada" class="lbl-ttl-cont-lat" data-control="tempProg">Temp. Piel Programada</div>
                 <div id="vw-valProg" class="ti-vm-sens"data-control="tempProg">36.5</div>
                 <div class="val-units-sens-cont-lat" data-control="tempProg">°C</div>
               </div>
@@ -262,10 +274,10 @@
             <div class="mp-atpiel-cont-atpiel">
               <!-- Titulo de Panel de Control -->
               <div class="mp-atpiel-mc-ttl">
-                <div class="mp-atpiel-mc-lbl"> Ajuste de Control de Temperatura de Piel </div>
+                <div id="ttl-pnl-ctrl" class="mp-atpiel-mc-lbl"> Ajuste de Control de Temperatura de Piel </div>
               </div>
-              <!-- Información de Control -->
-              <div class="mp-info-ctrl">
+              <!------------- Información de Control ------------->
+              <div id="ctrl-sensores" class="mp-info-ctrl">
                 
                 <img class="icon-ctrl" src="../static/icon/Home/icon-piel0.svg"/>
                 
@@ -273,55 +285,158 @@
                 <div class="per-graf"></div>
                 <div class="fon-graf"></div>
 
-                <!-- Grafico indicador Potencia -->
-                <div class="ctrl-slider" id="tpielSlider" data-min="34.0" data-max="38.0" data-step="0.1">
+                <!--#####################-->
+                <!--   Slider Potencia   -->
+                <!--#####################-->
+                <div id="tpielSlider" class="ctrl-slider" data-min="34.0" data-max="38.0" data-step="0.1">
                   <svg class="ctrl-slider-svg" viewBox="0 0 296 232" aria-label="Control temperatura piel">
                     <path class="ctrl-slider-hit-area" d="M36 218 A132 132 0 1 1 260 218"></path>
-                    
+
                     <!-- Segmento 0 -->
                     <path class="ctrl-slider-seg seg-t_piel-0" data-seg="0"
-                      d="M46.2349 228.34C38.3719 234.589 26.7287 232.624 21.4954 224.065C13.3469 210.722 7.25721 195.984 3.68469 180.305L36.3996 172.867C39.1504 184.917 43.8128 196.242 50.0582 206.508C54.4525 213.739 52.8695 223.074 46.2349 228.349V228.34Z" />
+                      d="M46.2349 228.34C38.3719
+                        234.589 26.7287 232.624
+                        21.4954 224.065C13.3469
+                        210.722 7.25721 195.984
+                        3.68469 180.305L36.3996
+                        172.867C39.1504 184.917
+                        43.8128 196.242 50.0582
+                        206.508C54.4525 213.739
+                        52.8695 223.074 46.2349
+                        228.349V228.34Z"/>
 
                     <!-- Segmento 1 -->
                     <path class="ctrl-slider-seg seg-t_piel-1" data-seg="1"
-                      d="M33.554 147.474C33.554 156.196 34.5401 164.695 36.3999 172.857L3.68497 180.296C1.27157 169.737 0 158.756 0 147.474C0 136.191 1.27157 125.211 3.68497 114.652L36.3999 122.099C34.5401 130.261 33.554 138.751 33.554 147.474Z" />
+                      d="M33.554 147.474C33.554
+                      156.196 34.5401 164.695
+                      36.3999 172.857L3.68497
+                      180.296C1.27157 169.737
+                      0 158.756 0 147.474C0
+                      136.191 1.27157 125.211
+                      3.68497 114.652L36.3999
+                      122.099C34.5401 130.261
+                      33.554 138.751 33.554
+                      147.474Z"/>
 
                     <!-- Segmento 2 -->
                     <path class="ctrl-slider-seg seg-t_piel-2" data-seg="2"
-                      d="M58.5267 76.3779C47.9649 89.548 40.2749 105.097 36.3996 122.103L3.68469 114.656C8.69314 92.6768 18.6322 72.5596 32.2821 55.5281L58.5267 76.3779Z" />
+                      d="M58.5267 76.3779C47.9649
+                        89.548 40.2749 105.097
+                        36.3996 122.103L3.68469
+                        114.656C8.69314 92.6768
+                        18.6322 72.5596 32.2821
+                        55.5281L58.5267 76.3779Z"/>
 
                     <!-- Segmento 3 -->
                     <path class="ctrl-slider-seg seg-t_piel-3" data-seg="3"
-                      d="M98.3349 44.7163C82.7819 52.1892 69.1925 63.0665 58.5268 76.3745L32.2822 55.5248C46.0792 38.3123 63.6564 24.2458 83.768 14.5751L98.3349 44.7163Z" />
+                      d="M98.3349 44.7163C82.7819
+                        52.1892 69.1925 63.0665
+                        58.5268 76.3745L32.2822
+                        55.5248C46.0792 38.3123
+                        63.6564 24.2458 83.768
+                        14.5751L98.3349 44.7163Z"/>
 
                     <!-- Segmento 4 -->
                     <path class="ctrl-slider-seg seg-t_piel-4" data-seg="4"
-                      d="M148.004 0V33.4424C130.202 33.4424 113.36 37.4934 98.3351 44.7162L83.7682 14.575C103.196 5.23184 124.986 0 148.004 0Z" />
+                      d="M148.004 0V33.4424C130.202
+                        33.4424 113.36 37.4934
+                        98.3351 44.7162L83.7682
+                        14.575C103.196 5.23184
+                        124.986 0 148.004 0Z"/>
 
                     <!-- Segmento 5 -->
                     <path class="ctrl-slider-seg seg-t_piel-5" data-seg="5"
-                      d="M212.232 14.575L197.665 44.7162C182.648 37.4934 165.798 33.4424 148.004 33.4424V0C171.014 0 192.804 5.23183 212.232 14.575Z" />
+                      d="M212.232 14.575L197.665
+                        44.7162C182.648 37.4934
+                        165.798 33.4424 148.004
+                        33.4424V0C171.014 0 192.804
+                        5.23183 212.232 14.575Z"/>
 
                     <!-- Segmento 6 -->
                     <path class="ctrl-slider-seg seg-t_piel-6" data-seg="6"
-                      d="M263.717 55.5248L237.473 76.3745C226.807 63.0665 213.218 52.1892 197.665 44.7163L212.232 14.5751C232.343 24.2458 249.92 38.3123 263.717 55.5248Z" />
+                      d="M263.717 55.5248L237.473
+                      76.3745C226.807 63.0665
+                      213.218 52.1892 197.665
+                      44.7163L212.232 14.5751C232.343
+                      24.2458 249.92 38.3123
+                      263.717 55.5248Z"/>
 
                     <!-- Segmento 7 -->
                     <path class="ctrl-slider-seg seg-t_piel-7" data-seg="7"
-                      d="M292.315 114.656L259.6 122.103C255.725 105.097 248.035 89.548 237.473 76.3779L263.718 55.5281C277.368 72.5596 287.307 92.6768 292.315 114.656Z" />
+                      d="M292.315 114.656L259.6
+                        122.103C255.725 105.097
+                        248.035 89.548 237.473
+                        76.3779L263.718
+                        55.5281C277.368 72.5596
+                        287.307 92.6768 292.315
+                        114.656Z"/>
 
                     <!-- Segmento 8 -->
                     <path class="ctrl-slider-seg seg-t_piel-8" data-seg="8"
-                      d="M296 147.474C296 158.756 294.728 169.737 292.315 180.296L259.6 172.857C261.46 164.695 262.446 156.196 262.446 147.474C262.446 138.751 261.46 130.261 259.6 122.099L292.315 114.652C294.728 125.211 296 136.191 296 147.474Z" />
+                      d="M296 147.474C296 158.756
+                        294.728 169.737 292.315
+                        180.296L259.6 172.857C261.46
+                        164.695 262.446 156.196
+                        262.446 147.474C262.446
+                        138.751 261.46 130.261
+                        259.6 122.099L292.315
+                        114.652C294.728 125.211
+                        296 136.191 296 147.474Z"/>
 
                     <!-- Segmento 9 -->
                     <path class="ctrl-slider-seg seg-t_piel-9" data-seg="9"
-                      d="M292.315 180.298C288.742 195.985 282.653 210.715 274.504 224.058C269.271 232.625 257.628 234.59 249.765 228.333C243.13 223.058 241.547 213.723 245.941 206.492C252.187 196.226 256.849 184.909 259.6 172.851L292.315 180.29V180.298Z" />
+                      d="M292.315 180.298C288.742
+                        195.985 282.653 210.715
+                        274.504 224.058C269.271
+                        232.625 257.628 234.59
+                        249.765 228.333C243.13
+                        223.058 241.547 213.723
+                        245.941 206.492C252.187
+                        196.226 256.849 184.909
+                        259.6 172.851L292.315
+                        180.29V180.298Z"/>
 
                     <!-- Indicador / perilla -->
                     <circle id="tpielKnob" class="tpiel-knob" cx="148" cy="0" r="0"></circle>
                   </svg>
                 </div>
+
+                <!--####################-->
+                <!-- Slider Fototerapia -->
+                <!--####################-->
+                <div id="fotSlider" class="ctrl-slider slider-collapsed" data-min="1" data-max="3" data-step="1" data-value="1" data-theme="seg-p_fot">
+                  <svg class="ctrl-slider-svg" viewBox="0 0 296 232" aria-label="Control potencia">
+                    <path class="ctrl-slider-hit-area" d="M36 218 A132 132 0 1 1 260 218"></path>
+
+                    <!-- Segmento 0 -->
+                    <path class="ctrl-slider-seg seg-p_fot-0" data-seg="0"
+                      d="M21.809 225.330
+                        A148 148 0 0 1 51.882 35.460
+                        L75.911 63.595
+                        A111 111 0 0 0 53.357 205.997
+                        A18.5 18.5 0 0 1 21.809 225.330
+                        Z"/>
+
+                    <!-- Segmento 1 -->
+                    <path class="ctrl-slider-seg seg-p_fot-1" data-seg="1"
+                      d="M51.882 35.460
+                        A148 148 0 0 1 244.118 35.460
+                        L220.089 63.595 A111 111 0 0 0
+                        75.911 63.595
+                        Z"/>
+
+                    <!-- Segmento 2 -->
+                    <path class="ctrl-slider-seg seg-p_fot-2" data-seg="2"
+                      d="M244.118 35.460
+                        A148 148 0 0 1 274.191 225.330
+                        A18.5 18.5 0 0 1 242.643 205.997
+                        A111 111 0 0 0 220.089 63.595
+                        Z"/>
+
+                    <circle id="fotKnob" class="tpiel-knob" cx="36" cy="218" r="0"></circle>
+                  </svg>
+                </div>
+
 
                 <img class="icons-mas-menos" src="../static/icon/Control/icons-mas-menos0.svg" />
                 <div id="val_Ctrl" class="ti-vp-value">36.5</div>
@@ -332,30 +447,147 @@
                   <div class="cancelar">Cancelar</div>
                 </button>
               </div>
+
+              <!----------------- Modo Familiar ------------------>
+              <div id="view-fam" class="mp-info-ctrl">
+                  Modo Familiar
+              </div>
+
+              <!------------------- Tendencias ------------------->
+              <div id="view-tend" class="mp-info-ctrl">
+                  Tendencias
+              </div>
+
+              <!--------------------- Báscula -------------------->
+              <div id="ctrl-bascula" class="mp-info-ctrl">
+                <div class="cont-bas-anima">
+                  <img class="icon-bebebas" src="../static/icon/Bascula/icon-bebebas0.svg" />
+                  <img class="icon-arrow" src="../static/icon/Bascula/Icon_Flecha.svg" />
+                  <img class="icon-bas" src="../static/icon/Bascula/icon-bas0.svg" />
+                  <img class="icon-kg" src="../static/icon/Bascula/Bascula_2.svg" />
+
+                  <div id="lbl-tara" class="cont-te-tara">
+                    Presione la tecla TARAR y, a continuación, levante al paciente durante 10 segundos.
+                  </div>
+                </div>
+                <!-- Tarar -->
+                <div id="pnl-tara" class="mp-basc-mc-tara enable">
+                  <div class="timer-bascula-piel">
+                    <div class="timer-bas">
+                      <div class="cont-basct">
+                        <svg id="bascTimerSlider"
+                            class="basc-slider"
+                            width="246"
+                            height="248"
+                            viewBox="0 0 246 248"
+                            fill="none"
+                            aria-label="Timer Bascula">
+                        </svg>
+                      </div>
+                    </div>
+
+                    <div class="timer-tara">
+                      <div id="timer-tara-digito-1" class="timer-tara-nums">0</div>
+                      <div id="timer-tara-digito-2" class="timer-tara-nums">0</div>
+                    </div>
+                  </div>
+
+                  <button id="btn-tarar" class="btns-apgr" type="button">
+                    <div class="lbl-btn">Tarar</div>
+                  </button>
+                </div>
+                <!-- Pesar -->
+                <div id="pnl-pesar" class="mp-basc-mc-pesar">
+                  <div class="ti-v-vpeso">
+                    <div class="ti-v-peso">00.000</div>
+                  </div>
+
+                  <div class="cont-bts-pesaje">
+                    <button id="btn-pesar" class="btns-apgr" type="button">
+                      <div class="lbl-btn">Pesar</div>
+                    </button>
+
+                    <button id="btn-guardar" class="btns-apgr" type="button">
+                      <div class="lbl-btn">Guardar</div>
+                    </button>
+
+                    <button id="btn-graf" class="btns-apgr" type="button">
+                      <div class="lbl-btn">Graficar</div>
+                    </button>
+                  </div>
+
+                  <div class="kg2">Kg</div>
+                </div>
+              </div>
+
+              <!---------------- Cronómetro APGAR ---------------->
+              <div id="ctrl-apgar" class="mp-info-ctrl">
+                <div class="mp-apgar-mc-capgar">
+                  <div class="cont-contapgar">
+                    <div class="ti-v-contapgar">
+                      <div id="timer-crono" class="ti-v-apgar">00:00</div>
+                    </div>
+
+                    <div class="btns-ctapgar">
+                      <button id="btn-play-pause" class="btns-apgr" type="button">
+                        <img src="../static/icon/Apgar/btns/Icon_Play_Default.svg" alt="Apgar_Play">
+                      </button>
+
+                      <button id="btn-reset" class="btns-apgr" type="button">
+                        <img src="../static/icon/Apgar/btns/Icon_Regresar_Default.svg" alt="Apgar_Return">
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="crono-apgarp">
+                    <div class="cont-apgarp">
+                      <svg id="apgarSlider"
+                           class="apgar-slider"
+                           width="246"
+                           height="248"
+                           viewBox="0 0 246 248"
+                           fill="none"
+                           aria-label="Control APGAR">
+                      </svg>
+                    </div>
+
+                    <img class="ejes-reloj" src="../static/icon/Apgar/ejes-reloj0.svg" />
+                    <div class="nums-clk _1">1</div>
+                    <div class="nums-clk _5">5</div>
+                    <div class="nums-clk _10">10</div>
+                  </div>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <!------------------------------------------------------------>
       </div>
+
       <!--#################################### Barra Menus ###################################-->
       <div class="f-pp-menuprin">
         <img class="cont-menu" src="../static/icon/Home/cont-menu0.svg" />
 
         <button id="btn-md-fam" class="btn-img" type="button">
-          <img src="../static/icon/Home/ICON_FAMILIAR.svg" alt="Familiar">
+          <img src="../static/icon/Home/btns/Icono_MFamiliar_Default.svg" alt="Familiar">
+        </button>
+
+        <button id="btn-home" class="btn-img btn-collapsed" type="button">
+          <img src="../static/icon/Home/btns/Icono_Home_Default.svg" alt="Home">
         </button>
 
         <div class="cont-btns-menuprin">
           <button id="btn-tend" class="btn-img" type="button">
-            <img src="../static/icon/Home/ICON_TENDENCIAS.svg" alt="Familiar">
+            <img src="../static/icon/Home/btns/Icono_Tendencias_Default.svg" alt="Tendencias">
           </button>
           
           <button id="btn-basc" class="btn-img" type="button">
-            <img src="../static/icon/Home/ICON_BASCULA.svg" alt="Familiar">
+            <img src="../static/icon/Home/btns/Icono_Bascula_Default.svg" alt="Bascula">
           </button>
 
           <button id="btn-apgr" class="btn-img" type="button">
-            <img src="../static/icon/Home/ICON_APGAR.svg" alt="Familiar">
+            <img src="../static/icon/Home/btns/Icono_APGAR_Default.svg" alt="Apgar">
           </button>
         </div>
       </div>

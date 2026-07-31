@@ -1,7 +1,19 @@
+import { 
+    salirBascula 
+} from "./bascula.js";
+
 let intervalEncod = null;
-let updateSliderValue = null;
-let sliderConfig = { min: 34.0, max: 38.0, step: 0.1 };
+let updateSlider10Value = null;
+let updateFotSliderValue = null;
+let activeSlider = "slider10";
 let valsCtrl = null;
+
+let sliderConfig = {
+    min: 34.0,
+    max: 38.0,
+    step: 0.1,
+    theme: "seg-t_piel"
+};
 
 const pnlBebe = document.getElementById("pnl-modoBebe");
 const pnlAire = document.getElementById("pnl-modoAire");
@@ -18,11 +30,24 @@ const tempProg = document.getElementById("tp_prog");
 const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 
+// Vista Panel de Control
+const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
+const slider10 = document.getElementById("tpielSlider");
+const sliderFot = document.getElementById("fotSlider");
+
+// Control de Sensores
+const ctrl_sens = document.getElementById("ctrl-sensores");
+const view_tend = document.getElementById("view-tend");
+const ctrl_basc = document.getElementById("ctrl-bascula");
+const ctrl_apgar = document.getElementById("ctrl-apgar");
+const view_fam = document.getElementById("view-fam");
+
 // Valor del encoder / control
 const valCtrl = document.getElementById("val_Ctrl");
 const unitsCtrl = document.getElementById("units_Ctrl");
 
 // Vista lateral
+const ttl_programada = document.getElementById("ttl-programada")
 const viewCtrl = document.getElementById("vw-valProg");
 
 /**
@@ -55,9 +80,21 @@ export async function setInitValues() {
  * @param {number|string} value Valor actual.
  * @param {string} unit Unidad de medición.
  */
-function updateControlDisplay(value, unit = "°C") {
-    valCtrl.textContent = formatValue(value, sliderConfig.step);
-    unitsCtrl.textContent = unit;
+function updateControlDisplay(value, unit) {
+    if (unit === "") {
+        unitsCtrl.textContent = "";
+
+        const fototerapiaLabels = {
+            1: "Bajo",
+            2: "Medio",
+            3: "Alto"
+        };
+
+        valCtrl.textContent = fototerapiaLabels[Number(value)] ?? "";
+    } else {
+        valCtrl.textContent = formatValue(value, sliderConfig.step);
+        unitsCtrl.textContent = unit;
+    }
 }
 
 /**
@@ -104,143 +141,299 @@ function getSliderConfig(slider) {
     return {
         min: Number.isFinite(parsedMin) ? parsedMin : defaults.min,
         max: Number.isFinite(parsedMax) ? parsedMax : defaults.max,
-        step: Number.isFinite(parsedStep) && parsedStep > 0 ? parsedStep : defaults.step
+        step: Number.isFinite(parsedStep) && parsedStep > 0
+            ? parsedStep
+            : defaults.step
     };
+}
+
+function setSliderConfig({ min, max, step, value, unit, theme }) {
+    activeSlider = "slider10";
+
+    sliderConfig = {
+        min,
+        max,
+        step,
+        theme: theme ?? sliderConfig.theme
+    };
+
+    const slider = document.getElementById("tpielSlider");
+
+    if (slider) {
+        slider.dataset.min = String(min);
+        slider.dataset.max = String(max);
+        slider.dataset.step = String(step);
+        slider.dataset.theme = sliderConfig.theme;
+    }
+
+    if (
+        typeof updateSlider10Value === "function" &&
+        value !== undefined
+    ) {
+        updateSlider10Value(Number(value));
+    }
+
+    if (value !== undefined) {
+        updateControlDisplay(Number(value), unit);
+    }
 }
 
 // =============================
 // Paneles de control
 // =============================
 pnlBebe?.addEventListener("click", () => {
-    set_EditCtrlsEn("tp_Prog");
     toggleHomePanel("tempPielProg");
 
-    sliderConfig = { min: 34.0, max: 38.0, step: 0.1 };
+    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
 
-    // if (valsCtrl?.vals) {
-    //     updateControlDisplay(valsCtrl.vals.tp_Prog, "°C");
-    // }
+    ttl_programada.textContent = "Temp. Piel Programada";
+
+    const valor = valsCtrl?.vals?.tp_Prog ?? 34.0;
+
+    setSliderConfig({
+        min: 34.0,
+        max: 38.0,
+        step: 0.1,
+        value: valor,
+        unit: "°C",
+        theme: "seg-t_piel"
+    });
+
+    slider10.classList.remove("slider-collapsed");
+    sliderFot.classList.add("slider-collapsed");
+
+    set_EditCtrlsEn("tp_Prog");
 });
 
 pnlAire?.addEventListener("click", () => {
     toggleHomePanel("tempAireProg");
+
+    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire";
+
+    ttl_programada.textContent = "Temp. Aire Programada";
+
+    const valor = valsCtrl?.vals?.ta_Prog ?? 34.0;
+
+    setSliderConfig({
+        min: 34.0,
+        max: 38.0,
+        step: 0.1,
+        value: valor,
+        unit: "°C",
+        theme: "seg-t_aire"
+    });
+
+    slider10.classList.remove("slider-collapsed");
+    sliderFot.classList.add("slider-collapsed");
+
+    set_EditCtrlsEn("ta_Prog");
 });
 
 ajstCtrlOx?.addEventListener("click", () => {
     toggleHomePanel("ajstOx");
+
+    ttl_pnl_ctrl.textContent = "Ajuste de Oxigeno Programado";
+
+    const valor = valsCtrl?.vals?.pot_Ox ?? 0;
+
+    setSliderConfig({
+        min: 0,
+        max: 100,
+        step: 1,
+        value: valor,
+        unit: "%",
+        theme: "seg-p_ox"
+    });
+
+    slider10.classList.remove("slider-collapsed");
+    sliderFot.classList.add("slider-collapsed");
+
+    set_EditCtrlsEn("pot_Ox");
 });
 
 ajstCtrlHum?.addEventListener("click", () => {
-    set_EditCtrlsEn("pot_Hum");
     toggleHomePanel("ajstHum");
 
-    sliderConfig = { min: 0, max: 100, step: 1 };
+    ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada";
 
-    // if (valsCtrl?.vals) {
-    //     updateControlDisplay(valsCtrl.vals.pot_Hum, "%");
-    // }
+    const valor = valsCtrl?.vals?.pot_Hum ?? 0;
+
+    setSliderConfig({
+        min: 0,
+        max: 100,
+        step: 1,
+        value: valor,
+        unit: "%",
+        theme: "seg-p_hum"
+    });
+
+    slider10.classList.remove("slider-collapsed");
+    sliderFot.classList.add("slider-collapsed");
+
+    set_EditCtrlsEn("pot_Hum");
 });
 
 ajstCtrlFot?.addEventListener("click", () => {
     toggleHomePanel("ajstFot");
-});
 
-// =================================
-// Configuración de botones de menú
-// =================================
-const botones = {
-    familiar: {
-        btn: document.getElementById("btn-md-fam"),
-        off: "../static/icon/Home/ICON_FAMILIAR.svg",
-        on: "../static/icon/Home/btns_pressed/ICON_HOME.svg",
-        activo: false
-    },
+    ttl_pnl_ctrl.textContent = "Ajuste de Intensidad de Fototerapia";
 
-    tendencias: {
-        btn: document.getElementById("btn-tend"),
-        off: "../static/icon/Home/ICON_TENDENCIAS.svg",
-        on: "../static/icon/Home/btns_pressed/ICON_HOME.svg",
-        activo: false
-    },
+    activeSlider = "sliderFot";
 
-    bascula: {
-        btn: document.getElementById("btn-basc"),
-        off: "../static/icon/Home/ICON_BASCULA.svg",
-        on: "../static/icon/Home/btns_pressed/ICON_BASCULA.svg",
-        activo: false
-    },
+    const valor = valsCtrl?.vals?.pot_Fot ?? 1;
 
-    apgar: {
-        btn: document.getElementById("btn-apgr"),
-        off: "../static/icon/Home/ICON_APGAR.svg",
-        on: "../static/icon/Home/btns_pressed/ICON_APGAR.svg",
-        activo: false
+    updateControlDisplay(valor, "");
+
+    if (typeof updateFotSliderValue === "function") {
+        updateFotSliderValue(Number(valor));
     }
-};
 
-Object.values(botones).forEach((item) => {
-    item.img = item.btn?.querySelector("img");
+    slider10?.classList.add("slider-collapsed");
+    sliderFot?.classList.remove("slider-collapsed");
+
+    set_EditCtrlsEn("pot_Fot");
 });
 
-// --------------------------------
-// Funciones auxiliares de botones
-// --------------------------------
-function setBoton(nombre, activo) {
-    const item = botones[nombre];
+// =================================
+// Botones Menú Inferior
+// =================================
+const btn_md_fam = document.getElementById("btn-md-fam");
+const btn_home = document.getElementById("btn-home");
+const menuButtons = {};
 
-    if (!item) {
+// Botón para volver al Panel Principal
+function updateBottomNavLayout(isHomeView = false) {
+    if (isHomeView) {
+        btn_home?.classList.add("btn-collapsed");
+        btn_md_fam?.classList.remove("btn-collapsed");
+
+        salirBascula();
+
         return;
     }
 
-    item.activo = activo;
-    if (item.img) {
-        item.img.src = activo ? item.on : item.off;
-    }
-
-    if (nombre !== "familiar" && item.btn) {
-        item.btn.classList.toggle("pressed", activo);
-    }
+    btn_md_fam?.classList.add("btn-collapsed");
+    btn_home?.classList.remove("btn-collapsed");
 }
 
-function desactivarSubBotones(excepto = null) {
-    ["tendencias", "bascula", "apgar"].forEach((nombre) => {
-        if (nombre !== excepto) {
-            setBoton(nombre, false);
+function bindMenuButton(config) {
+    const button = document.getElementById(config.id);
+    const image = button?.querySelector("img");
+
+    const state = {
+        button,
+        image,
+        icons: config.icons,
+        panel: config.panel,
+        title: config.title,
+        pressed: config.pressed ?? true,
+        isHomeView: config.isHomeView ?? false
+    };
+
+    menuButtons[config.key] = state;
+
+    button?.addEventListener("touchstart", () => {
+        clear_Btns();
+
+        if (image) {
+            image.src = config.icons.on;
         }
     });
-}
 
-function activarFamiliar() {
-    setBoton("familiar", true);
-}
+    button?.addEventListener("touchend", () => {
+        updateBottomNavLayout(state.isHomeView);
 
-function desactivarTodo() {
-    setBoton("familiar", false);
-    desactivarSubBotones();
-}
+        if (image) {
+            image.src = config.icons.off;
+        }
 
-// ------------------------
-// Eventos de menú
-// ------------------------
-botones.familiar.btn?.addEventListener("click", () => {
-    const nuevoEstado = !botones.familiar.activo;
+        toggleHomePanel(config.panel);
 
-    if (nuevoEstado) {
-        setBoton("familiar", true);
-    } else {
-        desactivarTodo();
-    }
-});
+        if (config.title) {
+            ttl_pnl_ctrl.textContent = config.title;
+        }
 
-["tendencias", "bascula", "apgar"].forEach((nombre) => {
-    botones[nombre].btn?.addEventListener("click", () => {
-        const nuevoEstado = !botones[nombre].activo;
+        if (state.pressed) {
+            button?.classList.add("pressed");
 
-        activarFamiliar();
-        desactivarSubBotones(nombre);
-        setBoton(nombre, nuevoEstado);
+            if (image) {
+                image.src = config.icons.on;
+            }
+        }
     });
+
+    return state;
+}
+
+bindMenuButton({
+    key: "tendencias",
+    id: "btn-tend",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
+        on: "../static/icon/Home/btns/Icono_Tendencias_Active.svg"
+    },
+    panel: "tendencias",
+    title: "Tendencias"
 });
+
+bindMenuButton({
+    key: "bascula",
+    id: "btn-basc",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_Bascula_Default.svg",
+        on: "../static/icon/Home/btns/Icono_Bascula_Active.svg"
+    },
+    panel: "bascula",
+    title: "Báscula"
+});
+
+bindMenuButton({
+    key: "apgar",
+    id: "btn-apgr",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_APGAR_Default.svg",
+        on: "../static/icon/Home/btns/Icono_APGAR_Active.svg"
+    },
+    panel: "apgar",
+    title: "Cronometro APGAR"
+});
+
+bindMenuButton({
+    key: "familiar",
+    id: "btn-md-fam",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
+        on: "../static/icon/Home/btns/Icono_MFamiliar_Active.svg"
+    },
+    panel: "familiar",
+    title: "Modo Familia",
+    pressed: false
+});
+
+bindMenuButton({
+    key: "home",
+    id: "btn-home",
+    icons: {
+        off: "../static/icon/Home/btns/Icono_Home_Default.svg",
+        on: "../static/icon/Home/btns/Icono_Home_Active.svg"
+    },
+    panel: "home",
+    pressed: false,
+    isHomeView: true
+});
+
+// ====================
+// Funciones Botones
+// ====================
+function clear_Btns() {
+    Object.values(menuButtons).forEach(({ button, image, icons }) => {
+        if (image) {
+            image.src = icons.off;
+        }
+
+        button?.classList.remove("pressed");
+    });
+}
 
 // =============================
 // Control de cambio de paneles
@@ -249,7 +442,13 @@ const infoCtrl = document.querySelector(".mp-info-ctrl");
 const tituloCtrl = document.querySelector(".mp-atpiel-mc-ttl");
 const iconoControl = document.querySelector(".icon-ctrl");
 
-const CLASES_CONTROL = ["tp", "ta", "ox", "hum", "fot"];
+const CLASES_CONTROL = [
+    "tp",
+    "ta",
+    "ox",
+    "hum",
+    "fot"
+];
 
 const SELECTOR_ELEMENTOS_INTERNOS = [
     ".lbl-ttl-cont-lat",
@@ -287,6 +486,68 @@ const configuracionPaneles = {
         claseColor: "fot",
         controles: ["fototerapia"],
         icono: "../static/icon/Control/Icon_Fototerapia.svg"
+    },
+
+    tendencias: {
+        claseColor: "tp",
+        controles: ["tendencias"]
+    },
+
+    bascula: {
+        claseColor: "tp",
+        controles: ["bascula"]
+    },
+
+    apgar: {
+        claseColor: "tp",
+        controles: ["apgar"]
+    },
+
+    familiar: {
+        claseColor: "tp",
+        controles: ["familiar"]
+    }
+};
+
+const visibilidadPaneles = {
+    bascula: {
+        ctrl_sens: false,
+        view_fam: false,
+        view_tend: false,
+        ctrl_apgar: false,
+        ctrl_basc: true
+    },
+
+    apgar: {
+        ctrl_sens: false,
+        view_fam: false,
+        view_tend: false,
+        ctrl_apgar: true,
+        ctrl_basc: false
+    },
+
+    tendencias: {
+        ctrl_sens: false,
+        view_fam: false,
+        view_tend: true,
+        ctrl_apgar: false,
+        ctrl_basc: false
+    },
+
+    familiar: {
+        ctrl_sens: false,
+        view_fam: true,
+        view_tend: false,
+        ctrl_apgar: false,
+        ctrl_basc: false
+    },
+
+    default: {
+        ctrl_sens: true,
+        view_fam: false,
+        view_tend: false,
+        ctrl_apgar: false,
+        ctrl_basc: false
     }
 };
 
@@ -299,7 +560,19 @@ function limpiarEstadoElemento(elemento) {
         return;
     }
 
-    elemento.classList.remove(...CLASES_CONTROL, "enable");
+    elemento.classList.remove(
+        ...CLASES_CONTROL,
+        "enable"
+    );
+
+    elemento
+        .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
+        .forEach((elementoInterno) => {
+            elementoInterno.classList.remove(
+                ...CLASES_CONTROL,
+                "enable"
+            );
+        });
 }
 
 /**
@@ -324,9 +597,11 @@ function limpiarControlesLaterales() {
     controles.forEach((control) => {
         limpiarEstadoElemento(control);
 
-        control.querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS).forEach((elemento) => {
-            elemento.classList.remove("enable");
-        });
+        control
+            .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
+            .forEach((elemento) => {
+                elemento.classList.remove("enable");
+            });
     });
 }
 
@@ -337,26 +612,30 @@ function limpiarControlesLaterales() {
  */
 function habilitarControlesLaterales(controles, claseColor) {
     controles.forEach((nombreControl) => {
-        const control = document.querySelector(
-            `.mp-atpiel-lat[data-control="${nombreControl}"]`
-        );
+        const control = document.querySelector(`.mp-atpiel-lat[data-control="${nombreControl}"]`);
 
         if (!control) {
             console.warn(`No se encontró .mp-atpiel-lat[data-control="${nombreControl}"]`);
+
             return;
         }
 
         habilitarEstadoElemento(control, claseColor);
 
-        control.querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS).forEach((elemento) => {
-            elemento.classList.add("enable");
-        });
+        control
+            .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
+            .forEach((elemento) => {
+                elemento.classList.add(
+                    claseColor,
+                    "enable"
+                );
+            });
     });
 }
 
 /**
- * Cambia el panel activo de la interfaz y aplica el tema del control.
- * @param {string} showPanelControl Nombre del panel a mostrar.
+ * Cambia el panel activo de la interfaz y aplica el tema.
+ * @param {string} showPanelControl Panel a mostrar.
  */
 function toggleHomePanel(showPanelControl) {
     if (!homeDiv || !panelControl) {
@@ -364,6 +643,7 @@ function toggleHomePanel(showPanelControl) {
     }
 
     const mostrarHome = showPanelControl === "home";
+
     const configuracion = configuracionPaneles[showPanelControl];
 
     limpiarEstadoElemento(infoCtrl);
@@ -371,14 +651,28 @@ function toggleHomePanel(showPanelControl) {
     limpiarControlesLaterales();
 
     if (configuracion) {
-        const { claseColor, controles, icono } = configuracion;
+        const {
+            claseColor,
+            controles,
+            icono
+        } = configuracion;
+
+        const panelKey = controles[0];
+
+        const visibilidad = visibilidadPaneles[panelKey] ?? visibilidadPaneles.default;
 
         habilitarEstadoElemento(infoCtrl, claseColor);
         habilitarEstadoElemento(tituloCtrl, claseColor);
 
-        if (controles[0] !== "humedad" && controles[0] !== "fototerapia") {
+        if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno") {
             habilitarControlesLaterales(controles, claseColor);
         }
+
+        ctrl_sens.style.display = visibilidad.ctrl_sens ? "block" : "none";
+        view_fam.style.display = visibilidad.view_fam ? "block" : "none";
+        view_tend.style.display = visibilidad.view_tend ? "block" : "none";
+        ctrl_apgar.style.display = visibilidad.ctrl_apgar ? "block" : "none";
+        ctrl_basc.style.display = visibilidad.ctrl_basc ? "block" : "none";
 
         if (iconoControl && icono) {
             iconoControl.src = icono;
@@ -411,13 +705,21 @@ async function set_EditCtrlsEn(ctrlLbl) {
         if (res.status === 200) {
             const rt = await res.json();
 
-            if (ctrlLbl == "tp_Prog") {
+            if (ctrlLbl === "tp_Prog" || ctrlLbl === "ta_Prog") {
                 updateControlDisplay(rt.valor, "°C");
-            }
-            else{
+            } else if (ctrlLbl === "pot_Fot") {
+                updateControlDisplay(rt.valor, "");
+            } else {
                 updateControlDisplay(rt.valor, "%");
             }
+
+            if (activeSlider === "sliderFot") {
+                updateFotSliderValue?.(Number(rt.valor));
+            } else {
+                updateSlider10Value?.(Number(rt.valor));
+            }
         }
+
         if (!intervalEncod) {
             intervalEncod = setInterval(edit_valProg, 100);
         }
@@ -427,14 +729,15 @@ async function set_EditCtrlsEn(ctrlLbl) {
 }
 
 /**
- * Lee el valor actualizado desde la API y lo refleja en la interfaz.
+ * Lee el valor actualizado desde la API.
  */
 async function edit_valProg() {
     try {
-        const res = await fetch("/api/editValProg", {
+        const res = await fetch("/api/editValProg",{
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type":
+                    "application/json"
             }
         });
 
@@ -442,13 +745,16 @@ async function edit_valProg() {
             const encd = await res.json();
             const nuevoValor = Number(encd.val);
 
-            
-            valCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
-            
-            // if (typeof updateSliderValue === "function") {
-            //     updateSliderValue(nuevoValor);
-            // }
-                
+            if (encd.ctrl === "pot_Fot") {
+                updateControlDisplay(nuevoValor, "");
+                updateFotSliderValue?.(nuevoValor);
+            } else {
+                const unidad = encd.ctrl === "tp_Prog" || encd.ctrl === "ta_Prog" ? "°C" : "%";
+
+                updateControlDisplay(nuevoValor, unidad);
+                updateSlider10Value?.(nuevoValor);
+            }
+
             if (!encd.confirm && intervalEncod) {
                 switch (encd.ctrl) {
                     case "tp_Prog":
@@ -459,13 +765,11 @@ async function edit_valProg() {
                     case "pot_Hum":
                         humCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
                     break;
-                
+
                     default:
                     break;
                 }
-                // if (viewCtrl) {
-                //     viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
-                // }
+
                 toggleHomePanel("home");
 
                 clearInterval(intervalEncod);
@@ -477,8 +781,23 @@ async function edit_valProg() {
     }
 }
 
+const SLIDER_THEMES = [
+    "seg-t_piel",
+    "seg-t_aire",
+    "seg-p_ox",
+    "seg-p_hum"
+];
+
+function setSegmentTheme(seg, index, theme) {
+    SLIDER_THEMES.forEach((themeName) => {
+        seg.classList.remove(`${themeName}-${index}`);
+    });
+
+    seg.classList.add(`${theme}-${index}`);
+}
+
 // --------------------------------
-// Animación del slider de encoder
+// Slider Temperatura y Potencia
 // --------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     const slider = document.getElementById("tpielSlider");
@@ -489,8 +808,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     sliderConfig = getSliderConfig(slider);
-    const { min, max, step } = sliderConfig;
-    const segments = [...slider.querySelectorAll(".ctrl-slider-seg")];
+
+    const segments = [
+        ...slider.querySelectorAll(".ctrl-slider-seg")
+    ];
 
     const points = [
         { x: 36, y: 218 },
@@ -510,16 +831,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function roundToStep(value) {
-        return Math.round(value / step) * step;
+        const { step } = sliderConfig;
+
+        return (Math.round(value / step) * step);
     }
 
     function valueToSegment(value) {
-        const ratio = (value - min) / (max - min);
-        return clamp(Math.round(ratio * 9), 0, 9);
+        const { min, max } = sliderConfig;
+
+        if (max <= min) {
+            return 0;
+        }
+
+        const ratio = clamp((value - min) / (max - min), 0, 1);
+
+        return clamp(Math.floor(ratio * 10), 0, 9);
     }
 
     function updateSlider(value) {
-        const clampedValue = clamp(roundToStep(value), min, max);
+        const {
+            min,
+            max,
+            step
+        } = sliderConfig;
+
+        const numericValue = Number(value);
+        const safeValue = Number.isFinite(numericValue) ? numericValue : min;
+        const clampedValue = clamp(roundToStep(safeValue), min, max);
         const selectedSegment = valueToSegment(clampedValue);
         const point = points[selectedSegment];
 
@@ -528,31 +866,121 @@ document.addEventListener("DOMContentLoaded", () => {
 
         segments.forEach((seg) => {
             const index = Number(seg.dataset.seg);
-            seg.classList.toggle("active", index <= selectedSegment);
-            seg.classList.toggle("selected", index === selectedSegment);
+            const isActive = index <= selectedSegment;
+            const isSelected = index === selectedSegment;
+
+            setSegmentTheme(seg, index, sliderConfig.theme);
+
+            seg.classList.toggle("active", isActive);
+            seg.classList.toggle("inactive", !isActive);
+            seg.classList.toggle("selected", isSelected);
         });
 
         slider.dataset.value = formatValue(clampedValue, step);
+
         if (valCtrl) {
             valCtrl.textContent = formatValue(clampedValue, step);
         }
 
         slider.dispatchEvent(
-            new CustomEvent("tpiel-slider-change", {
+            new CustomEvent("tpiel-slider-change",{
                 detail: {
                     value: clampedValue,
-                    segment: selectedSegment
+                    segment: selectedSegment,
+                            min,
+                            max,
+                            step
                 }
             })
         );
     }
 
-    updateSliderValue = updateSlider;
+    updateSlider10Value = updateSlider;
+
+    const initialValue = Number(slider.dataset.value ?? sliderConfig.min);
+
+    updateSlider(initialValue);
+    }
+);
+
+// --------------------------------
+// Slider de Fototerapia
+// --------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const slider = document.getElementById("fotSlider");
+    const knob = document.getElementById("fotKnob");
+
+    if (!slider) {
+        return;
+    }
+
+    const segments = [
+        ...slider.querySelectorAll(
+            ".ctrl-slider-seg"
+        )
+    ];
+
+    const min = 1;
+    const max = 3;
+
+    const points = [
+        { x: 36, y: 218 },
+        { x: 148, y: 18.5 },
+        { x: 260, y: 218 }
+    ];
+
+    function updateFotSlider(value) {
+        const numericValue = Number(value);
+        const safeValue = Number.isFinite(numericValue) ? numericValue : min;
+        const clampedValue = Math.min(Math.max(Math.round(safeValue), min), max);
+        const selectedSegment = clampedValue - min;
+
+        if (knob) {
+            const point = points[selectedSegment];
+
+            knob.setAttribute("cx", point.x);
+            knob.setAttribute("cy", point.y);
+        }
+
+        segments.forEach((seg) => {
+            const index = Number(seg.dataset.seg);
+
+            seg.classList.toggle("active", index <= selectedSegment);
+            seg.classList.toggle("inactive", index > selectedSegment);
+            seg.classList.toggle("selected", index === selectedSegment);
+        });
+
+        slider.dataset.value = String(clampedValue);
+
+        if (activeSlider === "sliderFot") {
+            updateControlDisplay(clampedValue, "");
+        }
+
+        slider.dispatchEvent(
+            new CustomEvent("fot-slider-change",
+                {
+                    detail: {
+                        value: clampedValue,
+                        segment: 
+                            selectedSegment,
+                            min,
+                            max,
+                            step: 1
+                    }
+                }
+            )
+        );
+    }
+
+    updateFotSliderValue = updateFotSlider;
+
+    updateFotSlider(Number(slider.dataset.value ?? min));
 });
 
 // Botón Cancelar
 btnCancel?.addEventListener("click", () => {
     clearInterval(intervalEncod);
     intervalEncod = null;
+
     toggleHomePanel("home");
 });

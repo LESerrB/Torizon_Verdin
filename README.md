@@ -421,6 +421,28 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de despliegue de valores de potencia sin decimales.
  - Control de valores de programación de TCD (FW TCD: MCU_control_22072026).
 
+ ### v0.23.2 - [31/Juliio/2026]
+
+ - Ajuste de gráfico para distintos valores de control y diferentes limites mínimo y máximo.
+ - Titulos de paneles de control cambian de acuerdo al panel.
+ - Indicador de módulos laterales activos en panel de control.
+ - Agregado colores de segmentos de gráfico inactivo.
+ - Color independiente de cada slider para indicar el valor de control del panel.
+ - Agregado panel de cronómetro APGAR.
+ - Correción a funcionamiento visual de botones inferiores.
+ - Agregado panel Modo Familiar.
+ - Creado slider para fototerapia.
+ - Añadido panel de báscula.
+ - Control de Intensidad de fototerapia.
+ - Cambio de titulo de "Ajuste de Potencia de Fototerapia" por "Ajuste de Intensidad de Fototerapia".
+ - Funcionamiento de cronómetro Apgar.
+ - Animación de botones de Play/Pause y Reset de conómetro.
+ - Animación slider de cronómetro Apgar.
+ - Corrección de bug visual de botones.
+ - Animación slider timer de función Tarar de Báscula.
+ - Animación de panel lateral módulo de báscula.
+ - Módulo de pesaje agregado.
+
 ## Descarga e Instalación
 
 <p align="center">
