@@ -420,7 +420,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Pruebas de comunicación con TCD con software MCU_control_17072026.hex.
  - Corrección de despliegue de valores de potencia sin decimales.
 
- ### v0.23.2 - [29/Juliio/2026]
+ ### v0.23.2 - [31/Juliio/2026]
 
  - Ajuste de gráfico para distintos valores de control y diferentes limites mínimo y máximo.
  - Titulos de paneles de control cambian de acuerdo al panel.
@@ -440,6 +440,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de bug visual de botones.
  - Animación slider timer de función Tarar de Báscula.
  - Animación de panel lateral módulo de báscula.
+ - Módulo de pesaje agregado.
 
 ## Descarga e Instalación
 

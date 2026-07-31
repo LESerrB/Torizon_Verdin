@@ -18,12 +18,29 @@ const sliderGeometry = {
     gapDegrees: 0
 }
 
+const pnlTara = document.getElementById("pnl-tara");
+const pnlPesar = document.getElementById("pnl-pesar");
+
+// // ########################
+// // Paneles de Información
+// // ########################
+// function mostrarPanel(panelMostrar, panelOcultar, tiempoMs = 500) {
+//   if (!panelMostrar || !panelOcultar) return;
+
+//   panelMostrar.style.setProperty("--tiempo-panel", `${tiempoMs}ms`);
+//   panelOcultar.style.setProperty("--tiempo-panel", `${tiempoMs}ms`);
+
+//   panelOcultar.classList.add("panel-oculto");
+//   panelMostrar.classList.remove("panel-oculto");
+// }
+
 // ##########
 // Botones
 // ##########
 btn_tarar?.addEventListener("touchstart", () => {
     restartCrono();
     clearAllSegments();
+    contBasAnima.classList.remove("mostrar-kg");
 });
 
 btn_tarar?.addEventListener("touchend", () => {
@@ -67,8 +84,12 @@ function startCrono(duracion = 10) {
 
         if (tiempoTranscurrido >= (duracion)) {
             pauseCrono();
+
             lbl_tara.textContent = 'Presione el botón Pesar';
             contBasAnima.classList.add("mostrar-kg");
+
+            pnlTara.classList.remove('enable');
+            pnlPesar.classList.add('enable');
         }
     }, 1000);
 }

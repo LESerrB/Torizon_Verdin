@@ -146,19 +146,61 @@
   pointer-events: none;
 }
 
-.mp-basc-mc-bascula {
+/* Panel de Tara/Pesaje */
+.mp-basc-mc-tara {
+  opacity: 0;
+  visibility: hidden;
+
   background: var(--colorblanco);
   display: flex;
+
   flex-direction: column;
+
   gap: 16px;
   align-items: center;
+
   justify-content: center;
+
   width: 486px;
   height: 312px;
+
   position: absolute;
+
   left: 0px;
   top: 0px;
 }
+.mp-basc-mc-tara.enable {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mp-basc-mc-pesar {
+  opacity: 0;
+  visibility: hidden;
+
+  background: var(--colorblanco);
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+  align-items: center;
+
+  justify-content: center;
+
+  width: 486px;
+  height: 312px;
+
+  position: absolute;
+
+  left: 0px;
+  top: 0px;
+}
+.mp-basc-mc-pesar.enable {
+  opacity: 1;
+  visibility: visible;
+}
+
 .timer-bascula-piel {
   flex-shrink: 0;
   width: 210px;
@@ -186,7 +228,7 @@
 .timer-tara {
   display: flex;
   flex-direction: row;
-  gap: 2px;
+  gap: 0px;
   align-items: center;
   justify-content: flex-start;
   position: absolute;
@@ -209,7 +251,7 @@
 }
 
 /* Boton Tara */
-.tarar {
+.lbl-btn {
   color: var(--colortextactivo);
   text-align: center;
   font-family: var(--textbtnsestandar-font-family);
@@ -217,7 +259,7 @@
   font-weight: var(--textbtnsestandar-font-weight);
   position: relative;
 }
-.tarar:active {
+.lbl-btn:active {
   color: var(--colorblanco);
 }
 
@@ -260,4 +302,64 @@
 .ctrl-timer.inactive {
   fill: #f2f2f2;
   opacity: 1;
+}
+
+/*******************
+ * Panel de Pesaje *
+ *******************/
+.ti-v-vpeso {
+  background: var(--coloroscuropiel, #d9a79d);
+  border-radius: 10px;
+  padding: 12px 10px 12px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 294px;
+  height: 88px;
+  position: relative;
+}
+.ti-v-peso {
+  color: var(--colorblanco, #ffffff);
+  text-align: center;
+  font-family: var(--numapgar-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--numapgar-font-size, 68px);
+  line-height: var(--numapgar-line-height, 64px);
+  font-weight: var(--numapgar-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cont-bts-pesaje {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.kg2 {
+  color: var(--colortextactivo, #2f3a40);
+  text-align: center;
+  font-family: var(
+    --texttitulobtnspop-font-family,
+    "Montserrat-Bold",
+    sans-serif
+  );
+  font-size: var(--texttitulobtnspop-font-size, 24px);
+  line-height: var(--texttitulobtnspop-line-height, 16px);
+  font-weight: var(--texttitulobtnspop-font-weight, 700);
+  position: absolute;
+  left: 399px;
+  top: 119px;
+  width: 41px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
