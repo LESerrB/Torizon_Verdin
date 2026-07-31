@@ -443,6 +443,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de panel lateral módulo de báscula.
  - Módulo de pesaje agregado.
 
+### v0.23.3 - [31/Julio/2026]
+
+ - Cambio de paneles de función "click" a "touchstart" y "touchend".
+ - Cambio de paneles de "ui.js" a "app.js".
+
 ## Descarga e Instalación
 
 <p align="center">

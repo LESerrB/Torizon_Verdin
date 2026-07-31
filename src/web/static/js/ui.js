@@ -1,5 +1,10 @@
+import {
+    initTemperaturePowerSlider,
+    initFototerapiaSlider
+} from "./slider.js";
+
 import { 
-    salirBascula 
+    salirBascula,
 } from "./bascula.js";
 
 let intervalEncod = null;
@@ -14,12 +19,6 @@ let sliderConfig = {
     step: 0.1,
     theme: "seg-t_piel"
 };
-
-const pnlBebe = document.getElementById("pnl-modoBebe");
-const pnlAire = document.getElementById("pnl-modoAire");
-const ajstCtrlOx = document.getElementById("mod-ox");
-const ajstCtrlHum = document.getElementById("mod-hum");
-const ajstCtrlFot = document.getElementById("mod-fot");
 
 const homeDiv = document.getElementById("home");
 const panelControl = document.getElementById("panel-control");
@@ -157,35 +156,31 @@ function setSliderConfig({ min, max, step, value, unit, theme }) {
         theme: theme ?? sliderConfig.theme
     };
 
-    const slider = document.getElementById("tpielSlider");
-
-    if (slider) {
-        slider.dataset.min = String(min);
-        slider.dataset.max = String(max);
-        slider.dataset.step = String(step);
-        slider.dataset.theme = sliderConfig.theme;
-    }
-
-    if (
-        typeof updateSlider10Value === "function" &&
-        value !== undefined
-    ) {
+    if (typeof updateSlider10Value === "function" && value !== undefined) {
         updateSlider10Value(Number(value));
     }
 
     if (value !== undefined) {
         updateControlDisplay(Number(value), unit);
     }
+
+    if (typeof tempPowerSliderController?.setConfig === "function") {
+        tempPowerSliderController.setConfig({
+            min,
+            max,
+            step,
+            value,
+            theme
+        });
+    }
 }
 
-// =============================
-// Paneles de control
-// =============================
-pnlBebe?.addEventListener("click", () => {
+// =======================================
+// Configuración de Paneles de control
+// =======================================
+export function ajstCtrl_TPiel() {
     toggleHomePanel("tempPielProg");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
-
     ttl_programada.textContent = "Temp. Piel Programada";
 
     const valor = valsCtrl?.vals?.tp_Prog ?? 34.0;
@@ -202,14 +197,12 @@ pnlBebe?.addEventListener("click", () => {
     slider10.classList.remove("slider-collapsed");
     sliderFot.classList.add("slider-collapsed");
 
-    set_EditCtrlsEn("tp_Prog");
-});
+    set_EditCtrlsEn("tp_Prog");    
+};
 
-pnlAire?.addEventListener("click", () => {
+export function ajstCtrl_TAire() {
     toggleHomePanel("tempAireProg");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire";
-
     ttl_programada.textContent = "Temp. Aire Programada";
 
     const valor = valsCtrl?.vals?.ta_Prog ?? 34.0;
@@ -227,11 +220,10 @@ pnlAire?.addEventListener("click", () => {
     sliderFot.classList.add("slider-collapsed");
 
     set_EditCtrlsEn("ta_Prog");
-});
+};
 
-ajstCtrlOx?.addEventListener("click", () => {
+export function ajst_CtrlOx() {
     toggleHomePanel("ajstOx");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Oxigeno Programado";
 
     const valor = valsCtrl?.vals?.pot_Ox ?? 0;
@@ -249,11 +241,10 @@ ajstCtrlOx?.addEventListener("click", () => {
     sliderFot.classList.add("slider-collapsed");
 
     set_EditCtrlsEn("pot_Ox");
-});
+};
 
-ajstCtrlHum?.addEventListener("click", () => {
+export function ajst_CtrlHum() {
     toggleHomePanel("ajstHum");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada";
 
     const valor = valsCtrl?.vals?.pot_Hum ?? 0;
@@ -271,13 +262,11 @@ ajstCtrlHum?.addEventListener("click", () => {
     sliderFot.classList.add("slider-collapsed");
 
     set_EditCtrlsEn("pot_Hum");
-});
+};
 
-ajstCtrlFot?.addEventListener("click", () => {
+export function ajst_CtrlFot() {
     toggleHomePanel("ajstFot");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Intensidad de Fototerapia";
-
     activeSlider = "sliderFot";
 
     const valor = valsCtrl?.vals?.pot_Fot ?? 1;
@@ -292,7 +281,7 @@ ajstCtrlFot?.addEventListener("click", () => {
     sliderFot?.classList.remove("slider-collapsed");
 
     set_EditCtrlsEn("pot_Fot");
-});
+};
 
 // =================================
 // Botones Menú Inferior
@@ -781,200 +770,34 @@ async function edit_valProg() {
     }
 }
 
-const SLIDER_THEMES = [
-    "seg-t_piel",
-    "seg-t_aire",
-    "seg-p_ox",
-    "seg-p_hum"
-];
-
-function setSegmentTheme(seg, index, theme) {
-    SLIDER_THEMES.forEach((themeName) => {
-        seg.classList.remove(`${themeName}-${index}`);
-    });
-
-    seg.classList.add(`${theme}-${index}`);
-}
+let tempPowerSliderController = null;
+let fototerapiaSliderController = null;
 
 // --------------------------------
 // Slider Temperatura y Potencia
 // --------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-    const slider = document.getElementById("tpielSlider");
-    const knob = document.getElementById("tpielKnob");
+    tempPowerSliderController = initTemperaturePowerSlider({
+        sliderId: "tpielSlider",
+        knobId: "tpielKnob",
+        valCtrlEl: valCtrl,
+        formatValueFn: formatValue,
+        initialValue: Number(slider10?.dataset.value ?? sliderConfig.min)
+    });
 
-    if (!slider || !knob) {
-        return;
-    }
+    updateSlider10Value = (value) => {
+        tempPowerSliderController?.setValue(value);
+    };
 
-    sliderConfig = getSliderConfig(slider);
+    fototerapiaSliderController = initFototerapiaSlider({
+        sliderId: "fotSlider",
+        knobId: "fotKnob",
+        initialValue: Number(sliderFot?.dataset.value ?? 1)
+    });
 
-    const segments = [
-        ...slider.querySelectorAll(".ctrl-slider-seg")
-    ];
-
-    const points = [
-        { x: 36, y: 218 },
-        { x: 18, y: 147 },
-        { x: 32, y: 92 },
-        { x: 68, y: 48 },
-        { x: 120, y: 20 },
-        { x: 176, y: 20 },
-        { x: 228, y: 48 },
-        { x: 264, y: 92 },
-        { x: 278, y: 147 },
-        { x: 260, y: 218 }
-    ];
-
-    function clamp(value, minValue, maxValue) {
-        return Math.min(Math.max(value, minValue), maxValue);
-    }
-
-    function roundToStep(value) {
-        const { step } = sliderConfig;
-
-        return (Math.round(value / step) * step);
-    }
-
-    function valueToSegment(value) {
-        const { min, max } = sliderConfig;
-
-        if (max <= min) {
-            return 0;
-        }
-
-        const ratio = clamp((value - min) / (max - min), 0, 1);
-
-        return clamp(Math.floor(ratio * 10), 0, 9);
-    }
-
-    function updateSlider(value) {
-        const {
-            min,
-            max,
-            step
-        } = sliderConfig;
-
-        const numericValue = Number(value);
-        const safeValue = Number.isFinite(numericValue) ? numericValue : min;
-        const clampedValue = clamp(roundToStep(safeValue), min, max);
-        const selectedSegment = valueToSegment(clampedValue);
-        const point = points[selectedSegment];
-
-        knob.setAttribute("cx", point.x);
-        knob.setAttribute("cy", point.y);
-
-        segments.forEach((seg) => {
-            const index = Number(seg.dataset.seg);
-            const isActive = index <= selectedSegment;
-            const isSelected = index === selectedSegment;
-
-            setSegmentTheme(seg, index, sliderConfig.theme);
-
-            seg.classList.toggle("active", isActive);
-            seg.classList.toggle("inactive", !isActive);
-            seg.classList.toggle("selected", isSelected);
-        });
-
-        slider.dataset.value = formatValue(clampedValue, step);
-
-        if (valCtrl) {
-            valCtrl.textContent = formatValue(clampedValue, step);
-        }
-
-        slider.dispatchEvent(
-            new CustomEvent("tpiel-slider-change",{
-                detail: {
-                    value: clampedValue,
-                    segment: selectedSegment,
-                            min,
-                            max,
-                            step
-                }
-            })
-        );
-    }
-
-    updateSlider10Value = updateSlider;
-
-    const initialValue = Number(slider.dataset.value ?? sliderConfig.min);
-
-    updateSlider(initialValue);
-    }
-);
-
-// --------------------------------
-// Slider de Fototerapia
-// --------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-    const slider = document.getElementById("fotSlider");
-    const knob = document.getElementById("fotKnob");
-
-    if (!slider) {
-        return;
-    }
-
-    const segments = [
-        ...slider.querySelectorAll(
-            ".ctrl-slider-seg"
-        )
-    ];
-
-    const min = 1;
-    const max = 3;
-
-    const points = [
-        { x: 36, y: 218 },
-        { x: 148, y: 18.5 },
-        { x: 260, y: 218 }
-    ];
-
-    function updateFotSlider(value) {
-        const numericValue = Number(value);
-        const safeValue = Number.isFinite(numericValue) ? numericValue : min;
-        const clampedValue = Math.min(Math.max(Math.round(safeValue), min), max);
-        const selectedSegment = clampedValue - min;
-
-        if (knob) {
-            const point = points[selectedSegment];
-
-            knob.setAttribute("cx", point.x);
-            knob.setAttribute("cy", point.y);
-        }
-
-        segments.forEach((seg) => {
-            const index = Number(seg.dataset.seg);
-
-            seg.classList.toggle("active", index <= selectedSegment);
-            seg.classList.toggle("inactive", index > selectedSegment);
-            seg.classList.toggle("selected", index === selectedSegment);
-        });
-
-        slider.dataset.value = String(clampedValue);
-
-        if (activeSlider === "sliderFot") {
-            updateControlDisplay(clampedValue, "");
-        }
-
-        slider.dispatchEvent(
-            new CustomEvent("fot-slider-change",
-                {
-                    detail: {
-                        value: clampedValue,
-                        segment: 
-                            selectedSegment,
-                            min,
-                            max,
-                            step: 1
-                    }
-                }
-            )
-        );
-    }
-
-    updateFotSliderValue = updateFotSlider;
-
-    updateFotSlider(Number(slider.dataset.value ?? min));
+    updateFotSliderValue = (value) => {
+        fototerapiaSliderController?.setValue(value);
+    };
 });
 
 // Botón Cancelar
