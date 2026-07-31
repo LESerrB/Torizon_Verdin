@@ -21,27 +21,12 @@ const sliderGeometry = {
 const pnlTara = document.getElementById("pnl-tara");
 const pnlPesar = document.getElementById("pnl-pesar");
 
-// // ########################
-// // Paneles de Información
-// // ########################
-// function mostrarPanel(panelMostrar, panelOcultar, tiempoMs = 500) {
-//   if (!panelMostrar || !panelOcultar) return;
-
-//   panelMostrar.style.setProperty("--tiempo-panel", `${tiempoMs}ms`);
-//   panelOcultar.style.setProperty("--tiempo-panel", `${tiempoMs}ms`);
-
-//   panelOcultar.classList.add("panel-oculto");
-//   panelMostrar.classList.remove("panel-oculto");
-// }
-
 // ##########
 // Botones
 // ##########
-btn_tarar?.addEventListener("touchstart", () => {
-    restartCrono();
-    clearAllSegments();
-    contBasAnima.classList.remove("mostrar-kg");
-});
+// btn_tarar?.addEventListener("touchstart", () => {
+    
+// });
 
 btn_tarar?.addEventListener("touchend", () => {
     startCrono();
@@ -85,7 +70,7 @@ function startCrono(duracion = 10) {
         if (tiempoTranscurrido >= (duracion)) {
             pauseCrono();
 
-            lbl_tara.textContent = 'Presione el botón Pesar';
+            lbl_tara.textContent = 'Presione el botón Pesar.';
             contBasAnima.classList.add("mostrar-kg");
 
             pnlTara.classList.remove('enable');
@@ -284,6 +269,18 @@ function reiniciarAnimBascula() {
   if (!contBasAnima) return;
 
   contBasAnima.classList.remove("animar");
+}
+
+// Salir del Módulo Báscula
+export function salirBascula() {
+    lbl_tara.textContent = 'Presione la tecla TARAR y, a continuación, levante al paciente durante 10 segundos.';
+
+    restartCrono();
+    clearAllSegments();
+    contBasAnima.classList.remove("mostrar-kg");
+
+    pnlTara.classList.add('enable');
+    pnlPesar.classList.remove('enable');
 }
 
 createApgarSegments();

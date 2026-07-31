@@ -1,3 +1,7 @@
+import { 
+    salirBascula 
+} from "./bascula.js";
+
 let intervalEncod = null;
 let updateSlider10Value = null;
 let updateFotSliderValue = null;
@@ -297,10 +301,13 @@ const btn_md_fam = document.getElementById("btn-md-fam");
 const btn_home = document.getElementById("btn-home");
 const menuButtons = {};
 
+// Botón para volver al Panel Principal
 function updateBottomNavLayout(isHomeView = false) {
     if (isHomeView) {
         btn_home?.classList.add("btn-collapsed");
         btn_md_fam?.classList.remove("btn-collapsed");
+
+        salirBascula();
 
         return;
     }
