@@ -15,7 +15,9 @@ import {
 
 import {  } from "./crono_Apgar.js";
 
-import {  } from "./bascula.js";
+import { 
+    salirBascula
+} from "./bascula.js";
 
 
 // =============================
@@ -26,6 +28,8 @@ const pnlAire = document.getElementById("pnl-modoAire");
 const ajstCtrlOx = document.getElementById("mod-ox");
 const ajstCtrlHum = document.getElementById("mod-hum");
 const ajstCtrlFot = document.getElementById("mod-fot");
+
+const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 
 pnlBebe?.addEventListener("touchstart", () => {
     pnlBebe.classList.add();
@@ -88,6 +92,26 @@ function updateBottomNavLayout(isHomeView = false) {
     btn_home?.classList.remove("btn-collapsed");
 }
 
+function applyButtonVisualState(button, image, config, isPressed) {
+    if (!button) {
+        return;
+    }
+
+    if (isPressed) {
+        button.classList.add("pressed");
+
+        if (image) {
+            image.src = config.icons.on;
+        }
+    } else {
+        button.classList.remove("pressed");
+
+        if (image) {
+            image.src = config.icons.off;
+        }
+    }
+}
+
 function bindMenuButton(config) {
     const button = document.getElementById(config.id);
     const image = button?.querySelector("img");
@@ -106,32 +130,18 @@ function bindMenuButton(config) {
 
     button?.addEventListener("touchstart", () => {
         clear_Btns();
-
-        if (image) {
-            image.src = config.icons.on;
-        }
+        applyButtonVisualState(button, image, config, true);
     });
 
     button?.addEventListener("touchend", () => {
         updateBottomNavLayout(state.isHomeView);
-
-        if (image) {
-            image.src = config.icons.off;
-        }
-
         toggleHomePanel(config.panel);
 
         if (config.title) {
             ttl_pnl_ctrl.textContent = config.title;
         }
 
-        if (state.pressed) {
-            button?.classList.add("pressed");
-
-            if (image) {
-                image.src = config.icons.on;
-            }
-        }
+        applyButtonVisualState(button, image, config, state.pressed);
     });
 
     return state;
@@ -179,7 +189,7 @@ bindMenuButton({
     },
     panel: "familiar",
     title: "Modo Familia",
-    pressed: false
+    pressed: true
 });
 
 bindMenuButton({
@@ -190,17 +200,19 @@ bindMenuButton({
         on: "../static/icon/Home/btns/Icono_Home_Active.svg"
     },
     panel: "home",
-    pressed: false,
+    pressed: true,
     isHomeView: true
 });
 
 function clear_Btns() {
     Object.values(menuButtons).forEach(({ button, image, icons }) => {
+        if (button) {
+            button.classList.remove("pressed");
+        }
+
         if (image) {
             image.src = icons.off;
         }
-
-        button?.classList.remove("pressed");
     });
 }
 

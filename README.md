@@ -447,6 +447,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
  - Cambio de paneles de función "click" a "touchstart" y "touchend".
  - Cambio de paneles de "ui.js" a "app.js".
+ - Corrección de estilos visuales de botones inferiores.
 
 ## Descarga e Instalación
 

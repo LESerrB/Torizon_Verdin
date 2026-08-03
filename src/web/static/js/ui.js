@@ -3,10 +3,6 @@ import {
     initFototerapiaSlider
 } from "./slider.js";
 
-import { 
-    salirBascula,
-} from "./bascula.js";
-
 let intervalEncod = null;
 let updateSlider10Value = null;
 let updateFotSliderValue = null;
@@ -30,7 +26,6 @@ const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 
 // Vista Panel de Control
-const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 const slider10 = document.getElementById("tpielSlider");
 const sliderFot = document.getElementById("fotSlider");
 
@@ -197,7 +192,7 @@ export function ajstCtrl_TPiel() {
     slider10.classList.remove("slider-collapsed");
     sliderFot.classList.add("slider-collapsed");
 
-    set_EditCtrlsEn("tp_Prog");
+    set_EditCtrlsEn("tp_Prog");    
 };
 
 export function ajstCtrl_TAire() {
