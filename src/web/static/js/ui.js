@@ -197,7 +197,7 @@ export function ajstCtrl_TPiel() {
     slider10.classList.remove("slider-collapsed");
     sliderFot.classList.add("slider-collapsed");
 
-    set_EditCtrlsEn("tp_Prog");    
+    set_EditCtrlsEn("tp_Prog");
 };
 
 export function ajstCtrl_TAire() {
@@ -282,147 +282,6 @@ export function ajst_CtrlFot() {
 
     set_EditCtrlsEn("pot_Fot");
 };
-
-// =================================
-// Botones Menú Inferior
-// =================================
-const btn_md_fam = document.getElementById("btn-md-fam");
-const btn_home = document.getElementById("btn-home");
-const menuButtons = {};
-
-// Botón para volver al Panel Principal
-function updateBottomNavLayout(isHomeView = false) {
-    if (isHomeView) {
-        btn_home?.classList.add("btn-collapsed");
-        btn_md_fam?.classList.remove("btn-collapsed");
-
-        salirBascula();
-
-        return;
-    }
-
-    btn_md_fam?.classList.add("btn-collapsed");
-    btn_home?.classList.remove("btn-collapsed");
-}
-
-function bindMenuButton(config) {
-    const button = document.getElementById(config.id);
-    const image = button?.querySelector("img");
-
-    const state = {
-        button,
-        image,
-        icons: config.icons,
-        panel: config.panel,
-        title: config.title,
-        pressed: config.pressed ?? true,
-        isHomeView: config.isHomeView ?? false
-    };
-
-    menuButtons[config.key] = state;
-
-    button?.addEventListener("touchstart", () => {
-        clear_Btns();
-
-        if (image) {
-            image.src = config.icons.on;
-        }
-    });
-
-    button?.addEventListener("touchend", () => {
-        updateBottomNavLayout(state.isHomeView);
-
-        if (image) {
-            image.src = config.icons.off;
-        }
-
-        toggleHomePanel(config.panel);
-
-        if (config.title) {
-            ttl_pnl_ctrl.textContent = config.title;
-        }
-
-        if (state.pressed) {
-            button?.classList.add("pressed");
-
-            if (image) {
-                image.src = config.icons.on;
-            }
-        }
-    });
-
-    return state;
-}
-
-bindMenuButton({
-    key: "tendencias",
-    id: "btn-tend",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
-        on: "../static/icon/Home/btns/Icono_Tendencias_Active.svg"
-    },
-    panel: "tendencias",
-    title: "Tendencias"
-});
-
-bindMenuButton({
-    key: "bascula",
-    id: "btn-basc",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_Bascula_Default.svg",
-        on: "../static/icon/Home/btns/Icono_Bascula_Active.svg"
-    },
-    panel: "bascula",
-    title: "Báscula"
-});
-
-bindMenuButton({
-    key: "apgar",
-    id: "btn-apgr",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_APGAR_Default.svg",
-        on: "../static/icon/Home/btns/Icono_APGAR_Active.svg"
-    },
-    panel: "apgar",
-    title: "Cronometro APGAR"
-});
-
-bindMenuButton({
-    key: "familiar",
-    id: "btn-md-fam",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
-        on: "../static/icon/Home/btns/Icono_MFamiliar_Active.svg"
-    },
-    panel: "familiar",
-    title: "Modo Familia",
-    pressed: false
-});
-
-bindMenuButton({
-    key: "home",
-    id: "btn-home",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_Home_Default.svg",
-        on: "../static/icon/Home/btns/Icono_Home_Active.svg"
-    },
-    panel: "home",
-    pressed: false,
-    isHomeView: true
-});
-
-// ====================
-// Funciones Botones
-// ====================
-function clear_Btns() {
-    Object.values(menuButtons).forEach(({ button, image, icons }) => {
-        if (image) {
-            image.src = icons.off;
-        }
-
-        button?.classList.remove("pressed");
-    });
-}
 
 // =============================
 // Control de cambio de paneles
@@ -626,7 +485,7 @@ function habilitarControlesLaterales(controles, claseColor) {
  * Cambia el panel activo de la interfaz y aplica el tema.
  * @param {string} showPanelControl Panel a mostrar.
  */
-function toggleHomePanel(showPanelControl) {
+export function toggleHomePanel(showPanelControl) {
     if (!homeDiv || !panelControl) {
         return;
     }
