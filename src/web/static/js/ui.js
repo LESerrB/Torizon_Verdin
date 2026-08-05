@@ -766,6 +766,10 @@ async function edit_valProg() {
                         humCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
                     break;
 
+                    case "pot_Ox":
+                        oxCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                    break;
+
                     default:
                     break;
                 }

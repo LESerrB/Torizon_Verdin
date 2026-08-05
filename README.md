@@ -443,6 +443,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de panel lateral módulo de báscula.
  - Módulo de pesaje agregado.
 
+ ### v0.23.3 - [05/Agosto/2026]
+
+ - Habilitado Oxígeno Programado.
+
 ## Descarga e Instalación
 
 <p align="center">
