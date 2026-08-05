@@ -123,7 +123,7 @@
           </div>
 
           <!--================= Panel Izquierdo =================-->
-          <div id="pnl-modoBebe" class="mp-prin-mc-tpiel active">
+          <div id="pnl-modoBebe" class="mp-prin-mc-tpiel  ">
             <img class="icon-tpiel" src="../static/icon/Home/icon-piel0.svg" />
 
             <div class="lbl-temp-piel active">Temperatura Piel</div>
@@ -167,6 +167,20 @@
                 <div id="_36-3" class="text-Temps">36.3</div>
                 <div class="units-tempAire-Prin">°C</div>
               </div>
+            </div>
+
+            <div class="pop-cmodo-aire">
+              <div class="lbl-temp-aire active"> Cambiar a Modo Aire </div>
+
+              <img class="icon-md-tp-ta" src="../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOA.svg" />
+
+              <button id="cnclChngMd" class="btn-cancel-ajustar" type="button" style="left: calc(0% - -30px); top: calc(0% - -137px); width: 110px; height: 40px;">
+                <div class="cancelar">Cancelar</div>
+              </button>
+
+              <button id="acptChngMd" class="btn-cancel-ajustar" type="button" style="left: calc(0% - -157px); top: calc(0% - -137px); width: 110px; height: 40px;">
+                <div class="cancelar">Aceptar</div>
+              </button>
             </div>
 
             <div class="cont-potcal">
@@ -226,16 +240,26 @@
 
             <!-- Módulo Fototerapia -->
             <div id="mod-fot" class="modulo fot">
-              <div class="ttl-mod-sensores">Fototerapia hh:mm</div>
-
-              <div class="ti-vm-fot">
-                <div class="_00-00">00:00</div>
+              <div id="fot-panel" style="display: block;">
+                <div id="fot-ttl" class="ttl-mod-sensores">Fototerapia hh:mm</div>
+  
+                <div class="ti-vm-fot">
+                  <div id="fot-hrs" class="_00-00">00:00</div>
+                </div>
+  
+                <div id="seg-potencia-fot" class="seg-potencia-fot">
+                  <div class="rectangle-237"></div>
+                  <div class="rectangle-238"></div>
+                  <div class="rectangle-239"></div>
+                </div>
               </div>
 
-              <div class="seg-potencia-fot">
-                <div class="rectangle-237"></div>
-                <div class="rectangle-238"></div>
-                <div class="rectangle-239"></div>
+              <div id="confirmacion-fot" class="confirmacion-fot" style="display: none;">
+                <div class="desea-ajustar-el-nivel-de-intensidad"> ¿Desea ajustar el nivel de intensidad? </div>
+
+                <button id="btn-ajustar-foto" class="btn-cancel-ajustar" type="button" style="left: calc(50% - 61px); top: calc(50% - 16px);">
+                  <div class="cancelar">Ajustar</div>
+                </button>
               </div>
             </div>
           </div>
@@ -443,7 +467,7 @@
                 <div id="units_Ctrl" class="ti-vp-units">°C</div>
 
                 <!---- Boton Cancelar ----->
-                <button id="cancel-ctrl" class="btn-cancel-salir" type="button">
+                <button id="cancel-ctrl" class="btn-cancel-ajustar" type="button">
                   <div class="cancelar">Cancelar</div>
                 </button>
               </div>

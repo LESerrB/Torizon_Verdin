@@ -31,7 +31,7 @@
 .btn,
 .btn-alarma,
 .btn-img,
-.btn-cancel-salir {
+.btn-cancel-ajustar {
   background-color: #FFFFFF;
   border: none;
   border-radius: 10px;
@@ -69,7 +69,7 @@
 
 .btn:active,
 .btn-img:active,
-.btn-cancel-salir:active {
+.btn-cancel-ajustar:active {
   background-color: var(--colorgrisbtn);
   transform: scale(0.97);
 }
@@ -479,7 +479,7 @@
   align-items: center;
   justify-content: center;
 }
-.lbl-tem-aire.active {
+.lbl-temp-aire.active {
   color:        var(--colortexttaire);
 }
 .lbl-temp-piel.active {
@@ -528,14 +528,14 @@
 
   overflow: hidden;
 }
-.mp-prin-mc-tpiel.chng{
-  background: var(--colorfondopiel);
-}
 .mp-prin-mc-tpiel.active{
   background: var(--colorfondopiel);
 
   width: 656px;
   height: 218px;
+}
+.mp-prin-mc-tpiel.active.pressed{
+  background: var(--colorpressedpiel);
 }
 /* Icono Panel */
 .icon-tpiel {
@@ -666,17 +666,23 @@
   right: 0px;
   top: 27px;
 }
-.mp-prin-mc-taire.chng{
-  background: var(--colorfondoaire);
-}
 .mp-prin-mc-taire.active{
   background: var(--colorfondoaire);
 
   width: 656px;
   height: 218px;
 }
+.mp-prin-mc-taire.pressed{
+  background: var(--colorpressedaire);
+}
+.mp-prin-mc-taire.chng{
+  background: var(--colorfondoaire);
+}
 
+/* Contenedor T. Aire Apagado */
 .cont-taire {
+  display: block;
+
   padding: 24px 0px 0px 0px;
   display: flex;
   flex-direction: column;
@@ -688,6 +694,11 @@
   height: 218px;
   position: relative;
 }
+.cont-taire.disabled{
+  display: none;
+}
+
+/* Contenedor Indicador T. Aire */
 .taire {
   padding: 10px;
   display: flex;
@@ -700,10 +711,34 @@
   position: relative;
 }
 
+/* Contenedor cambio de modo t. Piel -> t. Aire */
+.pop-cmodo-aire {
+  display: none;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 294px;
+  height: 218px;
+  position: relative;
+  overflow: hidden;
+}
+.pop-cmodo-aire.enabled{
+  display: flex;
+}
 
+.icon-md-tp-ta {
+  flex-shrink: 0;
+  width: 200px;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  top: -60px;
+}
 
-
-
+/* Conteneor de indicador visual de potencia de temperatura */
 .cont-potcal {
   display: flex;
   flex-direction: column;
@@ -753,10 +788,13 @@
 }
 /* Módulo de Oxigeno */
 .modulo.ox  { background: var(--colorfondooxigeno); }
+.modulo.ox.pressed  { background: var(--colorpressedox); }
 /* Modulo de humedad */
 .modulo.hum { background: var(--colorfondohum); }
+.modulo.hum.pressed { background: var(--colorpressedhum); }
 /* Modulo Fototerapia */
 .modulo.fot { background: var(--colorfondofot); }
+.modulo.fot.active { background: var(--colorpressedfot); }
 
 .ttl-mod-sensores {
   color: var(--colortextoinactivo);
@@ -941,7 +979,7 @@
 
 
 ._00-00 {
-  color: var(--colortextoinactivo, #72818e);
+  color: var(--colortextoinactivo);
   text-align: center;
   font-family: var(--numtempsecun-font-family, "Inter-Bold", sans-serif);
   font-size: var(--numtempsecun-font-size, 36px);
@@ -954,6 +992,9 @@
   align-items: center;
   justify-content: center;
 }
+._00-00.active {color: var(--colortextactivo);}
+
+/* Conteneor de indicador visual de potencia de fototerapia */
 .seg-potencia-fot {
   opacity: 0.5;
   display: flex;
@@ -968,7 +1009,7 @@
   top: 50%;
   translate: 0 -50%;
 }
-
+.seg-potencia-fot.active{opacity: 1;}
 
 
 /*Segmentos de Potencia*/

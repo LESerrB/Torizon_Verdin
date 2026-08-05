@@ -435,7 +435,7 @@
 }
 
 /* Boton Cancelar */
-.btn-cancel-salir {
+.btn-cancel-ajustar {
   background: var(--colorclarobtn);
   border-radius: 30px;
   padding: 15px 20px 15px 20px;
@@ -454,7 +454,7 @@
   left: calc(50% - -200px);
   top: calc(50% - -80px);
 }
-.btn-cancel-salir:active {
+.btn-cancel-ajustar:active {
   background-color: var(--colorgrisbtn);
 }
 /* Etiqueta Cancelar */
@@ -468,6 +468,58 @@
 
   position: relative;
 }
-.btn-cancel-salir:active .cancelar {
+.btn-cancel-ajustar:active .cancelar {
   color: var(--colorclarobtn);
+}
+
+/*********************************
+ * Panel de cambio de Fototerpia *
+ *********************************/
+.confirmacion-fot {
+    background: #a5bbe0;
+    border-radius: 0px 0px 8px 0px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    height: 84px;
+    position: relative;
+}
+
+.desea-ajustar-el-nivel-de-intensidad {
+    color: var(--textoactivo, #2f3a40);
+    text-align: center;
+    font-family: 'Montserrat-Bold', sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 700;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-ajustar-fotp {
+    background: var(--colorblanco, #ffffff);
+    border-radius: 30px;
+    padding: 15px 20px 15px 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 110px;
+    height: 36px;
+    position: relative;
+}
+
+.ajustar {
+    color: var(--colorgrisbtn, #8a8e91);
+    text-align: left;
+    font-family: var(--textbtnsestandar-font-family, 'Montserrat-Bold', sans-serif);
+    font-size: var(--textbtnsestandar-font-size, 15px);
+    font-weight: var(--textbtnsestandar-font-weight, 700);
+    position: relative;
 }

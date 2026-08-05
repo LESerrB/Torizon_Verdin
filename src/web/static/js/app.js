@@ -5,12 +5,17 @@ import {
 
 import {
     setInitValues,
+
     ajstCtrl_TPiel,
     ajstCtrl_TAire,
     ajst_CtrlOx,
     ajst_CtrlHum,
     ajst_CtrlFot,
-    toggleHomePanel
+
+    toggleHomePanel,
+    chngModo,
+    fotoActive,
+    confAjstFoto,
 } from "./ui.js";
 
 import {  } from "./crono_Apgar.js";
@@ -19,6 +24,8 @@ import {
     salirBascula
 } from "./bascula.js";
 
+let modoControl = "tPiel"
+let modoOperacion = "Incubadora"
 
 // =============================
 // Paneles de control
@@ -31,40 +38,55 @@ const ajstCtrlFot = document.getElementById("mod-fot");
 
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 
+// ***************** Panel Temperatura Piel ***************** //
 pnlBebe?.addEventListener("touchstart", () => {
-    pnlBebe.classList.add();
+    pnlBebe.classList.add("pressed");
 });
 pnlBebe?.addEventListener("touchend", () => {
+    pnlBebe.classList.remove("pressed");
     ajstCtrl_TPiel();
 });
 
+// ***************** Panel Temperatura Aire ***************** //
 pnlAire?.addEventListener("touchstart", () => {
-    pnlAire.classList.add();
+    pnlAire.classList.add("pressed");
 });
 pnlAire?.addEventListener("touchend", () => {
-    ajstCtrl_TAire();
+    pnlAire.classList.remove("pressed");
+    pnlAire.classList.add("chng");
+
+    chngModo(modoControl);
+
+    // ajstCtrl_TAire();
 });
 
+// ***************** Panel Control Oxigeno ****************** //
 ajstCtrlOx?.addEventListener("touchstart", () => {
-    ajstCtrlOx.classList.add();
+    ajstCtrlOx.classList.add("pressed");
 });
 ajstCtrlOx?.addEventListener("touchend", () => {
+    ajstCtrlOx.classList.remove("pressed");
     ajst_CtrlOx();
 });
 
+// ***************** Panel Control Humedad ****************** //
 ajstCtrlHum?.addEventListener("touchstart", () => {
-    ajstCtrlHum.classList.add();
+    ajstCtrlHum.classList.add("pressed");
 });
 ajstCtrlHum?.addEventListener("touchend", () => {
+    ajstCtrlHum.classList.remove("pressed");
     ajst_CtrlHum();
 });
 
+// **************** Panel Control Fototerapia *************** //
 ajstCtrlFot?.addEventListener("touchstart", () => {
-    ajstCtrlFot.classList.add();
+    ajstCtrlFot.classList.add("active");
 });
 ajstCtrlFot?.addEventListener("touchend", () => {
-    ajst_CtrlFot();
+    confAjstFoto();
 });
+
+
 
 
 // =================================

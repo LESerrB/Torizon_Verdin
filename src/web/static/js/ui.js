@@ -21,15 +21,19 @@ const panelControl = document.getElementById("panel-control");
 const btnCancel = document.getElementById("cancel-ctrl");
 
 // Vista principal (Home)
+//---------------------------------------------------------------
 const tempProg = document.getElementById("tp_prog");
 const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 
 // Vista Panel de Control
+//---------------------------------------------------------------
+const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 const slider10 = document.getElementById("tpielSlider");
 const sliderFot = document.getElementById("fotSlider");
 
-// Control de Sensores
+// Control de Sensores 
+//---------------------------------------------------------------
 const ctrl_sens = document.getElementById("ctrl-sensores");
 const view_tend = document.getElementById("view-tend");
 const ctrl_basc = document.getElementById("ctrl-bascula");
@@ -37,12 +41,24 @@ const ctrl_apgar = document.getElementById("ctrl-apgar");
 const view_fam = document.getElementById("view-fam");
 
 // Valor del encoder / control
+//---------------------------------------------------------------
 const valCtrl = document.getElementById("val_Ctrl");
 const unitsCtrl = document.getElementById("units_Ctrl");
 
 // Vista lateral
+//---------------------------------------------------------------
 const ttl_programada = document.getElementById("ttl-programada")
 const viewCtrl = document.getElementById("vw-valProg");
+
+// Panel de modulo de fototerapia
+//---------------------------------------------------------------
+const ajstCtrlFot = document.getElementById("mod-fot");
+const fot_panel = document.getElementById("fot-panel");
+const confirmacion_fot = document.getElementById("confirmacion-fot");
+const fot_ttl = document.getElementById("fot-ttl");
+const fot_hrs = document.getElementById("fot-hrs");
+const seg_potencia_fot = document.getElementById("seg-potencia-fot");
+const btn_ajustar_foto = document.getElementById("btn-ajustar-foto");
 
 /**
  * Obtiene los valores iniciales del control desde la API.
@@ -192,7 +208,7 @@ export function ajstCtrl_TPiel() {
     slider10.classList.remove("slider-collapsed");
     sliderFot.classList.add("slider-collapsed");
 
-    set_EditCtrlsEn("tp_Prog");    
+    set_EditCtrlsEn("tp_Prog");
 };
 
 export function ajstCtrl_TAire() {
@@ -624,12 +640,120 @@ async function edit_valProg() {
     }
 }
 
-let tempPowerSliderController = null;
-let fototerapiaSliderController = null;
+
+
+
+
+let timerAjstFot = null;
+let fotoEn = false;
+let secs2Conf = 4;
+
+function iniTimerAjst(ajstPnl) {
+    clearTimeout(timerAjstFot);
+
+    timerAjstFot = setTimeout(() => {
+        if(ajstPnl === "foto")
+            fotoActive();
+        else if (ajstPnl === "tPiel"){
+            console.log("Cancelando cambio de modo a tAire");
+            chngModo();
+        }
+
+    }, (secs2Conf * 1000));
+};
+
+// -----------------------------------------
+// Panel cambio de modo T. Piel -> T. Aire
+// -----------------------------------------
+const t_aire = document.querySelector(".cont-taire");
+const c_modo_Aire = document.querySelector(".pop-cmodo-aire");
+
+const btn_cnclChngMd = document.getElementById("cnclChngMd");
+const btn_acptChngMd = document.getElementById("acptChngMd");
+
+const pnlBebe = document.getElementById("pnl-modoBebe");
+
+export function chngModo(modoAP) {
+    if (modoAP === "tPiel") {
+        t_aire.classList.add("disabled");
+        c_modo_Aire.classList.add("enabled");
+
+        // iniTimerAjst(modoAP);
+
+        return "tAire"
+    } else {
+        t_aire.classList.remove("disabled");
+        c_modo_Aire.classList.remove("enabled");
+
+        // return "tPiel"
+    }
+};
+
+const pnlAire = document.getElementById("pnl-modoAire");
+
+btn_cnclChngMd?.addEventListener("click", () => {
+    pnlAire.classList.remove("chng");
+    c_modo_Aire.classList.remove("enabled");
+    t_aire.classList.remove("disabled");
+});
+
+btn_acptChngMd?.addEventListener("click", () => {
+    pnlBebe.classList.remove("active");
+    pnlAire.classList.add("active");
+    c_modo_Aire.classList.remove("enabled");
+    t_aire.classList.remove("disabled");
+});
+
+// --------------------------------
+// Panel de módulo de fototerapia
+// --------------------------------
+export function fotoActive() {
+    fot_panel.style.display = 'block';
+    confirmacion_fot.style.display = 'none';
+
+    ajstCtrlFot.classList.remove("active");
+
+    fot_ttl.classList.add("active");
+    fot_hrs.classList.add("active");
+    seg_potencia_fot.classList.add("active");
+
+    fotoEn = true;
+};
+export function fotoInactive() {
+    fot_panel.style.display = 'block';
+    confirmacion_fot.style.display = 'none';
+
+    fot_ttl.classList.remove("active");
+    fot_hrs.classList.remove("active");
+    seg_potencia_fot.classList.remove("active");
+};
+export function confAjstFoto() {
+    if (!fotoEn) {
+        fot_panel.style.display = 'none';
+        confirmacion_fot.style.display = 'block';
+    
+        iniTimerAjst("foto");
+    } else {
+        ajst_CtrlFot();
+        ajstCtrlFot.classList.remove("active");
+    }
+};
+// Botón Confirmar Ajuste
+btn_ajustar_foto?.addEventListener("click", () => {
+    clearTimeout(timerAjstFot);
+    ajst_CtrlFot();
+    fotoActive();
+});
+
+
+
 
 // --------------------------------
 // Slider Temperatura y Potencia
 // --------------------------------
+let tempPowerSliderController = null;
+let fototerapiaSliderController = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     tempPowerSliderController = initTemperaturePowerSlider({
         sliderId: "tpielSlider",
@@ -654,10 +778,17 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 });
 
-// Botón Cancelar
+
+
+// Botón Cancelar General
 btnCancel?.addEventListener("click", () => {
     clearInterval(intervalEncod);
     intervalEncod = null;
+
+    if (fotoEn){
+        fotoEn = !fotoEn;
+        fotoInactive()
+    }
 
     toggleHomePanel("home");
 });
