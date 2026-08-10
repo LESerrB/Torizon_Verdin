@@ -478,9 +478,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  left: 0px;
 }
 .lbl-temp-aire.active {
   color:        var(--colortexttaire);
+}
+.lbl-temp-aire.m-aire {
+  left: 75px;
 }
 .lbl-temp-piel.active {
   color:        var(--colortexttpiel);
@@ -607,6 +612,9 @@
 .temps-AuxProg.active {
   color: var(--colortexttpiel);
 }
+.temps-AuxProg.m-aire {
+  color: var(--colortexttaire);
+}
 .c3 {
   color: var(--colortextoinactivo);
 
@@ -635,6 +643,14 @@
   top: 9px;
   height: 15px;
 }
+.c3.m-aire{
+  color: var(--colortexttaire);
+
+  left: 100px;
+  top: 18px;
+  height: 15px;
+}
+
 .t_auxiliar {
   color: var(--colortextoinactivo);
 
@@ -652,7 +668,9 @@
 .t_auxiliar.active {
   color: var(--colortexttpiel);
 }
-
+.t_auxiliar.m-aire {
+  color: var(--colortexttaire);
+}
 
 /*################### Panel Derecho ###################*/
 .mp-prin-mc-taire {
@@ -698,11 +716,26 @@
   width: 294px;
   height: 218px;
   position: relative;
+  left: 0px;
+}
+.cont-taire.active{
+  left: 80px;
 }
 .cont-taire.disabled{
   display: none;
 }
-
+/* Icono Panel */
+.icon-taire {
+  opacity: 0.6;
+  flex-shrink: 0;
+  width: 300px;
+  height: 238px;
+  position: absolute;
+  left: calc(50% - 423px);
+  top: 50%;
+  translate: 0 -50%;
+  overflow: visible;
+}
 /* Contenedor Indicador T. Aire */
 .taire {
   padding: 10px;
@@ -710,6 +743,62 @@
   flex-direction: row;
   gap: 6px;
   align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+/* Contenedor T Aire Programado */
+.tprog-aire{
+  display: none;
+}
+.tprog-aire.active{
+  display: block;
+
+  position: relative;
+
+  left: 195px;
+  bottom: 112px;
+}
+
+.line-05 {
+  margin-top: -3px;
+  border-style: solid;
+  border-color: var(--colortexttaire, #2f4a4d);
+  border-width: 3px 0 0 0;
+  flex-shrink: 0;
+  width: 86px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+}
+.tproga {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  height: 86px;
+  position: relative;
+}
+.vproga {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100px;
+  position: relative;
+}
+.ti-vp-proga {
+  padding: 4px 4px 2px 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
   justify-content: center;
   align-self: stretch;
   flex-shrink: 0;

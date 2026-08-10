@@ -451,6 +451,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Cambio de color a los paneles al tocarlos.
  - Creado panel para aceptar el ajuste de fototerapia.
  - Sección T. Piel modo desactivado acomodado.
+ - Primera versión de modo aire. Hay que optimizar el cambio de función.
 
 ## Descarga e Instalación
 

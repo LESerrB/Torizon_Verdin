@@ -20,6 +20,7 @@ const homeDiv = document.getElementById("home");
 const panelControl = document.getElementById("panel-control");
 const btnCancel = document.getElementById("cancel-ctrl");
 
+const title_panel_prin = document.querySelector(".ttl-pnl-prin");
 // Vista principal (Home)
 //---------------------------------------------------------------
 const tempProg = document.getElementById("tp_prog");
@@ -700,7 +701,19 @@ const tprogp = document.querySelector(".tprogp");
 const elementos_tpiel = document.querySelectorAll(".tpiel .active");
 const elementos_vaux = document.querySelectorAll(".vaux .active");
 
+const icon_tpiel = document.querySelector(".icon-tpiel");
+const icon_taire = document.querySelector(".icon-taire");
+
+const elementos_taire = t_aire?.querySelectorAll(
+  ".taire .text-Temps, .taire .units-tempAire-Prin"
+);
+const lbl_temp_aire = t_aire?.querySelector(".lbl-temp-aire");
+const tprog_aire = document.querySelector(".tprog-aire");
+
 btn_acptChngMd?.addEventListener("click", () => {
+  title_panel_prin.classList.remove("bckgnd-ctrl-piel");
+  title_panel_prin.classList.add("bckgnd-ctrl-aire");
+
   pnlBebe?.classList.remove("active");
   pnlAire?.classList.add("active");
 
@@ -718,8 +731,23 @@ btn_acptChngMd?.addEventListener("click", () => {
 
   line_01.style.display = "none";
   tpiel_txt.style.left = "75px";
+
   tprogp.classList.remove("active");
   vaux.classList.remove("active");
+
+  icon_tpiel.style.display = "none";
+  icon_taire.style.display = "block";
+
+  t_aire?.classList.add("active");
+
+  lbl_temp_aire.classList.add("active");
+  lbl_temp_aire.classList.add("m-aire");
+
+  elementos_taire?.forEach((elemento) => {
+    elemento.classList.add("active");
+  });
+
+  tprog_aire.classList.add("active");
 });
 
 btn_cnclChngMd?.addEventListener("click", () => {
