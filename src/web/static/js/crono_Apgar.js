@@ -30,7 +30,7 @@ let pause = false;
 // ###########
 // Botones
 // ###########
-btn_playpause?.addEventListener("touchstart", () => {
+btn_playpause?.addEventListener("pointerdown", () => {
     if (pause) {
         img_playpause.src = "../static/icon/Apgar/btns/Icon_Pause_Active.svg"
     } else {
@@ -38,7 +38,7 @@ btn_playpause?.addEventListener("touchstart", () => {
     }
 });
 
-btn_playpause?.addEventListener("touchend", () => {
+btn_playpause?.addEventListener("pointerup", () => {
     pause = !pause;
 
     if (pause) {
@@ -51,11 +51,11 @@ btn_playpause?.addEventListener("touchend", () => {
 });
 
 
-btn_reset?.addEventListener("touchstart", () => {
+btn_reset?.addEventListener("pointerdown", () => {
     img_reset.src = "../static/icon/Apgar/btns/Icon_Regresar_Active.svg"
 });
 
-btn_reset?.addEventListener("touchend", () => {
+btn_reset?.addEventListener("pointerup", () => {
     restartCrono();
     pause = false;
     img_reset.src = "../static/icon/Apgar/btns/Icon_Regresar_Default.svg"

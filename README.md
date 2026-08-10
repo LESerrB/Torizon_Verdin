@@ -443,13 +443,14 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de panel lateral módulo de báscula.
  - Módulo de pesaje agregado.
 
-### v0.23.3 - [5/Agosto/2026]
+### v0.23.3 - [10/Agosto/2026]
 
  - Cambio de paneles de función "click" a "touchstart" y "touchend".
  - Cambio de paneles de "ui.js" a "app.js".
  - Corrección de estilos visuales de botones inferiores.
  - Cambio de color a los paneles al tocarlos.
  - Creado panel para aceptar el ajuste de fototerapia.
+ - Sección T. Piel modo desactivado acomodado.
 
 ## Descarga e Instalación
 

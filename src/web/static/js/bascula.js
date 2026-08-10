@@ -24,11 +24,11 @@ const pnlPesar = document.getElementById("pnl-pesar");
 // ##########
 // Botones
 // ##########
-// btn_tarar?.addEventListener("touchstart", () => {
+// btn_tarar?.addEventListener("pointerdown", () => {
     
 // });
 
-btn_tarar?.addEventListener("touchend", () => {
+btn_tarar?.addEventListener("pointerup", () => {
     startCrono();
     animBascula({tiempoDifuminado: 2000, tiempoMovimiento: 2000, tiempoFlecha: 1000});
 });

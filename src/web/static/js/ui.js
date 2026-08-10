@@ -680,7 +680,7 @@ export function chngModo(modoAP) {
 
         // iniTimerAjst(modoAP);
 
-        return "tAire"
+        // return "tAire"
     } else {
         t_aire.classList.remove("disabled");
         c_modo_Aire.classList.remove("enabled");
@@ -690,16 +690,40 @@ export function chngModo(modoAP) {
 };
 
 const pnlAire = document.getElementById("pnl-modoAire");
+const lbl_temp_piel = document.querySelector(".lbl-temp-piel");
+const tpiel_txt = document.querySelector(".tpiel");
+const line_01 = document.querySelector(".line-01");
+const vaux = document.querySelector(".vaux");
+
+const tprogp = document.querySelector(".tprogp");
+
+const elementos_tpiel = document.querySelectorAll(".tpiel .active");
+const elementos_vaux = document.querySelectorAll(".vaux .active");
+
+btn_acptChngMd?.addEventListener("click", () => {
+  pnlBebe?.classList.remove("active");
+  pnlAire?.classList.add("active");
+
+  c_modo_Aire?.classList.remove("enabled");
+  t_aire?.classList.remove("disabled");
+  lbl_temp_piel?.classList.remove("active");
+
+  elementos_tpiel.forEach((elemento) => {
+    elemento.classList.remove("active");
+  });
+
+  elementos_vaux.forEach((elemento) => {
+    elemento.classList.remove("active");
+  });
+
+  line_01.style.display = "none";
+  tpiel_txt.style.left = "75px";
+  tprogp.classList.remove("active");
+  vaux.classList.remove("active");
+});
 
 btn_cnclChngMd?.addEventListener("click", () => {
     pnlAire.classList.remove("chng");
-    c_modo_Aire.classList.remove("enabled");
-    t_aire.classList.remove("disabled");
-});
-
-btn_acptChngMd?.addEventListener("click", () => {
-    pnlBebe.classList.remove("active");
-    pnlAire.classList.add("active");
     c_modo_Aire.classList.remove("enabled");
     t_aire.classList.remove("disabled");
 });

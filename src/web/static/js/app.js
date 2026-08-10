@@ -39,19 +39,19 @@ const ajstCtrlFot = document.getElementById("mod-fot");
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 
 // ***************** Panel Temperatura Piel ***************** //
-pnlBebe?.addEventListener("touchstart", () => {
+pnlBebe?.addEventListener("pointerdown", () => {
     pnlBebe.classList.add("pressed");
 });
-pnlBebe?.addEventListener("touchend", () => {
+pnlBebe?.addEventListener("pointerup", () => {
     pnlBebe.classList.remove("pressed");
     ajstCtrl_TPiel();
 });
 
 // ***************** Panel Temperatura Aire ***************** //
-pnlAire?.addEventListener("touchstart", () => {
+pnlAire?.addEventListener("pointerdown", () => {
     pnlAire.classList.add("pressed");
 });
-pnlAire?.addEventListener("touchend", () => {
+pnlAire?.addEventListener("pointerup", () => {
     pnlAire.classList.remove("pressed");
     pnlAire.classList.add("chng");
 
@@ -61,28 +61,28 @@ pnlAire?.addEventListener("touchend", () => {
 });
 
 // ***************** Panel Control Oxigeno ****************** //
-ajstCtrlOx?.addEventListener("touchstart", () => {
+ajstCtrlOx?.addEventListener("pointerdown", () => {
     ajstCtrlOx.classList.add("pressed");
 });
-ajstCtrlOx?.addEventListener("touchend", () => {
+ajstCtrlOx?.addEventListener("pointerup", () => {
     ajstCtrlOx.classList.remove("pressed");
     ajst_CtrlOx();
 });
 
 // ***************** Panel Control Humedad ****************** //
-ajstCtrlHum?.addEventListener("touchstart", () => {
+ajstCtrlHum?.addEventListener("pointerdown", () => {
     ajstCtrlHum.classList.add("pressed");
 });
-ajstCtrlHum?.addEventListener("touchend", () => {
+ajstCtrlHum?.addEventListener("pointerup", () => {
     ajstCtrlHum.classList.remove("pressed");
     ajst_CtrlHum();
 });
 
 // **************** Panel Control Fototerapia *************** //
-ajstCtrlFot?.addEventListener("touchstart", () => {
+ajstCtrlFot?.addEventListener("pointerdown", () => {
     ajstCtrlFot.classList.add("active");
 });
-ajstCtrlFot?.addEventListener("touchend", () => {
+ajstCtrlFot?.addEventListener("pointerup", () => {
     confAjstFoto();
 });
 
@@ -150,12 +150,12 @@ function bindMenuButton(config) {
 
     menuButtons[config.key] = state;
 
-    button?.addEventListener("touchstart", () => {
+    button?.addEventListener("pointerdown", () => {
         clear_Btns();
         applyButtonVisualState(button, image, config, true);
     });
 
-    button?.addEventListener("touchend", () => {
+    button?.addEventListener("pointerup", () => {
         updateBottomNavLayout(state.isHomeView);
         toggleHomePanel(config.panel);
 
@@ -240,4 +240,4 @@ function clear_Btns() {
 
 
 setInitValues();
-startSensor();
+// startSensor();
