@@ -453,6 +453,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Sección T. Piel modo desactivado acomodado.
  - Primera versión de modo aire. Hay que optimizar el cambio de función.
  - Función de obtención de fecha y hora.
+ - Bandera de cambio de modo.
 
 ## Descarga e Instalación
 

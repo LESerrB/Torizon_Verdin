@@ -8,6 +8,7 @@ let updateSlider10Value = null;
 let updateFotSliderValue = null;
 let activeSlider = "slider10";
 let valsCtrl = null;
+let modoAP0 = "";
 
 let sliderConfig = {
     min: 34.0,
@@ -669,26 +670,11 @@ function iniTimerAjst(ajstPnl) {
 const t_aire = document.querySelector(".cont-taire");
 const c_modo_Aire = document.querySelector(".pop-cmodo-aire");
 
-const btn_cnclChngMd = document.getElementById("cnclChngMd");
-const btn_acptChngMd = document.getElementById("acptChngMd");
+
 
 const pnlBebe = document.getElementById("pnl-modoBebe");
 
-export function chngModo(modoAP) {
-    if (modoAP === "tPiel") {
-        t_aire.classList.add("disabled");
-        c_modo_Aire.classList.add("enabled");
 
-        // iniTimerAjst(modoAP);
-
-        // return "tAire"
-    } else {
-        t_aire.classList.remove("disabled");
-        c_modo_Aire.classList.remove("enabled");
-
-        // return "tPiel"
-    }
-};
 
 const pnlAire = document.getElementById("pnl-modoAire");
 const lbl_temp_piel = document.querySelector(".lbl-temp-piel");
@@ -710,51 +696,81 @@ const elementos_taire = t_aire?.querySelectorAll(
 const lbl_temp_aire = t_aire?.querySelector(".lbl-temp-aire");
 const tprog_aire = document.querySelector(".tprog-aire");
 
-btn_acptChngMd?.addEventListener("click", () => {
+
+const cont_vm_tpiel = document.querySelector(".cont-vm-tpiel");
+const pop_mp_prin_mc_tpiel = document.querySelector(".pop-mp-prin-mc-tpiel");
+
+
+export function chngModo(panel, modoAP) {
+    if (modoAP === "tPiel" && panel.id === "pnl-modoBebe") {
+        ajstCtrl_TPiel();
+    }
+    else if(modoAP === "tPiel" && panel.id === "pnl-modoAire"){
+        panel.classList.add("chng");
+
+        t_aire.classList.add("disabled");
+        c_modo_Aire.classList.add("enabled");
+
+        // iniTimerAjst(modoAP);
+    }
+    else if(modoAP === "tAire" && panel.id === "pnl-modoAire"){
+        ajstCtrl_TAire();
+    }
+    else if(modoAP === "tAire" && panel.id === "pnl-modoBebe"){
+        panel.classList.add("chng");
+
+        cont_vm_tpiel.classList.add("c-modo");
+        pop_mp_prin_mc_tpiel.classList.add("c-modo");
+    }
+};
+
+export function modoAire() {
   title_panel_prin.classList.remove("bckgnd-ctrl-piel");
   title_panel_prin.classList.add("bckgnd-ctrl-aire");
 
-  pnlBebe?.classList.remove("active");
-  pnlAire?.classList.add("active");
-
-  c_modo_Aire?.classList.remove("enabled");
-  t_aire?.classList.remove("disabled");
+  /* Desahilita Panel Temperatura Piel */
   lbl_temp_piel?.classList.remove("active");
-
   elementos_tpiel.forEach((elemento) => {
     elemento.classList.remove("active");
   });
-
+  line_01.style.display = "none";
+  tprogp.classList.remove("active");
+  vaux.classList.remove("active");
   elementos_vaux.forEach((elemento) => {
     elemento.classList.remove("active");
   });
-
-  line_01.style.display = "none";
   tpiel_txt.style.left = "75px";
 
-  tprogp.classList.remove("active");
-  vaux.classList.remove("active");
+  /* Deshabilita Panel de cambio de Modo */
+  c_modo_Aire?.classList.remove("enabled");
+  t_aire?.classList.remove("disabled");
+  pnlBebe?.classList.remove("active");
+  pnlAire?.classList.add("active");
 
-  icon_tpiel.style.display = "none";
-  icon_taire.style.display = "block";
-
+  /* Habilita Panel Temperatura Aire */
   t_aire?.classList.add("active");
-
   lbl_temp_aire.classList.add("active");
   lbl_temp_aire.classList.add("m-aire");
-
   elementos_taire?.forEach((elemento) => {
     elemento.classList.add("active");
   });
-
   tprog_aire.classList.add("active");
-});
 
-btn_cnclChngMd?.addEventListener("click", () => {
-    pnlAire.classList.remove("chng");
-    c_modo_Aire.classList.remove("enabled");
-    t_aire.classList.remove("disabled");
-});
+  /* Cambio de Icono */
+  icon_tpiel.style.display = "none";
+  icon_taire.style.display = "block";
+};
+
+// btn_cnclChngMd?.addEventListener("click", () => {
+//     pnlAire.classList.remove("chng");
+//     c_modo_Aire.classList.remove("enabled");
+//     t_aire.classList.remove("disabled");
+// });
+
+
+
+
+
 
 // --------------------------------
 // Panel de módulo de fototerapia

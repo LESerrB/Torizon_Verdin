@@ -6,8 +6,8 @@ import {
 import {
     setInitValues,
 
-    ajstCtrl_TPiel,
-    ajstCtrl_TAire,
+    // ajstCtrl_TPiel,
+    // ajstCtrl_TAire,
     ajst_CtrlOx,
     ajst_CtrlHum,
     ajst_CtrlFot,
@@ -16,6 +16,8 @@ import {
     chngModo,
     fotoActive,
     confAjstFoto,
+
+    modoAire,
 } from "./ui.js";
 
 import {  } from "./crono_Apgar.js";
@@ -38,13 +40,24 @@ const ajstCtrlFot = document.getElementById("mod-fot");
 
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 
+// ====================================
+// Botones Confirmación Cambio de Modo
+// ====================================
+const btn_cnclChngMd = document.getElementById("cnclChngMd-tP-tA");
+const btn_acptChngMd = document.getElementById("acptChngMd-tP-tA");
+
+const btn_cnclChngMd2 = document.getElementById("cnclChngMd-tA-tp");
+const btn_acptChngMd2 = document.getElementById("acptChngMd-tA-tP");
+
+
 // ***************** Panel Temperatura Piel ***************** //
 pnlBebe?.addEventListener("pointerdown", () => {
     pnlBebe.classList.add("pressed");
 });
 pnlBebe?.addEventListener("pointerup", () => {
     pnlBebe.classList.remove("pressed");
-    ajstCtrl_TPiel();
+
+    chngModo(pnlBebe, modoControl);
 });
 
 // ***************** Panel Temperatura Aire ***************** //
@@ -53,11 +66,8 @@ pnlAire?.addEventListener("pointerdown", () => {
 });
 pnlAire?.addEventListener("pointerup", () => {
     pnlAire.classList.remove("pressed");
-    pnlAire.classList.add("chng");
 
-    chngModo(modoControl);
-
-    // ajstCtrl_TAire();
+    chngModo(pnlAire, modoControl);
 });
 
 // ***************** Panel Control Oxigeno ****************** //
@@ -86,8 +96,27 @@ ajstCtrlFot?.addEventListener("pointerup", () => {
     confAjstFoto();
 });
 
+// ==================================
+// Aceptar / Cancelar Cambio de Modo
+// ==================================
+btn_acptChngMd?.addEventListener("click", () => {
+    modoAire();
+    modoControl = modoControl === "tPiel" ? "tAire" : "tPiel";
+});
 
+btn_cnclChngMd?.addEventListener("click", () => {
 
+});
+
+btn_acptChngMd2?.addEventListener("click", () => {
+    // modoAire();
+    modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
+    console.log(modoControl);
+});
+
+btn_cnclChngMd2?.addEventListener("click", () => {
+
+});
 
 // =================================
 // Botones Menú Inferior

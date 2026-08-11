@@ -42,6 +42,30 @@
   align-items: center;
   justify-content: center;
 }
+.btn-cancel-ajustar.acpt-tp-ta{
+  width: 110px;
+  height: 40px;
+  left: calc(0% - -157px);
+    top: calc(0% - -137px);
+}
+.btn-cancel-ajustar.cncl-tp-ta{
+  width: 110px;
+  height: 40px;
+  left: calc(0% - -30px);
+  top: calc(0% - -137px);
+}
+.btn-cancel-ajustar.acpt-ta-tp{
+  width: 110px;
+  height: 40px;
+  left: calc(50% - 0px);
+  top: calc(50% - 40px);
+}
+.btn-cancel-ajustar.cncl-ta-tp{
+  width: 110px;
+  height: 40px;
+  left: calc(50% - 118px);
+  top: calc(50% - 40px);
+}
 
 .btn-alarma {
   width: 984px;
@@ -512,7 +536,6 @@
   color: var(--colortexttpiel);
 }
 
-
 /*################## Panel Izquierdo ##################*/
 .mp-prin-mc-tpiel {
   background: var(--colorfondoinactivo);
@@ -538,6 +561,9 @@
 
   width: 656px;
   height: 218px;
+}
+.mp-prin-mc-tpiel.chng{
+  background: var(--colorfondopiel);
 }
 .mp-prin-mc-tpiel.active.pressed{
   background: var(--colorpressedpiel);
@@ -565,6 +591,9 @@
   flex-shrink: 0;
   width: 656px;
   position: relative;
+}
+.cont-vm-tpiel.c-modo{
+  display: none;
 }
 .tpiel {
   padding: 10px;
@@ -672,6 +701,46 @@
   color: var(--colortexttaire);
 }
 
+/* Contenedor cambio de modo t. Aire -> t. Piel */
+.pop-mp-prin-mc-tpiel{
+  display: none;
+}
+.pop-mp-prin-mc-tpiel.c-modo{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: 218px;
+  position: relative;
+  overflow: hidden;
+}
+.cont-icons-cmodop {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  row-gap: 1px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+  flex-shrink: 0;
+  width: 280px;
+  height: 40px;
+  position: relative;
+  top: 23px;
+}
+.btns-cmodo-cmp {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+
 /*################### Panel Derecho ###################*/
 .mp-prin-mc-taire {
   background: var(--colorfondoinactivo);
@@ -690,6 +759,7 @@
   top: 27px;
 }
 .mp-prin-mc-taire.active{
+  overflow: hidden;
   background: var(--colorfondoaire);
 
   width: 656px;
@@ -854,7 +924,7 @@
 
 
 
-/* Modulos de Sensores */
+/*################ Modulos de Sensores ################*/
 .mp-prin-mc-msoporte {
   display: flex;
   flex-direction: row;
