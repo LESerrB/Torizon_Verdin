@@ -12,6 +12,12 @@ const peso_Basc = document.getElementById("peso");
 
 peso_Basc.textContent = "-.---"
 
+const fecha = document.getElementById("fecha");
+const hora = document.getElementById("hora");
+const am_pm = document.getElementById("am-pm");
+
+
+
 async function get_DtSensores() {
     try {
         const res = await fetch('/api/getDtSensores', {
@@ -39,6 +45,23 @@ async function get_DtSensores() {
             sensOx.textContent = "--"
             sensHum.textContent = "--"
         }
+
+        /****** Hora / Fecha ******/
+        const hoy = new Date();
+        const fecha_actual = hoy.toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'short'
+        }).replace('.', '');
+        const hora_12 = hoy.toLocaleTimeString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+        const [_, Hora, amPm] = hora_12.match(/^([\d:]+)\s+(.+)$/);
+
+        fecha.textContent = fecha_actual;
+        hora.textContent = Hora;
+        am_pm.textContent = amPm;
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada");
     }

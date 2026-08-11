@@ -240,4 +240,4 @@ function clear_Btns() {
 
 
 setInitValues();
-// startSensor();
+startSensor();
