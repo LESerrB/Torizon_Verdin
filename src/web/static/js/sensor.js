@@ -1,3 +1,5 @@
+const periodoActVals = 0.5 // segundos
+
 let intervalId = null;
 
 const tempPiel = document.getElementById("ti-vm-piel");
@@ -16,8 +18,16 @@ const fecha = document.getElementById("fecha");
 const hora = document.getElementById("hora");
 const am_pm = document.getElementById("am-pm");
 
-
-
+/**
+ * Obtiene los últimos datos de sensores desde la API y actualiza los elementos
+ * de la interfaz con los valores actuales de temperatura, humedad y oxígeno.
+ *
+ * La función realiza una petición POST a /api/getDtSensores. Si la respuesta
+ * tiene estado 200, interpreta el JSON recibido y lo muestra con una cifra
+ * decimal para las temperaturas. En caso de error o respuesta no válida,
+ * reemplaza los valores por placeholders. Además, actualiza la fecha y la hora
+ * local en formato español para que se reflejen en la vista.
+ */
 async function get_DtSensores() {
     try {
         const res = await fetch('/api/getDtSensores', {
@@ -69,7 +79,7 @@ async function get_DtSensores() {
 
 export function startSensor(){
     if (!intervalId) {
-        intervalId = setInterval(get_DtSensores, 500);
+        intervalId = setInterval(get_DtSensores, (periodoActVals * 1000));
     }
 };
 

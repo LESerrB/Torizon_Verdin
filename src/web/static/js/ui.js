@@ -717,6 +717,8 @@ export function chngModo(panel, modoAP) {
         ajstCtrl_TAire();
     }
     else if(modoAP === "tAire" && panel.id === "pnl-modoBebe"){
+        lbl_temp_piel.textContent = "Cambiar a Modo Piel";
+        lbl_temp_piel.classList.add("active");
         panel.classList.add("chng");
 
         cont_vm_tpiel.classList.add("c-modo");
@@ -724,6 +726,11 @@ export function chngModo(panel, modoAP) {
     }
     else{
         panel.classList.remove("chng");
+        
+        if(panel.id === "pnl-modoBebe"){
+            lbl_temp_piel.textContent = "Temperatura Piel";
+            lbl_temp_piel.classList.remove("active");
+        }
 
         t_aire.classList.remove("disabled");
         c_modo_Aire.classList.remove("enabled");
@@ -772,6 +779,8 @@ export function modoAire() {
 };
 
 export function modoPiel(){
+  lbl_temp_piel.textContent = "Temperatura Piel";
+
   /* Cambio de color barra de titulo */
   title_panel_prin.classList.remove("bckgnd-ctrl-aire");
   title_panel_prin.classList.add("bckgnd-ctrl-piel");

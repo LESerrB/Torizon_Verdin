@@ -456,7 +456,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Bandera de cambio de modo.
  - Botones Aceptar/Cancelar para el cambio de modo funcionando.
  - Cambio de modo de operacion, corrección de bugs.
- 
+
 ## Descarga e Instalación
 
 <p align="center">

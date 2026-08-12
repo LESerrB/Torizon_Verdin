@@ -6,8 +6,6 @@ import {
 import {
     setInitValues,
 
-    // ajstCtrl_TPiel,
-    // ajstCtrl_TAire,
     ajst_CtrlOx,
     ajst_CtrlHum,
     ajst_CtrlFot,
@@ -276,6 +274,6 @@ function clear_Btns() {
     });
 }
 
-
-setInitValues();
-startSensor();
+// Funciones inciales
+setInitValues();            // Valores iniciales de control
+startSensor();              // Inicio de sensado
