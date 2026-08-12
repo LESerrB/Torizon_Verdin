@@ -734,10 +734,11 @@ export function chngModo(panel, modoAP) {
 };
 
 export function modoAire() {
+  /* Cambio de color barra de titulo */
   title_panel_prin.classList.remove("bckgnd-ctrl-piel");
   title_panel_prin.classList.add("bckgnd-ctrl-aire");
 
-  /* Desahilita Panel Temperatura Piel */
+  /* Deshabilita Panel Temperatura Piel */
   lbl_temp_piel?.classList.remove("active");
   elementos_tpiel.forEach((elemento) => {
     elemento.classList.remove("active");
@@ -770,7 +771,43 @@ export function modoAire() {
   icon_taire.style.display = "block";
 };
 
+export function modoPiel(){
+  /* Cambio de color barra de titulo */
+  title_panel_prin.classList.remove("bckgnd-ctrl-aire");
+  title_panel_prin.classList.add("bckgnd-ctrl-piel");
 
+  /* Deshabilita Panel Temperatura Aire */
+  t_aire?.classList.remove("active");
+  lbl_temp_aire.classList.remove("active");
+  lbl_temp_aire.classList.remove("m-aire");
+  elementos_taire?.forEach((elemento) => {
+    elemento.classList.remove("active");
+  });
+  tprog_aire.classList.remove("active");
+
+  /* Deshabilita Panel de cambio de Modo */
+  pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+  cont_vm_tpiel.classList.remove("c-modo");
+  pnlAire?.classList.remove("active");
+  pnlBebe?.classList.add("active");
+
+  /* Habilita Panel Temperatura Piel */
+  lbl_temp_piel?.classList.add("active");
+  elementos_tpiel.forEach((elemento) => {
+    elemento.classList.add("active");
+  });
+  line_01.style.display = "block";
+  tprogp.classList.add("active");
+  vaux.classList.add("active");
+  elementos_vaux.forEach((elemento) => {
+    elemento.classList.add("active");
+  });
+  tpiel_txt.style.left = "-7px";
+
+  /* Cambio de Icono */
+  icon_taire.style.display = "none";
+  icon_tpiel.style.display = "block";
+}
 
 // btn_cnclChngMd?.addEventListener("click", () => {
 //     pnlAire.classList.remove("chng");

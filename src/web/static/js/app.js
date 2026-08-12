@@ -18,6 +18,7 @@ import {
     confAjstFoto,
 
     modoAire,
+    modoPiel,
 } from "./ui.js";
 
 import {  } from "./crono_Apgar.js";
@@ -49,6 +50,7 @@ const btn_acptChngMd = document.getElementById("acptChngMd-tP-tA");
 const btn_cnclChngMd2 = document.getElementById("cnclChngMd-tA-tP");
 const btn_acptChngMd2 = document.getElementById("acptChngMd-tA-tP");
 
+const lbl_modo_ctrl = document.getElementById("lbl-modo-ctrl");
 
 // ***************** Panel Temperatura Piel ***************** //
 pnlBebe?.addEventListener("pointerdown", () => {
@@ -100,7 +102,11 @@ ajstCtrlFot?.addEventListener("pointerup", () => {
 // Aceptar / Cancelar Cambio de Modo
 // ==================================
 btn_acptChngMd?.addEventListener("click", () => {
+    pnlBebe.classList.remove("chng");
+
     modoAire();
+
+    lbl_modo_ctrl.textContent = "Incubadora Controlada por Aire";
     modoControl = modoControl === "tPiel" ? "tAire" : "tPiel";
 });
 
@@ -109,7 +115,11 @@ btn_cnclChngMd?.addEventListener("click", () => {
 });
 
 btn_acptChngMd2?.addEventListener("click", () => {
-    // modoPiel();
+    pnlAire.classList.remove("chng");
+
+    modoPiel();
+
+    lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
     modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
 });
 

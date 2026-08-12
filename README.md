@@ -443,7 +443,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de panel lateral módulo de báscula.
  - Módulo de pesaje agregado.
 
-### v0.23.3 - [11/Agosto/2026]
+### v0.23.3 - [12/Agosto/2026]
 
  - Cambio de paneles de función "click" a "touchstart" y "touchend".
  - Cambio de paneles de "ui.js" a "app.js".
@@ -455,6 +455,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Función de obtención de fecha y hora.
  - Bandera de cambio de modo.
  - Botones Aceptar/Cancelar para el cambio de modo funcionando.
+ - Cambio de modo de operacion, corrección de bugs.
  
 ## Descarga e Instalación
 
