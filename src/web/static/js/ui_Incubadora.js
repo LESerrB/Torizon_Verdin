@@ -657,26 +657,18 @@ function iniTimerAjst(ajstPnl) {
         if(ajstPnl === "foto")
             fotoActive();
         else if (ajstPnl === "tPiel"){
-            console.log("Cancelando cambio de modo a tAire");
             chngModo();
         }
 
     }, (secs2Conf * 1000));
 };
 
-// -----------------------------------------
-// Panel cambio de modo T. Piel -> T. Aire
-// -----------------------------------------
+// ----------------------------------------------------------------
+// Paneles cambio de modo T. Piel -> T. Aire / T. Aire -> T. Piel
+// ----------------------------------------------------------------
 const t_aire = document.querySelector(".cont-taire");
 const c_modo_Aire = document.querySelector(".pop-cmodo-aire");
 
-
-
-const pnlBebe = document.getElementById("pnl-modoBebe");
-
-
-
-const pnlAire = document.getElementById("pnl-modoAire");
 const lbl_temp_piel = document.querySelector(".lbl-temp-piel");
 const tpiel_txt = document.querySelector(".tpiel");
 const line_01 = document.querySelector(".line-01");
@@ -740,7 +732,7 @@ export function chngModo(panel, modoAP) {
     }
 };
 
-export function modoAire() {
+export function modoAire(pnlB, pnlA) {
   /* Cambio de color barra de titulo */
   title_panel_prin.classList.remove("bckgnd-ctrl-piel");
   title_panel_prin.classList.add("bckgnd-ctrl-aire");
@@ -761,8 +753,8 @@ export function modoAire() {
   /* Deshabilita Panel de cambio de Modo */
   c_modo_Aire?.classList.remove("enabled");
   t_aire?.classList.remove("disabled");
-  pnlBebe?.classList.remove("active");
-  pnlAire?.classList.add("active");
+  pnlB?.classList.remove("active");
+  pnlA?.classList.add("active");
 
   /* Habilita Panel Temperatura Aire */
   t_aire?.classList.add("active");
@@ -778,7 +770,7 @@ export function modoAire() {
   icon_taire.style.display = "block";
 };
 
-export function modoPiel(){
+export function modoPiel(pnlA, pnlB){
   lbl_temp_piel.textContent = "Temperatura Piel";
 
   /* Cambio de color barra de titulo */
@@ -797,8 +789,8 @@ export function modoPiel(){
   /* Deshabilita Panel de cambio de Modo */
   pop_mp_prin_mc_tpiel.classList.remove("c-modo");
   cont_vm_tpiel.classList.remove("c-modo");
-  pnlAire?.classList.remove("active");
-  pnlBebe?.classList.add("active");
+  pnlA?.classList.remove("active");
+  pnlB?.classList.add("active");
 
   /* Habilita Panel Temperatura Piel */
   lbl_temp_piel?.classList.add("active");
@@ -817,12 +809,6 @@ export function modoPiel(){
   icon_taire.style.display = "none";
   icon_tpiel.style.display = "block";
 }
-
-// btn_cnclChngMd?.addEventListener("click", () => {
-//     pnlAire.classList.remove("chng");
-//     c_modo_Aire.classList.remove("enabled");
-//     t_aire.classList.remove("disabled");
-// });
 
 
 

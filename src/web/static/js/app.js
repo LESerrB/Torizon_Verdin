@@ -17,7 +17,7 @@ import {
 
     modoAire,
     modoPiel,
-} from "./ui.js";
+} from "./ui_Incubadora.js";
 
 import {  } from "./crono_Apgar.js";
 
@@ -102,7 +102,7 @@ ajstCtrlFot?.addEventListener("pointerup", () => {
 btn_acptChngMd?.addEventListener("click", () => {
     pnlBebe.classList.remove("chng");
 
-    modoAire();
+    modoAire(pnlBebe, pnlAire);
 
     lbl_modo_ctrl.textContent = "Incubadora Controlada por Aire";
     modoControl = modoControl === "tPiel" ? "tAire" : "tPiel";
@@ -115,7 +115,7 @@ btn_cnclChngMd?.addEventListener("click", () => {
 btn_acptChngMd2?.addEventListener("click", () => {
     pnlAire.classList.remove("chng");
 
-    modoPiel();
+    modoPiel(pnlAire, pnlBebe);
 
     lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
     modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
