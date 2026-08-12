@@ -46,7 +46,7 @@ const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 const btn_cnclChngMd = document.getElementById("cnclChngMd-tP-tA");
 const btn_acptChngMd = document.getElementById("acptChngMd-tP-tA");
 
-const btn_cnclChngMd2 = document.getElementById("cnclChngMd-tA-tp");
+const btn_cnclChngMd2 = document.getElementById("cnclChngMd-tA-tP");
 const btn_acptChngMd2 = document.getElementById("acptChngMd-tA-tP");
 
 
@@ -105,17 +105,16 @@ btn_acptChngMd?.addEventListener("click", () => {
 });
 
 btn_cnclChngMd?.addEventListener("click", () => {
-
+    chngModo(pnlAire);
 });
 
 btn_acptChngMd2?.addEventListener("click", () => {
-    // modoAire();
+    // modoPiel();
     modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
-    console.log(modoControl);
 });
 
 btn_cnclChngMd2?.addEventListener("click", () => {
-
+    chngModo(pnlBebe);
 });
 
 // =================================

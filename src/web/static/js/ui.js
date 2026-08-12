@@ -722,6 +722,15 @@ export function chngModo(panel, modoAP) {
         cont_vm_tpiel.classList.add("c-modo");
         pop_mp_prin_mc_tpiel.classList.add("c-modo");
     }
+    else{
+        panel.classList.remove("chng");
+
+        t_aire.classList.remove("disabled");
+        c_modo_Aire.classList.remove("enabled");
+
+        cont_vm_tpiel.classList.remove("c-modo");
+        pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+    }
 };
 
 export function modoAire() {
@@ -760,6 +769,8 @@ export function modoAire() {
   icon_tpiel.style.display = "none";
   icon_taire.style.display = "block";
 };
+
+
 
 // btn_cnclChngMd?.addEventListener("click", () => {
 //     pnlAire.classList.remove("chng");

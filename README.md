@@ -454,7 +454,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Primera versión de modo aire. Hay que optimizar el cambio de función.
  - Función de obtención de fecha y hora.
  - Bandera de cambio de modo.
-
+ - Botones Aceptar/Cancelar para el cambio de modo funcionando.
+ 
 ## Descarga e Instalación
 
 <p align="center">
