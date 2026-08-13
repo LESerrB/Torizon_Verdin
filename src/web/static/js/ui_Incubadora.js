@@ -663,151 +663,190 @@ function iniTimerAjst(ajstPnl) {
     }, (secs2Conf * 1000));
 };
 
-// ----------------------------------------------------------------
-// Paneles cambio de modo T. Piel -> T. Aire / T. Aire -> T. Piel
-// ----------------------------------------------------------------
+// ================================================================
+// PANELES: Cambio de modo T. Piel <-> T. Aire
+// ================================================================
+
+// Elementos del DOM - Paneles y controles
 const t_aire = document.querySelector(".cont-taire");
 const c_modo_Aire = document.querySelector(".pop-cmodo-aire");
-
-const lbl_temp_piel = document.querySelector(".lbl-temp-piel");
-const tpiel_txt = document.querySelector(".tpiel");
-const line_01 = document.querySelector(".line-01");
-const vaux = document.querySelector(".vaux");
-
-const tprogp = document.querySelector(".tprogp");
-
-const elementos_tpiel = document.querySelectorAll(".tpiel .active");
-const elementos_vaux = document.querySelectorAll(".vaux .active");
-
-const icon_tpiel = document.querySelector(".icon-tpiel");
-const icon_taire = document.querySelector(".icon-taire");
-
-const elementos_taire = t_aire?.querySelectorAll(
-  ".taire .text-Temps, .taire .units-tempAire-Prin"
-);
-const lbl_temp_aire = t_aire?.querySelector(".lbl-temp-aire");
-const tprog_aire = document.querySelector(".tprog-aire");
-
-
 const cont_vm_tpiel = document.querySelector(".cont-vm-tpiel");
 const pop_mp_prin_mc_tpiel = document.querySelector(".pop-mp-prin-mc-tpiel");
 
+// Elementos - Temperatura Piel
+const lbl_temp_piel = document.querySelector(".lbl-temp-piel");
+const line_01 = document.querySelector(".line-01");
+const vaux = document.querySelector(".vaux");
+const tprogp = document.querySelector(".tprogp");
+const elementos_tpiel = document.querySelectorAll(".tpiel .m-Piel");
+const elementos_vaux = document.querySelectorAll(".vaux .active");
+const icon_tpiel = document.querySelector(".icon-tpiel");
 
-export function chngModo(panel, modoAP) {
-    if (modoAP === "tPiel" && panel.id === "pnl-modoBebe") {
-        ajstCtrl_TPiel();
+// Elementos - Temperatura Aire
+const elementos_taire = t_aire?.querySelectorAll(".taire .text-Temps, .taire .units-tempAire-Prin");
+const lbl_temp_aire = t_aire?.querySelector(".lbl-temp-aire");
+const tprog_aire = document.querySelector(".tprog-aire");
+const icon_taire = document.querySelector(".icon-taire");
+
+/**
+ * Configuración de modos para cambios de temperatura
+ */
+const modoConfig = {
+  tAire: {
+    titleClass: "bckgnd-ctrl-aire",
+    titleClassRemove: "bckgnd-ctrl-piel",
+    modeClass: "m-Aire",
+    modeClassRemove: "m-Piel",
+    activePanel: "pnl-modoAire",
+    icon: { show: icon_taire, hide: icon_tpiel },
+    elements: {
+      aire: [t_aire, lbl_temp_aire, tprog_aire],
+      piel: [lbl_temp_piel, tprogp, vaux, cont_vm_tpiel],
+      hidden: [line_01],
+      elementCollections: [{ elements: elementos_taire, action: "add" }, { elements: elementos_vaux, action: "remove", class: "active" }]
     }
-    else if(modoAP === "tPiel" && panel.id === "pnl-modoAire"){
-        panel.classList.add("chng");
-
-        t_aire.classList.add("disabled");
-        c_modo_Aire.classList.add("enabled");
-
-        // iniTimerAjst(modoAP);
+  },
+  tPiel: {
+    titleClass: "bckgnd-ctrl-piel",
+    titleClassRemove: "bckgnd-ctrl-aire",
+    modeClass: "m-Piel",
+    modeClassRemove: "m-Aire",
+    activePanel: "pnl-modoBebe",
+    icon: { show: icon_tpiel, hide: icon_taire },
+    elements: {
+      aire: [t_aire, lbl_temp_aire, tprog_aire],
+      piel: [lbl_temp_piel, tprogp, vaux],
+      visible: [line_01],
+      elementCollections: [{ elements: elementos_tpiel, action: "add" }, { elements: elementos_vaux, action: "add", class: "active" }, { elements: elementos_taire, action: "remove" }]
     }
-    else if(modoAP === "tAire" && panel.id === "pnl-modoAire"){
-        ajstCtrl_TAire();
-    }
-    else if(modoAP === "tAire" && panel.id === "pnl-modoBebe"){
-        lbl_temp_piel.textContent = "Cambiar a Modo Piel";
-        lbl_temp_piel.classList.add("active");
-        panel.classList.add("chng");
-
-        cont_vm_tpiel.classList.add("c-modo");
-        pop_mp_prin_mc_tpiel.classList.add("c-modo");
-    }
-    else{
-        panel.classList.remove("chng");
-        
-        if(panel.id === "pnl-modoBebe"){
-            lbl_temp_piel.textContent = "Temperatura Piel";
-            lbl_temp_piel.classList.remove("active");
-        }
-
-        t_aire.classList.remove("disabled");
-        c_modo_Aire.classList.remove("enabled");
-
-        cont_vm_tpiel.classList.remove("c-modo");
-        pop_mp_prin_mc_tpiel.classList.remove("c-modo");
-    }
+  }
 };
 
+/**
+ * Aplica cambios de clases a múltiples elementos
+ * @param {HTMLElement[]} elements Array de elementos
+ * @param {string} action "add" o "remove"
+ * @param {string} className Clase a aplicar
+ */
+function toggleElementsClass(elements, action, className) {
+  elements?.forEach(el => {
+    if (el) el.classList[action](className);
+  });
+}
+
+/**
+ * Cambia entre modo Piel y Aire
+ * @param {string} modo "tPiel" o "tAire"
+ * @param {HTMLElement} pnlInactivo Panel a desactivar
+ * @param {HTMLElement} pnlActivo Panel a activar
+ */
+function cambiarModo(modo, pnlInactivo, pnlActivo) {
+  const config = modoConfig[modo];
+  if (!config) return;
+
+  // Cambiar título
+  title_panel_prin.classList.remove(config.titleClassRemove);
+  title_panel_prin.classList.add(config.titleClass);
+
+  // Cambiar paneles activos
+  pnlInactivo?.classList.remove("active");
+  pnlActivo?.classList.add("active");
+
+  // Cambiar iconos
+  config.icon.show.style.display = "block";
+  config.icon.hide.style.display = "none";
+
+  // Cambiar clases de visibilidad para aire
+  toggleElementsClass(config.elements.aire, "add", config.modeClass);
+  toggleElementsClass(config.elements.aire, "remove", config.modeClassRemove);
+
+  // Cambiar clases de visibilidad para piel
+  toggleElementsClass(config.elements.piel, "add", config.modeClass);
+  toggleElementsClass(config.elements.piel, "remove", config.modeClassRemove);
+
+  // Elementos con propiedades específicas
+  config.elements.hidden?.forEach(el => {
+    if (el) el.style.display = "none";
+  });
+  config.elements.visible?.forEach(el => {
+    if (el) el.style.display = "block";
+  });
+
+  // Procesar colecciones de elementos
+  config.elements.elementCollections?.forEach(({ elements, action, class: className }) => {
+    if (className) {
+      toggleElementsClass(elements, action, className);
+    }
+  });
+}
+
+/**
+ * Alterna entre modos y ejecuta la acción correspondiente del control
+ * @param {HTMLElement} panel Panel que se está modificando
+ * @param {string} modoAP Modo a aplicar ("tPiel" o "tAire")
+ */
+export function chngModo(panel, modoAP) {
+  const isModoBebe = panel?.id === "pnl-modoBebe";
+  const isModoAire = panel?.id === "pnl-modoAire";
+  
+  // Cambios de modo confirmados
+  if (modoAP === "tPiel" && isModoBebe) {
+    ajstCtrl_TPiel();
+  } 
+  else if (modoAP === "tPiel" && isModoAire) {
+    panel.classList.add("chng");
+    t_aire.classList.add("disabled");
+    c_modo_Aire.classList.add("enabled");
+  } 
+  else if (modoAP === "tAire" && isModoAire) {
+    ajstCtrl_TAire();
+  } 
+  else if (modoAP === "tAire" && isModoBebe) {
+    lbl_temp_piel.textContent = "Cambiar a Modo Piel";
+    lbl_temp_piel.classList.add("active");
+    panel.classList.add("chng");
+    cont_vm_tpiel.classList.add("c-modo");
+    pop_mp_prin_mc_tpiel.classList.add("c-modo");
+  } 
+  // Cancelación de cambio de modo
+  else {
+    panel.classList.remove("chng");
+    
+    if (isModoBebe) {
+      lbl_temp_piel.textContent = "Temperatura Piel";
+      lbl_temp_piel.classList.remove("active");
+    }
+
+    t_aire.classList.remove("disabled");
+    c_modo_Aire.classList.remove("enabled");
+    cont_vm_tpiel.classList.remove("c-modo");
+    pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+  }
+}
+
+/**
+ * Cambia a modo Aire
+ * @param {HTMLElement} pnlB Panel Piel a desactivar
+ * @param {HTMLElement} pnlA Panel Aire a activar
+ */
 export function modoAire(pnlB, pnlA) {
-  /* Cambio de color barra de titulo */
-  title_panel_prin.classList.remove("bckgnd-ctrl-piel");
-  title_panel_prin.classList.add("bckgnd-ctrl-aire");
-
-  /* Deshabilita Panel Temperatura Piel */
-  lbl_temp_piel?.classList.remove("active");
-  elementos_tpiel.forEach((elemento) => {
-    elemento.classList.remove("active");
-  });
-  line_01.style.display = "none";
-  tprogp.classList.remove("active");
-  vaux.classList.remove("active");
-  elementos_vaux.forEach((elemento) => {
-    elemento.classList.remove("active");
-  });
-  tpiel_txt.style.left = "75px";
-
-  /* Deshabilita Panel de cambio de Modo */
+  cambiarModo("tAire", pnlB, pnlA);
   c_modo_Aire?.classList.remove("enabled");
   t_aire?.classList.remove("disabled");
-  pnlB?.classList.remove("active");
-  pnlA?.classList.add("active");
+  cont_vm_tpiel.classList.add("m-Piel");
+}
 
-  /* Habilita Panel Temperatura Aire */
-  t_aire?.classList.add("active");
-  lbl_temp_aire.classList.add("active");
-  lbl_temp_aire.classList.add("m-aire");
-  elementos_taire?.forEach((elemento) => {
-    elemento.classList.add("active");
-  });
-  tprog_aire.classList.add("active");
-
-  /* Cambio de Icono */
-  icon_tpiel.style.display = "none";
-  icon_taire.style.display = "block";
-};
-
-export function modoPiel(pnlA, pnlB){
+/**
+ * Cambia a modo Piel
+ * @param {HTMLElement} pnlA Panel Aire a desactivar
+ * @param {HTMLElement} pnlB Panel Piel a activar
+ */
+export function modoPiel(pnlA, pnlB) {
   lbl_temp_piel.textContent = "Temperatura Piel";
-
-  /* Cambio de color barra de titulo */
-  title_panel_prin.classList.remove("bckgnd-ctrl-aire");
-  title_panel_prin.classList.add("bckgnd-ctrl-piel");
-
-  /* Deshabilita Panel Temperatura Aire */
-  t_aire?.classList.remove("active");
-  lbl_temp_aire.classList.remove("active");
-  lbl_temp_aire.classList.remove("m-aire");
-  elementos_taire?.forEach((elemento) => {
-    elemento.classList.remove("active");
-  });
-  tprog_aire.classList.remove("active");
-
-  /* Deshabilita Panel de cambio de Modo */
+  cambiarModo("tPiel", pnlA, pnlB);
   pop_mp_prin_mc_tpiel.classList.remove("c-modo");
   cont_vm_tpiel.classList.remove("c-modo");
-  pnlA?.classList.remove("active");
-  pnlB?.classList.add("active");
-
-  /* Habilita Panel Temperatura Piel */
-  lbl_temp_piel?.classList.add("active");
-  elementos_tpiel.forEach((elemento) => {
-    elemento.classList.add("active");
-  });
-  line_01.style.display = "block";
-  tprogp.classList.add("active");
-  vaux.classList.add("active");
-  elementos_vaux.forEach((elemento) => {
-    elemento.classList.add("active");
-  });
-  tpiel_txt.style.left = "-7px";
-
-  /* Cambio de Icono */
-  icon_taire.style.display = "none";
-  icon_tpiel.style.display = "block";
+  cont_vm_tpiel.classList.remove("m-Piel");
 }
 
 

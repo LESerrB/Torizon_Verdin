@@ -440,10 +440,10 @@
   align-items: center;
   justify-content: center;
 }
-.txt-Temps.active {
+.txt-Temps.m-Piel {
   color:        var(--colortexttpiel);
 }
-.text-Temps.active {
+.text-Temps.m-Aire {
   color:        var(--colortexttaire);
 }
 
@@ -508,10 +508,11 @@
 .lbl-temp-aire.active {
   color:        var(--colortexttaire);
 }
-.lbl-temp-aire.m-aire {
+.lbl-temp-aire.m-Aire {
+  color:        var(--colortexttaire);
   left: 75px;
 }
-.lbl-temp-piel.active {
+.lbl-temp-piel.m-Piel {
   color:        var(--colortexttpiel);
 }
 
@@ -529,10 +530,10 @@
   align-items: center;
   justify-content: flex-start;
 }
-.units-tempAire-Prin.active {
+.units-tempAire-Prin.m-Aire {
   color: var(--colortexttaire);
 }
-.units-tempPiel-Prin.active {
+.units-tempPiel-Prin.m-Piel {
   color: var(--colortexttpiel);
 }
 
@@ -594,6 +595,9 @@
 }
 .cont-vm-tpiel.c-modo{
   display: none;
+}
+.cont-vm-tpiel.m-Piel{
+  left: 75px;
 }
 .tpiel {
   padding: 10px;
@@ -728,7 +732,7 @@ Contenedor Temperaturas Secundarias
   top: -7px;
   left: 10px;
 }
-.tprogp.active{
+.tprogp.m-Piel{
   display: flex;
 }
 .vprogp {
@@ -765,9 +769,9 @@ Contenedor Temperaturas Secundarias
   position: relative;
 
   top: 110px;
-  right: 95px;
+  right: 175px;
 }
-.vaux.active {
+.vaux.m-Piel {
   flex-direction: column;
   gap: 2px;
   top: 0px;
@@ -860,7 +864,7 @@ Contenedor Temperaturas Secundarias
   position: relative;
   left: 0px;
 }
-.cont-taire.active{
+.cont-taire.m-Aire{
   left: 80px;
 }
 .cont-taire.disabled{
@@ -894,7 +898,7 @@ Contenedor Temperaturas Secundarias
 .tprog-aire{
   display: none;
 }
-.tprog-aire.active{
+.tprog-aire.m-Aire{
   display: block;
 
   position: relative;
@@ -1445,4 +1449,3 @@ Contenedor Temperaturas Secundarias
   position: relative;
   width: 5px;
 }
-
