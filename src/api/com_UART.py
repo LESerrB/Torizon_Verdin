@@ -120,7 +120,7 @@ def decode_Msg(UART_dev):
         print(f"Error al recibir trama: {e}")
         return b'\x99\x00', len(b'\x99\x00')
 
-def encode_Msg(UART_dev, msg):
+def encode_Msg(UART_dev, msg, cmd = None):
     """
     Construye y envía una trama hacia la tarjeta de báscula.
 
@@ -133,23 +133,18 @@ def encode_Msg(UART_dev, msg):
         envía la trama completa mediante `uart_send()`.
     """
     try:
-        n_bytes = int(len(msg)/2)
+        n_bytes_int = len(msg) // 2
         dt = bytes.fromhex(msg)
 
         crc = crc16_arc(dt)
         crc = crc.to_bytes(2, byteorder='big')
 
-        rpt = 10 - n_bytes
+        void_dt = b'\x00' * max(0, 10 - n_bytes_int)
+        n_bytes = n_bytes_int.to_bytes(1, byteorder='big')
 
-        if rpt > 0:
-            void_dt = b'\x00' * rpt
-        else:
-            void_dt = b''
+        dt = b'\x00' + (cmd or b'') + n_bytes + dt + void_dt + crc + b'\x63'
 
-        n_bytes = n_bytes.to_bytes(1, byteorder='big')
-        dt = b'\x00' + n_bytes + dt + void_dt + crc + b'\x63'
-
-        # print(">>>>", dt)
+        print(">>>>", dt)
         uart_send(UART_dev, dt)
     except Exception as e:
         print(f"Error al mandar trama: {e}")
