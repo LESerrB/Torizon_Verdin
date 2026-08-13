@@ -683,7 +683,7 @@ const elementos_vaux = document.querySelectorAll(".vaux .active");
 const icon_tpiel = document.querySelector(".icon-tpiel");
 
 // Elementos - Temperatura Aire
-const elementos_taire = t_aire?.querySelectorAll(".taire .text-Temps, .taire .units-tempAire-Prin");
+const elementos_taire = t_aire?.querySelectorAll(".taire .txt-Temps, .taire .units-tempAire-Prin");
 const lbl_temp_aire = t_aire?.querySelector(".lbl-temp-aire");
 const tprog_aire = document.querySelector(".tprog-aire");
 const icon_taire = document.querySelector(".icon-taire");
@@ -740,7 +740,7 @@ function toggleElementsClass(elements, action, className) {
  * @param {HTMLElement} pnlInactivo Panel a desactivar
  * @param {HTMLElement} pnlActivo Panel a activar
  */
-function cambiarModo(modo, pnlInactivo, pnlActivo) {
+function activarModo(modo, pnlInactivo, pnlActivo) {
   const config = modoConfig[modo];
   if (!config) return;
 
@@ -830,10 +830,17 @@ export function chngModo(panel, modoAP) {
  * @param {HTMLElement} pnlA Panel Aire a activar
  */
 export function modoAire(pnlB, pnlA) {
-  cambiarModo("tAire", pnlB, pnlA);
+  activarModo("tAire", pnlB, pnlA);
   c_modo_Aire?.classList.remove("enabled");
   t_aire?.classList.remove("disabled");
   cont_vm_tpiel.classList.add("m-Piel");
+
+//   elementos_tpiel.forEach((elemento) => {
+//     elemento.classList.remove("m-Piel");
+//   });
+//   elementos_taire?.forEach((elemento) => {
+//     elemento.classList.add("m-Aire");
+//   });
 }
 
 /**
@@ -843,10 +850,17 @@ export function modoAire(pnlB, pnlA) {
  */
 export function modoPiel(pnlA, pnlB) {
   lbl_temp_piel.textContent = "Temperatura Piel";
-  cambiarModo("tPiel", pnlA, pnlB);
+  activarModo("tPiel", pnlA, pnlB);
   pop_mp_prin_mc_tpiel.classList.remove("c-modo");
   cont_vm_tpiel.classList.remove("c-modo");
   cont_vm_tpiel.classList.remove("m-Piel");
+
+//   elementos_tpiel.forEach((elemento) => {
+//     elemento.classList.add("m-Piel");
+//   });
+//   elementos_taire?.forEach((elemento) => {
+//     elemento.classList.remove("m-Aire");
+//   });
 }
 
 

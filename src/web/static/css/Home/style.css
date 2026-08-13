@@ -425,8 +425,7 @@
   overflow: hidden;
 }
 
-.txt-Temps,
-.text-Temps {
+.txt-Temps {
   color:        var(--colortextoinactivo);
 
   font-family:  var(--numtempprin-font-family);
@@ -443,7 +442,7 @@
 .txt-Temps.m-Piel {
   color:        var(--colortexttpiel);
 }
-.text-Temps.m-Aire {
+.txt-Temps.m-Aire {
   color:        var(--colortexttaire);
 }
 

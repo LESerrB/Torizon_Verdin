@@ -457,6 +457,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Botones Aceptar/Cancelar para el cambio de modo funcionando.
  - Cambio de modo de operacion, corrección de bugs.
  - Renombre de "ui.js" a "ui_Incubadora.js".
+ - Optimización de función para cambiar entre modos de operación (Modo Piel <--> Modo Aire).
 
 ## Descarga e Instalación
 
