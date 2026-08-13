@@ -835,12 +835,12 @@ export function modoAire(pnlB, pnlA) {
   t_aire?.classList.remove("disabled");
   cont_vm_tpiel.classList.add("m-Piel");
 
-//   elementos_tpiel.forEach((elemento) => {
-//     elemento.classList.remove("m-Piel");
-//   });
-//   elementos_taire?.forEach((elemento) => {
-//     elemento.classList.add("m-Aire");
-//   });
+  elementos_tpiel.forEach((elemento) => {
+    elemento.classList.remove("m-Piel");
+  });
+  elementos_taire?.forEach((elemento) => {
+    elemento.classList.add("m-Aire");
+  });
 }
 
 /**
@@ -855,12 +855,12 @@ export function modoPiel(pnlA, pnlB) {
   cont_vm_tpiel.classList.remove("c-modo");
   cont_vm_tpiel.classList.remove("m-Piel");
 
-//   elementos_tpiel.forEach((elemento) => {
-//     elemento.classList.add("m-Piel");
-//   });
-//   elementos_taire?.forEach((elemento) => {
-//     elemento.classList.remove("m-Aire");
-//   });
+  elementos_tpiel.forEach((elemento) => {
+    elemento.classList.add("m-Piel");
+  });
+  elementos_taire?.forEach((elemento) => {
+    elemento.classList.remove("m-Aire");
+  });
 }
 
 
