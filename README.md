@@ -460,6 +460,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Optimización de función para cambiar entre modos de operación (Modo Piel <--> Modo Aire).
  - Corrección de bug de visualización de temperaturas principales en cambio de modo Piel a modo Aire.
  - Agregado temporizador para el cierre de la ventana de confirmación de cambios de modos.
+ - Cambio de color del indicador numérico de potencia del calefactor.
 
 ## Descarga e Instalación
 

@@ -20,6 +20,11 @@
   --numtempsecun-font-weight: 700;
   --numtempsecun-font-style: normal;
 
+  --numtempterc-font-family: Inter-Bold, sans-serif;
+  --numtempterc-font-size: 24px;
+  --numtempterc-line-height: 20px;
+  --numtempterc-font-weight: 700;
+
   --texttemptitulo-font-family: Montserrat-Bold, sans-serif;
   --texttemptitulo-font-size: 18px;
   --texttemptitulo-line-height: 16px;

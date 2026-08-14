@@ -999,7 +999,42 @@ Contenedor Temperaturas Secundarias
   transform: translateY(-50%);
   z-index: 2;
 }
-
+.v-potcal {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+/* Unidades Potencia Calefactor */
+.potcal-ini {
+  color: var(--colortextoinactivo);
+  text-align: center;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 10px;
+  font-weight: 600;
+  position: relative;
+  width: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.potcal-ini.m-Aire{color: var(--colortexttaire);}
+.perccal-ini {
+  color: var(--colortextoinactivo);
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 6px;
+  line-height: 10px;
+  font-weight: 600;
+  position: relative;
+  width: 5px;
+}
+.perccal-ini.m-Aire{color: var(--colortexttaire);}
 /*################ Modulos de Sensores ################*/
 .mp-prin-mc-msoporte {
   display: flex;
@@ -1054,18 +1089,7 @@ Contenedor Temperaturas Secundarias
   color: var(--colortextactivo);
 }
 
-
-.vox {
-  display: flex;
-  flex-direction: row;
-  gap: 28px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 270px;
-  position: relative;
-}
-.vhum {
+.cont-vsens {
   display: flex;
   flex-direction: row;
   gap: 28px;
@@ -1083,9 +1107,8 @@ Contenedor Temperaturas Secundarias
   position: relative;
 }
 
-
-
-._60 {
+/*Valores de Sensores*/
+.valSens {
   text-align: center;
 
   font-family: var(--numtempsecun-font-family);
@@ -1104,7 +1127,7 @@ Contenedor Temperaturas Secundarias
 .line-02 {
   margin-top: -2px;
   border-style: solid;
-  border-color: var(--colortextactivo, #2f3a40);
+  border-color: var(--colortextactivo);
   border-width: 2px 0 0 0;
   flex-shrink: 0;
   width: 24px;
@@ -1116,7 +1139,7 @@ Contenedor Temperaturas Secundarias
   left: 12px;
   top: -9px;
 }
-.vp-ox {
+.cont-vp-sens {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -1126,30 +1149,30 @@ Contenedor Temperaturas Secundarias
   width: 76px;
   position: relative;
 }
-._80 {
+.vp-Sens {
   text-align: center;
 
-  font-family: var(--num-temp-terc-font-family, "Inter-Bold", sans-serif);
-  font-size: var(--num-temp-terc-font-size, 24px);
-  line-height: var(--num-temp-terc-line-height, 20px);
-  font-weight: var(--num-temp-terc-font-weight, 700);
+  font-family: var(--numtempterc-font-family);
+  font-size: var(--numtempterc-font-size);
+  line-height: var(--numtempterc-line-height);
+  font-weight: var(--numtempterc-font-weight);
   position: relative;
+
   flex: 1;
   height: 19px;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.programado {
+.lbl-progr {
   text-align: center;
-  font-family: var(
-    --texttemptercer-font-family,
-    "Montserrat-Medium",
-    sans-serif
-  );
-  font-size: var(--texttemptercer-font-size, 10px);
-  line-height: var(--texttemptercer-line-height, 20px);
-  font-weight: var(--texttemptercer-font-weight, 500);
+
+  font-family: var(--texttemptercer-font-family);
+  font-size: var(--texttemptercer-font-size);
+  line-height: var(--texttemptercer-line-height);
+  font-weight: var(--texttemptercer-font-weight);
+
   position: relative;
   align-self: stretch;
   height: 9px;
@@ -1158,66 +1181,7 @@ Contenedor Temperaturas Secundarias
   justify-content: center;
 }
 
-
-
-.line-03 {
-  margin-top: -2px;
-  border-style: solid;
-  border-color: var(--colortextactivo, #2f3a40);
-  border-width: 2px 0 0 0;
-  flex-shrink: 0;
-  width: 24px;
-  height: 0px;
-  position: relative;
-  transform-origin: 0 0;
-  transform: rotate(90deg) scale(1, 1);
-
-  left: 14px;
-  top: -9px;
-}
-.vp-hum {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  width: 76px;
-  position: relative;
-}
-._602 {
-  text-align: center;
-  font-family: var(--num-temp-terc-font-family, "Inter-Bold", sans-serif);
-  font-size: var(--num-temp-terc-font-size, 24px);
-  line-height: var(--num-temp-terc-line-height, 20px);
-  font-weight: var(--num-temp-terc-font-weight, 700);
-  position: relative;
-  flex: 1;
-  height: 19px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.programada {
-  text-align: center;
-  font-family: var(
-    --texttemptercer-font-family,
-    "Montserrat-Medium",
-    sans-serif
-  );
-  font-size: var(--texttemptercer-font-size, 10px);
-  line-height: var(--texttemptercer-line-height, 20px);
-  font-weight: var(--texttemptercer-font-weight, 500);
-  position: relative;
-  align-self: stretch;
-  height: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-
+/* Temporizador Fototerapia */
 ._00-00 {
   color: var(--colortextoinactivo);
   text-align: center;
@@ -1250,39 +1214,6 @@ Contenedor Temperaturas Secundarias
   translate: 0 -50%;
 }
 .seg-potencia-fot.active{opacity: 1;}
-
-
-/*Segmentos de Potencia*/
-.rectangle-237 {
-  background: #90aacf;
-  border-radius: 3px 3px 0px 0px;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 15px;
-  position: relative;
-}
-.rectangle-238 {
-  background: #556f91;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 15px;
-  position: relative;
-}
-.rectangle-239 {
-  background: #556f91;
-  border-radius: 0px 0px 3px 3px;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 15px;
-  position: relative;
-}
-
-
-
-
-
-
-
 
 /*#######################################*/
 /*            Barra Inferior             */
@@ -1325,14 +1256,31 @@ Contenedor Temperaturas Secundarias
 
 
 
-
-
-
-
-
-
 /*============================================================================*/
-
+/*Segmentos de Potencia Fototerapia*/
+.rectangle-237 {
+  background: #90aacf;
+  border-radius: 3px 3px 0px 0px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 15px;
+  position: relative;
+}
+.rectangle-238 {
+  background: #556f91;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 15px;
+  position: relative;
+}
+.rectangle-239 {
+  background: #556f91;
+  border-radius: 0px 0px 3px 3px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 15px;
+  position: relative;
+}
 
 
 .seg-calefactor {
@@ -1345,8 +1293,11 @@ Contenedor Temperaturas Secundarias
   flex-shrink: 0;
   position: relative;
 }
+/* background: #93BCC0; <=== Desactivado m-Aire
+background: #DADADA; <=== Desactivado m-Piel */
 .rectangle-192 {
-  background: #c7463c;
+  /* background: #c7463c; */
+  background: #DADADA;
   border-radius: 3px 3px 0px 0px;
   flex-shrink: 0;
   width: 20px;
@@ -1416,38 +1367,4 @@ Contenedor Temperaturas Secundarias
   width: 20px;
   height: 15px;
   position: relative;
-}
-.v-potcal {
-  display: flex;
-  flex-direction: row;
-  gap: 1px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-}
-/* Unidades Potencia Calefactor */
-._802 {
-  color: var(--colortextoinactivo, #72818e);
-  text-align: center;
-  font-family: "Inter-SemiBold", sans-serif;
-  font-size: 12px;
-  line-height: 10px;
-  font-weight: 600;
-  position: relative;
-  width: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.div {
-  color: var(--colortextoinactivo, #72818e);
-  text-align: center;
-  font-family: "Montserrat-SemiBold", sans-serif;
-  font-size: 6px;
-  line-height: 10px;
-  font-weight: 600;
-  position: relative;
-  width: 5px;
 }

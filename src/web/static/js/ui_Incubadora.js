@@ -672,6 +672,7 @@ const t_aire = document.querySelector(".cont-taire");
 const c_modo_Aire = document.querySelector(".pop-cmodo-aire");
 const cont_vm_tpiel = document.querySelector(".cont-vm-tpiel");
 const pop_mp_prin_mc_tpiel = document.querySelector(".pop-mp-prin-mc-tpiel");
+const v_potcal = document.querySelector(".v-potcal");
 
 // Elementos - Temperatura Piel
 const lbl_temp_piel = document.querySelector(".lbl-temp-piel");
@@ -687,6 +688,7 @@ const elementos_taire = t_aire?.querySelectorAll(".taire .txt-Temps, .taire .uni
 const lbl_temp_aire = t_aire?.querySelector(".lbl-temp-aire");
 const tprog_aire = document.querySelector(".tprog-aire");
 const icon_taire = document.querySelector(".icon-taire");
+const potcal_ind = v_potcal?.querySelectorAll(".potcal-ini, .perccal-ini");
 
 /**
  * Configuración de modos para cambios de temperatura
@@ -703,7 +705,11 @@ const modoConfig = {
         aire: [t_aire, lbl_temp_aire, tprog_aire],
         piel: [lbl_temp_piel, tprogp, vaux, cont_vm_tpiel],
         hidden: [line_01],
-        elementCollections: [{ elements: elementos_taire, action: "add", class: "m-Aire" }, { elements: elementos_vaux, action: "remove", class: "active" }]
+        elementCollections: [
+            { elements: elementos_taire, action: "add", class: "m-Aire" },
+            { elements: potcal_ind, action: "add", class: "m-Aire" },
+            { elements: elementos_vaux, action: "remove", class: "active" }
+        ]
         }
     },
     tPiel: {
@@ -717,7 +723,12 @@ const modoConfig = {
         aire: [t_aire, lbl_temp_aire, tprog_aire],
         piel: [lbl_temp_piel, tprogp, vaux],
         visible: [line_01],
-        elementCollections: [{ elements: elementos_tpiel, action: "add", class: "m-Piel" }, { elements: elementos_vaux, action: "add", class: "active" }, { elements: elementos_taire, action: "remove", class: "m-Aire" }]
+        elementCollections: [
+            { elements: elementos_tpiel, action: "add", class: "m-Piel" },
+            { elements: elementos_vaux, action: "add", class: "active" },
+            { elements: elementos_taire, action: "remove", class: "m-Aire" },
+            { elements: potcal_ind, action: "remove", class: "m-Aire" }
+        ]
         }
     }
 };
