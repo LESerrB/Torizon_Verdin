@@ -967,6 +967,58 @@ export function confAjstFoto() {
 
 
 
+function crearSliderPotenciaFot(containerId, valorInicial) {
+    const container = document.getElementById(containerId);
+
+    if (!container) {
+        return null;
+    }
+
+    container.innerHTML = "";
+
+    const segmentos = [
+        {
+            nivel: 1,
+            clase: "fot-seg-1"
+        },
+        {
+            nivel: 2,
+            clase: "fot-seg-2"
+        },
+        {
+            nivel: 3,
+            clase: "fot-seg-3"
+        }
+    ];
+
+    segmentos.forEach((segmento) => {
+        const div = document.createElement("div");
+
+        div.classList.add("fot-seg", segmento.clase);
+        div.dataset.nivel = segmento.nivel;
+
+        container.appendChild(div);
+    });
+
+    function setNivel(valor) {
+        const nivel = Math.min(Math.max(Number(valor), 0), 3);
+        const segmentosDOM = container.querySelectorAll(".fot-seg");
+
+        segmentosDOM.forEach((segmento) => {
+            const nivelSegmento = Number(segmento.dataset.nivel);
+
+            segmento.classList.toggle("active", nivelSegmento <= nivel);
+        });
+    }
+
+    setNivel(valorInicial);
+
+    return {
+        setNivel
+    };
+}
+
+
 // ================================
 // Slider Temperatura y Potencia
 // ================================
@@ -974,6 +1026,8 @@ let tempPowerSliderController = null;
 let fototerapiaSliderController = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+    window.sliderPotFot = crearSliderPotenciaFot("seg-potencia-fot", 0);
+
     tempPowerSliderController = initTemperaturePowerSlider({
         sliderId: "tpielSlider",
         knobId: "tpielKnob",

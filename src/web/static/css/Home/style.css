@@ -1210,11 +1210,41 @@ Contenedor Temperaturas Secundarias
   width: 20px;
   position: absolute;
   left: 294px;
-  top: 50%;
+  top: 45%;
   translate: 0 -50%;
 }
 .seg-potencia-fot.active{opacity: 1;}
-
+/* Segmentos de Potencia del calefactor */
+.seg-potencia-fot .fot-seg {
+  width: 100%;
+  background: #90AACF;
+  opacity: 0.63;
+  transition: background 120ms ease, opacity 120ms ease;
+}
+.seg-potencia-fot .fot-seg-1 {
+  height: 15px;
+  border-radius: 3px 3px 0px 0px;
+}
+.seg-potencia-fot .fot-seg-2 {
+  height: 15px;
+}
+.seg-potencia-fot .fot-seg-3 {
+  height: 15px;
+  border-radius: 0px 0px 3px 3px;
+}
+.seg-potencia-fot .fot-seg-1.active { background: #90aacf; }
+.seg-potencia-fot .fot-seg-2.active { background: #63779a; }
+.seg-potencia-fot .fot-seg-3.active { background: #4a5e7c; }
+.seg-calefactor {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
 /*#######################################*/
 /*            Barra Inferior             */
 /*#######################################*/
@@ -1257,42 +1287,7 @@ Contenedor Temperaturas Secundarias
 
 
 /*============================================================================*/
-/*Segmentos de Potencia Fototerapia*/
-.rectangle-237 {
-  background: #90aacf;
-  border-radius: 3px 3px 0px 0px;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 15px;
-  position: relative;
-}
-.rectangle-238 {
-  background: #556f91;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 15px;
-  position: relative;
-}
-.rectangle-239 {
-  background: #556f91;
-  border-radius: 0px 0px 3px 3px;
-  align-self: stretch;
-  flex-shrink: 0;
-  height: 15px;
-  position: relative;
-}
 
-
-.seg-calefactor {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  align-items: flex-start;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-}
 /* background: #93BCC0; <=== Desactivado m-Aire
 background: #DADADA; <=== Desactivado m-Piel */
 .rectangle-192 {

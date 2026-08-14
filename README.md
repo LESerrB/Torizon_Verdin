@@ -461,6 +461,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de bug de visualización de temperaturas principales en cambio de modo Piel a modo Aire.
  - Agregado temporizador para el cierre de la ventana de confirmación de cambios de modos.
  - Cambio de color del indicador numérico de potencia del calefactor.
+ - Creada función indicadora de nivel de potencia de fototerapia.
 
 ## Descarga e Instalación
 
