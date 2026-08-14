@@ -9,14 +9,15 @@ import {
     ajst_CtrlOx,
     ajst_CtrlHum,
     ajst_CtrlFot,
+    modoAire,
+    modoPiel,
 
     toggleHomePanel,
     chngModo,
     fotoActive,
     confAjstFoto,
-
-    modoAire,
-    modoPiel,
+    iniTimerAjst,
+    exitCancel
 } from "./ui_Incubadora.js";
 
 import {  } from "./crono_Apgar.js";
@@ -48,6 +49,9 @@ const btn_acptChngMd = document.getElementById("acptChngMd-tP-tA");
 const btn_cnclChngMd2 = document.getElementById("cnclChngMd-tA-tP");
 const btn_acptChngMd2 = document.getElementById("acptChngMd-tA-tP");
 
+const btn_ajustar_foto = document.getElementById("btn-ajustar-foto");
+const btnCancel = document.getElementById("cancel-ctrl");
+
 const lbl_modo_ctrl = document.getElementById("lbl-modo-ctrl");
 
 // ***************** Panel Temperatura Piel ***************** //
@@ -58,6 +62,7 @@ pnlBebe?.addEventListener("pointerup", () => {
     pnlBebe.classList.remove("pressed");
 
     chngModo(pnlBebe, modoControl);
+    iniTimerAjst(pnlBebe);
 });
 
 // ***************** Panel Temperatura Aire ***************** //
@@ -68,6 +73,7 @@ pnlAire?.addEventListener("pointerup", () => {
     pnlAire.classList.remove("pressed");
 
     chngModo(pnlAire, modoControl);
+    iniTimerAjst(pnlAire);
 });
 
 // ***************** Panel Control Oxigeno ****************** //
@@ -94,6 +100,7 @@ ajstCtrlFot?.addEventListener("pointerdown", () => {
 });
 ajstCtrlFot?.addEventListener("pointerup", () => {
     confAjstFoto();
+    iniTimerAjst("Foto");
 });
 
 // ==================================
@@ -123,6 +130,16 @@ btn_acptChngMd2?.addEventListener("click", () => {
 
 btn_cnclChngMd2?.addEventListener("click", () => {
     chngModo(pnlBebe);
+});
+
+// Botón Confirmar Ajuste Fototerapia
+btn_ajustar_foto?.addEventListener("click", () => {
+    ajst_CtrlFot();
+    fotoActive();
+});
+// Botón Cancelar General
+btnCancel?.addEventListener("click", () => {
+    exitCancel();
 });
 
 // =================================

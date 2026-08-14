@@ -568,6 +568,9 @@
 .mp-prin-mc-tpiel.active.pressed{
   background: var(--colorpressedpiel);
 }
+.mp-prin-mc-tpiel.pressed{
+  background: var(--colorpressedaire);
+}
 /* Icono Panel */
 .icon-tpiel {
   opacity: 0.6;

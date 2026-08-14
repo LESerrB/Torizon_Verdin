@@ -443,7 +443,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de panel lateral módulo de báscula.
  - Módulo de pesaje agregado.
 
-### v0.23.3 - [13/Agosto/2026]
+### v0.23.3 - [14/Agosto/2026]
 
  - Cambio de paneles de función "click" a "touchstart" y "touchend".
  - Cambio de paneles de "ui.js" a "app.js".
@@ -459,6 +459,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Renombre de "ui.js" a "ui_Incubadora.js".
  - Optimización de función para cambiar entre modos de operación (Modo Piel <--> Modo Aire).
  - Corrección de bug de visualización de temperaturas principales en cambio de modo Piel a modo Aire.
+ - Agregado temporizador para el cierre de la ventana de confirmaciín de cambios de modos
 
 ## Descarga e Instalación
 
