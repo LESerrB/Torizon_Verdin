@@ -459,7 +459,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Renombre de "ui.js" a "ui_Incubadora.js".
  - Optimización de función para cambiar entre modos de operación (Modo Piel <--> Modo Aire).
  - Corrección de bug de visualización de temperaturas principales en cambio de modo Piel a modo Aire.
- - Agregado temporizador para el cierre de la ventana de confirmaciín de cambios de modos
+ - Agregado temporizador para el cierre de la ventana de confirmación de cambios de modos.
 
 ## Descarga e Instalación
 
