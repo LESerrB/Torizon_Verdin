@@ -185,7 +185,7 @@ export function initTemperaturePowerSlider({
     };
 };
 /* Indicador Potencia Calefactor */
-export function crearSliderPotCalef(containerId, valueId = null, nivelInicial = 0) {
+export function crearSliderPotCalef(containerId, valueId = null, startLevel = 0) {
     const container = document.getElementById(containerId);
     const valueDisplay = valueId ? document.querySelector(`.${valueId}`) : null;
 
@@ -196,41 +196,41 @@ export function crearSliderPotCalef(containerId, valueId = null, nivelInicial = 
 
     container.innerHTML = "";
 
-    const niveles = [
-        { nivel: 10, claseExtra: "top" },
-        { nivel: 9 },
-        { nivel: 8 },
-        { nivel: 7 },
-        { nivel: 6 },
-        { nivel: 5 },
-        { nivel: 4 },
-        { nivel: 3 },
-        { nivel: 2 },
-        { nivel: 1, claseExtra: "bottom" }
+    const Levels = [
+        { level: 10, claseExtra: "top" },
+        { level: 9 },
+        { level: 8 },
+        { level: 7 },
+        { level: 6 },
+        { level: 5 },
+        { level: 4 },
+        { level: 3 },
+        { level: 2 },
+        { level: 1, claseExtra: "bottom" }
     ];
 
-    niveles.forEach((item) => {
+    Levels.forEach((item) => {
         const seg = document.createElement("div");
 
-        seg.classList.add("potcal-seg", `nivel-${item.nivel}`);
+        seg.classList.add("potcal-seg", `level-${item.level}`);
 
         if (item.claseExtra) {
             seg.classList.add(item.claseExtra);
         }
 
-        seg.dataset.nivel = item.nivel;
+        seg.dataset.level = item.level;
 
         container.appendChild(seg);
     });
 
     function setLevel(value) {
-        const nivel = Math.min(Math.max(Number(Math.floor(value / 10)), 0), 10);
-        const segmentos = container.querySelectorAll(".potcal-seg");
+        const level = Math.min(Math.max(Number(Math.floor(value / 10)), 0), 10);
+        const segments = container.querySelectorAll(".potcal-seg");
 
-        segmentos.forEach((seg) => {
-            const nivelSegmento = Number(seg.dataset.nivel);
+        segments.forEach((seg) => {
+            const segment_Level = Number(seg.dataset.level);
 
-            seg.classList.toggle("active", nivelSegmento <= nivel);
+            seg.classList.toggle("active", segment_Level <= level);
         });
 
         if (valueDisplay) {
@@ -238,7 +238,7 @@ export function crearSliderPotCalef(containerId, valueId = null, nivelInicial = 
         }
     }
 
-    setLevel(nivelInicial);
+    setLevel(startLevel);
 
     return {
         setLevel
@@ -249,7 +249,7 @@ export function crearSliderPotCalef(containerId, valueId = null, nivelInicial = 
 // Fototerapia
 //====================
 /* Control Intensidad Fototerapia */
-export function initFototerapiaSlider({
+export function initFotoSlider({
     sliderId = "fotSlider",
     knobId = "fotKnob",
     initialValue = 1
@@ -313,7 +313,7 @@ export function initFototerapiaSlider({
     };
 };
 /* Indicador Intensidad Fototerapia Panel Principal */
-export function createSliderIntensFot(containerId, valorInicial) {
+export function createSliderIntensFot(containerId, startLevel) {
     const container = document.getElementById(containerId);
 
     if (!container) {
@@ -322,42 +322,42 @@ export function createSliderIntensFot(containerId, valorInicial) {
 
     container.innerHTML = "";
 
-    const segmentos = [
+    const segments = [
         {
-            nivel: 1,
+            level: 1,
             clase: "fot-seg-1"
         },
         {
-            nivel: 2,
+            level: 2,
             clase: "fot-seg-2"
         },
         {
-            nivel: 3,
+            level: 3,
             clase: "fot-seg-3"
         }
     ];
 
-    segmentos.forEach((segmento) => {
+    segments.forEach((segment) => {
         const div = document.createElement("div");
 
-        div.classList.add("fot-seg", segmento.clase);
-        div.dataset.nivel = segmento.nivel;
+        div.classList.add("fot-seg", segment.clase);
+        div.dataset.level = segment.level;
 
         container.appendChild(div);
     });
 
     function setLevel(value) {
-        const nivel = Math.min(Math.max(Number(value), 0), 3);
-        const segmentosDOM = container.querySelectorAll(".fot-seg");
+        const level = Math.min(Math.max(Number(value), 0), 3);
+        const segmentsDOM = container.querySelectorAll(".fot-seg");
 
-        segmentosDOM.forEach((segmento) => {
-            const nivelSegmento = Number(segmento.dataset.nivel);
+        segmentsDOM.forEach((segment) => {
+            const segment_Level = Number(segment.dataset.level);
 
-            segmento.classList.toggle("active", nivelSegmento <= nivel);
+            segment.classList.toggle("active", segment_Level <= level);
         });
     }
 
-    setLevel(valorInicial);
+    setLevel(startLevel);
 
     return {
         setLevel

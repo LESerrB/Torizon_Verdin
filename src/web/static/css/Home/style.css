@@ -1040,16 +1040,16 @@ Contenedor Temperaturas Secundarias
 }
 
 /* Colores por nivel */
-.potcal-seg.nivel-10.active { background: #c7463c; }
-.potcal-seg.nivel-9.active  { background: #cc5848; }
-.potcal-seg.nivel-8.active  { background: #d06a53; }
-.potcal-seg.nivel-7.active  { background: #d57c5f; }
-.potcal-seg.nivel-6.active  { background: #df896f; }
-.potcal-seg.nivel-5.active  { background: #e29d7a; }
-.potcal-seg.nivel-4.active  { background: #e6b085; }
-.potcal-seg.nivel-3.active  { background: #e9c38f; }
-.potcal-seg.nivel-2.active  { background: #edd69a; }
-.potcal-seg.nivel-1.active  { background: #f0e9a5; }
+.potcal-seg.level-10.active { background: #c7463c; }
+.potcal-seg.level-9.active  { background: #cc5848; }
+.potcal-seg.level-8.active  { background: #d06a53; }
+.potcal-seg.level-7.active  { background: #d57c5f; }
+.potcal-seg.level-6.active  { background: #df896f; }
+.potcal-seg.level-5.active  { background: #e29d7a; }
+.potcal-seg.level-4.active  { background: #e6b085; }
+.potcal-seg.level-3.active  { background: #e9c38f; }
+.potcal-seg.level-2.active  { background: #edd69a; }
+.potcal-seg.level-1.active  { background: #f0e9a5; }
 
 .v-potcal {
   display: flex;

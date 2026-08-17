@@ -1,6 +1,6 @@
 import {
     initTemperaturePowerSlider,
-    initFototerapiaSlider,
+    initFotoSlider,
     crearSliderPotCalef,
     createSliderIntensFot
 } from "./slider.js";
@@ -1004,7 +1004,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sliderIntensFot_pPrin?.setLevel(value);
     };
 
-    fotoSliderController = initFototerapiaSlider({
+    fotoSliderController = initFotoSlider({
         sliderId: "fotSlider",
         knobId: "fotKnob",
         initialValue: Number(sliderFot?.dataset.value ?? 1)
