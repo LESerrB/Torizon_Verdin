@@ -979,11 +979,7 @@ let sliderIntensFot_pPrin = null;
 let sliderPowCalef_pPrin = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-    sliderPowCalef_pPrin = crearSliderPotCalef(
-        "seg-calefactor",
-        "potcal-ini",
-        100
-    );
+    sliderPowCalef_pPrin = crearSliderPotCalef();
     updateSliderPowCalef_pPrin = (value) => {
         sliderPowCalef_pPrin?.setLevel(value);
     }
@@ -999,7 +995,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tempPowerSliderController?.setValue(value);
     };
 
-    sliderIntensFot_pPrin = createSliderIntensFot("seg-potencia-fot", 3);
+    sliderIntensFot_pPrin = createSliderIntensFot();
     updateSliderIntenseFot_pPrin = (value) => {
         sliderIntensFot_pPrin?.setLevel(value);
     };

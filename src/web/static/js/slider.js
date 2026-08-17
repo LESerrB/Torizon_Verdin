@@ -1,10 +1,21 @@
+/**
+ * Temas de estilos disponibles para los sliders
+ * Cada tema corresponde a un tipo de control diferente
+ * @type {string[]}
+ */
 const SLIDER_THEMES = [
-    "seg-t_piel",
-    "seg-t_aire",
-    "seg-p_ox",
-    "seg-p_hum"
+    "seg-t_piel",      // Temperatura piel
+    "seg-t_aire",      // Temperatura aire
+    "seg-p_ox",        // Porcentaje oxígeno
+    "seg-p_hum"        // Porcentaje humedad
 ];
 
+/**
+ * Coordenadas SVG (x, y) para los puntos del slider de temperatura
+ * Define 10 posiciones equidistantes para un control de 0-100%
+ * Utilizado para posicionar el nodo (knob) del slider de temperatura
+ * @type {Object[]}
+ */
 const TEMPERATURE_POINTS = [
     { x: 36, y: 218 },
     { x: 18, y: 147 },
@@ -18,20 +29,48 @@ const TEMPERATURE_POINTS = [
     { x: 260, y: 218 }
 ];
 
+/**
+ * Coordenadas SVG (x, y) para los puntos del slider de fototerapia
+ * Define 3 posiciones para los 3 niveles de intensidad de fototerapia
+ * @type {Object[]}
+ */
 const FOTOTHERAPY_POINTS = [
     { x: 36, y: 218 },
     { x: 148, y: 18.5 },
     { x: 260, y: 218 }
 ];
 
+
+/**
+ * Limita un valor dentro de un rango específico
+ * @param {number} value - Valor a limitar
+ * @param {number} minValue - Valor mínimo del rango
+ * @param {number} maxValue - Valor máximo del rango
+ * @returns {number} El valor limitado dentro del rango
+ */
 function clamp(value, minValue, maxValue) {
     return Math.min(Math.max(value, minValue), maxValue);
-};
+}
 
+/**
+ * Redondea un valor al paso más cercano
+ * Útil para valores discretos (ej: 0.1, 0.5, 1, etc.)
+ * @param {number} value - Valor a redondear
+ * @param {number} step - Incremento de redondeo
+ * @returns {number} Valor redondeado al paso más cercano
+ */
 function roundToStep(value, step) {
     return Math.round(value / step) * step;
-};
+}
 
+/**
+ * Convierte un valor numérico a su segmento correspondiente (0-9)
+ * Utilizado para determinar qué segmento del slider debe estar activo
+ * @param {number} value - Valor a convertir
+ * @param {number} min - Valor mínimo del rango
+ * @param {number} max - Valor máximo del rango
+ * @returns {number} Número de segmento (0-9), donde 0 es el mínimo y 9 el máximo
+ */
 function valueToSegment(value, min, max) {
     if (max <= min) {
         return 0;
@@ -40,16 +79,29 @@ function valueToSegment(value, min, max) {
     const ratio = clamp((value - min) / (max - min), 0, 1);
 
     return clamp(Math.floor(ratio * 10), 0, 9);
-};
+}
 
+/**
+ * Aplica un tema de estilo a un segmento del slider
+ * Elimina todas las clases de tema anteriores y aplica la nueva
+ * @param {HTMLElement} seg - Elemento del segmento a estilizar
+ * @param {number} index - Índice del segmento
+ * @param {string} theme - Nombre del tema a aplicar (ej: "seg-t_piel")
+ */
 function setSegmentTheme(seg, index, theme) {
     SLIDER_THEMES.forEach((themeName) => {
         seg.classList.remove(`${themeName}-${index}`);
     });
 
     seg.classList.add(`${theme}-${index}`);
-};
+}
 
+/**
+ * Obtiene la configuración del slider desde sus atributos data
+ * Proporciona valores por defecto si los atributos no existen o son inválidos
+ * @param {HTMLElement} slider - Elemento del slider
+ * @returns {Object} Objeto con propiedades min, max y step
+ */
 function getSliderConfig(slider) {
     const defaults = { min: 34.0, max: 38.0, step: 0.1 };
 
@@ -68,13 +120,25 @@ function getSliderConfig(slider) {
             ? parsedStep
             : defaults.step
     };
-};
+}
 
+/**
+ * Formatea un valor numérico con la precisión decimal apropiada
+ * Determina el número de decimales basándose en el step
+ * @param {number} value - Valor a formatear
+ * @param {number} step - Paso/incremento del slider
+ * @returns {string} Valor formateado con decimales apropiados
+ */
 function formatValue(value, step) {
     const precision = Math.max(0, getDecimalPlaces(step));
     return Number(value).toFixed(precision);
-};
+}
 
+/**
+ * Calcula el número de lugares decimales de un número
+ * @param {number} value - Número del cual extraer decimales
+ * @returns {number} Cantidad de lugares decimales (máximo 1 si no es finito)
+ */
 function getDecimalPlaces(value) {
     if (!Number.isFinite(value)) {
         return 1;
@@ -82,11 +146,45 @@ function getDecimalPlaces(value) {
 
     const parts = value.toString().split(".");
     return parts[1] ? parts[1].length : 0;
-};
+}
 
 //==================================================================
-// Temperatura Programada Piel y Aire; Control de Oxigeno y Humedad
+/**
+ * SLIDER DE TEMPERATURA Y POTENCIA
+ * Temperatura Programada Piel y Aire; Control de Oxígeno y Humedad
+ * 
+ * Inicializa un slider interactivo con 10 segmentos para controlar
+ * valores de temperatura o potencia. Incluye visualización de valor
+ * actual y emite eventos personalizados.
+ */
 //==================================================================
+
+/**
+ * Inicializa el slider de temperatura/potencia con todas sus funcionalidades
+ * @param {Object} options - Configuración del slider
+ * @param {string} [options.sliderId="tpielSlider"] - ID del elemento SVG slider
+ * @param {string} [options.knobId="tpielKnob"] - ID del elemento knob (nodo) del slider
+ * @param {HTMLElement|null} [options.valCtrlEl=null] - Elemento donde mostrar el valor actual
+ * @param {Function} [options.formatValueFn=formatValue] - Función para formatear valores
+ * @param {number|null} [options.initialValue=null] - Valor inicial del slider
+ * 
+ * @returns {Object} Objeto con métodos para controlar el slider
+ * @returns {Function} .setValue(value) - Establece un nuevo valor en el slider
+ * @returns {Function} .setConfig({min, max, step, value, theme}) - Reconfigura los parámetros del slider
+ * 
+ * @example
+ * const slider = initTemperaturePowerSlider({
+ *     sliderId: "tpielSlider",
+ *     knobId: "tpielKnob",
+ *     valCtrlEl: document.getElementById("tempValue"),
+ *     initialValue: 36.5
+ * });
+ * slider.setValue(37.0); // Establece temperatura a 37°C
+ * slider.setConfig({ min: 35, max: 39, step: 0.1, value: 37.5 });
+ * 
+ * @fires tpiel-slider-change - Evento emitido cuando el valor cambia
+ * @listens tpiel-slider-change - Detalle: {value, segment, min, max, step}
+ */
 export function initTemperaturePowerSlider({
     sliderId = "tpielSlider",
     knobId = "tpielKnob",
@@ -184,8 +282,23 @@ export function initTemperaturePowerSlider({
         }
     };
 };
-/* Indicador Potencia Calefactor */
-export function crearSliderPotCalef(containerId, valueId = null, startLevel = 0) {
+/**
+ * Crea un indicador visual de potencia del calefactor
+ * Genera 10 segmentos que representan niveles de potencia (10%, 20%, ..., 100%)
+ * Útil para mostrar visualmente la potencia actual del calefactor
+ * 
+ * @param {string} [containerId="seg-calefactor"] - ID del contenedor donde crear el slider
+ * @param {string} [valueId="potcal-ini"] - Clase CSS del elemento que mostrará el valor
+ * @param {number} [startLevel=100] - Nivel inicial de potencia (0-100)
+ * 
+ * @returns {Object|null} Objeto con método setLevel o null si el contenedor no existe
+ * @returns {Function} .setLevel(value) - Establece el nivel de potencia (0-100)
+ * 
+ * @example
+ * const slider = crearSliderPotCalef("seg-calefactor", "potcal-ini", 75);
+ * slider.setLevel(50); // Establece potencia al 50%
+ */
+export function crearSliderPotCalef(containerId = "seg-calefactor", valueId = "potcal-ini", startLevel = 100) {
     const container = document.getElementById(containerId);
     const valueDisplay = valueId ? document.querySelector(`.${valueId}`) : null;
 
@@ -246,9 +359,35 @@ export function crearSliderPotCalef(containerId, valueId = null, startLevel = 0)
 };
 
 //====================
-// Fototerapia
+/**
+ * SLIDER DE FOTOTERAPIA
+ * Control de intensidad de fototerapia con 3 niveles (bajo, medio, alto)
+ */
 //====================
-/* Control Intensidad Fototerapia */
+
+/**
+ * Inicializa el slider de control de intensidad de fototerapia
+ * Proporciona 3 niveles discretos de intensidad
+ * 
+ * @param {Object} options - Configuración del slider
+ * @param {string} [options.sliderId="fotSlider"] - ID del elemento SVG slider
+ * @param {string} [options.knobId="fotKnob"] - ID del elemento knob (nodo) del slider
+ * @param {number} [options.initialValue=1] - Valor inicial (1-3)
+ * 
+ * @returns {Object} Objeto con método para controlar el slider
+ * @returns {Function} .setValue(value) - Establece el nivel de intensidad (1-3)
+ * 
+ * @example
+ * const fotoSlider = initFotoSlider({
+ *     sliderId: "fotSlider",
+ *     knobId: "fotKnob",
+ *     initialValue: 1
+ * });
+ * fotoSlider.setValue(2); // Establece intensidad media
+ * 
+ * @fires fot-slider-change - Evento emitido cuando el valor cambia
+ * @listens fot-slider-change - Detalle: {value, segment, min, max, step}
+ */
 export function initFotoSlider({
     sliderId = "fotSlider",
     knobId = "fotKnob",
@@ -312,8 +451,22 @@ export function initFotoSlider({
         }
     };
 };
-/* Indicador Intensidad Fototerapia Panel Principal */
-export function createSliderIntensFot(containerId, startLevel) {
+/**
+ * Crea un indicador visual de intensidad de fototerapia para el panel principal
+ * Genera 3 segmentos que representan los niveles de intensidad (bajo, medio, alto)
+ * Utilizado para mostrar visualmente el nivel actual de fototerapia
+ * 
+ * @param {string} [containerId="seg-potencia-fot"] - ID del contenedor donde crear el indicador
+ * @param {number} [startLevel=0] - Nivel inicial (0-3)
+ * 
+ * @returns {Object|null} Objeto con método setLevel o null si el contenedor no existe
+ * @returns {Function} .setLevel(value) - Establece el nivel de intensidad (0-3)
+ * 
+ * @example
+ * const fotoIndicator = createSliderIntensFot("seg-potencia-fot", 1);
+ * fotoIndicator.setLevel(2); // Establece indicador a nivel 2
+ */
+export function createSliderIntensFot(containerId = "seg-potencia-fot", startLevel = 0) {
     const container = document.getElementById(containerId);
 
     if (!container) {
