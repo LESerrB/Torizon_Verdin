@@ -969,7 +969,6 @@ Contenedor Temperaturas Secundarias
 .pop-cmodo-aire.enabled{
   display: flex;
 }
-
 .icon-md-tp-ta {
   flex-shrink: 0;
   width: 200px;
@@ -999,6 +998,59 @@ Contenedor Temperaturas Secundarias
   transform: translateY(-50%);
   z-index: 2;
 }
+
+.seg-calefactor {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Segmento base */
+/* background: #93BCC0; <=== Desactivado m-Aire
+   background: #DADADA; <=== Desactivado m-Piel */
+.potcal-seg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+
+  background: #DADADA;
+  opacity: 0.63;
+
+  transition: background 120ms ease, opacity 120ms ease;
+}
+
+/* Bordes redondeados */
+.potcal-seg.top {
+  border-radius: 3px 3px 0px 0px;
+}
+
+.potcal-seg.bottom {
+  border-radius: 0px 0px 3px 3px;
+}
+
+/* Segmentos activos */
+.potcal-seg.active {
+  opacity: 1;
+}
+
+/* Colores por nivel */
+.potcal-seg.nivel-10.active { background: #c7463c; }
+.potcal-seg.nivel-9.active  { background: #cc5848; }
+.potcal-seg.nivel-8.active  { background: #d06a53; }
+.potcal-seg.nivel-7.active  { background: #d57c5f; }
+.potcal-seg.nivel-6.active  { background: #df896f; }
+.potcal-seg.nivel-5.active  { background: #e29d7a; }
+.potcal-seg.nivel-4.active  { background: #e6b085; }
+.potcal-seg.nivel-3.active  { background: #e9c38f; }
+.potcal-seg.nivel-2.active  { background: #edd69a; }
+.potcal-seg.nivel-1.active  { background: #f0e9a5; }
+
 .v-potcal {
   display: flex;
   flex-direction: row;
@@ -1235,16 +1287,7 @@ Contenedor Temperaturas Secundarias
 .seg-potencia-fot .fot-seg-1.active { background: #90aacf; }
 .seg-potencia-fot .fot-seg-2.active { background: #63779a; }
 .seg-potencia-fot .fot-seg-3.active { background: #4a5e7c; }
-.seg-calefactor {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  align-items: flex-start;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-}
+
 /*#######################################*/
 /*            Barra Inferior             */
 /*#######################################*/
@@ -1281,85 +1324,5 @@ Contenedor Temperaturas Secundarias
   justify-content: flex-start;
   flex-shrink: 0;
   width: 360px;
-  position: relative;
-}
-
-
-
-/*============================================================================*/
-
-/* background: #93BCC0; <=== Desactivado m-Aire
-background: #DADADA; <=== Desactivado m-Piel */
-.rectangle-192 {
-  /* background: #c7463c; */
-  background: #DADADA;
-  border-radius: 3px 3px 0px 0px;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
-  position: relative;
-}
-.rectangle-191 {
-  background: #cc5848;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
-  position: relative;
-}
-.rectangle-183 {
-  background: #d06a53;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
-  position: relative;
-}
-.rectangle-184 {
-  background: #d57c5f;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
-  position: relative;
-}
-.rectangle-185 {
-  background: #df896f;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
-  position: relative;
-}
-.rectangle-186 {
-  background: #e29d7a;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
-  position: relative;
-}
-.rectangle-187 {
-  background: #e6b085;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
-  position: relative;
-}
-.rectangle-188 {
-  background: #e9c38f;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
-  position: relative;
-}
-.rectangle-189 {
-  background: #edd69a;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
-  position: relative;
-}
-.rectangle-190 {
-  background: #f0e9a5;
-  border-radius: 0px 0px 3px 3px;
-  flex-shrink: 0;
-  width: 20px;
-  height: 15px;
   position: relative;
 }

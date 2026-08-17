@@ -26,11 +26,11 @@ const FOTOTHERAPY_POINTS = [
 
 function clamp(value, minValue, maxValue) {
     return Math.min(Math.max(value, minValue), maxValue);
-}
+};
 
 function roundToStep(value, step) {
     return Math.round(value / step) * step;
-}
+};
 
 function valueToSegment(value, min, max) {
     if (max <= min) {
@@ -40,7 +40,7 @@ function valueToSegment(value, min, max) {
     const ratio = clamp((value - min) / (max - min), 0, 1);
 
     return clamp(Math.floor(ratio * 10), 0, 9);
-}
+};
 
 function setSegmentTheme(seg, index, theme) {
     SLIDER_THEMES.forEach((themeName) => {
@@ -48,7 +48,7 @@ function setSegmentTheme(seg, index, theme) {
     });
 
     seg.classList.add(`${theme}-${index}`);
-}
+};
 
 function getSliderConfig(slider) {
     const defaults = { min: 34.0, max: 38.0, step: 0.1 };
@@ -68,12 +68,12 @@ function getSliderConfig(slider) {
             ? parsedStep
             : defaults.step
     };
-}
+};
 
 function formatValue(value, step) {
     const precision = Math.max(0, getDecimalPlaces(step));
     return Number(value).toFixed(precision);
-}
+};
 
 function getDecimalPlaces(value) {
     if (!Number.isFinite(value)) {
@@ -82,8 +82,11 @@ function getDecimalPlaces(value) {
 
     const parts = value.toString().split(".");
     return parts[1] ? parts[1].length : 0;
-}
+};
 
+//==================================================================
+// Temperatura Programada Piel y Aire; Control de Oxigeno y Humedad
+//==================================================================
 export function initTemperaturePowerSlider({
     sliderId = "tpielSlider",
     knobId = "tpielKnob",
@@ -180,8 +183,72 @@ export function initTemperaturePowerSlider({
             }
         }
     };
-}
+};
+/* Indicador Potencia Calefactor */
+export function crearSliderPotCalef(containerId, valueId = null, nivelInicial = 0) {
+    const container = document.getElementById(containerId);
+    const valueDisplay = valueId ? document.querySelector(`.${valueId}`) : null;
 
+    if (!container) {
+        console.warn(`No se encontró el contenedor: ${containerId}`);
+        return null;
+    }
+
+    container.innerHTML = "";
+
+    const niveles = [
+        { nivel: 10, claseExtra: "top" },
+        { nivel: 9 },
+        { nivel: 8 },
+        { nivel: 7 },
+        { nivel: 6 },
+        { nivel: 5 },
+        { nivel: 4 },
+        { nivel: 3 },
+        { nivel: 2 },
+        { nivel: 1, claseExtra: "bottom" }
+    ];
+
+    niveles.forEach((item) => {
+        const seg = document.createElement("div");
+
+        seg.classList.add("potcal-seg", `nivel-${item.nivel}`);
+
+        if (item.claseExtra) {
+            seg.classList.add(item.claseExtra);
+        }
+
+        seg.dataset.nivel = item.nivel;
+
+        container.appendChild(seg);
+    });
+
+    function setLevel(value) {
+        const nivel = Math.min(Math.max(Number(Math.floor(value / 10)), 0), 10);
+        const segmentos = container.querySelectorAll(".potcal-seg");
+
+        segmentos.forEach((seg) => {
+            const nivelSegmento = Number(seg.dataset.nivel);
+
+            seg.classList.toggle("active", nivelSegmento <= nivel);
+        });
+
+        if (valueDisplay) {
+            valueDisplay.textContent = value;
+        }
+    }
+
+    setLevel(nivelInicial);
+
+    return {
+        setLevel
+    };
+};
+
+//====================
+// Fototerapia
+//====================
+/* Control Intensidad Fototerapia */
 export function initFototerapiaSlider({
     sliderId = "fotSlider",
     knobId = "fotKnob",
@@ -244,6 +311,55 @@ export function initFototerapiaSlider({
             updateFotSlider(value);
         }
     };
-}
+};
+/* Indicador Intensidad Fototerapia Panel Principal */
+export function createSliderIntensFot(containerId, valorInicial) {
+    const container = document.getElementById(containerId);
 
+    if (!container) {
+        return null;
+    }
 
+    container.innerHTML = "";
+
+    const segmentos = [
+        {
+            nivel: 1,
+            clase: "fot-seg-1"
+        },
+        {
+            nivel: 2,
+            clase: "fot-seg-2"
+        },
+        {
+            nivel: 3,
+            clase: "fot-seg-3"
+        }
+    ];
+
+    segmentos.forEach((segmento) => {
+        const div = document.createElement("div");
+
+        div.classList.add("fot-seg", segmento.clase);
+        div.dataset.nivel = segmento.nivel;
+
+        container.appendChild(div);
+    });
+
+    function setLevel(value) {
+        const nivel = Math.min(Math.max(Number(value), 0), 3);
+        const segmentosDOM = container.querySelectorAll(".fot-seg");
+
+        segmentosDOM.forEach((segmento) => {
+            const nivelSegmento = Number(segmento.dataset.nivel);
+
+            segmento.classList.toggle("active", nivelSegmento <= nivel);
+        });
+    }
+
+    setLevel(valorInicial);
+
+    return {
+        setLevel
+    };
+};

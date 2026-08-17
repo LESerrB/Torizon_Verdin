@@ -1,6 +1,8 @@
 import {
     initTemperaturePowerSlider,
-    initFototerapiaSlider
+    initFototerapiaSlider,
+    crearSliderPotCalef,
+    createSliderIntensFot
 } from "./slider.js";
 
 let intervalEncod = null;
@@ -8,6 +10,8 @@ let updateSlider10Value = null;
 let updateFotSliderValue = null;
 let activeSlider = "slider10";
 let valsCtrl = null;
+let updateSliderPowCalef_pPrin = null;
+let updateSliderIntenseFot_pPrin = null;
 
 let timerChngAjst = null;
 let fotoEn = false;
@@ -966,67 +970,23 @@ export function confAjstFoto() {
 };
 
 
-
-function crearSliderPotenciaFot(containerId, valorInicial) {
-    const container = document.getElementById(containerId);
-
-    if (!container) {
-        return null;
-    }
-
-    container.innerHTML = "";
-
-    const segmentos = [
-        {
-            nivel: 1,
-            clase: "fot-seg-1"
-        },
-        {
-            nivel: 2,
-            clase: "fot-seg-2"
-        },
-        {
-            nivel: 3,
-            clase: "fot-seg-3"
-        }
-    ];
-
-    segmentos.forEach((segmento) => {
-        const div = document.createElement("div");
-
-        div.classList.add("fot-seg", segmento.clase);
-        div.dataset.nivel = segmento.nivel;
-
-        container.appendChild(div);
-    });
-
-    function setNivel(valor) {
-        const nivel = Math.min(Math.max(Number(valor), 0), 3);
-        const segmentosDOM = container.querySelectorAll(".fot-seg");
-
-        segmentosDOM.forEach((segmento) => {
-            const nivelSegmento = Number(segmento.dataset.nivel);
-
-            segmento.classList.toggle("active", nivelSegmento <= nivel);
-        });
-    }
-
-    setNivel(valorInicial);
-
-    return {
-        setNivel
-    };
-}
-
-
 // ================================
 // Slider Temperatura y Potencia
 // ================================
 let tempPowerSliderController = null;
-let fototerapiaSliderController = null;
+let fotoSliderController = null;
+let sliderIntensFot_pPrin = null;
+let sliderPowCalef_pPrin = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-    window.sliderPotFot = crearSliderPotenciaFot("seg-potencia-fot", 0);
+    sliderPowCalef_pPrin = crearSliderPotCalef(
+        "seg-calefactor",
+        "potcal-ini",
+        100
+    );
+    updateSliderPowCalef_pPrin = (value) => {
+        sliderPowCalef_pPrin?.setLevel(value);
+    }
 
     tempPowerSliderController = initTemperaturePowerSlider({
         sliderId: "tpielSlider",
@@ -1035,19 +995,22 @@ document.addEventListener("DOMContentLoaded", () => {
         formatValueFn: formatValue,
         initialValue: Number(slider10?.dataset.value ?? sliderConfig.min)
     });
-
     updateSlider10Value = (value) => {
         tempPowerSliderController?.setValue(value);
     };
 
-    fototerapiaSliderController = initFototerapiaSlider({
+    sliderIntensFot_pPrin = createSliderIntensFot("seg-potencia-fot", 3);
+    updateSliderIntenseFot_pPrin = (value) => {
+        sliderIntensFot_pPrin?.setLevel(value);
+    };
+
+    fotoSliderController = initFototerapiaSlider({
         sliderId: "fotSlider",
         knobId: "fotKnob",
         initialValue: Number(sliderFot?.dataset.value ?? 1)
     });
-
     updateFotSliderValue = (value) => {
-        fototerapiaSliderController?.setValue(value);
+        fotoSliderController?.setValue(value);
     };
 });
 

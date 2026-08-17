@@ -443,7 +443,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de panel lateral módulo de báscula.
  - Módulo de pesaje agregado.
 
-### v0.23.3 - [14/Agosto/2026]
+### v0.23.3 - [17/Agosto/2026]
 
  - Cambio de paneles de función "click" a "touchstart" y "touchend".
  - Cambio de paneles de "ui.js" a "app.js".
@@ -461,7 +461,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de bug de visualización de temperaturas principales en cambio de modo Piel a modo Aire.
  - Agregado temporizador para el cierre de la ventana de confirmación de cambios de modos.
  - Cambio de color del indicador numérico de potencia del calefactor.
- - Creada función indicadora de nivel de potencia de fototerapia.
+ - Creada función indicadora de nivel de potencia de fototerapia en panel principal.
+ - Creada función para indicador de potencia de calefactor en panel principal.
+ - Creadas funciones para actualizar valores de los indicadores de Fototerapia y Calefactor del panel principal.
 
 ## Descarga e Instalación
 
