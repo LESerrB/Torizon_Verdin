@@ -2,7 +2,6 @@
 *  Panel Lateral  *
 *******************/
 .cont-bas-anima {
-  background: var(--colorfondopiel);
   border-radius: 0 0 8px 0;
 
   width: 268px;
@@ -17,6 +16,12 @@
   --tiempo-difuminado: 2000ms;
   --tiempo-movimiento: 2000ms;
   --tiempo-flecha: 1000ms;
+}
+.cont-bas-anima.tPiel{
+  background: var(--colorfondopiel);
+}
+.cont-bas-anima.tAire{
+  background: var(--colorfondoaire);
 }
 
 /* Icono del bebé */
@@ -212,8 +217,8 @@
   height: 210px;
   position: static;
 }
-.cont-bas-1 {
-  background: var(--coloroscuroaire, #8fc3c9);
+/* .cont-bas-1 {
+  background: var(--coloroscuroaire);
   border-radius: 50%;
   width: 43.21%;
   height: 210px;
@@ -222,7 +227,7 @@
   left: 28.4%;
   top: calc(50% - 137px);
   aspect-ratio: 1;
-}
+} */
 
 /* Display timer */
 .timer-tara {
@@ -308,7 +313,6 @@
  * Panel de Pesaje *
  *******************/
 .ti-v-vpeso {
-  background: var(--coloroscuropiel, #d9a79d);
   border-radius: 10px;
   padding: 12px 10px 12px 10px;
   display: flex;
@@ -321,13 +325,19 @@
   height: 88px;
   position: relative;
 }
+.ti-v-vpeso.tPiel{
+  background: var(--coloroscuropiel);
+}
+.ti-v-vpeso.tAire{
+  background: var(--coloroscuroaire);
+}
 .ti-v-peso {
-  color: var(--colorblanco, #ffffff);
+  color: var(--colorblanco);
   text-align: center;
-  font-family: var(--numapgar-font-family, "Inter-Bold", sans-serif);
-  font-size: var(--numapgar-font-size, 68px);
-  line-height: var(--numapgar-line-height, 64px);
-  font-weight: var(--numapgar-font-weight, 700);
+  font-family: var(--numapgar-font-family);
+  font-size: var(--numapgar-font-size);
+  line-height: var(--numapgar-line-height);
+  font-weight: var(--numapgar-font-weight);
   position: relative;
   display: flex;
   align-items: center;

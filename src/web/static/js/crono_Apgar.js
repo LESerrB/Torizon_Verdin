@@ -12,6 +12,8 @@ const num_10 = document.querySelector(".nums-clk._10");
 
 const sliderApgar = document.getElementById("apgarSlider");
 
+const mp_atpiel_mc_ttl = document.querySelector(".mp-atpiel-mc-ttl");
+
 const TOTAL_SEGMENTS = 10;
 
 const sliderGeometry = {
@@ -203,7 +205,11 @@ function createRingSegmentPath(
     ].join(" ");
 }
 
-function createApgarSegments() {
+export function createApgarSegments(modoControl) {
+    // console.log(modoControl == "tPiel");
+    // mp_atpiel_mc_ttl.classList.toggle("tp", (modoControl == "tPiel"));
+    // mp_atpiel_mc_ttl.classList.toggle("ta", (modoControl == "tAire"));
+
     if (!sliderApgar) {
         return;
     }
@@ -235,13 +241,18 @@ function createApgarSegments() {
             endAngle
         ));
 
-        segment.classList.add("ctrl-cronometro", "inactive");
+        segment.classList.add("ctrl-cronometro", modoControl, "inactive");
 
         segment.dataset.segment = index;
         segment.setAttribute("aria-label", `Segmento ${index + 1}`);
 
         sliderApgar.appendChild(segment);
     }
+
+    restartCrono();
+    pause = false;
+    img_reset.src = "../static/icon/Apgar/btns/Icon_Regresar_Default.svg"
+    img_playpause.src = "../static/icon/Apgar/btns/Icon_Play_Default.svg"
 }
 
 function getSegment(index) {
@@ -272,5 +283,3 @@ function setActiveSegmentCount(count) {
 function clearAllSegments() {
     setActiveSegmentCount(0);
 }
-
-createApgarSegments();

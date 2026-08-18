@@ -21,7 +21,9 @@ import {
     exitCancel
 } from "./ui_Incubadora.js";
 
-import {  } from "./crono_Apgar.js";
+import { 
+    createApgarSegments
+ } from "./crono_Apgar.js";
 
 import { 
     salirBascula
@@ -114,6 +116,7 @@ btn_acptChngMd?.addEventListener("click", () => {
 
     lbl_modo_ctrl.textContent = "Incubadora Controlada por Aire";
     modoControl = modoControl === "tPiel" ? "tAire" : "tPiel";
+    createApgarSegments(modoControl);
 });
 
 btn_cnclChngMd?.addEventListener("click", () => {
@@ -127,6 +130,7 @@ btn_acptChngMd2?.addEventListener("click", () => {
 
     lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
     modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
+    createApgarSegments(modoControl);
 });
 
 btn_cnclChngMd2?.addEventListener("click", () => {
@@ -207,11 +211,15 @@ function bindMenuButton(config) {
     button?.addEventListener("pointerdown", () => {
         clear_Btns();
         applyButtonVisualState(button, image, config, true);
+
+        if (button.id === "btn-apgr") {
+            createApgarSegments(modoControl);
+        }
     });
 
     button?.addEventListener("pointerup", () => {
         updateBottomNavLayout(state.isHomeView);
-        toggleHomePanel(config.panel);
+        toggleHomePanel(config.panel, modoControl);
 
         if (config.title) {
             ttl_pnl_ctrl.textContent = config.title;
@@ -292,6 +300,9 @@ function clear_Btns() {
     });
 }
 
-// Funciones inciales
-setInitValues();            // Valores iniciales de control
-startSensor();              // Inicio de sensado
+//============================================================================//
+//                             Funciones inciales                             //
+//============================================================================//
+setInitValues();                    // Valores iniciales de control
+startSensor();                      // Inicio de sensado
+createApgarSegments(modoControl);   // Configuración inicial color cronómetro

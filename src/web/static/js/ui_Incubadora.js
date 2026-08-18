@@ -503,7 +503,7 @@ function habilitarControlesLaterales(controles, claseColor) {
  * Cambia el panel activo de la interfaz y aplica el tema.
  * @param {string} showPanelControl Panel a mostrar.
  */
-export function toggleHomePanel(showPanelControl) {
+export function toggleHomePanel(showPanelControl, modoControl = null) {
     if (!homeDiv || !panelControl) {
         return;
     }
@@ -528,7 +528,14 @@ export function toggleHomePanel(showPanelControl) {
         const visibilidad = visibilidadPaneles[panelKey] ?? visibilidadPaneles.default;
 
         habilitarEstadoElemento(infoCtrl, claseColor);
-        habilitarEstadoElemento(tituloCtrl, claseColor);
+
+        if (showPanelControl === "apgar" || showPanelControl === "bascula") {
+            const altColor = (modoControl === "tPiel") ? "tp" : "ta"
+            habilitarEstadoElemento(tituloCtrl, altColor);
+        }else{
+            habilitarEstadoElemento(tituloCtrl, claseColor);
+        }
+
 
         if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno") {
             habilitarControlesLaterales(controles, claseColor);
@@ -694,6 +701,10 @@ const tprog_aire = document.querySelector(".tprog-aire");
 const icon_taire = document.querySelector(".icon-taire");
 const potcal_ind = v_potcal?.querySelectorAll(".potcal-ini, .perccal-ini");
 
+// Elementos internos Báscula, Cronómetro
+const ti_v_contapgar = document.querySelector(".ti-v-contapgar");
+const cont_bas_anima = document.querySelector(".cont-bas-anima");
+const ti_v_vpeso = document.querySelector(".ti-v-vpeso");
 /**
  * Configuración de modos para cambios de temperatura
  */
@@ -861,6 +872,13 @@ export function modoAire(pnlB, pnlA) {
     elementos_taire?.forEach((elemento) => {
         elemento.classList.add("m-Aire");
     });
+    
+    [ti_v_contapgar, cont_bas_anima, ti_v_vpeso].forEach((elemento) => {
+        if (!elemento) return;
+
+        elemento.classList.remove("tPiel");
+        elemento.classList.add("tAire");
+    });
 }
 
 /**
@@ -882,6 +900,13 @@ export function modoPiel(pnlA, pnlB) {
     });
     elementos_taire?.forEach((elemento) => {
         elemento.classList.remove("m-Aire");
+    });
+    
+    [ti_v_contapgar, cont_bas_anima, ti_v_vpeso].forEach((elemento) => {
+        if (!elemento) return;
+
+        elemento.classList.remove("tAire");
+        elemento.classList.add("tPiel");
     });
 }
 

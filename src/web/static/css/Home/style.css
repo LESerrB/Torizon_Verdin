@@ -1084,7 +1084,7 @@ Contenedor Temperaturas Secundarias
   line-height: 10px;
   font-weight: 600;
   position: relative;
-  width: 5px;
+  width: 10px;
 }
 .perccal-ini.m-Aire{color: var(--colortexttaire);}
 /*################ Modulos de Sensores ################*/

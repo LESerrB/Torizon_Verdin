@@ -464,7 +464,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Creada función indicadora de nivel de potencia de fototerapia en panel principal.
  - Creada función para indicador de potencia de calefactor en panel principal.
  - Creadas funciones para actualizar valores de los indicadores de Fototerapia y Calefactor del panel principal.
- - Documentación de funciones de sliders.
+ - Documentación de funciones de sliders de panel de control y principal.
+ - Cambio de color de slider de cronómetro Apgar.
+ - Cronómetro se reinicia al salir y entrar al módulo.
+ - Realizado el ajuste de color dependiendo del modo de operación para el panel Cronómetro Apgar.
+
 
 ## Descarga e Instalación
 
