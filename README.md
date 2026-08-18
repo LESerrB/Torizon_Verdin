@@ -470,7 +470,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Realizado el ajuste de color dependiendo del modo de operación para el panel Cronómetro Apgar.
  - Ajuste de color dependiendo del modo para el temporizador de la báscula.
  - Deshabilitado menú contextual al presionar largo.
- - Actualizado cambio de color de boton "Ajustar" de panel de fototerapia.
+ - Actualizado cambio de color de botón "Ajustar" de panel de fototerapia.
+ - Actualizado cambio de colores de botones "Aceptar" y "Cancelar" de paneles de cambio de modo de operación.
 
 ## Descarga e Instalación
 

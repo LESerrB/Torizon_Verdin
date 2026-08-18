@@ -55,31 +55,50 @@ span {
   align-items: center;
   justify-content: center;
 }
+/* Aceptar cambio t. Piel -> t. Aire*/
 .btn-cancel.acpt-tp-ta{
   width: 110px;
   height: 40px;
   left: calc(0% - -157px);
   top: calc(0% - -137px);
 }
+.btn-cancel.acpt-tp-ta:active{
+  background-color: var(--coloroscuroaire);
+  transform: scale(0.97);
+}
+/* Cancelar cambio t. Piel -> t. Aire*/
 .btn-cancel.cncl-tp-ta{
   width: 110px;
   height: 40px;
   left: calc(0% - -30px);
   top: calc(0% - -137px);
 }
+.btn-cancel.cncl-tp-ta:active{
+  background-color: var(--coloroscuroaire);
+  transform: scale(0.97);
+}
+/* Aceptar cambio t. Aire -> t. Piel*/
 .btn-cancel.acpt-ta-tp{
   width: 110px;
   height: 40px;
   left: calc(50% - 0px);
   top: calc(50% - 40px);
 }
+.btn-cancel.acpt-ta-tp:active {
+  background-color: var(--coloroscuropiel);
+  transform: scale(0.97);
+}
+/* Cancelar cambio t. Aire -> t. Piel*/
 .btn-cancel.cncl-ta-tp{
   width: 110px;
   height: 40px;
   left: calc(50% - 118px);
   top: calc(50% - 40px);
 }
-
+.btn-cancel.cncl-ta-tp:active {
+  background-color: var(--coloroscuropiel);
+  transform: scale(0.97);
+}
 .btn-alarma {
   width: 984px;
   height: 64px;
