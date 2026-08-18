@@ -1,3 +1,16 @@
+html,
+body,
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+img,
+button,
+div,
+span {
+    -webkit-user-drag: none;
+}
 .mp-pprin,
 .mp-pprin * {
   box-sizing: border-box;

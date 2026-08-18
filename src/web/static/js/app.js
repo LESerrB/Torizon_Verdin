@@ -58,6 +58,17 @@ const btnCancel = document.getElementById("cancel-ctrl");
 
 const lbl_modo_ctrl = document.getElementById("lbl-modo-ctrl");
 
+// ======================================
+// Configuración global HMI
+// ======================================
+
+// Evitar menú contextual:
+// - clic derecho
+// - toque prolongado
+document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+});
+
 // ***************** Panel Temperatura Piel ***************** //
 pnlBebe?.addEventListener("pointerdown", () => {
     pnlBebe.classList.add("pressed");

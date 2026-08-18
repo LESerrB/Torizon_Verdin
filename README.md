@@ -469,6 +469,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Cronómetro se reinicia al salir y entrar al módulo.
  - Realizado el ajuste de color dependiendo del modo de operación para el panel Cronómetro Apgar.
  - Ajuste de color dependiendo del modo para el temporizador de la báscula.
+ - Retirado menú contextual al presionar largo.
 
 ## Descarga e Instalación
 

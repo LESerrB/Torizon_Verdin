@@ -396,7 +396,7 @@ function animBascula({tiempoDifuminado = 2000, tiempoMovimiento = 2000, tiempoFl
   contBasAnima.classList.add("animar");
 }
 
-/**
+/** Retomar aqui la documentación
  * Detiene la animación de la báscula removiendo la clase animadora
  * Restaura el estado visual inicial de los elementos animados
  * 
