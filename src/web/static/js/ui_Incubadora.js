@@ -706,6 +706,8 @@ const potcal_ind = v_potcal?.querySelectorAll(".potcal-ini, .perccal-ini");
 const ti_v_contapgar = document.querySelector(".ti-v-contapgar");
 const cont_bas_anima = document.querySelector(".cont-bas-anima");
 const ti_v_vpeso = document.querySelector(".ti-v-vpeso");
+const botones = document.querySelectorAll(".btns-apgr.tPiel");
+
 /**
  * Configuración de modos para cambios de temperatura
  */
@@ -880,6 +882,10 @@ export function modoAire(pnlB, pnlA) {
         elemento.classList.remove("tPiel");
         elemento.classList.add("tAire");
     });
+
+    botones.forEach((boton) => {
+        boton.classList.replace("tPiel", "tAire");
+    });
 }
 
 /**
@@ -908,6 +914,10 @@ export function modoPiel(pnlA, pnlB) {
 
         elemento.classList.remove("tAire");
         elemento.classList.add("tPiel");
+    });
+
+    botones.forEach((boton) => {
+        boton.classList.replace("tAire", "tPiel");
     });
 }
 

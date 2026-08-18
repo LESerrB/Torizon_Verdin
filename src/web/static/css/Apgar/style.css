@@ -200,8 +200,12 @@
   border-radius: 85px;
   background: var(--colorbtnsnuevos);
 }
-.btns-apgr:active {
+.btns-apgr.tPiel:active {
   background-color: var(--coloroscuropiel);
+  transform: scale(0.97);
+}
+.btns-apgr.tAire:active {
+  background-color: var(--coloroscuroaire);
   transform: scale(0.97);
 }
 
