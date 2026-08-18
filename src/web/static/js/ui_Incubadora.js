@@ -502,6 +502,7 @@ function habilitarControlesLaterales(controles, claseColor) {
 /**
  * Cambia el panel activo de la interfaz y aplica el tema.
  * @param {string} showPanelControl Panel a mostrar.
+ * @param {string} modoControl Modo de Control del equipo, se usa para el cambio de color de Báscula y cronómetro Apgar.
  */
 export function toggleHomePanel(showPanelControl, modoControl = null) {
     if (!homeDiv || !panelControl) {
