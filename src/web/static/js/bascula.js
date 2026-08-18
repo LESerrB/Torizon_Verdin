@@ -3,6 +3,7 @@ const timerTaraDigito1 = document.getElementById('timer-tara-digito-1');
 const timerTaraDigito2 = document.getElementById('timer-tara-digito-2');
 const contBasAnima = document.querySelector(".cont-bas-anima");
 const lbl_tara = document.getElementById('lbl-tara');
+const icon_kg = document.querySelector('.icon-kg');
 
 let tiempoTranscurrido = 0;
 let intervaloCronometro = null;
@@ -24,10 +25,6 @@ const pnlPesar = document.getElementById("pnl-pesar");
 // ##########
 // Botones
 // ##########
-// btn_tarar?.addEventListener("pointerdown", () => {
-    
-// });
-
 btn_tarar?.addEventListener("pointerup", () => {
     startCrono();
     animBascula({tiempoDifuminado: 2000, tiempoMovimiento: 2000, tiempoFlecha: 1000});
@@ -171,7 +168,7 @@ function createRingSegmentPath(
     ].join(" ");
 }
 
-function createApgarSegments() {
+export function createTimerTaraSegments(modoControl) {
     if (!sliderTmBasc) {
         return;
     }
@@ -203,19 +200,20 @@ function createApgarSegments() {
             endAngle
         ));
 
-        segment.classList.add("ctrl-timer", "inactive");
+        segment.classList.add("ctrl-timer", modoControl, "inactive");
 
         segment.dataset.segment = index;
         segment.setAttribute("aria-label", `Segmento ${index + 1}`);
 
         sliderTmBasc.appendChild(segment);
+        icon_kg.src = modoControl === "tAire" ? "../static/icon/Bascula/Kg_tAire.svg" : "../static/icon/Bascula/Kg_tPiel.svg";
+        lbl_tara.classList.toggle("tAire", (modoControl === "tAire"));
     }
 }
 
 function getSegment(index) {
     return sliderTmBasc?.querySelector(`[data-segment="${index}"]`);
 }
-
 
 function setSegmentState(index, enabled) {
     const segment = getSegment(index);
@@ -282,5 +280,3 @@ export function salirBascula() {
     pnlTara.classList.add('enable');
     pnlPesar.classList.remove('enable');
 }
-
-createApgarSegments();

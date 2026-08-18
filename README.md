@@ -443,7 +443,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de panel lateral módulo de báscula.
  - Módulo de pesaje agregado.
 
-### v0.23.3 - [17/Agosto/2026]
+### v0.23.3 - [18/Agosto/2026]
 
  - Cambio de paneles de función "click" a "touchstart" y "touchend".
  - Cambio de paneles de "ui.js" a "app.js".
@@ -468,7 +468,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Cambio de color de slider de cronómetro Apgar.
  - Cronómetro se reinicia al salir y entrar al módulo.
  - Realizado el ajuste de color dependiendo del modo de operación para el panel Cronómetro Apgar.
-
+ - Ajuste de color dependiendo del modo para el temporizador de la báscula.
 
 ## Descarga e Instalación
 

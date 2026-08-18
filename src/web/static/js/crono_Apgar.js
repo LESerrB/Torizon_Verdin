@@ -62,6 +62,7 @@ btn_playpause?.addEventListener("pointerup", () => {
     }
 });
 
+// ================== Reset ================== //
 btn_reset?.addEventListener("pointerdown", () => {
     img_reset.src = "../static/icon/Apgar/btns/Icon_Regresar_Active.svg"
 });

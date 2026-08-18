@@ -226,18 +226,12 @@
     fill 150ms ease,
     opacity 150ms ease,
     filter 150ms ease;
+  opacity: 1;
 }
 
 /* Segmento activado */
-.ctrl-cronometro.tPiel.active {
-  fill: var(--coloroscuropiel);
-  opacity: 1;
-}
-
-.ctrl-cronometro.tAire.active {
-  fill: var(--coloroscuroaire);
-  opacity: 1;
-}
+.ctrl-cronometro.tPiel.active { fill: var(--coloroscuropiel); }
+.ctrl-cronometro.tAire.active { fill: var(--coloroscuroaire); }
 
 /* Segmento desactivado */
 .ctrl-cronometro.inactive {

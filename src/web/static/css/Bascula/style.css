@@ -145,6 +145,8 @@
     opacity var(--tiempo-difuminado) ease,
     visibility 0s linear var(--tiempo-difuminado);
 }
+.cont-te-tara.tAire{color: var(--colortexttaire);}
+
 .cont-bas-anima.animar .cont-te-tara {
   opacity: 0;
   visibility: hidden;
@@ -288,26 +290,21 @@
 
 /* Slider Timer */
 .ctrl-timer {
-  fill: #f2f2f2;
   cursor: pointer;
 
   transition:
     fill 150ms ease,
     opacity 150ms ease,
     filter 150ms ease;
+  opacity: 1;
 }
 
 /* Segmento activado */
-.ctrl-timer.active {
-  fill: #d9a79d;
-  opacity: 1;
-}
+.ctrl-timer.active { fill: var(--coloroscuropiel)}
+.ctrl-timer.tAire.active { fill: var(--coloroscuroaire) }
 
 /* Segmento desactivado */
-.ctrl-timer.inactive {
-  fill: #f2f2f2;
-  opacity: 1;
-}
+.ctrl-timer.inactive { fill: #f2f2f2; }
 
 /*******************
  * Panel de Pesaje *
