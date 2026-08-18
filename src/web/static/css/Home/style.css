@@ -44,7 +44,7 @@ span {
 .btn,
 .btn-alarma,
 .btn-img,
-.btn-cancel-ajustar {
+.btn-cancel {
   background-color: #FFFFFF;
   border: none;
   border-radius: 10px;
@@ -55,25 +55,25 @@ span {
   align-items: center;
   justify-content: center;
 }
-.btn-cancel-ajustar.acpt-tp-ta{
+.btn-cancel.acpt-tp-ta{
   width: 110px;
   height: 40px;
   left: calc(0% - -157px);
-    top: calc(0% - -137px);
+  top: calc(0% - -137px);
 }
-.btn-cancel-ajustar.cncl-tp-ta{
+.btn-cancel.cncl-tp-ta{
   width: 110px;
   height: 40px;
   left: calc(0% - -30px);
   top: calc(0% - -137px);
 }
-.btn-cancel-ajustar.acpt-ta-tp{
+.btn-cancel.acpt-ta-tp{
   width: 110px;
   height: 40px;
   left: calc(50% - 0px);
   top: calc(50% - 40px);
 }
-.btn-cancel-ajustar.cncl-ta-tp{
+.btn-cancel.cncl-ta-tp{
   width: 110px;
   height: 40px;
   left: calc(50% - 118px);
@@ -105,8 +105,7 @@ span {
 }
 
 .btn:active,
-.btn-img:active,
-.btn-cancel-ajustar:active {
+.btn-img:active {
   background-color: var(--colorgrisbtn);
   transform: scale(0.97);
 }
@@ -1039,18 +1038,11 @@ Contenedor Temperaturas Secundarias
 }
 
 /* Bordes redondeados */
-.potcal-seg.top {
-  border-radius: 3px 3px 0px 0px;
-}
-
-.potcal-seg.bottom {
-  border-radius: 0px 0px 3px 3px;
-}
+.potcal-seg.top { border-radius: 3px 3px 0px 0px; }
+.potcal-seg.bottom { border-radius: 0px 0px 3px 3px; }
 
 /* Segmentos activos */
-.potcal-seg.active {
-  opacity: 1;
-}
+.potcal-seg.active { opacity: 1; }
 
 /* Colores por nivel */
 .potcal-seg.level-10.active { background: #c7463c; }
@@ -1150,9 +1142,7 @@ Contenedor Temperaturas Secundarias
   align-items: flex-end;
   justify-content: center;
 }
-.ttl-mod-sensores.active {
-  color: var(--colortextactivo);
-}
+.ttl-mod-sensores.active { color: var(--colortextactivo); }
 
 .cont-vsens {
   display: flex;

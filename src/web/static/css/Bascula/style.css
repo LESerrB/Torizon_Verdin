@@ -219,17 +219,6 @@
   height: 210px;
   position: static;
 }
-/* .cont-bas-1 {
-  background: var(--coloroscuroaire);
-  border-radius: 50%;
-  width: 43.21%;
-  height: 210px;
-  position: absolute;
-  right: 28.4%;
-  left: 28.4%;
-  top: calc(50% - 137px);
-  aspect-ratio: 1;
-} */
 
 /* Display timer */
 .timer-tara {

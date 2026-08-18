@@ -115,7 +115,6 @@ ajstCtrlFot?.addEventListener("pointerdown", () => {
 });
 ajstCtrlFot?.addEventListener("pointerup", () => {
     confAjstFoto();
-    iniTimerAjst("Foto");
 });
 
 // ==================================
