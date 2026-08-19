@@ -473,9 +473,6 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Actualizado cambio de color de botón "Ajustar" de panel de fototerapia.
  - Actualizado cambio de colores de botones "Aceptar" y "Cancelar" de paneles de cambio de modo de operación.
  - Actualizado cambio de colores de botones internos de los módulos de "Apgar" y "Báscula" dependiendo del modo de operación.
-
- ### v0.23.3 - [05/Agosto/2026]
-
  - Habilitado Oxígeno Programado.
 
 ## Descarga e Instalación
