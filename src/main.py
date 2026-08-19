@@ -225,8 +225,8 @@ def encoder_Reader():
 monitor_pause = threading.Event()
 monitor_pause.set()
 
-# monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
-# monitor_thread.start()
+monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
+monitor_thread.start()
 
 encoder_Thread = threading.Thread(target=encoder_Reader, daemon=True)
 encoder_Thread.start()
