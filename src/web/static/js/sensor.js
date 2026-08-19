@@ -1,3 +1,5 @@
+const periodoActVals = 0.5 // segundos
+
 let intervalId = null;
 
 const tempPiel = document.getElementById("ti-vm-piel");
@@ -12,6 +14,20 @@ const peso_Basc = document.getElementById("peso");
 
 peso_Basc.textContent = "-.---"
 
+const fecha = document.getElementById("fecha");
+const hora = document.getElementById("hora");
+const am_pm = document.getElementById("am-pm");
+
+/**
+ * Obtiene los últimos datos de sensores desde la API y actualiza los elementos
+ * de la interfaz con los valores actuales de temperatura, humedad y oxígeno.
+ *
+ * La función realiza una petición POST a /api/getDtSensores. Si la respuesta
+ * tiene estado 200, interpreta el JSON recibido y lo muestra con una cifra
+ * decimal para las temperaturas. En caso de error o respuesta no válida,
+ * reemplaza los valores por placeholders. Además, actualiza la fecha y la hora
+ * local en formato español para que se reflejen en la vista.
+ */
 async function get_DtSensores() {
     try {
         const res = await fetch('/api/getDtSensores', {
@@ -39,6 +55,23 @@ async function get_DtSensores() {
             sensOx.textContent = "--"
             sensHum.textContent = "--"
         }
+
+        /****** Hora / Fecha ******/
+        const hoy = new Date();
+        const fecha_actual = hoy.toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'short'
+        }).replace('.', '');
+        const hora_12 = hoy.toLocaleTimeString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+        const [_, Hora, amPm] = hora_12.match(/^([\d:]+)\s+(.+)$/);
+
+        fecha.textContent = fecha_actual;
+        hora.textContent = Hora;
+        am_pm.textContent = amPm;
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada");
     }
@@ -46,7 +79,7 @@ async function get_DtSensores() {
 
 export function startSensor(){
     if (!intervalId) {
-        intervalId = setInterval(get_DtSensores, 500);
+        intervalId = setInterval(get_DtSensores, (periodoActVals * 1000));
     }
 };
 

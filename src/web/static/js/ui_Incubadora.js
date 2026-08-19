@@ -1,12 +1,21 @@
-import { 
-    salirBascula 
-} from "./bascula.js";
+import {
+    initTemperaturePowerSlider,
+    initFotoSlider,
+    crearSliderPotCalef,
+    createSliderIntensFot
+} from "./slider.js";
 
 let intervalEncod = null;
 let updateSlider10Value = null;
 let updateFotSliderValue = null;
 let activeSlider = "slider10";
 let valsCtrl = null;
+let updateSliderPowCalef_pPrin = null;
+let updateSliderIntenseFot_pPrin = null;
+
+let timerChngAjst = null;
+let fotoEn = false;
+let secs2Conf = 4;
 
 let sliderConfig = {
     min: 34.0,
@@ -15,26 +24,23 @@ let sliderConfig = {
     theme: "seg-t_piel"
 };
 
-const pnlBebe = document.getElementById("pnl-modoBebe");
-const pnlAire = document.getElementById("pnl-modoAire");
-const ajstCtrlOx = document.getElementById("mod-ox");
-const ajstCtrlHum = document.getElementById("mod-hum");
-const ajstCtrlFot = document.getElementById("mod-fot");
-
 const homeDiv = document.getElementById("home");
 const panelControl = document.getElementById("panel-control");
-const btnCancel = document.getElementById("cancel-ctrl");
 
+const title_panel_prin = document.querySelector(".ttl-pnl-prin");
+//---------------------------------------------------------------
 // Vista principal (Home)
 const tempProg = document.getElementById("tp_prog");
 const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 
+//---------------------------------------------------------------
 // Vista Panel de Control
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 const slider10 = document.getElementById("tpielSlider");
 const sliderFot = document.getElementById("fotSlider");
 
+//---------------------------------------------------------------
 // Control de Sensores
 const ctrl_sens = document.getElementById("ctrl-sensores");
 const view_tend = document.getElementById("view-tend");
@@ -42,13 +48,24 @@ const ctrl_basc = document.getElementById("ctrl-bascula");
 const ctrl_apgar = document.getElementById("ctrl-apgar");
 const view_fam = document.getElementById("view-fam");
 
+//---------------------------------------------------------------
 // Valor del encoder / control
 const valCtrl = document.getElementById("val_Ctrl");
 const unitsCtrl = document.getElementById("units_Ctrl");
 
+//---------------------------------------------------------------
 // Vista lateral
 const ttl_programada = document.getElementById("ttl-programada")
 const viewCtrl = document.getElementById("vw-valProg");
+
+//---------------------------------------------------------------
+// Panel de modulo de fototerapia
+const ajstCtrlFot = document.getElementById("mod-fot");
+const fot_panel = document.getElementById("fot-panel");
+const confirmacion_fot = document.getElementById("confirmacion-fot");
+const fot_ttl = document.getElementById("fot-ttl");
+const fot_hrs = document.getElementById("fot-hrs");
+const seg_potencia_fot = document.getElementById("seg-potencia-fot");
 
 /**
  * Obtiene los valores iniciales del control desde la API.
@@ -157,35 +174,31 @@ function setSliderConfig({ min, max, step, value, unit, theme }) {
         theme: theme ?? sliderConfig.theme
     };
 
-    const slider = document.getElementById("tpielSlider");
-
-    if (slider) {
-        slider.dataset.min = String(min);
-        slider.dataset.max = String(max);
-        slider.dataset.step = String(step);
-        slider.dataset.theme = sliderConfig.theme;
-    }
-
-    if (
-        typeof updateSlider10Value === "function" &&
-        value !== undefined
-    ) {
+    if (typeof updateSlider10Value === "function" && value !== undefined) {
         updateSlider10Value(Number(value));
     }
 
     if (value !== undefined) {
         updateControlDisplay(Number(value), unit);
     }
+
+    if (typeof tempPowerSliderController?.setConfig === "function") {
+        tempPowerSliderController.setConfig({
+            min,
+            max,
+            step,
+            value,
+            theme
+        });
+    }
 }
 
-// =============================
-// Paneles de control
-// =============================
-pnlBebe?.addEventListener("click", () => {
+// =======================================
+// Configuración de Paneles de control
+// =======================================
+export function ajstCtrl_TPiel() {
     toggleHomePanel("tempPielProg");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
-
     ttl_programada.textContent = "Temp. Piel Programada";
 
     const valor = valsCtrl?.vals?.tp_Prog ?? 34.0;
@@ -203,13 +216,11 @@ pnlBebe?.addEventListener("click", () => {
     sliderFot.classList.add("slider-collapsed");
 
     set_EditCtrlsEn("tp_Prog");
-});
+};
 
-pnlAire?.addEventListener("click", () => {
+export function ajstCtrl_TAire() {
     toggleHomePanel("tempAireProg");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire";
-
     ttl_programada.textContent = "Temp. Aire Programada";
 
     const valor = valsCtrl?.vals?.ta_Prog ?? 34.0;
@@ -227,11 +238,10 @@ pnlAire?.addEventListener("click", () => {
     sliderFot.classList.add("slider-collapsed");
 
     set_EditCtrlsEn("ta_Prog");
-});
+};
 
-ajstCtrlOx?.addEventListener("click", () => {
+export function ajst_CtrlOx() {
     toggleHomePanel("ajstOx");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Oxigeno Programado";
 
     const valor = valsCtrl?.vals?.pot_Ox ?? 0;
@@ -249,11 +259,10 @@ ajstCtrlOx?.addEventListener("click", () => {
     sliderFot.classList.add("slider-collapsed");
 
     set_EditCtrlsEn("pot_Ox");
-});
+};
 
-ajstCtrlHum?.addEventListener("click", () => {
+export function ajst_CtrlHum() {
     toggleHomePanel("ajstHum");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada";
 
     const valor = valsCtrl?.vals?.pot_Hum ?? 0;
@@ -271,13 +280,11 @@ ajstCtrlHum?.addEventListener("click", () => {
     sliderFot.classList.add("slider-collapsed");
 
     set_EditCtrlsEn("pot_Hum");
-});
+};
 
-ajstCtrlFot?.addEventListener("click", () => {
+export function ajst_CtrlFot() {
     toggleHomePanel("ajstFot");
-
     ttl_pnl_ctrl.textContent = "Ajuste de Intensidad de Fototerapia";
-
     activeSlider = "sliderFot";
 
     const valor = valsCtrl?.vals?.pot_Fot ?? 1;
@@ -292,152 +299,11 @@ ajstCtrlFot?.addEventListener("click", () => {
     sliderFot?.classList.remove("slider-collapsed");
 
     set_EditCtrlsEn("pot_Fot");
-});
+};
 
-// =================================
-// Botones Menú Inferior
-// =================================
-const btn_md_fam = document.getElementById("btn-md-fam");
-const btn_home = document.getElementById("btn-home");
-const menuButtons = {};
-
-// Botón para volver al Panel Principal
-function updateBottomNavLayout(isHomeView = false) {
-    if (isHomeView) {
-        btn_home?.classList.add("btn-collapsed");
-        btn_md_fam?.classList.remove("btn-collapsed");
-
-        salirBascula();
-
-        return;
-    }
-
-    btn_md_fam?.classList.add("btn-collapsed");
-    btn_home?.classList.remove("btn-collapsed");
-}
-
-function bindMenuButton(config) {
-    const button = document.getElementById(config.id);
-    const image = button?.querySelector("img");
-
-    const state = {
-        button,
-        image,
-        icons: config.icons,
-        panel: config.panel,
-        title: config.title,
-        pressed: config.pressed ?? true,
-        isHomeView: config.isHomeView ?? false
-    };
-
-    menuButtons[config.key] = state;
-
-    button?.addEventListener("touchstart", () => {
-        clear_Btns();
-
-        if (image) {
-            image.src = config.icons.on;
-        }
-    });
-
-    button?.addEventListener("touchend", () => {
-        updateBottomNavLayout(state.isHomeView);
-
-        if (image) {
-            image.src = config.icons.off;
-        }
-
-        toggleHomePanel(config.panel);
-
-        if (config.title) {
-            ttl_pnl_ctrl.textContent = config.title;
-        }
-
-        if (state.pressed) {
-            button?.classList.add("pressed");
-
-            if (image) {
-                image.src = config.icons.on;
-            }
-        }
-    });
-
-    return state;
-}
-
-bindMenuButton({
-    key: "tendencias",
-    id: "btn-tend",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
-        on: "../static/icon/Home/btns/Icono_Tendencias_Active.svg"
-    },
-    panel: "tendencias",
-    title: "Tendencias"
-});
-
-bindMenuButton({
-    key: "bascula",
-    id: "btn-basc",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_Bascula_Default.svg",
-        on: "../static/icon/Home/btns/Icono_Bascula_Active.svg"
-    },
-    panel: "bascula",
-    title: "Báscula"
-});
-
-bindMenuButton({
-    key: "apgar",
-    id: "btn-apgr",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_APGAR_Default.svg",
-        on: "../static/icon/Home/btns/Icono_APGAR_Active.svg"
-    },
-    panel: "apgar",
-    title: "Cronometro APGAR"
-});
-
-bindMenuButton({
-    key: "familiar",
-    id: "btn-md-fam",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
-        on: "../static/icon/Home/btns/Icono_MFamiliar_Active.svg"
-    },
-    panel: "familiar",
-    title: "Modo Familia",
-    pressed: false
-});
-
-bindMenuButton({
-    key: "home",
-    id: "btn-home",
-    icons: {
-        off: "../static/icon/Home/btns/Icono_Home_Default.svg",
-        on: "../static/icon/Home/btns/Icono_Home_Active.svg"
-    },
-    panel: "home",
-    pressed: false,
-    isHomeView: true
-});
-
-// ====================
-// Funciones Botones
-// ====================
-function clear_Btns() {
-    Object.values(menuButtons).forEach(({ button, image, icons }) => {
-        if (image) {
-            image.src = icons.off;
-        }
-
-        button?.classList.remove("pressed");
-    });
-}
-
-// =============================
+// -----------------------------
 // Control de cambio de paneles
-// =============================
+// -----------------------------
 const infoCtrl = document.querySelector(".mp-info-ctrl");
 const tituloCtrl = document.querySelector(".mp-atpiel-mc-ttl");
 const iconoControl = document.querySelector(".icon-ctrl");
@@ -636,8 +502,9 @@ function habilitarControlesLaterales(controles, claseColor) {
 /**
  * Cambia el panel activo de la interfaz y aplica el tema.
  * @param {string} showPanelControl Panel a mostrar.
+ * @param {string} modoControl Modo de Control del equipo, se usa para el cambio de color de Báscula y cronómetro Apgar.
  */
-function toggleHomePanel(showPanelControl) {
+export function toggleHomePanel(showPanelControl, modoControl = null) {
     if (!homeDiv || !panelControl) {
         return;
     }
@@ -662,7 +529,14 @@ function toggleHomePanel(showPanelControl) {
         const visibilidad = visibilidadPaneles[panelKey] ?? visibilidadPaneles.default;
 
         habilitarEstadoElemento(infoCtrl, claseColor);
-        habilitarEstadoElemento(tituloCtrl, claseColor);
+
+        if (showPanelControl === "apgar" || showPanelControl === "bascula") {
+            const altColor = (modoControl === "tPiel") ? "tp" : "ta"
+            habilitarEstadoElemento(tituloCtrl, altColor);
+        }else{
+            habilitarEstadoElemento(tituloCtrl, claseColor);
+        }
+
 
         if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno") {
             habilitarControlesLaterales(controles, claseColor);
@@ -785,206 +659,410 @@ async function edit_valProg() {
     }
 }
 
-const SLIDER_THEMES = [
-    "seg-t_piel",
-    "seg-t_aire",
-    "seg-p_ox",
-    "seg-p_hum"
-];
 
-function setSegmentTheme(seg, index, theme) {
-    SLIDER_THEMES.forEach((themeName) => {
-        seg.classList.remove(`${themeName}-${index}`);
+
+// ================================================================
+// PANELES: Cambio de modo T. Piel <-> T. Aire
+// ================================================================
+/**
+Temporizador de ventana de cambio de modos
+*/
+export function iniTimerAjst(ajstPnl) {
+    clearTimeout(timerChngAjst);
+
+    timerChngAjst = setTimeout(() => {
+        if(ajstPnl === "Foto")
+            fotoActive();
+        else if (ajstPnl.id === "pnl-modoAire"){
+            chngModo(ajstPnl);
+        }
+        else if (ajstPnl.id === "pnl-modoBebe"){
+            chngModo(ajstPnl);
+        }
+
+    }, (secs2Conf * 1000));
+};
+
+// Elementos del DOM - Paneles y controles
+const t_aire = document.querySelector(".cont-taire");
+const c_modo_Aire = document.querySelector(".pop-cmodo-aire");
+const cont_vm_tpiel = document.querySelector(".cont-vm-tpiel");
+const pop_mp_prin_mc_tpiel = document.querySelector(".pop-mp-prin-mc-tpiel");
+const v_potcal = document.querySelector(".v-potcal");
+
+// Elementos - Temperatura Piel
+const lbl_temp_piel = document.querySelector(".lbl-temp-piel");
+const line_01 = document.querySelector(".line-01");
+const vaux = document.querySelector(".vaux");
+const tprogp = document.querySelector(".tprogp");
+const elementos_tpiel = document.querySelectorAll(".tpiel .m-Piel");
+const elementos_vaux = document.querySelectorAll(".vaux .active");
+const icon_tpiel = document.querySelector(".icon-tpiel");
+
+// Elementos - Temperatura Aire
+const elementos_taire = t_aire?.querySelectorAll(".taire .txt-Temps, .taire .units-tempAire-Prin");
+const lbl_temp_aire = t_aire?.querySelector(".lbl-temp-aire");
+const tprog_aire = document.querySelector(".tprog-aire");
+const icon_taire = document.querySelector(".icon-taire");
+const potcal_ind = v_potcal?.querySelectorAll(".potcal-ini, .perccal-ini");
+
+// Elementos internos Báscula, Cronómetro
+const ti_v_contapgar = document.querySelector(".ti-v-contapgar");
+const cont_bas_anima = document.querySelector(".cont-bas-anima");
+const ti_v_vpeso = document.querySelector(".ti-v-vpeso");
+const botones = document.querySelectorAll(".btns-apgr.tPiel");
+
+/**
+ * Configuración de modos para cambios de temperatura
+ */
+const modoConfig = {
+    tAire: {
+        titleClass: "bckgnd-ctrl-aire",
+        titleClassRemove: "bckgnd-ctrl-piel",
+        modeClass: "m-Aire",
+        modeClassRemove: "m-Piel",
+        activePanel: "pnl-modoAire",
+        icon: { show: icon_taire, hide: icon_tpiel },
+        elements: {
+        aire: [t_aire, lbl_temp_aire, tprog_aire],
+        piel: [lbl_temp_piel, tprogp, vaux, cont_vm_tpiel],
+        hidden: [line_01],
+        elementCollections: [
+            { elements: elementos_taire, action: "add", class: "m-Aire" },
+            { elements: potcal_ind, action: "add", class: "m-Aire" },
+            { elements: elementos_vaux, action: "remove", class: "active" }
+        ]
+        }
+    },
+    tPiel: {
+        titleClass: "bckgnd-ctrl-piel",
+        titleClassRemove: "bckgnd-ctrl-aire",
+        modeClass: "m-Piel",
+        modeClassRemove: "m-Aire",
+        activePanel: "pnl-modoBebe",
+        icon: { show: icon_tpiel, hide: icon_taire },
+        elements: {
+        aire: [t_aire, lbl_temp_aire, tprog_aire],
+        piel: [lbl_temp_piel, tprogp, vaux],
+        visible: [line_01],
+        elementCollections: [
+            { elements: elementos_tpiel, action: "add", class: "m-Piel" },
+            { elements: elementos_vaux, action: "add", class: "active" },
+            { elements: elementos_taire, action: "remove", class: "m-Aire" },
+            { elements: potcal_ind, action: "remove", class: "m-Aire" }
+        ]
+        }
+    }
+};
+
+/**
+ * Aplica cambios de clases a múltiples elementos
+ * @param {HTMLElement[]} elements Array de elementos
+ * @param {string} action "add" o "remove"
+ * @param {string} className Clase a aplicar
+ */
+function toggleElementsClass(elements, action, className) {
+    elements?.forEach(el => {
+        if (el) el.classList[action](className);
     });
-
-    seg.classList.add(`${theme}-${index}`);
 }
 
+/**
+ * Cambia entre modo Piel y Aire
+ * @param {string} modo "tPiel" o "tAire"
+ * @param {HTMLElement} pnlInactivo Panel a desactivar
+ * @param {HTMLElement} pnlActivo Panel a activar
+ */
+function activarModo(modo, pnlInactivo, pnlActivo) {
+    const config = modoConfig[modo];
+    if (!config) return;
+
+    // Cambiar título
+    title_panel_prin.classList.remove(config.titleClassRemove);
+    title_panel_prin.classList.add(config.titleClass);
+
+    // Cambiar paneles activos
+    pnlInactivo?.classList.remove("active");
+    pnlActivo?.classList.add("active");
+
+    // Cambiar iconos
+    config.icon.show.style.display = "block";
+    config.icon.hide.style.display = "none";
+
+    // Cambiar clases de visibilidad para aire
+    toggleElementsClass(config.elements.aire, "add", config.modeClass);
+    toggleElementsClass(config.elements.aire, "remove", config.modeClassRemove);
+
+    // Cambiar clases de visibilidad para piel
+    toggleElementsClass(config.elements.piel, "add", config.modeClass);
+    toggleElementsClass(config.elements.piel, "remove", config.modeClassRemove);
+
+    // Elementos con propiedades específicas
+    config.elements.hidden?.forEach(el => {
+        if (el) el.style.display = "none";
+    });
+    config.elements.visible?.forEach(el => {
+        if (el) el.style.display = "block";
+    });
+
+    // Procesar colecciones de elementos
+    config.elements.elementCollections?.forEach(({ elements, action, class: className }) => {
+        if (className) {
+        toggleElementsClass(elements, action, className);
+        }
+    });
+}
+
+/**
+ * Alterna entre modos y ejecuta la acción correspondiente del control
+ * @param {HTMLElement} panel Panel que se está modificando
+ * @param {string} modoAP Modo a aplicar ("tPiel" o "tAire")
+ */
+export function chngModo(panel, modoAP) {
+    const isModoBebe = panel?.id === "pnl-modoBebe";
+    const isModoAire = panel?.id === "pnl-modoAire";
+
+    clearTimeout(timerChngAjst);
+
+    // Cambios de modo confirmados
+    if (modoAP === "tPiel" && isModoBebe) {
+        ajstCtrl_TPiel();
+    } 
+    else if (modoAP === "tPiel" && isModoAire) {
+        panel.classList.add("chng");
+        t_aire.classList.add("disabled");
+        c_modo_Aire.classList.add("enabled");
+    } 
+    else if (modoAP === "tAire" && isModoAire) {
+        ajstCtrl_TAire();
+    } 
+    else if (modoAP === "tAire" && isModoBebe) {
+        lbl_temp_piel.textContent = "Cambiar a Modo Piel";
+        lbl_temp_piel.classList.remove("m-Aire");
+        lbl_temp_piel.classList.add("m-Piel");
+        panel.classList.add("chng");
+        cont_vm_tpiel.classList.add("c-modo");
+        pop_mp_prin_mc_tpiel.classList.add("c-modo");
+    } 
+    // Cancelación de cambio de modo
+    else {
+        panel.classList.remove("chng");
+        
+        if (isModoBebe) {
+            lbl_temp_piel.textContent = "Temperatura Piel";
+            lbl_temp_piel.classList.remove("m-Piel");
+        }
+
+        t_aire.classList.remove("disabled");
+        c_modo_Aire.classList.remove("enabled");
+        cont_vm_tpiel.classList.remove("c-modo");
+        pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+    }
+}
+
+/**
+ * Cambia a modo Aire
+ * @param {HTMLElement} pnlB Panel Piel a desactivar
+ * @param {HTMLElement} pnlA Panel Aire a activar
+ */
+export function modoAire(pnlB, pnlA) {
+    clearTimeout(timerChngAjst);
+
+    activarModo("tAire", pnlB, pnlA);
+    c_modo_Aire?.classList.remove("enabled");
+    t_aire?.classList.remove("disabled");
+    cont_vm_tpiel.classList.add("m-Piel");
+
+    elementos_tpiel.forEach((elemento) => {
+        elemento.classList.remove("m-Piel");
+    });
+    elementos_taire?.forEach((elemento) => {
+        elemento.classList.add("m-Aire");
+    });
+    
+    [ti_v_contapgar, cont_bas_anima, ti_v_vpeso].forEach((elemento) => {
+        if (!elemento) return;
+
+        elemento.classList.remove("tPiel");
+        elemento.classList.add("tAire");
+    });
+
+    botones.forEach((boton) => {
+        boton.classList.remove("tPiel", "tAire");
+        boton.classList.add("tAire");
+    });
+}
+
+/**
+ * Cambia a modo Piel
+ * @param {HTMLElement} pnlA Panel Aire a desactivar
+ * @param {HTMLElement} pnlB Panel Piel a activar
+ */
+export function modoPiel(pnlA, pnlB) {
+    clearTimeout(timerChngAjst);
+
+    lbl_temp_piel.textContent = "Temperatura Piel";
+    activarModo("tPiel", pnlA, pnlB);
+    pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+    cont_vm_tpiel.classList.remove("c-modo");
+    cont_vm_tpiel.classList.remove("m-Piel");
+
+    elementos_tpiel.forEach((elemento) => {
+        elemento.classList.add("m-Piel");
+    });
+    elementos_taire?.forEach((elemento) => {
+        elemento.classList.remove("m-Aire");
+    });
+    
+    [ti_v_contapgar, cont_bas_anima, ti_v_vpeso].forEach((elemento) => {
+        if (!elemento) return;
+
+        elemento.classList.remove("tAire");
+        elemento.classList.add("tPiel");
+    });
+
+    botones.forEach((boton) => {
+        boton.classList.remove("tPiel", "tAire");
+        boton.classList.add("tPiel");
+    });
+}
+
+
+
 // --------------------------------
+// Panel de módulo de fototerapia
+// --------------------------------
+
+/**
+ * Configuración de estados para el panel de fototerapia
+ */
+const fotoConfig = {
+  active: {
+    fot_panel: "block",
+    confirmacion_fot: "none",
+    ajstCtrlFot_active: false,
+    elements: [fot_ttl, fot_hrs, seg_potencia_fot],
+    elementAction: "add"
+  },
+  inactive: {
+    fot_panel: "block",
+    confirmacion_fot: "none",
+    ajstCtrlFot_active: false,
+    elements: [fot_ttl, fot_hrs, seg_potencia_fot],
+    elementAction: "remove"
+  }
+};
+
+/**
+ * Establece el estado del panel de fototerapia
+ * @param {string} estado "active" o "inactive"
+ */
+function setFotoState(estado) {
+  const config = fotoConfig[estado];
+  if (!config) return;
+
+  clearTimeout(timerChngAjst);
+
+  fot_panel.style.display = config.fot_panel;
+  confirmacion_fot.style.display = config.confirmacion_fot;
+
+  if (config.ajstCtrlFot_active) {
+    ajstCtrlFot.classList.add("active");
+  } else {
+    ajstCtrlFot.classList.remove("active");
+  }
+
+  config.elements.forEach(el => {
+    if (el) el.classList[config.elementAction]("active");
+  });
+
+  if (estado === "active") {
+    fotoEn = true;
+  }
+}
+
+/**
+ * Activa el panel de fototerapia
+ */
+export function fotoActive() {
+  setFotoState("active");
+}
+
+/**
+ * Desactiva el panel de fototerapia
+ */
+export function fotoInactive() {
+  setFotoState("inactive");
+  fotoEn = false;
+}
+
+/**
+ * Confirma o muestra el diálogo de confirmación de ajuste de fototerapia
+ */
+export function confAjstFoto() {
+  if (!fotoEn) {
+    clearTimeout(timerChngAjst);
+    fot_panel.style.display = 'none';
+    confirmacion_fot.style.display = 'block';
+    iniTimerAjst("Foto");
+  } else {
+    ajst_CtrlFot();
+    ajstCtrlFot.classList.remove("active");
+  }
+};
+
+
+// ================================
 // Slider Temperatura y Potencia
-// --------------------------------
+// ================================
+let tempPowerSliderController = null;
+let fotoSliderController = null;
+let sliderIntensFot_pPrin = null;
+let sliderPowCalef_pPrin = null;
+
 document.addEventListener("DOMContentLoaded", () => {
-    const slider = document.getElementById("tpielSlider");
-    const knob = document.getElementById("tpielKnob");
-
-    if (!slider || !knob) {
-        return;
+    sliderPowCalef_pPrin = crearSliderPotCalef();
+    updateSliderPowCalef_pPrin = (value) => {
+        sliderPowCalef_pPrin?.setLevel(value);
     }
 
-    sliderConfig = getSliderConfig(slider);
+    tempPowerSliderController = initTemperaturePowerSlider({
+        sliderId: "tpielSlider",
+        knobId: "tpielKnob",
+        valCtrlEl: valCtrl,
+        formatValueFn: formatValue,
+        initialValue: Number(slider10?.dataset.value ?? sliderConfig.min)
+    });
+    updateSlider10Value = (value) => {
+        tempPowerSliderController?.setValue(value);
+    };
 
-    const segments = [
-        ...slider.querySelectorAll(".ctrl-slider-seg")
-    ];
+    sliderIntensFot_pPrin = createSliderIntensFot();
+    updateSliderIntenseFot_pPrin = (value) => {
+        sliderIntensFot_pPrin?.setLevel(value);
+    };
 
-    const points = [
-        { x: 36, y: 218 },
-        { x: 18, y: 147 },
-        { x: 32, y: 92 },
-        { x: 68, y: 48 },
-        { x: 120, y: 20 },
-        { x: 176, y: 20 },
-        { x: 228, y: 48 },
-        { x: 264, y: 92 },
-        { x: 278, y: 147 },
-        { x: 260, y: 218 }
-    ];
-
-    function clamp(value, minValue, maxValue) {
-        return Math.min(Math.max(value, minValue), maxValue);
-    }
-
-    function roundToStep(value) {
-        const { step } = sliderConfig;
-
-        return (Math.round(value / step) * step);
-    }
-
-    function valueToSegment(value) {
-        const { min, max } = sliderConfig;
-
-        if (max <= min) {
-            return 0;
-        }
-
-        const ratio = clamp((value - min) / (max - min), 0, 1);
-
-        return clamp(Math.floor(ratio * 10), 0, 9);
-    }
-
-    function updateSlider(value) {
-        const {
-            min,
-            max,
-            step
-        } = sliderConfig;
-
-        const numericValue = Number(value);
-        const safeValue = Number.isFinite(numericValue) ? numericValue : min;
-        const clampedValue = clamp(roundToStep(safeValue), min, max);
-        const selectedSegment = valueToSegment(clampedValue);
-        const point = points[selectedSegment];
-
-        knob.setAttribute("cx", point.x);
-        knob.setAttribute("cy", point.y);
-
-        segments.forEach((seg) => {
-            const index = Number(seg.dataset.seg);
-            const isActive = index <= selectedSegment;
-            const isSelected = index === selectedSegment;
-
-            setSegmentTheme(seg, index, sliderConfig.theme);
-
-            seg.classList.toggle("active", isActive);
-            seg.classList.toggle("inactive", !isActive);
-            seg.classList.toggle("selected", isSelected);
-        });
-
-        slider.dataset.value = formatValue(clampedValue, step);
-
-        if (valCtrl) {
-            valCtrl.textContent = formatValue(clampedValue, step);
-        }
-
-        slider.dispatchEvent(
-            new CustomEvent("tpiel-slider-change",{
-                detail: {
-                    value: clampedValue,
-                    segment: selectedSegment,
-                            min,
-                            max,
-                            step
-                }
-            })
-        );
-    }
-
-    updateSlider10Value = updateSlider;
-
-    const initialValue = Number(slider.dataset.value ?? sliderConfig.min);
-
-    updateSlider(initialValue);
-    }
-);
-
-// --------------------------------
-// Slider de Fototerapia
-// --------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-    const slider = document.getElementById("fotSlider");
-    const knob = document.getElementById("fotKnob");
-
-    if (!slider) {
-        return;
-    }
-
-    const segments = [
-        ...slider.querySelectorAll(
-            ".ctrl-slider-seg"
-        )
-    ];
-
-    const min = 1;
-    const max = 3;
-
-    const points = [
-        { x: 36, y: 218 },
-        { x: 148, y: 18.5 },
-        { x: 260, y: 218 }
-    ];
-
-    function updateFotSlider(value) {
-        const numericValue = Number(value);
-        const safeValue = Number.isFinite(numericValue) ? numericValue : min;
-        const clampedValue = Math.min(Math.max(Math.round(safeValue), min), max);
-        const selectedSegment = clampedValue - min;
-
-        if (knob) {
-            const point = points[selectedSegment];
-
-            knob.setAttribute("cx", point.x);
-            knob.setAttribute("cy", point.y);
-        }
-
-        segments.forEach((seg) => {
-            const index = Number(seg.dataset.seg);
-
-            seg.classList.toggle("active", index <= selectedSegment);
-            seg.classList.toggle("inactive", index > selectedSegment);
-            seg.classList.toggle("selected", index === selectedSegment);
-        });
-
-        slider.dataset.value = String(clampedValue);
-
-        if (activeSlider === "sliderFot") {
-            updateControlDisplay(clampedValue, "");
-        }
-
-        slider.dispatchEvent(
-            new CustomEvent("fot-slider-change",
-                {
-                    detail: {
-                        value: clampedValue,
-                        segment: 
-                            selectedSegment,
-                            min,
-                            max,
-                            step: 1
-                    }
-                }
-            )
-        );
-    }
-
-    updateFotSliderValue = updateFotSlider;
-
-    updateFotSlider(Number(slider.dataset.value ?? min));
+    fotoSliderController = initFotoSlider({
+        sliderId: "fotSlider",
+        knobId: "fotKnob",
+        initialValue: Number(sliderFot?.dataset.value ?? 1)
+    });
+    updateFotSliderValue = (value) => {
+        fotoSliderController?.setValue(value);
+    };
 });
 
-// Botón Cancelar
-btnCancel?.addEventListener("click", () => {
+
+
+export function exitCancel(){
+    toggleHomePanel("home");
+
+    // Detiene las peticiones de actialización del Encoder
     clearInterval(intervalEncod);
     intervalEncod = null;
 
-    toggleHomePanel("home");
-});
+    if (fotoEn){
+        fotoEn = !fotoEn;
+        fotoInactive()
+    }
+};

@@ -5,7 +5,7 @@
  - Si estas dando mantenimiento a la página web u optimizando funciones y no 
  - le entiendes y falla puedes usar esta sección para anotar tus intentos.
 
- - total de horas desperdiciadas: 51
+ - total de horas desperdiciadas: 121
   -->
 
 <!DOCTYPE html>
@@ -89,15 +89,15 @@
         <div class="f-en-fecha-hora">
           <div class="cont-fecha">
             <img class="icon-calendario" src="../static/icon/Home/icon-calendario0.svg" />
-            <div class="lbl-info fecha">2 de Feb</div>
+            <div id="fecha" class="lbl-info fecha">2 de Feb</div>
           </div>
 
           <div class="cont-hora">
             <img class="icon-reloj" src="../static/icon/Home/icon-reloj0.svg" />
 
             <div class="sub-hora">
-              <div class="lbl-info hora">05:41</div>
-              <div class="lbl-info p-m">p.m.</div>
+              <div id="hora" class="lbl-info hora">05:41</div>
+              <div id="am-pm" class="lbl-info p-m">p.m.</div>
             </div>
           </div>
         </div>
@@ -119,73 +119,111 @@
         <div id="home">
           <!--================= Titulo de panel =================-->
           <div class="ttl-pnl-prin bckgnd-ctrl-piel">
-            <div class="txt-ttl-pnl-prin">Sistema Controlado por Piel</div>
+            <div id="lbl-modo-ctrl" class="txt-ttl-pnl-prin">Incubadora Controlada por Piel</div>
           </div>
 
           <!--================= Panel Izquierdo =================-->
           <div id="pnl-modoBebe" class="mp-prin-mc-tpiel active">
             <img class="icon-tpiel" src="../static/icon/Home/icon-piel0.svg" />
 
-            <div class="lbl-temp-piel active">Temperatura Piel</div>
+            <div class="lbl-temp-piel m-Piel">Temperatura Piel</div>
 
             <div class="cont-vm-tpiel">
               <div class="tpiel">
-                <div id="ti-vm-piel" class="txt-Temps active">36.5</div>
-                <div class="units-tempPiel-Prin active">°C</div>
+                <div id="ti-vm-piel" class="txt-Temps m-Piel">36.5</div>
+                <div class="units-tempPiel-Prin m-Piel">°C</div>
               </div>
 
               <div class="cont-tprogp-taux">
                 <div class="line-01"></div>
 
-                <div class="tprogp">
+                <div class="tprogp m-Piel">
                   <div class="vprogp">
                     <div id="tp_prog" class="temps-AuxProg active">36.7</div>
                     <div class="t_auxiliar active">Programada</div>
+  
+                    <div class="c3 active">°C</div>
                   </div>
-
-                  <div class="c3 active">°C</div>
                 </div>
 
                 <div class="taux">
-                  <div class="vaux">
+                  <div class="vaux m-Piel">
                     <div id="_34-6" class="temps-AuxProg active">34.6</div>
                     <div class="t_auxiliar active">Auxiliar</div>
+  
+                    <div class="c3 active">°C</div>
                   </div>
-
-                  <div class="c3 active">°C</div>
                 </div>
+              </div>
+            </div>
+
+            <!-- Panel de cambio de modo -->
+            <div class="pop-mp-prin-mc-tpiel">
+              <div class="cont-icons-cmodop">
+                <img class="icon-md-tp-ta" src="../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOP.svg"/>
+              </div>
+
+              <div class="btns-cmodo-cmp">
+                <button id="cnclChngMd-tA-tP" class="btn-cancel cncl-ta-tp" type="button">
+                  <div class="cancelar">Cancelar</div>
+                </button>
+
+                <button id="acptChngMd-tA-tP" class="btn-cancel acpt-ta-tp" type="button">
+                  <div class="cancelar">Aceptar</div>
+                </button>
               </div>
             </div>
           </div>
 
           <!--================== Panel Derecho ==================-->
           <div id="pnl-modoAire" class="mp-prin-mc-taire">
+            <img class="icon-taire" src="../static/icon/Control/Icon_ModoAire.svg" style="display: none;"/>
+
             <div class="cont-taire">
               <div class="lbl-temp-aire">Temperatura Aire</div>
 
               <div class="taire">
-                <div id="_36-3" class="text-Temps">36.3</div>
+                <div id="_36-3" class="txt-Temps">36.3</div>
                 <div class="units-tempAire-Prin">°C</div>
+              </div>
+
+              <div class="tprog-aire">
+                <div class="line-05"></div>
+
+                <div class="tproga">
+                  <div class="vproga">
+                    <div class="ti-vp-proga">
+                      <div class="temps-AuxProg m-aire"> 36.2 </div>
+                    </div>
+                    <div class="t_auxiliar m-aire"> Programada </div>
+                  </div>
+                  <div class="c3 m-aire"> °C </div>
+                </div>
+
               </div>
             </div>
 
+            <!-- Panel de cambio de modo -->
+            <div class="pop-cmodo-aire">
+              <div class="lbl-temp-aire active"> Cambiar a Modo Aire </div>
+
+              <img class="icon-md-tp-ta" src="../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOA.svg"/>
+
+              <button id="cnclChngMd-tP-tA" class="btn-cancel cncl-tp-ta" type="button">
+                <div class="cancelar">Cancelar</div>
+              </button>
+
+              <button id="acptChngMd-tP-tA" class="btn-cancel acpt-tp-ta" type="button">
+                <div class="cancelar">Aceptar</div>
+              </button>
+            </div>
+
             <div class="cont-potcal">
-              <div class="seg-calefactor">
-                <div class="rectangle-192"></div>
-                <div class="rectangle-191"></div>
-                <div class="rectangle-183"></div>
-                <div class="rectangle-184"></div>
-                <div class="rectangle-185"></div>
-                <div class="rectangle-186"></div>
-                <div class="rectangle-187"></div>
-                <div class="rectangle-188"></div>
-                <div class="rectangle-189"></div>
-                <div class="rectangle-190"></div>
-              </div>
+              <div id="seg-calefactor" class="seg-calefactor"></div>
 
               <div class="v-potcal">
-                <div class="_802">80</div>
-                <div class="div">%</div>
+                <div class="potcal-ini">80</div>
+                <div class="perccal-ini">%</div>
               </div>
             </div>
           </div>
@@ -196,14 +234,14 @@
             <div id="mod-ox" class="modulo ox">
               <div class="ttl-mod-sensores active">Oxígeno %</div>
 
-              <div class="vox">
-                <div id="valOx" class="_60">60</div>
+              <div class="cont-vsens">
+                <div id="valOx" class="valSens">60</div>
     
                 <div class="line-02"></div>
     
-                <div class="vp-ox">
-                  <div id="ox_prog" class="_80">80</div>
-                  <div class="programado">Programado</div>
+                <div class="cont-vp-sens">
+                  <div id="ox_prog" class="vp-Sens">80</div>
+                  <div class="lbl-progr">Programado</div>
                 </div>
               </div>
             </div>
@@ -212,30 +250,36 @@
             <div id="mod-hum" class="modulo hum">
               <div class="ttl-mod-sensores active">Humedad %</div>
 
-              <div class="vhum">
-                <div id="valHum" class="_60">60</div>
+              <div class="cont-vsens">
+                <div id="valHum" class="valSens">60</div>
 
-                <div class="line-03"></div>
+                <div class="line-02"></div>
 
-                <div class="vp-hum">
-                  <div id="hum_prog" class="_602">60</div>
-                  <div class="programada">Programada</div>
+                <div class="cont-vp-sens">
+                  <div id="hum_prog" class="vp-Sens">60</div>
+                  <div class="lbl-progr">Programada</div>
                 </div>
               </div>
             </div>
 
             <!-- Módulo Fototerapia -->
             <div id="mod-fot" class="modulo fot">
-              <div class="ttl-mod-sensores">Fototerapia hh:mm</div>
+              <div id="fot-panel" style="display: block;">
+                <div id="fot-ttl" class="ttl-mod-sensores">Fototerapia hh:mm</div>
+  
+                <div class="ti-vm-fot">
+                  <div id="fot-hrs" class="_00-00">00:00</div>
+                </div>
 
-              <div class="ti-vm-fot">
-                <div class="_00-00">00:00</div>
+                <div id="seg-potencia-fot" class="seg-potencia-fot"></div>
               </div>
 
-              <div class="seg-potencia-fot">
-                <div class="rectangle-237"></div>
-                <div class="rectangle-238"></div>
-                <div class="rectangle-239"></div>
+              <div id="confirmacion-fot" class="confirmacion-fot" style="display: none;">
+                <div class="desea-ajustar-el-nivel-de-intensidad"> ¿Desea ajustar el nivel de intensidad? </div>
+
+                <button id="btn-ajustar-foto" class="btn-adjst-foto" type="button">
+                  <div class="cancelar">Ajustar</div>
+                </button>
               </div>
             </div>
           </div>
@@ -278,7 +322,6 @@
               </div>
               <!------------- Información de Control ------------->
               <div id="ctrl-sensores" class="mp-info-ctrl">
-                
                 <img class="icon-ctrl" src="../static/icon/Home/icon-piel0.svg"/>
                 
                 <!-------- Control -------->
@@ -443,7 +486,7 @@
                 <div id="units_Ctrl" class="ti-vp-units">°C</div>
 
                 <!---- Boton Cancelar ----->
-                <button id="cancel-ctrl" class="btn-cancel-salir" type="button">
+                <button id="cancel-ctrl" class="btn-cancel" type="button">
                   <div class="cancelar">Cancelar</div>
                 </button>
               </div>
@@ -460,11 +503,11 @@
 
               <!--------------------- Báscula -------------------->
               <div id="ctrl-bascula" class="mp-info-ctrl">
-                <div class="cont-bas-anima">
+                <div class="cont-bas-anima tPiel">
                   <img class="icon-bebebas" src="../static/icon/Bascula/icon-bebebas0.svg" />
                   <img class="icon-arrow" src="../static/icon/Bascula/Icon_Flecha.svg" />
                   <img class="icon-bas" src="../static/icon/Bascula/icon-bas0.svg" />
-                  <img class="icon-kg" src="../static/icon/Bascula/Bascula_2.svg" />
+                  <img class="icon-kg" src="../static/icon/Bascula/Kg_tPiel.svg" />
 
                   <div id="lbl-tara" class="cont-te-tara">
                     Presione la tecla TARAR y, a continuación, levante al paciente durante 10 segundos.
@@ -476,12 +519,12 @@
                     <div class="timer-bas">
                       <div class="cont-basct">
                         <svg id="bascTimerSlider"
-                            class="basc-slider"
-                            width="246"
-                            height="248"
-                            viewBox="0 0 246 248"
-                            fill="none"
-                            aria-label="Timer Bascula">
+                             class="basc-slider"
+                             width="246"
+                             height="248"
+                             viewBox="0 0 246 248"
+                             fill="none"
+                             aria-label="Timer Bascula">
                         </svg>
                       </div>
                     </div>
@@ -492,26 +535,26 @@
                     </div>
                   </div>
 
-                  <button id="btn-tarar" class="btns-apgr" type="button">
+                  <button id="btn-tarar" class="btns-apgr tPiel" type="button">
                     <div class="lbl-btn">Tarar</div>
                   </button>
                 </div>
                 <!-- Pesar -->
                 <div id="pnl-pesar" class="mp-basc-mc-pesar">
-                  <div class="ti-v-vpeso">
+                  <div class="ti-v-vpeso tPiel">
                     <div class="ti-v-peso">00.000</div>
                   </div>
 
                   <div class="cont-bts-pesaje">
-                    <button id="btn-pesar" class="btns-apgr" type="button">
+                    <button id="btn-pesar" class="btns-apgr tPiel" type="button">
                       <div class="lbl-btn">Pesar</div>
                     </button>
 
-                    <button id="btn-guardar" class="btns-apgr" type="button">
+                    <button id="btn-guardar" class="btns-apgr tPiel" type="button">
                       <div class="lbl-btn">Guardar</div>
                     </button>
 
-                    <button id="btn-graf" class="btns-apgr" type="button">
+                    <button id="btn-graf" class="btns-apgr tPiel" type="button">
                       <div class="lbl-btn">Graficar</div>
                     </button>
                   </div>
@@ -524,16 +567,16 @@
               <div id="ctrl-apgar" class="mp-info-ctrl">
                 <div class="mp-apgar-mc-capgar">
                   <div class="cont-contapgar">
-                    <div class="ti-v-contapgar">
+                    <div class="ti-v-contapgar tPiel">
                       <div id="timer-crono" class="ti-v-apgar">00:00</div>
                     </div>
 
                     <div class="btns-ctapgar">
-                      <button id="btn-play-pause" class="btns-apgr" type="button">
+                      <button id="btn-play-pause" class="btns-apgr tPiel" type="button">
                         <img src="../static/icon/Apgar/btns/Icon_Play_Default.svg" alt="Apgar_Play">
                       </button>
 
-                      <button id="btn-reset" class="btns-apgr" type="button">
+                      <button id="btn-reset" class="btns-apgr tPiel" type="button">
                         <img src="../static/icon/Apgar/btns/Icon_Regresar_Default.svg" alt="Apgar_Return">
                       </button>
                     </div>

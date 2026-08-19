@@ -15,13 +15,13 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from dev.Controles_Alertas import encoder as hw_encoder
-from dev.Comunicacion import bascula as com_bascula
+# from dev.Controles_Alertas import encoder as hw_encoder
+# from dev.Comunicacion import bascula as com_bascula
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
-from dev.Comunicacion.TCD import com_TCD as TCD
-from dev.Comunicacion.TCD import set_dtProg as dt_progTCD
+# from dev.Comunicacion.TCD import com_TCD as TCD
+# from dev.Comunicacion.TCD import set_dtProg as dt_progTCD
 
 #****************************************************************************#
 #                           Configuracion Pag WEB                            #
@@ -125,7 +125,7 @@ def enEditCtrls():
     val_Encd = valores_ctrl[edit_Ctrl]
     valores_ctrl["confirm"] = ctrl.get("Enable")
 
-    hw_encoder.valConfig(edit_Ctrl)
+    # hw_encoder.valConfig(edit_Ctrl)
 
     return jsonify(
         {
@@ -143,7 +143,7 @@ def ctrlEncd():
             monitor_pause.clear()               # Pausa monitoreo para enviar datos de control
 
             valores_ctrl[edit_Ctrl] = val_Encd
-            dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
+            # dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
 
             monitor_pause.set()                 # Reinicio de Monitoreo
 
@@ -168,7 +168,7 @@ def ctrlEncd():
 def api_Pesaje():
     global pesoTCD
 
-    peso = round(com_bascula.pesaje(), 3)
+    # peso = round(com_bascula.pesaje(), 3)
 
     print(f"=======Fin Pesaje: {peso}=======")
 
@@ -191,7 +191,7 @@ def sys_monitor():
         monitor_pause.wait()
         restart_container()         # Memoria del contenedor
 
-        TCD(vls_snsrsTCD)           # Envío de datos a la TCD
+        # TCD(vls_snsrsTCD)           # Envío de datos a la TCD
 
         time.sleep(0.1)
 
@@ -206,18 +206,18 @@ def restart_container(threshold=90):
 
 def encoder_Reader():
     global edit_Ctrl, val_Encd
-    hw_encoder.init_encoder()
+    # hw_encoder.init_encoder()
 
-    while True:
-        if valores_ctrl["confirm"]:
-            nuevo_val = hw_encoder.valEdit(val_Encd)
+    # while True:
+        # if valores_ctrl["confirm"]:
+            # nuevo_val = hw_encoder.valEdit(val_Encd)
 
-            if nuevo_val != val_Encd:
-                val_Encd = nuevo_val
+            # if nuevo_val != val_Encd:
+            #     val_Encd = nuevo_val
 
-            valores_ctrl["confirm"] = hw_encoder.swAcept()
+            # valores_ctrl["confirm"] = hw_encoder.swAcept()
 
-        time.sleep(0.005)
+        # time.sleep(0.005)
 
 #============================================================================#
 #                                    Hilos                                   #

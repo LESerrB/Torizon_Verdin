@@ -20,6 +20,11 @@
   --numtempsecun-font-weight: 700;
   --numtempsecun-font-style: normal;
 
+  --numtempterc-font-family: Inter-Bold, sans-serif;
+  --numtempterc-font-size: 24px;
+  --numtempterc-line-height: 20px;
+  --numtempterc-font-weight: 700;
+
   --texttemptitulo-font-family: Montserrat-Bold, sans-serif;
   --texttemptitulo-font-size: 18px;
   --texttemptitulo-line-height: 16px;
@@ -114,6 +119,12 @@
   --coloroscurofot:     #5f82b8;
   --coloroscurohum:     #5f97b1;
 
+  --colorpressedpiel:   #E3A896;
+  --colorpressedox:     #ADD09C;
+  --colorpressedhum:    #8CB8CD;
+  --colorpressedfot:    #a5bbe0;
+  --colorpressedaire:   #e4e4e4;
+
   --colorclaropiel:     #fae7e1;
 
   --colorverdebtn:      #92d1bc;
@@ -121,6 +132,8 @@
   --colorclarobtn:      #f8f8fa;
   --colorfondobtns:     #d8dee2;
   --colorbtnsnuevos:    #d9d9d9;
+
+  --colorfotoprsdbtn:   #8EA7CB;
 
   --colormoddesacti:    #f5f7f7;
 }

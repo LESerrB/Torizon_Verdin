@@ -443,6 +443,37 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de panel lateral módulo de báscula.
  - Módulo de pesaje agregado.
 
+### v0.23.3 - [18/Agosto/2026]
+
+ - Cambio de paneles de función "click" a "touchstart" y "touchend".
+ - Cambio de paneles de "ui.js" a "app.js".
+ - Corrección de estilos visuales de botones inferiores.
+ - Cambio de color a los paneles al tocarlos.
+ - Creado panel para aceptar el ajuste de fototerapia.
+ - Sección T. Piel modo desactivado acomodado.
+ - Primera versión de modo aire. Hay que optimizar el cambio de función.
+ - Función de obtención de fecha y hora.
+ - Bandera de cambio de modo.
+ - Botones Aceptar/Cancelar para el cambio de modo funcionando.
+ - Cambio de modo de operacion, corrección de bugs.
+ - Renombre de "ui.js" a "ui_Incubadora.js".
+ - Optimización de función para cambiar entre modos de operación (Modo Piel <--> Modo Aire).
+ - Corrección de bug de visualización de temperaturas principales en cambio de modo Piel a modo Aire.
+ - Agregado temporizador para el cierre de la ventana de confirmación de cambios de modos.
+ - Cambio de color del indicador numérico de potencia del calefactor.
+ - Creada función indicadora de nivel de potencia de fototerapia en panel principal.
+ - Creada función para indicador de potencia de calefactor en panel principal.
+ - Creadas funciones para actualizar valores de los indicadores de Fototerapia y Calefactor del panel principal.
+ - Documentación de funciones de sliders de panel de control y principal.
+ - Cambio de color de slider de cronómetro Apgar.
+ - Cronómetro se reinicia al salir y entrar al módulo.
+ - Realizado el ajuste de color dependiendo del modo de operación para el panel Cronómetro Apgar.
+ - Ajuste de color dependiendo del modo para el temporizador de la báscula.
+ - Deshabilitado menú contextual al presionar largo.
+ - Actualizado cambio de color de botón "Ajustar" de panel de fototerapia.
+ - Actualizado cambio de colores de botones "Aceptar" y "Cancelar" de paneles de cambio de modo de operación.
+ - Actualizado cambio de colores de botones internos de los módulos de "Apgar" y "Báscula" dependiendo del modo de operación.
+
  ### v0.23.3 - [05/Agosto/2026]
 
  - Habilitado Oxígeno Programado.

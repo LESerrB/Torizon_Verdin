@@ -27,7 +27,6 @@
   position: relative;
 }
 .ti-v-contapgar {
-  background: var(--coloroscuropiel, #d9a79d);
   border-radius: 10px;
   padding: 12px 10px 12px 10px;
   display: flex;
@@ -39,13 +38,19 @@
   flex-shrink: 0;
   position: relative;
 }
+.ti-v-contapgar.tPiel{
+  background: var(--coloroscuropiel);
+}
+.ti-v-contapgar.tAire{
+  background: var(--coloroscuroaire);
+}
 .ti-v-apgar {
-  color: var(--colorblanco, #ffffff);
+  color: var(--colorblanco);
   text-align: center;
-  font-family: var(--numapgar-font-family, "Inter-Bold", sans-serif);
-  font-size: var(--numapgar-font-size, 68px);
-  line-height: var(--numapgar-line-height, 64px);
-  font-weight: var(--numapgar-font-weight, 700);
+  font-family: var(--numapgar-font-family);
+  font-size: var(--numapgar-font-size);
+  line-height: var(--numapgar-line-height);
+  font-weight: var(--numapgar-font-weight);
   position: relative;
   display: flex;
   align-items: center;
@@ -188,15 +193,23 @@
   opacity: 1;
 }
 
-/* Botones Cronometro */
+/* Botones Cronometro y Báscula*/
 .btns-apgr {
   width: 106px;
   height: 50px;
   border-radius: 85px;
   background: var(--colorbtnsnuevos);
+
+  touch-action: manipulation;
 }
-.btns-apgr:active {
+.btns-apgr.tPiel:active,
+.btns-apgr.tPiel.pressed {
   background-color: var(--coloroscuropiel);
+  transform: scale(0.97);
+}
+.btns-apgr.tAire:active,
+.btns-apgr.tAire.pressed {
+  background-color: var(--coloroscuroaire);
   transform: scale(0.97);
 }
 
@@ -221,13 +234,12 @@
     fill 150ms ease,
     opacity 150ms ease,
     filter 150ms ease;
+  opacity: 1;
 }
 
 /* Segmento activado */
-.ctrl-cronometro.active {
-  fill: #d9a79d;
-  opacity: 1;
-}
+.ctrl-cronometro.tPiel.active { fill: var(--coloroscuropiel); }
+.ctrl-cronometro.tAire.active { fill: var(--coloroscuroaire); }
 
 /* Segmento desactivado */
 .ctrl-cronometro.inactive {
