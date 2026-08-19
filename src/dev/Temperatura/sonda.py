@@ -47,13 +47,15 @@ def read_Sonda(adc_chn: int):
       que retorna 0 cuando ocurre cualquiera.
     """
     try:
-        valSonda1 = round(4300 * ((1800/read_adc(adc_chn)) - 1))  # ADC1_IN0 (SODIMM 8), 4300 ohms de resistencia referencia, 1800 fuente de voltaje de la tarjeta
+        valSonda1 = round(4300 * ((1800/read_adc(adc_chn)) - 1))
         logaritmo = math.log(valSonda1)
         temperatura = 1/(a0 + b0 * (logaritmo) + c0 * (pow(logaritmo, 3)))
         tempSonda = temperatura - 273
 
         if 10 < tempSonda < 45:
             return tempSonda
+        else:
+            return 0
     except Exception as e:
         # logger.error("Error leyendo SONDA1:", e)
         # print(f"Error leyendo SONDA1: {e}")

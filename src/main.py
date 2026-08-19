@@ -1,12 +1,11 @@
 #!python
 
 import os
-import struct
 import threading
 import time
 import shutil
 
-# import logging
+# # import logging
 
 # from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request
@@ -16,36 +15,23 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia, setNvlLuzExam
-from dev.Sensores_TPH.bme280 import bme280
-from dev.Bascula.bascula import tare, calib, pesaje
-from dev.GPIO.botones import pwrBtn_Evnt
-from dev.GPIO.calefactor import ctrl_Calef, set_PWM_Calef, statusCom_Calef
-from dev.GPIO.motores import ctrl_Motores, sm_chngModoOp, sm_ajstInclinacion
-from dev.Sensores_TPH.sht21 import sht21
+from dev.Controles_Alertas import encoder as hw_encoder
+from dev.Comunicacion import bascula as com_bascula
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
-from dev.Controles_Alertas.alrt_alimentacion import monitoreo_alimentación
-from dev.Controles_Alertas.encoder import valupdt
-# from dev.Sensores_TPH.sns_IncBac import accel_Pos, calib_PosZero
-# from dev.Sensores_TPH.sns_Ox import read_SnsOx
-# from i2c.at18_T2s import readTarjeta2S
+from dev.Comunicacion.TCD import com_TCD as TCD
+from dev.Comunicacion.TCD import set_dtProg as dt_progTCD
 
-# calib_PosZero()
-# calib_PosZero(0x69)
-#--------------------------------------------------------------#
-
-##############################################################################
+#****************************************************************************#
 #                           Configuracion Pag WEB                            #
-##############################################################################
+#****************************************************************************#
 template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", 'templates')
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web", "static")
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
-fsm = sm_chngModoOp()
 ##############################################################################
 #                           Configuracion de entorno                         #
 ##############################################################################
@@ -59,193 +45,155 @@ fsm = sm_chngModoOp()
 # werkzeug_logger.handlers = logger.handlers
 # werkzeug_logger.setLevel(logger.level)
 
-PWM_Calef = 100
-pesoFinal = 0.0
-strStatus = ""
+edit_Ctrl = ""
+val_Encd = 0
+#--------------------- Valores Iniciales ---------------------#
+valores_ctrl = {
+    "tp_Prog":   35.0,      # Ajuste de Temperatura programada de Piel
+    "ta_Prog":   37.0,      # Ajuste de Temperatura programada de Aire
+    "pot_Ox":    60,        # Ajuste de Potencia de Oxigeno
+    "pot_Hum":   50,        # Ajuste de Potencia de Humedad
+    "pot_Fot":   1,         # Ajuste de Potencia de Fototerapia
+    "pot_Calef": 100,       # Ajuste de Potencia de Calefactor
+    "confirm":   False,     # Habilitación / Deshabilitación Encoder
+}
 
-alertaSumEner = ""
+#--------------------- Valores Sensados ----------------------#
+vls_snsrsTCD = {
+    "t_Aire" :    0,
+    "t_Piel" :    0,
+    "s_Aux" :     0,
+    "ta_Ctrl" :   0,
+    "basc" :      0,
+    "pot_Calef" : 0,
+    "tp_Ctrl" :   0,
+    "s_Ox" :      0,
+    "ox_Ctrl" :   0,
+    "s_Hum" :     0,
+    "hum_Ctrl" :  0,
+    "fot_Hrs" :   0,
+    "fot_Mins" :  0,
+    "zero" :      0,
+    "alrm" :      0,
+}
+
+pesoTCD = 0
+
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
 @app.route("/")
 def index():
-    return render_template("index.html")
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SONDAS DE TEMPERATURA
-# Seleccionar Temperatura Programada
-@app.route("/api/setTemp", methods=["POST"])
-def api_setTemp():
-    nTempProg = request.get_json()
+    return render_template("home.html")
 
-    if nTempProg.get("tempProg"):
-        # print("La nueva temperatura Programada es:", nTempProg.get("tempProg"))
-
-        return jsonify({
+##############################################################################
+#                                  Sensores                                  #
+##############################################################################
+@app.route("/api/setInitVals", methods=["POST"])
+def setInitVals():
+    return jsonify(
+        {
+            "vals": valores_ctrl,
             "status": "ok"
-        }), 200
+        }
+    ), 200
+
+@app.route("/api/getDtSensores", methods=["POST"])
+def get_DtSensores():
+    if vls_snsrsTCD["alrm"] != 128:
+        return jsonify(
+            {
+                "vls_snsrsTCD": vls_snsrsTCD,
+                "status": "ok",
+            }
+        ), 200
     else:
-        print("No se recibió valor")
+        return jsonify(
+            {
+                "status": "fail",
+            }
+        ), 400
 
-        return jsonify({
-            "status": "ERROR NO SE RECIBIÓ VALOR"
-        }), 500
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SENSORES HUMEDAD/TEMPERATURA/OXIGENO
-@app.route("/api/getSnsTHO", methods=["POST"])
-def api_THO():
-    # sht21()
+@app.route("/api/enEdit", methods=["POST"])
+def enEditCtrls():
+    global edit_Ctrl, val_Encd
 
-    temp_CjSns, pres_CjSns, hum_CjSns = struct.unpack("fff", bme280())
-    SnsOx = 0
+    ctrl = request.get_json()
 
-    return jsonify({
-        "status": "ok",
-        "snsTemp": temp_CjSns,
-        "snsPres": pres_CjSns,
-        "snsHum": hum_CjSns,
-        "snsOx": SnsOx,
-    }), 200
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CONTROL DE CALEFACTOR
-# Seleccionar Potencia de calefactor
-@app.route("/api/potCalef", methods=["POST"])
-def api_potCalef():
-    potCalef = request.get_json()
-    PWM_Calef = potCalef.get("potCalef")
+    edit_Ctrl = ctrl.get("Ctrl")
 
-    if PWM_Calef is not None:
-        set_PWM_Calef(int(PWM_Calef))
+    val_Encd = valores_ctrl[edit_Ctrl]
+    valores_ctrl["confirm"] = ctrl.get("Enable")
 
-    return jsonify({
-        "status": "ok"
-    }), 200
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FUNCIONES DE PESAJE
-# Pesar
-@app.route("/api/bascPeso", methods=["POST"])
-def api_pesaje():
-    pesoFinal = pesaje()
+    hw_encoder.valConfig(edit_Ctrl)
 
-    if pesoFinal != 0.0:
-        return jsonify({
+    return jsonify(
+        {
             "status": "ok",
-            "peso": pesoFinal
-        }), 200 
+            "valor": valores_ctrl[edit_Ctrl],
+        }
+    ), 200
+
+@app.route("/api/editValProg", methods=["POST"])
+def ctrlEncd():
+    try:
+        global edit_Ctrl, val_Encd
+
+        if not valores_ctrl["confirm"]:
+            monitor_pause.clear()               # Pausa monitoreo para enviar datos de control
+
+            valores_ctrl[edit_Ctrl] = val_Encd
+            dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
+
+            monitor_pause.set()                 # Reinicio de Monitoreo
+
+        return jsonify(
+            {
+                "status": "ok",
+                "ctrl": edit_Ctrl,
+                "val": val_Encd,
+                "confirm": valores_ctrl["confirm"],
+            }
+        ), 200
+    except:
+        monitor_pause.set()                     # Reinicio de Monitoreo
+
+        return jsonify(
+            {
+                "status": "fail"
+            }
+        ), 400
+
+@app.route("/api/pesar", methods=["POST"])
+def api_Pesaje():
+    global pesoTCD
+
+    # peso = round(com_bascula.pesaje(), 3)
+
+    print(f"=======Fin Pesaje: {peso}=======")
+
+    if peso != 999:
+        pesoTCD = int(peso * 1000)
+
+        if peso > 10:
+            pesoTCD = int((peso - 7) * 1000)
+            peso = round((pesoTCD/1000), 3)
+
+        return jsonify({"status": "ok", "peso": peso}), 200
     else:
-        return jsonify({
-            "status": "fail"
-        }), 500
-# Tarar
-@app.route("/api/bascTar", methods=["POST"])
-def api_bascTar():
-    res = tare()
+        return jsonify({"status": "fail"}), 400
 
-    if res != -1:
-        pesoFinal = pesaje()
-
-        return jsonify({
-            "status": "ok",
-            "peso": pesoFinal
-        }), 200
-    else:
-        return jsonify({
-            "status": "fail"
-        }), 500
-# Calibrar
-@app.route("/api/bascCalib", methods=["POST"])
-def api_bascCalib():
-    res = calib()
-
-    if res != -1:
-        pesoFinal = pesaje()
-
-        return jsonify({
-            "status": "ok",
-            "peso": pesoFinal
-        }), 200
-    else:
-        return jsonify({
-            "status": "fail"
-        }), 500
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NIVEL DE FOTOTERAPIA
-@app.route("/api/nvlFototerapia", methods=["POST"])
-def api_nvlFototerapia():
-    nvlFototerapia = request.get_json()
-    # Fot = nvlFototerapia.get("nvlFototerapia")
-    # Exam = nvlFototerapia.get("nvlExam")
-
-    setNvlLuzExam(nvlFototerapia.get("nvlExam"))
-    setNvlFototerapia(nvlFototerapia.get("nvlFototerapia"))
-
-    return jsonify({"status": "ok"})
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CONTROL DE POSICIÓN
-@app.route("/api/ctrlPos", methods=["POST"])
-def api_ctrlPos():
-    accion = request.get_json().get("action")
-    # print(accion)
-
-    ctrl_Motores(accion)
-
-    return jsonify({
-        "status": "ok"
-    }), 200
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> CAMBIO DE MODO DE FUNCIONAMIENTO
-@app.route("/api/chng_modoFunc", methods=["POST"])
-def api_modoFunc():
-    # # >>>>>> Máquina de Estados de Posición 0 del Bacinete <<<<<<#
-    # ajstPosZero = sm_ajstInclinacion()
-    # ajstPosZero.run()
-
-    # return jsonify({"status": "ok"}), 200
-    # #============================================================#
-
-    global strStatus
-
-    while True:
-        fsm.run()
-
-        if fsm.state == "edo_0":
-            strStatus = ""
-            return jsonify({"status": "ok"}), 200
-        elif fsm.state == "error" and fsm.errores < 3:
-            strStatus = f"{fsm.errores}"
-            # return jsonify({"status": "retrying"}), 502
-        elif fsm.state == "error" and fsm.errores >= 3:
-            strStatus = "Error"
-            return jsonify({"status": "fail"}), 500
-#------------------------- En Pruebas -------------------------#
-@app.route("/api/ctrls", methods=["GET"])
-def controles():
-    return jsonify({
-        "Alerta": alertaSumEner,
-        # "x": joystick_data["x"],
-        # "y": joystick_data["y"],
-        # "pressed": joystick_data["pressed"]
-    })
-
-@app.route("/api/encdCtrl", methods=["POST"])
-def encdCtrl():
-    tempProg_Lvl = request.get_json().get("tempProg_Lvl")
-    editVal = request.get_json().get("editVal")
-    sobreGiro = request.get_json().get("sobreGiro")
-
-    tempProg_Lvl = valupdt(editVal, tempProg_Lvl, sobreGiro)
-
-    return jsonify({
-        "tempProg_Lvl": tempProg_Lvl
-    })
-
-#--------------------------------------------------------------#
-##############################################################################
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>#
 #                            Funciones de sistema                            #
-##############################################################################
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<#
 def sys_monitor():
-    global alertaSumEner
-
     while True:
-        restart_container()                         # Memoria del contenedor
-        # alertaSumEner = monitoreo_alimentación(2)   # Suministro de energía
+        monitor_pause.wait()
+        restart_container()         # Memoria del contenedor
 
-        # lat1, frnt1, lat2, frnt2 = accel_Pos()
-        # print(lat1, frnt1, "\n", lat2, frnt2)
+        TCD(vls_snsrsTCD)           # Envío de datos a la TCD
 
-        time.sleep(1)# 0.5
+        time.sleep(0.1)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")
@@ -256,24 +204,32 @@ def restart_container(threshold=90):
         # logger.warning('Espacio casi lleno, reiniciando contenedor...')
         os._exit(1)
 
-#===============================================================#
-#                    Inicialización de Hilos                    #
-#===============================================================#
-# thread_pwrBtn = threading.Thread(target=pwrBtn_Evnt, daemon=True)
-# thread_pwrBtn.start()
+def encoder_Reader():
+    global edit_Ctrl, val_Encd
+    hw_encoder.init_encoder()
 
-# thread_Calef = threading.Thread(target=ctrl_Calef, daemon=True)
-# thread_Calef.start()
+    while True:
+        if valores_ctrl["confirm"]:
+            nuevo_val = hw_encoder.valEdit(val_Encd)
 
-# thread_comCalef = threading.Thread(target=statusCom_Calef, daemon=True)
-# thread_comCalef.start()
+            if nuevo_val != val_Encd:
+                val_Encd = nuevo_val
+
+            valores_ctrl["confirm"] = hw_encoder.swAcept()
+
+        time.sleep(0.005)
+
+#============================================================================#
+#                                    Hilos                                   #
+#============================================================================#
+monitor_pause = threading.Event()
+monitor_pause.set()
 
 # monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
 # monitor_thread.start()
 
-#------------------------- En Pruebas -------------------------#
-# # # # # # # # # # # # # readTarjeta2S()
-#--------------------------------------------------------------#
+encoder_Thread = threading.Thread(target=encoder_Reader, daemon=True)
+encoder_Thread.start()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)

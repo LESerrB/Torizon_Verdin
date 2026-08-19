@@ -72,9 +72,9 @@ def close_uart(uart_dev):
         print("UART ya está cerrado")
 
 #================================================================#
-#          Funciones de comunicación Tarjeta de Báscula          #
+#             Funciones de comunicación Tarjeta UART             #
 #================================================================#
-def decode_Msg(basc_UART1):
+def decode_Msg(UART_dev):
     """
     Decodifica la trama recibida desde la tarjeta de báscula y devuelve el peso.
 
@@ -84,37 +84,45 @@ def decode_Msg(basc_UART1):
     - Extrae el número de bytes y la carga útil, calcula y compara CRC.
     - Convierte la carga útil a un valor de peso en kg (divide por 1000).
 
-    Retorno:
-    - float: peso en kg si la trama y el CRC son válidos.
-    - 0.0 si la trama no es válida o no cumple el formato.
+        Retorno:
+        - tuple(bytes, int): siempre retorna una tupla con la carga útil
+            como `bytes` y la longitud de la carga útil (número de bytes).
+            En caso de error devuelve una carga indicadora `b'\x99\x00'` y
+            su longitud.
     """
-    basc_val = []
+    try:
+        bytes_list = []
 
-    trama = uart_receive(basc_UART1)
+        trama = uart_receive(UART_dev)
+        # print("<<<<", trama)
 
-    if trama and trama.startswith("00") and trama.endswith("63"):
-        trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
-        n_bytes = int(trama[1], 16)
+        if trama and trama.startswith("00") and trama.endswith("63"):
+            trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
+            # n_bytes = int(trama[1], 16)
+            n_bytes = len(trama) - 5
 
-        for i in range(2, (2 + n_bytes)):
-            basc_val.append(trama[i])
+            for i in range(2, (2 + n_bytes)):
+                bytes_list.append(trama[i])
 
-        basc_val = ''.join(basc_val)
-        basc_val = bytes.fromhex(basc_val)
-        w_bas = (int.from_bytes(basc_val, byteorder='big'))/1000
+            bytes_list = ''.join(bytes_list)
+            bytes_list = bytes.fromhex(bytes_list)
 
-        crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
-        crc_rec = hex(int(crc_rec, 16))
-        crc_calc = hex(crc16_arc(basc_val))
+            crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
+            crc_rec = hex(int(crc_rec, 16))
+            crc_calc = hex(crc16_arc(bytes_list))
 
-        if crc_rec == crc_calc:
-            return w_bas
-    else:
-        w_bas = 0.0
+            if crc_rec == crc_calc:
+                return bytes_list, len(bytes_list)
+        else:
+            bytes_list = b'\x99\x00'
 
-    return w_bas
+        return bytes_list, len(bytes_list)
+    except Exception as e:
+        # logger.error("Error leyendo SONDA1:", e)
+        print(f"Error al recibir trama: {e}")
+        return b'\x99\x00', len(b'\x99\x00')
 
-def encode_Msg(basc_UART1, msg):
+def encode_Msg(UART_dev, msg, cmd = None):
     """
     Construye y envía una trama hacia la tarjeta de báscula.
 
@@ -126,14 +134,23 @@ def encode_Msg(basc_UART1, msg):
     - Calcula el número de bytes, añade CRC-16 y el terminador `0x63`, y
         envía la trama completa mediante `uart_send()`.
     """
-    n_bytes = int(len(msg)/2).to_bytes(1, byteorder='big')
-    dt = bytes.fromhex(msg)
+    try:
+        n_bytes_int = len(msg) // 2
+        dt = bytes.fromhex(msg)
 
-    crc = crc16_arc(dt)
-    crc = crc.to_bytes(2, byteorder='big')
-    dt = b'\x00' + n_bytes + dt + crc + b'\x63'
+        crc = crc16_arc(dt)
+        crc = crc.to_bytes(2, byteorder='big')
 
-    uart_send(basc_UART1, dt)
+        void_dt = b'\x00' * max(0, 10 - n_bytes_int)
+        n_bytes = n_bytes_int.to_bytes(1, byteorder='big')
+
+        dt = b'\x00' + (cmd or b'') + n_bytes + dt + void_dt + crc + b'\x63'
+
+        print(">>>>", dt)
+        uart_send(UART_dev, dt)
+    except Exception as e:
+        print(f"Error al mandar trama: {e}")
+
 #================================================================#
 #                  Función de creación de CRC                    #
 #================================================================#

@@ -15,10 +15,10 @@ tolerancia = 0.100
 #================================================================#
 #             Función principal de comunicación UART             #
 #================================================================#
-uart_Channel = "/dev/verdin-uart1"
-baud_rate = 57600
+channel_Dev = "/dev/verdin-uart2"
+br = 57600
 
-basc_UART1 = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
+basc_UART2 = serial.Serial(channel_Dev, br, 8, 'N', 1, timeout=1)
 
 #================================================================#
 #                 Funciones de obtención de Peso                 #
@@ -36,27 +36,25 @@ def pesaje():
     - float: peso calculado; 0.0 si no se obtienen lecturas válidas.
     """
     pesoAcc = 0
-    c = 0
+    weight_prom = 0
 
-    print("Iniciando Pesaje")
+    print("=========Iniciando Pesaje=========")
 
-    finPesaje = time.monotonic() + 5
-
-    while (c < 4) and (time.monotonic() < finPesaje):
-        encode_Msg(basc_UART1, "55")
-        w = decode_Msg(basc_UART1)
-
-        if w != 0.0:
-            pesoAcc = pesoAcc + w
-            c += 1
-
-    print("Peso acumulado:", pesoAcc)
+    for i in range(10):
+        encode_Msg(basc_UART2, "55")
+        weight = decode_Msg(basc_UART2)
+        print("W:", weight)
+        
+        if weight != b'\x99\x00':
+            weight = int.from_bytes(weight, "big")/1000
+            pesoAcc = pesoAcc + weight
+            weight_prom += 1
 
     if pesoAcc > 0:
-        pesoTotal = pesoAcc/c
+        pesoTotal = pesoAcc/weight_prom
         pesoTotal = (pesoTotal - OFFSET) / SCALE
     else:
-        pesoTotal = 0.0
+        pesoTotal = 999
 
     return pesoTotal
 
@@ -82,8 +80,8 @@ def tare():
     finPesaje = time.monotonic() + 10
 
     while (c < 5) and (time.monotonic() < finPesaje):
-        encode_Msg(basc_UART1, "55")
-        w = decode_Msg(basc_UART1)
+        encode_Msg(basc_UART2, "55")
+        w = decode_Msg(basc_UART2)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w
@@ -123,8 +121,8 @@ def calib(peso_ptrn = 2.0):
     finPesaje = time.monotonic() + 5
 
     while (c < 4) and (time.monotonic() < finPesaje):
-        encode_Msg(basc_UART1, "55")
-        w = decode_Msg(basc_UART1)
+        encode_Msg(basc_UART2, "55")
+        w = decode_Msg(basc_UART2)
 
         if w != 0.0:
             pesoAcc = pesoAcc + w

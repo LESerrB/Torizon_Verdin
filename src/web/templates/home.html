@@ -1,0 +1,639 @@
+<!-- 
+ - Esta página web a estado cambiando tanto en su diseño y funciones que a día
+ - de hoy ya no tengo ni la más remota idea de que hace cada sección y función.
+
+ - Si estas dando mantenimiento a la página web u optimizando funciones y no 
+ - le entiendes y falla puedes usar esta sección para anotar tus intentos.
+
+ - total de horas desperdiciadas: 121
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../static/css/vars.css">
+    <link rel="stylesheet" href="../static/css/Home/style.css">
+    <link rel="stylesheet" href="../static/css/PanelControl/style.css">
+    <link rel="stylesheet" href="../static/css/Apgar/style.css">
+    <link rel="stylesheet" href="../static/css/Bascula/style.css">
+
+    <script type="module" src="../static/js/app.js"></script>
+
+    <style>
+      a,
+      button,
+      input,
+      select,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        border: none;
+        text-decoration: none;
+        background: none;
+
+        -webkit-font-smoothing: antialiased;
+      }
+      menu, ol, ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <title>Home</title>
+  </head>
+
+  <body>
+    <div class="mp-pprin">
+      <!--################################### Barra Alarma ###################################-->
+      <button class="btn-alarma" type="button">
+        <img src="../static/icon/Home/f-en-btn-alarma0.svg">
+      </button>
+      <!--################################ Barra Información #################################-->
+      <div class="barra_Informacion">
+        <label class="switch-btn">
+          <input type="checkbox" id="modoSwitch">
+
+          <span class="switch-bg">
+            <span class="switch-option switch-left">
+              <img src="../static/icon/Home/ICON_INCUBADORA.svg">
+            </span>
+
+            <span class="switch-option switch-right">
+              <img src="../static/icon/Home/ICON_CUNA.svg">
+            </span>
+          </span>
+        </label>
+
+        <div class="f-en-infopac">
+          <img class="icon-corazon" src="../static/icon/Home/icon-corazon0.svg" />
+          <div class="lbl-info nom-bebe">Bebé Mateo</div>
+
+          <div id="pesar" class="cont-pespac">
+            <div class="lbl-info peso">Último peso:</div>
+            <div id="peso" class="lbl-info val-peso">0.785</div>
+            <div class="lbl-info kg">kg</div>
+          </div>
+        </div>
+
+        <div class="f-en-fecha-hora">
+          <div class="cont-fecha">
+            <img class="icon-calendario" src="../static/icon/Home/icon-calendario0.svg" />
+            <div id="fecha" class="lbl-info fecha">2 de Feb</div>
+          </div>
+
+          <div class="cont-hora">
+            <img class="icon-reloj" src="../static/icon/Home/icon-reloj0.svg" />
+
+            <div class="sub-hora">
+              <div id="hora" class="lbl-info hora">05:41</div>
+              <div id="am-pm" class="lbl-info p-m">p.m.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="f-en-incli">
+          <img class="icon-inclinacion" src="../static/icon/Home/ICON_INCLINACION.svg" />
+          <div class="lbl-info inclinacion">Inclinación</div>
+
+          <div class="lbl-info">
+            <span class="_0-span">0</span>
+            <span class="_0-span2">°</span>
+          </div>
+        </div>
+      </div>
+
+      <!--################################### Panel Central ##################################-->
+      <div class="panel-prin">
+        <!--                          Home                          -->
+        <div id="home">
+          <!--================= Titulo de panel =================-->
+          <div class="ttl-pnl-prin bckgnd-ctrl-piel">
+            <div id="lbl-modo-ctrl" class="txt-ttl-pnl-prin">Incubadora Controlada por Piel</div>
+          </div>
+
+          <!--================= Panel Izquierdo =================-->
+          <div id="pnl-modoBebe" class="mp-prin-mc-tpiel active">
+            <img class="icon-tpiel" src="../static/icon/Home/icon-piel0.svg" />
+
+            <div class="lbl-temp-piel m-Piel">Temperatura Piel</div>
+
+            <div class="cont-vm-tpiel">
+              <div class="tpiel">
+                <div id="ti-vm-piel" class="txt-Temps m-Piel">36.5</div>
+                <div class="units-tempPiel-Prin m-Piel">°C</div>
+              </div>
+
+              <div class="cont-tprogp-taux">
+                <div class="line-01"></div>
+
+                <div class="tprogp m-Piel">
+                  <div class="vprogp">
+                    <div id="tp_prog" class="temps-AuxProg active">36.7</div>
+                    <div class="t_auxiliar active">Programada</div>
+  
+                    <div class="c3 active">°C</div>
+                  </div>
+                </div>
+
+                <div class="taux">
+                  <div class="vaux m-Piel">
+                    <div id="_34-6" class="temps-AuxProg active">34.6</div>
+                    <div class="t_auxiliar active">Auxiliar</div>
+  
+                    <div class="c3 active">°C</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel de cambio de modo -->
+            <div class="pop-mp-prin-mc-tpiel">
+              <div class="cont-icons-cmodop">
+                <img class="icon-md-tp-ta" src="../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOP.svg"/>
+              </div>
+
+              <div class="btns-cmodo-cmp">
+                <button id="cnclChngMd-tA-tP" class="btn-cancel cncl-ta-tp" type="button">
+                  <div class="cancelar">Cancelar</div>
+                </button>
+
+                <button id="acptChngMd-tA-tP" class="btn-cancel acpt-ta-tp" type="button">
+                  <div class="cancelar">Aceptar</div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!--================== Panel Derecho ==================-->
+          <div id="pnl-modoAire" class="mp-prin-mc-taire">
+            <img class="icon-taire" src="../static/icon/Control/Icon_ModoAire.svg" style="display: none;"/>
+
+            <div class="cont-taire">
+              <div class="lbl-temp-aire">Temperatura Aire</div>
+
+              <div class="taire">
+                <div id="_36-3" class="txt-Temps">36.3</div>
+                <div class="units-tempAire-Prin">°C</div>
+              </div>
+
+              <div class="tprog-aire">
+                <div class="line-05"></div>
+
+                <div class="tproga">
+                  <div class="vproga">
+                    <div class="ti-vp-proga">
+                      <div class="temps-AuxProg m-aire"> 36.2 </div>
+                    </div>
+                    <div class="t_auxiliar m-aire"> Programada </div>
+                  </div>
+                  <div class="c3 m-aire"> °C </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Panel de cambio de modo -->
+            <div class="pop-cmodo-aire">
+              <div class="lbl-temp-aire active"> Cambiar a Modo Aire </div>
+
+              <img class="icon-md-tp-ta" src="../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOA.svg"/>
+
+              <button id="cnclChngMd-tP-tA" class="btn-cancel cncl-tp-ta" type="button">
+                <div class="cancelar">Cancelar</div>
+              </button>
+
+              <button id="acptChngMd-tP-tA" class="btn-cancel acpt-tp-ta" type="button">
+                <div class="cancelar">Aceptar</div>
+              </button>
+            </div>
+
+            <div class="cont-potcal">
+              <div id="seg-calefactor" class="seg-calefactor"></div>
+
+              <div class="v-potcal">
+                <div class="potcal-ini">80</div>
+                <div class="perccal-ini">%</div>
+              </div>
+            </div>
+          </div>
+
+          <!--############################# Barra Módulos de Sensores ############################-->
+          <div class="mp-prin-mc-msoporte">
+            <!-- Módulo Oxigeno -->
+            <div id="mod-ox" class="modulo ox">
+              <div class="ttl-mod-sensores active">Oxígeno %</div>
+
+              <div class="cont-vsens">
+                <div id="valOx" class="valSens">60</div>
+    
+                <div class="line-02"></div>
+    
+                <div class="cont-vp-sens">
+                  <div id="ox_prog" class="vp-Sens">80</div>
+                  <div class="lbl-progr">Programado</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modulo Humedad -->
+            <div id="mod-hum" class="modulo hum">
+              <div class="ttl-mod-sensores active">Humedad %</div>
+
+              <div class="cont-vsens">
+                <div id="valHum" class="valSens">60</div>
+
+                <div class="line-02"></div>
+
+                <div class="cont-vp-sens">
+                  <div id="hum_prog" class="vp-Sens">60</div>
+                  <div class="lbl-progr">Programada</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Módulo Fototerapia -->
+            <div id="mod-fot" class="modulo fot">
+              <div id="fot-panel" style="display: block;">
+                <div id="fot-ttl" class="ttl-mod-sensores">Fototerapia hh:mm</div>
+  
+                <div class="ti-vm-fot">
+                  <div id="fot-hrs" class="_00-00">00:00</div>
+                </div>
+
+                <div id="seg-potencia-fot" class="seg-potencia-fot"></div>
+              </div>
+
+              <div id="confirmacion-fot" class="confirmacion-fot" style="display: none;">
+                <div class="desea-ajustar-el-nivel-de-intensidad"> ¿Desea ajustar el nivel de intensidad? </div>
+
+                <button id="btn-ajustar-foto" class="btn-adjst-foto" type="button">
+                  <div class="cancelar">Ajustar</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--                         Control                        -->
+        <div id="panel-control">
+          <div class="mp-atpiel">
+            <!--################### Panel Lateral ###################-->
+            <div class="mp-atpiel-lat-modmon">
+              <div class="mp-atpiel-lat" data-control="tempPiel">
+                <div class="lbl-ttl-cont-lat" data-control="tempPiel">Temperatura Piel</div>
+                <div class="ti-vm-sens" data-control="tempPiel">36.5</div>
+                <div class="val-units-sens-cont-lat" data-control="tempPiel">°C</div>
+              </div>
+
+              <div class="mp-atpiel-lat" data-control="tempProg">
+                <div id="ttl-programada" class="lbl-ttl-cont-lat" data-control="tempProg">Temp. Piel Programada</div>
+                <div id="vw-valProg" class="ti-vm-sens"data-control="tempProg">36.5</div>
+                <div class="val-units-sens-cont-lat" data-control="tempProg">°C</div>
+              </div>
+
+              <div class="mp-atpiel-lat" data-control="tempAire">
+                <div class="lbl-ttl-cont-lat" data-control="tempAire">Temperatura Aire</div>
+                <div class="ti-vm-sens" data-control="tempAire">36.3</div>
+                <div class="val-units-sens-cont-lat" data-control="tempAire">°C</div>
+              </div>
+
+              <div class="mp-atpiel-lat" data-control="oxigeno">
+                <div class="lbl-ttl-cont-lat" data-control="oxigeno">Oxígeno</div>
+                <div class="ti-vm-sens" data-control="oxigeno">60</div>
+                <div class="val-perc-sens-cont-lat" data-control="oxigeno">%</div>
+              </div>
+            </div>
+
+            <!--################# Panel de Control ##################-->
+            <div class="mp-atpiel-cont-atpiel">
+              <!-- Titulo de Panel de Control -->
+              <div class="mp-atpiel-mc-ttl">
+                <div id="ttl-pnl-ctrl" class="mp-atpiel-mc-lbl"> Ajuste de Control de Temperatura de Piel </div>
+              </div>
+              <!------------- Información de Control ------------->
+              <div id="ctrl-sensores" class="mp-info-ctrl">
+                <img class="icon-ctrl" src="../static/icon/Home/icon-piel0.svg"/>
+                
+                <!-------- Control -------->
+                <div class="per-graf"></div>
+                <div class="fon-graf"></div>
+
+                <!--#####################-->
+                <!--   Slider Potencia   -->
+                <!--#####################-->
+                <div id="tpielSlider" class="ctrl-slider" data-min="34.0" data-max="38.0" data-step="0.1">
+                  <svg class="ctrl-slider-svg" viewBox="0 0 296 232" aria-label="Control temperatura piel">
+                    <path class="ctrl-slider-hit-area" d="M36 218 A132 132 0 1 1 260 218"></path>
+
+                    <!-- Segmento 0 -->
+                    <path class="ctrl-slider-seg seg-t_piel-0" data-seg="0"
+                      d="M46.2349 228.34C38.3719
+                        234.589 26.7287 232.624
+                        21.4954 224.065C13.3469
+                        210.722 7.25721 195.984
+                        3.68469 180.305L36.3996
+                        172.867C39.1504 184.917
+                        43.8128 196.242 50.0582
+                        206.508C54.4525 213.739
+                        52.8695 223.074 46.2349
+                        228.349V228.34Z"/>
+
+                    <!-- Segmento 1 -->
+                    <path class="ctrl-slider-seg seg-t_piel-1" data-seg="1"
+                      d="M33.554 147.474C33.554
+                      156.196 34.5401 164.695
+                      36.3999 172.857L3.68497
+                      180.296C1.27157 169.737
+                      0 158.756 0 147.474C0
+                      136.191 1.27157 125.211
+                      3.68497 114.652L36.3999
+                      122.099C34.5401 130.261
+                      33.554 138.751 33.554
+                      147.474Z"/>
+
+                    <!-- Segmento 2 -->
+                    <path class="ctrl-slider-seg seg-t_piel-2" data-seg="2"
+                      d="M58.5267 76.3779C47.9649
+                        89.548 40.2749 105.097
+                        36.3996 122.103L3.68469
+                        114.656C8.69314 92.6768
+                        18.6322 72.5596 32.2821
+                        55.5281L58.5267 76.3779Z"/>
+
+                    <!-- Segmento 3 -->
+                    <path class="ctrl-slider-seg seg-t_piel-3" data-seg="3"
+                      d="M98.3349 44.7163C82.7819
+                        52.1892 69.1925 63.0665
+                        58.5268 76.3745L32.2822
+                        55.5248C46.0792 38.3123
+                        63.6564 24.2458 83.768
+                        14.5751L98.3349 44.7163Z"/>
+
+                    <!-- Segmento 4 -->
+                    <path class="ctrl-slider-seg seg-t_piel-4" data-seg="4"
+                      d="M148.004 0V33.4424C130.202
+                        33.4424 113.36 37.4934
+                        98.3351 44.7162L83.7682
+                        14.575C103.196 5.23184
+                        124.986 0 148.004 0Z"/>
+
+                    <!-- Segmento 5 -->
+                    <path class="ctrl-slider-seg seg-t_piel-5" data-seg="5"
+                      d="M212.232 14.575L197.665
+                        44.7162C182.648 37.4934
+                        165.798 33.4424 148.004
+                        33.4424V0C171.014 0 192.804
+                        5.23183 212.232 14.575Z"/>
+
+                    <!-- Segmento 6 -->
+                    <path class="ctrl-slider-seg seg-t_piel-6" data-seg="6"
+                      d="M263.717 55.5248L237.473
+                      76.3745C226.807 63.0665
+                      213.218 52.1892 197.665
+                      44.7163L212.232 14.5751C232.343
+                      24.2458 249.92 38.3123
+                      263.717 55.5248Z"/>
+
+                    <!-- Segmento 7 -->
+                    <path class="ctrl-slider-seg seg-t_piel-7" data-seg="7"
+                      d="M292.315 114.656L259.6
+                        122.103C255.725 105.097
+                        248.035 89.548 237.473
+                        76.3779L263.718
+                        55.5281C277.368 72.5596
+                        287.307 92.6768 292.315
+                        114.656Z"/>
+
+                    <!-- Segmento 8 -->
+                    <path class="ctrl-slider-seg seg-t_piel-8" data-seg="8"
+                      d="M296 147.474C296 158.756
+                        294.728 169.737 292.315
+                        180.296L259.6 172.857C261.46
+                        164.695 262.446 156.196
+                        262.446 147.474C262.446
+                        138.751 261.46 130.261
+                        259.6 122.099L292.315
+                        114.652C294.728 125.211
+                        296 136.191 296 147.474Z"/>
+
+                    <!-- Segmento 9 -->
+                    <path class="ctrl-slider-seg seg-t_piel-9" data-seg="9"
+                      d="M292.315 180.298C288.742
+                        195.985 282.653 210.715
+                        274.504 224.058C269.271
+                        232.625 257.628 234.59
+                        249.765 228.333C243.13
+                        223.058 241.547 213.723
+                        245.941 206.492C252.187
+                        196.226 256.849 184.909
+                        259.6 172.851L292.315
+                        180.29V180.298Z"/>
+
+                    <!-- Indicador / perilla -->
+                    <circle id="tpielKnob" class="tpiel-knob" cx="148" cy="0" r="0"></circle>
+                  </svg>
+                </div>
+
+                <!--####################-->
+                <!-- Slider Fototerapia -->
+                <!--####################-->
+                <div id="fotSlider" class="ctrl-slider slider-collapsed" data-min="1" data-max="3" data-step="1" data-value="1" data-theme="seg-p_fot">
+                  <svg class="ctrl-slider-svg" viewBox="0 0 296 232" aria-label="Control potencia">
+                    <path class="ctrl-slider-hit-area" d="M36 218 A132 132 0 1 1 260 218"></path>
+
+                    <!-- Segmento 0 -->
+                    <path class="ctrl-slider-seg seg-p_fot-0" data-seg="0"
+                      d="M21.809 225.330
+                        A148 148 0 0 1 51.882 35.460
+                        L75.911 63.595
+                        A111 111 0 0 0 53.357 205.997
+                        A18.5 18.5 0 0 1 21.809 225.330
+                        Z"/>
+
+                    <!-- Segmento 1 -->
+                    <path class="ctrl-slider-seg seg-p_fot-1" data-seg="1"
+                      d="M51.882 35.460
+                        A148 148 0 0 1 244.118 35.460
+                        L220.089 63.595 A111 111 0 0 0
+                        75.911 63.595
+                        Z"/>
+
+                    <!-- Segmento 2 -->
+                    <path class="ctrl-slider-seg seg-p_fot-2" data-seg="2"
+                      d="M244.118 35.460
+                        A148 148 0 0 1 274.191 225.330
+                        A18.5 18.5 0 0 1 242.643 205.997
+                        A111 111 0 0 0 220.089 63.595
+                        Z"/>
+
+                    <circle id="fotKnob" class="tpiel-knob" cx="36" cy="218" r="0"></circle>
+                  </svg>
+                </div>
+
+
+                <img class="icons-mas-menos" src="../static/icon/Control/icons-mas-menos0.svg" />
+                <div id="val_Ctrl" class="ti-vp-value">36.5</div>
+                <div id="units_Ctrl" class="ti-vp-units">°C</div>
+
+                <!---- Boton Cancelar ----->
+                <button id="cancel-ctrl" class="btn-cancel" type="button">
+                  <div class="cancelar">Cancelar</div>
+                </button>
+              </div>
+
+              <!----------------- Modo Familiar ------------------>
+              <div id="view-fam" class="mp-info-ctrl">
+                  Modo Familiar
+              </div>
+
+              <!------------------- Tendencias ------------------->
+              <div id="view-tend" class="mp-info-ctrl">
+                  Tendencias
+              </div>
+
+              <!--------------------- Báscula -------------------->
+              <div id="ctrl-bascula" class="mp-info-ctrl">
+                <div class="cont-bas-anima tPiel">
+                  <img class="icon-bebebas" src="../static/icon/Bascula/icon-bebebas0.svg" />
+                  <img class="icon-arrow" src="../static/icon/Bascula/Icon_Flecha.svg" />
+                  <img class="icon-bas" src="../static/icon/Bascula/icon-bas0.svg" />
+                  <img class="icon-kg" src="../static/icon/Bascula/Kg_tPiel.svg" />
+
+                  <div id="lbl-tara" class="cont-te-tara">
+                    Presione la tecla TARAR y, a continuación, levante al paciente durante 10 segundos.
+                  </div>
+                </div>
+                <!-- Tarar -->
+                <div id="pnl-tara" class="mp-basc-mc-tara enable">
+                  <div class="timer-bascula-piel">
+                    <div class="timer-bas">
+                      <div class="cont-basct">
+                        <svg id="bascTimerSlider"
+                             class="basc-slider"
+                             width="246"
+                             height="248"
+                             viewBox="0 0 246 248"
+                             fill="none"
+                             aria-label="Timer Bascula">
+                        </svg>
+                      </div>
+                    </div>
+
+                    <div class="timer-tara">
+                      <div id="timer-tara-digito-1" class="timer-tara-nums">0</div>
+                      <div id="timer-tara-digito-2" class="timer-tara-nums">0</div>
+                    </div>
+                  </div>
+
+                  <button id="btn-tarar" class="btns-apgr tPiel" type="button">
+                    <div class="lbl-btn">Tarar</div>
+                  </button>
+                </div>
+                <!-- Pesar -->
+                <div id="pnl-pesar" class="mp-basc-mc-pesar">
+                  <div class="ti-v-vpeso tPiel">
+                    <div class="ti-v-peso">00.000</div>
+                  </div>
+
+                  <div class="cont-bts-pesaje">
+                    <button id="btn-pesar" class="btns-apgr tPiel" type="button">
+                      <div class="lbl-btn">Pesar</div>
+                    </button>
+
+                    <button id="btn-guardar" class="btns-apgr tPiel" type="button">
+                      <div class="lbl-btn">Guardar</div>
+                    </button>
+
+                    <button id="btn-graf" class="btns-apgr tPiel" type="button">
+                      <div class="lbl-btn">Graficar</div>
+                    </button>
+                  </div>
+
+                  <div class="kg2">Kg</div>
+                </div>
+              </div>
+
+              <!---------------- Cronómetro APGAR ---------------->
+              <div id="ctrl-apgar" class="mp-info-ctrl">
+                <div class="mp-apgar-mc-capgar">
+                  <div class="cont-contapgar">
+                    <div class="ti-v-contapgar tPiel">
+                      <div id="timer-crono" class="ti-v-apgar">00:00</div>
+                    </div>
+
+                    <div class="btns-ctapgar">
+                      <button id="btn-play-pause" class="btns-apgr tPiel" type="button">
+                        <img src="../static/icon/Apgar/btns/Icon_Play_Default.svg" alt="Apgar_Play">
+                      </button>
+
+                      <button id="btn-reset" class="btns-apgr tPiel" type="button">
+                        <img src="../static/icon/Apgar/btns/Icon_Regresar_Default.svg" alt="Apgar_Return">
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="crono-apgarp">
+                    <div class="cont-apgarp">
+                      <svg id="apgarSlider"
+                           class="apgar-slider"
+                           width="246"
+                           height="248"
+                           viewBox="0 0 246 248"
+                           fill="none"
+                           aria-label="Control APGAR">
+                      </svg>
+                    </div>
+
+                    <img class="ejes-reloj" src="../static/icon/Apgar/ejes-reloj0.svg" />
+                    <div class="nums-clk _1">1</div>
+                    <div class="nums-clk _5">5</div>
+                    <div class="nums-clk _10">10</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!------------------------------------------------------------>
+      </div>
+
+      <!--#################################### Barra Menus ###################################-->
+      <div class="f-pp-menuprin">
+        <img class="cont-menu" src="../static/icon/Home/cont-menu0.svg" />
+
+        <button id="btn-md-fam" class="btn-img" type="button">
+          <img src="../static/icon/Home/btns/Icono_MFamiliar_Default.svg" alt="Familiar">
+        </button>
+
+        <button id="btn-home" class="btn-img btn-collapsed" type="button">
+          <img src="../static/icon/Home/btns/Icono_Home_Default.svg" alt="Home">
+        </button>
+
+        <div class="cont-btns-menuprin">
+          <button id="btn-tend" class="btn-img" type="button">
+            <img src="../static/icon/Home/btns/Icono_Tendencias_Default.svg" alt="Tendencias">
+          </button>
+          
+          <button id="btn-basc" class="btn-img" type="button">
+            <img src="../static/icon/Home/btns/Icono_Bascula_Default.svg" alt="Bascula">
+          </button>
+
+          <button id="btn-apgr" class="btn-img" type="button">
+            <img src="../static/icon/Home/btns/Icono_APGAR_Default.svg" alt="Apgar">
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

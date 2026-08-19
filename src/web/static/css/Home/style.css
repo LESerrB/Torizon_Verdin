@@ -1,0 +1,1350 @@
+html,
+body,
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+img,
+button,
+div,
+span {
+    -webkit-user-drag: none;
+}
+.mp-pprin,
+.mp-pprin * {
+  box-sizing: border-box;
+}
+.mp-pprin {
+  background: #e9eef2;
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+
+/*#######################################*/
+/*          TEXTO BARRA SUPERIOR         */
+/*#######################################*/
+.lbl-info,
+._60,
+._80,
+.programado,
+._602,
+.programada {
+  color:        var(--colortextactivo);
+
+  font-family:  var(--textencabezado-font-family);
+  font-size:    var(--textencabezado-font-size);
+  font-weight:  var(--textencabezado-font-weight);
+}
+
+/*#######################################*/
+/*             Botones Generales         */
+/*#######################################*/
+.btn,
+.btn-alarma,
+.btn-img,
+.btn-cancel {
+  background-color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  padding: 25px;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Aceptar cambio t. Piel -> t. Aire*/
+.btn-cancel.acpt-tp-ta{
+  width: 110px;
+  height: 40px;
+  left: calc(0% - -157px);
+  top: calc(0% - -137px);
+}
+.btn-cancel.acpt-tp-ta:active{
+  background-color: var(--coloroscuroaire);
+  transform: scale(0.97);
+}
+/* Cancelar cambio t. Piel -> t. Aire*/
+.btn-cancel.cncl-tp-ta{
+  width: 110px;
+  height: 40px;
+  left: calc(0% - -30px);
+  top: calc(0% - -137px);
+}
+.btn-cancel.cncl-tp-ta:active{
+  background-color: var(--coloroscuroaire);
+  transform: scale(0.97);
+}
+/* Aceptar cambio t. Aire -> t. Piel*/
+.btn-cancel.acpt-ta-tp{
+  width: 110px;
+  height: 40px;
+  left: calc(50% - 0px);
+  top: calc(50% - 40px);
+}
+.btn-cancel.acpt-ta-tp:active {
+  background-color: var(--coloroscuropiel);
+  transform: scale(0.97);
+}
+/* Cancelar cambio t. Aire -> t. Piel*/
+.btn-cancel.cncl-ta-tp{
+  width: 110px;
+  height: 40px;
+  left: calc(50% - 118px);
+  top: calc(50% - 40px);
+}
+.btn-cancel.cncl-ta-tp:active {
+  background-color: var(--coloroscuropiel);
+  transform: scale(0.97);
+}
+.btn-alarma {
+  width: 984px;
+  height: 64px;
+  left: 20px;
+  top: 20px;
+}
+
+.btn-cmodo {
+  left: 62px;
+  top: 44px;
+}
+
+.btn-img {
+  width: 106px;
+  height: 50px;
+  border-radius: 85px;
+  background: var(--colorblanco);
+}
+
+.btn img {
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.btn:active,
+.btn-img:active {
+  background-color: var(--colorgrisbtn);
+  transform: scale(0.97);
+}
+
+.btn-alarma:active{
+  transform: scale(0.97);
+}
+
+.btn-img.pressed{
+  background-color: var(--colorgrisbtn);
+}
+
+.btn-collapsed {
+  display: none !important;
+}
+
+.switch-btn {
+  width: 194px;
+  height: 57px;
+  display: inline-block;
+  position: relative;
+  top: 38px;
+  left: 21px;
+}
+
+.switch-btn input {
+  display: none;
+}
+
+.switch-bg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  border-radius: 30px;
+  overflow: hidden;
+  background: #cfd6d8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.switch-option {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 0.25s ease, opacity 0.25s ease;
+}
+
+.switch-left {
+  background-color: #92d1bc;
+}
+
+.switch-right {
+  background-color: #d8dee2;
+}
+
+.switch-option img {
+  width: 47px;
+  height: 47px;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.switch-btn input:not(:checked) ~ .switch-bg .switch-left {
+  background-color: #d8dee2;
+  opacity: 0.55;
+}
+
+.switch-btn input:not(:checked) ~ .switch-bg .switch-right {
+  background-color: #92d1bc;
+  opacity: 1;
+}
+
+.switch-btn input:checked ~ .switch-bg .switch-left {
+  background-color: #92d1bc;
+  opacity: 1;
+}
+
+.switch-btn input:checked ~ .switch-bg .switch-right {
+  background-color: #d8dee2;
+  opacity: 0.55;
+}
+/*#######################################*/
+/*          Barra de Información         */
+/*#######################################*/
+.barra_Informacion{
+  top: -10px;
+
+  position: relative;
+  overflow: visible;
+}
+.f-en-infopac {
+  background: var(--colorblanco);
+  border-radius: 6px;
+  padding: 7px 15px 7px 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 524px;
+  height: 30px;
+  position: absolute;
+  left: 222px;
+  top: 40px;
+  overflow: hidden;
+}
+/*#######################################*/
+/*            Nombre Paciente            */
+/*#######################################*/
+.icon-corazon {
+  flex-shrink: 0;
+  width: 15px;
+  height: 10px;
+  position: absolute;
+  overflow: visible;
+  top: 10px;
+}
+.lbl-info.nom-bebe {
+  text-align: left;
+  position: relative;
+
+  width: 113px;
+  height: 16px;
+
+  left: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+/*#######################################*/
+/*             Peso Paciente             */
+/*#######################################*/
+.cont-pespac {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.lbl-info.peso {
+  text-align: right;
+  position: relative;
+
+  width: 96px;
+  height: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.lbl-info.val-peso {
+  text-align: center;
+  position: relative;
+  width: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lbl-info.kg {
+  text-align: left;
+  position: relative;
+
+  width: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+/*#######################################*/
+/*               Fecha/Hora              */
+/*#######################################*/
+.f-en-fecha-hora {
+  background: var(--colorblanco);
+
+  border-radius: 6px;
+  padding: 0px 12px 0px 12px;
+
+  display: flex;
+  flex-direction: row;
+  
+  gap: 40px;
+  
+  align-items: center;
+  justify-content: center;
+  
+  width: 524px;
+  height: 20px;
+  
+  position: absolute;
+  
+  left: 222px;
+  top: 76px ;
+}
+.cont-fecha {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon-calendario {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  position: relative;
+  overflow: visible;
+}
+.lbl-info.fecha {
+  text-align: left;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.cont-hora {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.icon-reloj {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  position: relative;
+  overflow: visible;
+}
+.sub-hora {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.lbl-info.hora {
+  text-align: center;
+  position: relative;
+
+  width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lbl-info.p-m {
+  text-align: left;
+  position: relative;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+/*#######################################*/
+/*            Info Inclinación           */
+/*#######################################*/
+.f-en-incli {
+  background: var(--colorblanco);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  width: 248px;
+  height: 57px;
+  position: absolute;
+  left: 756px;
+  top: 40px;
+}
+.icon-inclinacion {
+  flex-shrink: 0;
+  width: 38px;
+  height: 33px;
+  position: relative;
+  overflow: visible;
+}
+.lbl-info.inclinacion {
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._0-span {
+  font-size: 22px;
+
+  font-family: "Inter-Bold", sans-serif;
+  font-weight: 700;
+}
+._0-span2 {
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 22px;
+}
+
+/*#######################################*/
+/*                 Paneles               */
+/*#######################################*/
+#home {
+  display: block;
+}
+
+#panel-control {
+  display: none;
+}
+/*#######################################*/
+/*            Panel Principal            */
+/*#######################################*/
+.panel-prin{
+  /* background: black; */
+  border-radius: 8px 8px 8px 8px;
+  padding: 7px 40px 7px 15px;
+  width: 984px;
+  height: 339px;
+  position: absolute;
+  left: 50%;
+  top: 161px;
+  translate: -50%;
+  overflow: hidden;
+}
+
+.txt-Temps {
+  color:        var(--colortextoinactivo);
+
+  font-family:  var(--numtempprin-font-family);
+  font-size:    var(--numtempprin-font-size);
+  line-height:  var(--numtempprin-line-height);
+  font-weight:  var(--numtempprin-font-weight);
+
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.txt-Temps.m-Piel {
+  color:        var(--colortexttpiel);
+}
+.txt-Temps.m-Aire {
+  color:        var(--colortexttaire);
+}
+
+/*              Titulo Panel             */
+.ttl-pnl-prin {
+  /* border-radius: 0px 0px 0px 0px; */
+  padding: 7px 40px 7px 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 984px;
+  height: 27px;
+
+  position: absolute;
+
+  left: 50%;
+  top: 0px;
+  
+  translate: -50%;
+  overflow: hidden;
+}
+.ttl-pnl-prin.bckgnd-ctrl-piel{background: var(--coloroscuropiel);}
+.ttl-pnl-prin.bckgnd-ctrl-aire{background: var(--coloroscuroaire);}
+.ttl-pnl-prin.bckgnd-ajst-ox{background: var(--coloroscurooxigeno);}
+.ttl-pnl-prin.bckgnd-ajst-fot{background: var(--coloroscurofot);}
+.ttl-pnl-prin.bckgnd-ajst-hum{background: var(--coloroscurohum);}
+
+.txt-ttl-pnl-prin {
+  color: var(--colorblanco);
+
+  font-family: var(--textencabezado-font-family);
+  font-size: var(--textencabezado-font-size);
+  font-weight: var(--textencabezado-font-weight);
+
+  text-align: left;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.lbl-temp-aire,
+.lbl-temp-piel {
+  color: var(--colortextoinactivo);
+
+  font-family:  var(--texttemptitulo-font-family);
+  font-size:    var(--texttemptitulo-font-size);
+  line-height:  var(--texttemptitulo-line-height);
+  font-weight:  var(--texttemptitulo-font-weight);
+
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  left: 0px;
+}
+.lbl-temp-aire.active {
+  color:        var(--colortexttaire);
+}
+.lbl-temp-aire.m-Aire {
+  color:        var(--colortexttaire);
+  left: 75px;
+}
+.lbl-temp-piel.m-Piel {
+  color:        var(--colortexttpiel);
+}
+
+.units-tempAire-Prin,
+.units-tempPiel-Prin {
+  color: var(--colortextoinactivo);
+
+  text-align: left;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 600;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.units-tempAire-Prin.m-Aire {
+  color: var(--colortexttaire);
+}
+.units-tempPiel-Prin.m-Piel {
+  color: var(--colortexttpiel);
+}
+
+/*################## Panel Izquierdo ##################*/
+.mp-prin-mc-tpiel {
+  background: var(--colorfondoinactivo);
+
+  padding: 24px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 328px;
+  height: 218px;
+  position: absolute;
+
+  left: 0px;
+  top: 27px;
+
+  overflow: hidden;
+}
+.mp-prin-mc-tpiel.active{
+  background: var(--colorfondopiel);
+
+  width: 656px;
+  height: 218px;
+}
+.mp-prin-mc-tpiel.chng{
+  background: var(--colorfondopiel);
+}
+.mp-prin-mc-tpiel.active.pressed{
+  background: var(--colorpressedpiel);
+}
+.mp-prin-mc-tpiel.pressed{
+  background: var(--colorpressedaire);
+}
+/* Icono Panel */
+.icon-tpiel {
+  opacity: 0.6;
+  flex-shrink: 0;
+  width: 192.73px;
+  height: 185.04px;
+  position: absolute;
+  left: calc(50% - 380px);
+  top: 50%;
+  translate: 0 -50%;
+  overflow: visible;
+}
+/* Contenedor Temperatura Piel Principal */
+.cont-vm-tpiel {
+  padding: 0px 40px 10px 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 656px;
+  position: relative;
+}
+.cont-vm-tpiel.c-modo{
+  display: none;
+}
+.cont-vm-tpiel.m-Piel{
+  left: 75px;
+}
+.tpiel {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  left: -7px;
+}
+
+/*----------------------*/
+.line-01 {
+  margin-top: -3px;
+  border-style: solid;
+  border-color: var(--colortexttpiel, #6f423d);
+  border-width: 3px 0 0 0;
+  flex-shrink: 0;
+  width: 124px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+  left: -4px;
+}
+/*----------------------*/
+
+/*+++++++++++++++++++++++++++++++++++++ 
+Contenedor Temperaturas Secundarias 
+++++++++++++++++++++++++++++++++++++++*/
+
+/* Contenedor Temperatura Auxiliar */
+.temps-AuxProg {
+  color: var(--colortextoinactivo);
+
+  font-family: var(--numtempsecun-font-family);
+  font-size: var(--numtempsecun-font-size);
+  line-height: var(--numtempsecun-line-height);
+  font-weight: var(--numtempsecun-font-weight);
+
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.temps-AuxProg.active {
+  color: var(--colortexttpiel);
+}
+.temps-AuxProg.m-aire {
+  color: var(--colortexttaire);
+}
+.c3 {
+  color: var(--colortextoinactivo);
+
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 600;
+
+  text-align: center;
+  position: absolute;
+
+  right: 0px;
+  left: 130px;
+  top: 9px;
+  height: 15px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.c3.active{
+  color: var(--colortexttpiel);
+
+  right: 0px;
+  left: 100px;
+  top: 9px;
+  height: 15px;
+}
+.c3.m-aire{
+  color: var(--colortexttaire);
+
+  left: 100px;
+  top: 18px;
+  height: 15px;
+}
+
+.t_auxiliar {
+  color: var(--colortextoinactivo);
+
+  font-family: var(--texttempsecun-font-family);
+  font-size: var(--texttempsecun-font-size);
+  line-height: var(--texttempsecun-line-height);
+  font-weight: var(--texttempsecun-font-weight);
+
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.t_auxiliar.active {
+  color: var(--colortexttpiel);
+}
+.t_auxiliar.m-aire {
+  color: var(--colortexttaire);
+}
+/* Contenedor Temperatura Programada */
+.cont-tprogp-taux {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 114px;
+  position: relative;
+  right: -12px;
+}
+.tprogp {
+  display: none;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  top: -7px;
+  left: 10px;
+}
+.tprogp.m-Piel{
+  display: flex;
+}
+.vprogp {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100px;
+  position: relative;
+}
+.taux {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  top: -7px;
+  left: 10px;
+}
+.vaux {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 25px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100px;
+
+  position: relative;
+
+  top: 110px;
+  right: 175px;
+}
+.vaux.m-Piel {
+  flex-direction: column;
+  gap: 2px;
+  top: 0px;
+  right: 0px;
+}
+/* Contenedor cambio de modo t. Aire -> t. Piel */
+.pop-mp-prin-mc-tpiel{
+  display: none;
+}
+.pop-mp-prin-mc-tpiel.c-modo{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: 218px;
+  position: relative;
+  overflow: hidden;
+}
+.cont-icons-cmodop {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  row-gap: 1px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+  flex-shrink: 0;
+  width: 280px;
+  height: 40px;
+  position: relative;
+  top: 23px;
+}
+.btns-cmodo-cmp {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+
+/*################### Panel Derecho ###################*/
+.mp-prin-mc-taire {
+  background: var(--colorfondoinactivo);
+
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  
+  width: 328px;
+  height: 218px;
+  position: absolute;
+  
+  right: 0px;
+  top: 27px;
+}
+.mp-prin-mc-taire.active{
+  overflow: hidden;
+  background: var(--colorfondoaire);
+
+  width: 656px;
+  height: 218px;
+}
+.mp-prin-mc-taire.pressed{
+  background: var(--colorpressedaire);
+}
+.mp-prin-mc-taire.chng{
+  background: var(--colorfondoaire);
+}
+
+/* Contenedor T. Aire Apagado */
+.cont-taire {
+  display: block;
+
+  padding: 24px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 294px;
+  height: 218px;
+  position: relative;
+  left: 0px;
+}
+.cont-taire.m-Aire{
+  left: 80px;
+}
+.cont-taire.disabled{
+  display: none;
+}
+/* Icono Panel */
+.icon-taire {
+  opacity: 0.6;
+  flex-shrink: 0;
+  width: 300px;
+  height: 238px;
+  position: absolute;
+  left: calc(50% - 423px);
+  top: 50%;
+  translate: 0 -50%;
+  overflow: visible;
+}
+/* Contenedor Indicador T. Aire */
+.taire {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+/* Contenedor T Aire Programado */
+.tprog-aire{
+  display: none;
+}
+.tprog-aire.m-Aire{
+  display: block;
+
+  position: relative;
+
+  left: 195px;
+  bottom: 112px;
+}
+
+.line-05 {
+  margin-top: -3px;
+  border-style: solid;
+  border-color: var(--colortexttaire, #2f4a4d);
+  border-width: 3px 0 0 0;
+  flex-shrink: 0;
+  width: 86px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+}
+.tproga {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  height: 86px;
+  position: relative;
+}
+.vproga {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 100px;
+  position: relative;
+}
+.ti-vp-proga {
+  padding: 4px 4px 2px 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Contenedor cambio de modo t. Piel -> t. Aire */
+.pop-cmodo-aire {
+  display: none;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 294px;
+  height: 218px;
+  position: relative;
+  overflow: hidden;
+}
+.pop-cmodo-aire.enabled{
+  display: flex;
+}
+.icon-md-tp-ta {
+  flex-shrink: 0;
+  width: 200px;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  top: -60px;
+}
+
+/* Conteneor de indicador visual de potencia de temperatura */
+.cont-potcal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 34px;
+  height: 218px;
+
+  position: absolute;
+  right: 0;
+  top: 50%;
+
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.seg-calefactor {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Segmento base */
+/* background: #93BCC0; <=== Desactivado m-Aire
+   background: #DADADA; <=== Desactivado m-Piel */
+.potcal-seg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  position: relative;
+
+  background: #DADADA;
+  opacity: 0.63;
+
+  transition: background 120ms ease, opacity 120ms ease;
+}
+
+/* Bordes redondeados */
+.potcal-seg.top { border-radius: 3px 3px 0px 0px; }
+.potcal-seg.bottom { border-radius: 0px 0px 3px 3px; }
+
+/* Segmentos activos */
+.potcal-seg.active { opacity: 1; }
+
+/* Colores por nivel */
+.potcal-seg.level-10.active { background: #c7463c; }
+.potcal-seg.level-9.active  { background: #cc5848; }
+.potcal-seg.level-8.active  { background: #d06a53; }
+.potcal-seg.level-7.active  { background: #d57c5f; }
+.potcal-seg.level-6.active  { background: #df896f; }
+.potcal-seg.level-5.active  { background: #e29d7a; }
+.potcal-seg.level-4.active  { background: #e6b085; }
+.potcal-seg.level-3.active  { background: #e9c38f; }
+.potcal-seg.level-2.active  { background: #edd69a; }
+.potcal-seg.level-1.active  { background: #f0e9a5; }
+
+.v-potcal {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+/* Unidades Potencia Calefactor */
+.potcal-ini {
+  color: var(--colortextoinactivo);
+  text-align: center;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 12px;
+  line-height: 10px;
+  font-weight: 600;
+  position: relative;
+  width: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.potcal-ini.m-Aire{color: var(--colortexttaire);}
+.perccal-ini {
+  color: var(--colortextoinactivo);
+  text-align: center;
+  font-family: "Montserrat-SemiBold", sans-serif;
+  font-size: 6px;
+  line-height: 10px;
+  font-weight: 600;
+  position: relative;
+  width: 10px;
+}
+.perccal-ini.m-Aire{color: var(--colortexttaire);}
+/*################ Modulos de Sensores ################*/
+.mp-prin-mc-msoporte {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 255px;
+}
+.modulo {
+  padding: 10px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  
+  width: 328px;
+  height: 84px;
+  
+  position: relative;
+}
+/* Módulo de Oxigeno */
+.modulo.ox  { background: var(--colorfondooxigeno); }
+.modulo.ox.pressed  { background: var(--colorpressedox); }
+/* Modulo de humedad */
+.modulo.hum { background: var(--colorfondohum); }
+.modulo.hum.pressed { background: var(--colorpressedhum); }
+/* Modulo Fototerapia */
+.modulo.fot { background: var(--colorfondofot); }
+.modulo.fot.active { background: var(--colorpressedfot); }
+
+.ttl-mod-sensores {
+  color: var(--colortextoinactivo);
+
+  font-family: var(--textmodutitulo-font-family);
+  font-size: var(--textmodutitulo-font-size);
+  line-height: var(--textmodutitulo-line-height);
+  font-weight: var(--textmodutitulo-font-weight);
+  
+  position: relative;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.ttl-mod-sensores.active { color: var(--colortextactivo); }
+
+.cont-vsens {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 270px;
+  position: relative;
+}
+.ti-vm-fot {
+  padding: 0px 2px 0px 2px;
+  flex-shrink: 0;
+  width: 120px;
+  height: 36px;
+  position: relative;
+}
+
+/*Valores de Sensores*/
+.valSens {
+  text-align: center;
+
+  font-family: var(--numtempsecun-font-family);
+  font-size: var(--numtempsecun-font-size);
+  line-height: var(--numtempsecun-line-height);
+  font-weight: var(--numtempsecun-font-weight);
+
+  width: 68px;
+  height: 36px;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.line-02 {
+  margin-top: -2px;
+  border-style: solid;
+  border-color: var(--colortextactivo);
+  border-width: 2px 0 0 0;
+  flex-shrink: 0;
+  width: 24px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+
+  left: 12px;
+  top: -9px;
+}
+.cont-vp-sens {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 76px;
+  position: relative;
+}
+.vp-Sens {
+  text-align: center;
+
+  font-family: var(--numtempterc-font-family);
+  font-size: var(--numtempterc-font-size);
+  line-height: var(--numtempterc-line-height);
+  font-weight: var(--numtempterc-font-weight);
+  position: relative;
+
+  flex: 1;
+  height: 19px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lbl-progr {
+  text-align: center;
+
+  font-family: var(--texttemptercer-font-family);
+  font-size: var(--texttemptercer-font-size);
+  line-height: var(--texttemptercer-line-height);
+  font-weight: var(--texttemptercer-font-weight);
+
+  position: relative;
+  align-self: stretch;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Temporizador Fototerapia */
+._00-00 {
+  color: var(--colortextoinactivo);
+  text-align: center;
+  font-family: var(--numtempsecun-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--numtempsecun-font-size, 36px);
+  line-height: var(--numtempsecun-line-height, 36px);
+  font-weight: var(--numtempsecun-font-weight, 700);
+  position: absolute;
+  left: 12px;
+  top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._00-00.active {color: var(--colortextactivo);}
+
+/* Conteneor de indicador visual de potencia de fototerapia */
+.seg-potencia-fot {
+  opacity: 0.5;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 20px;
+  position: absolute;
+  left: 294px;
+  top: 45%;
+  translate: 0 -50%;
+}
+.seg-potencia-fot.active{opacity: 1;}
+/* Segmentos de Potencia del calefactor */
+.seg-potencia-fot .fot-seg {
+  width: 100%;
+  background: #90AACF;
+  opacity: 0.63;
+  transition: background 120ms ease, opacity 120ms ease;
+}
+.seg-potencia-fot .fot-seg-1 {
+  height: 15px;
+  border-radius: 3px 3px 0px 0px;
+}
+.seg-potencia-fot .fot-seg-2 {
+  height: 15px;
+}
+.seg-potencia-fot .fot-seg-3 {
+  height: 15px;
+  border-radius: 0px 0px 3px 3px;
+}
+.seg-potencia-fot .fot-seg-1.active { background: #90aacf; }
+.seg-potencia-fot .fot-seg-2.active { background: #63779a; }
+.seg-potencia-fot .fot-seg-3.active { background: #4a5e7c; }
+
+/*#######################################*/
+/*            Barra Inferior             */
+/*#######################################*/
+.f-pp-menuprin {
+  padding: 10px 14px 10px 14px;
+  display: flex;
+  flex-direction: row;
+  gap: 488px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 984px;
+  height: 70px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  bottom: 20px;
+}
+.cont-menu {
+  border-radius: 0px;
+  flex-shrink: 0;
+  width: 984px;
+  height: 70px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+/* Contenedor Menú Principal */
+.cont-btns-menuprin {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 360px;
+  position: relative;
+}

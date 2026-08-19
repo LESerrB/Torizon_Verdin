@@ -170,7 +170,12 @@ tcbdir/linux
 tcbdir/bundle
 
 tcbdir/tcb-env-setup.sh
-tcbdir/torizon-core-docker-verdin-imx8mp-Tezi_6.8.4+build.40.tar
+tcbdir/*.tar
+tcbdir/*.tar
 
 tcbdir/Dual_custom-ISO-torizon-verdin-imx8mp
 *.zip
+
+*:Zone.Identifier
+
+.vscode/settings.json

@@ -56,13 +56,17 @@ services:
 
   quickstart1:
     container_name: quickstart1
-    image: 172.17.0.1:5002/quickstart1-debug:arm64
+    platform: linux/arm64
+    image: 172.17.0.1:5002/quickstart1-debug:latest
+    restart: always
     depends_on:
       - chromium
     volumes:
       - /tmp/wayland-0:/tmp/wayland-0
       - /var/rootdirs/media/my_sdcard:/mnt/microsd
       - /tmp:/tmp
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     environment:
       - WAYLAND_DISPLAY=wayland-0
     network_mode: host
@@ -75,11 +79,11 @@ services:
       - /dev/ttymxc0:/dev/verdin-uart1
       - /dev/ttymxc1:/dev/verdin-uart2
       - /dev/ttymxc2:/dev/verdin-uart3
-      - /dev/ttymxc3:/dev/verdin-uart4
+      # - /dev/ttymxc3:/dev/verdin-uart4
     tty: true
     stdin_open: true
     group_add:
-      - "52"
-      - "51"
-      - "49"
+      - "${SPI_GID:-52}"
+      - "${I2C_GID:-51}"
+      - "${GPIO_GID:-49}"
     privileged: true

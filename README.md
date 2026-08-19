@@ -393,20 +393,90 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Creadas funciones de lectura y calibración.
 - Implementada función de Posición 0.
 
-<!-- ### v0.22 - [3/Marzo/2026] -->
+### v0.22.1 - [3/Marzo/2026]
 
-## Como usar Git
+- Creados los contenedores y componentes de la pagina principal de la UI.
+- Asignados ids para control de interfaz.
 
-Se recomienda seguir estos videos para entender el uso de Git en caso de no haberlo usado con anterioridad, estos primeros 4 enlaces son los indispensables para el uso.
+### v0.22 - [18/Junio/2026]
 
-1. [Instalación y Configuración](https://youtu.be/XXdaqtLgOGI?si=O1K7fZNru-t9Wvq_)
-2. [Comandos iniciales](https://youtu.be/vH9pkFf1D7M?si=MobEf6pV3v9PtQ1K)
-3. [Ramas y union de Ramasa](https://youtu.be/-UQulO_0prM?si=I7RdIeBPoNbjW24t)
-4. [Github](https://youtu.be/Qn186NyDqOk?si=a8tvatEha2Nv3F1p)
+- Pruebas de comunicación Verdin-UART de sensores y controles de temperatura, oxigeno y humedad.
+- Agregado byte de alarmas. *Versión MCU_control-18062026*
+- Envío de valores de sensado de: t_Aire, t_Piel, s_Aux, ta_Ctrl, basc, pot_Calef, tp_Ctrl, s_Ox, ox_Ctrl, s_Hum, hum_Ctrl, fot_Hrs, fot_Mins, zero, alrm
 
-Este último solo es para tener un mejor control de las versiones y releases.
+### v0.23 - [13/Julio/2026]
 
-5. [Tags o Etiquetas](https://youtu.be/wrHWa8OMYOg?si=srRV_p--7-7jQ4km)
+- Pruebas de integración de encoder de 24 pasos con acopladores de nivel de 1.8 -> 5 -> 1.8 volts.
+- Limitación inferior y superior de valores para temperatura programada.
+- Envío del valor a la interfaz y control de la habilitación, desde la UI WEB.
+- Asignado tiempo de rebote para el click del botón del encoder y evitar falsos clicks.
+- Creado control y animación para encoder.
+- Modularización de función para comunicación UART - TCD.
+- Estructuras de datos para valores de control y de sensado.
+
+### v0.23.1 - [22/Julio/2026]
+
+ - Animación de presionado de botones del menú inferior.
+ - Removido grafico indicador de potencia en el panel de control debido a incompatibilidad entre valores de temperatura y potencia.
+ - Cambio de panel de control a home al aceptar el valor desde en switch del encoder.
+ - Pruebas de comunicación con TCD con FW MCU_control_17072026.hex.
+ - Corrección de despliegue de valores de potencia sin decimales.
+ - Control de valores de programación de TCD (FW TCD: MCU_control_22072026).
+
+ ### v0.23.2 - [31/Juliio/2026]
+
+ - Ajuste de gráfico para distintos valores de control y diferentes limites mínimo y máximo.
+ - Titulos de paneles de control cambian de acuerdo al panel.
+ - Indicador de módulos laterales activos en panel de control.
+ - Agregado colores de segmentos de gráfico inactivo.
+ - Color independiente de cada slider para indicar el valor de control del panel.
+ - Agregado panel de cronómetro APGAR.
+ - Correción a funcionamiento visual de botones inferiores.
+ - Agregado panel Modo Familiar.
+ - Creado slider para fototerapia.
+ - Añadido panel de báscula.
+ - Control de Intensidad de fototerapia.
+ - Cambio de titulo de "Ajuste de Potencia de Fototerapia" por "Ajuste de Intensidad de Fototerapia".
+ - Funcionamiento de cronómetro Apgar.
+ - Animación de botones de Play/Pause y Reset de conómetro.
+ - Animación slider de cronómetro Apgar.
+ - Corrección de bug visual de botones.
+ - Animación slider timer de función Tarar de Báscula.
+ - Animación de panel lateral módulo de báscula.
+ - Módulo de pesaje agregado.
+
+### v0.23.3 - [18/Agosto/2026]
+
+ - Cambio de paneles de función "click" a "touchstart" y "touchend".
+ - Cambio de paneles de "ui.js" a "app.js".
+ - Corrección de estilos visuales de botones inferiores.
+ - Cambio de color a los paneles al tocarlos.
+ - Creado panel para aceptar el ajuste de fototerapia.
+ - Sección T. Piel modo desactivado acomodado.
+ - Primera versión de modo aire. Hay que optimizar el cambio de función.
+ - Función de obtención de fecha y hora.
+ - Bandera de cambio de modo.
+ - Botones Aceptar/Cancelar para el cambio de modo funcionando.
+ - Cambio de modo de operacion, corrección de bugs.
+ - Renombre de "ui.js" a "ui_Incubadora.js".
+ - Optimización de función para cambiar entre modos de operación (Modo Piel <--> Modo Aire).
+ - Corrección de bug de visualización de temperaturas principales en cambio de modo Piel a modo Aire.
+ - Agregado temporizador para el cierre de la ventana de confirmación de cambios de modos.
+ - Cambio de color del indicador numérico de potencia del calefactor.
+ - Creada función indicadora de nivel de potencia de fototerapia en panel principal.
+ - Creada función para indicador de potencia de calefactor en panel principal.
+ - Creadas funciones para actualizar valores de los indicadores de Fototerapia y Calefactor del panel principal.
+ - Documentación de funciones de sliders de panel de control y principal.
+ - Cambio de color de slider de cronómetro Apgar.
+ - Cronómetro se reinicia al salir y entrar al módulo.
+ - Realizado el ajuste de color dependiendo del modo de operación para el panel Cronómetro Apgar.
+ - Ajuste de color dependiendo del modo para el temporizador de la báscula.
+ - Deshabilitado menú contextual al presionar largo.
+ - Actualizado cambio de color de botón "Ajustar" de panel de fototerapia.
+ - Actualizado cambio de colores de botones "Aceptar" y "Cancelar" de paneles de cambio de modo de operación.
+ - Actualizado cambio de colores de botones internos de los módulos de "Apgar" y "Báscula" dependiendo del modo de operación.
+ - Habilitado Oxígeno Programado.
+
 ## Descarga e Instalación
 
 <p align="center">
@@ -426,6 +496,7 @@ Este último solo es para tener un mejor control de las versiones y releases.
 
 4. Insertar la memoria durante la interfaz EasyINstaller en la tarjeta SoM y seleccionar "Mass Storage".
 ![Mem Install](./doc/img/customInstall.png)
+En caso de necesitar volver a cargar la ISO del sistema es necesario reiniciar de fábrica la tarjeta siguiendo los pasos descritos en: https://developer.toradex.com/easy-installer/toradex-easy-installer/loading-toradex-easy-installer/?module=verdin_imx8mp&carrier=dahlia#windows
 
 5. Esperar a que termine la instalación.
 ![Install Image](./doc/img/Instalando_SO.png)
