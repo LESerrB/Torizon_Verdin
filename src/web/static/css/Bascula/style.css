@@ -255,7 +255,8 @@
   font-weight: var(--textbtnsestandar-font-weight);
   position: relative;
 }
-.lbl-btn:active {
+.btns-apgr.tPiel:active .lbl-btn,
+.btns-apgr.tPiel.pressed .lbl-btn {
   color: var(--colorblanco);
 }
 

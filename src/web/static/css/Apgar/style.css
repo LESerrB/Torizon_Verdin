@@ -193,18 +193,22 @@
   opacity: 1;
 }
 
-/* Botones Cronometro */
+/* Botones Cronometro y Báscula*/
 .btns-apgr {
   width: 106px;
   height: 50px;
   border-radius: 85px;
   background: var(--colorbtnsnuevos);
+
+  touch-action: manipulation;
 }
-.btns-apgr.tPiel:active {
+.btns-apgr.tPiel:active,
+.btns-apgr.tPiel.pressed {
   background-color: var(--coloroscuropiel);
   transform: scale(0.97);
 }
-.btns-apgr.tAire:active {
+.btns-apgr.tAire:active,
+.btns-apgr.tAire.pressed {
   background-color: var(--coloroscuroaire);
   transform: scale(0.97);
 }

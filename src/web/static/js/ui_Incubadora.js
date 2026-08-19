@@ -884,7 +884,8 @@ export function modoAire(pnlB, pnlA) {
     });
 
     botones.forEach((boton) => {
-        boton.classList.replace("tPiel", "tAire");
+        boton.classList.remove("tPiel", "tAire");
+        boton.classList.add("tAire");
     });
 }
 
@@ -917,7 +918,8 @@ export function modoPiel(pnlA, pnlB) {
     });
 
     botones.forEach((boton) => {
-        boton.classList.replace("tAire", "tPiel");
+        boton.classList.remove("tPiel", "tAire");
+        boton.classList.add("tPiel");
     });
 }
 
