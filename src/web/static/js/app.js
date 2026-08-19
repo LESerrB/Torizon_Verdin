@@ -33,6 +33,10 @@ import {
 let modoControl = "tPiel"
 let modoOperacion = "Incubadora"
 
+// ==================================
+// Botón Cambio de Modo de Operación
+// ==================================
+
 // =============================
 // Paneles de control
 // =============================
@@ -44,9 +48,9 @@ const ajstCtrlFot = document.getElementById("mod-fot");
 
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 
-// ====================================
-// Botones Confirmación Cambio de Modo
-// ====================================
+// ===============================================
+// Botones Confirmación Cambio de Modo de Control
+// ===============================================
 const btn_cnclChngMd = document.getElementById("cnclChngMd-tP-tA");
 const btn_acptChngMd = document.getElementById("acptChngMd-tP-tA");
 
@@ -69,11 +73,34 @@ document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
 });
 
+const isInteractiveControl = (event) => Boolean(
+    event.target.closest(
+        "button, a, input, select, textarea, [role='button']"
+    )
+);
+
+function stopPanelPointerEvent(event) {
+    event.stopPropagation();
+}
+[ btn_ajustar_foto,
+  btn_cnclChngMd2,
+  btn_acptChngMd2,
+  btn_cnclChngMd,
+  btn_acptChngMd ].forEach((button) => {
+    button?.addEventListener("pointerdown", stopPanelPointerEvent);
+    button?.addEventListener("pointerup", stopPanelPointerEvent);
+    button?.addEventListener("pointercancel", stopPanelPointerEvent);
+});
+
 // ***************** Panel Temperatura Piel ***************** //
 pnlBebe?.addEventListener("pointerdown", () => {
+    if (isInteractiveControl(event)) return;
+
     pnlBebe.classList.add("pressed");
 });
 pnlBebe?.addEventListener("pointerup", () => {
+    if (isInteractiveControl(event)) return;
+
     pnlBebe.classList.remove("pressed");
 
     chngModo(pnlBebe, modoControl);
@@ -82,9 +109,13 @@ pnlBebe?.addEventListener("pointerup", () => {
 
 // ***************** Panel Temperatura Aire ***************** //
 pnlAire?.addEventListener("pointerdown", () => {
+    if (isInteractiveControl(event)) return;
+
     pnlAire.classList.add("pressed");
 });
 pnlAire?.addEventListener("pointerup", () => {
+    if (isInteractiveControl(event)) return;
+
     pnlAire.classList.remove("pressed");
 
     chngModo(pnlAire, modoControl);
@@ -111,16 +142,22 @@ ajstCtrlHum?.addEventListener("pointerup", () => {
 
 // **************** Panel Control Fototerapia *************** //
 ajstCtrlFot?.addEventListener("pointerdown", () => {
+    if (isInteractiveControl(event)) return;
+
     ajstCtrlFot.classList.add("active");
 });
 ajstCtrlFot?.addEventListener("pointerup", () => {
+    if (isInteractiveControl(event)) return;
+
     confAjstFoto();
 });
 
 // ==================================
 // Aceptar / Cancelar Cambio de Modo
 // ==================================
-btn_acptChngMd?.addEventListener("click", () => {
+btn_acptChngMd?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
     pnlBebe.classList.remove("chng");
 
     modoAire(pnlBebe, pnlAire);
@@ -129,11 +166,15 @@ btn_acptChngMd?.addEventListener("click", () => {
     modoControl = modoControl === "tPiel" ? "tAire" : "tPiel";
 });
 
-btn_cnclChngMd?.addEventListener("click", () => {
+btn_cnclChngMd?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
     chngModo(pnlAire);
 });
 
-btn_acptChngMd2?.addEventListener("click", () => {
+btn_acptChngMd2?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
     pnlAire.classList.remove("chng");
 
     modoPiel(pnlAire, pnlBebe);
@@ -142,12 +183,16 @@ btn_acptChngMd2?.addEventListener("click", () => {
     modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
 });
 
-btn_cnclChngMd2?.addEventListener("click", () => {
+btn_cnclChngMd2?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
     chngModo(pnlBebe);
 });
 
 // Botón Confirmar Ajuste Fototerapia
-btn_ajustar_foto?.addEventListener("click", () => {
+btn_ajustar_foto?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
     ajst_CtrlFot();
     fotoActive();
 });
@@ -176,6 +221,8 @@ function updateBottomNavLayout(isHomeView = false) {
 
         return;
     }
+
+    exitCancel();
 
     btn_md_fam?.classList.add("btn-collapsed");
     btn_home?.classList.remove("btn-collapsed");
