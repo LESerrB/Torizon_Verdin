@@ -36,6 +36,7 @@ let modoOperacion = "Incubadora"
 // ==================================
 // Botón Cambio de Modo de Operación
 // ==================================
+const modoSwitch = document.getElementById("modoSwitch");
 
 // =============================
 // Paneles de control
@@ -66,9 +67,7 @@ const lbl_modo_ctrl = document.getElementById("lbl-modo-ctrl");
 // Configuración global HMI
 // ======================================
 
-// Evitar menú contextual:
-// - clic derecho
-// - toque prolongado
+// Evitar menú contextual
 document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
 });
@@ -86,10 +85,36 @@ function stopPanelPointerEvent(event) {
   btn_cnclChngMd2,
   btn_acptChngMd2,
   btn_cnclChngMd,
-  btn_acptChngMd ].forEach((button) => {
+  btn_acptChngMd,
+  btnCancel ].forEach((button) => {
     button?.addEventListener("pointerdown", stopPanelPointerEvent);
     button?.addEventListener("pointerup", stopPanelPointerEvent);
     button?.addEventListener("pointercancel", stopPanelPointerEvent);
+});
+
+// **************** Switch Modo de Operación **************** //
+function establecerModoSwitch(modo = "Incubadora") {
+    if (modo === "Incubadora") {
+        modoSwitch.checked = true;
+        modoOperacion = "Incubadora";
+    } else if (modo === "Cuna") {
+        modoSwitch.checked = false;
+        modoOperacion = "Cuna";
+    }
+    else {
+        console.warn(`Modo no válido: ${modo}`);
+        return;
+    }
+}
+modoSwitch.addEventListener("change", () => {
+    if (modoSwitch.checked) {
+        modoOperacion = "Incubadora";
+    } else {
+        modoOperacion = "Cuna";
+    }
+
+    establecerModoSwitch(modoOperacion);
+    console.log(`Switch cambiado a: ${modoOperacion}`);
 });
 
 // ***************** Panel Temperatura Piel ***************** //
@@ -197,7 +222,9 @@ btn_ajustar_foto?.addEventListener("pointerup", () => {
     fotoActive();
 });
 // Botón Cancelar General
-btnCancel?.addEventListener("click", () => {
+btnCancel?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
     exitCancel();
 });
 
@@ -216,8 +243,6 @@ function updateBottomNavLayout(isHomeView = false) {
     if (isHomeView) {
         btn_home?.classList.add("btn-collapsed");
         btn_md_fam?.classList.remove("btn-collapsed");
-
-        salirBascula();
 
         return;
     }
@@ -272,6 +297,7 @@ function bindMenuButton(config) {
             createApgarSegments(modoControl);
 
         if (button.id === "btn-basc")
+            salirBascula();
             createTimerTaraSegments(modoControl);
     });
 
@@ -363,5 +389,6 @@ function clear_Btns() {
 //============================================================================//
 setInitValues();                        // Valores iniciales de control
 startSensor();                          // Inicio de sensado
+establecerModoSwitch(modoOperacion);           // Estado Inicial del Equipo
 createApgarSegments(modoControl);       // Configuración inicial color cronómetro
 createTimerTaraSegments(modoControl);   // Configuración inicial color temporizador de tara
