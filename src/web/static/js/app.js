@@ -66,7 +66,6 @@ const lbl_modo_ctrl = document.getElementById("lbl-modo-ctrl");
 // ======================================
 // Configuración global HMI
 // ======================================
-
 // Evitar menú contextual
 document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
@@ -92,6 +91,9 @@ function stopPanelPointerEvent(event) {
     button?.addEventListener("pointercancel", stopPanelPointerEvent);
 });
 
+//============================================================================//
+//                                Controles UI                                //
+//============================================================================//
 // **************** Switch Modo de Operación **************** //
 function establecerModoSwitch(modo = "Incubadora") {
     if (modo === "Incubadora") {
@@ -389,6 +391,6 @@ function clear_Btns() {
 //============================================================================//
 setInitValues();                        // Valores iniciales de control
 startSensor();                          // Inicio de sensado
-establecerModoSwitch(modoOperacion);           // Estado Inicial del Equipo
+establecerModoSwitch(modoOperacion);    // Estado Inicial del Equipo
 createApgarSegments(modoControl);       // Configuración inicial color cronómetro
 createTimerTaraSegments(modoControl);   // Configuración inicial color temporizador de tara

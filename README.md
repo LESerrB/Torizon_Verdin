@@ -483,6 +483,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Implementada función de paro de editValProg al cambiar entre paneles.
  - Corrección de texto en botones de "Báscula" y "Apgar".
  - Creada función para cambio de modo de Operación.
+ - Valores de panel lateral actualizados en cambio de modo de Control.
 
 ## Descarga e Instalación
 

@@ -60,21 +60,21 @@ valores_ctrl = {
 
 #--------------------- Valores Sensados ----------------------#
 vls_snsrsTCD = {
-    "t_Aire" :    0,
-    "t_Piel" :    0,
-    "s_Aux" :     0,
-    "ta_Ctrl" :   0,
-    "basc" :      0,
-    "pot_Calef" : 0,
-    "tp_Ctrl" :   0,
-    "s_Ox" :      0,
-    "ox_Ctrl" :   0,
-    "s_Hum" :     0,
-    "hum_Ctrl" :  0,
-    "fot_Hrs" :   0,
-    "fot_Mins" :  0,
+    "t_Aire" :    0,        # Tempertura Aire Sensada
+    "t_Piel" :    0,        # Tempertura Piel Sensada
+    "s_Aux" :     0,        # Tempertura Sonda Auxiliar
+    "ta_Ctrl" :   0,        # Tempertura Aire Controlada
+    "basc" :      0,        # Peso de Báscula
+    "pot_Calef" : 0,        # Potencia Actual Calefactor
+    "tp_Ctrl" :   0,        # Tempertura Programada de Calefactor
+    "s_Ox" :      0,        # Sonda de Oxigeno
+    "ox_Ctrl" :   0,        # Oxigeno Controlado
+    "s_Hum" :     0,        # Sensor de Humedad
+    "hum_Ctrl" :  0,        # Humedad Controlada
+    "fot_Hrs" :   0,        # Horas Fototerapia
+    "fot_Mins" :  0,        # Minutos Fototerapia
     "zero" :      0,
-    "alrm" :      0,
+    "alrm" :      0,        # Alarmas
 }
 
 pesoTCD = 0
@@ -86,9 +86,9 @@ pesoTCD = 0
 def index():
     return render_template("home.html")
 
-##############################################################################
+#----------------------------------------------------------------------------#
 #                                  Sensores                                  #
-##############################################################################
+#----------------------------------------------------------------------------#
 @app.route("/api/setInitVals", methods=["POST"])
 def setInitVals():
     return jsonify(

@@ -31,6 +31,7 @@ const title_panel_prin = document.querySelector(".ttl-pnl-prin");
 //---------------------------------------------------------------
 // Vista principal (Home)
 const tempProg = document.getElementById("tp_prog");
+const tempProgA = document.getElementById("ta_Prog");
 const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 
@@ -55,7 +56,7 @@ const unitsCtrl = document.getElementById("units_Ctrl");
 
 //---------------------------------------------------------------
 // Vista lateral
-const ttl_programada = document.getElementById("ttl-programada")
+const ttl_programada = document.getElementById("ttl-programada");
 const viewCtrl = document.getElementById("vw-valProg");
 
 //---------------------------------------------------------------
@@ -83,6 +84,7 @@ export async function setInitValues() {
             valsCtrl = await res.json();
 
             tempProg.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+            tempProgA.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
             humCtrl.textContent = valsCtrl.vals.pot_Hum;
             oxCtrl.textContent = valsCtrl.vals.pot_Ox;
             viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
@@ -199,7 +201,6 @@ function setSliderConfig({ min, max, step, value, unit, theme }) {
 export function ajstCtrl_TPiel() {
     toggleHomePanel("tempPielProg");
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
-    ttl_programada.textContent = "Temp. Piel Programada";
 
     const valor = valsCtrl?.vals?.tp_Prog ?? 34.0;
 
@@ -221,7 +222,6 @@ export function ajstCtrl_TPiel() {
 export function ajstCtrl_TAire() {
     toggleHomePanel("tempAireProg");
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire";
-    ttl_programada.textContent = "Temp. Aire Programada";
 
     const valor = valsCtrl?.vals?.ta_Prog ?? 34.0;
 
@@ -622,6 +622,7 @@ async function edit_valProg() {
             if (encd.ctrl === "pot_Fot") {
                 updateControlDisplay(nuevoValor, "");
                 updateFotSliderValue?.(nuevoValor);
+                updateSliderIntenseFot_pPrin?.(nuevoValor);
             } else {
                 const unidad = encd.ctrl === "tp_Prog" || encd.ctrl === "ta_Prog" ? "°C" : "%";
 
@@ -636,6 +637,11 @@ async function edit_valProg() {
                         viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
                     break;
 
+                    case "ta_Prog":
+                        tempProgA.textContent = formatValue(nuevoValor, sliderConfig.step);
+                        viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                    break;
+
                     case "pot_Hum":
                         humCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
                     break;
@@ -647,6 +653,7 @@ async function edit_valProg() {
                     default:
                     break;
                 }
+                setInitValues();
 
                 toggleHomePanel("home");
 
@@ -868,10 +875,13 @@ export function chngModo(panel, modoAP) {
 export function modoAire(pnlB, pnlA) {
     clearTimeout(timerChngAjst);
 
+    viewCtrl.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
+
     activarModo("tAire", pnlB, pnlA);
     c_modo_Aire?.classList.remove("enabled");
     t_aire?.classList.remove("disabled");
     cont_vm_tpiel.classList.add("m-Piel");
+    ttl_programada.textContent = "Temp. Aire Programada";
 
     elementos_tpiel.forEach((elemento) => {
         elemento.classList.remove("m-Piel");
@@ -901,11 +911,14 @@ export function modoAire(pnlB, pnlA) {
 export function modoPiel(pnlA, pnlB) {
     clearTimeout(timerChngAjst);
 
+    viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+
     lbl_temp_piel.textContent = "Temperatura Piel";
     activarModo("tPiel", pnlA, pnlB);
     pop_mp_prin_mc_tpiel.classList.remove("c-modo");
     cont_vm_tpiel.classList.remove("c-modo");
     cont_vm_tpiel.classList.remove("m-Piel");
+    ttl_programada.textContent = "Temp. Piel Programada";
 
     elementos_tpiel.forEach((elemento) => {
         elemento.classList.add("m-Piel");
@@ -985,7 +998,8 @@ function setFotoState(estado) {
  * Activa el panel de fototerapia
  */
 export function fotoActive() {
-  setFotoState("active");
+    setFotoState("active");
+    updateSliderIntenseFot_pPrin?.(1);
 }
 
 /**
@@ -1052,8 +1066,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 });
 
-
-
+// ==================================
+// Funcion Salir de Panel de Control
+// ==================================
 export function exitCancel(){
     toggleHomePanel("home");
 
@@ -1063,6 +1078,7 @@ export function exitCancel(){
 
     if (fotoEn){
         fotoEn = !fotoEn;
-        fotoInactive()
+        fotoInactive();
+        updateSliderIntenseFot_pPrin?.(0);
     }
 };

@@ -9,6 +9,10 @@ const tempSondaAux = document.getElementById("_34-6");
 const sensOx = document.getElementById("valOx");
 const sensHum = document.getElementById("valHum");
 
+const viewLat_tp = document.getElementById("vw-val-tp-Sns");
+const viewLat_ta = document.getElementById("vw-val-ta-Sns");
+const viewLat_ox = document.getElementById("vw-val-ox-Sns");
+
 const btn_pesaje = document.getElementById("pesar")
 const peso_Basc = document.getElementById("peso");
 
@@ -39,20 +43,20 @@ async function get_DtSensores() {
 
         if(res.status == 200){
             const vls_snsrsTCD = await res.json();
-            
-            tempPiel.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Piel.toFixed(1);
-            tempAire.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1);
+
+            viewLat_tp.textContent = tempPiel.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Piel.toFixed(1);
+            viewLat_ta.textContent = tempAire.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1);
             tempSondaAux.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Aux.toFixed(1);
 
-            sensOx.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Ox;
+            viewLat_ox.textContent = sensOx.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Ox;
             sensHum.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Hum;
         }
         else{
-            tempPiel.textContent = "--.-";
-            tempAire.textContent = "--.-";
+            viewLat_tp.textContent = tempPiel.textContent = "--.-";
+            viewLat_ta.textContent = tempAire.textContent = "--.-";
             tempSondaAux.textContent = "--.-";
 
-            sensOx.textContent = "--"
+            viewLat_ox.textContent = sensOx.textContent = "--"
             sensHum.textContent = "--"
         }
 
