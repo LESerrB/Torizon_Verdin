@@ -5,7 +5,7 @@
  - Si estas dando mantenimiento a la página web u optimizando funciones y no 
  - le entiendes y falla puedes usar esta sección para anotar tus intentos.
 
- - total de horas desperdiciadas: 121
+ - total de horas desperdiciadas: 203
   -->
 
 <!DOCTYPE html>
@@ -193,7 +193,7 @@
                 <div class="tproga">
                   <div class="vproga">
                     <div class="ti-vp-proga">
-                      <div class="temps-AuxProg m-aire"> 36.2 </div>
+                      <div id="ta_Prog" class="temps-AuxProg m-aire"> 36.2 </div>
                     </div>
                     <div class="t_auxiliar m-aire"> Programada </div>
                   </div>
@@ -291,7 +291,7 @@
             <div class="mp-atpiel-lat-modmon">
               <div class="mp-atpiel-lat" data-control="tempPiel">
                 <div class="lbl-ttl-cont-lat" data-control="tempPiel">Temperatura Piel</div>
-                <div class="ti-vm-sens" data-control="tempPiel">36.5</div>
+                <div id="vw-val-tp-Sns" class="ti-vm-sens" data-control="tempPiel">36.5</div>
                 <div class="val-units-sens-cont-lat" data-control="tempPiel">°C</div>
               </div>
 
@@ -303,13 +303,13 @@
 
               <div class="mp-atpiel-lat" data-control="tempAire">
                 <div class="lbl-ttl-cont-lat" data-control="tempAire">Temperatura Aire</div>
-                <div class="ti-vm-sens" data-control="tempAire">36.3</div>
+                <div id="vw-val-ta-Sns" class="ti-vm-sens" data-control="tempAire">36.3</div>
                 <div class="val-units-sens-cont-lat" data-control="tempAire">°C</div>
               </div>
 
               <div class="mp-atpiel-lat" data-control="oxigeno">
                 <div class="lbl-ttl-cont-lat" data-control="oxigeno">Oxígeno</div>
-                <div class="ti-vm-sens" data-control="oxigeno">60</div>
+                <div id="vw-val-ox-Sns" class="ti-vm-sens" data-control="oxigeno">60</div>
                 <div class="val-perc-sens-cont-lat" data-control="oxigeno">%</div>
               </div>
             </div>
@@ -594,7 +594,7 @@
                       </svg>
                     </div>
 
-                    <img class="ejes-reloj" src="../static/icon/Apgar/ejes-reloj0.svg" />
+                    <img class="ejes-reloj" src="../static/icon/Apgar/ejes-reloj0-mp.svg" />
                     <div class="nums-clk _1">1</div>
                     <div class="nums-clk _5">5</div>
                     <div class="nums-clk _10">10</div>

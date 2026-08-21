@@ -141,6 +141,7 @@ span {
   display: none !important;
 }
 
+/* Boton de cambio de Modo de Operacion*/
 .switch-btn {
   width: 194px;
   height: 57px;
@@ -1306,9 +1307,9 @@ Contenedor Temperaturas Secundarias
   height: 15px;
   border-radius: 0px 0px 3px 3px;
 }
-.seg-potencia-fot .fot-seg-1.active { background: #90aacf; }
-.seg-potencia-fot .fot-seg-2.active { background: #63779a; }
-.seg-potencia-fot .fot-seg-3.active { background: #4a5e7c; }
+.seg-potencia-fot .fot-seg-1.active { background: #556F91; }
+.seg-potencia-fot .fot-seg-2.active { background: #556F91; }
+.seg-potencia-fot .fot-seg-3.active { background: #556F91; }
 
 /*#######################################*/
 /*            Barra Inferior             */

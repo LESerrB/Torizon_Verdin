@@ -31,6 +31,7 @@ const title_panel_prin = document.querySelector(".ttl-pnl-prin");
 //---------------------------------------------------------------
 // Vista principal (Home)
 const tempProg = document.getElementById("tp_prog");
+const tempProgA = document.getElementById("ta_Prog");
 const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 
@@ -55,7 +56,7 @@ const unitsCtrl = document.getElementById("units_Ctrl");
 
 //---------------------------------------------------------------
 // Vista lateral
-const ttl_programada = document.getElementById("ttl-programada")
+const ttl_programada = document.getElementById("ttl-programada");
 const viewCtrl = document.getElementById("vw-valProg");
 
 //---------------------------------------------------------------
@@ -70,7 +71,7 @@ const seg_potencia_fot = document.getElementById("seg-potencia-fot");
 /**
  * Obtiene los valores iniciales del control desde la API.
  */
-export async function setInitValues() {
+export async function setInitValues(modoCtrl = "modoPiel") {
     try {
         const res = await fetch("/api/setInitVals", {
             method: "POST",
@@ -83,9 +84,15 @@ export async function setInitValues() {
             valsCtrl = await res.json();
 
             tempProg.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+            tempProgA.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
             humCtrl.textContent = valsCtrl.vals.pot_Hum;
             oxCtrl.textContent = valsCtrl.vals.pot_Ox;
-            viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+
+            if (modoCtrl == "modoPiel") {
+                viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+            } else {
+                viewCtrl.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
+            }
         }
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada", error);
@@ -144,26 +151,6 @@ function getDecimalPlaces(value) {
  * @param {HTMLElement|null} slider Elemento SVG/slider.
  * @returns {{min:number,max:number,step:number}} Configuración del slider.
  */
-function getSliderConfig(slider) {
-    const defaults = { min: 34.0, max: 38.0, step: 0.1 };
-
-    if (!slider) {
-        return defaults;
-    }
-
-    const parsedMin = Number.parseFloat(slider.dataset.min);
-    const parsedMax = Number.parseFloat(slider.dataset.max);
-    const parsedStep = Number.parseFloat(slider.dataset.step);
-
-    return {
-        min: Number.isFinite(parsedMin) ? parsedMin : defaults.min,
-        max: Number.isFinite(parsedMax) ? parsedMax : defaults.max,
-        step: Number.isFinite(parsedStep) && parsedStep > 0
-            ? parsedStep
-            : defaults.step
-    };
-}
-
 function setSliderConfig({ min, max, step, value, unit, theme }) {
     activeSlider = "slider10";
 
@@ -199,7 +186,6 @@ function setSliderConfig({ min, max, step, value, unit, theme }) {
 export function ajstCtrl_TPiel() {
     toggleHomePanel("tempPielProg");
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
-    ttl_programada.textContent = "Temp. Piel Programada";
 
     const valor = valsCtrl?.vals?.tp_Prog ?? 34.0;
 
@@ -221,7 +207,6 @@ export function ajstCtrl_TPiel() {
 export function ajstCtrl_TAire() {
     toggleHomePanel("tempAireProg");
     ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire";
-    ttl_programada.textContent = "Temp. Aire Programada";
 
     const valor = valsCtrl?.vals?.ta_Prog ?? 34.0;
 
@@ -622,6 +607,7 @@ async function edit_valProg() {
             if (encd.ctrl === "pot_Fot") {
                 updateControlDisplay(nuevoValor, "");
                 updateFotSliderValue?.(nuevoValor);
+                updateSliderIntenseFot_pPrin?.(nuevoValor);
             } else {
                 const unidad = encd.ctrl === "tp_Prog" || encd.ctrl === "ta_Prog" ? "°C" : "%";
 
@@ -632,8 +618,11 @@ async function edit_valProg() {
             if (!encd.confirm && intervalEncod) {
                 switch (encd.ctrl) {
                     case "tp_Prog":
-                        tempProg.textContent = formatValue(nuevoValor, sliderConfig.step);
-                        viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                        viewCtrl.textContent = tempProg.textContent = formatValue(nuevoValor, sliderConfig.step);
+                    break;
+
+                    case "ta_Prog":
+                        viewCtrl.textContent = tempProgA.textContent = formatValue(nuevoValor, sliderConfig.step);
                     break;
 
                     case "pot_Hum":
@@ -711,6 +700,7 @@ const ti_v_contapgar = document.querySelector(".ti-v-contapgar");
 const cont_bas_anima = document.querySelector(".cont-bas-anima");
 const ti_v_vpeso = document.querySelector(".ti-v-vpeso");
 const botones = document.querySelectorAll(".btns-apgr.tPiel");
+const ejes_reloj = document.querySelector(".ejes-reloj");
 
 /**
  * Configuración de modos para cambios de temperatura
@@ -868,10 +858,13 @@ export function chngModo(panel, modoAP) {
 export function modoAire(pnlB, pnlA) {
     clearTimeout(timerChngAjst);
 
+    setInitValues("modoAire");
+
     activarModo("tAire", pnlB, pnlA);
     c_modo_Aire?.classList.remove("enabled");
     t_aire?.classList.remove("disabled");
     cont_vm_tpiel.classList.add("m-Piel");
+    ttl_programada.textContent = "Temp. Aire Programada";
 
     elementos_tpiel.forEach((elemento) => {
         elemento.classList.remove("m-Piel");
@@ -891,6 +884,7 @@ export function modoAire(pnlB, pnlA) {
         boton.classList.remove("tPiel", "tAire");
         boton.classList.add("tAire");
     });
+    ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-ma.svg"
 }
 
 /**
@@ -901,11 +895,14 @@ export function modoAire(pnlB, pnlA) {
 export function modoPiel(pnlA, pnlB) {
     clearTimeout(timerChngAjst);
 
+    setInitValues("modoPiel");
+
     lbl_temp_piel.textContent = "Temperatura Piel";
     activarModo("tPiel", pnlA, pnlB);
     pop_mp_prin_mc_tpiel.classList.remove("c-modo");
     cont_vm_tpiel.classList.remove("c-modo");
     cont_vm_tpiel.classList.remove("m-Piel");
+    ttl_programada.textContent = "Temp. Piel Programada";
 
     elementos_tpiel.forEach((elemento) => {
         elemento.classList.add("m-Piel");
@@ -925,6 +922,7 @@ export function modoPiel(pnlA, pnlB) {
         boton.classList.remove("tPiel", "tAire");
         boton.classList.add("tPiel");
     });
+    ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-mp.svg"
 }
 
 
@@ -985,7 +983,8 @@ function setFotoState(estado) {
  * Activa el panel de fototerapia
  */
 export function fotoActive() {
-  setFotoState("active");
+    setFotoState("active");
+    updateSliderIntenseFot_pPrin?.(1);
 }
 
 /**
@@ -1052,8 +1051,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 });
 
-
-
+// ==================================
+// Funcion Salir de Panel de Control
+// ==================================
 export function exitCancel(){
     toggleHomePanel("home");
 
@@ -1063,6 +1063,7 @@ export function exitCancel(){
 
     if (fotoEn){
         fotoEn = !fotoEn;
-        fotoInactive()
+        fotoInactive();
+        updateSliderIntenseFot_pPrin?.(0);
     }
 };

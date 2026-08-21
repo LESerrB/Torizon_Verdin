@@ -259,6 +259,10 @@
 .btns-apgr.tPiel.pressed .lbl-btn {
   color: var(--colorblanco);
 }
+.btns-apgr.tAire:active .lbl-btn,
+.btns-apgr.tAire.pressed .lbl-btn {
+  color: var(--colorblanco);
+}
 
 .cont-basct {
   width: 215px;

@@ -340,7 +340,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - Agregada función de Cronómetro Apgar.
 - Agregada función de Cronómetro para Fototerapia.
 - Función de comunicación de controles de posición de equipo.
-- Función de cambio de Modo de Operación.
+- Función de cambio de Modo de Control.
 - Retirada función de seleccionar con presionado largo en la interfaz web.
 - Agregado mensaje de alarma con color por prioridad.
 - Agregada funcionalidad de gráfica de temperatura. Botones de Inicio, Detener y Limpiar corregidas la funcionalidad para solo permitir limpiar los datos cuando este detenido el guardado.
@@ -459,7 +459,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Botones Aceptar/Cancelar para el cambio de modo funcionando.
  - Cambio de modo de operacion, corrección de bugs.
  - Renombre de "ui.js" a "ui_Incubadora.js".
- - Optimización de función para cambiar entre modos de operación (Modo Piel <--> Modo Aire).
+ - Optimización de función para cambiar entre modos de control (Modo Piel <--> Modo Aire).
  - Corrección de bug de visualización de temperaturas principales en cambio de modo Piel a modo Aire.
  - Agregado temporizador para el cierre de la ventana de confirmación de cambios de modos.
  - Cambio de color del indicador numérico de potencia del calefactor.
@@ -469,13 +469,24 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Documentación de funciones de sliders de panel de control y principal.
  - Cambio de color de slider de cronómetro Apgar.
  - Cronómetro se reinicia al salir y entrar al módulo.
- - Realizado el ajuste de color dependiendo del modo de operación para el panel Cronómetro Apgar.
+ - Realizado el ajuste de color dependiendo del modo de control para el panel Cronómetro Apgar.
  - Ajuste de color dependiendo del modo para el temporizador de la báscula.
  - Deshabilitado menú contextual al presionar largo.
  - Actualizado cambio de color de botón "Ajustar" de panel de fototerapia.
- - Actualizado cambio de colores de botones "Aceptar" y "Cancelar" de paneles de cambio de modo de operación.
- - Actualizado cambio de colores de botones internos de los módulos de "Apgar" y "Báscula" dependiendo del modo de operación.
+ - Actualizado cambio de colores de botones "Aceptar" y "Cancelar" de paneles de cambio de modo de control.
+ - Actualizado cambio de colores de botones internos de los módulos de "Apgar" y "Báscula" dependiendo del modo de control.
  - Habilitado Oxígeno Programado.
+
+### v0.23.4 - [21/Agosto/2026]
+
+ - Corrección de botones de cambio de modo y ajuste de fototerapia.
+ - Implementada función de paro de editValProg al cambiar entre paneles.
+ - Corrección de texto en botones de "Báscula" y "Apgar".
+ - Creada función para cambio de modo de Operación.
+ - Valores de panel lateral actualizados en cambio de modo de Control.
+ - Corrección de bug de valores programados de temperatura en modo Aire.
+ - Precarga de iconos SVG al inicio.
+ - Corrección de colores de los ejes del cronómetro apgar dependiendo del modo de control.
 
 ## Descarga e Instalación
 

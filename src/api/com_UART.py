@@ -18,7 +18,7 @@ def uart_send(uart_dev, data):
     """
     try:
         if uart_dev and uart_dev.is_open:
-            print(">>", data)
+            # print(">>", data)
             if isinstance(data, (bytes, bytearray)):
                 uart_dev.write(data)
             else:
@@ -146,7 +146,7 @@ def encode_Msg(UART_dev, msg, cmd = None):
 
         dt = b'\x00' + (cmd or b'') + n_bytes + dt + void_dt + crc + b'\x63'
 
-        print(">>>>", dt)
+        # print(">>>>", dt)
         uart_send(UART_dev, dt)
     except Exception as e:
         print(f"Error al mandar trama: {e}")
