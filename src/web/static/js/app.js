@@ -30,6 +30,23 @@ import {
     salirBascula
 } from "./bascula.js";
 
+const recursosVisuales = [
+    "../static/icon/Home/ICON_INCUBADORA.svg",
+    "../static/icon/Home/ICON_CUNA.svg",
+    "../static/icon/Home/icon-piel0.svg",
+    "../static/icon/Control/Icon_ModoAire.svg",
+    "../static/icon/Home/ICON_INCLINACION.svg",
+
+    "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
+    "../static/icon/Home/btns/Icono_Home_Default.svg",
+    "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
+    "../static/icon/Home/btns/Icono_Bascula_Default.svg",
+    "../static/icon/Home/btns/Icono_APGAR_Default.svg",
+
+    "../static/icon/Apgar/btns/Icon_Play_Default.svg",
+    "../static/icon/Apgar/btns/Icon_Regresar_Default.svg"
+];
+
 let modoControl = "tPiel"
 let modoOperacion = "Incubadora"
 
@@ -66,6 +83,34 @@ const lbl_modo_ctrl = document.getElementById("lbl-modo-ctrl");
 // ======================================
 // Configuración global HMI
 // ======================================
+function cargarImagen(ruta) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+
+        img.onload = () => {
+            resolve(ruta);
+        };
+
+        img.onerror = () => {
+            reject(ruta);
+        };
+
+        img.src = ruta;
+    });
+}
+
+async function precargarRecursosVisuales() {
+    try {
+        await Promise.all(
+            recursosVisuales.map((ruta) => cargarImagen(ruta))
+        );
+
+        console.log("Todos los recursos visuales fueron cargados");
+
+    } catch (rutaError) {
+        console.error(`Error cargando recurso: ${rutaError}`);
+    }
+}
 // Evitar menú contextual
 document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
@@ -389,6 +434,7 @@ function clear_Btns() {
 //============================================================================//
 //                             Funciones inciales                             //
 //============================================================================//
+precargarRecursosVisuales();            // Precarga de iconos de aplicación
 setInitValues();                        // Valores iniciales de control
 startSensor();                          // Inicio de sensado
 establecerModoSwitch(modoOperacion);    // Estado Inicial del Equipo

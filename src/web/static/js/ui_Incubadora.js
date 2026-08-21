@@ -619,12 +619,10 @@ async function edit_valProg() {
                 switch (encd.ctrl) {
                     case "tp_Prog":
                         viewCtrl.textContent = tempProg.textContent = formatValue(nuevoValor, sliderConfig.step);
-                        console.log("case tp_Prog", viewCtrl.textContent);
                     break;
 
                     case "ta_Prog":
                         viewCtrl.textContent = tempProgA.textContent = formatValue(nuevoValor, sliderConfig.step);
-                        console.log("case ta_Prog", viewCtrl.textContent);
                     break;
 
                     case "pot_Hum":

@@ -477,7 +477,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Actualizado cambio de colores de botones internos de los módulos de "Apgar" y "Báscula" dependiendo del modo de control.
  - Habilitado Oxígeno Programado.
 
-### v0.23.4 - [19/Agosto/2026]
+### v0.23.4 - [21/Agosto/2026]
 
  - Corrección de botones de cambio de modo y ajuste de fototerapia.
  - Implementada función de paro de editValProg al cambiar entre paneles.
@@ -485,6 +485,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Creada función para cambio de modo de Operación.
  - Valores de panel lateral actualizados en cambio de modo de Control.
  - Corrección de bug de valores programados de temperatura en modo Aire.
+ - Precarga de iconos SVG al inicio.
 
 ## Descarga e Instalación
 
