@@ -31,20 +31,40 @@ import {
 } from "./bascula.js";
 
 const recursosVisuales = [
+    // HOME //
     "../static/icon/Home/ICON_INCUBADORA.svg",
     "../static/icon/Home/ICON_CUNA.svg",
-    "../static/icon/Home/icon-piel0.svg",
-    "../static/icon/Control/Icon_ModoAire.svg",
     "../static/icon/Home/ICON_INCLINACION.svg",
-
+    // Iconos Botones Barra Menús
     "../static/icon/Home/btns/Icono_MFamiliar_Default.svg",
+    "../static/icon/Home/btns/Icono_MFamiliar_Active.svg",
     "../static/icon/Home/btns/Icono_Home_Default.svg",
+    "../static/icon/Home/btns/Icono_Home_Active.svg",
     "../static/icon/Home/btns/Icono_Tendencias_Default.svg",
+    "../static/icon/Home/btns/Icono_Tendencias_Active.svg",
     "../static/icon/Home/btns/Icono_Bascula_Default.svg",
+    "../static/icon/Home/btns/Icono_Bascula_Active.svg",
     "../static/icon/Home/btns/Icono_APGAR_Default.svg",
-
+    "../static/icon/Home/btns/Icono_APGAR_Active.svg",
+    // Panel de Control
+    "../static/icon/Control/Icon_ModoAire.svg",
+    "../static/icon/Control/Icon_Fototerapia.svg",
+    "../static/icon/Control/Icon_Humedad.svg",
+    "../static/icon/Control/Icon_Oxigeno.svg",
+    "../static/icon/Control/icons-mas-menos0.svg",
+    "../static/icon/Control/igraf-tpiel0.svg",
+    // Apgar
+    "../static/icon/Apgar/ejes-reloj0-mp.svg",
+    "../static/icon/Apgar/ejes-reloj0-ma.svg",
     "../static/icon/Apgar/btns/Icon_Play_Default.svg",
-    "../static/icon/Apgar/btns/Icon_Regresar_Default.svg"
+    "../static/icon/Apgar/btns/Icon_Play_Active.svg",
+    "../static/icon/Apgar/btns/Icon_Pause_Default.svg",
+    "../static/icon/Apgar/btns/Icon_Pause_Active.svg",
+    "../static/icon/Apgar/btns/Icon_Regresar_Default.svg",
+    "../static/icon/Apgar/btns/Icon_Regresar_Active.svg",
+    // Báscula
+    "../static/icon/Bascula/Kg_tPiel.svg",
+    "../static/icon/Bascula/Kg_tAire.svg",
 ];
 
 let modoControl = "tPiel"

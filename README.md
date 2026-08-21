@@ -486,6 +486,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Valores de panel lateral actualizados en cambio de modo de Control.
  - Corrección de bug de valores programados de temperatura en modo Aire.
  - Precarga de iconos SVG al inicio.
+ - Corrección de colores de los ejes del cronómetro apgar dependiendo del modo de control.
 
 ## Descarga e Instalación
 

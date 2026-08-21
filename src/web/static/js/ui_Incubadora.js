@@ -700,6 +700,7 @@ const ti_v_contapgar = document.querySelector(".ti-v-contapgar");
 const cont_bas_anima = document.querySelector(".cont-bas-anima");
 const ti_v_vpeso = document.querySelector(".ti-v-vpeso");
 const botones = document.querySelectorAll(".btns-apgr.tPiel");
+const ejes_reloj = document.querySelector(".ejes-reloj");
 
 /**
  * Configuración de modos para cambios de temperatura
@@ -883,6 +884,7 @@ export function modoAire(pnlB, pnlA) {
         boton.classList.remove("tPiel", "tAire");
         boton.classList.add("tAire");
     });
+    ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-ma.svg"
 }
 
 /**
@@ -920,6 +922,7 @@ export function modoPiel(pnlA, pnlB) {
         boton.classList.remove("tPiel", "tAire");
         boton.classList.add("tPiel");
     });
+    ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-mp.svg"
 }
 
 
