@@ -484,6 +484,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de texto en botones de "Báscula" y "Apgar".
  - Creada función para cambio de modo de Operación.
  - Valores de panel lateral actualizados en cambio de modo de Control.
+ - Corrección de bug de valores programados de temperatura en modo Aire.
 
 ## Descarga e Instalación
 

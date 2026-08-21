@@ -71,7 +71,7 @@ const seg_potencia_fot = document.getElementById("seg-potencia-fot");
 /**
  * Obtiene los valores iniciales del control desde la API.
  */
-export async function setInitValues() {
+export async function setInitValues(modoCtrl = "modoPiel") {
     try {
         const res = await fetch("/api/setInitVals", {
             method: "POST",
@@ -87,7 +87,12 @@ export async function setInitValues() {
             tempProgA.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
             humCtrl.textContent = valsCtrl.vals.pot_Hum;
             oxCtrl.textContent = valsCtrl.vals.pot_Ox;
-            viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+
+            if (modoCtrl == "modoPiel") {
+                viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+            } else {
+                viewCtrl.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
+            }
         }
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada", error);
@@ -146,26 +151,6 @@ function getDecimalPlaces(value) {
  * @param {HTMLElement|null} slider Elemento SVG/slider.
  * @returns {{min:number,max:number,step:number}} Configuración del slider.
  */
-function getSliderConfig(slider) {
-    const defaults = { min: 34.0, max: 38.0, step: 0.1 };
-
-    if (!slider) {
-        return defaults;
-    }
-
-    const parsedMin = Number.parseFloat(slider.dataset.min);
-    const parsedMax = Number.parseFloat(slider.dataset.max);
-    const parsedStep = Number.parseFloat(slider.dataset.step);
-
-    return {
-        min: Number.isFinite(parsedMin) ? parsedMin : defaults.min,
-        max: Number.isFinite(parsedMax) ? parsedMax : defaults.max,
-        step: Number.isFinite(parsedStep) && parsedStep > 0
-            ? parsedStep
-            : defaults.step
-    };
-}
-
 function setSliderConfig({ min, max, step, value, unit, theme }) {
     activeSlider = "slider10";
 
@@ -633,13 +618,13 @@ async function edit_valProg() {
             if (!encd.confirm && intervalEncod) {
                 switch (encd.ctrl) {
                     case "tp_Prog":
-                        tempProg.textContent = formatValue(nuevoValor, sliderConfig.step);
-                        viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                        viewCtrl.textContent = tempProg.textContent = formatValue(nuevoValor, sliderConfig.step);
+                        console.log("case tp_Prog", viewCtrl.textContent);
                     break;
 
                     case "ta_Prog":
-                        tempProgA.textContent = formatValue(nuevoValor, sliderConfig.step);
-                        viewCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                        viewCtrl.textContent = tempProgA.textContent = formatValue(nuevoValor, sliderConfig.step);
+                        console.log("case ta_Prog", viewCtrl.textContent);
                     break;
 
                     case "pot_Hum":
@@ -653,7 +638,6 @@ async function edit_valProg() {
                     default:
                     break;
                 }
-                setInitValues();
 
                 toggleHomePanel("home");
 
@@ -875,7 +859,7 @@ export function chngModo(panel, modoAP) {
 export function modoAire(pnlB, pnlA) {
     clearTimeout(timerChngAjst);
 
-    viewCtrl.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
+    setInitValues("modoAire");
 
     activarModo("tAire", pnlB, pnlA);
     c_modo_Aire?.classList.remove("enabled");
@@ -911,7 +895,7 @@ export function modoAire(pnlB, pnlA) {
 export function modoPiel(pnlA, pnlB) {
     clearTimeout(timerChngAjst);
 
-    viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+    setInitValues("modoPiel");
 
     lbl_temp_piel.textContent = "Temperatura Piel";
     activarModo("tPiel", pnlA, pnlB);

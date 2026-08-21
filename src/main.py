@@ -91,6 +91,7 @@ def index():
 #----------------------------------------------------------------------------#
 @app.route("/api/setInitVals", methods=["POST"])
 def setInitVals():
+    print(valores_ctrl)
     return jsonify(
         {
             "vals": valores_ctrl,
