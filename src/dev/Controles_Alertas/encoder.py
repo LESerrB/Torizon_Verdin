@@ -69,7 +69,9 @@ STEP_VALUE = 0.1            # Valor ajustado de cambio
 # Valores de Control
 # ==================
 MIN_TP = 34.0
-MAX_TP = 38.0
+MAX_TP = 37.0
+
+MAX_TP_SG = 38.0
 
 # =====================================
 # Configuración de Valores para Encoder
@@ -184,7 +186,11 @@ def valEdit(valIni, sg):
     encoder_accum += transition
 
     if encoder_accum >= TRANSITIONS_PER_STEP:
-        if (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < MAX_TP):
+        if (not sg) and (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < MAX_TP):
+            valIni += STEP_VALUE
+            valIni = round(valIni, 1)
+            last_step_time = now
+        elif sg and (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < MAX_TP_SG):
             valIni += STEP_VALUE
             valIni = round(valIni, 1)
             last_step_time = now
@@ -250,7 +256,7 @@ def valConfig(Ctrl):
     if Ctrl == "tp_Prog" or Ctrl == "ta_Prog":
         STEP_VALUE = STEP_VALUE_TP
         MIN_TP = 34.0
-        MAX_TP = 38.0
+        MAX_TP = 37.0
     elif Ctrl == "pot_Fot":
         STEP_VALUE = STEP_VALUE_POT
         MIN_TP = 1

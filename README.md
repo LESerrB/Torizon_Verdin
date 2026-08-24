@@ -489,6 +489,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de colores de los ejes del cronómetro apgar dependiendo del modo de control.
  - Mejorado el funcionamiento del encoder.
  - Pruebas de botón de sobregiro. Envío de bandera de habilitación.
+ - Función de cambios de límites de temperatura máxima con y sin sobregiro.
 
 ## Descarga e Instalación
 
