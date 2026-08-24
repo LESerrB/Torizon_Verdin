@@ -487,6 +487,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de bug de valores programados de temperatura en modo Aire.
  - Precarga de iconos SVG al inicio.
  - Corrección de colores de los ejes del cronómetro apgar dependiendo del modo de control.
+ - Mejorado el funcionamiento del encoder.
 
 ## Descarga e Instalación
 

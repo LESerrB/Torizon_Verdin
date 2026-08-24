@@ -76,9 +76,9 @@ MAX_TP = 38.0
 # =====================================
 # Tiempo entre lecturas del encoder
 POLL_TIME = 0.0003              # 0.3 ms
-TRANSITION_DEBOUNCE = 0.0001    # 0.1 ms
+TRANSITION_DEBOUNCE = 0.0030    # 0.1 ms (0.0001)
 # Tiempo mínimo entre pasos completos aceptados
-STEP_DEBOUNCE_TIME = 0.003      # 3 ms
+STEP_DEBOUNCE_TIME = 0.090      # 3 ms (0.003)
 TRANSITIONS_PER_STEP = 2
 
 INVERT_DIRECTION = False
@@ -136,13 +136,21 @@ def valEdit(valIni):
 
     transition_table = {
         (0b00, 0b01): +1,
+        (0b00, 0b01): +1,
+        (0b01, 0b11): +1,
         (0b01, 0b11): +1,
         (0b11, 0b10): +1,
+        (0b11, 0b10): +1,
+        (0b10, 0b00): +1,
         (0b10, 0b00): +1,
 
         (0b00, 0b10): -1,
+        (0b00, 0b10): -1,
+        (0b10, 0b11): -1,
         (0b10, 0b11): -1,
         (0b11, 0b01): -1,
+        (0b11, 0b01): -1,
+        (0b01, 0b00): -1,
         (0b01, 0b00): -1,
     }
 
