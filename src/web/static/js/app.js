@@ -18,6 +18,7 @@ import {
     fotoActive,
     confAjstFoto,
     iniTimerAjst,
+    toggleSobregiro,
     exitCancel
 } from "./ui_Incubadora.js";
 
@@ -83,6 +84,8 @@ const pnlAire = document.getElementById("pnl-modoAire");
 const ajstCtrlOx = document.getElementById("mod-ox");
 const ajstCtrlHum = document.getElementById("mod-hum");
 const ajstCtrlFot = document.getElementById("mod-fot");
+
+const btn_sg = document.getElementById("btn-sg");
 
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 
@@ -244,6 +247,10 @@ ajstCtrlFot?.addEventListener("pointerup", () => {
     confAjstFoto();
 });
 
+// Boton de Sobregiro
+btn_sg?.addEventListener("pointerup", () => {
+    toggleSobregiro();
+})
 // ==================================
 // Aceptar / Cancelar Cambio de Modo
 // ==================================

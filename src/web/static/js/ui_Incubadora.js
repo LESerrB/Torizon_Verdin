@@ -53,6 +53,7 @@ const view_fam = document.getElementById("view-fam");
 // Valor del encoder / control
 const valCtrl = document.getElementById("val_Ctrl");
 const unitsCtrl = document.getElementById("units_Ctrl");
+const pop_sobregiro = document.querySelector(".mp-pop-sobregiro");
 
 //---------------------------------------------------------------
 // Vista lateral
@@ -88,6 +89,8 @@ export async function setInitValues(modoCtrl = "modoPiel") {
             humCtrl.textContent = valsCtrl.vals.pot_Hum;
             oxCtrl.textContent = valsCtrl.vals.pot_Ox;
 
+            // console.log(valsCtrl.vals.sg); // Estado de sobregiro
+
             if (modoCtrl == "modoPiel") {
                 viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
             } else {
@@ -105,7 +108,17 @@ export async function setInitValues(modoCtrl = "modoPiel") {
  * @param {string} unit Unidad de medición.
  */
 function updateControlDisplay(value, unit) {
-    if (unit === "") {
+    if (unit !== "") {
+        valCtrl.textContent = formatValue(value, sliderConfig.step);
+        unitsCtrl.textContent = unit;
+
+        if (value == 37.0) {
+            pop_sobregiro.classList.remove("disabled");
+        }
+        else if (value < 37.0){
+            pop_sobregiro.classList.add("disabled");
+        }
+    } else {
         unitsCtrl.textContent = "";
 
         const fototerapiaLabels = {
@@ -115,9 +128,6 @@ function updateControlDisplay(value, unit) {
         };
 
         valCtrl.textContent = fototerapiaLabels[Number(value)] ?? "";
-    } else {
-        valCtrl.textContent = formatValue(value, sliderConfig.step);
-        unitsCtrl.textContent = unit;
     }
 }
 
@@ -597,7 +607,10 @@ async function edit_valProg() {
             headers: {
                 "Content-Type":
                     "application/json"
-            }
+            },
+            body: JSON.stringify({
+                sg: valsCtrl.vals.sg,
+            })
         });
 
         if (res.status === 200) {
@@ -1050,6 +1063,21 @@ document.addEventListener("DOMContentLoaded", () => {
         fotoSliderController?.setValue(value);
     };
 });
+
+// ==================
+// Funcion Sobregiro
+// ==================
+const lbl_acpt_sg = document.querySelector(".lbl-aceptar-sg");
+
+export function toggleSobregiro() {
+    valsCtrl.vals.sg = !valsCtrl.vals.sg;
+    
+    if (!valsCtrl.vals.sg) {
+        lbl_acpt_sg.textContent = "Aceptar"
+    } else {
+        lbl_acpt_sg.textContent = "Cancelar"
+    }
+}
 
 // ==================================
 // Funcion Salir de Panel de Control

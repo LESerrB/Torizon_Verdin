@@ -630,7 +630,7 @@
   align-items: center;
   justify-content: center;
 }
-.aceptar {
+.lbl-aceptar-sg {
     color: var(--colortextactivo);
     text-align: left;
     font-family: var(--textbtnsestandar-font-family);

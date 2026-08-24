@@ -122,7 +122,7 @@ def init_encoder():
     last_step_time = now
     encoder_accum = 0
 
-def valEdit(valIni):
+def valEdit(valIni, sg):
     """
     Lectura robusta del encoder usando máquina de estados.
 
@@ -133,6 +133,8 @@ def valEdit(valIni):
     global last_transition_time
     global last_step_time
     global encoder_accum
+
+    # print("Sobregiro:", sg)
 
     transition_table = {
         (0b00, 0b01): +1,
