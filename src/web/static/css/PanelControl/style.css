@@ -436,7 +436,8 @@
 
 /* Boton Cancelar */
 .btn-cancel,
-.btn-adjst-foto {
+.btn-adjst-foto,
+.btn-aceptar-sg {
   background: var(--colorclarobtn);
   border-radius: 30px;
   padding: 15px 20px 15px 20px;
@@ -455,6 +456,9 @@
   left: calc(50% - -200px);
   top: calc(50% - -80px);
 }
+.btn-cancel:active {
+  background-color: var(--colorgrisbtn);
+}
 .btn-adjst-foto{
   width: 110px;
   height: 37px;
@@ -466,8 +470,17 @@
   background-color: var(--colorfotoprsdbtn);
   transform: scale(0.97);
 }
-.btn-cancel:active {
-  background-color: var(--colorgrisbtn);
+.btn-aceptar-sg{
+  background: var(--colorbtnsnuevos);
+
+  left: 36px;
+  top: 69px;
+
+  height: 36px;
+  width: 110px;
+}
+.btn-aceptar-sg:active {
+  transform: scale(0.97);
 }
 /* Etiqueta Cancelar */
 .cancelar {
@@ -484,7 +497,6 @@
 .btn-adjst-foto:active .cancelar {
   color: var(--colorclarobtn);
 }
-
 /*********************************
  * Panel de cambio de Fototerpia *
  *********************************/
@@ -534,5 +546,95 @@
     font-family: var(--textbtnsestandar-font-family, 'Montserrat-Bold', sans-serif);
     font-size: var(--textbtnsestandar-font-size, 15px);
     font-weight: var(--textbtnsestandar-font-weight, 700);
+    position: relative;
+}
+
+/**********************
+ * Panel de sobregiro *
+ **********************/
+.mp-pop-sobregiro {
+    background: var(--colorblanco);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    width: 182px;
+    height: 120px;
+    position: relative;
+    box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.25);
+    left: 538px;
+    top: 35px;
+}
+.mp-pop-sobregiro.disabled {
+  display: none;
+}
+.te-sobregiro-mpiel {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+    bottom: 25px;
+}
+.confirmar-sobregiro {
+  color: var(--colortextactivo);
+  text-align: center;
+  font-family: var(--texttemptercer-font-family);
+  font-size: var(--texttemptercer-font-size);
+  line-height: var(--texttemptercer-line-height);
+  font-weight: var(--texttemptercer-font-weight);
+  position: relative;
+  align-self: stretch;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._37-c {
+    flex-shrink: 0;
+    width: 69px;
+    height: 26px;
+    position: static;
+}
+.c-sobregiro {
+    color: var(--colortextactivo);
+    text-align: left;
+    font-family: 'Montserrat-SemiBold', sans-serif;
+    font-size: 10px;
+    line-height: 10px;
+    font-weight: 600;
+    position: absolute;
+    left: 111.5px;
+    top: 21.5px;
+    width: 14px;
+    height: 13px;
+}
+._37 {
+  color: var(--colortextactivo);
+  text-align: center;
+  font-family: var(--numsobregiro-font-family);
+  font-size: var(--numsobregiro-font-size);
+  line-height: var(--numsobregiro-line-height);
+  font-weight: var(--numsobregiro-font-weight);
+  position: absolute;
+  left: 56.5px;
+  top: 20px;
+  width: 53.75px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.aceptar {
+    color: var(--colortextactivo);
+    text-align: left;
+    font-family: var(--textbtnsestandar-font-family);
+    font-size: var(--textbtnsestandar-font-size);
+    font-weight: var(--textbtnsestandar-font-weight);
     position: relative;
 }
