@@ -112,13 +112,14 @@ function updateControlDisplay(value, unit) {
         valCtrl.textContent = formatValue(value, sliderConfig.step);
         unitsCtrl.textContent = unit;
 
-        if (value == 37.0) {
+        if (unit === "°C" && value == 37.0) {
             pop_sobregiro.classList.remove("disabled");
         }
-        else if (value < 37.0){
+        else if ((value < 37.0) || (unit === "%")){
             pop_sobregiro.classList.add("disabled");
         }
     } else {
+        pop_sobregiro.classList.add("disabled");
         unitsCtrl.textContent = "";
 
         const fototerapiaLabels = {

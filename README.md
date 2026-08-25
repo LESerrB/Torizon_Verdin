@@ -477,7 +477,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Actualizado cambio de colores de botones internos de los módulos de "Apgar" y "Báscula" dependiendo del modo de control.
  - Habilitado Oxígeno Programado.
 
-### v0.23.4 - [21/Agosto/2026]
+### v0.23.4 - [25/Agosto/2026]
 
  - Corrección de botones de cambio de modo y ajuste de fototerapia.
  - Implementada función de paro de editValProg al cambiar entre paneles.
@@ -490,6 +490,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Mejorado el funcionamiento del encoder.
  - Pruebas de botón de sobregiro. Envío de bandera de habilitación.
  - Función de cambios de límites de temperatura máxima con y sin sobregiro.
+ - Vista de botón de sobregiro deshabilitado en paneles distintos a Temperatura y con valores por debajo a 37.0 °C.
 
 ## Descarga e Instalación
 
