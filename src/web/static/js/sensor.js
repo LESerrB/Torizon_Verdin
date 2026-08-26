@@ -81,7 +81,7 @@ async function get_DtSensores() {
     }
 };
 
-export function startSensor(){
+export function startSensors(){
     if (!intervalId) {
         intervalId = setInterval(get_DtSensores, (periodoActVals * 1000));
     }

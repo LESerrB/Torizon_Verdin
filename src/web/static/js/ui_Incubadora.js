@@ -89,12 +89,12 @@ export async function setInitValues(modoCtrl = "modoPiel") {
             humCtrl.textContent = valsCtrl.vals.pot_Hum;
             oxCtrl.textContent = valsCtrl.vals.pot_Ox;
 
-            // console.log(valsCtrl.vals.sg); // Estado de sobregiro
-
             if (modoCtrl == "modoPiel") {
                 viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
+                lbl_acpt_sg.textContent = valsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar"
             } else {
                 viewCtrl.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
+                lbl_acpt_sg.textContent = valsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
             }
         }
     } catch (error) {
@@ -112,12 +112,10 @@ function updateControlDisplay(value, unit) {
         valCtrl.textContent = formatValue(value, sliderConfig.step);
         unitsCtrl.textContent = unit;
 
-        if (unit === "°C" && value == 37.0) {
+        if (unit === "°C" && value == 37.0)
             pop_sobregiro.classList.remove("disabled");
-        }
-        else if ((value < 37.0) || (unit === "%")){
+        else if ((value < 37.0) || (unit === "%"))
             pop_sobregiro.classList.add("disabled");
-        }
     } else {
         pop_sobregiro.classList.add("disabled");
         unitsCtrl.textContent = "";
@@ -610,7 +608,8 @@ async function edit_valProg() {
                     "application/json"
             },
             body: JSON.stringify({
-                sg: valsCtrl.vals.sg,
+                sg_tp: valsCtrl.vals.sg_tp,
+                sg_ta: valsCtrl.vals.sg_ta,
             })
         });
 
@@ -1070,13 +1069,14 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==================
 const lbl_acpt_sg = document.querySelector(".lbl-aceptar-sg");
 
-export function toggleSobregiro() {
-    valsCtrl.vals.sg = !valsCtrl.vals.sg;
-    
-    if (!valsCtrl.vals.sg) {
-        lbl_acpt_sg.textContent = "Aceptar"
-    } else {
-        lbl_acpt_sg.textContent = "Cancelar"
+export function toggleSobregiro(mdCtrl) {
+    if(mdCtrl === "tPiel"){
+        valsCtrl.vals.sg_tp = !valsCtrl.vals.sg_tp;
+        lbl_acpt_sg.textContent = valsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar";
+    }
+    else if (mdCtrl === "tAire"){
+        valsCtrl.vals.sg_ta = !valsCtrl.vals.sg_ta;
+        lbl_acpt_sg.textContent = valsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
     }
 }
 
