@@ -1,6 +1,7 @@
 const periodoActVals = 0.5 // segundos
 
 let intervalId = null;
+let TZ = "America/Mexico_City"; // CST UTC-6h Ciudad de México
 
 const tempPiel = document.getElementById("ti-vm-piel");
 const tempAire = document.getElementById("_36-3");
@@ -61,21 +62,7 @@ async function get_DtSensores() {
         }
 
         /****** Hora / Fecha ******/
-        const hoy = new Date();
-        const fecha_actual = hoy.toLocaleDateString('es-ES', {
-            day: 'numeric',
-            month: 'short'
-        }).replace('.', '');
-        const hora_12 = hoy.toLocaleTimeString('es-ES', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
-        });
-        const [_, Hora, amPm] = hora_12.match(/^([\d:]+)\s+(.+)$/);
-
-        fecha.textContent = fecha_actual;
-        hora.textContent = Hora;
-        am_pm.textContent = amPm;
+        getDateTime(TZ);
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada");
     }
@@ -116,3 +103,29 @@ export function pauseSensor() {
 //         console.log("Error:", error);
 //     }
 // });
+
+// ==============
+// Fecha y Hora
+// ==============
+function getDateTime(timezone){
+    const hoy = new Date();
+
+    const fecha_actual = hoy.toLocaleDateString('es-ES', {
+        timeZone: timezone,
+        day: 'numeric',
+        month: 'short'
+    }).replace('.', '');
+
+    const hora_12 = hoy.toLocaleTimeString('es-ES', {
+        timeZone: timezone,
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
+
+    const [_, Hora, amPm] = hora_12.match(/^([\d:]+)\s+(.+)$/);
+
+    fecha.textContent = fecha_actual;
+    hora.textContent = Hora;
+    am_pm.textContent = amPm;
+}
