@@ -69,18 +69,16 @@ STEP_VALUE = 0.1            # Valor ajustado de cambio
 # Valores de Control
 # ==================
 MIN_TP = 34.0
-MAX_TP = 37.0
-
-MAX_TP_SG = 38.0
+MAX_TP = 38.0
 
 # =====================================
 # Configuración de Valores para Encoder
 # =====================================
 # Tiempo entre lecturas del encoder
 POLL_TIME = 0.0003              # 0.3 ms
-TRANSITION_DEBOUNCE = 0.0030    # 0.1 ms (0.0001)
+TRANSITION_DEBOUNCE = 0.0001    # 0.1 ms
 # Tiempo mínimo entre pasos completos aceptados
-STEP_DEBOUNCE_TIME = 0.090      # 3 ms (0.003)
+STEP_DEBOUNCE_TIME = 0.003      # 3 ms
 TRANSITIONS_PER_STEP = 2
 
 INVERT_DIRECTION = False
@@ -124,7 +122,7 @@ def init_encoder():
     last_step_time = now
     encoder_accum = 0
 
-def valEdit(valIni, sg = False):
+def valEdit(valIni):
     """
     Lectura robusta del encoder usando máquina de estados.
 
@@ -138,21 +136,13 @@ def valEdit(valIni, sg = False):
 
     transition_table = {
         (0b00, 0b01): +1,
-        (0b00, 0b01): +1,
-        (0b01, 0b11): +1,
         (0b01, 0b11): +1,
         (0b11, 0b10): +1,
-        (0b11, 0b10): +1,
-        (0b10, 0b00): +1,
         (0b10, 0b00): +1,
 
         (0b00, 0b10): -1,
-        (0b00, 0b10): -1,
-        (0b10, 0b11): -1,
         (0b10, 0b11): -1,
         (0b11, 0b01): -1,
-        (0b11, 0b01): -1,
-        (0b01, 0b00): -1,
         (0b01, 0b00): -1,
     }
 
@@ -184,11 +174,7 @@ def valEdit(valIni, sg = False):
     encoder_accum += transition
 
     if encoder_accum >= TRANSITIONS_PER_STEP:
-        if (not sg) and (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < MAX_TP):
-            valIni += STEP_VALUE
-            valIni = round(valIni, 1)
-            last_step_time = now
-        elif sg and (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < MAX_TP_SG):
+        if (now - last_step_time >= STEP_DEBOUNCE_TIME) and (valIni < MAX_TP):
             valIni += STEP_VALUE
             valIni = round(valIni, 1)
             last_step_time = now
@@ -254,7 +240,7 @@ def valConfig(Ctrl):
     if Ctrl == "tp_Prog" or Ctrl == "ta_Prog":
         STEP_VALUE = STEP_VALUE_TP
         MIN_TP = 34.0
-        MAX_TP = 37.0
+        MAX_TP = 38.0
     elif Ctrl == "pot_Fot":
         STEP_VALUE = STEP_VALUE_POT
         MIN_TP = 1

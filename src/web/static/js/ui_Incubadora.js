@@ -53,7 +53,6 @@ const view_fam = document.getElementById("view-fam");
 // Valor del encoder / control
 const valCtrl = document.getElementById("val_Ctrl");
 const unitsCtrl = document.getElementById("units_Ctrl");
-const pop_sobregiro = document.querySelector(".mp-pop-sobregiro");
 
 //---------------------------------------------------------------
 // Vista lateral
@@ -91,10 +90,8 @@ export async function setInitValues(modoCtrl = "modoPiel") {
 
             if (modoCtrl == "modoPiel") {
                 viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
-                lbl_acpt_sg.textContent = valsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar"
             } else {
                 viewCtrl.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
-                lbl_acpt_sg.textContent = valsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
             }
         }
     } catch (error) {
@@ -108,16 +105,7 @@ export async function setInitValues(modoCtrl = "modoPiel") {
  * @param {string} unit Unidad de medición.
  */
 function updateControlDisplay(value, unit) {
-    if (unit !== "") {
-        valCtrl.textContent = formatValue(value, sliderConfig.step);
-        unitsCtrl.textContent = unit;
-
-        if (unit === "°C" && value >= 37.0)
-            pop_sobregiro.classList.remove("disabled");
-        else if ((value < 37.0) || (unit === "%"))
-            pop_sobregiro.classList.add("disabled");
-    } else {
-        pop_sobregiro.classList.add("disabled");
+    if (unit === "") {
         unitsCtrl.textContent = "";
 
         const fototerapiaLabels = {
@@ -127,6 +115,9 @@ function updateControlDisplay(value, unit) {
         };
 
         valCtrl.textContent = fototerapiaLabels[Number(value)] ?? "";
+    } else {
+        valCtrl.textContent = formatValue(value, sliderConfig.step);
+        unitsCtrl.textContent = unit;
     }
 }
 
@@ -606,11 +597,7 @@ async function edit_valProg() {
             headers: {
                 "Content-Type":
                     "application/json"
-            },
-            body: JSON.stringify({
-                sg_tp: valsCtrl.vals.sg_tp,
-                sg_ta: valsCtrl.vals.sg_ta,
-            })
+            }
         });
 
         if (res.status === 200) {
@@ -1063,22 +1050,6 @@ document.addEventListener("DOMContentLoaded", () => {
         fotoSliderController?.setValue(value);
     };
 });
-
-// ==================
-// Funcion Sobregiro
-// ==================
-const lbl_acpt_sg = document.querySelector(".lbl-aceptar-sg");
-
-export function toggleSobregiro(mdCtrl) {
-    if(mdCtrl === "tPiel"){
-        valsCtrl.vals.sg_tp = !valsCtrl.vals.sg_tp;
-        lbl_acpt_sg.textContent = valsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar";
-    }
-    else if (mdCtrl === "tAire"){
-        valsCtrl.vals.sg_ta = !valsCtrl.vals.sg_ta;
-        lbl_acpt_sg.textContent = valsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
-    }
-}
 
 // ==================================
 // Funcion Salir de Panel de Control
