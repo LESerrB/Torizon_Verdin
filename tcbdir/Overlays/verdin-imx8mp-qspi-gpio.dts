@@ -21,11 +21,6 @@
 	pinctrl-0 = <&pinctrl_gpio_qspi>;
 };
 
-&gpio4 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_gpio_can2>;
-};
-
 &iomuxc {
 	pinctrl_gpio_qspi: qspigpiogrp {
 		fsl,pins =
@@ -43,9 +38,4 @@
 			<MX8MP_IOMUXC_SAI2_TXD0__GPIO4_IO26		0x1c4>,	// GPIO_SODIMM_24	GPIO3_IO26	ALT5
 			<MX8MP_IOMUXC_SAI2_MCLK__GPIO4_IO27		0x1c4>;	// GPIO_SODIMM_26	GPIO3_IO27	ALT5
 	};
-};
-
-/* Verdin UART_4 */
-&uart4 {
-	status = "okay";
 };

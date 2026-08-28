@@ -56,6 +56,8 @@ valores_ctrl = {
     "pot_Fot":   1,         # Ajuste de Potencia de Fototerapia
     "pot_Calef": 100,       # Ajuste de Potencia de Calefactor
     "confirm":   False,     # Habilitación / Deshabilitación Encoder
+    "sg_tp":     False,     # Sobregiro de Temperatura Piel
+    "sg_ta":     False,     # Sobregiro de Temperatura Aire
 }
 
 #--------------------- Valores Sensados ----------------------#
@@ -119,7 +121,6 @@ def enEditCtrls():
     global edit_Ctrl, val_Encd
 
     ctrl = request.get_json()
-
     edit_Ctrl = ctrl.get("Ctrl")
 
     val_Encd = valores_ctrl[edit_Ctrl]
@@ -138,6 +139,14 @@ def enEditCtrls():
 def ctrlEncd():
     try:
         global edit_Ctrl, val_Encd
+
+        if (edit_Ctrl == "tp_Prog") or (edit_Ctrl == "ta_Prog"):
+            sg = "sg_" + edit_Ctrl[0:2]
+            prev_edoSG = valores_ctrl[sg]
+            valores_ctrl[sg] = request.get_json().get(sg)
+
+            if (prev_edoSG and (not valores_ctrl[sg])):
+                val_Encd = 37.0
 
         if not valores_ctrl["confirm"]:
             monitor_pause.clear()               # Pausa monitoreo para enviar datos de control
@@ -210,7 +219,11 @@ def encoder_Reader():
 
     while True:
         if valores_ctrl["confirm"]:
-            nuevo_val = hw_encoder.valEdit(val_Encd)
+            if edit_Ctrl == "tp_Prog" or edit_Ctrl == "ta_Prog":
+                sg = "sg_" + edit_Ctrl[0:2]
+                nuevo_val = hw_encoder.valEdit(val_Encd, valores_ctrl[sg])
+            else:
+                nuevo_val = hw_encoder.valEdit(val_Encd)
 
             if nuevo_val != val_Encd:
                 val_Encd = nuevo_val

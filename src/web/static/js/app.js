@@ -1,5 +1,5 @@
 import { 
-    startSensor,
+    startSensors,
     pauseSensor,
 } from "./sensor.js";
 
@@ -18,6 +18,7 @@ import {
     fotoActive,
     confAjstFoto,
     iniTimerAjst,
+    toggleSobregiro,
     exitCancel
 } from "./ui_Incubadora.js";
 
@@ -84,6 +85,8 @@ const ajstCtrlOx = document.getElementById("mod-ox");
 const ajstCtrlHum = document.getElementById("mod-hum");
 const ajstCtrlFot = document.getElementById("mod-fot");
 
+const btn_sg = document.getElementById("btn-sg");
+
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
 
 // ===============================================
@@ -119,7 +122,7 @@ function cargarImagen(ruta) {
     });
 }
 
-async function precargarRecursosVisuales() {
+async function preloadVisualRsrc() {
     try {
         await Promise.all(
             recursosVisuales.map((ruta) => cargarImagen(ruta))
@@ -160,7 +163,7 @@ function stopPanelPointerEvent(event) {
 //                                Controles UI                                //
 //============================================================================//
 // **************** Switch Modo de Operación **************** //
-function establecerModoSwitch(modo = "Incubadora") {
+function stablishSwOpMode(modo = "Incubadora") {
     if (modo === "Incubadora") {
         modoSwitch.checked = true;
         modoOperacion = "Incubadora";
@@ -180,7 +183,7 @@ modoSwitch.addEventListener("change", () => {
         modoOperacion = "Cuna";
     }
 
-    establecerModoSwitch(modoOperacion);
+    stablishSwOpMode(modoOperacion);
     console.log(`Switch cambiado a: ${modoOperacion}`);
 });
 
@@ -244,6 +247,10 @@ ajstCtrlFot?.addEventListener("pointerup", () => {
     confAjstFoto();
 });
 
+// Boton de Sobregiro
+btn_sg?.addEventListener("pointerup", () => {
+    toggleSobregiro(modoControl);
+})
 // ==================================
 // Aceptar / Cancelar Cambio de Modo
 // ==================================
@@ -454,9 +461,9 @@ function clear_Btns() {
 //============================================================================//
 //                             Funciones inciales                             //
 //============================================================================//
-precargarRecursosVisuales();            // Precarga de iconos de aplicación
+preloadVisualRsrc();                    // Precarga de iconos de aplicación
 setInitValues();                        // Valores iniciales de control
-startSensor();                          // Inicio de sensado
-establecerModoSwitch(modoOperacion);    // Estado Inicial del Equipo
+startSensors();                         // Inicio de sensado
+stablishSwOpMode(modoOperacion);        // Estado Inicial del Equipo
 createApgarSegments(modoControl);       // Configuración inicial color cronómetro
 createTimerTaraSegments(modoControl);   // Configuración inicial color temporizador de tara
