@@ -140,12 +140,13 @@ def ctrlEncd():
     try:
         global edit_Ctrl, val_Encd
 
-        sg = "sg_" + edit_Ctrl[0:2]
-        prev_edoSG = valores_ctrl[sg]
-        valores_ctrl[sg] = request.get_json().get(sg)
+        if (edit_Ctrl == "tp_Prog") or (edit_Ctrl == "ta_Prog"):
+            sg = "sg_" + edit_Ctrl[0:2]
+            prev_edoSG = valores_ctrl[sg]
+            valores_ctrl[sg] = request.get_json().get(sg)
 
-        if (prev_edoSG and (not valores_ctrl[sg])):
-            val_Encd = 37.0
+            if (prev_edoSG and (not valores_ctrl[sg])):
+                val_Encd = 37.0
 
         if not valores_ctrl["confirm"]:
             monitor_pause.clear()               # Pausa monitoreo para enviar datos de control
