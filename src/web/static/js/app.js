@@ -199,7 +199,9 @@ pnlBebe?.addEventListener("pointerup", () => {
     pnlBebe.classList.remove("pressed");
 
     chngModo(pnlBebe, modoControl);
-    iniTimerAjst(pnlBebe);
+
+    if(modoControl != "tPiel")
+        iniTimerAjst(pnlBebe);
 });
 
 // ***************** Panel Temperatura Aire ***************** //
@@ -214,7 +216,9 @@ pnlAire?.addEventListener("pointerup", () => {
     pnlAire.classList.remove("pressed");
 
     chngModo(pnlAire, modoControl);
-    iniTimerAjst(pnlAire);
+
+    if(modoControl != "tAire")
+        iniTimerAjst(pnlAire);
 });
 
 // ***************** Panel Control Oxigeno ****************** //
@@ -299,7 +303,7 @@ btn_ajustar_foto?.addEventListener("pointerup", () => {
 btnCancel?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    exitCancel();
+    exitCancel(modoControl);
 });
 
 // =================================
@@ -321,10 +325,10 @@ function updateBottomNavLayout(isHomeView = false) {
         return;
     }
 
-    exitCancel();
-
     btn_md_fam?.classList.add("btn-collapsed");
     btn_home?.classList.remove("btn-collapsed");
+
+    exitCancel(modoControl);
 }
 
 function applyButtonVisualState(button, image, config, isPressed) {

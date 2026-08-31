@@ -542,7 +542,6 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
         }else
             habilitarEstadoElemento(tituloCtrl, claseColor);
 
-
         if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno")
             habilitarControlesLaterales(controles, claseColor);
 
@@ -679,13 +678,10 @@ export function iniTimerAjst(ajstPnl) {
     timerChngAjst = setTimeout(() => {
         if(ajstPnl === "Foto")
             fotoActive();
-        else if (ajstPnl.id === "pnl-modoAire"){
+        else if (ajstPnl.id === "pnl-modoAire")
             chngModo(ajstPnl);
-        }
-        else if (ajstPnl.id === "pnl-modoBebe"){
+        else if (ajstPnl.id === "pnl-modoBebe")
             chngModo(ajstPnl);
-        }
-
     }, (secs2Conf * 1000));
 };
 
@@ -1084,8 +1080,8 @@ export function toggleSobregiro(mdCtrl) {
 // ==================================
 // Funcion Salir de Panel de Control
 // ==================================
-export function exitCancel(){
-    toggleHomePanel("home");
+export function exitCancel(mdCtrl = null){
+    toggleHomePanel("home", mdCtrl);
 
     // Detiene las peticiones de actialización del Encoder
     clearInterval(intervalEncod);

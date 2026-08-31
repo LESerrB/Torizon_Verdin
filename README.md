@@ -497,6 +497,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 
 ### v0.23.5 - [31/08/2026]
  - Primer prueba de animación de transición de "home" a "panel-control" y viceversa.
+ - Mejora de animación de transición entre "panel-control" y "home".
+ - Corregido color de etiqueta "lbl-temp-piel".
 
 ## Descarga e Instalación
 
