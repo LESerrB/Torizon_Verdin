@@ -5,6 +5,10 @@ import {
     createSliderIntensFot
 } from "./slider.js";
 
+import { 
+    dissolveToPanel,
+} from "./anim.js";
+
 let intervalEncod = null;
 let updateSlider10Value = null;
 let updateFotSliderValue = null;
@@ -192,108 +196,112 @@ function setSliderConfig({ min, max, step, value, unit, theme }) {
 // =======================================
 // Configuración de Paneles de control
 // =======================================
-export function ajstCtrl_TPiel() {
-    toggleHomePanel("tempPielProg");
-    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
-
-    const valor = valsCtrl?.vals?.tp_Prog ?? 34.0;
-
-    setSliderConfig({
+const AJST_CTRL_CONFIG = {
+    tp_Prog: {
+        panel: "tempPielProg",
+        titulo: "Ajuste de Control de Temperatura de Piel",
+        key: "tp_Prog",
+        default: 34.0,
         min: 34.0,
         max: 38.0,
         step: 0.1,
-        value: valor,
         unit: "°C",
         theme: "seg-t_piel"
-    });
-
-    slider10.classList.remove("slider-collapsed");
-    sliderFot.classList.add("slider-collapsed");
-
-    set_EditCtrlsEn("tp_Prog");
-};
-
-export function ajstCtrl_TAire() {
-    toggleHomePanel("tempAireProg");
-    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire";
-
-    const valor = valsCtrl?.vals?.ta_Prog ?? 34.0;
-
-    setSliderConfig({
+    },
+    ta_Prog: {
+        panel: "tempAireProg",
+        titulo: "Ajuste de Control de Temperatura de Aire",
+        key: "ta_Prog",
+        default: 34.0,
         min: 34.0,
         max: 38.0,
         step: 0.1,
-        value: valor,
         unit: "°C",
         theme: "seg-t_aire"
-    });
-
-    slider10.classList.remove("slider-collapsed");
-    sliderFot.classList.add("slider-collapsed");
-
-    set_EditCtrlsEn("ta_Prog");
-};
-
-export function ajst_CtrlOx() {
-    toggleHomePanel("ajstOx");
-    ttl_pnl_ctrl.textContent = "Ajuste de Oxigeno Programado";
-
-    const valor = valsCtrl?.vals?.pot_Ox ?? 0;
-
-    setSliderConfig({
+    },
+    pot_Ox: {
+        panel: "ajstOx",
+        titulo: "Ajuste de Oxigeno Programado",
+        key: "pot_Ox",
+        default: 0,
         min: 0,
         max: 100,
         step: 1,
-        value: valor,
         unit: "%",
         theme: "seg-p_ox"
-    });
-
-    slider10.classList.remove("slider-collapsed");
-    sliderFot.classList.add("slider-collapsed");
-
-    set_EditCtrlsEn("pot_Ox");
-};
-
-export function ajst_CtrlHum() {
-    toggleHomePanel("ajstHum");
-    ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada";
-
-    const valor = valsCtrl?.vals?.pot_Hum ?? 0;
-
-    setSliderConfig({
+    },
+    pot_Hum: {
+        panel: "ajstHum",
+        titulo: "Ajuste de Humedad Programada",
+        key: "pot_Hum",
+        default: 0,
         min: 0,
         max: 100,
         step: 1,
-        value: valor,
         unit: "%",
         theme: "seg-p_hum"
-    });
-
-    slider10.classList.remove("slider-collapsed");
-    sliderFot.classList.add("slider-collapsed");
-
-    set_EditCtrlsEn("pot_Hum");
+    },
+    pot_Fot: {
+        panel: "ajstFot",
+        titulo: "Ajuste de Intensidad de Fototerapia",
+        key: "pot_Fot",
+        default: 1,
+        isFot: true
+    }
 };
 
-export function ajst_CtrlFot() {
-    toggleHomePanel("ajstFot");
-    ttl_pnl_ctrl.textContent = "Ajuste de Intensidad de Fototerapia";
-    activeSlider = "sliderFot";
-
-    const valor = valsCtrl?.vals?.pot_Fot ?? 1;
-
-    updateControlDisplay(valor, "");
-
-    if (typeof updateFotSliderValue === "function") {
-        updateFotSliderValue(Number(valor));
+/**
+ * Función genérica que reemplaza a:
+ * ajstCtrl_TPiel, ajstCtrl_TAire, ajst_CtrlOx, ajst_CtrlHum, ajst_CtrlFot
+ *
+ * @param {"tp_Prog"|"ta_Prog"|"pot_Ox"|"pot_Hum"|"pot_Fot"} tipo
+ */
+export function ajstCtrl(tipo) {
+    const cfg = AJST_CTRL_CONFIG[tipo];
+    if (!cfg) {
+        console.warn(`ajstCtrl: tipo desconocido "${tipo}"`);
+        return;
     }
 
-    slider10?.classList.add("slider-collapsed");
-    sliderFot?.classList.remove("slider-collapsed");
+    toggleHomePanel(cfg.panel);
+    ttl_pnl_ctrl.textContent = cfg.titulo;
 
-    set_EditCtrlsEn("pot_Fot");
-};
+    const valor = valsCtrl?.vals?.[cfg.key] ?? cfg.default;
+
+    if (cfg.isFot) {
+        activeSlider = "sliderFot";
+
+        updateControlDisplay(valor, "");
+
+        if (typeof updateFotSliderValue === "function") {
+            updateFotSliderValue(Number(valor));
+        }
+
+        slider10?.classList.add("slider-collapsed");
+        sliderFot?.classList.remove("slider-collapsed");
+    } else {
+        setSliderConfig({
+            min: cfg.min,
+            max: cfg.max,
+            step: cfg.step,
+            value: valor,
+            unit: cfg.unit,
+            theme: cfg.theme
+        });
+
+        slider10.classList.remove("slider-collapsed");
+        sliderFot.classList.add("slider-collapsed");
+    }
+
+    set_EditCtrlsEn(cfg.key);
+}
+
+// --- Wrappers opcionales para mantener compatibilidad con el código existente ---
+export const ajstCtrl_TPiel = () => ajstCtrl("tp_Prog");
+export const ajstCtrl_TAire = () => ajstCtrl("ta_Prog");
+export const ajst_CtrlOx    = () => ajstCtrl("pot_Ox");
+export const ajst_CtrlHum   = () => ajstCtrl("pot_Hum");
+export const ajst_CtrlFot   = () => ajstCtrl("pot_Fot");
 
 // -----------------------------
 // Control de cambio de paneles
@@ -499,9 +507,13 @@ function habilitarControlesLaterales(controles, claseColor) {
  * @param {string} modoControl Modo de Control del equipo, se usa para el cambio de color de Báscula y cronómetro Apgar.
  */
 export function toggleHomePanel(showPanelControl, modoControl = null) {
-    if (!homeDiv || !panelControl) {
+    if (showPanelControl === "home")
+        dissolveToPanel("home");
+    else
+        dissolveToPanel("control");
+
+    if (!homeDiv || !panelControl)
         return;
-    }
 
     const mostrarHome = showPanelControl === "home";
 
@@ -527,14 +539,12 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
         if (showPanelControl === "apgar" || showPanelControl === "bascula") {
             const altColor = (modoControl === "tPiel") ? "tp" : "ta"
             habilitarEstadoElemento(tituloCtrl, altColor);
-        }else{
+        }else
             habilitarEstadoElemento(tituloCtrl, claseColor);
-        }
 
 
-        if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno") {
+        if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno")
             habilitarControlesLaterales(controles, claseColor);
-        }
 
         ctrl_sens.style.display = visibilidad.ctrl_sens ? "block" : "none";
         view_fam.style.display = visibilidad.view_fam ? "block" : "none";
@@ -542,15 +552,11 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
         ctrl_apgar.style.display = visibilidad.ctrl_apgar ? "block" : "none";
         ctrl_basc.style.display = visibilidad.ctrl_basc ? "block" : "none";
 
-        if (iconoControl && icono) {
+        if (iconoControl && icono)
             iconoControl.src = icono;
-        }
-    } else if (!mostrarHome) {
-        console.warn(`No existe configuración para el panel: "${showPanelControl}"`);
-    }
 
-    homeDiv.style.display = mostrarHome ? "block" : "none";
-    panelControl.style.display = mostrarHome ? "none" : "block";
+    } else if (!mostrarHome)
+        console.warn(`No existe configuración para el panel: "${showPanelControl}"`);
 }
 
 /**
@@ -660,8 +666,6 @@ async function edit_valProg() {
         console.log("Error:", error);
     }
 }
-
-
 
 // ================================================================
 // PANELES: Cambio de modo T. Piel <-> T. Aire
@@ -938,8 +942,6 @@ export function modoPiel(pnlA, pnlB) {
     ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-mp.svg"
 }
 
-
-
 // --------------------------------
 // Panel de módulo de fototerapia
 // --------------------------------
@@ -1022,7 +1024,6 @@ export function confAjstFoto() {
     ajstCtrlFot.classList.remove("active");
   }
 };
-
 
 // ================================
 // Slider Temperatura y Potencia

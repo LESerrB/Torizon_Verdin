@@ -434,18 +434,31 @@ span {
 /*#######################################*/
 /*                 Paneles               */
 /*#######################################*/
-#home {
-  display: block;
+#home,
+#panel-control {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1200ms ease-in-out;
+  will-change: opacity;
 }
 
-#panel-control {
-  display: none;
+#home.panel-active,
+#panel-control.panel-active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+#home:not(.panel-active),
+#panel-control:not(.panel-active) {
+  z-index: 1;
 }
 /*#######################################*/
 /*            Panel Principal            */
 /*#######################################*/
 .panel-prin{
-  /* background: black; */
   border-radius: 8px 8px 8px 8px;
   padding: 7px 40px 7px 15px;
   width: 984px;
@@ -471,16 +484,11 @@ span {
   align-items: center;
   justify-content: center;
 }
-.txt-Temps.m-Piel {
-  color:        var(--colortexttpiel);
-}
-.txt-Temps.m-Aire {
-  color:        var(--colortexttaire);
-}
+.txt-Temps.m-Piel { color: var(--colortexttpiel); }
+.txt-Temps.m-Aire { color: var(--colortexttaire); }
 
 /*              Titulo Panel             */
 .ttl-pnl-prin {
-  /* border-radius: 0px 0px 0px 0px; */
   padding: 7px 40px 7px 15px;
   display: flex;
   flex-direction: row;
@@ -536,16 +544,12 @@ span {
 
   left: 0px;
 }
-.lbl-temp-aire.active {
-  color:        var(--colortexttaire);
-}
-.lbl-temp-aire.m-Aire {
-  color:        var(--colortexttaire);
+.lbl-temp-aire.active { color: var(--colortexttaire); }
+.lbl-temp-aire.m-Aire { 
+  color: var(--colortexttaire);
   left: 75px;
 }
-.lbl-temp-piel.m-Piel {
-  color:        var(--colortexttpiel);
-}
+.lbl-temp-piel.m-Piel { color: var(--colortexttpiel); }
 
 .units-tempAire-Prin,
 .units-tempPiel-Prin {
@@ -561,12 +565,8 @@ span {
   align-items: center;
   justify-content: flex-start;
 }
-.units-tempAire-Prin.m-Aire {
-  color: var(--colortexttaire);
-}
-.units-tempPiel-Prin.m-Piel {
-  color: var(--colortexttpiel);
-}
+.units-tempAire-Prin.m-Aire { color: var(--colortexttaire); }
+.units-tempPiel-Prin.m-Piel { color: var(--colortexttpiel); }
 
 /*################## Panel Izquierdo ##################*/
 .mp-prin-mc-tpiel {
@@ -594,15 +594,9 @@ span {
   width: 656px;
   height: 218px;
 }
-.mp-prin-mc-tpiel.chng{
-  background: var(--colorfondopiel);
-}
-.mp-prin-mc-tpiel.active.pressed{
-  background: var(--colorpressedpiel);
-}
-.mp-prin-mc-tpiel.pressed{
-  background: var(--colorpressedaire);
-}
+.mp-prin-mc-tpiel.chng{ background: var(--colorfondopiel); }
+.mp-prin-mc-tpiel.active.pressed{ background: var(--colorpressedpiel); }
+.mp-prin-mc-tpiel.pressed{ background: var(--colorpressedaire); }
 /* Icono Panel */
 .icon-tpiel {
   opacity: 0.6;
@@ -680,12 +674,8 @@ Contenedor Temperaturas Secundarias
   align-items: center;
   justify-content: center;
 }
-.temps-AuxProg.active {
-  color: var(--colortexttpiel);
-}
-.temps-AuxProg.m-aire {
-  color: var(--colortexttaire);
-}
+.temps-AuxProg.active { color: var(--colortexttpiel); }
+.temps-AuxProg.m-aire { color: var(--colortexttaire); }
 .c3 {
   color: var(--colortextoinactivo);
 
@@ -736,12 +726,8 @@ Contenedor Temperaturas Secundarias
   align-items: center;
   justify-content: center;
 }
-.t_auxiliar.active {
-  color: var(--colortexttpiel);
-}
-.t_auxiliar.m-aire {
-  color: var(--colortexttaire);
-}
+.t_auxiliar.active { color: var(--colortexttpiel); }
+.t_auxiliar.m-aire { color: var(--colortexttaire); }
 /* Contenedor Temperatura Programada */
 .cont-tprogp-taux {
   display: flex;
@@ -850,7 +836,6 @@ Contenedor Temperaturas Secundarias
   position: relative;
 }
 
-
 /*################### Panel Derecho ###################*/
 .mp-prin-mc-taire {
   background: var(--colorfondoinactivo);
@@ -875,12 +860,8 @@ Contenedor Temperaturas Secundarias
   width: 656px;
   height: 218px;
 }
-.mp-prin-mc-taire.pressed{
-  background: var(--colorpressedaire);
-}
-.mp-prin-mc-taire.chng{
-  background: var(--colorfondoaire);
-}
+.mp-prin-mc-taire.pressed{ background: var(--colorpressedaire); }
+.mp-prin-mc-taire.chng{ background: var(--colorfondoaire); }
 
 /* Contenedor T. Aire Apagado */
 .cont-taire {
@@ -941,6 +922,7 @@ Contenedor Temperaturas Secundarias
   bottom: 112px;
 }
 
+/*----------------------*/
 .line-05 {
   margin-top: -3px;
   border-style: solid;
@@ -953,6 +935,8 @@ Contenedor Temperaturas Secundarias
   transform-origin: 0 0;
   transform: rotate(90deg) scale(1, 1);
 }
+/*----------------------*/
+
 .tproga {
   display: flex;
   flex-direction: row;
@@ -1100,7 +1084,7 @@ Contenedor Temperaturas Secundarias
   align-items: center;
   justify-content: center;
 }
-.potcal-ini.m-Aire{color: var(--colortexttaire);}
+.potcal-ini.m-Aire{ color: var(--colortexttaire); }
 .perccal-ini {
   color: var(--colortextoinactivo);
   text-align: center;
@@ -1111,7 +1095,7 @@ Contenedor Temperaturas Secundarias
   position: relative;
   width: 10px;
 }
-.perccal-ini.m-Aire{color: var(--colortexttaire);}
+.perccal-ini.m-Aire{ color: var(--colortexttaire); }
 /*################ Modulos de Sensores ################*/
 .mp-prin-mc-msoporte {
   display: flex;
@@ -1199,6 +1183,8 @@ Contenedor Temperaturas Secundarias
   align-items: center;
   justify-content: center;
 }
+
+/*----------------------*/
 .line-02 {
   margin-top: -2px;
   border-style: solid;
@@ -1214,6 +1200,8 @@ Contenedor Temperaturas Secundarias
   left: 12px;
   top: -9px;
 }
+/*----------------------*/
+
 .cont-vp-sens {
   display: flex;
   flex-direction: column;
