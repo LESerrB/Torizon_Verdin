@@ -45,20 +45,16 @@ function actualizarTimerTara() {
     const valor = String(tiempoTranscurrido).padStart(2, "0");
     const [primerDigito, segundoDigito] = valor.split("");
 
-    if (timerTaraDigito1) {
+    if (timerTaraDigito1)
         timerTaraDigito1.textContent = primerDigito;
-    }
 
-    if (timerTaraDigito2) {
+    if (timerTaraDigito2)
         timerTaraDigito2.textContent = segundoDigito;
-    }
 
-    if (tiempoTranscurrido >= 1) {
+    if (tiempoTranscurrido >= 1)
         setSegmentState(tiempoTranscurrido - 1, true);
-    }
-    else if (tiempoTranscurrido > 9) {
+    else if (tiempoTranscurrido > 9)
         setSegmentState(9, true);
-    }
 }
 
 /**
@@ -74,9 +70,8 @@ function actualizarTimerTara() {
  * @param {number} [duracion=10] - Duración máxima del cronómetro en segundos
  */
 function startCrono(duracion = 10) {
-    if (intervaloCronometro !== null || tiempoTranscurrido >= (duracion)) {
+    if (intervaloCronometro !== null || tiempoTranscurrido >= (duracion))
         return;
-    }
 
     actualizarTimerTara();
 
@@ -84,7 +79,7 @@ function startCrono(duracion = 10) {
         tiempoTranscurrido++;
         actualizarTimerTara();
 
-        if (tiempoTranscurrido >= (duracion)) {
+        if (tiempoTranscurrido > (duracion)) {
             pauseCrono();
 
             lbl_tara.textContent = 'Presione el botón Pesar.';
@@ -250,9 +245,7 @@ function createRingSegmentPath(
  * - Icono y etiquetas ajustadas según el modo
  */
 export function createTimerTaraSegments(modoControl) {
-    if (!sliderTmBasc) {
-        return;
-    }
+    if (!sliderTmBasc) return;
 
     sliderTmBasc.innerHTML = "";
 
@@ -319,9 +312,7 @@ function getSegment(index) {
 function setSegmentState(index, enabled) {
     const segment = getSegment(index);
 
-    if (!segment) {
-        return;
-    }
+    if (!segment) return;
 
     segment.classList.toggle("active", enabled);
     segment.classList.toggle("inactive", !enabled);
@@ -342,9 +333,8 @@ function setSegmentState(index, enabled) {
 function setActiveSegmentCount(count) {
     const safeCount = Math.min(Math.max(Number(count), 0), TOTAL_SEGMENTS);
 
-    for (let index = 0; index < TOTAL_SEGMENTS; index += 1) {
+    for (let index = 0; index < TOTAL_SEGMENTS; index += 1)
         setSegmentState(index, index < safeCount);
-    }
 }
 
 /**
@@ -378,29 +368,21 @@ function clearAllSegments() {
 function animBascula({tiempoDifuminado = 2000, tiempoMovimiento = 2000, tiempoFlecha = 1000} = {}) {
   if (!contBasAnima) return;
 
-  contBasAnima.style.setProperty(
-    "--tiempo-difuminado",
-    `${tiempoDifuminado}ms`
-  );
-
-  contBasAnima.style.setProperty(
-    "--tiempo-movimiento",
-    `${tiempoMovimiento}ms`
-  );
-
-  contBasAnima.style.setProperty(
-    "--tiempo-flecha",
-    `${tiempoFlecha}ms`
-  );
-
+  contBasAnima.style.setProperty("--tiempo-difuminado", `${tiempoDifuminado}ms`);
+  contBasAnima.style.setProperty("--tiempo-movimiento", `${tiempoMovimiento}ms`);
+  contBasAnima.style.setProperty("--tiempo-flecha", `${tiempoFlecha}ms`);
   contBasAnima.classList.add("animar");
 }
 
-/** Retomar aqui la documentación
+/**
  * Detiene la animación de la báscula removiendo la clase animadora
  * Restaura el estado visual inicial de los elementos animados
+ * Utilizado cuando se pausa o reinicia el cronómetro de tarado
  * 
  * @function
+ * 
+ * @example
+ * reiniciarAnimBascula(); // Detiene la animación y restaura el estado inicial
  */
 function reiniciarAnimBascula() {
   if (!contBasAnima) return;
@@ -408,7 +390,21 @@ function reiniciarAnimBascula() {
   contBasAnima.classList.remove("animar");
 }
 
-// Salir del Módulo Báscula
+/**
+ * Salir completamente del módulo de báscula
+ * Reinicia todos los estados al inicial para permitir una nueva medición
+ * - Restaura el texto de instrucciones original
+ * - Reinicia el cronómetro a 00:00
+ * - Limpia todos los segmentos visuales del slider
+ * - Oculta el icono de kilogramos (kg)
+ * - Alterna paneles a estado inicial (muestra panel tarar, oculta panel pesar)
+ * 
+ * @function
+ * @exported
+ * 
+ * @example
+ * salirBascula(); // Reinicia completamente el módulo de báscula al estado inicial
+ */
 export function salirBascula() {
     lbl_tara.textContent = 'Presione la tecla TARAR y, a continuación, levante al paciente durante 10 segundos.';
 

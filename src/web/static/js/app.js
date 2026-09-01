@@ -140,9 +140,7 @@ document.addEventListener("contextmenu", (event) => {
 });
 
 const isInteractiveControl = (event) => Boolean(
-    event.target.closest(
-        "button, a, input, select, textarea, [role='button']"
-    )
+    event.target.closest("button, a, input, select, textarea, [role='button']")
 );
 
 function stopPanelPointerEvent(event) {
@@ -177,11 +175,10 @@ function stablishSwOpMode(modo = "Incubadora") {
     }
 }
 modoSwitch.addEventListener("change", () => {
-    if (modoSwitch.checked) {
+    if (modoSwitch.checked)
         modoOperacion = "Incubadora";
-    } else {
+    else
         modoOperacion = "Cuna";
-    }
 
     stablishSwOpMode(modoOperacion);
     console.log(`Switch cambiado a: ${modoOperacion}`);
@@ -332,22 +329,18 @@ function updateBottomNavLayout(isHomeView = false) {
 }
 
 function applyButtonVisualState(button, image, config, isPressed) {
-    if (!button) {
-        return;
-    }
+    if (!button) return;
 
     if (isPressed) {
         button.classList.add("pressed");
 
-        if (image) {
+        if (image)
             image.src = config.icons.on;
-        }
     } else {
         button.classList.remove("pressed");
 
-        if (image) {
+        if (image)
             image.src = config.icons.off;
-        }
     }
 }
 
@@ -374,18 +367,18 @@ function bindMenuButton(config) {
         if (button.id === "btn-apgr")
             createApgarSegments(modoControl);
 
-        if (button.id === "btn-basc")
+        if (button.id === "btn-basc"){
             salirBascula();
             createTimerTaraSegments(modoControl);
+        }
     });
 
     button?.addEventListener("pointerup", () => {
         updateBottomNavLayout(state.isHomeView);
         toggleHomePanel(config.panel, modoControl);
 
-        if (config.title) {
+        if (config.title)
             ttl_pnl_ctrl.textContent = config.title;
-        }
 
         applyButtonVisualState(button, image, config, state.pressed);
     });
@@ -452,13 +445,11 @@ bindMenuButton({
 
 function clear_Btns() {
     Object.values(menuButtons).forEach(({ button, image, icons }) => {
-        if (button) {
+        if (button)
             button.classList.remove("pressed");
-        }
 
-        if (image) {
+        if (image)
             image.src = icons.off;
-        }
     });
 }
 

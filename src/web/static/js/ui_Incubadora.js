@@ -120,6 +120,7 @@ function updateControlDisplay(value, unit) {
             pop_sobregiro.classList.remove("disabled");
         else if ((value < 37.0) || (unit === "%"))
             pop_sobregiro.classList.add("disabled");
+
     } else {
         pop_sobregiro.classList.add("disabled");
         unitsCtrl.textContent = "";
@@ -142,6 +143,7 @@ function updateControlDisplay(value, unit) {
  */
 function formatValue(value, step) {
     const precision = Math.max(0, getDecimalPlaces(step));
+
     return Number(value).toFixed(precision);
 }
 
@@ -151,11 +153,10 @@ function formatValue(value, step) {
  * @returns {number} Cantidad de decimales.
  */
 function getDecimalPlaces(value) {
-    if (!Number.isFinite(value)) {
-        return 1;
-    }
+    if (!Number.isFinite(value)) return 1;
 
     const parts = value.toString().split(".");
+
     return parts[1] ? parts[1].length : 0;
 }
 
@@ -174,13 +175,11 @@ function setSliderConfig({ min, max, step, value, unit, theme }) {
         theme: theme ?? sliderConfig.theme
     };
 
-    if (typeof updateSlider10Value === "function" && value !== undefined) {
+    if (typeof updateSlider10Value === "function" && value !== undefined)
         updateSlider10Value(Number(value));
-    }
 
-    if (value !== undefined) {
+    if (value !== undefined)
         updateControlDisplay(Number(value), unit);
-    }
 
     if (typeof tempPowerSliderController?.setConfig === "function") {
         tempPowerSliderController.setConfig({
@@ -258,6 +257,7 @@ const AJST_CTRL_CONFIG = {
  */
 export function ajstCtrl(tipo) {
     const cfg = AJST_CTRL_CONFIG[tipo];
+
     if (!cfg) {
         console.warn(`ajstCtrl: tipo desconocido "${tipo}"`);
         return;
@@ -273,9 +273,8 @@ export function ajstCtrl(tipo) {
 
         updateControlDisplay(valor, "");
 
-        if (typeof updateFotSliderValue === "function") {
+        if (typeof updateFotSliderValue === "function")
             updateFotSliderValue(Number(valor));
-        }
 
         slider10?.classList.add("slider-collapsed");
         sliderFot?.classList.remove("slider-collapsed");
@@ -424,9 +423,7 @@ const visibilidadPaneles = {
  * @param {HTMLElement|null} elemento Elemento a limpiar.
  */
 function limpiarEstadoElemento(elemento) {
-    if (!elemento) {
-        return;
-    }
+    if (!elemento) return;
 
     elemento.classList.remove(
         ...CLASES_CONTROL,
@@ -449,9 +446,7 @@ function limpiarEstadoElemento(elemento) {
  * @param {string} claseColor Clase de color a aplicar.
  */
 function habilitarEstadoElemento(elemento, claseColor) {
-    if (!elemento) {
-        return;
-    }
+    if (!elemento) return;
 
     elemento.classList.add(claseColor, "enable");
 }
@@ -512,8 +507,7 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
     else
         dissolveToPanel("control");
 
-    if (!homeDiv || !panelControl)
-        return;
+    if (!homeDiv || !panelControl) return;
 
     const mostrarHome = showPanelControl === "home";
 
@@ -578,24 +572,22 @@ async function set_EditCtrlsEn(ctrlLbl) {
         if (res.status === 200) {
             const rt = await res.json();
 
-            if (ctrlLbl === "tp_Prog" || ctrlLbl === "ta_Prog") {
+            if (ctrlLbl === "tp_Prog" || ctrlLbl === "ta_Prog")
                 updateControlDisplay(rt.valor, "°C");
-            } else if (ctrlLbl === "pot_Fot") {
+            else if (ctrlLbl === "pot_Fot")
                 updateControlDisplay(rt.valor, "");
-            } else {
+            else
                 updateControlDisplay(rt.valor, "%");
-            }
 
-            if (activeSlider === "sliderFot") {
+            if (activeSlider === "sliderFot")
                 updateFotSliderValue?.(Number(rt.valor));
-            } else {
+            else
                 updateSlider10Value?.(Number(rt.valor));
-            }
         }
 
-        if (!intervalEncod) {
+        if (!intervalEncod)
             intervalEncod = setInterval(edit_valProg, 100);
-        }
+
     } catch (error) {
         console.log("Error:", error);
     }
@@ -778,6 +770,7 @@ function toggleElementsClass(elements, action, className) {
  */
 function activarModo(modo, pnlInactivo, pnlActivo) {
     const config = modoConfig[modo];
+
     if (!config) return;
 
     // Cambiar título
@@ -810,9 +803,8 @@ function activarModo(modo, pnlInactivo, pnlActivo) {
 
     // Procesar colecciones de elementos
     config.elements.elementCollections?.forEach(({ elements, action, class: className }) => {
-        if (className) {
-        toggleElementsClass(elements, action, className);
-        }
+        if (className)
+            toggleElementsClass(elements, action, className);
     });
 }
 
@@ -828,17 +820,15 @@ export function chngModo(panel, modoAP) {
     clearTimeout(timerChngAjst);
 
     // Cambios de modo confirmados
-    if (modoAP === "tPiel" && isModoBebe) {
+    if (modoAP === "tPiel" && isModoBebe)
         ajstCtrl_TPiel();
-    } 
     else if (modoAP === "tPiel" && isModoAire) {
         panel.classList.add("chng");
         t_aire.classList.add("disabled");
         c_modo_Aire.classList.add("enabled");
     } 
-    else if (modoAP === "tAire" && isModoAire) {
+    else if (modoAP === "tAire" && isModoAire)
         ajstCtrl_TAire();
-    } 
     else if (modoAP === "tAire" && isModoBebe) {
         lbl_temp_piel.textContent = "Cambiar a Modo Piel";
         lbl_temp_piel.classList.remove("m-Aire");
@@ -897,6 +887,7 @@ export function modoAire(pnlB, pnlA) {
         boton.classList.remove("tPiel", "tAire");
         boton.classList.add("tAire");
     });
+
     ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-ma.svg"
 }
 
@@ -935,6 +926,7 @@ export function modoPiel(pnlA, pnlB) {
         boton.classList.remove("tPiel", "tAire");
         boton.classList.add("tPiel");
     });
+
     ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-mp.svg"
 }
 
@@ -968,6 +960,7 @@ const fotoConfig = {
  */
 function setFotoState(estado) {
   const config = fotoConfig[estado];
+
   if (!config) return;
 
   clearTimeout(timerChngAjst);
@@ -975,19 +968,17 @@ function setFotoState(estado) {
   fot_panel.style.display = config.fot_panel;
   confirmacion_fot.style.display = config.confirmacion_fot;
 
-  if (config.ajstCtrlFot_active) {
+  if (config.ajstCtrlFot_active)
     ajstCtrlFot.classList.add("active");
-  } else {
+  else
     ajstCtrlFot.classList.remove("active");
-  }
 
   config.elements.forEach(el => {
     if (el) el.classList[config.elementAction]("active");
   });
 
-  if (estado === "active") {
+  if (estado === "active")
     fotoEn = true;
-  }
 }
 
 /**

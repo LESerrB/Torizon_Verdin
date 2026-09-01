@@ -72,9 +72,8 @@ function roundToStep(value, step) {
  * @returns {number} Número de segmento (0-9), donde 0 es el mínimo y 9 el máximo
  */
 function valueToSegment(value, min, max) {
-    if (max <= min) {
+    if (max <= min)
         return 0;
-    }
 
     const ratio = clamp((value - min) / (max - min), 0, 1);
 
@@ -105,9 +104,7 @@ function setSegmentTheme(seg, index, theme) {
 function getSliderConfig(slider) {
     const defaults = { min: 34.0, max: 38.0, step: 0.1 };
 
-    if (!slider) {
-        return defaults;
-    }
+    if (!slider) return defaults;
 
     const parsedMin = Number.parseFloat(slider.dataset.min);
     const parsedMax = Number.parseFloat(slider.dataset.max);
@@ -140,9 +137,7 @@ function formatValue(value, step) {
  * @returns {number} Cantidad de lugares decimales (máximo 1 si no es finito)
  */
 function getDecimalPlaces(value) {
-    if (!Number.isFinite(value)) {
-        return 1;
-    }
+    if (!Number.isFinite(value)) return 1;
 
     const parts = value.toString().split(".");
     return parts[1] ? parts[1].length : 0;
@@ -240,9 +235,8 @@ export function initTemperaturePowerSlider({
 
         slider.dataset.value = formatValueFn(clampedValue, step);
 
-        if (valCtrlEl) {
+        if (valCtrlEl)
             valCtrlEl.textContent = formatValueFn(clampedValue, step);
-        }
 
         slider.dispatchEvent(
             new CustomEvent("tpiel-slider-change", {
@@ -276,9 +270,8 @@ export function initTemperaturePowerSlider({
                 slider.dataset.theme = sliderConfig.theme;
             }
 
-            if (value !== undefined) {
+            if (value !== undefined)
                 updateSlider(value);
-            }
         }
     };
 };
@@ -327,9 +320,8 @@ export function crearSliderPotCalef(containerId = "seg-calefactor", valueId = "p
 
         seg.classList.add("potcal-seg", `level-${item.level}`);
 
-        if (item.claseExtra) {
+        if (item.claseExtra)
             seg.classList.add(item.claseExtra);
-        }
 
         seg.dataset.level = item.level;
 
@@ -346,9 +338,8 @@ export function crearSliderPotCalef(containerId = "seg-calefactor", valueId = "p
             seg.classList.toggle("active", segment_Level <= level);
         });
 
-        if (valueDisplay) {
+        if (valueDisplay)
             valueDisplay.textContent = value;
-        }
     }
 
     setLevel(startLevel);
@@ -469,9 +460,8 @@ export function initFotoSlider({
 export function createSliderIntensFot(containerId = "seg-potencia-fot", startLevel = 0) {
     const container = document.getElementById(containerId);
 
-    if (!container) {
+    if (!container)
         return null;
-    }
 
     container.innerHTML = "";
 
