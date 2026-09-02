@@ -495,11 +495,12 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Selección de zona horaria.
  - Función de cancelar Sobregiro ahora regresa a 37.0 como límite si se ecncuentra por sobre la temperatura máxima.
 
-### v0.23.5 - [01/09/2026]
+### v0.23.5 - [02/09/2026]
  - Primer prueba de animación de transición de "home" a "panel-control" y viceversa.
  - Mejora de animación de transición entre "panel-control" y "home".
  - Corregido color de etiqueta "lbl-temp-piel".
  - Documentación de funciones de "bascula.js".
+ - Cambios entre paneles de control corregido.
 
 ## Descarga e Instalación
 

@@ -313,21 +313,6 @@ const menuButtons = {};
 // ====================
 // Funciones Botones
 // ====================
-// Función para volver al Panel Principal
-function updateBottomNavLayout(isHomeView = false) {
-    if (isHomeView) {
-        btn_home?.classList.add("btn-collapsed");
-        btn_md_fam?.classList.remove("btn-collapsed");
-
-        return;
-    }
-
-    btn_md_fam?.classList.add("btn-collapsed");
-    btn_home?.classList.remove("btn-collapsed");
-
-    exitCancel(modoControl);
-}
-
 function applyButtonVisualState(button, image, config, isPressed) {
     if (!button) return;
 
@@ -374,8 +359,15 @@ function bindMenuButton(config) {
     });
 
     button?.addEventListener("pointerup", () => {
-        updateBottomNavLayout(state.isHomeView);
-        toggleHomePanel(config.panel, modoControl);
+        if (state.isHomeView) {
+            btn_home?.classList.add("btn-collapsed");
+            btn_md_fam?.classList.remove("btn-collapsed");
+        }else{
+            btn_md_fam?.classList.add("btn-collapsed");
+            btn_home?.classList.remove("btn-collapsed");
+        }
+
+        exitCancel(modoControl, config.panel);
 
         if (config.title)
             ttl_pnl_ctrl.textContent = config.title;

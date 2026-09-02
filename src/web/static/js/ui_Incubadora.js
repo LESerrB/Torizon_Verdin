@@ -42,8 +42,8 @@ const oxCtrl = document.getElementById("ox_prog");
 //---------------------------------------------------------------
 // Vista Panel de Control
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
-const slider10 = document.getElementById("tpielSlider");
-const sliderFot = document.getElementById("fotSlider");
+const slider10 = document.getElementById("tpielSlider");    // <==== Estos sonlos que debo pasar como argumento  
+const sliderFot = document.getElementById("fotSlider");     // <==== Estos sonlos que debo pasar como argumento
 
 //---------------------------------------------------------------
 // Control de Sensores
@@ -502,22 +502,29 @@ function habilitarControlesLaterales(controles, claseColor) {
  * @param {string} modoControl Modo de Control del equipo, se usa para el cambio de color de Báscula y cronómetro Apgar.
  */
 export function toggleHomePanel(showPanelControl, modoControl = null) {
-    if (showPanelControl === "home")
-        dissolveToPanel("home");
-    else
-        dissolveToPanel("control");
-
-    if (!homeDiv || !panelControl) return;
+    if (!homeDiv || !panelControl)
+        return;
 
     const mostrarHome = showPanelControl === "home";
 
-    const configuracion = configuracionPaneles[showPanelControl];
+    if (mostrarHome) {
+        dissolveToPanel("home");
+        return;
+    }
 
-    limpiarEstadoElemento(infoCtrl);
-    limpiarEstadoElemento(tituloCtrl);
-    limpiarControlesLaterales();
+    const actualizarContenido = () => {
+        const configuracion = configuracionPaneles[showPanelControl];
 
-    if (configuracion) {
+        limpiarEstadoElemento(infoCtrl);
+        limpiarEstadoElemento(tituloCtrl);
+        limpiarControlesLaterales();
+
+        if (!configuracion) {
+            console.warn(`No existe configuración para el panel: "${showPanelControl}"`);
+
+            return;
+        }
+
         const {
             claseColor,
             controles,
@@ -531,13 +538,16 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
         habilitarEstadoElemento(infoCtrl, claseColor);
 
         if (showPanelControl === "apgar" || showPanelControl === "bascula") {
-            const altColor = (modoControl === "tPiel") ? "tp" : "ta"
-            habilitarEstadoElemento(tituloCtrl, altColor);
-        }else
-            habilitarEstadoElemento(tituloCtrl, claseColor);
+            const altColor = modoControl === "tPiel" ? "tp" : "ta";
 
-        if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno")
+            habilitarEstadoElemento(tituloCtrl, altColor);
+        } else {
+            habilitarEstadoElemento(tituloCtrl, claseColor);
+        }
+
+        if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno") {
             habilitarControlesLaterales(controles, claseColor);
+        }
 
         ctrl_sens.style.display = visibilidad.ctrl_sens ? "block" : "none";
         view_fam.style.display = visibilidad.view_fam ? "block" : "none";
@@ -547,9 +557,16 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
 
         if (iconoControl && icono)
             iconoControl.src = icono;
+    };
 
-    } else if (!mostrarHome)
-        console.warn(`No existe configuración para el panel: "${showPanelControl}"`);
+    if (panelControl.classList.contains("panel-active")) {
+        dissolveToPanel("control", actualizarContenido);
+
+        return;
+    }
+
+    actualizarContenido();
+    dissolveToPanel("control");
 }
 
 /**
@@ -1071,8 +1088,11 @@ export function toggleSobregiro(mdCtrl) {
 // ==================================
 // Funcion Salir de Panel de Control
 // ==================================
-export function exitCancel(mdCtrl = null){
-    toggleHomePanel("home", mdCtrl);
+export function exitCancel(mdCtrl = null, cnfgPanel = null){
+    if (cnfgPanel)
+        toggleHomePanel(cnfgPanel, mdCtrl);
+    else
+        toggleHomePanel("home", mdCtrl);
 
     // Detiene las peticiones de actialización del Encoder
     clearInterval(intervalEncod);

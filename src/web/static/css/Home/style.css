@@ -455,6 +455,12 @@ span {
 #panel-control:not(.panel-active) {
   z-index: 1;
 }
+
+#home.panel-dissolve,
+#panel-control.panel-dissolve {
+  opacity: 0;
+  pointer-events: none;
+}
 /*#######################################*/
 /*            Panel Principal            */
 /*#######################################*/
