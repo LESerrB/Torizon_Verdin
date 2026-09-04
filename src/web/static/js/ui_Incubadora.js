@@ -509,6 +509,7 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
 
     if (mostrarHome) {
         dissolveToPanel("home");
+
         return;
     }
 
