@@ -501,6 +501,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corregido color de etiqueta "lbl-temp-piel".
  - Documentación de funciones de "bascula.js".
  - Cambios entre paneles de control corregido.
+ - Eliminado panel en blanco en transiciones del mismo panel.
 
 ## Descarga e Instalación
 

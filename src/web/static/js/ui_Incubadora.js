@@ -512,7 +512,7 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
         return;
     }
 
-    const actualizarContenido = () => {
+    const reloadContent = () => {
         const configuracion = configuracionPaneles[showPanelControl];
 
         limpiarEstadoElemento(infoCtrl);
@@ -560,12 +560,12 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
     };
 
     if (panelControl.classList.contains("panel-active")) {
-        dissolveToPanel("control", actualizarContenido);
+        dissolveToPanel("control", reloadContent);
 
         return;
     }
 
-    actualizarContenido();
+    reloadContent();
     dissolveToPanel("control");
 }
 

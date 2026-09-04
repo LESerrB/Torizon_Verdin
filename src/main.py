@@ -15,11 +15,11 @@ from flask_cors import CORS
 # load_dotenv("/mnt/microsd/.env")
 # logger.info('Encendido del sistema')
 
-# from dev.Controles_Alertas import encoder as hw_encoder
-# from dev.Comunicacion import bascula as com_bascula
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
+# from dev.Controles_Alertas import encoder as hw_encoder
+# from dev.Comunicacion import bascula as com_bascula
 # from dev.Comunicacion.TCD import com_TCD as TCD
 # from dev.Comunicacion.TCD import set_dtProg as dt_progTCD
 
@@ -226,7 +226,7 @@ def encoder_Reader():
                 # nuevo_val = hw_encoder.valEdit(val_Encd)
 
             # if nuevo_val != val_Encd:
-            #     val_Encd = nuevo_val
+                # val_Encd = nuevo_val
 
             # valores_ctrl["confirm"] = hw_encoder.swAcept()
 

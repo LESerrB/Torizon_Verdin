@@ -443,23 +443,29 @@ span {
   transition: opacity 1200ms ease-in-out;
   will-change: opacity;
 }
-
 #home.panel-active,
 #panel-control.panel-active {
   opacity: 1;
   pointer-events: auto;
   z-index: 2;
 }
-
 #home:not(.panel-active),
 #panel-control:not(.panel-active) {
   z-index: 1;
 }
-
-#home.panel-dissolve,
-#panel-control.panel-dissolve {
+#home.panel-active.panel-dissolve,
+#panel-control.panel-active.panel-dissolve {
   opacity: 0;
   pointer-events: none;
+}
+.panel-snapshot {
+  position: absolute;
+  inset: 0;
+  z-index: 3; /* por encima del panel-active (z-index:2) */
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 1200ms ease-in-out;
+  will-change: opacity;
 }
 /*#######################################*/
 /*            Panel Principal            */
