@@ -7,6 +7,9 @@ import {
 
 import { 
     dissolveToPanel,
+    addBlurScreen,
+    addBlurScreenFot,
+    removeBlurScreen,
 } from "./anim.js";
 
 let intervalEncod = null;
@@ -841,6 +844,8 @@ export function chngModo(panel, modoAP) {
     if (modoAP === "tPiel" && isModoBebe)
         ajstCtrl_TPiel();
     else if (modoAP === "tPiel" && isModoAire) {
+        addBlurScreen();
+
         panel.classList.add("chng");
         t_aire.classList.add("disabled");
         c_modo_Aire.classList.add("enabled");
@@ -848,6 +853,8 @@ export function chngModo(panel, modoAP) {
     else if (modoAP === "tAire" && isModoAire)
         ajstCtrl_TAire();
     else if (modoAP === "tAire" && isModoBebe) {
+        addBlurScreen();
+
         lbl_temp_piel.textContent = "Cambiar a Modo Piel";
         lbl_temp_piel.classList.remove("m-Aire");
         lbl_temp_piel.classList.add("m-Piel");
@@ -857,6 +864,8 @@ export function chngModo(panel, modoAP) {
     } 
     // Cancelación de cambio de modo
     else {
+        removeBlurScreen();
+
         panel.classList.remove("chng");
         
         if (isModoBebe) {
@@ -878,6 +887,8 @@ export function chngModo(panel, modoAP) {
  */
 export function modoAire(pnlB, pnlA) {
     clearTimeout(timerChngAjst);
+
+    removeBlurScreen();
 
     setInitValues("modoAire");
 
@@ -916,6 +927,8 @@ export function modoAire(pnlB, pnlA) {
  */
 export function modoPiel(pnlA, pnlB) {
     clearTimeout(timerChngAjst);
+
+    removeBlurScreen();
 
     setInitValues("modoPiel");
 
@@ -1003,6 +1016,8 @@ function setFotoState(estado) {
  * Activa el panel de fototerapia
  */
 export function fotoActive() {
+    removeBlurScreen();
+
     setFotoState("active");
     updateSliderIntenseFot_pPrin?.(1);
 }
@@ -1021,6 +1036,9 @@ export function fotoInactive() {
 export function confAjstFoto() {
   if (!fotoEn) {
     clearTimeout(timerChngAjst);
+
+    addBlurScreenFot()
+
     fot_panel.style.display = 'none';
     confirmacion_fot.style.display = 'block';
     iniTimerAjst("Foto");

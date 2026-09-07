@@ -1,6 +1,12 @@
 const PANEL_HOME = document.getElementById("home");
 const PANEL_CONTROL = document.getElementById("panel-control");
 
+const pnlBebe = document.getElementById("pnl-modoBebe");
+const pnlAire = document.getElementById("pnl-modoAire");
+const modOx  = document.getElementById("mod-ox");
+const modHum = document.getElementById("mod-hum");
+const modFot = document.getElementById("mod-fot");
+
 // =====================================
 // Transiciones Paneles Home / Control 
 // =====================================
@@ -118,4 +124,53 @@ function frameWait() {
             requestAnimationFrame(() => resolve());
         });
     });
+}
+
+
+/**
+ * Aplica el efecto de desenfoque al panel activo y a los módulos de control principales
+ * Se usa para resaltar visualmente el contenido que está en segundo plano al abrir un diálogo o modal
+ * 
+ * @function
+ * @returns {void} No devuelve ningún valor
+ * 
+ * @example
+ * addBlurScreen(); // Desenfoca el panel activo y los módulos de oxígeno, humedad y fototerapia
+ */
+export function addBlurScreen() {
+    const panelActivo = pnlBebe?.classList.contains("active") ? pnlBebe : pnlAire;
+
+    panelActivo?.classList.add("mica-effect");
+    [modOx, modHum, modFot].forEach((el) => el?.classList.add("mica-effect"));
+}
+
+/**
+ * Aplica el efecto de desenfoque a los paneles y módulos asociados a la vista fototerápica
+ * Se utiliza cuando se requiere desactivar el fondo visual de la sección de fototerapia
+ * 
+ * @function
+ * @returns {void} No devuelve ningún valor
+ * 
+ * @example
+ * addBlurScreenFot(); // Desenfoca los módulos de bebé, aire, oxígeno y humedad
+ */
+export function addBlurScreenFot(){
+    [pnlBebe, pnlAire, modOx, modHum].forEach((el) =>
+        el?.classList.add("mica-effect"));
+}
+
+/**
+ * Elimina el efecto de desenfoque de todos los paneles y módulos afectados
+ * Restaura la vista original para continuar la interactividad normal del contenido
+ * 
+ * @function
+ * @returns {void} No devuelve ningún valor
+ * 
+ * @example
+ * removeBlurScreen(); // Quita el efecto de desenfoque de toda la interfaz
+ */
+export function removeBlurScreen() {
+    [pnlBebe, pnlAire, modOx, modHum, modFot].forEach((el) =>
+        el?.classList.remove("mica-effect")
+    );
 }

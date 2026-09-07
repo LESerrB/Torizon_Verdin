@@ -1311,6 +1311,19 @@ Contenedor Temperaturas Secundarias
 .seg-potencia-fot .fot-seg-2.active { background: #556F91; }
 .seg-potencia-fot .fot-seg-3.active { background: #556F91; }
 
+/* Efecto Mica */
+.mp-prin-mc-tpiel.active.mica-effect,
+.mp-prin-mc-taire.active.mica-effect,
+.mp-prin-mc-tpiel.mica-effect,
+.mp-prin-mc-taire.mica-effect,
+.modulo.ox.mica-effect,
+.modulo.hum.mica-effect,
+.modulo.fot.mica-effect {
+  opacity: 0.5;
+  filter: blur(2px);
+  transition: opacity 300ms ease, backdrop-filter 300ms ease;
+}
+
 /*#######################################*/
 /*            Barra Inferior             */
 /*#######################################*/
