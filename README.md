@@ -503,7 +503,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Cambios entre paneles de control corregido.
  - Eliminado panel en blanco entre transiciones del mismo panel.
  - Creadas animaciones de desenfoque para los paneles de Modo Piel, Aire, Oxigeno, Humedad y Fototerapia.
- - Función de bloqueo de paneles. (Modo de prueba, usando boton de alarma).
+ - Función de bloqueo de paneles (Modo de prueba, usando boton de alarma).
+ - Bloqueo de módulos mientras estan en desenfoque.
 
 ## Descarga e Instalación
 
