@@ -71,14 +71,19 @@ const recursosVisuales = [
 let modoControl = "tPiel"
 let modoOperacion = "Incubadora"
 
+// =========================
+// Botón Silenciar Alarmas
+// =========================
+const btn_alarma = document.getElementById("btn-alarma");
+
 // ==================================
 // Botón Cambio de Modo de Operación
 // ==================================
 const modoSwitch = document.getElementById("modoSwitch");
 
-// =============================
+// ====================
 // Paneles de control
-// =============================
+// ====================
 const pnlBebe = document.getElementById("pnl-modoBebe");
 const pnlAire = document.getElementById("pnl-modoAire");
 const ajstCtrlOx = document.getElementById("mod-ox");
@@ -160,6 +165,22 @@ function stopPanelPointerEvent(event) {
 //============================================================================//
 //                                Controles UI                                //
 //============================================================================//
+btn_alarma.addEventListener("click", () => {
+    console.log("Alarma Off");
+    // ======= Función de bloqueo de pantalla ======= //
+    const divs = [
+        document.querySelector('.barra_Informacion'),
+        document.querySelector('.panel-prin'),
+        document.querySelector('.f-pp-menuprin')
+    ];
+
+    divs.forEach(div => {
+        if (!div) return;
+
+        div.classList.toggle('lock-screen');
+    });
+    // ============================================== //
+});
 // **************** Switch Modo de Operación **************** //
 function stablishSwOpMode(modo = "Incubadora") {
     if (modo === "Incubadora") {

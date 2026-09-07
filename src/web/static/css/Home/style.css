@@ -1362,3 +1362,15 @@ Contenedor Temperaturas Secundarias
   width: 360px;
   position: relative;
 }
+
+/*#######################################*/
+/*          Bloqueo de paneles          */
+/*#######################################*/
+.lock-screen {
+  pointer-events: none;
+  user-select: none;
+}
+.panel-prin.lock-screen,
+.panel-prin.lock-screen * {
+  pointer-events: none !important;
+}
