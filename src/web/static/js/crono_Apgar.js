@@ -44,11 +44,10 @@ let pause = false;
  **************************/
 // ============== Start / Pause ============== //
 btn_playpause?.addEventListener("pointerdown", () => {
-    if (pause) {
+    if (pause)
         img_playpause.src = "../static/icon/Apgar/btns/Icon_Pause_Active.svg"
-    } else {
+    else
         img_playpause.src = "../static/icon/Apgar/btns/Icon_Play_Active.svg"
-    }
 });
 btn_playpause?.addEventListener("pointerup", () => {
     pause = !pause;
@@ -88,17 +87,15 @@ btn_reset?.addEventListener("pointerup", () => {
 function actualizarMarcadoresCrono() {
     const minutosTranscurridos = Math.floor(tiempoTranscurrido / 60);
 
-    if (minutosTranscurridos === 1) {
+    if (minutosTranscurridos === 1)
         num_1?.classList.add("enable");
-    } else if (minutosTranscurridos === 5) {
+    else if (minutosTranscurridos === 5)
         num_5?.classList.add("enable");
-    } else if (minutosTranscurridos === 10) {
+    else if (minutosTranscurridos === 10)
         num_10?.classList.add("enable");
-    }
 
-    if (minutosTranscurridos >= 1) {
+    if (minutosTranscurridos >= 1)
         setSegmentState(minutosTranscurridos - 1, true);
-    }
 }
 
 /**
@@ -123,9 +120,7 @@ function borrarMarcadoresCrono(){
  * @param {number} duracion - Duración máxima del cronómetro en segundos (ej: 600 para 10 minutos)
  */
 function startCrono(duracion) {
-    if (intervaloCronometro !== null || tiempoTranscurrido >= (duracion)) {
-        return;
-    }
+    if (intervaloCronometro !== null || tiempoTranscurrido >= (duracion)) return;
 
     intervaloCronometro = setInterval(() => {
         tiempoTranscurrido++;
@@ -136,9 +131,9 @@ function startCrono(duracion) {
         timer_crono.textContent = `${minutos}:${segundos}`;
         actualizarMarcadoresCrono();
 
-        if (tiempoTranscurrido >= (duracion)) {
+        if (tiempoTranscurrido >= (duracion))
             pauseCrono();
-        }
+
     }, 1000);
 }
 
@@ -297,9 +292,7 @@ function createRingSegmentPath(
  * - Los segmentos se activan dinámicamente según avanza el cronómetro
  */
 export function createApgarSegments(modoControl) {
-    if (!sliderApgar) {
-        return;
-    }
+    if (!sliderApgar) return;
 
     sliderApgar.innerHTML = "";
 
@@ -369,9 +362,7 @@ function getSegment(index) {
 function setSegmentState(index, enabled) {
     const segment = getSegment(index);
 
-    if (!segment) {
-        return;
-    }
+    if (!segment) return;
 
     segment.classList.toggle("active", enabled);
     segment.classList.toggle("inactive", !enabled);
@@ -392,9 +383,8 @@ function setSegmentState(index, enabled) {
 function setActiveSegmentCount(count) {
     const safeCount = Math.min(Math.max(Number(count), 0), TOTAL_SEGMENTS);
 
-    for (let index = 0; index < TOTAL_SEGMENTS; index += 1) {
+    for (let index = 0; index < TOTAL_SEGMENTS; index += 1)
         setSegmentState(index, index < safeCount);
-    }
 }
 
 /**

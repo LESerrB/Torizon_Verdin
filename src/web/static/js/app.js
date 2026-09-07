@@ -71,14 +71,19 @@ const recursosVisuales = [
 let modoControl = "tPiel"
 let modoOperacion = "Incubadora"
 
+// =========================
+// Botón Silenciar Alarmas
+// =========================
+const btn_alarma = document.getElementById("btn-alarma");
+
 // ==================================
 // Botón Cambio de Modo de Operación
 // ==================================
 const modoSwitch = document.getElementById("modoSwitch");
 
-// =============================
+// ====================
 // Paneles de control
-// =============================
+// ====================
 const pnlBebe = document.getElementById("pnl-modoBebe");
 const pnlAire = document.getElementById("pnl-modoAire");
 const ajstCtrlOx = document.getElementById("mod-ox");
@@ -140,9 +145,7 @@ document.addEventListener("contextmenu", (event) => {
 });
 
 const isInteractiveControl = (event) => Boolean(
-    event.target.closest(
-        "button, a, input, select, textarea, [role='button']"
-    )
+    event.target.closest("button, a, input, select, textarea, [role='button']")
 );
 
 function stopPanelPointerEvent(event) {
@@ -162,6 +165,22 @@ function stopPanelPointerEvent(event) {
 //============================================================================//
 //                                Controles UI                                //
 //============================================================================//
+btn_alarma.addEventListener("click", () => {
+    console.log("Alarma Off");
+    // ======= Función de bloqueo de pantalla ======= //
+    const divs = [
+        document.querySelector('.barra_Informacion'),
+        document.querySelector('.panel-prin'),
+        document.querySelector('.f-pp-menuprin')
+    ];
+
+    divs.forEach(div => {
+        if (!div) return;
+
+        div.classList.toggle('lock-screen');
+    });
+    // ============================================== //
+});
 // **************** Switch Modo de Operación **************** //
 function stablishSwOpMode(modo = "Incubadora") {
     if (modo === "Incubadora") {
@@ -177,11 +196,10 @@ function stablishSwOpMode(modo = "Incubadora") {
     }
 }
 modoSwitch.addEventListener("change", () => {
-    if (modoSwitch.checked) {
+    if (modoSwitch.checked)
         modoOperacion = "Incubadora";
-    } else {
+    else
         modoOperacion = "Cuna";
-    }
 
     stablishSwOpMode(modoOperacion);
     console.log(`Switch cambiado a: ${modoOperacion}`);
@@ -199,7 +217,9 @@ pnlBebe?.addEventListener("pointerup", () => {
     pnlBebe.classList.remove("pressed");
 
     chngModo(pnlBebe, modoControl);
-    iniTimerAjst(pnlBebe);
+
+    if(modoControl != "tPiel")
+        iniTimerAjst(pnlBebe);
 });
 
 // ***************** Panel Temperatura Aire ***************** //
@@ -214,7 +234,9 @@ pnlAire?.addEventListener("pointerup", () => {
     pnlAire.classList.remove("pressed");
 
     chngModo(pnlAire, modoControl);
-    iniTimerAjst(pnlAire);
+
+    if(modoControl != "tAire")
+        iniTimerAjst(pnlAire);
 });
 
 // ***************** Panel Control Oxigeno ****************** //
@@ -299,7 +321,7 @@ btn_ajustar_foto?.addEventListener("pointerup", () => {
 btnCancel?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    exitCancel();
+    exitCancel(modoControl);
 });
 
 // =================================
@@ -312,38 +334,19 @@ const menuButtons = {};
 // ====================
 // Funciones Botones
 // ====================
-// Función para volver al Panel Principal
-function updateBottomNavLayout(isHomeView = false) {
-    if (isHomeView) {
-        btn_home?.classList.add("btn-collapsed");
-        btn_md_fam?.classList.remove("btn-collapsed");
-
-        return;
-    }
-
-    exitCancel();
-
-    btn_md_fam?.classList.add("btn-collapsed");
-    btn_home?.classList.remove("btn-collapsed");
-}
-
 function applyButtonVisualState(button, image, config, isPressed) {
-    if (!button) {
-        return;
-    }
+    if (!button) return;
 
     if (isPressed) {
         button.classList.add("pressed");
 
-        if (image) {
+        if (image)
             image.src = config.icons.on;
-        }
     } else {
         button.classList.remove("pressed");
 
-        if (image) {
+        if (image)
             image.src = config.icons.off;
-        }
     }
 }
 
@@ -370,18 +373,25 @@ function bindMenuButton(config) {
         if (button.id === "btn-apgr")
             createApgarSegments(modoControl);
 
-        if (button.id === "btn-basc")
+        if (button.id === "btn-basc"){
             salirBascula();
             createTimerTaraSegments(modoControl);
+        }
     });
 
     button?.addEventListener("pointerup", () => {
-        updateBottomNavLayout(state.isHomeView);
-        toggleHomePanel(config.panel, modoControl);
-
-        if (config.title) {
-            ttl_pnl_ctrl.textContent = config.title;
+        if (state.isHomeView) {
+            btn_home?.classList.add("btn-collapsed");
+            btn_md_fam?.classList.remove("btn-collapsed");
+        }else{
+            btn_md_fam?.classList.add("btn-collapsed");
+            btn_home?.classList.remove("btn-collapsed");
         }
+
+        exitCancel(modoControl, config.panel);
+
+        if (config.title)
+            ttl_pnl_ctrl.textContent = config.title;
 
         applyButtonVisualState(button, image, config, state.pressed);
     });
@@ -448,13 +458,11 @@ bindMenuButton({
 
 function clear_Btns() {
     Object.values(menuButtons).forEach(({ button, image, icons }) => {
-        if (button) {
+        if (button)
             button.classList.remove("pressed");
-        }
 
-        if (image) {
+        if (image)
             image.src = icons.off;
-        }
     });
 }
 

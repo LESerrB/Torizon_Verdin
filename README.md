@@ -493,7 +493,18 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Vista de botón de sobregiro deshabilitado en paneles distintos a Temperatura y con valores por debajo a 37.0 °C.
  - Arreglo de bugs al ingresar a programar los módulos de Oxígeno, Humedad y Fototerapia provocado por el sobregiro de temperatura.
  - Selección de zona horaria.
- - Función de cancelar Sobregiro ahora regresa a 37.0 como límite si se ecncuentra por sobre la temperatura máxima .
+ - Función de cancelar Sobregiro ahora regresa a 37.0 como límite si se ecncuentra por sobre la temperatura máxima.
+
+### v0.23.5 - [07/09/2026]
+ - Primer prueba de animación de transición de "home" a "panel-control" y viceversa.
+ - Mejora de animación de transición entre "panel-control" y "home".
+ - Corregido color de etiqueta "lbl-temp-piel".
+ - Documentación de funciones de "bascula.js".
+ - Cambios entre paneles de control corregido.
+ - Eliminado panel en blanco entre transiciones del mismo panel.
+ - Creadas animaciones de desenfoque para los paneles de Modo Piel, Aire, Oxigeno, Humedad y Fototerapia.
+ - Función de bloqueo de paneles (Modo de prueba, usando boton de alarma).
+ - Bloqueo de módulos mientras estan en desenfoque.
 
 ## Descarga e Instalación
 

@@ -5,6 +5,13 @@ import {
     createSliderIntensFot
 } from "./slider.js";
 
+import { 
+    dissolveToPanel,
+    addBlurScreen,
+    addBlurScreenFot,
+    removeBlurScreen,
+} from "./anim.js";
+
 let intervalEncod = null;
 let updateSlider10Value = null;
 let updateFotSliderValue = null;
@@ -38,8 +45,8 @@ const oxCtrl = document.getElementById("ox_prog");
 //---------------------------------------------------------------
 // Vista Panel de Control
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
-const slider10 = document.getElementById("tpielSlider");
-const sliderFot = document.getElementById("fotSlider");
+const slider10 = document.getElementById("tpielSlider");    // <==== Estos sonlos que debo pasar como argumento  
+const sliderFot = document.getElementById("fotSlider");     // <==== Estos sonlos que debo pasar como argumento
 
 //---------------------------------------------------------------
 // Control de Sensores
@@ -116,6 +123,7 @@ function updateControlDisplay(value, unit) {
             pop_sobregiro.classList.remove("disabled");
         else if ((value < 37.0) || (unit === "%"))
             pop_sobregiro.classList.add("disabled");
+
     } else {
         pop_sobregiro.classList.add("disabled");
         unitsCtrl.textContent = "";
@@ -138,6 +146,7 @@ function updateControlDisplay(value, unit) {
  */
 function formatValue(value, step) {
     const precision = Math.max(0, getDecimalPlaces(step));
+
     return Number(value).toFixed(precision);
 }
 
@@ -147,11 +156,10 @@ function formatValue(value, step) {
  * @returns {number} Cantidad de decimales.
  */
 function getDecimalPlaces(value) {
-    if (!Number.isFinite(value)) {
-        return 1;
-    }
+    if (!Number.isFinite(value)) return 1;
 
     const parts = value.toString().split(".");
+
     return parts[1] ? parts[1].length : 0;
 }
 
@@ -170,13 +178,11 @@ function setSliderConfig({ min, max, step, value, unit, theme }) {
         theme: theme ?? sliderConfig.theme
     };
 
-    if (typeof updateSlider10Value === "function" && value !== undefined) {
+    if (typeof updateSlider10Value === "function" && value !== undefined)
         updateSlider10Value(Number(value));
-    }
 
-    if (value !== undefined) {
+    if (value !== undefined)
         updateControlDisplay(Number(value), unit);
-    }
 
     if (typeof tempPowerSliderController?.setConfig === "function") {
         tempPowerSliderController.setConfig({
@@ -192,108 +198,112 @@ function setSliderConfig({ min, max, step, value, unit, theme }) {
 // =======================================
 // Configuración de Paneles de control
 // =======================================
-export function ajstCtrl_TPiel() {
-    toggleHomePanel("tempPielProg");
-    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Piel";
-
-    const valor = valsCtrl?.vals?.tp_Prog ?? 34.0;
-
-    setSliderConfig({
+const AJST_CTRL_CONFIG = {
+    tp_Prog: {
+        panel: "tempPielProg",
+        titulo: "Ajuste de Control de Temperatura de Piel",
+        key: "tp_Prog",
+        default: 34.0,
         min: 34.0,
         max: 38.0,
         step: 0.1,
-        value: valor,
         unit: "°C",
         theme: "seg-t_piel"
-    });
-
-    slider10.classList.remove("slider-collapsed");
-    sliderFot.classList.add("slider-collapsed");
-
-    set_EditCtrlsEn("tp_Prog");
-};
-
-export function ajstCtrl_TAire() {
-    toggleHomePanel("tempAireProg");
-    ttl_pnl_ctrl.textContent = "Ajuste de Control de Temperatura de Aire";
-
-    const valor = valsCtrl?.vals?.ta_Prog ?? 34.0;
-
-    setSliderConfig({
+    },
+    ta_Prog: {
+        panel: "tempAireProg",
+        titulo: "Ajuste de Control de Temperatura de Aire",
+        key: "ta_Prog",
+        default: 34.0,
         min: 34.0,
         max: 38.0,
         step: 0.1,
-        value: valor,
         unit: "°C",
         theme: "seg-t_aire"
-    });
-
-    slider10.classList.remove("slider-collapsed");
-    sliderFot.classList.add("slider-collapsed");
-
-    set_EditCtrlsEn("ta_Prog");
-};
-
-export function ajst_CtrlOx() {
-    toggleHomePanel("ajstOx");
-    ttl_pnl_ctrl.textContent = "Ajuste de Oxigeno Programado";
-
-    const valor = valsCtrl?.vals?.pot_Ox ?? 0;
-
-    setSliderConfig({
+    },
+    pot_Ox: {
+        panel: "ajstOx",
+        titulo: "Ajuste de Oxigeno Programado",
+        key: "pot_Ox",
+        default: 0,
         min: 0,
         max: 100,
         step: 1,
-        value: valor,
         unit: "%",
         theme: "seg-p_ox"
-    });
-
-    slider10.classList.remove("slider-collapsed");
-    sliderFot.classList.add("slider-collapsed");
-
-    set_EditCtrlsEn("pot_Ox");
-};
-
-export function ajst_CtrlHum() {
-    toggleHomePanel("ajstHum");
-    ttl_pnl_ctrl.textContent = "Ajuste de Humedad Programada";
-
-    const valor = valsCtrl?.vals?.pot_Hum ?? 0;
-
-    setSliderConfig({
+    },
+    pot_Hum: {
+        panel: "ajstHum",
+        titulo: "Ajuste de Humedad Programada",
+        key: "pot_Hum",
+        default: 0,
         min: 0,
         max: 100,
         step: 1,
-        value: valor,
         unit: "%",
         theme: "seg-p_hum"
-    });
-
-    slider10.classList.remove("slider-collapsed");
-    sliderFot.classList.add("slider-collapsed");
-
-    set_EditCtrlsEn("pot_Hum");
+    },
+    pot_Fot: {
+        panel: "ajstFot",
+        titulo: "Ajuste de Intensidad de Fototerapia",
+        key: "pot_Fot",
+        default: 1,
+        isFot: true
+    }
 };
 
-export function ajst_CtrlFot() {
-    toggleHomePanel("ajstFot");
-    ttl_pnl_ctrl.textContent = "Ajuste de Intensidad de Fototerapia";
-    activeSlider = "sliderFot";
+/**
+ * Función genérica que reemplaza a:
+ * ajstCtrl_TPiel, ajstCtrl_TAire, ajst_CtrlOx, ajst_CtrlHum, ajst_CtrlFot
+ *
+ * @param {"tp_Prog"|"ta_Prog"|"pot_Ox"|"pot_Hum"|"pot_Fot"} tipo
+ */
+export function ajstCtrl(tipo) {
+    const cfg = AJST_CTRL_CONFIG[tipo];
 
-    const valor = valsCtrl?.vals?.pot_Fot ?? 1;
-
-    updateControlDisplay(valor, "");
-
-    if (typeof updateFotSliderValue === "function") {
-        updateFotSliderValue(Number(valor));
+    if (!cfg) {
+        console.warn(`ajstCtrl: tipo desconocido "${tipo}"`);
+        return;
     }
 
-    slider10?.classList.add("slider-collapsed");
-    sliderFot?.classList.remove("slider-collapsed");
+    toggleHomePanel(cfg.panel);
+    ttl_pnl_ctrl.textContent = cfg.titulo;
 
-    set_EditCtrlsEn("pot_Fot");
-};
+    const valor = valsCtrl?.vals?.[cfg.key] ?? cfg.default;
+
+    if (cfg.isFot) {
+        activeSlider = "sliderFot";
+
+        updateControlDisplay(valor, "");
+
+        if (typeof updateFotSliderValue === "function")
+            updateFotSliderValue(Number(valor));
+
+        slider10?.classList.add("slider-collapsed");
+        sliderFot?.classList.remove("slider-collapsed");
+    } else {
+        setSliderConfig({
+            min: cfg.min,
+            max: cfg.max,
+            step: cfg.step,
+            value: valor,
+            unit: cfg.unit,
+            theme: cfg.theme
+        });
+
+        slider10.classList.remove("slider-collapsed");
+        sliderFot.classList.add("slider-collapsed");
+    }
+
+    set_EditCtrlsEn(cfg.key);
+}
+
+// --- Wrappers opcionales para mantener compatibilidad con el código existente ---
+export const ajstCtrl_TPiel = () => ajstCtrl("tp_Prog");
+export const ajstCtrl_TAire = () => ajstCtrl("ta_Prog");
+export const ajst_CtrlOx    = () => ajstCtrl("pot_Ox");
+export const ajst_CtrlHum   = () => ajstCtrl("pot_Hum");
+export const ajst_CtrlFot   = () => ajstCtrl("pot_Fot");
 
 // -----------------------------
 // Control de cambio de paneles
@@ -416,9 +426,7 @@ const visibilidadPaneles = {
  * @param {HTMLElement|null} elemento Elemento a limpiar.
  */
 function limpiarEstadoElemento(elemento) {
-    if (!elemento) {
-        return;
-    }
+    if (!elemento) return;
 
     elemento.classList.remove(
         ...CLASES_CONTROL,
@@ -441,9 +449,7 @@ function limpiarEstadoElemento(elemento) {
  * @param {string} claseColor Clase de color a aplicar.
  */
 function habilitarEstadoElemento(elemento, claseColor) {
-    if (!elemento) {
-        return;
-    }
+    if (!elemento) return;
 
     elemento.classList.add(claseColor, "enable");
 }
@@ -499,19 +505,30 @@ function habilitarControlesLaterales(controles, claseColor) {
  * @param {string} modoControl Modo de Control del equipo, se usa para el cambio de color de Báscula y cronómetro Apgar.
  */
 export function toggleHomePanel(showPanelControl, modoControl = null) {
-    if (!homeDiv || !panelControl) {
+    if (!homeDiv || !panelControl)
         return;
-    }
 
     const mostrarHome = showPanelControl === "home";
 
-    const configuracion = configuracionPaneles[showPanelControl];
+    if (mostrarHome) {
+        dissolveToPanel("home");
 
-    limpiarEstadoElemento(infoCtrl);
-    limpiarEstadoElemento(tituloCtrl);
-    limpiarControlesLaterales();
+        return;
+    }
 
-    if (configuracion) {
+    const reloadContent = () => {
+        const configuracion = configuracionPaneles[showPanelControl];
+
+        limpiarEstadoElemento(infoCtrl);
+        limpiarEstadoElemento(tituloCtrl);
+        limpiarControlesLaterales();
+
+        if (!configuracion) {
+            console.warn(`No existe configuración para el panel: "${showPanelControl}"`);
+
+            return;
+        }
+
         const {
             claseColor,
             controles,
@@ -525,12 +542,12 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
         habilitarEstadoElemento(infoCtrl, claseColor);
 
         if (showPanelControl === "apgar" || showPanelControl === "bascula") {
-            const altColor = (modoControl === "tPiel") ? "tp" : "ta"
+            const altColor = modoControl === "tPiel" ? "tp" : "ta";
+
             habilitarEstadoElemento(tituloCtrl, altColor);
-        }else{
+        } else {
             habilitarEstadoElemento(tituloCtrl, claseColor);
         }
-
 
         if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno") {
             habilitarControlesLaterales(controles, claseColor);
@@ -542,15 +559,18 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
         ctrl_apgar.style.display = visibilidad.ctrl_apgar ? "block" : "none";
         ctrl_basc.style.display = visibilidad.ctrl_basc ? "block" : "none";
 
-        if (iconoControl && icono) {
+        if (iconoControl && icono)
             iconoControl.src = icono;
-        }
-    } else if (!mostrarHome) {
-        console.warn(`No existe configuración para el panel: "${showPanelControl}"`);
+    };
+
+    if (panelControl.classList.contains("panel-active")) {
+        dissolveToPanel("control", reloadContent);
+
+        return;
     }
 
-    homeDiv.style.display = mostrarHome ? "block" : "none";
-    panelControl.style.display = mostrarHome ? "none" : "block";
+    reloadContent();
+    dissolveToPanel("control");
 }
 
 /**
@@ -573,24 +593,22 @@ async function set_EditCtrlsEn(ctrlLbl) {
         if (res.status === 200) {
             const rt = await res.json();
 
-            if (ctrlLbl === "tp_Prog" || ctrlLbl === "ta_Prog") {
+            if (ctrlLbl === "tp_Prog" || ctrlLbl === "ta_Prog")
                 updateControlDisplay(rt.valor, "°C");
-            } else if (ctrlLbl === "pot_Fot") {
+            else if (ctrlLbl === "pot_Fot")
                 updateControlDisplay(rt.valor, "");
-            } else {
+            else
                 updateControlDisplay(rt.valor, "%");
-            }
 
-            if (activeSlider === "sliderFot") {
+            if (activeSlider === "sliderFot")
                 updateFotSliderValue?.(Number(rt.valor));
-            } else {
+            else
                 updateSlider10Value?.(Number(rt.valor));
-            }
         }
 
-        if (!intervalEncod) {
+        if (!intervalEncod)
             intervalEncod = setInterval(edit_valProg, 100);
-        }
+
     } catch (error) {
         console.log("Error:", error);
     }
@@ -661,8 +679,6 @@ async function edit_valProg() {
     }
 }
 
-
-
 // ================================================================
 // PANELES: Cambio de modo T. Piel <-> T. Aire
 // ================================================================
@@ -675,13 +691,10 @@ export function iniTimerAjst(ajstPnl) {
     timerChngAjst = setTimeout(() => {
         if(ajstPnl === "Foto")
             fotoActive();
-        else if (ajstPnl.id === "pnl-modoAire"){
+        else if (ajstPnl.id === "pnl-modoAire")
             chngModo(ajstPnl);
-        }
-        else if (ajstPnl.id === "pnl-modoBebe"){
+        else if (ajstPnl.id === "pnl-modoBebe")
             chngModo(ajstPnl);
-        }
-
     }, (secs2Conf * 1000));
 };
 
@@ -778,6 +791,7 @@ function toggleElementsClass(elements, action, className) {
  */
 function activarModo(modo, pnlInactivo, pnlActivo) {
     const config = modoConfig[modo];
+
     if (!config) return;
 
     // Cambiar título
@@ -810,9 +824,8 @@ function activarModo(modo, pnlInactivo, pnlActivo) {
 
     // Procesar colecciones de elementos
     config.elements.elementCollections?.forEach(({ elements, action, class: className }) => {
-        if (className) {
-        toggleElementsClass(elements, action, className);
-        }
+        if (className)
+            toggleElementsClass(elements, action, className);
     });
 }
 
@@ -828,18 +841,20 @@ export function chngModo(panel, modoAP) {
     clearTimeout(timerChngAjst);
 
     // Cambios de modo confirmados
-    if (modoAP === "tPiel" && isModoBebe) {
+    if (modoAP === "tPiel" && isModoBebe)
         ajstCtrl_TPiel();
-    } 
     else if (modoAP === "tPiel" && isModoAire) {
+        addBlurScreen();
+
         panel.classList.add("chng");
         t_aire.classList.add("disabled");
         c_modo_Aire.classList.add("enabled");
     } 
-    else if (modoAP === "tAire" && isModoAire) {
+    else if (modoAP === "tAire" && isModoAire)
         ajstCtrl_TAire();
-    } 
     else if (modoAP === "tAire" && isModoBebe) {
+        addBlurScreen();
+
         lbl_temp_piel.textContent = "Cambiar a Modo Piel";
         lbl_temp_piel.classList.remove("m-Aire");
         lbl_temp_piel.classList.add("m-Piel");
@@ -849,6 +864,8 @@ export function chngModo(panel, modoAP) {
     } 
     // Cancelación de cambio de modo
     else {
+        removeBlurScreen();
+
         panel.classList.remove("chng");
         
         if (isModoBebe) {
@@ -870,6 +887,8 @@ export function chngModo(panel, modoAP) {
  */
 export function modoAire(pnlB, pnlA) {
     clearTimeout(timerChngAjst);
+
+    removeBlurScreen();
 
     setInitValues("modoAire");
 
@@ -897,6 +916,7 @@ export function modoAire(pnlB, pnlA) {
         boton.classList.remove("tPiel", "tAire");
         boton.classList.add("tAire");
     });
+
     ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-ma.svg"
 }
 
@@ -907,6 +927,8 @@ export function modoAire(pnlB, pnlA) {
  */
 export function modoPiel(pnlA, pnlB) {
     clearTimeout(timerChngAjst);
+
+    removeBlurScreen();
 
     setInitValues("modoPiel");
 
@@ -935,10 +957,9 @@ export function modoPiel(pnlA, pnlB) {
         boton.classList.remove("tPiel", "tAire");
         boton.classList.add("tPiel");
     });
+
     ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-mp.svg"
 }
-
-
 
 // --------------------------------
 // Panel de módulo de fototerapia
@@ -970,6 +991,7 @@ const fotoConfig = {
  */
 function setFotoState(estado) {
   const config = fotoConfig[estado];
+
   if (!config) return;
 
   clearTimeout(timerChngAjst);
@@ -977,25 +999,25 @@ function setFotoState(estado) {
   fot_panel.style.display = config.fot_panel;
   confirmacion_fot.style.display = config.confirmacion_fot;
 
-  if (config.ajstCtrlFot_active) {
+  if (config.ajstCtrlFot_active)
     ajstCtrlFot.classList.add("active");
-  } else {
+  else
     ajstCtrlFot.classList.remove("active");
-  }
 
   config.elements.forEach(el => {
     if (el) el.classList[config.elementAction]("active");
   });
 
-  if (estado === "active") {
+  if (estado === "active")
     fotoEn = true;
-  }
 }
 
 /**
  * Activa el panel de fototerapia
  */
 export function fotoActive() {
+    removeBlurScreen();
+
     setFotoState("active");
     updateSliderIntenseFot_pPrin?.(1);
 }
@@ -1014,6 +1036,9 @@ export function fotoInactive() {
 export function confAjstFoto() {
   if (!fotoEn) {
     clearTimeout(timerChngAjst);
+
+    addBlurScreenFot()
+
     fot_panel.style.display = 'none';
     confirmacion_fot.style.display = 'block';
     iniTimerAjst("Foto");
@@ -1022,7 +1047,6 @@ export function confAjstFoto() {
     ajstCtrlFot.classList.remove("active");
   }
 };
-
 
 // ================================
 // Slider Temperatura y Potencia
@@ -1083,8 +1107,11 @@ export function toggleSobregiro(mdCtrl) {
 // ==================================
 // Funcion Salir de Panel de Control
 // ==================================
-export function exitCancel(){
-    toggleHomePanel("home");
+export function exitCancel(mdCtrl = null, cnfgPanel = null){
+    if (cnfgPanel)
+        toggleHomePanel(cnfgPanel, mdCtrl);
+    else
+        toggleHomePanel("home", mdCtrl);
 
     // Detiene las peticiones de actialización del Encoder
     clearInterval(intervalEncod);
