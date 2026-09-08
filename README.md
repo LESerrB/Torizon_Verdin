@@ -495,7 +495,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Selección de zona horaria.
  - Función de cancelar Sobregiro ahora regresa a 37.0 como límite si se ecncuentra por sobre la temperatura máxima.
 
-### v0.23.5 - [07/09/2026]
+### v0.23.5 - [08/09/2026]
  - Primer prueba de animación de transición de "home" a "panel-control" y viceversa.
  - Mejora de animación de transición entre "panel-control" y "home".
  - Corregido color de etiqueta "lbl-temp-piel".
@@ -505,6 +505,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Creadas animaciones de desenfoque para los paneles de Modo Piel, Aire, Oxigeno, Humedad y Fototerapia.
  - Función de bloqueo de paneles (Modo de prueba, usando boton de alarma).
  - Bloqueo de módulos mientras estan en desenfoque.
+ - Creada función para agregar el nombre del paciente. Con "Enter" se aceptan los cambios.
 
 ## Descarga e Instalación
 

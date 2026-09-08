@@ -248,7 +248,7 @@ span {
   text-align: left;
   position: relative;
 
-  width: 113px;
+  width: 256px;
   height: 16px;
 
   left: 20px;
@@ -273,7 +273,7 @@ span {
   text-align: right;
   position: relative;
 
-  width: 96px;
+  width: 144px;
   height: 15px;
 
   display: flex;

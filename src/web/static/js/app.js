@@ -77,9 +77,10 @@ let modoOperacion = "Incubadora"
 const btn_alarma = document.getElementById("btn-alarma");
 
 // ==================================
-// Botón Cambio de Modo de Operación
+// Botones 
 // ==================================
 const modoSwitch = document.getElementById("modoSwitch");
+const nom_Paciente = document.getElementById("nom_Paciente");
 
 // ====================
 // Paneles de control
@@ -180,6 +181,17 @@ btn_alarma.addEventListener("click", () => {
         div.classList.toggle('lock-screen');
     });
     // ============================================== //
+});
+
+nom_Paciente.addEventListener("click", () => {
+    nom_Paciente.contentEditable = "true";
+});
+nom_Paciente.addEventListener("keydown", (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        console.log("Nombre:", nom_Paciente.textContent);
+        nom_Paciente.contentEditable = "false";
+    }
 });
 // **************** Switch Modo de Operación **************** //
 function stablishSwOpMode(modo = "Incubadora") {
