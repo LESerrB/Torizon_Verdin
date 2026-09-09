@@ -506,6 +506,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Función de bloqueo de paneles (Modo de prueba, usando boton de alarma).
  - Bloqueo de módulos mientras estan en desenfoque.
  - Creada función para agregar el nombre del paciente. Con "Enter" se aceptan los cambios.
+ - Implementada función de ventana emergente en panel principal para notificaciones.
 
 ## Descarga e Instalación
 

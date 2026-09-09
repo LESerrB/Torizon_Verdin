@@ -31,6 +31,11 @@ import {
     salirBascula
 } from "./bascula.js";
 
+import { 
+    showNotif,
+    hideNotif 
+} from "./notif.js";
+
 const recursosVisuales = [
     // HOME //
     "../static/icon/Home/ICON_INCUBADORA.svg",
@@ -167,7 +172,6 @@ function stopPanelPointerEvent(event) {
 //                                Controles UI                                //
 //============================================================================//
 btn_alarma.addEventListener("click", () => {
-    console.log("Alarma Off");
     // ======= Función de bloqueo de pantalla ======= //
     const divs = [
         document.querySelector('.barra_Informacion'),
@@ -181,6 +185,10 @@ btn_alarma.addEventListener("click", () => {
         div.classList.toggle('lock-screen');
     });
     // ============================================== //
+    if(document.querySelector('.panel-prin').classList.contains('lock-screen'))
+        showNotif("Pantalla bloqueada");
+    else
+        showNotif("Pantalla desbloqueada");
 });
 
 nom_Paciente.addEventListener("click", () => {
