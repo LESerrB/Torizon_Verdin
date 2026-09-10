@@ -1,6 +1,8 @@
 const PANEL_HOME = document.getElementById("home");
 const PANEL_CONTROL = document.getElementById("panel-control");
 
+const tittleBar = document.querySelector(".ttl-pnl-prin");
+
 const pnlBebe = document.getElementById("pnl-modoBebe");
 const pnlAire = document.getElementById("pnl-modoAire");
 const modOx  = document.getElementById("mod-ox");
@@ -137,8 +139,15 @@ function frameWait() {
  * @example
  * addBlurScreen(); // Desenfoca el panel activo y los módulos de oxígeno, humedad y fototerapia
  */
-export function addBlurScreen() {
+export function addBlurScreen(view = null) {
     const panelActivo = pnlBebe?.classList.contains("active") ? pnlBebe : pnlAire;
+
+    if (view == "gral") {
+        const panelInactivo = pnlBebe?.classList.contains("active") ? pnlAire : pnlBebe;
+
+        tittleBar?.classList.add("mica-effect");
+        panelInactivo?.classList.add("mica-effect");
+    }
 
     panelActivo?.classList.add("mica-effect");
     [modOx, modHum, modFot].forEach((el) => el?.classList.add("mica-effect"));
@@ -159,6 +168,16 @@ export function addBlurScreenFot(){
         el?.classList.add("mica-effect"));
 }
 
+export function blurCtrl_Panel() {
+    document.querySelector(".mp-atpiel-mc-ttl").classList.add("mica-effect");
+    document.querySelector(".mp-info-ctrl").classList.add("mica-effect");
+}
+
+export function removeBlurCtrl_Panel() {
+    document.querySelector(".mp-atpiel-mc-ttl").classList.remove("mica-effect");
+    document.querySelector(".mp-info-ctrl").classList.remove("mica-effect");
+}
+
 /**
  * Elimina el efecto de desenfoque de todos los paneles y módulos afectados
  * Restaura la vista original para continuar la interactividad normal del contenido
@@ -170,6 +189,8 @@ export function addBlurScreenFot(){
  * removeBlurScreen(); // Quita el efecto de desenfoque de toda la interfaz
  */
 export function removeBlurScreen() {
+    tittleBar?.classList.remove("mica-effect");
+
     [pnlBebe, pnlAire, modOx, modHum, modFot].forEach((el) =>
         el?.classList.remove("mica-effect")
     );

@@ -495,7 +495,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Selección de zona horaria.
  - Función de cancelar Sobregiro ahora regresa a 37.0 como límite si se ecncuentra por sobre la temperatura máxima.
 
-### v0.23.5 - [08/09/2026]
+### v0.23.5 - [10/09/2026]
  - Primer prueba de animación de transición de "home" a "panel-control" y viceversa.
  - Mejora de animación de transición entre "panel-control" y "home".
  - Corregido color de etiqueta "lbl-temp-piel".
@@ -507,6 +507,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Bloqueo de módulos mientras estan en desenfoque.
  - Creada función para agregar el nombre del paciente. Con "Enter" se aceptan los cambios.
  - Implementada función de ventana emergente en panel principal para notificaciones.
+ - Se aplica el blur sobre el panel principal al bloquear la pantalla.
+ - Añadido botones de apagado en módulos de Humedad y Oxigeno.
+ - Aplicada función de blur sobe panel de control para notificación emergente de apagado.
 
 ## Descarga e Instalación
 

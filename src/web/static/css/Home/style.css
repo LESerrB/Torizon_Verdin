@@ -1359,7 +1359,19 @@ Contenedor Temperaturas Secundarias
 .mp-prin-mc-taire.mica-effect,
 .modulo.ox.mica-effect,
 .modulo.hum.mica-effect,
-.modulo.fot.mica-effect {
+.modulo.fot.mica-effect,
+.ttl-pnl-prin.bckgnd-ctrl-piel.mica-effect,
+.ttl-pnl-prin.bckgnd-ctrl-aire.mica-effect,
+.mp-atpiel-mc-ttl.tp.enable.mica-effect,
+.mp-atpiel-mc-ttl.ta.enable.mica-effect,
+.mp-atpiel-mc-ttl.ox.enable.mica-effect,
+.mp-atpiel-mc-ttl.hum.enable.mica-effect,
+.mp-atpiel-mc-ttl.fot.enable.mica-effect,
+.mp-info-ctrl.tp.enable.mica-effect,
+.mp-info-ctrl.ta.enable.mica-effect,
+.mp-info-ctrl.ox.enable.mica-effect,
+.mp-info-ctrl.hum.enable.mica-effect,
+.mp-info-ctrl.fot.enable.mica-effect {
   opacity: 0.5;
   filter: blur(2px);
   transition: opacity 300ms ease, backdrop-filter 300ms ease;

@@ -45,8 +45,9 @@ const oxCtrl = document.getElementById("ox_prog");
 //---------------------------------------------------------------
 // Vista Panel de Control
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
-const slider10 = document.getElementById("tpielSlider");    // <==== Estos sonlos que debo pasar como argumento  
-const sliderFot = document.getElementById("fotSlider");     // <==== Estos sonlos que debo pasar como argumento
+const slider10 = document.getElementById("tpielSlider");
+const sliderFot = document.getElementById("fotSlider");
+const btn_Off = document.getElementById("off-ctrl");
 
 //---------------------------------------------------------------
 // Control de Sensores
@@ -271,6 +272,10 @@ export function ajstCtrl(tipo) {
 
     const valor = valsCtrl?.vals?.[cfg.key] ?? cfg.default;
 
+    if (tipo === "pot_Ox" || tipo === "pot_Hum" ) {
+        btn_Off.classList.add(tipo)
+    }
+
     if (cfg.isFot) {
         activeSlider = "sliderFot";
 
@@ -298,7 +303,7 @@ export function ajstCtrl(tipo) {
     set_EditCtrlsEn(cfg.key);
 }
 
-// --- Wrappers opcionales para mantener compatibilidad con el código existente ---
+// --- Wrappers --- //
 export const ajstCtrl_TPiel = () => ajstCtrl("tp_Prog");
 export const ajstCtrl_TAire = () => ajstCtrl("ta_Prog");
 export const ajst_CtrlOx    = () => ajstCtrl("pot_Ox");
@@ -558,6 +563,9 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
         view_tend.style.display = visibilidad.view_tend ? "block" : "none";
         ctrl_apgar.style.display = visibilidad.ctrl_apgar ? "block" : "none";
         ctrl_basc.style.display = visibilidad.ctrl_basc ? "block" : "none";
+
+        btn_Off.classList.remove("pot_Ox");
+        btn_Off.classList.remove("pot_Hum");
 
         if (iconoControl && icono)
             iconoControl.src = icono;

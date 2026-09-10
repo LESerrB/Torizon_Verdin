@@ -96,6 +96,7 @@ const ajstCtrlOx = document.getElementById("mod-ox");
 const ajstCtrlHum = document.getElementById("mod-hum");
 const ajstCtrlFot = document.getElementById("mod-fot");
 
+const btn_Offmod = document.getElementById("off-ctrl")
 const btn_sg = document.getElementById("btn-sg");
 
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
@@ -292,6 +293,12 @@ ajstCtrlFot?.addEventListener("pointerup", () => {
 // Boton de Sobregiro
 btn_sg?.addEventListener("pointerup", () => {
     toggleSobregiro(modoControl);
+})
+
+// Botón Apagar
+btn_Offmod?.addEventListener("pointerup", () => {
+    showNotif("Servocontrol de oxígeno apagado", "panel-ctrl", () =>
+        exitCancel(modoControl));
 })
 // ==================================
 // Aceptar / Cancelar Cambio de Modo

@@ -426,6 +426,7 @@
 
 /* Boton Cancelar */
 .btn-cancel,
+.btn-off,
 .btn-adjst-foto,
 .btn-aceptar-sg {
   background: var(--colorclarobtn);
@@ -446,9 +447,19 @@
   left: calc(50% - -200px);
   top: calc(50% - -80px);
 }
-.btn-cancel:active {
-  background-color: var(--colorgrisbtn);
+.btn-off{
+  top: calc(50% - -20px);
+  display: none;
 }
+.btn-off.pot_Ox{
+  background: var(--colorbtnoffox);
+  display: block;
+}
+.btn-off.pot_Hum{
+  background: var(--colorbtnoffhum);
+  display: block;
+}
+.btn-cancel:active { background-color: var(--colorgrisbtn); }
 .btn-adjst-foto{
   width: 110px;
   height: 37px;
@@ -460,6 +471,14 @@
   background-color: var(--colorfotoprsdbtn);
   transform: scale(0.97);
 }
+.btn-off.pot_Ox:active{
+  background: var(--colorbtnoffoxpres);
+  transform: scale(0.97);
+}
+.btn-off.pot_Hum:active{
+  background: var(--colorbtnoffhumpres);
+  transform: scale(0.97);
+}
 .btn-aceptar-sg{
   background: var(--colorbtnsnuevos);
 
@@ -469,9 +488,7 @@
   height: 36px;
   width: 110px;
 }
-.btn-aceptar-sg:active {
-  transform: scale(0.97);
-}
+.btn-aceptar-sg:active { transform: scale(0.97); }
 /* Etiqueta Cancelar */
 .cancelar {
   color: var(--colorgrisbtn);
@@ -484,8 +501,17 @@
   position: relative;
 }
 .btn-cancel:active .cancelar,
-.btn-adjst-foto:active .cancelar {
+.btn-adjst-foto:active .cancelar { color: var(--colorclarobtn); }
+
+.apagar {
   color: var(--colorclarobtn);
+  text-align: center;
+
+  font-family: var(--textbtnsestandar-font-family);
+  font-size: var(--textbtnsestandar-font-size);
+  font-weight: var(--textbtnsestandar-font-weight);
+
+  position: relative;
 }
 /*********************************
  * Panel de cambio de Fototerpia *
