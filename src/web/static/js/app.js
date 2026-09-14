@@ -13,7 +13,7 @@ import {
     modoAire,
     modoPiel,
 
-    chngModo,
+    chngModo,   
     fotoActive,
     confAjstFoto,
     iniTimerAjst,

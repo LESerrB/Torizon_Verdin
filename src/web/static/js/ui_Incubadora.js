@@ -665,9 +665,11 @@ async function edit_valProg() {
             const nuevoValor = Number(encd.val);
 
             if (encd.ctrl === "pot_Fot") {
-                updateControlDisplay(nuevoValor, "");
-                updateFotSliderValue?.(nuevoValor);
-                updateSliderIntenseFot_pPrin?.(nuevoValor);
+                if (intervalEncod){
+                    updateControlDisplay(nuevoValor, "");
+                    updateFotSliderValue?.(nuevoValor);
+                    updateSliderIntenseFot_pPrin?.(nuevoValor);
+                }
             } else {
                 const unidad = encd.ctrl === "tp_Prog" || encd.ctrl === "ta_Prog" ? "°C" : "%";
 
@@ -926,32 +928,36 @@ export function modoAire(pnlB, pnlA) {
 
     setInitValues("modoAire");
 
-    activarModo("tAire", pnlB, pnlA);
-    c_modo_Aire?.classList.remove("enabled");
-    t_aire?.classList.remove("disabled");
-    cont_vm_tpiel.classList.add("m-Piel");
-    ttl_programada.textContent = "Temp. Aire Programada";
+    const reloadContent = () => {
+        activarModo("tAire", pnlB, pnlA);
+        c_modo_Aire?.classList.remove("enabled");
+        t_aire?.classList.remove("disabled");
+        cont_vm_tpiel.classList.add("m-Piel");
+        ttl_programada.textContent = "Temp. Aire Programada";
 
-    elementos_tpiel.forEach((elemento) => {
-        elemento.classList.remove("m-Piel");
-    });
-    elementos_taire?.forEach((elemento) => {
-        elemento.classList.add("m-Aire");
-    });
-    
-    [ti_v_contapgar, cont_bas_anima, ti_v_vpeso].forEach((elemento) => {
-        if (!elemento) return;
+        elementos_tpiel.forEach((elemento) => {
+            elemento.classList.remove("m-Piel");
+        });
+        elementos_taire?.forEach((elemento) => {
+            elemento.classList.add("m-Aire");
+        });
+        
+        [ti_v_contapgar, cont_bas_anima, ti_v_vpeso].forEach((elemento) => {
+            if (!elemento) return;
 
-        elemento.classList.remove("tPiel");
-        elemento.classList.add("tAire");
-    });
+            elemento.classList.remove("tPiel");
+            elemento.classList.add("tAire");
+        });
 
-    botones.forEach((boton) => {
-        boton.classList.remove("tPiel", "tAire");
-        boton.classList.add("tAire");
-    });
+        botones.forEach((boton) => {
+            boton.classList.remove("tPiel", "tAire");
+            boton.classList.add("tAire");
+        });
 
-    ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-ma.svg"
+        ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-ma.svg"
+    };
+
+    dissolveToPanel("home", reloadContent);
 }
 
 /**
@@ -966,33 +972,37 @@ export function modoPiel(pnlA, pnlB) {
 
     setInitValues("modoPiel");
 
-    lbl_temp_piel.textContent = "Temperatura Piel";
-    activarModo("tPiel", pnlA, pnlB);
-    pop_mp_prin_mc_tpiel.classList.remove("c-modo");
-    cont_vm_tpiel.classList.remove("c-modo");
-    cont_vm_tpiel.classList.remove("m-Piel");
-    ttl_programada.textContent = "Temp. Piel Programada";
+    const reloadContent = () => {
+        lbl_temp_piel.textContent = "Temperatura Piel";
+        activarModo("tPiel", pnlA, pnlB);
+        pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+        cont_vm_tpiel.classList.remove("c-modo");
+        cont_vm_tpiel.classList.remove("m-Piel");
+        ttl_programada.textContent = "Temp. Piel Programada";
 
-    elementos_tpiel.forEach((elemento) => {
-        elemento.classList.add("m-Piel");
-    });
-    elementos_taire?.forEach((elemento) => {
-        elemento.classList.remove("m-Aire");
-    });
-    
-    [ti_v_contapgar, cont_bas_anima, ti_v_vpeso].forEach((elemento) => {
-        if (!elemento) return;
+        elementos_tpiel.forEach((elemento) => {
+            elemento.classList.add("m-Piel");
+        });
+        elementos_taire?.forEach((elemento) => {
+            elemento.classList.remove("m-Aire");
+        });
+        
+        [ti_v_contapgar, cont_bas_anima, ti_v_vpeso].forEach((elemento) => {
+            if (!elemento) return;
 
-        elemento.classList.remove("tAire");
-        elemento.classList.add("tPiel");
-    });
+            elemento.classList.remove("tAire");
+            elemento.classList.add("tPiel");
+        });
 
-    botones.forEach((boton) => {
-        boton.classList.remove("tPiel", "tAire");
-        boton.classList.add("tPiel");
-    });
+        botones.forEach((boton) => {
+            boton.classList.remove("tPiel", "tAire");
+            boton.classList.add("tPiel");
+        });
 
-    ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-mp.svg"
+        ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-mp.svg"
+    };
+
+    dissolveToPanel("home", reloadContent);
 }
 
 // --------------------------------
@@ -1151,7 +1161,7 @@ export function exitCancel(mdCtrl = null, cnfgPanel = null){
     clearInterval(intervalEncod);
     intervalEncod = null;
 
-    if (fotoEn){
+    if (fotoEn && tituloCtrl.classList.contains("fot")){
         fotoEn = !fotoEn;
         fotoInactive();
         updateSliderIntenseFot_pPrin?.(0);
