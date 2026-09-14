@@ -1180,6 +1180,8 @@ Contenedor Temperaturas Secundarias
 
 /*Valores de Sensores*/
 .valSens {
+  color: var(--colortextoinactivo);
+
   text-align: center;
 
   font-family: var(--numtempsecun-font-family);
@@ -1195,12 +1197,12 @@ Contenedor Temperaturas Secundarias
   align-items: center;
   justify-content: center;
 }
-
+.valSens.active { color: var(--colortextactivo); }
 /*----------------------*/
 .line-02 {
   margin-top: -2px;
   border-style: solid;
-  border-color: var(--colortextactivo);
+  border-color: var(--colortextoinactivo);
   border-width: 2px 0 0 0;
   flex-shrink: 0;
   width: 24px;
@@ -1212,6 +1214,7 @@ Contenedor Temperaturas Secundarias
   left: 12px;
   top: -9px;
 }
+.line-02.active{ border-color: var(--colortextactivo); }
 /*----------------------*/
 
 .cont-vp-sens {
@@ -1225,6 +1228,7 @@ Contenedor Temperaturas Secundarias
   position: relative;
 }
 .vp-Sens {
+  color: var(--colortextoinactivo);
   text-align: center;
 
   font-family: var(--numtempterc-font-family);
@@ -1240,7 +1244,9 @@ Contenedor Temperaturas Secundarias
   align-items: center;
   justify-content: center;
 }
+.vp-Sens.active { color: var(--colortextactivo); }
 .lbl-progr {
+  color: var(--colortextoinactivo);
   text-align: center;
 
   font-family: var(--texttemptercer-font-family);
@@ -1255,6 +1261,7 @@ Contenedor Temperaturas Secundarias
   align-items: center;
   justify-content: center;
 }
+.lbl-progr.active { color: var(--colortextactivo); }
 
 /* Temporizador Fototerapia */
 ._00-00 {

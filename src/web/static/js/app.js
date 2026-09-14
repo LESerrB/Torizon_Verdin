@@ -13,12 +13,12 @@ import {
     modoAire,
     modoPiel,
 
-    toggleHomePanel,
     chngModo,
     fotoActive,
     confAjstFoto,
     iniTimerAjst,
     toggleSobregiro,
+    toogleOnOff_SensMod,
     exitCancel
 } from "./ui_Incubadora.js";
 
@@ -297,6 +297,14 @@ btn_sg?.addEventListener("pointerup", () => {
 
 // Botón Apagar
 btn_Offmod?.addEventListener("pointerup", () => {
+    const off_Ox = document.getElementById("ctrl-sensores").classList.contains("ox")
+    const off_Hum = document.getElementById("ctrl-sensores").classList.contains("hum")
+    
+    if (off_Ox)
+        toogleOnOff_SensMod("mod-ox", !off_Ox)
+    else if (off_Hum)
+        toogleOnOff_SensMod("mod-hum", !off_Hum)
+
     showNotif("Servocontrol de oxígeno apagado", "panel-ctrl", () =>
         exitCancel(modoControl));
 })

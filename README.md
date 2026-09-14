@@ -509,7 +509,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Implementada función de ventana emergente en panel principal para notificaciones.
  - Se aplica el blur sobre el panel principal al bloquear la pantalla.
  - Añadido botones de apagado en módulos de Humedad y Oxigeno.
- - Aplicada función de blur sobe panel de control para notificación emergente de apagado.
+ - Aplicada función de blur sobe panel de control para notificación emergente de apagado de sensores.
+ - Paneles de módulos de Oxígeno y Humedad se les asigna función de habilitado y deshabilitado visual.
 
 ## Descarga e Instalación
 

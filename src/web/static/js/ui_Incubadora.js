@@ -94,8 +94,16 @@ export async function setInitValues(modoCtrl = "modoPiel") {
 
             tempProg.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
             tempProgA.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
-            humCtrl.textContent = valsCtrl.vals.pot_Hum;
-            oxCtrl.textContent = valsCtrl.vals.pot_Ox;
+            
+            if(humCtrl.classList.contains("active"))
+                humCtrl.textContent = valsCtrl.vals.pot_Hum;
+            else if(!humCtrl.classList.contains("active"))
+                humCtrl.textContent = "--";
+
+            if(oxCtrl.classList.contains("active"))
+                oxCtrl.textContent = valsCtrl.vals.pot_Ox;
+            else if(!oxCtrl.classList.contains("active"))
+                oxCtrl.textContent = "--";
 
             if (modoCtrl == "modoPiel") {
                 viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
@@ -581,6 +589,19 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
     dissolveToPanel("control");
 }
 
+export function toogleOnOff_SensMod(Mod, On){
+    const mo = document.getElementById(Mod);
+
+    if (Mod === "mod-hum" && !On)
+        humCtrl.textContent = "--";
+    else if (Mod === "mod-ox" && !On)
+        oxCtrl.textContent = "--";
+
+    mo?.querySelectorAll("*").forEach((elemento) => {
+        elemento.classList.toggle("active", On);
+    });
+}
+
 /**
  * Habilita la edición del control indicado.
  * @param {string} ctrlLbl Etiqueta del control a editar.
@@ -675,6 +696,11 @@ async function edit_valProg() {
                     default:
                     break;
                 }
+
+                if (encd.ctrl === "pot_Ox")
+                    toogleOnOff_SensMod("mod-ox", true);
+                else if (encd.ctrl === "pot_Hum")
+                    toogleOnOff_SensMod("mod-hum", true);
 
                 toggleHomePanel("home");
 
