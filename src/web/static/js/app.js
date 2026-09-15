@@ -23,6 +23,10 @@ import {
 } from "./ui_Incubadora.js";
 
 import { 
+    reload_Btns
+ } from "./ui_Cuna.js";
+
+import { 
     createApgarSegments
  } from "./crono_Apgar.js";
 
@@ -215,6 +219,8 @@ function stablishSwOpMode(modo = "Incubadora") {
         console.warn(`Modo no válido: ${modo}`);
         return;
     }
+
+    reload_Btns(modoOperacion);
 }
 modoSwitch.addEventListener("change", () => {
     if (modoSwitch.checked)
@@ -223,7 +229,6 @@ modoSwitch.addEventListener("change", () => {
         modoOperacion = "Cuna";
 
     stablishSwOpMode(modoOperacion);
-    console.log(`Switch cambiado a: ${modoOperacion}`);
 });
 
 // ***************** Panel Temperatura Piel ***************** //
@@ -456,7 +461,7 @@ bindMenuButton({
     title: "Báscula"
 });
 
-bindMenuButton({
+bindMenuButton({    
     key: "apgar",
     id: "btn-apgr",
     icons: {
@@ -506,6 +511,7 @@ function clear_Btns() {
 //============================================================================//
 preloadVisualRsrc();                    // Precarga de iconos de aplicación
 setInitValues();                        // Valores iniciales de control
+reload_Btns(modoOperacion);
 startSensors();                         // Inicio de sensado
 stablishSwOpMode(modoOperacion);        // Estado Inicial del Equipo
 createApgarSegments(modoControl);       // Configuración inicial color cronómetro

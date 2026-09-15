@@ -133,13 +133,11 @@ span {
   transform: scale(0.97);
 }
 
-.btn-img.pressed{
-  background-color: var(--colorgrisbtn);
-}
+.btn-img.pressed{ background-color: var(--colorgrisbtn); }
 
-.btn-collapsed {
-  display: none !important;
-}
+#btn-apgr.hide { display: none; }
+
+.btn-collapsed { display: none !important; }
 
 /* Boton de cambio de Modo de Operacion*/
 .switch-btn {
@@ -151,9 +149,7 @@ span {
   left: 21px;
 }
 
-.switch-btn input {
-  display: none;
-}
+.switch-btn input { display: none; }
 
 .switch-bg {
   width: 100%;
@@ -175,13 +171,9 @@ span {
   transition: background-color 0.25s ease, opacity 0.25s ease;
 }
 
-.switch-left {
-  background-color: #92d1bc;
-}
+.switch-left { background-color: #92d1bc; }
 
-.switch-right {
-  background-color: #d8dee2;
-}
+.switch-right { background-color: #d8dee2; }
 
 .switch-option img {
   width: 47px;
@@ -1356,7 +1348,7 @@ Contenedor Temperaturas Secundarias
   width: 360px;
   position: relative;
 }
-
+.cont-btns-menuprin.no-apgar { justify-content: flex-end; }
 /*#######################################*/
 /*              Efecto Mica              */
 /*#######################################*/
