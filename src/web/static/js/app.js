@@ -23,7 +23,7 @@ import {
 } from "./ui_Incubadora.js";
 
 import { 
-    reload_Btns
+    reload_Screen
  } from "./ui_Cuna.js";
 
 import { 
@@ -220,7 +220,7 @@ function stablishSwOpMode(modo = "Incubadora") {
         return;
     }
 
-    reload_Btns(modoOperacion);
+    reload_Screen(modoOperacion);
 }
 modoSwitch.addEventListener("change", () => {
     if (modoSwitch.checked)
@@ -511,7 +511,7 @@ function clear_Btns() {
 //============================================================================//
 preloadVisualRsrc();                    // Precarga de iconos de aplicación
 setInitValues();                        // Valores iniciales de control
-reload_Btns(modoOperacion);
+reload_Screen(modoOperacion);
 startSensors();                         // Inicio de sensado
 stablishSwOpMode(modoOperacion);        // Estado Inicial del Equipo
 createApgarSegments(modoControl);       // Configuración inicial color cronómetro

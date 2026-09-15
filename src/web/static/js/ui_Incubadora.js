@@ -597,8 +597,8 @@ export function toogleOnOff_SensMod(Mod, On){
     else if (Mod === "mod-ox" && !On)
         oxCtrl.textContent = "--";
 
-    mo?.querySelectorAll("*").forEach((elemento) => {
-        elemento.classList.toggle("active", On);
+    mo?.querySelectorAll("*").forEach((el) => {
+        el.classList.toggle("active", On);
     });
 }
 

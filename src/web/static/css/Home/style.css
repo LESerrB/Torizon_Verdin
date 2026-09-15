@@ -914,9 +914,7 @@ Contenedor Temperaturas Secundarias
   position: relative;
 }
 /* Contenedor T Aire Programado */
-.tprog-aire{
-  display: none;
-}
+.tprog-aire{ display: none; }
 .tprog-aire.m-Aire{
   display: block;
 
@@ -986,9 +984,7 @@ Contenedor Temperaturas Secundarias
   position: relative;
   overflow: hidden;
 }
-.pop-cmodo-aire.enabled{
-  display: flex;
-}
+.pop-cmodo-aire.enabled{ display: flex; }
 .icon-md-tp-ta {
   flex-shrink: 0;
   width: 200px;
@@ -1112,6 +1108,7 @@ Contenedor Temperaturas Secundarias
   translate: -50%;
   top: 255px;
 }
+.mp-prin-mc-msoporte.disabled { gap: 11px; }
 .modulo {
   padding: 10px 0px 0px 0px;
   display: flex;
@@ -1131,6 +1128,11 @@ Contenedor Temperaturas Secundarias
 .modulo.ox.pressed  { background: var(--colorpressedox); }
 /* Modulo de humedad */
 .modulo.hum { background: var(--colorfondohum); }
+.modulo.hum.disabled { 
+  width: 308px;
+  background: var(--colorfondobtns);
+  pointer-events: none;
+}
 .modulo.hum.pressed { background: var(--colorpressedhum); }
 /* Modulo Fototerapia */
 .modulo.fot { background: var(--colorfondofot); }
@@ -1151,6 +1153,8 @@ Contenedor Temperaturas Secundarias
   justify-content: center;
 }
 .ttl-mod-sensores.active { color: var(--colortextactivo); }
+.ttl-mod-sensores.disabled,
+.ttl-mod-sensores.active.disabled { display: none; }
 
 .cont-vsens {
   display: flex;
@@ -1162,6 +1166,8 @@ Contenedor Temperaturas Secundarias
   width: 270px;
   position: relative;
 }
+.cont-vsens.disabled{ display: none; }
+
 .ti-vm-fot {
   padding: 0px 2px 0px 2px;
   flex-shrink: 0;
@@ -1299,9 +1305,7 @@ Contenedor Temperaturas Secundarias
   height: 15px;
   border-radius: 3px 3px 0px 0px;
 }
-.seg-potencia-fot .fot-seg-2 {
-  height: 15px;
-}
+.seg-potencia-fot .fot-seg-2 { height: 15px; }
 .seg-potencia-fot .fot-seg-3 {
   height: 15px;
   border-radius: 0px 0px 3px 3px;
