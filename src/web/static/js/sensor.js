@@ -48,7 +48,7 @@ async function get_DtSensores() {
             const vls_snsrsTCD = await res.json();
 
             viewLat_tp.textContent = tempPiel.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Piel.toFixed(1);
-            viewLat_ta.textContent = tempAire.textContent = (panelDer.classList.contains("m-Manual")) ? vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(0) : vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1);
+            viewLat_ta.textContent = tempAire.textContent = (panelDer.classList.contains("m-Manual")) ? vls_snsrsTCD.vls_snsrsTCD.pot_Clf.toFixed(0) : vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1);
             tempSondaAux.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Aux.toFixed(1);
 
             viewLat_ox.textContent = sensOx.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Ox;

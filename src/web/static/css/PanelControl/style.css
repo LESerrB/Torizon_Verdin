@@ -175,6 +175,7 @@
 .mp-atpiel-mc-ttl.ox.enable{ background: var(--coloroscurooxigeno); }
 .mp-atpiel-mc-ttl.hum.enable{ background: var(--coloroscurohum); }
 .mp-atpiel-mc-ttl.fot.enable{ background: var(--coloroscurofot); }
+.mp-atpiel-mc-ttl.clf.enable{ background: var(--coloroscurocalefactor); }
 
 /*>>>>>>>>>>>> Titulo de Panel <<<<<<<<<<<<*/
 .mp-atpiel-mc-lbl {
@@ -215,6 +216,7 @@
 .mp-info-ctrl.ox.enable{ background: var(--colorfondooxigeno); }
 .mp-info-ctrl.hum.enable{ background: var(--colorfondohum); }
 .mp-info-ctrl.fot.enable{ background: var(--colorfondofot); }
+.mp-info-ctrl.clf.enable{ background: var(--colorfondocalefactor); }
 
 /* Icono de Panel */
 .icon-ctrl {
@@ -410,6 +412,18 @@
 .ctrl-slider-seg.seg-p_hum-7 { fill: #5A92B3; }
 .ctrl-slider-seg.seg-p_hum-8 { fill: #447FA2; }
 .ctrl-slider-seg.seg-p_hum-9 { fill: #2F6E8A; }
+
+/* Ajuste Potencia de Calefactor */
+.ctrl-slider-seg.seg-p_clf-0 { fill: #F8E7A6; }
+.ctrl-slider-seg.seg-p_clf-1 { fill: #F7D98D; }
+.ctrl-slider-seg.seg-p_clf-2 { fill: #F5C87C; }
+.ctrl-slider-seg.seg-p_clf-3 { fill: #F2B56C; }
+.ctrl-slider-seg.seg-p_clf-4 { fill: #EE9D5D; }
+.ctrl-slider-seg.seg-p_clf-5 { fill: #E9824F; }
+.ctrl-slider-seg.seg-p_clf-6 { fill: #DE6847; }
+.ctrl-slider-seg.seg-p_clf-7 { fill: #CA493A; }
+.ctrl-slider-seg.seg-p_clf-8 { fill: #B73532; }
+.ctrl-slider-seg.seg-p_clf-9 { fill: #9E292A; }
 
 /* Ajuste Potencia de Fototerapia */
 .ctrl-slider-seg.seg-p_fot-0 { fill: #8194B8; }

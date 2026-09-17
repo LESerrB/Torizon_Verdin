@@ -258,7 +258,18 @@ const AJST_CTRL_CONFIG = {
         key: "pot_Fot",
         default: 1,
         isFot: true
-    }
+    },
+    pot_Calf: {
+        panel: "ajstClf",
+        titulo: "Ajuste Potencia del Calefactor",
+        key: "pot_Clf",
+        default: 0,
+        min: 0,
+        max: 100,
+        step: 1,
+        unit: "%",
+        theme: "seg-p_clf"
+    },
 };
 
 /**
@@ -317,6 +328,7 @@ export const ajstCtrl_TAire = () => ajstCtrl("ta_Prog");
 export const ajst_CtrlOx    = () => ajstCtrl("pot_Ox");
 export const ajst_CtrlHum   = () => ajstCtrl("pot_Hum");
 export const ajst_CtrlFot   = () => ajstCtrl("pot_Fot");
+export const ajst_CtrlCalf  = () => ajstCtrl("pot_Calf");
 
 // -----------------------------
 // Control de cambio de paneles
@@ -330,7 +342,8 @@ const CLASES_CONTROL = [
     "ta",
     "ox",
     "hum",
-    "fot"
+    "fot",
+    "clf"
 ];
 
 const SELECTOR_ELEMENTOS_INTERNOS = [
@@ -369,6 +382,12 @@ const configuracionPaneles = {
         claseColor: "fot",
         controles: ["fototerapia"],
         icono: "../static/icon/Control/Icon_Fototerapia.svg"
+    },
+
+    ajstClf: {
+        claseColor: "clf",
+        controles: ["calefactor"],
+        icono: "../static/icon/Control/Icon_Calefactor.svg"
     },
 
     tendencias: {
@@ -888,7 +907,7 @@ export function chngModo(panel, modoAP) {
     } 
     else if (modoAP === "tAire" && isModoAire)
         ajstCtrl_TAire();
-    else if (modoAP === "tAire" && isModoBebe) {
+    else if ((modoAP === "tAire" || modoAP === "mManual") && isModoBebe) {
         addBlurScreen();
 
         lbl_temp_piel.textContent = "Cambiar a Modo Piel";
@@ -897,7 +916,9 @@ export function chngModo(panel, modoAP) {
         panel.classList.add("chng");
         cont_vm_tpiel.classList.add("c-modo");
         pop_mp_prin_mc_tpiel.classList.add("c-modo");
-    } 
+    }
+    else if (modoAP === "mManual" && isModoAire)
+        ajst_CtrlCalf();
     // Cancelación de cambio de modo
     else {
         removeBlurScreen();

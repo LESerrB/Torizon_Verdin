@@ -880,6 +880,7 @@ Contenedor Temperaturas Secundarias
 }
 .mp-prin-mc-taire.pressed{ background: var(--colorpressedaire); }
 .mp-prin-mc-taire.chng{ background: var(--colorfondoaire); }
+.mp-prin-mc-taire.active.m-Manual.pressed{ background: var(--colorpressedcalef); }
 
 /* Contenedor T. Aire Apagado */
 .cont-taire {

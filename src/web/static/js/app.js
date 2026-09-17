@@ -63,7 +63,7 @@ const recursosVisuales = [
     "../static/icon/Control/Icon_Fototerapia.svg",
     "../static/icon/Control/Icon_Humedad.svg",
     "../static/icon/Control/Icon_Oxigeno.svg",
-    "../static/icon/Control/ICON_CALEFACTOR.svg",
+    "../static/icon/Control/Icon_Calefactor.svg",
     "../static/icon/Control/icons-mas-menos0.svg",
     "../static/icon/Control/igraf-tpiel0.svg",
     // Apgar
@@ -267,24 +267,25 @@ pnlBebe?.addEventListener("pointerup", () => {
 pnlAire?.addEventListener("pointerdown", () => {
     if (isInteractiveControl(event)) return;
 
-    if (modoOperacion === "Incubadora") {
+    // if (modoOperacion === "Incubadora") {
         pnlAire.classList.add("pressed");
-    } else if (modoOperacion === "Cuna") {
-        console.log("Cambio de color de Modo Manual");
-    }
+    // } else if (modoOperacion === "Cuna") {
+    //     console.log("Cambio de color de Modo Manual");
+    //     pnlAire.classList.add("pressed");
+    // }
 });
 pnlAire?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
 
-    if (modoOperacion === "Incubadora") {
-        pnlAire.classList.remove("pressed");
+    pnlAire.classList.remove("pressed");
 
+    if (modoOperacion === "Incubadora") {
         chngModo(pnlAire, modoControl);
 
         if(modoControl != "tAire")
             iniTimerAjst(pnlAire);
     } else if (modoOperacion === "Cuna") {
-        console.log("Cambio de panel Modo Manual");
+        chngModo(pnlAire, modoControl);
     }
 });
 

@@ -516,6 +516,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Mostrar/Ocultar botón de Apgar dependiendo si se está en modo Cuna/Incubadora.
  - Deshabilitado modulo de sensor de Humedad en modo Cuna.
  - Panel de "Potencia del Calefactor" creado.
+ - Ajustes de panel de control para Potencia de Calefactor.
 
 ## Descarga e Instalación
 
