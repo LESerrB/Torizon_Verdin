@@ -23,7 +23,9 @@ import {
 } from "./ui_Incubadora.js";
 
 import { 
-    reload_Screen
+    reload_Screen,
+    modoManual,
+    revertmodoManual
  } from "./ui_Cuna.js";
 
 import { 
@@ -61,6 +63,7 @@ const recursosVisuales = [
     "../static/icon/Control/Icon_Fototerapia.svg",
     "../static/icon/Control/Icon_Humedad.svg",
     "../static/icon/Control/Icon_Oxigeno.svg",
+    "../static/icon/Control/ICON_CALEFACTOR.svg",
     "../static/icon/Control/icons-mas-menos0.svg",
     "../static/icon/Control/igraf-tpiel0.svg",
     // Apgar
@@ -77,8 +80,8 @@ const recursosVisuales = [
     "../static/icon/Bascula/Kg_tAire.svg",
 ];
 
-let modoControl = "tPiel"
-let modoOperacion = "Incubadora"
+let modoControl = "tPiel";
+let modoOperacion = "Incubadora";
 
 // =========================
 // Botón Silenciar Alarmas
@@ -211,9 +214,21 @@ function stablishSwOpMode(modo = "Incubadora") {
     if (modo === "Incubadora") {
         modoSwitch.checked = true;
         modoOperacion = "Incubadora";
+        lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
+
+        modoControl = "tPiel";
+        modoPiel(pnlAire, pnlBebe);
+
+        revertmodoManual();
     } else if (modo === "Cuna") {
         modoSwitch.checked = false;
         modoOperacion = "Cuna";
+        lbl_modo_ctrl.textContent = "Cuna en Control Manual";
+
+        modoAire(pnlBebe, pnlAire);
+        modoControl = "mManual";
+
+        modoManual();
     }
     else {
         console.warn(`Modo no válido: ${modo}`);
@@ -252,17 +267,25 @@ pnlBebe?.addEventListener("pointerup", () => {
 pnlAire?.addEventListener("pointerdown", () => {
     if (isInteractiveControl(event)) return;
 
-    pnlAire.classList.add("pressed");
+    if (modoOperacion === "Incubadora") {
+        pnlAire.classList.add("pressed");
+    } else if (modoOperacion === "Cuna") {
+        console.log("Cambio de color de Modo Manual");
+    }
 });
 pnlAire?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
 
-    pnlAire.classList.remove("pressed");
+    if (modoOperacion === "Incubadora") {
+        pnlAire.classList.remove("pressed");
 
-    chngModo(pnlAire, modoControl);
+        chngModo(pnlAire, modoControl);
 
-    if(modoControl != "tAire")
-        iniTimerAjst(pnlAire);
+        if(modoControl != "tAire")
+            iniTimerAjst(pnlAire);
+    } else if (modoOperacion === "Cuna") {
+        console.log("Cambio de panel Modo Manual");
+    }
 });
 
 // ***************** Panel Control Oxigeno ****************** //
@@ -305,13 +328,17 @@ btn_Offmod?.addEventListener("pointerup", () => {
     const off_Ox = document.getElementById("ctrl-sensores").classList.contains("ox")
     const off_Hum = document.getElementById("ctrl-sensores").classList.contains("hum")
     
-    if (off_Ox)
+    if (off_Ox){
         toogleOnOff_SensMod("mod-ox", !off_Ox)
-    else if (off_Hum)
+        showNotif("Servocontrol de oxígeno apagado", "panel-ctrl", () =>
+            exitCancel(modoControl));
+    }
+    else if (off_Hum){
         toogleOnOff_SensMod("mod-hum", !off_Hum)
+        showNotif("Servocontrol de humedad apagado", "panel-ctrl", () =>
+            exitCancel(modoControl));
+    }
 
-    showNotif("Servocontrol de oxígeno apagado", "panel-ctrl", () =>
-        exitCancel(modoControl));
 })
 // ==================================
 // Aceptar / Cancelar Cambio de Modo
@@ -504,14 +531,14 @@ function clear_Btns() {
         if (image)
             image.src = icons.off;
     });
-}
+};
 
 //============================================================================//
 //                             Funciones inciales                             //
 //============================================================================//
 preloadVisualRsrc();                    // Precarga de iconos de aplicación
 setInitValues();                        // Valores iniciales de control
-reload_Screen(modoOperacion);
+reload_Screen(modoOperacion);           // Carga la configuración del modo de Operación
 startSensors();                         // Inicio de sensado
 stablishSwOpMode(modoOperacion);        // Estado Inicial del Equipo
 createApgarSegments(modoControl);       // Configuración inicial color cronómetro

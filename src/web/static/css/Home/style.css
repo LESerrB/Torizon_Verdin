@@ -490,6 +490,7 @@ span {
 }
 .txt-Temps.m-Piel { color: var(--colortexttpiel); }
 .txt-Temps.m-Aire { color: var(--colortexttaire); }
+.txt-Temps.m-Manual { color: var(--colortextcalefactor); }
 
 /*              Titulo Panel             */
 .ttl-pnl-prin {
@@ -513,6 +514,7 @@ span {
 }
 .ttl-pnl-prin.bckgnd-ctrl-piel{background: var(--coloroscuropiel);}
 .ttl-pnl-prin.bckgnd-ctrl-aire{background: var(--coloroscuroaire);}
+.ttl-pnl-prin.bckgnd-ctrl-calef{background: var(--coloroscurocalefactor);}
 .ttl-pnl-prin.bckgnd-ajst-ox{background: var(--coloroscurooxigeno);}
 .ttl-pnl-prin.bckgnd-ajst-fot{background: var(--coloroscurofot);}
 .ttl-pnl-prin.bckgnd-ajst-hum{background: var(--coloroscurohum);}
@@ -553,6 +555,10 @@ span {
   color: var(--colortexttaire);
   left: 75px;
 }
+.lbl-temp-aire.m-Manual {
+  color: var(--colortextcalefactor);
+  left: 75px;
+}
 .lbl-temp-piel.m-Piel { color: var(--colortexttpiel); }
 
 .units-tempAire-Prin,
@@ -570,6 +576,7 @@ span {
   justify-content: flex-start;
 }
 .units-tempAire-Prin.m-Aire { color: var(--colortexttaire); }
+.units-tempAire-Prin.m-Manual { color: var(--colortextcalefactor); }
 .units-tempPiel-Prin.m-Piel { color: var(--colortexttpiel); }
 
 /*################## Panel Izquierdo ##################*/
@@ -864,6 +871,13 @@ Contenedor Temperaturas Secundarias
   width: 656px;
   height: 218px;
 }
+.mp-prin-mc-taire.active.m-Manual{
+  overflow: hidden;
+  background: var(--colorfondocalefactor);
+
+  width: 656px;
+  height: 218px;
+}
 .mp-prin-mc-taire.pressed{ background: var(--colorpressedaire); }
 .mp-prin-mc-taire.chng{ background: var(--colorfondoaire); }
 
@@ -901,6 +915,10 @@ Contenedor Temperaturas Secundarias
   translate: 0 -50%;
   overflow: visible;
 }
+.icon-taire.m-Manual {
+  width: 343px;
+  height: 186px;
+}
 /* Contenedor Indicador T. Aire */
 .taire {
   padding: 10px;
@@ -913,6 +931,7 @@ Contenedor Temperaturas Secundarias
   flex-shrink: 0;
   position: relative;
 }
+.taire.m-Manual{ left: 88px; }
 /* Contenedor T Aire Programado */
 .tprog-aire{ display: none; }
 .tprog-aire.m-Aire{
@@ -923,12 +942,13 @@ Contenedor Temperaturas Secundarias
   left: 195px;
   bottom: 112px;
 }
+.tprog-aire.m-Manual{ display: none; }
 
 /*----------------------*/
 .line-05 {
   margin-top: -3px;
   border-style: solid;
-  border-color: var(--colortexttaire, #2f4a4d);
+  border-color: var(--colortexttaire);
   border-width: 3px 0 0 0;
   flex-shrink: 0;
   width: 86px;

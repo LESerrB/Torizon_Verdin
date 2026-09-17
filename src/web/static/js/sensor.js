@@ -3,6 +3,8 @@ const periodoActVals = 0.5 // segundos
 let intervalId = null;
 let TZ = "America/Mexico_City"; // CST UTC-6h Ciudad de México
 
+const panelDer = document.querySelector(".mp-prin-mc-taire");
+
 const tempPiel = document.getElementById("ti-vm-piel");
 const tempAire = document.getElementById("_36-3");
 const tempSondaAux = document.getElementById("_34-6");
@@ -46,7 +48,7 @@ async function get_DtSensores() {
             const vls_snsrsTCD = await res.json();
 
             viewLat_tp.textContent = tempPiel.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Piel.toFixed(1);
-            viewLat_ta.textContent = tempAire.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1);
+            viewLat_ta.textContent = tempAire.textContent = (panelDer.classList.contains("m-Manual")) ? vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(0) : vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1);
             tempSondaAux.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Aux.toFixed(1);
 
             viewLat_ox.textContent = sensOx.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Ox;
