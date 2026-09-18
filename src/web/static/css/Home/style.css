@@ -1106,6 +1106,7 @@ Contenedor Temperaturas Secundarias
   justify-content: center;
 }
 .potcal-ini.m-Aire{ color: var(--colortexttaire); }
+.potcal-ini.m-Manual{ color: var(--colortextcalefactor); }
 .perccal-ini {
   color: var(--colortextoinactivo);
   text-align: center;
@@ -1117,6 +1118,7 @@ Contenedor Temperaturas Secundarias
   width: 10px;
 }
 .perccal-ini.m-Aire{ color: var(--colortexttaire); }
+.perccal-ini.m-Manual{ color: var(--colortextcalefactor); }
 /*################ Modulos de Sensores ################*/
 .mp-prin-mc-msoporte {
   display: flex;

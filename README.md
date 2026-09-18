@@ -518,6 +518,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Panel de "Potencia del Calefactor" creado.
  - Ajustes de panel de control para Potencia de Calefactor.
  - Habilitado control del encoder para potencia del calefactor.
+ - Visualización de potencia en slider y valor numérico del panel principal.
 
 ## Descarga e Instalación
 

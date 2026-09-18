@@ -4,6 +4,8 @@ const title = document.querySelector(".lbl-temp-aire");
 const val_Calef = document.querySelector(".taire");
 const unitsVal = document.querySelector(".units-tempAire-Prin");
 const contSec = document.querySelector(".tprog-aire");
+const slider_numVal = document.querySelector(".potcal-ini")
+const slider_unit = document.querySelector(".perccal-ini")
 const icon = document.querySelector(".icon-taire");
 
 export function reload_Screen(modoOperacion) {
@@ -28,6 +30,8 @@ export function modoManual() {
 
     panel_title.classList.replace("bckgnd-ctrl-aire", "bckgnd-ctrl-calef");
     title.classList.replace("m-Aire", "m-Manual");
+    slider_numVal.classList.replace("m-Aire", "m-Manual");
+    slider_unit.classList.replace("m-Aire", "m-Manual");
 
     [ panel_izq,
       val_Calef,
@@ -51,7 +55,9 @@ export function revertmodoManual() {
     [ panel_izq,
       title,
       val_Calef,
-      contSec ].forEach((el) => {
+      contSec,
+      slider_numVal,
+      slider_unit ].forEach((el) => {
         el.classList.remove("m-Manual");
     });
 

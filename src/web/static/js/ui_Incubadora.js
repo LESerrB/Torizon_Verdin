@@ -41,6 +41,7 @@ const tempProg = document.getElementById("tp_prog");
 const tempProgA = document.getElementById("ta_Prog");
 const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
+const clfCtrl = document.getElementById("potCalef");
 
 //---------------------------------------------------------------
 // Vista Panel de Control
@@ -696,7 +697,6 @@ async function edit_valProg() {
             }
 
             if (!encd.confirm && intervalEncod) {
-                console.log(encd.ctrl);
                 switch (encd.ctrl) {
                     case "tp_Prog":
                         viewCtrl.textContent = tempProg.textContent = formatValue(nuevoValor, sliderConfig.step);
@@ -712,6 +712,11 @@ async function edit_valProg() {
 
                     case "pot_Ox":
                         oxCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                    break;
+
+                    case "pot_Clf":
+                        clfCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
+                        updateSliderPowCalef_pPrin?.(nuevoValor);
                     break;
 
                     default:

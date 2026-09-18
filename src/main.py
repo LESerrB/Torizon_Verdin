@@ -53,7 +53,7 @@ valores_ctrl = {
     "pot_Ox":    60,        # Ajuste de Potencia de Oxigeno
     "pot_Hum":   50,        # Ajuste de Potencia de Humedad
     "pot_Fot":   1,         # Ajuste de Potencia de Fototerapia
-    "pot_Clf":   80,        # Ajuste de Potencia de Calefactor
+    "pot_Clf":   100,       # Ajuste de Potencia de Calefactor
     "confirm":   False,     # Habilitación / Deshabilitación Encoder
     "sg_tp":     False,     # Sobregiro de Temperatura Piel
     "sg_ta":     False,     # Sobregiro de Temperatura Aire
