@@ -581,9 +581,8 @@ export function toggleHomePanel(showPanelControl, modoControl = null) {
             habilitarEstadoElemento(tituloCtrl, claseColor);
         }
 
-        if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno") {
+        if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno")
             habilitarControlesLaterales(controles, claseColor);
-        }
 
         ctrl_sens.style.display = visibilidad.ctrl_sens ? "block" : "none";
         view_fam.style.display = visibilidad.view_fam ? "block" : "none";
@@ -697,6 +696,7 @@ async function edit_valProg() {
             }
 
             if (!encd.confirm && intervalEncod) {
+                console.log(encd.ctrl);
                 switch (encd.ctrl) {
                     case "tp_Prog":
                         viewCtrl.textContent = tempProg.textContent = formatValue(nuevoValor, sliderConfig.step);

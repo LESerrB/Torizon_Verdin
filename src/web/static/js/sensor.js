@@ -56,7 +56,7 @@ async function get_DtSensores() {
         }
         else{
             viewLat_tp.textContent = tempPiel.textContent = "--.-";
-            viewLat_ta.textContent = tempAire.textContent = "--.-";
+            viewLat_ta.textContent = tempAire.textContent = (panelDer.classList.contains("m-Manual")) ? "--" : "--.-";
             tempSondaAux.textContent = "--.-";
 
             viewLat_ox.textContent = sensOx.textContent = "--"
