@@ -521,6 +521,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Visualización de potencia en slider y valor numérico del panel principal.
  - Ajustadas funciones de cambios para incluir el color propio del "Calefactor/Modo Manual".
  - Revison de bugs de cambios visuales.
+ - Agregando recursos de iconos para Apgar y Báscula.
 
 ## Descarga e Instalación
 

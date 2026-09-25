@@ -280,7 +280,14 @@ export function createTimerTaraSegments(modoControl) {
         segment.setAttribute("aria-label", `Segmento ${index + 1}`);
 
         sliderTmBasc.appendChild(segment);
-        icon_kg.src = modoControl === "tAire" ? "../static/icon/Bascula/Kg_tAire.svg" : "../static/icon/Bascula/Kg_tPiel.svg";
+
+        if (modoControl === "tPiel")
+            icon_kg.src = "../static/icon/Bascula/Kg_tPiel.svg";
+        else if (modoControl === "tAire")
+            icon_kg.src = "../static/icon/Bascula/Kg_tAire.svg";
+        else if (modoControl === "mManual")
+            icon_kg.src = "../static/icon/Bascula/Kg_mManual.svg";
+
         lbl_tara.classList.toggle("tAire", (modoControl === "tAire"));
     }
 }

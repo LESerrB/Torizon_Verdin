@@ -80,6 +80,8 @@ export function ModoCuna() {
     botones.forEach((boton) => {
         boton.classList.replace("tAire", "mManual");
     });
+
+    ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-mm.svg"
 }
 
 export function revertModoCuna() {
@@ -127,6 +129,8 @@ export function revertModoCuna() {
     botones.forEach((boton) => {
         boton.classList.replace("mManual", "tPiel");
     });
+
+    ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-mp.svg"
 }
 
 export function sidePnl_alt(controles, claseColor, SELECTOR_ELEMENTOS_INTERNOS, modoControl) {

@@ -811,7 +811,7 @@ const modoConfig = {
     },
     tPiel: {
         titleClass: "bckgnd-ctrl-piel",
-        titleClassRemove: "bckgnd-ctrl-aire",
+        titleClassRemove: ["bckgnd-ctrl-aire", "bckgnd-ctrl-calef"],
         modeClass: "m-Piel",
         modeClassRemove: "m-Aire",
         activePanel: "pnl-modoBebe",
@@ -854,7 +854,7 @@ function activarModo(modo, pnlInactivo, pnlActivo) {
     if (!config) return;
 
     // Cambiar título
-    title_panel_prin.classList.remove(config.titleClassRemove);
+    title_panel_prin.classList.remove(...(config.titleClassRemove ?? []));
     title_panel_prin.classList.add(config.titleClass);
 
     // Cambiar paneles activos
@@ -1017,7 +1017,7 @@ export function modoAire(pnlB, pnlA) {
         });
 
         botones.forEach((boton) => {
-            boton.classList.remove("tPiel", "tAire");
+            boton.classList.remove("tPiel", "tAire", "mManual");
             boton.classList.add("tAire");
         });
 
@@ -1057,12 +1057,12 @@ export function modoPiel(pnlA, pnlB, modOp) {
         [ti_v_contapgar, cont_bas_anima, ti_v_vpeso].forEach((elemento) => {
             if (!elemento) return;
 
-            elemento.classList.remove("tAire");
+            elemento.classList.remove("tAire", "mManual");
             elemento.classList.add("tPiel");
         });
 
         botones.forEach((boton) => {
-            boton.classList.remove("tPiel", "tAire");
+            boton.classList.remove("tPiel", "tAire", "mManual");
             boton.classList.add("tPiel");
         });
 

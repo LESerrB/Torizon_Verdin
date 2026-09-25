@@ -67,6 +67,7 @@ const recursosVisuales = [
     // Apgar
     "../static/icon/Apgar/ejes-reloj0-mp.svg",
     "../static/icon/Apgar/ejes-reloj0-ma.svg",
+    "../static/icon/Apgar/ejes-reloj0-mm.svg",
     "../static/icon/Apgar/btns/Icon_Play_Default.svg",
     "../static/icon/Apgar/btns/Icon_Play_Active.svg",
     "../static/icon/Apgar/btns/Icon_Pause_Default.svg",
@@ -76,6 +77,7 @@ const recursosVisuales = [
     // Báscula
     "../static/icon/Bascula/Kg_tPiel.svg",
     "../static/icon/Bascula/Kg_tAire.svg",
+    "../static/icon/Bascula/Kg_mManual.svg",
 ];
 
 let modoControl = "tPiel";
