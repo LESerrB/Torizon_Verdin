@@ -512,13 +512,15 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Aplicada función de blur sobe panel de control para notificación emergente de apagado de sensores.
  - Paneles de módulos de Oxígeno y Humedad se les asigna función de habilitado y deshabilitado visual.
 
-### v0.23.6 - [15/09/2026]
+### v0.23.6 - [25/09/2026]
  - Mostrar/Ocultar botón de Apgar dependiendo si se está en modo Cuna/Incubadora.
  - Deshabilitado modulo de sensor de Humedad en modo Cuna.
  - Panel de "Potencia del Calefactor" creado.
  - Ajustes de panel de control para Potencia de Calefactor.
  - Habilitado control del encoder para potencia del calefactor.
  - Visualización de potencia en slider y valor numérico del panel principal.
+ - Ajustadas funciones de cambios para incluir el color propio del "Calefactor/Modo Manual".
+ - Revison de bugs de cambios visuales.
 
 ## Descarga e Instalación
 

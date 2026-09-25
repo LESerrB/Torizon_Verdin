@@ -491,6 +491,7 @@ span {
 .txt-Temps.m-Piel { color: var(--colortexttpiel); }
 .txt-Temps.m-Aire { color: var(--colortexttaire); }
 .txt-Temps.m-Manual { color: var(--colortextcalefactor); }
+.txt-Temps.m-Manual.disabled { color: var(--colortextoinactivo); }
 
 /*              Titulo Panel             */
 .ttl-pnl-prin {
@@ -551,6 +552,7 @@ span {
   left: 0px;
 }
 .lbl-temp-aire.active { color: var(--colortexttaire); }
+.lbl-temp-aire.clf.active { color: var(--colortextcalefactor); }
 .lbl-temp-aire.m-Aire { 
   color: var(--colortexttaire);
   left: 75px;
@@ -559,6 +561,7 @@ span {
   color: var(--colortextcalefactor);
   left: 75px;
 }
+.lbl-temp-aire.m-Manual.disabled { color: var(--colortextoinactivo); }
 .lbl-temp-piel.m-Piel { color: var(--colortexttpiel); }
 
 .units-tempAire-Prin,
@@ -577,6 +580,7 @@ span {
 }
 .units-tempAire-Prin.m-Aire { color: var(--colortexttaire); }
 .units-tempAire-Prin.m-Manual { color: var(--colortextcalefactor); }
+.units-tempAire-Prin.m-Manual.disabled { color: var(--colortextoinactivo); }
 .units-tempPiel-Prin.m-Piel { color: var(--colortexttpiel); }
 
 /*################## Panel Izquierdo ##################*/
@@ -880,6 +884,7 @@ Contenedor Temperaturas Secundarias
 }
 .mp-prin-mc-taire.pressed{ background: var(--colorpressedaire); }
 .mp-prin-mc-taire.chng{ background: var(--colorfondoaire); }
+.mp-prin-mc-taire.chngClf{ background: var(--colorfondocalefactor); }
 .mp-prin-mc-taire.active.m-Manual.pressed{ background: var(--colorpressedcalef); }
 
 /* Contenedor T. Aire Apagado */
@@ -898,12 +903,9 @@ Contenedor Temperaturas Secundarias
   position: relative;
   left: 0px;
 }
-.cont-taire.m-Aire{
-  left: 80px;
-}
-.cont-taire.disabled{
-  display: none;
-}
+.cont-taire.m-Manual{ left: -60px; }
+.cont-taire.m-Aire{ left: 80px; }
+.cont-taire.disabled{ display: none; }
 /* Icono Panel */
 .icon-taire {
   opacity: 0.6;
@@ -1006,6 +1008,30 @@ Contenedor Temperaturas Secundarias
   overflow: hidden;
 }
 .pop-cmodo-aire.enabled{ display: flex; }
+.icon-md-tp-ta {
+  flex-shrink: 0;
+  width: 200px;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  top: -60px;
+}
+
+/* Contenedor cambio de modo t. Piel -> m. Manual */
+.pop-cmodo-manual {
+  display: none;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 294px;
+  height: 218px;
+  position: relative;
+  overflow: hidden;
+}
+.pop-cmodo-manual.enabled{ display: flex; }
 .icon-md-tp-ta {
   flex-shrink: 0;
   width: 200px;
@@ -1388,16 +1414,18 @@ Contenedor Temperaturas Secundarias
 .modulo.fot.mica-effect,
 .ttl-pnl-prin.bckgnd-ctrl-piel.mica-effect,
 .ttl-pnl-prin.bckgnd-ctrl-aire.mica-effect,
-.mp-atpiel-mc-ttl.tp.enable.mica-effect,
-.mp-atpiel-mc-ttl.ta.enable.mica-effect,
+.mp-atpiel-mc-ttl.tPiel.enable.mica-effect,
+.mp-atpiel-mc-ttl.tAire.enable.mica-effect,
 .mp-atpiel-mc-ttl.ox.enable.mica-effect,
 .mp-atpiel-mc-ttl.hum.enable.mica-effect,
 .mp-atpiel-mc-ttl.fot.enable.mica-effect,
-.mp-info-ctrl.tp.enable.mica-effect,
-.mp-info-ctrl.ta.enable.mica-effect,
+.mp-atpiel-mc-ttl.clf.enable.mica-effect,
+.mp-info-ctrl.tPiel.enable.mica-effect,
+.mp-info-ctrl.tAire.enable.mica-effect,
 .mp-info-ctrl.ox.enable.mica-effect,
 .mp-info-ctrl.hum.enable.mica-effect,
-.mp-info-ctrl.fot.enable.mica-effect {
+.mp-info-ctrl.fot.enable.mica-effect,
+.mp-info-ctrl.clf.enable.mica-effect {
   opacity: 0.5;
   filter: blur(2px);
   transition: opacity 300ms ease, backdrop-filter 300ms ease;
@@ -1412,6 +1440,4 @@ Contenedor Temperaturas Secundarias
   user-select: none;
 }
 .panel-prin.lock-screen,
-.panel-prin.lock-screen * {
-  pointer-events: none !important;
-}
+.panel-prin.lock-screen * { pointer-events: none !important; }

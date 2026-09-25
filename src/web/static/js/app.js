@@ -6,14 +6,12 @@ import {
 import {
     setInitValues,
 
-    ajst_CtrlOx,
-    ajst_CtrlHum,
-    ajst_CtrlFot,
+    ajstCtrl,
 
     modoAire,
     modoPiel,
 
-    chngModo,   
+    chngModo,
     fotoActive,
     confAjstFoto,
     iniTimerAjst,
@@ -24,8 +22,8 @@ import {
 
 import { 
     reload_Screen,
-    modoManual,
-    revertmodoManual
+    ModoCuna,
+    revertModoCuna
  } from "./ui_Cuna.js";
 
 import { 
@@ -116,6 +114,9 @@ const btn_acptChngMd = document.getElementById("acptChngMd-tP-tA");
 
 const btn_cnclChngMd2 = document.getElementById("cnclChngMd-tA-tP");
 const btn_acptChngMd2 = document.getElementById("acptChngMd-tA-tP");
+
+const btn_cnclChngMd3 = document.getElementById("cnclChngMd-tP-tC");
+const btn_acptChngMd3 = document.getElementById("acptChngMd-tP-tC");
 
 const btn_ajustar_foto = document.getElementById("btn-ajustar-foto");
 const btnCancel = document.getElementById("cancel-ctrl");
@@ -211,30 +212,33 @@ nom_Paciente.addEventListener("keydown", (e) => {
 });
 // **************** Switch Modo de Operación **************** //
 function stablishSwOpMode(modo = "Incubadora") {
+    exitCancel(modoControl, null, modoOperacion);
+    clear_Btns();
+
     if (modo === "Incubadora") {
         modoSwitch.checked = true;
-        modoOperacion = "Incubadora";
         lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
 
         modoControl = "tPiel";
-        modoPiel(pnlAire, pnlBebe);
+        modoPiel(pnlAire, pnlBebe, modoOperacion);
 
-        revertmodoManual();
+        revertModoCuna();
     } else if (modo === "Cuna") {
         modoSwitch.checked = false;
-        modoOperacion = "Cuna";
         lbl_modo_ctrl.textContent = "Cuna en Control Manual";
 
         modoAire(pnlBebe, pnlAire);
         modoControl = "mManual";
 
-        modoManual();
+        ModoCuna();
     }
     else {
         console.warn(`Modo no válido: ${modo}`);
         return;
     }
 
+    pnlBebe.classList.remove("chng");
+    pnlAire.classList.remove("chng");
     reload_Screen(modoOperacion);
 }
 modoSwitch.addEventListener("change", () => {
@@ -255,38 +259,29 @@ pnlBebe?.addEventListener("pointerdown", () => {
 pnlBebe?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
 
-    pnlBebe.classList.remove("pressed");
-
-    chngModo(pnlBebe, modoControl);
+    chngModo(pnlBebe, modoControl, modoOperacion);
 
     if(modoControl != "tPiel")
         iniTimerAjst(pnlBebe);
+
+    pnlBebe.classList.remove("pressed");
 });
 
 // ***************** Panel Temperatura Aire ***************** //
 pnlAire?.addEventListener("pointerdown", () => {
     if (isInteractiveControl(event)) return;
 
-    // if (modoOperacion === "Incubadora") {
-        pnlAire.classList.add("pressed");
-    // } else if (modoOperacion === "Cuna") {
-    //     console.log("Cambio de color de Modo Manual");
-    //     pnlAire.classList.add("pressed");
-    // }
+    pnlAire.classList.add("pressed");
 });
 pnlAire?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
 
+    chngModo(pnlAire, modoControl, modoOperacion);
+
+    if(modoControl != "tAire" && modoControl != "mManual")
+        iniTimerAjst(pnlAire);
+
     pnlAire.classList.remove("pressed");
-
-    if (modoOperacion === "Incubadora") {
-        chngModo(pnlAire, modoControl);
-
-        if(modoControl != "tAire")
-            iniTimerAjst(pnlAire);
-    } else if (modoOperacion === "Cuna") {
-        chngModo(pnlAire, modoControl);
-    }
 });
 
 // ***************** Panel Control Oxigeno ****************** //
@@ -294,8 +289,9 @@ ajstCtrlOx?.addEventListener("pointerdown", () => {
     ajstCtrlOx.classList.add("pressed");
 });
 ajstCtrlOx?.addEventListener("pointerup", () => {
+    ajstCtrl("pot_Ox", modoControl, modoOperacion);
+
     ajstCtrlOx.classList.remove("pressed");
-    ajst_CtrlOx();
 });
 
 // ***************** Panel Control Humedad ****************** //
@@ -303,8 +299,9 @@ ajstCtrlHum?.addEventListener("pointerdown", () => {
     ajstCtrlHum.classList.add("pressed");
 });
 ajstCtrlHum?.addEventListener("pointerup", () => {
+    ajstCtrl("pot_Hum", modoControl, modoOperacion);
+
     ajstCtrlHum.classList.remove("pressed");
-    ajst_CtrlHum();
 });
 
 // **************** Panel Control Fototerapia *************** //
@@ -316,7 +313,7 @@ ajstCtrlFot?.addEventListener("pointerdown", () => {
 ajstCtrlFot?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
 
-    confAjstFoto();
+    confAjstFoto(modoControl, modoOperacion);
 });
 
 // Boton de Sobregiro
@@ -344,45 +341,72 @@ btn_Offmod?.addEventListener("pointerup", () => {
 // ==================================
 // Aceptar / Cancelar Cambio de Modo
 // ==================================
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Temp Piel
 btn_acptChngMd?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
     pnlBebe.classList.remove("chng");
 
-    modoAire(pnlBebe, pnlAire);
+    modoAire(pnlBebe, pnlAire, modoOperacion);
 
     lbl_modo_ctrl.textContent = "Incubadora Controlada por Aire";
     modoControl = modoControl === "tPiel" ? "tAire" : "tPiel";
 });
-
 btn_cnclChngMd?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
     chngModo(pnlAire);
 });
 
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Temp Aire
 btn_acptChngMd2?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
     pnlAire.classList.remove("chng");
 
-    modoPiel(pnlAire, pnlBebe);
+    modoPiel(pnlAire, pnlBebe, modoOperacion);
 
-    lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
-    modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
+    if (modoOperacion == "Incubadora"){
+        lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
+        modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
+    }
+    else{
+        lbl_modo_ctrl.textContent = "Cuna Controlada por Piel";
+        modoControl = modoControl === "mManual" ? "tPiel" : "mManual";
+    }
+
 });
-
 btn_cnclChngMd2?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
     chngModo(pnlBebe);
 });
 
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Modo Manual
+btn_acptChngMd3?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
+    pnlAire.classList.remove("chngClf");
+    pnlBebe.classList.remove("chng");
+
+    modoAire(pnlBebe, pnlAire);
+    ModoCuna();
+    chngModo(pnlAire);
+    reload_Screen(modoOperacion);
+
+    modoControl = modoControl === "mManual" ? "tPiel" : "mManual";
+});
+btn_cnclChngMd3?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
+    chngModo(pnlAire);
+});
+
 // Botón Confirmar Ajuste Fototerapia
 btn_ajustar_foto?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    ajst_CtrlFot();
+    ajstCtrl("pot_Fot", modoControl, modoOperacion);
     fotoActive();
 });
 // Botón Cancelar General
@@ -437,7 +461,9 @@ function bindMenuButton(config) {
     button?.addEventListener("pointerdown", () => {
         clear_Btns();
         applyButtonVisualState(button, image, config, true);
+    });
 
+    button?.addEventListener("pointerup", () => {
         if (button.id === "btn-apgr")
             createApgarSegments(modoControl);
 
@@ -445,9 +471,12 @@ function bindMenuButton(config) {
             salirBascula();
             createTimerTaraSegments(modoControl);
         }
-    });
 
-    button?.addEventListener("pointerup", () => {
+        exitCancel(modoControl, config.panel, modoOperacion);
+
+        if (config.title)
+            ttl_pnl_ctrl.textContent = config.title;
+
         if (state.isHomeView) {
             btn_home?.classList.add("btn-collapsed");
             btn_md_fam?.classList.remove("btn-collapsed");
@@ -455,11 +484,6 @@ function bindMenuButton(config) {
             btn_md_fam?.classList.add("btn-collapsed");
             btn_home?.classList.remove("btn-collapsed");
         }
-
-        exitCancel(modoControl, config.panel);
-
-        if (config.title)
-            ttl_pnl_ctrl.textContent = config.title;
 
         applyButtonVisualState(button, image, config, state.pressed);
     });

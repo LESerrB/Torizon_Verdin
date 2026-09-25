@@ -7,7 +7,8 @@ const SLIDER_THEMES = [
     "seg-t_piel",      // Temperatura piel
     "seg-t_aire",      // Temperatura aire
     "seg-p_ox",        // Porcentaje oxígeno
-    "seg-p_hum"        // Porcentaje humedad
+    "seg-p_hum",       // Porcentaje humedad
+    "seg-p_clf"        // Potencia de Calefactor
 ];
 
 /**
