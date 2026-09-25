@@ -78,6 +78,8 @@ const recursosVisuales = [
     "../static/icon/Bascula/Kg_tPiel.svg",
     "../static/icon/Bascula/Kg_tAire.svg",
     "../static/icon/Bascula/Kg_mManual.svg",
+
+    "../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOPM.svg",
 ];
 
 let modoControl = "tPiel";

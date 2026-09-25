@@ -172,7 +172,7 @@
 .mp-atpiel-mc-ttl.ox.enable{ background: var(--coloroscurooxigeno); }
 .mp-atpiel-mc-ttl.hum.enable{ background: var(--coloroscurohum); }
 .mp-atpiel-mc-ttl.fot.enable{ background: var(--coloroscurofot); }
-.mp-atpiel-mc-ttl.mManual.enable{ background: var(--coloroscurocalefactor); }
+.mp-atpiel-mc-ttl.clf.enable{ background: var(--coloroscurocalefactor); }
 
 /*>>>>>>>>>>>> Titulo de Panel <<<<<<<<<<<<*/
 .mp-atpiel-mc-lbl {

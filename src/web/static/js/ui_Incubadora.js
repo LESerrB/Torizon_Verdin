@@ -895,6 +895,7 @@ function activarModo(modo, pnlInactivo, pnlActivo) {
  */
 export function chngModo(panel, modoAP, modOp) {
     const control = document.querySelector(`.mp-atpiel-lat[data-control="tempProg"]`);
+    const icon = document.getElementById("chngIcon");
     
     const isModoBebe = panel?.id === "pnl-modoBebe";
     const isModoAire = panel?.id === "pnl-modoAire";
@@ -918,6 +919,7 @@ export function chngModo(panel, modoAP, modOp) {
     else if (modOp == "Incubadora" && modoAP === "tAire" && isModoAire)
         ajstCtrl("ta_Prog", modoAP, modOp);
     else if (modOp == "Incubadora" && modoAP === "tAire" && isModoBebe) {
+        icon.src = "../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOP.svg";
         addBlurScreen();
 
         lbl_temp_piel.textContent = "Cambiar a Modo Piel";
@@ -931,6 +933,7 @@ export function chngModo(panel, modoAP, modOp) {
         ajstCtrl("pot_Calf", modoAP, modOp);
     }
     else if (modOp === "Cuna" && modoAP === "mManual" && isModoBebe){
+        icon.src = "../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOPM.svg";
         addBlurScreen();
 
         lbl_temp_piel.textContent = "Cambiar a Modo Piel";
@@ -955,9 +958,6 @@ export function chngModo(panel, modoAP, modOp) {
     else {
         removeBlurScreen();
 
-        // panel.classList.remove("chng");
-        panel.classList.remove("chngClf");
-
         if (isModoBebe) {
             lbl_temp_piel.textContent = "Temperatura Piel";
             lbl_temp_piel.classList.remove("m-Piel");
@@ -965,16 +965,12 @@ export function chngModo(panel, modoAP, modOp) {
 
         t_aire.classList.remove("disabled");
 
-        if (modOp === "Incubadora"){
+        if (modOp === "Incubadora")
             c_modo_Aire.classList.remove("enabled");
-            panel.classList.remove("chng");
-
-        }
-        else{
+        else
             c_modo_Manual.classList.remove("enabled");
-            panel.classList.remove("chngClf");
-
-        }
+        
+        panel.classList.remove("chngClf", "chng");
 
         cont_vm_tpiel.classList.remove("c-modo");
         pop_mp_prin_mc_tpiel.classList.remove("c-modo");

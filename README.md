@@ -522,6 +522,8 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Ajustadas funciones de cambios para incluir el color propio del "Calefactor/Modo Manual".
  - Revison de bugs de cambios visuales.
  - Agregando recursos de iconos para Apgar y Báscula.
+ - Incluido icono de cambio de modo de "t. Piel" a "m. Manual".
+ - Corrección de bug de desactivado de panel de cambio al cancelar.
 
 ## Descarga e Instalación
 

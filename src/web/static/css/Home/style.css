@@ -99,6 +99,27 @@ span {
   background-color: var(--coloroscuropiel);
   transform: scale(0.97);
 }
+/* Cancelar cambio t. Piel -> m. Manual*/
+.btn-cancel.cncl-tp-mm{
+  width: 110px;
+  height: 40px;
+  left: calc(0% - -30px);
+  top: calc(0% - -137px);
+}
+.btn-cancel.cncl-tp-mm:active{
+  background-color: var(--coloroscurocalefactor);
+  transform: scale(0.97);
+}
+.btn-cancel.acpt-tp-mm{
+  width: 110px;
+  height: 40px;
+  left: calc(0% - -157px);
+  top: calc(0% - -137px);
+}
+.btn-cancel.acpt-tp-mm:active{
+  background-color: var(--coloroscurocalefactor);
+  transform: scale(0.97);
+}
 .btn-alarma {
   width: 984px;
   height: 64px;
@@ -919,8 +940,9 @@ Contenedor Temperaturas Secundarias
   overflow: visible;
 }
 .icon-taire.m-Manual {
-  width: 343px;
-  height: 186px;
+  width: 283px;
+  height: 250px;
+  top: 95px;
 }
 /* Contenedor Indicador T. Aire */
 .taire {
