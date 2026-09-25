@@ -6,14 +6,12 @@ import {
 import {
     setInitValues,
 
-    ajst_CtrlOx,
-    ajst_CtrlHum,
-    ajst_CtrlFot,
+    ajstCtrl,
 
     modoAire,
     modoPiel,
 
-    chngModo,   
+    chngModo,
     fotoActive,
     confAjstFoto,
     iniTimerAjst,
@@ -21,6 +19,12 @@ import {
     toogleOnOff_SensMod,
     exitCancel
 } from "./ui_Incubadora.js";
+
+import { 
+    reload_Screen,
+    ModoCuna,
+    revertModoCuna
+ } from "./ui_Cuna.js";
 
 import { 
     createApgarSegments
@@ -57,11 +61,13 @@ const recursosVisuales = [
     "../static/icon/Control/Icon_Fototerapia.svg",
     "../static/icon/Control/Icon_Humedad.svg",
     "../static/icon/Control/Icon_Oxigeno.svg",
+    "../static/icon/Control/Icon_Calefactor.svg",
     "../static/icon/Control/icons-mas-menos0.svg",
     "../static/icon/Control/igraf-tpiel0.svg",
     // Apgar
     "../static/icon/Apgar/ejes-reloj0-mp.svg",
     "../static/icon/Apgar/ejes-reloj0-ma.svg",
+    "../static/icon/Apgar/ejes-reloj0-mm.svg",
     "../static/icon/Apgar/btns/Icon_Play_Default.svg",
     "../static/icon/Apgar/btns/Icon_Play_Active.svg",
     "../static/icon/Apgar/btns/Icon_Pause_Default.svg",
@@ -71,10 +77,13 @@ const recursosVisuales = [
     // Báscula
     "../static/icon/Bascula/Kg_tPiel.svg",
     "../static/icon/Bascula/Kg_tAire.svg",
+    "../static/icon/Bascula/Kg_mManual.svg",
+
+    "../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOPM.svg",
 ];
 
-let modoControl = "tPiel"
-let modoOperacion = "Incubadora"
+let modoControl = "tPiel";
+let modoOperacion = "Incubadora";
 
 // =========================
 // Botón Silenciar Alarmas
@@ -109,6 +118,9 @@ const btn_acptChngMd = document.getElementById("acptChngMd-tP-tA");
 
 const btn_cnclChngMd2 = document.getElementById("cnclChngMd-tA-tP");
 const btn_acptChngMd2 = document.getElementById("acptChngMd-tA-tP");
+
+const btn_cnclChngMd3 = document.getElementById("cnclChngMd-tP-tC");
+const btn_acptChngMd3 = document.getElementById("acptChngMd-tP-tC");
 
 const btn_ajustar_foto = document.getElementById("btn-ajustar-foto");
 const btnCancel = document.getElementById("cancel-ctrl");
@@ -204,17 +216,34 @@ nom_Paciente.addEventListener("keydown", (e) => {
 });
 // **************** Switch Modo de Operación **************** //
 function stablishSwOpMode(modo = "Incubadora") {
+    exitCancel(modoControl, null, modoOperacion);
+    clear_Btns();
+
     if (modo === "Incubadora") {
         modoSwitch.checked = true;
-        modoOperacion = "Incubadora";
+        lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
+
+        modoControl = "tPiel";
+        modoPiel(pnlAire, pnlBebe, modoOperacion);
+
+        revertModoCuna();
     } else if (modo === "Cuna") {
         modoSwitch.checked = false;
-        modoOperacion = "Cuna";
+        lbl_modo_ctrl.textContent = "Cuna en Control Manual";
+
+        modoAire(pnlBebe, pnlAire);
+        modoControl = "mManual";
+
+        ModoCuna();
     }
     else {
         console.warn(`Modo no válido: ${modo}`);
         return;
     }
+
+    pnlBebe.classList.remove("chng");
+    pnlAire.classList.remove("chng");
+    reload_Screen(modoOperacion);
 }
 modoSwitch.addEventListener("change", () => {
     if (modoSwitch.checked)
@@ -223,7 +252,6 @@ modoSwitch.addEventListener("change", () => {
         modoOperacion = "Cuna";
 
     stablishSwOpMode(modoOperacion);
-    console.log(`Switch cambiado a: ${modoOperacion}`);
 });
 
 // ***************** Panel Temperatura Piel ***************** //
@@ -235,12 +263,12 @@ pnlBebe?.addEventListener("pointerdown", () => {
 pnlBebe?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
 
-    pnlBebe.classList.remove("pressed");
-
-    chngModo(pnlBebe, modoControl);
+    chngModo(pnlBebe, modoControl, modoOperacion);
 
     if(modoControl != "tPiel")
         iniTimerAjst(pnlBebe);
+
+    pnlBebe.classList.remove("pressed");
 });
 
 // ***************** Panel Temperatura Aire ***************** //
@@ -252,12 +280,12 @@ pnlAire?.addEventListener("pointerdown", () => {
 pnlAire?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
 
-    pnlAire.classList.remove("pressed");
+    chngModo(pnlAire, modoControl, modoOperacion);
 
-    chngModo(pnlAire, modoControl);
-
-    if(modoControl != "tAire")
+    if(modoControl != "tAire" && modoControl != "mManual")
         iniTimerAjst(pnlAire);
+
+    pnlAire.classList.remove("pressed");
 });
 
 // ***************** Panel Control Oxigeno ****************** //
@@ -265,8 +293,9 @@ ajstCtrlOx?.addEventListener("pointerdown", () => {
     ajstCtrlOx.classList.add("pressed");
 });
 ajstCtrlOx?.addEventListener("pointerup", () => {
+    ajstCtrl("pot_Ox", modoControl, modoOperacion);
+
     ajstCtrlOx.classList.remove("pressed");
-    ajst_CtrlOx();
 });
 
 // ***************** Panel Control Humedad ****************** //
@@ -274,8 +303,9 @@ ajstCtrlHum?.addEventListener("pointerdown", () => {
     ajstCtrlHum.classList.add("pressed");
 });
 ajstCtrlHum?.addEventListener("pointerup", () => {
+    ajstCtrl("pot_Hum", modoControl, modoOperacion);
+
     ajstCtrlHum.classList.remove("pressed");
-    ajst_CtrlHum();
 });
 
 // **************** Panel Control Fototerapia *************** //
@@ -287,7 +317,7 @@ ajstCtrlFot?.addEventListener("pointerdown", () => {
 ajstCtrlFot?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
 
-    confAjstFoto();
+    confAjstFoto(modoControl, modoOperacion);
 });
 
 // Boton de Sobregiro
@@ -300,56 +330,87 @@ btn_Offmod?.addEventListener("pointerup", () => {
     const off_Ox = document.getElementById("ctrl-sensores").classList.contains("ox")
     const off_Hum = document.getElementById("ctrl-sensores").classList.contains("hum")
     
-    if (off_Ox)
+    if (off_Ox){
         toogleOnOff_SensMod("mod-ox", !off_Ox)
-    else if (off_Hum)
+        showNotif("Servocontrol de oxígeno apagado", "panel-ctrl", () =>
+            exitCancel(modoControl));
+    }
+    else if (off_Hum){
         toogleOnOff_SensMod("mod-hum", !off_Hum)
+        showNotif("Servocontrol de humedad apagado", "panel-ctrl", () =>
+            exitCancel(modoControl));
+    }
 
-    showNotif("Servocontrol de oxígeno apagado", "panel-ctrl", () =>
-        exitCancel(modoControl));
 })
 // ==================================
 // Aceptar / Cancelar Cambio de Modo
 // ==================================
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Temp Piel
 btn_acptChngMd?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
     pnlBebe.classList.remove("chng");
 
-    modoAire(pnlBebe, pnlAire);
+    modoAire(pnlBebe, pnlAire, modoOperacion);
 
     lbl_modo_ctrl.textContent = "Incubadora Controlada por Aire";
     modoControl = modoControl === "tPiel" ? "tAire" : "tPiel";
 });
-
 btn_cnclChngMd?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
     chngModo(pnlAire);
 });
 
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Temp Aire
 btn_acptChngMd2?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
     pnlAire.classList.remove("chng");
 
-    modoPiel(pnlAire, pnlBebe);
+    modoPiel(pnlAire, pnlBebe, modoOperacion);
 
-    lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
-    modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
+    if (modoOperacion == "Incubadora"){
+        lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
+        modoControl = modoControl === "tAire" ? "tPiel" : "tAire";
+    }
+    else{
+        lbl_modo_ctrl.textContent = "Cuna Controlada por Piel";
+        modoControl = modoControl === "mManual" ? "tPiel" : "mManual";
+    }
+
 });
-
 btn_cnclChngMd2?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
     chngModo(pnlBebe);
 });
 
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Modo Manual
+btn_acptChngMd3?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
+    pnlAire.classList.remove("chngClf");
+    pnlBebe.classList.remove("chng");
+
+    modoAire(pnlBebe, pnlAire);
+    ModoCuna();
+    chngModo(pnlAire);
+    reload_Screen(modoOperacion);
+
+    modoControl = modoControl === "mManual" ? "tPiel" : "mManual";
+});
+btn_cnclChngMd3?.addEventListener("pointerup", () => {
+    event.stopPropagation();
+
+    chngModo(pnlAire);
+});
+
 // Botón Confirmar Ajuste Fototerapia
 btn_ajustar_foto?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    ajst_CtrlFot();
+    ajstCtrl("pot_Fot", modoControl, modoOperacion);
     fotoActive();
 });
 // Botón Cancelar General
@@ -404,7 +465,9 @@ function bindMenuButton(config) {
     button?.addEventListener("pointerdown", () => {
         clear_Btns();
         applyButtonVisualState(button, image, config, true);
+    });
 
+    button?.addEventListener("pointerup", () => {
         if (button.id === "btn-apgr")
             createApgarSegments(modoControl);
 
@@ -412,9 +475,12 @@ function bindMenuButton(config) {
             salirBascula();
             createTimerTaraSegments(modoControl);
         }
-    });
 
-    button?.addEventListener("pointerup", () => {
+        exitCancel(modoControl, config.panel, modoOperacion);
+
+        if (config.title)
+            ttl_pnl_ctrl.textContent = config.title;
+
         if (state.isHomeView) {
             btn_home?.classList.add("btn-collapsed");
             btn_md_fam?.classList.remove("btn-collapsed");
@@ -422,11 +488,6 @@ function bindMenuButton(config) {
             btn_md_fam?.classList.add("btn-collapsed");
             btn_home?.classList.remove("btn-collapsed");
         }
-
-        exitCancel(modoControl, config.panel);
-
-        if (config.title)
-            ttl_pnl_ctrl.textContent = config.title;
 
         applyButtonVisualState(button, image, config, state.pressed);
     });
@@ -456,7 +517,7 @@ bindMenuButton({
     title: "Báscula"
 });
 
-bindMenuButton({
+bindMenuButton({    
     key: "apgar",
     id: "btn-apgr",
     icons: {
@@ -499,13 +560,14 @@ function clear_Btns() {
         if (image)
             image.src = icons.off;
     });
-}
+};
 
 //============================================================================//
 //                             Funciones inciales                             //
 //============================================================================//
 preloadVisualRsrc();                    // Precarga de iconos de aplicación
 setInitValues();                        // Valores iniciales de control
+reload_Screen(modoOperacion);           // Carga la configuración del modo de Operación
 startSensors();                         // Inicio de sensado
 stablishSwOpMode(modoOperacion);        // Estado Inicial del Equipo
 createApgarSegments(modoControl);       // Configuración inicial color cronómetro

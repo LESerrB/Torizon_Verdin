@@ -19,8 +19,8 @@
 
   position: absolute;
 
-  left: 20px;
-  top: 161px;
+  left: 36px;
+  top: 168px;
 }
 /*>>>>>>>>>>>> Contenedores Sensores <<<<<<<<<<<*/
 .mp-atpiel-lat {
@@ -36,12 +36,13 @@
   height: 85px;
   position: relative;
 }
-.mp-atpiel-lat.tp.enable{ background: var(--colorfondopiel); }      /* Control Temperatura de Piel */
-.mp-atpiel-lat.ta.enable{ background: var(--colorfondoaire); }      /* Control Temperatura de Piel */
-.mp-atpiel-lat.ox.enable{ background: var(--colorfondooxigeno); }   /* Control Oxigeno */
-.mp-atpiel-lat.hum.enable{ background: var(--colorfondohum); }      /* Control Humedad */
-.mp-atpiel-lat.fot.enable{ background: var(--colorfondofot); }      /* Control Fototerapia */
-
+.mp-atpiel-lat.disable{ display: none; }
+.mp-atpiel-lat.tPiel.enable{ background: var(--colorfondopiel); }        /* Control Temperatura de Piel */
+.mp-atpiel-lat.tAire.enable{ background: var(--colorfondoaire); }        /* Control Temperatura de Aire */
+.mp-atpiel-lat.ox.enable{ background: var(--colorfondooxigeno); }     /* Control Oxigeno */
+.mp-atpiel-lat.hum.enable{ background: var(--colorfondohum); }        /* Control Humedad */
+.mp-atpiel-lat.clf.enable{ background: var(--colorfondocalefactor); } /* Control Fototerapia */
+.mp-atpiel-lat.m-Manual{ height: 113px; }
 /*>>>>>>>>>>>> Titulo Contenedores Laterales <<<<<<<<<<<<*/
 .lbl-ttl-cont-lat {
   color: var(--colortextoinactivo);
@@ -86,10 +87,9 @@
   line-height: 20px;
   font-weight: 600;
 
-  position: absolute;
-
-  left: 166px;
-  top: 38px;
+  position: relative;
+  left: 60px;
+  top: -36px;
 
   width: 14px;
   height: 15px;
@@ -108,29 +108,26 @@
   line-height: 20px;
   font-weight: 700;
 
-  position: absolute;
-
-  left: 159px;
-  top: 52px;
+  position: relative;
+  left: 60px;
+  top: -42px;
 
   width: 14px;
   height: 15px;
 }
-.ti-vm-sens.tp.enable,
-.lbl-ttl-cont-lat.tp.enable,
-.val-units-sens-cont-lat.tp.enable {
-  color: var(--colortexttpiel);
-}
-.ti-vm-sens.ta.enable,
-.lbl-ttl-cont-lat.ta.enable,
-.val-units-sens-cont-lat.ta.enable {
-  color: var(--colortexttaire);
-}
+.ti-vm-sens.tPiel.enable,
+.lbl-ttl-cont-lat.tPiel.enable,
+.val-units-sens-cont-lat.tPiel.enable { color: var(--colortexttpiel); }
+.ti-vm-sens.tAire.enable,
+.lbl-ttl-cont-lat.tAire.enable,
+.val-units-sens-cont-lat.tAire.enable { color: var(--colortexttaire); }
 .ti-vm-sens.ox.enable,
 .lbl-ttl-cont-lat.ox.enable,
-.val-perc-sens-cont-lat.ox.enable {
-  color: var(--colortextactivo);
-}
+.val-perc-sens-cont-lat.ox.enable { color: var(--colortextactivo); }
+.ti-vm-sens.clf.enable,
+.lbl-ttl-cont-lat.clf.enable,
+.val-units-sens-cont-lat.clf.enable,
+.val-perc-sens-cont-lat.clf.enable { color: var(--colortextcalefactor); }
 /* Panel de Información Control */
 .mp-atpiel-cont-atpiel {
   display: flex;
@@ -170,11 +167,12 @@
   position: relative;
   overflow: hidden;
 }
-.mp-atpiel-mc-ttl.tp.enable{ background: var(--coloroscuropiel); }
-.mp-atpiel-mc-ttl.ta.enable{ background: var(--coloroscuroaire); }
+.mp-atpiel-mc-ttl.tPiel.enable{ background: var(--coloroscuropiel); }
+.mp-atpiel-mc-ttl.tAire.enable{ background: var(--coloroscuroaire); }
 .mp-atpiel-mc-ttl.ox.enable{ background: var(--coloroscurooxigeno); }
 .mp-atpiel-mc-ttl.hum.enable{ background: var(--coloroscurohum); }
 .mp-atpiel-mc-ttl.fot.enable{ background: var(--coloroscurofot); }
+.mp-atpiel-mc-ttl.clf.enable{ background: var(--coloroscurocalefactor); }
 
 /*>>>>>>>>>>>> Titulo de Panel <<<<<<<<<<<<*/
 .mp-atpiel-mc-lbl {
@@ -210,11 +208,12 @@
   overflow: hidden;
   
 }
-.mp-info-ctrl.tp.enable{ background: var(--colorfondopiel); }
-.mp-info-ctrl.ta.enable{ background: var(--colorfondoaire); }
+.mp-info-ctrl.tPiel.enable{ background: var(--colorfondopiel); }
+.mp-info-ctrl.tAire.enable{ background: var(--colorfondoaire); }
 .mp-info-ctrl.ox.enable{ background: var(--colorfondooxigeno); }
 .mp-info-ctrl.hum.enable{ background: var(--colorfondohum); }
 .mp-info-ctrl.fot.enable{ background: var(--colorfondofot); }
+.mp-info-ctrl.clf.enable{ background: var(--colorfondocalefactor); }
 
 /* Icono de Panel */
 .icon-ctrl {
@@ -410,6 +409,18 @@
 .ctrl-slider-seg.seg-p_hum-7 { fill: #5A92B3; }
 .ctrl-slider-seg.seg-p_hum-8 { fill: #447FA2; }
 .ctrl-slider-seg.seg-p_hum-9 { fill: #2F6E8A; }
+
+/* Ajuste Potencia de Calefactor */
+.ctrl-slider-seg.seg-p_clf-0 { fill: #F8E7A6; }
+.ctrl-slider-seg.seg-p_clf-1 { fill: #F7D98D; }
+.ctrl-slider-seg.seg-p_clf-2 { fill: #F5C87C; }
+.ctrl-slider-seg.seg-p_clf-3 { fill: #F2B56C; }
+.ctrl-slider-seg.seg-p_clf-4 { fill: #EE9D5D; }
+.ctrl-slider-seg.seg-p_clf-5 { fill: #E9824F; }
+.ctrl-slider-seg.seg-p_clf-6 { fill: #DE6847; }
+.ctrl-slider-seg.seg-p_clf-7 { fill: #CA493A; }
+.ctrl-slider-seg.seg-p_clf-8 { fill: #B73532; }
+.ctrl-slider-seg.seg-p_clf-9 { fill: #9E292A; }
 
 /* Ajuste Potencia de Fototerapia */
 .ctrl-slider-seg.seg-p_fot-0 { fill: #8194B8; }

@@ -103,46 +103,50 @@
 :root,
 [data-coleccion-variable-mode="mode-1"] {
   /* mode-1 */
-  --colorblanco:        #ffffff;
-  
-  --colortextactivo:    #2f3a40;
-  --colortextoinactivo: #72818e;
-  --colortexttpiel:     #6f423d;
-  --colortexttaire:     #2f4a4d;
-  
-  --colorfondo:         #e9eef2;
-  --colorfondoinactivo: #f2f2f2;
-  --colorfondopiel:     #f5cfc3;
-  --colorfondoaire:     #bee1e5;
-  --colorfondooxigeno:  #c6e1b8;
-  --colorfondofot:      #c2d2ec;
-  --colorfondohum:      #bfd9e8;
-  
-  --coloroscuropiel:    #d9a79d;
-  --coloroscuroaire:    #8fc3c9;
-  --coloroscurooxigeno: #86ad79;
-  --coloroscurofot:     #5f82b8;
-  --coloroscurohum:     #5f97b1;
+  --colorblanco:          #ffffff;
 
-  --colorpressedpiel:   #E3A896;
-  --colorpressedox:     #ADD09C;
-  --colorpressedhum:    #8CB8CD;
-  --colorpressedfot:    #a5bbe0;
-  --colorpressedaire:   #e4e4e4;
+  --colortextactivo:      #2f3a40;
+  --colortextoinactivo:   #72818e;
+  --colortexttpiel:       #6f423d;
+  --colortexttaire:       #2f4a4d;
+  --colortextcalefactor:  #8A471D;
 
-  --colorclaropiel:     #fae7e1;
+  --colorfondo:           #e9eef2;
+  --colorfondoinactivo:   #f2f2f2;
+  --colorfondopiel:       #f5cfc3;
+  --colorfondoaire:       #bee1e5;
+  --colorfondooxigeno:    #c6e1b8;
+  --colorfondofot:        #c2d2ec;
+  --colorfondohum:        #bfd9e8;
+  --colorfondocalefactor: #f3c39a;
 
-  --colorverdebtn:      #92d1bc;
-  --colorgrisbtn:       #8a8e91;
-  --colorclarobtn:      #f8f8fa;
-  --colorfondobtns:     #d8dee2;
-  --colorbtnsnuevos:    #d9d9d9;
-  --colorbtnoffox:      #6a9952;
-  --colorbtnoffoxpres:  #3f6b32;
-  --colorbtnoffhum:     #5a92b3;
-  --colorbtnoffhumpres: #2f6e8a;
+  --coloroscuropiel:      #d9a79d;
+  --coloroscuroaire:      #8fc3c9;
+  --coloroscurooxigeno:   #86ad79;
+  --coloroscurofot:       #5f82b8;
+  --coloroscurohum:       #5f97b1;
+  --coloroscurocalefactor:#d19763;
 
-  --colorfotoprsdbtn:   #8EA7CB;
+  --colorpressedpiel:     #E3A896;
+  --colorpressedox:       #ADD09C;
+  --colorpressedhum:      #8CB8CD;
+  --colorpressedfot:      #a5bbe0;
+  --colorpressedaire:     #e4e4e4;
+  --colorpressedcalef:    #e6a06a;
 
-  --colormoddesacti:    #f5f7f7;
+  --colorclaropiel:       #fae7e1;
+
+  --colorverdebtn:        #92d1bc;
+  --colorgrisbtn:         #8a8e91;
+  --colorclarobtn:        #f8f8fa;
+  --colorfondobtns:       #d8dee2;
+  --colorbtnsnuevos:      #d9d9d9;
+  --colorbtnoffox:        #6a9952;
+  --colorbtnoffoxpres:    #3f6b32;
+  --colorbtnoffhum:       #5a92b3;
+  --colorbtnoffhumpres:   #2f6e8a;
+
+  --colorfotoprsdbtn:     #8EA7CB;
+
+  --colormoddesacti:      #f5f7f7;
 }

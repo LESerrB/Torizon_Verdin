@@ -38,12 +38,9 @@
   flex-shrink: 0;
   position: relative;
 }
-.ti-v-contapgar.tPiel{
-  background: var(--coloroscuropiel);
-}
-.ti-v-contapgar.tAire{
-  background: var(--coloroscuroaire);
-}
+.ti-v-contapgar.tPiel{ background: var(--coloroscuropiel); }
+.ti-v-contapgar.tAire{ background: var(--coloroscuroaire); }
+.ti-v-contapgar.mManual{ background: var(--colorfondocalefactor); }
 .ti-v-apgar {
   color: var(--colorblanco);
   text-align: center;
@@ -212,6 +209,11 @@
   background-color: var(--coloroscuroaire);
   transform: scale(0.97);
 }
+.btns-apgr.mManual:active,
+.btns-apgr.mManual.pressed {
+  background-color: var(--colorfondocalefactor);
+  transform: scale(0.97);
+}
 
 .cont-apgarp {
     width: 246px;
@@ -240,6 +242,7 @@
 /* Segmento activado */
 .ctrl-cronometro.tPiel.active { fill: var(--coloroscuropiel); }
 .ctrl-cronometro.tAire.active { fill: var(--coloroscuroaire); }
+.ctrl-cronometro.mManual.active { fill: var(--colorfondocalefactor); }
 
 /* Segmento desactivado */
 .ctrl-cronometro.inactive {

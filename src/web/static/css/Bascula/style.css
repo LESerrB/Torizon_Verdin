@@ -17,12 +17,9 @@
   --tiempo-movimiento: 2000ms;
   --tiempo-flecha: 1000ms;
 }
-.cont-bas-anima.tPiel{
-  background: var(--colorfondopiel);
-}
-.cont-bas-anima.tAire{
-  background: var(--colorfondoaire);
-}
+.cont-bas-anima.tPiel{ background: var(--colorfondopiel); }
+.cont-bas-anima.tAire{ background: var(--colorfondoaire); }
+.cont-bas-anima.mManual{ background: var(--colorfondocalefactor); }
 
 /* Icono del bebé */
 .icon-bebebas {
@@ -256,13 +253,11 @@
   position: relative;
 }
 .btns-apgr.tPiel:active .lbl-btn,
-.btns-apgr.tPiel.pressed .lbl-btn {
-  color: var(--colorblanco);
-}
+.btns-apgr.tPiel.pressed .lbl-btn { color: var(--colorblanco); }
 .btns-apgr.tAire:active .lbl-btn,
-.btns-apgr.tAire.pressed .lbl-btn {
-  color: var(--colorblanco);
-}
+.btns-apgr.tAire.pressed .lbl-btn { color: var(--colorblanco); }
+.btns-apgr.mManual:active .lbl-btn,
+.btns-apgr.mManual.pressed .lbl-btn { color: var(--colorblanco); }
 
 .cont-basct {
   width: 215px;
@@ -296,6 +291,7 @@
 /* Segmento activado */
 .ctrl-timer.active { fill: var(--coloroscuropiel)}
 .ctrl-timer.tAire.active { fill: var(--coloroscuroaire) }
+.ctrl-timer.mManual.active { fill: var(--colorfondocalefactor) }
 
 /* Segmento desactivado */
 .ctrl-timer.inactive { fill: #f2f2f2; }
@@ -316,12 +312,9 @@
   height: 88px;
   position: relative;
 }
-.ti-v-vpeso.tPiel{
-  background: var(--coloroscuropiel);
-}
-.ti-v-vpeso.tAire{
-  background: var(--coloroscuroaire);
-}
+.ti-v-vpeso.tPiel{ background: var(--coloroscuropiel); }
+.ti-v-vpeso.tAire{ background: var(--coloroscuroaire); }
+.ti-v-vpeso.mManual{ background: var(--colorfondocalefactor); }
 .ti-v-peso {
   color: var(--colorblanco);
   text-align: center;

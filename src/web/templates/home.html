@@ -161,7 +161,7 @@
             <!-- Panel de cambio de modo -->
             <div class="pop-mp-prin-mc-tpiel">
               <div class="cont-icons-cmodop">
-                <img class="icon-md-tp-ta" src="../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOP.svg"/>
+                <img id="chngIcon" class="icon-md-tp-ta" src="../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOP.svg"/>
               </div>
 
               <div class="btns-cmodo-cmp">
@@ -219,11 +219,26 @@
               </button>
             </div>
 
+            <div class="pop-cmodo-manual">
+              <div class="lbl-temp-aire clf active"> Cambiar a Modo Manual </div>
+
+              <img class="icon-md-tp-ta" src="../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOM.svg"/>
+
+              <button id="cnclChngMd-tP-tC" class="btn-cancel cncl-tp-mm" type="button">
+                <div class="cancelar">Cancelar</div>
+              </button>
+
+              <button id="acptChngMd-tP-tC" class="btn-cancel acpt-tp-mm" type="button">
+                <div class="cancelar">Aceptar</div>
+              </button>
+            </div>
+
+            <!-- Potencia del Calefactor Lateral -->
             <div class="cont-potcal">
               <div id="seg-calefactor" class="seg-calefactor"></div>
 
               <div class="v-potcal">
-                <div class="potcal-ini">80</div>
+                <div id="potCalef" class="potcal-ini">80</div>
                 <div class="perccal-ini">%</div>
               </div>
             </div>
@@ -628,7 +643,7 @@
         <!------------------------------------------------------------>
       </div>
 
-      <!--#################################### Barra Menus ###################################-->
+      <!--#################################### Barra Menús ###################################-->
       <div class="f-pp-menuprin">
         <img class="cont-menu" src="../static/icon/Home/cont-menu0.svg" />
 
