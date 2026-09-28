@@ -423,7 +423,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de despliegue de valores de potencia sin decimales.
  - Control de valores de programación de TCD (FW TCD: MCU_control_22072026).
 
- ### v0.23.2 - [31/Juliio/2026]
+### v0.23.2 - [31/Juliio/2026]
 
  - Ajuste de gráfico para distintos valores de control y diferentes limites mínimo y máximo.
  - Titulos de paneles de control cambian de acuerdo al panel.
@@ -524,6 +524,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Agregando recursos de iconos para Apgar y Báscula.
  - Incluido icono de cambio de modo de "t. Piel" a "m. Manual".
  - Corrección de bug de desactivado de panel de cambio al cancelar.
+ - Arreglos menores a color de título de panel de control de calefactor.
 
 ## Descarga e Instalación
 

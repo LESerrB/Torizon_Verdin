@@ -351,7 +351,7 @@ const SELECTOR_ELEMENTOS_INTERNOS = [
     ".val-perc-sens-cont-lat"
 ].join(", ");
 
-const configuracionPaneles = {
+const configPanels = {
     tempPielProg: {
         claseColor: "tPiel",
         controles: ["tempPiel", "tempProg"],
@@ -409,7 +409,7 @@ const configuracionPaneles = {
     }
 };
 
-const visibilidadPaneles = {
+const panelsVisibility = {
     bascula: {
         ctrl_sens: false,
         view_fam: false,
@@ -455,7 +455,7 @@ const visibilidadPaneles = {
  * Limpia los estados visuales aplicados a un elemento.
  * @param {HTMLElement|null} elemento Elemento a limpiar.
  */
-function limpiarEstadoElemento(elemento) {
+function cleanElmnt_state(elemento) {
     if (!elemento) return;
 
     elemento.classList.remove(
@@ -478,7 +478,7 @@ function limpiarEstadoElemento(elemento) {
  * @param {HTMLElement|null} elemento Elemento a modificar.
  * @param {string} claseColor Clase de color a aplicar.
  */
-function habilitarEstadoElemento(elemento, claseColor) {
+function enableElment_state(elemento, claseColor) {
     if (!elemento) return;
 
     elemento.classList.add(claseColor, "enable");
@@ -487,11 +487,11 @@ function habilitarEstadoElemento(elemento, claseColor) {
 /**
  * Limpia los estados visuales de los controles laterales.
  */
-function limpiarControlesLaterales() {
+function cleanLat_Ctrls() {
     const controles = document.querySelectorAll(".mp-atpiel-lat");
 
     controles.forEach((control) => {
-        limpiarEstadoElemento(control);
+        cleanElmnt_state(control);
 
         control
             .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
@@ -506,7 +506,7 @@ function limpiarControlesLaterales() {
  * @param {string[]} controles Lista de nombres de control.
  * @param {string} claseColor Clase de color a aplicar.
  */
-function habilitarControlesLaterales(controles, claseColor) {
+function enableLat_Ctrls(controles, claseColor) {
     controles.forEach((nombreControl) => {
         const control = document.querySelector(`.mp-atpiel-lat[data-control="${nombreControl}"]`);
 
@@ -516,7 +516,7 @@ function habilitarControlesLaterales(controles, claseColor) {
             return;
         }
 
-        habilitarEstadoElemento(control, claseColor);
+        enableElment_state(control, claseColor);
 
         control
             .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
@@ -547,11 +547,11 @@ export function toggleHomePanel(showPanelControl, modoControl = null, modOp = nu
     }
 
     const reloadContent = () => {
-        const configuracion = configuracionPaneles[showPanelControl];
+        const configuracion = configPanels[showPanelControl];
 
-        limpiarEstadoElemento(infoCtrl);
-        limpiarEstadoElemento(tituloCtrl);
-        limpiarControlesLaterales();
+        cleanElmnt_state(infoCtrl);
+        cleanElmnt_state(tituloCtrl);
+        cleanLat_Ctrls();
 
         if (!configuracion) {
             console.warn(`No existe configuración para el panel: "${showPanelControl}"`);
@@ -567,18 +567,18 @@ export function toggleHomePanel(showPanelControl, modoControl = null, modOp = nu
 
         const panelKey = controles[0];
 
-        const visibilidad = visibilidadPaneles[panelKey] ?? visibilidadPaneles.default;
+        const visibilidad = panelsVisibility[panelKey] ?? panelsVisibility.default;
 
-        habilitarEstadoElemento(infoCtrl, claseColor);
+        enableElment_state(infoCtrl, claseColor);
 
         if (showPanelControl === "apgar" || showPanelControl === "bascula") {
-            habilitarEstadoElemento(tituloCtrl, modoControl);
+            enableElment_state(tituloCtrl, modoControl);
         } else {
-            habilitarEstadoElemento(tituloCtrl, claseColor);
+            enableElment_state(tituloCtrl, claseColor);
         }
 
         if (panelKey === "tempPiel" || panelKey === "tempAire" || panelKey === "oxigeno")
-            habilitarControlesLaterales(controles, claseColor);
+            enableLat_Ctrls(controles, claseColor);
 
         if (modOp === "Cuna")
             sidePnl_alt(controles, claseColor, SELECTOR_ELEMENTOS_INTERNOS, modoControl);
@@ -750,9 +750,9 @@ export function iniTimerAjst(ajstPnl) {
         if(ajstPnl === "Foto")
             fotoActive();
         else if (ajstPnl.id === "pnl-modoAire")
-            chngModo(ajstPnl);
+            changeMode(ajstPnl);
         else if (ajstPnl.id === "pnl-modoBebe")
-            chngModo(ajstPnl);
+            changeMode(ajstPnl);
     }, (secs2Conf * 1000));
 };
 
@@ -848,7 +848,7 @@ function toggleElementsClass(elements, action, className) {
  * @param {HTMLElement} pnlInactivo Panel a desactivar
  * @param {HTMLElement} pnlActivo Panel a activar
  */
-function activarModo(modo, pnlInactivo, pnlActivo) {
+function activateMode(modo, pnlInactivo, pnlActivo) {
     const config = modoConfig[modo];
 
     if (!config) return;
@@ -893,7 +893,7 @@ function activarModo(modo, pnlInactivo, pnlActivo) {
  * @param {HTMLElement} panel Panel que se está modificando
  * @param {string} modoAP Modo a aplicar ("tPiel" o "tAire")
  */
-export function chngModo(panel, modoAP, modOp) {
+export function changeMode(panel, modoAP, modOp) {
     const control = document.querySelector(`.mp-atpiel-lat[data-control="tempProg"]`);
     const icon = document.getElementById("chngIcon");
     
@@ -992,7 +992,7 @@ export function modoAire(pnlB, pnlA) {
     const reloadContent = () => {
         t_aire.classList.remove("m-Manual");
 
-        activarModo("tAire", pnlB, pnlA);
+        activateMode("tAire", pnlB, pnlA);
         c_modo_Aire?.classList.remove("enabled");
         t_aire?.classList.remove("disabled");
         cont_vm_tpiel.classList.add("m-Piel");
@@ -1037,7 +1037,7 @@ export function modoPiel(pnlA, pnlB, modOp) {
 
     const reloadContent = () => {
         lbl_temp_piel.textContent = "Temperatura Piel";
-        activarModo("tPiel", pnlA, pnlB);
+        activateMode("tPiel", pnlA, pnlB);
         pop_mp_prin_mc_tpiel.classList.remove("c-modo");
         cont_vm_tpiel.classList.remove("c-modo");
         cont_vm_tpiel.classList.remove("m-Piel");
