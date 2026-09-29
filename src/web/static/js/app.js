@@ -243,6 +243,7 @@ function stablishSwOpMode(modo = "Incubadora") {
 
     pnlBebe.classList.remove("chng");
     pnlAire.classList.remove("chng");
+    setInitValues(modoControl, modoOperacion);
     reload_Screen(modoOperacion);
 }
 modoSwitch.addEventListener("change", () => {
@@ -565,10 +566,18 @@ function clear_Btns() {
 //============================================================================//
 //                             Funciones inciales                             //
 //============================================================================//
-preloadVisualRsrc();                    // Precarga de iconos de aplicación
-setInitValues();                        // Valores iniciales de control
-reload_Screen(modoOperacion);           // Carga la configuración del modo de Operación
-startSensors();                         // Inicio de sensado
-stablishSwOpMode(modoOperacion);        // Estado Inicial del Equipo
-createApgarSegments(modoControl);       // Configuración inicial color cronómetro
-createTimerTaraSegments(modoControl);   // Configuración inicial color temporizador de tara
+preloadVisualRsrc();                        // Precarga de iconos de aplicación
+
+const initValCtrl = await setInitValues();  // Valores iniciales de control
+
+if (initValCtrl) {
+    modoControl = initValCtrl.ctrl;
+    modoOperacion = initValCtrl.op;
+}
+
+startSensors();                             // Inicio de sensado
+
+reload_Screen(modoOperacion);               // Carga la configuración del modo de Operación
+stablishSwOpMode(modoOperacion);            // Estado Inicial del Equipo
+createApgarSegments(modoControl);           // Configuración inicial color cronómetro
+createTimerTaraSegments(modoControl);       // Configuración inicial color temporizador de tara

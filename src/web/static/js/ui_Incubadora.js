@@ -20,8 +20,8 @@ let intervalEncod = null;
 let updateSlider10Value = null;
 let updateFotSliderValue = null;
 let activeSlider = "slider10";
-let valsCtrl = null;
-let updateSliderPowCalef_pPrin = null;
+let dtsCtrl = null;
+// let updateSliderPowCalef_pPrin = null;
 let updateSliderIntenseFot_pPrin = null;
 
 let timerChngAjst = null;
@@ -85,38 +85,50 @@ const seg_potencia_fot = document.getElementById("seg-potencia-fot");
 /**
  * Obtiene los valores iniciales del control desde la API.
  */
-export async function setInitValues(modoCtrl = "modoPiel") {
+export async function setInitValues(modCtrl = null, modOp = null) {
     try {
         const res = await fetch("/api/setInitVals", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            body: JSON.stringify({
+                modCtrl: modCtrl,
+                modOp: modOp,
+            })
         });
 
         if (res.status === 200) {
-            valsCtrl = await res.json();
+            dtsCtrl = await res.json();
 
-            tempProg.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
-            tempProgA.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
+            tempProg.textContent = dtsCtrl.vals.tp_Prog.toFixed(1);
+            tempProgA.textContent = dtsCtrl.vals.ta_Prog.toFixed(1);
             
             if(humCtrl.classList.contains("active"))
-                humCtrl.textContent = valsCtrl.vals.pot_Hum;
+                humCtrl.textContent = dtsCtrl.vals.pot_Hum;
             else if(!humCtrl.classList.contains("active"))
                 humCtrl.textContent = "--";
 
             if(oxCtrl.classList.contains("active"))
-                oxCtrl.textContent = valsCtrl.vals.pot_Ox;
+                oxCtrl.textContent = dtsCtrl.vals.pot_Ox;
             else if(!oxCtrl.classList.contains("active"))
                 oxCtrl.textContent = "--";
 
-            if (modoCtrl == "modoPiel") {
-                viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
-                lbl_acpt_sg.textContent = valsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar"
+            const modoCtrl = dtsCtrl.modos;
+
+            if (modoCtrl.ctrl == "tPiel") {
+                viewCtrl.textContent = dtsCtrl.vals.tp_Prog.toFixed(1);
+                lbl_acpt_sg.textContent = dtsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar"
             } else {
-                viewCtrl.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
-                lbl_acpt_sg.textContent = valsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
+                viewCtrl.textContent = dtsCtrl.vals.ta_Prog.toFixed(1);
+                lbl_acpt_sg.textContent = dtsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
             }
+
+            return modoCtrl;
+        } else{
+            console.error("Error HTTP:", res.status);
+
+            return null;
         }
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada", error);
@@ -294,7 +306,7 @@ export function ajstCtrl(panel, mdCtrl, modOp) {
     toggleHomePanel(cfg.panel, mdCtrl, modOp);
     ttl_pnl_ctrl.textContent = cfg.titulo;
 
-    const valor = valsCtrl?.vals?.[cfg.key] ?? cfg.default;
+    const valor = dtsCtrl?.vals?.[cfg.key] ?? cfg.default;
 
     if (panel === "pot_Ox" || panel === "pot_Hum" )
         btn_Off.classList.add(panel)
@@ -672,8 +684,8 @@ async function edit_valProg() {
                     "application/json"
             },
             body: JSON.stringify({
-                sg_tp: valsCtrl.vals.sg_tp,
-                sg_ta: valsCtrl.vals.sg_ta,
+                sg_tp: dtsCtrl.vals.sg_tp,
+                sg_ta: dtsCtrl.vals.sg_ta,
             })
         });
 
@@ -714,7 +726,7 @@ async function edit_valProg() {
 
                     case "pot_Clf":
                         clfCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
-                        updateSliderPowCalef_pPrin?.(nuevoValor);
+                        // updateSliderPowCalef_pPrin?.(nuevoValor);
                     break;
 
                     default:
@@ -987,7 +999,7 @@ export function modoAire(pnlB, pnlA) {
 
     removeBlurScreen();
 
-    setInitValues("modoAire");
+    setInitValues("tAire");
 
     const reloadContent = () => {
         t_aire.classList.remove("m-Manual");
@@ -1033,7 +1045,7 @@ export function modoPiel(pnlA, pnlB, modOp) {
 
     removeBlurScreen();
 
-    setInitValues("modoPiel");
+    setInitValues("tPiel");
 
     const reloadContent = () => {
         lbl_temp_piel.textContent = "Temperatura Piel";
@@ -1170,13 +1182,13 @@ export function confAjstFoto(modCtrl, modOp) {
 let tempPowerSliderController = null;
 let fotoSliderController = null;
 let sliderIntensFot_pPrin = null;
-let sliderPowCalef_pPrin = null;
+// let sliderPowCalef_pPrin = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-    sliderPowCalef_pPrin = crearSliderPotCalef();
-    updateSliderPowCalef_pPrin = (value) => {
-        sliderPowCalef_pPrin?.setLevel(value);
-    }
+    // sliderPowCalef_pPrin = crearSliderPotCalef();
+    // updateSliderPowCalef_pPrin = (value) => {
+    //     sliderPowCalef_pPrin?.setLevel(value);
+    // }
 
     tempPowerSliderController = initTemperaturePowerSlider({
         sliderId: "tpielSlider",
@@ -1211,12 +1223,12 @@ const lbl_acpt_sg = document.querySelector(".lbl-aceptar-sg");
 
 export function toggleSobregiro(mdCtrl) {
     if(mdCtrl === "tPiel"){
-        valsCtrl.vals.sg_tp = !valsCtrl.vals.sg_tp;
-        lbl_acpt_sg.textContent = valsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar";
+        dtsCtrl.vals.sg_tp = !dtsCtrl.vals.sg_tp;
+        lbl_acpt_sg.textContent = dtsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar";
     }
     else if (mdCtrl === "tAire"){
-        valsCtrl.vals.sg_ta = !valsCtrl.vals.sg_ta;
-        lbl_acpt_sg.textContent = valsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
+        dtsCtrl.vals.sg_ta = !dtsCtrl.vals.sg_ta;
+        lbl_acpt_sg.textContent = dtsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
     }
 }
 

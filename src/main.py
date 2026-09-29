@@ -59,6 +59,11 @@ valores_ctrl = {
     "sg_ta":     False,     # Sobregiro de Temperatura Aire
 }
 
+modos = {
+    "ctrl":      "tPiel",        # Modo de Control (Piel / Aire / Manual)
+    "op":        "Incubadora",   # Modo de Operación (Incubadora / Cuna)
+}
+
 #--------------------- Valores Sensados ----------------------#
 vls_snsrsTCD = {
     "t_Aire":    0,         # Tempertura Aire Sensada
@@ -66,7 +71,7 @@ vls_snsrsTCD = {
     "s_Aux":     0,         # Tempertura Sonda Auxiliar
     "ta_Ctrl":   0,         # Tempertura Aire Controlada
     "basc":      0,         # Peso de Báscula
-    "pot_Clf":   5,         # Potencia Actual Calefactor
+    "pot_Clf":   50,       # Potencia Actual Calefactor
     "tp_Ctrl":   0,         # Tempertura Programada de Calefactor
     "s_Ox":      0,         # Sonda de Oxigeno
     "ox_Ctrl":   0,         # Oxigeno Controlado
@@ -92,9 +97,21 @@ def index():
 #----------------------------------------------------------------------------#
 @app.route("/api/setInitVals", methods=["POST"])
 def setInitVals():
+    updateVals = request.get_json()
+
+    ctrl = updateVals.get("modCtrl")
+    op = updateVals.get("modOp")
+
+    if (ctrl):
+        modos["ctrl"] = ctrl
+
+    if (op):
+        modos["op"] = op
+
     return jsonify(
         {
             "vals": valores_ctrl,
+            "modos": modos,
             "status": "ok"
         }
     ), 200
@@ -105,12 +122,14 @@ def get_DtSensores():
         return jsonify(
             {
                 "vls_snsrsTCD": vls_snsrsTCD,
+                "modos": modos,
                 "status": "ok",
             }
         ), 200
     else:
         return jsonify(
             {
+                "modos": modos,
                 "status": "fail",
             }
         ), 400

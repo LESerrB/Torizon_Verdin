@@ -17,33 +17,17 @@ def com_TCD(vls_snsrsTCD):
 # Temp seg W[4:6]
             vls_snsrsTCD["t_Piel"] = int.from_bytes(W[6:8], byteorder="big")/10
             vls_snsrsTCD["s_Aux"] = int.from_bytes(W[8:10], byteorder="big")/10
-            vls_snsrsTCD["pot_Calef"] = int.from_bytes(W[10:12], byteorder="big")
+            vls_snsrsTCD["pot_Clf"] = int.from_bytes(W[10:12], byteorder="big")
             vls_snsrsTCD["s_Ox"] = int.from_bytes(W[12:14], byteorder="big")
             vls_snsrsTCD["zero"] = W[14]
             vls_snsrsTCD["alrm"] = W[15]
-
-
-# 
-            # vls_snsrsTCD["s_Aux"] = int.from_bytes(W[4:6], byteorder="big")/10
-            # vls_snsrsTCD["ta_Ctrl"] = int.from_bytes(W[6:8], byteorder="big")/10
-            # vls_snsrsTCD["basc"] = int.from_bytes(W[8:10], byteorder="big")
-            # vls_snsrsTCD["pot_Calef"] = int.from_bytes(W[10:12], byteorder="big")
-            # vls_snsrsTCD["tp_Ctrl"] = int.from_bytes(W[12:14], byteorder="big")/10
-            # vls_snsrsTCD["s_Ox"] = int.from_bytes(W[14:16], byteorder="big")
-            # vls_snsrsTCD["ox_Ctrl"] = int.from_bytes(W[16:18], byteorder="big")
-            # vls_snsrsTCD["s_Hum"] = int.from_bytes(W[18:20], byteorder="big")
-            # vls_snsrsTCD["hum_Ctrl"] = int.from_bytes(W[20:22], byteorder="big")
-            # vls_snsrsTCD["fot_Hrs"] = int.from_bytes(W[22:24], byteorder="big")
-            # vls_snsrsTCD["fot_Mins"] = int.from_bytes(W[24:26], byteorder="big")
-            # vls_snsrsTCD["zero"] = W[26]
-            # vls_snsrsTCD["alrm"] = W[27]
     else:
         vls_snsrsTCD["alrm"] = 128 # MSB Indica error de comunicación UART
 
 def set_dtProg(tdc_v, edit_Ctrl):
     control_config = {
         "ta_Prog":   (3, 2),
-        "pot_Calef": (6, 1),
+        "pot_Clf": (6, 1),
         "tp_Prog":   (7, 2),
         "pot_Ox":    (10, 1),
         "pot_Hum":   (12, 1),

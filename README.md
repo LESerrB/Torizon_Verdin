@@ -526,6 +526,11 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de bug de desactivado de panel de cambio al cancelar.
  - Arreglos menores a color de título de panel de control de calefactor.
 
+### v0.23.7 - [28/09/2026]
+ - Intercambio de estados de Operación y Control.
+ - Cambio de valores en el contenedor de Oxigeno / Potencia de Calefactor.
+ - Actualización en tiempo real del slider de Potencia del Calefactor.
+
 ## Descarga e Instalación
 
 <p align="center">
