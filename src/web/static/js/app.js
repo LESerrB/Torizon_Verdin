@@ -424,7 +424,7 @@ btnCancel?.addEventListener("pointerup", () => {
 // =================================
 // Botones Menú Inferior
 // =================================
-const btn_md_fam = document.getElementById("btn-md-fam");
+// const btn_md_fam = document.getElementById("btn-md-fam");
 const btn_home = document.getElementById("btn-home");
 const menuButtons = {};
 
@@ -484,13 +484,17 @@ function bindMenuButton(config) {
 
         if (state.isHomeView) {
             btn_home?.classList.add("btn-collapsed");
-            btn_md_fam?.classList.remove("btn-collapsed");
+            // btn_md_fam?.classList.add("btn-collapsed");
         }else{
-            btn_md_fam?.classList.add("btn-collapsed");
+            // btn_md_fam?.classList.add("btn-collapsed");
             btn_home?.classList.remove("btn-collapsed");
         }
 
         applyButtonVisualState(button, image, config, state.pressed);
+    });
+
+    button?.addEventListener("pointerleave", () => {
+        applyButtonVisualState(button, image, config, false);
     });
 
     return state;

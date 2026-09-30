@@ -532,6 +532,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Actualización en tiempo real del slider de Potencia del Calefactor.
  - Corrección del slider de Fototerapia en panel principal, al actualizarse los datos.
  - Habilitado el cronómetro de fototerapia. Se inicia al dar click sobre el panel, independientemente si se configura o no la intensidad. Si este se encuentra activo y se apaga la fototerapia el cronómetro vuelve a "00:00".
+ - Eliminado el botón de fototerapia en la pantalla principal y agregado en todos los paneles de control.
 
 ## Descarga e Instalación
 

@@ -52,6 +52,8 @@ const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 const clfCtrl = document.getElementById("potCalef");
 
+const btn_home = document.getElementById("btn-home");
+
 //---------------------------------------------------------------
 // Vista Panel de Control
 const ttl_pnl_ctrl = document.getElementById("ttl-pnl-ctrl");
@@ -341,6 +343,7 @@ export function ajstCtrl(panel, mdCtrl, modOp) {
     }
 
     set_EditCtrlsEn(cfg.key);
+    btn_home?.classList.remove("btn-collapsed");
 }
 
 
@@ -555,9 +558,10 @@ export function toggleHomePanel(showPanelControl, modoControl = null, modOp = nu
     if (!homeDiv || !panelControl)
         return;
 
-    const mostrarHome = showPanelControl === "home";
+    const showHome = showPanelControl === "home";
 
-    if (mostrarHome) {
+    if (showHome) {
+        btn_home?.classList.add("btn-collapsed");
         dissolveToPanel("home");
 
         return;
