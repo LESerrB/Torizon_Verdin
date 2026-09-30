@@ -16,6 +16,11 @@ import {
     sidePnl_alt
 } from "./ui_Cuna.js";
 
+import {
+    startTimerFot,
+    stopTimerFot
+} from "./sensor.js";
+
 let intervalEncod = null;
 let updateSlider10Value = null;
 let updateFotSliderValue = null;
@@ -1148,6 +1153,7 @@ export function fotoActive() {
 
     setFotoState("active");
     updateSliderIntenseFot_pPrin?.(1);
+    startTimerFot();
 }
 
 /**
@@ -1156,6 +1162,7 @@ export function fotoActive() {
 export function fotoInactive() {
   setFotoState("inactive");
   fotoEn = false;
+  stopTimerFot();
 }
 
 /**

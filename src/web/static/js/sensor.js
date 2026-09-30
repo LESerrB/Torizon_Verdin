@@ -2,9 +2,13 @@ import {
     crearSliderPotCalef,
 } from "./slider.js";
 
-const periodoActVals = 0.5 // segundos
+const periodoActVals = 0.5      // segundos
 
-let intervalId = null;
+let intervalId = null;          // Timer de actualización de sensores
+
+let timerFot = null;            // Timer de timepo de Fototerapia
+let minsOn = 0;                 // Contador de minutos de Fototerapia
+
 let TZ = "America/Mexico_City"; // CST UTC-6h Ciudad de México
 
 const panelDer = document.querySelector(".mp-prin-mc-taire");
@@ -30,6 +34,8 @@ peso_Basc.textContent = "-.---"
 const fecha = document.getElementById("fecha");
 const hora = document.getElementById("hora");
 const am_pm = document.getElementById("am-pm");
+
+const fot_hrs = document.getElementById("fot-hrs");
 
 let updateSliderPowCalef_pPrin = null;
 let sliderPowCalef_pPrin = null;
@@ -94,7 +100,7 @@ async function get_DtSensores() {
 
 export function startSensors(){
     if (!intervalId)
-        intervalId = setInterval(get_DtSensores, periodoActVals * 1000);
+        intervalId = setInterval(get_DtSensores, (periodoActVals * 1000));
 };
 
 export function pauseSensor() {
@@ -104,6 +110,35 @@ export function pauseSensor() {
     }
 };
 
+// =======================
+// Cronómetro Fototerapia
+// =======================
+export function startTimerFot() {
+    if (!timerFot)
+        timerFot = setInterval(() => {
+            minsOn++;
+
+            const hours = String(Math.floor(minsOn / 60)).padStart(2, "0");
+            const minutes = String(minsOn % 60).padStart(2, "0");
+
+            fot_hrs.textContent = `${hours}:${minutes}`;
+
+        }, (60 * 1000));
+}
+
+export function stopTimerFot() {
+    if (timerFot) {
+        clearInterval(timerFot);
+        minsOn = 0;
+        timerFot = null;
+
+        fot_hrs.textContent = "00:00";
+    }
+};
+
+// function timeOn_Fot() {
+//     console.log("Timer fot");
+// }
 // =======================================
 // Próxima actualización en un nuevo panel
 // =======================================

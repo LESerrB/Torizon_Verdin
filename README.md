@@ -531,6 +531,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Cambio de valores en el contenedor de Oxigeno / Potencia de Calefactor.
  - Actualización en tiempo real del slider de Potencia del Calefactor.
  - Corrección del slider de Fototerapia en panel principal, al actualizarse los datos.
+ - Habilitado el cronómetro de fototerapia. Se inicia al dar click sobre el panel, independientemente si se configura o no la intensidad. Si este se encuentra activo y se apaga la fototerapia el cronómetro vuelve a "00:00".
 
 ## Descarga e Instalación
 
