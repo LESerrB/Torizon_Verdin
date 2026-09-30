@@ -1,7 +1,7 @@
 import {
     initTemperaturePowerSlider,
     initFotoSlider,
-    crearSliderPotCalef,
+    // crearSliderPotCalef,
     createSliderIntensFot
 } from "./slider.js";
 
@@ -1171,8 +1171,11 @@ export function confAjstFoto(modCtrl, modOp) {
     confirmacion_fot.style.display = 'block';
     iniTimerAjst("Foto");
   } else {
-    ajstCtrl("pot_Fot", modCtrl, modOp);
+    // ajstCtrl("pot_Fot", modCtrl, modOp);
     ajstCtrlFot.classList.remove("active");
+    // Desactiva la fototerapia
+    fotoInactive();
+    updateSliderIntenseFot_pPrin?.(0);
   }
 };
 

@@ -530,6 +530,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Intercambio de estados de Operación y Control.
  - Cambio de valores en el contenedor de Oxigeno / Potencia de Calefactor.
  - Actualización en tiempo real del slider de Potencia del Calefactor.
+ - Corrección del slider de Fototerapia en panel principal, al actualizarse los datos.
 
 ## Descarga e Instalación
 
