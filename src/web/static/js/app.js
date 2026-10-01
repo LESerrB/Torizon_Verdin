@@ -267,7 +267,7 @@ pnlBebe?.addEventListener("pointerup", () => {
     changeMode(pnlBebe, modoControl, modoOperacion);
 
     if(modoControl != "tPiel")
-        iniTimerAjst(pnlBebe);
+        iniTimerAjst(pnlBebe, modoOperacion);
 
     pnlBebe.classList.remove("pressed");
 });
@@ -284,7 +284,7 @@ pnlAire?.addEventListener("pointerup", () => {
     changeMode(pnlAire, modoControl, modoOperacion);
 
     if(modoControl != "tAire" && modoControl != "mManual")
-        iniTimerAjst(pnlAire);
+        iniTimerAjst(pnlAire, modoOperacion);
 
     pnlAire.classList.remove("pressed");
 });
@@ -360,7 +360,7 @@ btn_acptChngMd?.addEventListener("pointerup", () => {
 btn_cnclChngMd?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    changeMode(pnlAire);
+    changeMode(pnlAire, null, modoOperacion);
 });
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Temp Aire
@@ -384,7 +384,7 @@ btn_acptChngMd2?.addEventListener("pointerup", () => {
 btn_cnclChngMd2?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    changeMode(pnlBebe);
+    changeMode(pnlBebe, null, modoOperacion);
 });
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Modo Manual
@@ -396,7 +396,7 @@ btn_acptChngMd3?.addEventListener("pointerup", () => {
 
     modoAire(pnlBebe, pnlAire);
     ModoCuna();
-    changeMode(pnlAire);
+    changeMode(pnlAire, null, modoOperacion);
     reload_Screen(modoOperacion);
 
     modoControl = modoControl === "mManual" ? "tPiel" : "mManual";
@@ -404,7 +404,7 @@ btn_acptChngMd3?.addEventListener("pointerup", () => {
 btn_cnclChngMd3?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    changeMode(pnlAire);
+    changeMode(pnlAire, null, modoOperacion);
 });
 
 // Botón Confirmar Ajuste Fototerapia

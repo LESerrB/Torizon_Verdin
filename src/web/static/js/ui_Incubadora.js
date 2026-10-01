@@ -10,6 +10,8 @@ import {
     addBlurScreen,
     addBlurScreenFot,
     removeBlurScreen,
+    mostrarDifuminado,
+    ocultarDifuminado
 } from "./anim.js";
 
 import { 
@@ -764,16 +766,16 @@ async function edit_valProg() {
 /**
 Temporizador de ventana de cambio de modos
 */
-export function iniTimerAjst(ajstPnl) {
+export function iniTimerAjst(ajstPnl, modOp = null) {
     clearTimeout(timerChngAjst);
 
     timerChngAjst = setTimeout(() => {
         if(ajstPnl === "Foto")
             fotoActive();
         else if (ajstPnl.id === "pnl-modoAire")
-            changeMode(ajstPnl);
+            changeMode(ajstPnl, null, modOp);
         else if (ajstPnl.id === "pnl-modoBebe")
-            changeMode(ajstPnl);
+            changeMode(ajstPnl, null, modOp);
     }, (secs2Conf * 1000));
 };
 
@@ -914,7 +916,7 @@ function activateMode(modo, pnlInactivo, pnlActivo) {
  * @param {HTMLElement} panel Panel que se está modificando
  * @param {string} modoAP Modo a aplicar ("tPiel" o "tAire")
  */
-export function changeMode(panel, modoAP, modOp) {
+export async function changeMode(panel, modoAP, modOp) {
     const control = document.querySelector(`.mp-atpiel-lat[data-control="tempProg"]`);
     const icon = document.getElementById("chngIcon");
     
@@ -932,8 +934,8 @@ export function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chng");
-        t_aire.classList.add("disabled");
-        c_modo_Aire.classList.add("enabled");
+        await ocultarDifuminado(t_aire, 500);
+        await mostrarDifuminado(c_modo_Aire, 500);
 
         control?.classList.remove("disable");
     }
@@ -972,8 +974,8 @@ export function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chngClf");
-        t_aire.classList.add("disabled");
-        c_modo_Manual.classList.add("enabled");
+        await ocultarDifuminado(t_aire, 500);
+        await mostrarDifuminado(c_modo_Manual, 500);
     }
     // Cancelación de cambio de modo
     else {
@@ -984,13 +986,15 @@ export function changeMode(panel, modoAP, modOp) {
             lbl_temp_piel.classList.remove("m-Piel");
         }
 
-        t_aire.classList.remove("disabled");
+        if (modOp === "Incubadora"){
+            await ocultarDifuminado(c_modo_Aire, 500);
+        }
+        else{
+            await ocultarDifuminado(c_modo_Manual, 500);
+        }
 
-        if (modOp === "Incubadora")
-            c_modo_Aire.classList.remove("enabled");
-        else
-            c_modo_Manual.classList.remove("enabled");
-        
+        await mostrarDifuminado(t_aire, 500);
+
         panel.classList.remove("chngClf", "chng");
 
         cont_vm_tpiel.classList.remove("c-modo");
@@ -1003,19 +1007,23 @@ export function changeMode(panel, modoAP, modOp) {
  * @param {HTMLElement} pnlB Panel Piel a desactivar
  * @param {HTMLElement} pnlA Panel Aire a activar
  */
-export function modoAire(pnlB, pnlA) {
+export async function modoAire(pnlB, pnlA) {
     clearTimeout(timerChngAjst);
 
     removeBlurScreen();
 
     setInitValues("tAire");
 
-    const reloadContent = () => {
+    const reloadContent = async () => {
         t_aire.classList.remove("m-Manual");
+        c_modo_Aire?.classList.add("disabled");
+        c_modo_Manual?.classList.add("disabled");
 
         activateMode("tAire", pnlB, pnlA);
         c_modo_Aire?.classList.remove("enabled");
-        t_aire?.classList.remove("disabled");
+
+        await mostrarDifuminado(t_aire, 500);
+
         cont_vm_tpiel.classList.add("m-Piel");
         ttl_programada.textContent = "Temp. Aire Programada";
 

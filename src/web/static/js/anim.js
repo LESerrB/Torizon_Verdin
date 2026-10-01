@@ -129,6 +129,104 @@ function frameWait() {
 }
 
 
+
+
+
+/**
+ * Espera dos ciclos de renderizado.
+ */
+function esperarRenderizado() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(resolve);
+    });
+  });
+}
+
+/**
+ * Muestra cualquier elemento con difuminado.
+ *
+ * @param {HTMLElement|string} elemento
+ * @param {number} tiempoMs
+ * @returns {Promise<void>}
+ */
+export async function mostrarDifuminado(elemento, tiempoMs = 500) {
+  const target = typeof elemento === "string" ? document.querySelector(elemento) : elemento;
+
+  if (!target) {
+    console.warn("mostrarDifuminado: elemento no encontrado");
+    return;
+  }
+
+  target.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
+
+  /*
+   * Primero queda visible en el layout, pero transparente.
+   * Es importante agregar fade-hidden antes de quitar disabled.
+   */
+  target.classList.add("fade-hidden");
+  target.classList.remove("disabled", "enabled");
+
+  await esperarRenderizado();
+
+  // opacity: 0 -> opacity: 1
+  target.classList.remove("fade-hidden");
+}
+
+/**
+ * Oculta cualquier elemento con difuminado.
+ *
+ * @param {HTMLElement|string} elemento
+ * @param {number} tiempoMs
+ * @returns {Promise<void>}
+ */
+export function ocultarDifuminado(elemento, tiempoMs = 500) {
+  const target = typeof elemento === "string" ? document.querySelector(elemento) : elemento;
+
+  if (!target) {
+    console.warn("ocultarDifuminado: elemento no encontrado");
+    return Promise.resolve();
+  }
+
+  target.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
+
+  // opacity: 1 -> opacity: 0
+  target.classList.add("fade-hidden");
+
+  return new Promise((resolve) => {
+    let finalizado = false;
+
+    const finalizar = () => {
+      if (finalizado) return;
+
+      finalizado = true;
+
+      target.removeEventListener("transitionend", manejarTransitionEnd);
+
+      // display: none después de finalizar el difuminado
+      target.classList.add("disabled");
+      target.classList.remove("fade-hidden");
+
+      resolve();
+    };
+
+    const manejarTransitionEnd = (event) => {
+      if (event.target === target && event.propertyName === "opacity") {
+        finalizar();
+      }
+    };
+
+    target.addEventListener("transitionend", manejarTransitionEnd);
+
+    // Respaldo por si transitionend no se genera
+    window.setTimeout(finalizar, tiempoMs + 100);
+  });
+}
+
+
+
+
+
 /**
  * Aplica el efecto de desenfoque al panel activo y a los módulos de control principales
  * Se usa para resaltar visualmente el contenido que está en segundo plano al abrir un diálogo o modal

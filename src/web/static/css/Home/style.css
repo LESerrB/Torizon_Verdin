@@ -910,23 +910,41 @@ Contenedor Temperaturas Secundarias
 
 /* Contenedor T. Aire Apagado */
 .cont-taire {
-  display: block;
-
-  padding: 24px 0px 0px 0px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
+
+  position: relative;
+
   width: 294px;
   height: 218px;
-  position: relative;
-  left: 0px;
+
+  left: 0;
+  padding: 24px 0 0;
+
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transition:
+    opacity var(--tiempo-difuminado, 350ms) ease,
+    visibility 0s linear 0s;
 }
-.cont-taire.m-Manual{ left: -60px; }
-.cont-taire.m-Aire{ left: 80px; }
-.cont-taire.disabled{ display: none; }
+.cont-taire.m-Manual { left: -60px; }
+.cont-taire.m-Aire { left: 80px; }
+.cont-taire.fade-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity var(--tiempo-difuminado, 350ms) ease,
+    visibility 0s linear var(--tiempo-difuminado, 350ms);
+}
+.cont-taire.disabled { display: none; }
 /* Icono Panel */
 .icon-taire {
   opacity: 0.6;
@@ -1016,20 +1034,43 @@ Contenedor Temperaturas Secundarias
   position: relative;
 }
 
-/* Contenedor cambio de modo t. Piel -> t. Aire */
-.pop-cmodo-aire {
-  display: none;
+.pop-cmodo-aire,    /* Contenedor cambio de modo t. Piel -> t. Aire */
+.pop-cmodo-manual { /* Contenedor cambio de modo t. Piel -> m. Manual */
+  display: flex;
   flex-direction: column;
   gap: 80px;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+
   width: 294px;
   height: 218px;
+
   position: relative;
   overflow: hidden;
+
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transition:
+    opacity var(--tiempo-difuminado, 350ms) ease,
+    visibility 0s linear 0s;
 }
-.pop-cmodo-aire.enabled{ display: flex; }
+.pop-cmodo-aire.fade-hidden,
+.pop-cmodo-manual.fade-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity var(--tiempo-difuminado, 350ms) ease,
+    visibility 0s linear var(--tiempo-difuminado, 350ms);
+}
+.pop-cmodo-aire.disabled,
+.pop-cmodo-manual.disabled { display: none; }
+
+
 .icon-md-tp-ta {
   flex-shrink: 0;
   width: 200px;
@@ -1040,8 +1081,7 @@ Contenedor Temperaturas Secundarias
   top: -60px;
 }
 
-/* Contenedor cambio de modo t. Piel -> m. Manual */
-.pop-cmodo-manual {
+/* .pop-cmodo-manual {
   display: none;
   flex-direction: column;
   gap: 80px;
@@ -1052,9 +1092,8 @@ Contenedor Temperaturas Secundarias
   height: 218px;
   position: relative;
   overflow: hidden;
-}
-.pop-cmodo-manual.enabled{ display: flex; }
-.icon-md-tp-ta {
+} */
+/* .icon-md-tp-ta {
   flex-shrink: 0;
   width: 200px;
   height: 40px;
@@ -1062,7 +1101,7 @@ Contenedor Temperaturas Secundarias
   overflow: hidden;
   aspect-ratio: 1;
   top: -60px;
-}
+} */
 
 /* Conteneor de indicador visual de potencia de temperatura */
 .cont-potcal {
@@ -1336,10 +1375,10 @@ Contenedor Temperaturas Secundarias
 ._00-00 {
   color: var(--colortextoinactivo);
   text-align: center;
-  font-family: var(--numtempsecun-font-family, "Inter-Bold", sans-serif);
-  font-size: var(--numtempsecun-font-size, 36px);
-  line-height: var(--numtempsecun-line-height, 36px);
-  font-weight: var(--numtempsecun-font-weight, 700);
+  font-family: var(--numtempsecun-font-family);
+  font-size: var(--numtempsecun-font-size);
+  line-height: var(--numtempsecun-line-height);
+  font-weight: var(--numtempsecun-font-weight);
   position: absolute;
   left: 12px;
   top: 0px;
