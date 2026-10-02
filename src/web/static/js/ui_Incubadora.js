@@ -11,7 +11,9 @@ import {
     addBlurScreenFot,
     removeBlurScreen,
     mostrarDifuminado,
-    ocultarDifuminado
+    ocultarDifuminado,
+    mostrarPanelDifuminado,
+    ocultarPanelDifuminado
 } from "./anim.js";
 
 import { 
@@ -950,7 +952,8 @@ export async function changeMode(panel, modoAP, modOp) {
         lbl_temp_piel.classList.add("m-Piel");
         panel.classList.add("chng");
         cont_vm_tpiel.classList.add("c-modo");
-        pop_mp_prin_mc_tpiel.classList.add("c-modo");
+
+        await mostrarPanelDifuminado(pop_mp_prin_mc_tpiel, "c-modo", 350);
     }//---------------------------------------------------------------
     else if (modOp === "Cuna" && modoAP === "mManual" && isModoAire){
         ajstCtrl("pot_Calf", modoAP, modOp);
@@ -964,7 +967,8 @@ export async function changeMode(panel, modoAP, modOp) {
         lbl_temp_piel.classList.add("m-Piel");
         panel.classList.add("chng");
         cont_vm_tpiel.classList.add("c-modo");
-        pop_mp_prin_mc_tpiel.classList.add("c-modo");
+        
+        await mostrarPanelDifuminado(pop_mp_prin_mc_tpiel, "c-modo", 350);
     }
     else if (modOp === "Cuna" && modoAP === "tPiel" && isModoBebe) {
         ajstCtrl("tp_Prog", modoAP, modOp);
@@ -998,7 +1002,7 @@ export async function changeMode(panel, modoAP, modOp) {
         panel.classList.remove("chngClf", "chng");
 
         cont_vm_tpiel.classList.remove("c-modo");
-        pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+        await ocultarPanelDifuminado(pop_mp_prin_mc_tpiel, "c-modo", 350);
     }
 }
 
@@ -1057,17 +1061,19 @@ export async function modoAire(pnlB, pnlA) {
  * @param {HTMLElement} pnlA Panel Aire a desactivar
  * @param {HTMLElement} pnlB Panel Piel a activar
  */
-export function modoPiel(pnlA, pnlB, modOp) {
+export async function modoPiel(pnlA, pnlB, modOp) {
     clearTimeout(timerChngAjst);
 
     removeBlurScreen();
 
     setInitValues("tPiel");
 
-    const reloadContent = () => {
+    const reloadContent = async () => {
         lbl_temp_piel.textContent = "Temperatura Piel";
         activateMode("tPiel", pnlA, pnlB);
-        pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+
+        await ocultarPanelDifuminado(pop_mp_prin_mc_tpiel, "c-modo", 350);
+
         cont_vm_tpiel.classList.remove("c-modo");
         cont_vm_tpiel.classList.remove("m-Piel");
         ttl_programada.textContent = "Temp. Piel Programada";

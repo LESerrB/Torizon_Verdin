@@ -12,7 +12,7 @@ const modFot = document.getElementById("mod-fot");
 // =====================================
 // Transiciones Paneles Home / Control 
 // =====================================
-
+// --- Transición de modos --- ///
 /**
  * Cambia el panel visible entre Home y Control
  * Si el panel solicitado ya está activo y se proporciona una función de recarga,
@@ -128,10 +128,7 @@ function frameWait() {
     });
 }
 
-
-
-
-
+// --- Difuminado paneles de Confirmación de Modo --- //
 /**
  * Espera dos ciclos de renderizado.
  */
@@ -159,17 +156,11 @@ export async function mostrarDifuminado(elemento, tiempoMs = 500) {
   }
 
   target.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
-
-  /*
-   * Primero queda visible en el layout, pero transparente.
-   * Es importante agregar fade-hidden antes de quitar disabled.
-   */
   target.classList.add("fade-hidden");
   target.classList.remove("disabled", "enabled");
 
   await esperarRenderizado();
 
-  // opacity: 0 -> opacity: 1
   target.classList.remove("fade-hidden");
 }
 
@@ -190,7 +181,6 @@ export function ocultarDifuminado(elemento, tiempoMs = 500) {
 
   target.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
 
-  // opacity: 1 -> opacity: 0
   target.classList.add("fade-hidden");
 
   return new Promise((resolve) => {
@@ -202,8 +192,6 @@ export function ocultarDifuminado(elemento, tiempoMs = 500) {
       finalizado = true;
 
       target.removeEventListener("transitionend", manejarTransitionEnd);
-
-      // display: none después de finalizar el difuminado
       target.classList.add("disabled");
       target.classList.remove("fade-hidden");
 
@@ -218,15 +206,81 @@ export function ocultarDifuminado(elemento, tiempoMs = 500) {
 
     target.addEventListener("transitionend", manejarTransitionEnd);
 
-    // Respaldo por si transitionend no se genera
     window.setTimeout(finalizar, tiempoMs + 100);
   });
 }
 
+/**
+ * Muestra un panel cuya presencia se controla con una clase.
+ *
+ * @param {HTMLElement|string} panel
+ * @param {string} claseActiva
+ * @param {number} tiempoMs
+ */
+export async function mostrarPanelDifuminado(panel, claseActiva = "enabled", tiempoMs = 500) {
+  const elemento = typeof panel === "string" ? document.querySelector(panel) : panel;
 
+  if (!elemento) {
+    console.warn("mostrarPanelDifuminado: panel no encontrado", panel);
+    return;
+  }
 
+  elemento.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
+  elemento.classList.remove("is-visible");
+  elemento.classList.add(claseActiva);
 
+  await esperarRenderizado();
 
+  elemento.classList.add("is-visible");
+}
+
+/**
+ * Oculta un panel y después retira su clase activa.
+ *
+ * @param {HTMLElement|string} panel
+ * @param {string} claseActiva
+ * @param {number} tiempoMs
+ */
+export function ocultarPanelDifuminado(panel, claseActiva = "enabled", tiempoMs = 500) {
+  const elemento = typeof panel === "string" ? document.querySelector(panel) : panel;
+
+  if (!elemento) {
+    console.warn("ocultarPanelDifuminado: panel no encontrado", panel);
+    return Promise.resolve();
+  }
+
+  elemento.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
+  elemento.classList.remove("is-visible");
+
+  return new Promise((resolve) => {
+    let terminado = false;
+
+    const finalizar = () => {
+      if (terminado) return;
+
+      terminado = true;
+
+      elemento.removeEventListener("transitionend", manejarTransition);
+      elemento.classList.remove(claseActiva);
+
+      resolve();
+    };
+
+    const manejarTransition = (event) => {
+      if (event.target === elemento && event.propertyName === "opacity") {
+        finalizar();
+      }
+    };
+
+    elemento.addEventListener("transitionend", manejarTransition);
+
+    window.setTimeout(finalizar, tiempoMs + 100);
+  });
+}
+
+// ======================
+// Blureado de paneles
+// ======================
 /**
  * Aplica el efecto de desenfoque al panel activo y a los módulos de control principales
  * Se usa para resaltar visualmente el contenido que está en segundo plano al abrir un diálogo o modal

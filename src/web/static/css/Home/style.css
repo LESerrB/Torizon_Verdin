@@ -788,9 +788,7 @@ Contenedor Temperaturas Secundarias
   top: -7px;
   left: 10px;
 }
-.tprogp.m-Piel{
-  display: flex;
-}
+.tprogp.m-Piel{ display: flex; }
 .vprogp {
   display: flex;
   flex-direction: column;
@@ -834,18 +832,44 @@ Contenedor Temperaturas Secundarias
   right: 0px;
 }
 /* Contenedor cambio de modo t. Aire -> t. Piel */
-.pop-mp-prin-mc-tpiel{
+.pop-mp-prin-mc-tpiel {
   display: none;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity var(--tiempo-difuminado, 350ms) ease,
+    visibility 0s linear var(--tiempo-difuminado, 350ms);
 }
-.pop-mp-prin-mc-tpiel.c-modo{
+
+/*
+ * c-modo coloca el panel en pantalla.
+ * Inicialmente permanece transparente.
+ */
+.pop-mp-prin-mc-tpiel.c-modo {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
   justify-content: center;
+
   height: 218px;
+
   position: relative;
   overflow: hidden;
+}
+
+/* Estado completamente visible */
+.pop-mp-prin-mc-tpiel.c-modo.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transition:
+    opacity var(--tiempo-difuminado, 350ms) ease,
+    visibility 0s linear 0s;
 }
 .cont-icons-cmodop {
   display: flex;
