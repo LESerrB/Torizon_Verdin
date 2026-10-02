@@ -13,7 +13,9 @@ import {
     mostrarDifuminado,
     ocultarDifuminado,
     mostrarPanelDifuminado,
-    ocultarPanelDifuminado
+    ocultarPanelDifuminado,
+    mostrarElementoDifuminado,
+    ocultarElementoDifuminado
 } from "./anim.js";
 
 import { 
@@ -347,7 +349,7 @@ export function ajstCtrl(panel, mdCtrl, modOp) {
     }
 
     set_EditCtrlsEn(cfg.key);
-    btn_home?.classList.remove("btn-collapsed");
+    mostrarElementoDifuminado(btn_home, "btn-collapsed", 350);
 }
 
 
@@ -565,7 +567,8 @@ export function toggleHomePanel(showPanelControl, modoControl = null, modOp = nu
     const showHome = showPanelControl === "home";
 
     if (showHome) {
-        btn_home?.classList.add("btn-collapsed");
+        ocultarElementoDifuminado(btn_home, "btn-collapsed", 350);
+        btn_home?.classList.remove("pressed");
         dissolveToPanel("home");
 
         return;

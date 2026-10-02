@@ -278,6 +278,128 @@ export function ocultarPanelDifuminado(panel, claseActiva = "enabled", tiempoMs 
   });
 }
 
+
+
+
+/**
+ * Muestra un elemento con difuminado.
+ *
+ * @param {HTMLElement|string} elemento
+ * @param {string} claseOculta
+ * @param {number} tiempoMs
+ */
+export async function mostrarElementoDifuminado(
+  elemento,
+  claseOculta = "disabled",
+  tiempoMs = 350
+) {
+  const target =
+    typeof elemento === "string"
+      ? document.querySelector(elemento)
+      : elemento;
+
+  if (!target) {
+    console.warn(
+      "mostrarElementoDifuminado: elemento no encontrado"
+    );
+    return;
+  }
+
+  target.style.setProperty(
+    "--tiempo-difuminado",
+    `${tiempoMs}ms`
+  );
+
+  /*
+   * Primero aparece en el layout, pero todavía
+   * permanece transparente.
+   */
+  target.classList.add("fade-hidden");
+  target.classList.remove(claseOculta);
+
+  await esperarRenderizado();
+
+  // opacity: 0 -> opacity: 1
+  target.classList.remove("fade-hidden");
+}
+
+/**
+ * Oculta un elemento con difuminado.
+ *
+ * @param {HTMLElement|string} elemento
+ * @param {string} claseOculta
+ * @param {number} tiempoMs
+ */
+export function ocultarElementoDifuminado(
+  elemento,
+  claseOculta = "disabled",
+  tiempoMs = 350
+) {
+  const target =
+    typeof elemento === "string"
+      ? document.querySelector(elemento)
+      : elemento;
+
+  if (!target) {
+    console.warn(
+      "ocultarElementoDifuminado: elemento no encontrado"
+    );
+
+    return Promise.resolve();
+  }
+
+  target.style.setProperty(
+    "--tiempo-difuminado",
+    `${tiempoMs}ms`
+  );
+
+  // opacity: 1 -> opacity: 0
+  target.classList.add("fade-hidden");
+
+  return new Promise((resolve) => {
+    let terminado = false;
+
+    const finalizar = () => {
+      if (terminado) return;
+
+      terminado = true;
+
+      target.removeEventListener(
+        "transitionend",
+        manejarTransition
+      );
+
+      // Aplica display:none al terminar el difuminado
+      target.classList.add(claseOculta);
+      target.classList.remove("fade-hidden");
+
+      resolve();
+    };
+
+    const manejarTransition = (event) => {
+      if (
+        event.target === target &&
+        event.propertyName === "opacity"
+      ) {
+        finalizar();
+      }
+    };
+
+    target.addEventListener(
+      "transitionend",
+      manejarTransition
+    );
+
+    // Respaldo si transitionend no se genera
+    window.setTimeout(finalizar, tiempoMs + 100);
+  });
+}
+
+
+
+
+
+
 // ======================
 // Blureado de paneles
 // ======================

@@ -535,6 +535,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Eliminado el botón de fototerapia en la pantalla principal y agregado en todos los paneles de control.
  - Animación de difuminado sobre paneles de confirmación de cambio a Modo Aire en Incubadora y Modo Manual en Cuna.
  - Animación de difuminado de panel de confirmación de cambio a Modo Piel en Incubadora y Cuna.
+ - Animación de difuminado de botón Home al entrar y salir del panel Home.
 
 ## Descarga e Instalación
 

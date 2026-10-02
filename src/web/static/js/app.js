@@ -40,6 +40,11 @@ import {
     hideNotif 
 } from "./notif.js";
 
+import { 
+    mostrarElementoDifuminado,
+    ocultarElementoDifuminado
+} from "./anim.js";
+
 const recursosVisuales = [
     // HOME //
     "../static/icon/Home/ICON_INCUBADORA.svg",
@@ -447,7 +452,7 @@ function applyButtonVisualState(button, image, config, isPressed) {
     }
 }
 
-function bindMenuButton(config) {
+async function bindMenuButton(config) {
     const button = document.getElementById(config.id);
     const image = button?.querySelector("img");
 
@@ -463,12 +468,12 @@ function bindMenuButton(config) {
 
     menuButtons[config.key] = state;
 
-    button?.addEventListener("pointerdown", () => {
+    button?.addEventListener("pointerdown", async () => {
         clear_Btns();
         applyButtonVisualState(button, image, config, true);
     });
 
-    button?.addEventListener("pointerup", () => {
+    button?.addEventListener("pointerup", async () => {
         if (button.id === "btn-apgr")
             createApgarSegments(modoControl);
 
@@ -483,11 +488,11 @@ function bindMenuButton(config) {
             ttl_pnl_ctrl.textContent = config.title;
 
         if (state.isHomeView) {
-            btn_home?.classList.add("btn-collapsed");
-            // btn_md_fam?.classList.add("btn-collapsed");
+            await ocultarElementoDifuminado(btn_home, "btn-collapsed", 350);
+            btn_home?.classList.remove("pressed");
         }else{
             // btn_md_fam?.classList.add("btn-collapsed");
-            btn_home?.classList.remove("btn-collapsed");
+            await mostrarElementoDifuminado(btn_home, "btn-collapsed", 350);
         }
 
         applyButtonVisualState(button, image, config, state.pressed);

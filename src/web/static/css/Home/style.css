@@ -49,8 +49,10 @@ span {
   border: none;
   border-radius: 10px;
   padding: 25px;
+
   position: relative;
   z-index: 5;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,6 +139,14 @@ span {
   height: 50px;
   border-radius: 85px;
   background: var(--colorblanco);
+
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transition:
+    opacity var(--tiempo-difuminado, 350ms) ease,
+    visibility 0s linear 0s;
 }
 
 .btn img {
@@ -153,10 +163,18 @@ span {
 .btn-alarma:active{
   transform: scale(0.97);
 }
-
 .btn-img.pressed{ background-color: var(--colorgrisbtn); }
-
 #btn-apgr.hide { display: none; }
+
+.btn-img.fade-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity var(--tiempo-difuminado, 350ms) ease,
+    visibility 0s linear var(--tiempo-difuminado, 350ms);
+}
 
 .btn-collapsed { display: none !important; }
 
