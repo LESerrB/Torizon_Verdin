@@ -41,8 +41,7 @@ import {
 } from "./notif.js";
 
 import { 
-    mostrarElementoDifuminado,
-    ocultarElementoDifuminado
+    difuminado
 } from "./anim.js";
 
 const recursosVisuales = [
@@ -488,11 +487,10 @@ async function bindMenuButton(config) {
             ttl_pnl_ctrl.textContent = config.title;
 
         if (state.isHomeView) {
-            await ocultarElementoDifuminado(btn_home, "btn-collapsed", 350);
+            await difuminado.ocultar(btn_home, { claseOculta: "btn-collapsed" });
             btn_home?.classList.remove("pressed");
         }else{
-            // btn_md_fam?.classList.add("btn-collapsed");
-            await mostrarElementoDifuminado(btn_home, "btn-collapsed", 350);
+            await difuminado.mostrar(btn_home, { claseOculta: "btn-collapsed" });
         }
 
         applyButtonVisualState(button, image, config, state.pressed);

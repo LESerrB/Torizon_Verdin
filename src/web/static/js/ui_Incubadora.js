@@ -10,12 +10,7 @@ import {
     addBlurScreen,
     addBlurScreenFot,
     removeBlurScreen,
-    mostrarDifuminado,
-    ocultarDifuminado,
-    mostrarPanelDifuminado,
-    ocultarPanelDifuminado,
-    mostrarElementoDifuminado,
-    ocultarElementoDifuminado
+    difuminado
 } from "./anim.js";
 
 import { 
@@ -308,7 +303,7 @@ const AJST_CTRL_CONFIG = {
  *
  * @param {"tp_Prog"|"ta_Prog"|"pot_Ox"|"pot_Hum"|"pot_Fot"} panel
  */
-export function ajstCtrl(panel, mdCtrl, modOp) {
+export async function ajstCtrl(panel, mdCtrl, modOp) {
     const cfg = AJST_CTRL_CONFIG[panel];
 
     if (!cfg) {
@@ -349,7 +344,7 @@ export function ajstCtrl(panel, mdCtrl, modOp) {
     }
 
     set_EditCtrlsEn(cfg.key);
-    mostrarElementoDifuminado(btn_home, "btn-collapsed", 350);
+    await difuminado.mostrar(btn_home, { claseOculta: "btn-collapsed" });
 }
 
 
@@ -560,16 +555,16 @@ function enableLat_Ctrls(controles, claseColor) {
  * @param {string} showPanelControl Panel a mostrar.
  * @param {string} modoControl Modo de Control del equipo, se usa para el cambio de color de Báscula y cronómetro Apgar.
  */
-export function toggleHomePanel(showPanelControl, modoControl = null, modOp = null) {
+export async function toggleHomePanel(showPanelControl, modoControl = null, modOp = null) {
     if (!homeDiv || !panelControl)
         return;
 
     const showHome = showPanelControl === "home";
 
     if (showHome) {
-        ocultarElementoDifuminado(btn_home, "btn-collapsed", 350);
         btn_home?.classList.remove("pressed");
         dissolveToPanel("home");
+        await difuminado.ocultar(btn_home, { claseOculta: "btn-collapsed" });
 
         return;
     }
@@ -939,8 +934,8 @@ export async function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chng");
-        await ocultarDifuminado(t_aire, 500);
-        await mostrarDifuminado(c_modo_Aire, 500);
+        await difuminado.ocultar(t_aire);
+        await difuminado.mostrar(c_modo_Aire);
 
         control?.classList.remove("disable");
     }
@@ -956,7 +951,7 @@ export async function changeMode(panel, modoAP, modOp) {
         panel.classList.add("chng");
         cont_vm_tpiel.classList.add("c-modo");
 
-        await mostrarPanelDifuminado(pop_mp_prin_mc_tpiel, "c-modo", 350);
+        await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }//---------------------------------------------------------------
     else if (modOp === "Cuna" && modoAP === "mManual" && isModoAire){
         ajstCtrl("pot_Calf", modoAP, modOp);
@@ -971,7 +966,7 @@ export async function changeMode(panel, modoAP, modOp) {
         panel.classList.add("chng");
         cont_vm_tpiel.classList.add("c-modo");
         
-        await mostrarPanelDifuminado(pop_mp_prin_mc_tpiel, "c-modo", 350);
+        await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }
     else if (modOp === "Cuna" && modoAP === "tPiel" && isModoBebe) {
         ajstCtrl("tp_Prog", modoAP, modOp);
@@ -981,8 +976,8 @@ export async function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chngClf");
-        await ocultarDifuminado(t_aire, 500);
-        await mostrarDifuminado(c_modo_Manual, 500);
+        await difuminado.ocultar(t_aire);
+        await difuminado.mostrar(c_modo_Manual);
     }
     // Cancelación de cambio de modo
     else {
@@ -994,18 +989,18 @@ export async function changeMode(panel, modoAP, modOp) {
         }
 
         if (modOp === "Incubadora"){
-            await ocultarDifuminado(c_modo_Aire, 500);
+            await difuminado.ocultar(c_modo_Aire);
         }
         else{
-            await ocultarDifuminado(c_modo_Manual, 500);
+            await difuminado.ocultar(c_modo_Manual);
         }
 
-        await mostrarDifuminado(t_aire, 500);
+        await difuminado.mostrar(t_aire);
 
         panel.classList.remove("chngClf", "chng");
 
         cont_vm_tpiel.classList.remove("c-modo");
-        await ocultarPanelDifuminado(pop_mp_prin_mc_tpiel, "c-modo", 350);
+        await difuminado.ocultar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }
 }
 
@@ -1029,7 +1024,7 @@ export async function modoAire(pnlB, pnlA) {
         activateMode("tAire", pnlB, pnlA);
         c_modo_Aire?.classList.remove("enabled");
 
-        await mostrarDifuminado(t_aire, 500);
+        await difuminado.mostrar(t_aire);
 
         cont_vm_tpiel.classList.add("m-Piel");
         ttl_programada.textContent = "Temp. Aire Programada";
@@ -1075,7 +1070,7 @@ export async function modoPiel(pnlA, pnlB, modOp) {
         lbl_temp_piel.textContent = "Temperatura Piel";
         activateMode("tPiel", pnlA, pnlB);
 
-        await ocultarPanelDifuminado(pop_mp_prin_mc_tpiel, "c-modo", 350);
+        await difuminado.ocultar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
 
         cont_vm_tpiel.classList.remove("c-modo");
         cont_vm_tpiel.classList.remove("m-Piel");
