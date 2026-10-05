@@ -141,21 +141,23 @@ export function sidePnl_alt(controles, claseColor, SELECTOR_ELEMENTOS_INTERNOS, 
     else
         tempProg?.classList.remove("disable");
 
-    controles.forEach((nombreControl) => {
-        const control = document.querySelector(`.mp-atpiel-lat[data-control="${nombreControl}"]`);
-
-        if (!control) {
-            console.warn(`No se encontró .mp-atpiel-lat[data-control="${nombreControl}"]`);
-
-            return;
-        }
-
-        control
-            .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
-            .forEach((elemento) => {
-                elemento.classList.add(claseColor, "enable");
-            });
-    });
+    if (controles[0] !== "tendencias" && controles[0] !== "bascula" && controles[0] !== "apgar") {
+        controles.forEach((nombreControl) => {
+            const control = document.querySelector(`.mp-atpiel-lat[data-control="${nombreControl}"]`);
+    
+            if (!control) {
+                console.warn(`No se encontró .mp-atpiel-lat[data-control="${nombreControl}"]`);
+    
+                return;
+            }
+    
+            control
+                .querySelectorAll(SELECTOR_ELEMENTOS_INTERNOS)
+                .forEach((elemento) => {
+                    elemento.classList.add(claseColor, "enable");
+                });
+        });
+    }
 
     if((controles[0] === "oxigeno" && modoControl !== "mManual") || (claseColor === "ox" && modoControl === "mManual")){
         const ctrl = document.querySelector(`.mp-atpiel-lat[data-control="${controles[0]}"]`)

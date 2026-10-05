@@ -12,7 +12,7 @@ const modFot = document.getElementById("mod-fot");
 // =====================================
 // Transiciones Paneles Home / Control 
 // =====================================
-
+// --- Transición de modos --- //
 /**
  * Cambia el panel visible entre Home y Control
  * Si el panel solicitado ya está activo y se proporciona una función de recarga,
@@ -128,7 +128,240 @@ function frameWait() {
     });
 }
 
+// --- Difuminado paneles de Confirmación de Modo --- //
+const operacionesDifuminado = new WeakMap();
 
+/**
+ * Convierte un selector o HTMLElement en un elemento.
+ */
+function obtenerElemento(elemento) {
+    if (typeof elemento === "string") {
+        return document.querySelector(elemento);
+    }
+
+    return elemento instanceof HTMLElement ? elemento : null;
+}
+
+/**
+ * Espera dos ciclos de renderizado.
+ */
+function esperarRenderizado() {
+    return new Promise((resolve) => {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(resolve);
+        });
+    });
+}
+
+/**
+ * Genera un identificador para invalidar animaciones anteriores
+ * sobre el mismo elemento.
+ */
+function iniciarOperacion(elemento) {
+    const nuevaOperacion = (operacionesDifuminado.get(elemento) ?? 0) + 1;
+
+    operacionesDifuminado.set(elemento, nuevaOperacion);
+
+    return nuevaOperacion;
+}
+
+function esOperacionActual(elemento, operacion) {
+    return (operacionesDifuminado.get(elemento) === operacion);
+}
+
+/**
+ * Espera la transición de opacity.
+ * Incluye un timeout como respaldo.
+ */
+function esperarTransicionOpacidad(elemento, tiempoMs) {
+    return new Promise((resolve) => {
+        let terminado = false;
+
+        const finalizar = () => {
+            if (terminado) return;
+
+            terminado = true;
+
+            elemento.removeEventListener("transitionend", manejarTransition);
+
+            window.clearTimeout(timer);
+            resolve();
+        };
+
+        const manejarTransition = (event) => {
+            if (event.target === elemento && event.propertyName === "opacity") {
+                finalizar();
+            }
+        };
+
+        const timer = window.setTimeout(finalizar, tiempoMs + 100);
+
+        elemento.addEventListener("transitionend", manejarTransition);
+    });
+}
+
+/**
+ * Muestra un elemento con difuminado.
+ *
+ * Existen dos formas de controlar su visibilidad:
+ *
+ * 1. claseOculta:
+ *    La clase aplica display:none.
+ *    Ejemplos: disabled, btn-collapsed.
+ *
+ * 2. claseActiva:
+ *    La clase aplica display:flex.
+ *    Ejemplos: enabled, c-modo.
+ */
+async function mostrar(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
+    const target = obtenerElemento(elemento);
+
+    if (!target) {
+        console.warn("difuminado.mostrar: elemento no encontrado", elemento);
+
+        return false;
+    }
+
+    const operacion = iniciarOperacion(target);
+
+    target.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
+
+    /*
+    * Variante 1:
+    * El elemento aparece al agregar una clase activa.
+    *
+    * Ejemplos:
+    *   enabled
+    *   c-modo
+    */
+    if (claseActiva) {
+        if (target.classList.contains(claseActiva) && target.classList.contains("is-visible"))
+            return true;
+
+        target.classList.remove("is-visible");
+        target.classList.add(claseActiva);
+
+        await esperarRenderizado();
+
+        if (!esOperacionActual(target, operacion))
+            return false;
+
+
+        target.classList.add("is-visible");
+        return true;
+    }
+
+    /*
+    * Variante 2:
+    * El elemento desaparece mediante una clase oculta.
+    *
+    * Ejemplos:
+    *   disabled
+    *   btn-collapsed
+    */
+    if (!target.classList.contains(claseOculta) && !target.classList.contains("fade-hidden"))
+        return true;
+
+    target.classList.add("fade-hidden");
+    target.classList.remove(claseOculta);
+
+    await esperarRenderizado();
+
+    if (!esOperacionActual(target, operacion))
+        return false;
+
+    target.classList.remove("fade-hidden");
+    return true;
+}
+
+/**
+ * Oculta un elemento con difuminado.
+ */
+async function ocultar(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
+    const target = obtenerElemento(elemento);
+
+    if (!target) {
+        console.warn("difuminado.ocultar: elemento no encontrado", elemento);
+
+        return false;
+    }
+
+    const operacion = iniciarOperacion(target);
+
+    target.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
+
+    /*
+    * Variante controlada mediante claseActiva.
+    */
+    if (claseActiva) {
+        if (!target.classList.contains(claseActiva))
+            return true;
+
+        target.classList.remove("is-visible");
+
+        await esperarTransicionOpacidad(target, tiempoMs);
+
+        /*
+        * Evita que una animación anterior oculte el
+        * elemento si mientras tanto se volvió a mostrar.
+        */
+        if (!esOperacionActual(target, operacion))
+            return false;
+
+        target.classList.remove(claseActiva);
+        return true;
+    }
+
+    /*
+    * Variante controlada mediante claseOculta.
+    */
+    if (target.classList.contains(claseOculta))
+        return true;
+
+    target.classList.add("fade-hidden");
+
+    await esperarTransicionOpacidad(target, tiempoMs);
+
+    if (!esOperacionActual(target, operacion))
+        return false;
+
+    target.classList.add(claseOculta);
+    target.classList.remove("fade-hidden");
+
+    return true;
+}
+
+/**
+ * Crea un controlador configurado para un elemento.
+ * Evita repetir las opciones en cada llamada.
+ */
+function crear(elemento, opciones = {}) {
+    return Object.freeze({
+        mostrar(tiempoMs = opciones.tiempoMs) {
+            return mostrar(elemento, {
+                ...opciones,
+                tiempoMs
+            });
+        },
+
+        ocultar(tiempoMs = opciones.tiempoMs) {
+        return ocultar(elemento, {
+            ...opciones,
+            tiempoMs
+        });
+        }
+    });
+}
+
+/**
+ * Única exportación pública para los difuminados.
+ */
+export const difuminado = Object.freeze({ mostrar, ocultar, crear });
+
+
+// ======================
+// Blureado de paneles
+// ======================
 /**
  * Aplica el efecto de desenfoque al panel activo y a los módulos de control principales
  * Se usa para resaltar visualmente el contenido que está en segundo plano al abrir un diálogo o modal

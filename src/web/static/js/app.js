@@ -40,6 +40,10 @@ import {
     hideNotif 
 } from "./notif.js";
 
+import { 
+    difuminado
+} from "./anim.js";
+
 const recursosVisuales = [
     // HOME //
     "../static/icon/Home/ICON_INCUBADORA.svg",
@@ -215,7 +219,7 @@ nom_Paciente.addEventListener("keydown", (e) => {
     }
 });
 // **************** Switch Modo de Operación **************** //
-function stablishSwOpMode(modo = "Incubadora") {
+async function stablishSwOpMode(modo = "Incubadora") {
     exitCancel(modoControl, null, modoOperacion);
     clear_Btns();
 
@@ -224,17 +228,17 @@ function stablishSwOpMode(modo = "Incubadora") {
         lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
 
         modoControl = "tPiel";
-        modoPiel(pnlAire, pnlBebe, modoOperacion);
-
-        revertModoCuna();
+        await revertModoCuna();
+        
+        await modoPiel(pnlAire, pnlBebe, modoOperacion);
     } else if (modo === "Cuna") {
         modoSwitch.checked = false;
         lbl_modo_ctrl.textContent = "Cuna en Control Manual";
 
-        modoAire(pnlBebe, pnlAire);
+        await modoAire(pnlBebe, pnlAire);
         modoControl = "mManual";
 
-        ModoCuna();
+        await ModoCuna();
     }
     else {
         console.warn(`Modo no válido: ${modo}`);
@@ -243,15 +247,17 @@ function stablishSwOpMode(modo = "Incubadora") {
 
     pnlBebe.classList.remove("chng");
     pnlAire.classList.remove("chng");
-    reload_Screen(modoOperacion);
+    setInitValues(modoControl, modoOperacion);
+
+    await reload_Screen(modoOperacion);
 }
-modoSwitch.addEventListener("change", () => {
+modoSwitch.addEventListener("change", async () => {
     if (modoSwitch.checked)
         modoOperacion = "Incubadora";
     else
         modoOperacion = "Cuna";
 
-    stablishSwOpMode(modoOperacion);
+    await stablishSwOpMode(modoOperacion);
 });
 
 // ***************** Panel Temperatura Piel ***************** //
@@ -259,6 +265,7 @@ pnlBebe?.addEventListener("pointerdown", () => {
     if (isInteractiveControl(event)) return;
 
     pnlBebe.classList.add("pressed");
+    clear_Btns();
 });
 pnlBebe?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
@@ -266,7 +273,7 @@ pnlBebe?.addEventListener("pointerup", () => {
     changeMode(pnlBebe, modoControl, modoOperacion);
 
     if(modoControl != "tPiel")
-        iniTimerAjst(pnlBebe);
+        iniTimerAjst(pnlBebe, modoOperacion);
 
     pnlBebe.classList.remove("pressed");
 });
@@ -276,6 +283,7 @@ pnlAire?.addEventListener("pointerdown", () => {
     if (isInteractiveControl(event)) return;
 
     pnlAire.classList.add("pressed");
+    clear_Btns();
 });
 pnlAire?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
@@ -283,7 +291,7 @@ pnlAire?.addEventListener("pointerup", () => {
     changeMode(pnlAire, modoControl, modoOperacion);
 
     if(modoControl != "tAire" && modoControl != "mManual")
-        iniTimerAjst(pnlAire);
+        iniTimerAjst(pnlAire, modoOperacion);
 
     pnlAire.classList.remove("pressed");
 });
@@ -296,11 +304,13 @@ ajstCtrlOx?.addEventListener("pointerup", () => {
     ajstCtrl("pot_Ox", modoControl, modoOperacion);
 
     ajstCtrlOx.classList.remove("pressed");
+    clear_Btns();
 });
 
 // ***************** Panel Control Humedad ****************** //
 ajstCtrlHum?.addEventListener("pointerdown", () => {
     ajstCtrlHum.classList.add("pressed");
+    clear_Btns();
 });
 ajstCtrlHum?.addEventListener("pointerup", () => {
     ajstCtrl("pot_Hum", modoControl, modoOperacion);
@@ -313,6 +323,7 @@ ajstCtrlFot?.addEventListener("pointerdown", () => {
     if (isInteractiveControl(event)) return;
 
     ajstCtrlFot.classList.add("active");
+    clear_Btns();
 });
 ajstCtrlFot?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
@@ -359,7 +370,7 @@ btn_acptChngMd?.addEventListener("pointerup", () => {
 btn_cnclChngMd?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    changeMode(pnlAire);
+    changeMode(pnlAire, null, modoOperacion);
 });
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Temp Aire
@@ -383,7 +394,7 @@ btn_acptChngMd2?.addEventListener("pointerup", () => {
 btn_cnclChngMd2?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    changeMode(pnlBebe);
+    changeMode(pnlBebe, null, modoOperacion);
 });
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Panel Modo Manual
@@ -395,7 +406,7 @@ btn_acptChngMd3?.addEventListener("pointerup", () => {
 
     modoAire(pnlBebe, pnlAire);
     ModoCuna();
-    changeMode(pnlAire);
+    changeMode(pnlAire, null, modoOperacion);
     reload_Screen(modoOperacion);
 
     modoControl = modoControl === "mManual" ? "tPiel" : "mManual";
@@ -403,7 +414,7 @@ btn_acptChngMd3?.addEventListener("pointerup", () => {
 btn_cnclChngMd3?.addEventListener("pointerup", () => {
     event.stopPropagation();
 
-    changeMode(pnlAire);
+    changeMode(pnlAire, null, modoOperacion);
 });
 
 // Botón Confirmar Ajuste Fototerapia
@@ -423,7 +434,7 @@ btnCancel?.addEventListener("pointerup", () => {
 // =================================
 // Botones Menú Inferior
 // =================================
-const btn_md_fam = document.getElementById("btn-md-fam");
+// const btn_md_fam = document.getElementById("btn-md-fam");
 const btn_home = document.getElementById("btn-home");
 const menuButtons = {};
 
@@ -446,7 +457,7 @@ function applyButtonVisualState(button, image, config, isPressed) {
     }
 }
 
-function bindMenuButton(config) {
+async function bindMenuButton(config) {
     const button = document.getElementById(config.id);
     const image = button?.querySelector("img");
 
@@ -462,12 +473,12 @@ function bindMenuButton(config) {
 
     menuButtons[config.key] = state;
 
-    button?.addEventListener("pointerdown", () => {
+    button?.addEventListener("pointerdown", async () => {
         clear_Btns();
         applyButtonVisualState(button, image, config, true);
     });
 
-    button?.addEventListener("pointerup", () => {
+    button?.addEventListener("pointerup", async () => {
         if (button.id === "btn-apgr")
             createApgarSegments(modoControl);
 
@@ -482,11 +493,9 @@ function bindMenuButton(config) {
             ttl_pnl_ctrl.textContent = config.title;
 
         if (state.isHomeView) {
-            btn_home?.classList.add("btn-collapsed");
-            btn_md_fam?.classList.remove("btn-collapsed");
+            await difuminado.ocultar(btn_home, { claseOculta: "btn-collapsed" });
         }else{
-            btn_md_fam?.classList.add("btn-collapsed");
-            btn_home?.classList.remove("btn-collapsed");
+            await difuminado.mostrar(btn_home, { claseOculta: "btn-collapsed" });
         }
 
         applyButtonVisualState(button, image, config, state.pressed);
@@ -565,10 +574,18 @@ function clear_Btns() {
 //============================================================================//
 //                             Funciones inciales                             //
 //============================================================================//
-preloadVisualRsrc();                    // Precarga de iconos de aplicación
-setInitValues();                        // Valores iniciales de control
-reload_Screen(modoOperacion);           // Carga la configuración del modo de Operación
-startSensors();                         // Inicio de sensado
-stablishSwOpMode(modoOperacion);        // Estado Inicial del Equipo
-createApgarSegments(modoControl);       // Configuración inicial color cronómetro
-createTimerTaraSegments(modoControl);   // Configuración inicial color temporizador de tara
+preloadVisualRsrc();                        // Precarga de iconos de aplicación
+
+const initValCtrl = await setInitValues();  // Valores iniciales de control
+
+if (initValCtrl) {
+    modoControl = initValCtrl.ctrl;
+    modoOperacion = initValCtrl.op;
+}
+
+startSensors();                             // Inicio de sensado
+
+reload_Screen(modoOperacion);               // Carga la configuración del modo de Operación
+stablishSwOpMode(modoOperacion);            // Estado Inicial del Equipo
+createApgarSegments(modoControl);           // Configuración inicial color cronómetro
+createTimerTaraSegments(modoControl);       // Configuración inicial color temporizador de tara

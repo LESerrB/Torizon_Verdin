@@ -1,7 +1,7 @@
 import {
     initTemperaturePowerSlider,
     initFotoSlider,
-    crearSliderPotCalef,
+    // crearSliderPotCalef,
     createSliderIntensFot
 } from "./slider.js";
 
@@ -10,18 +10,24 @@ import {
     addBlurScreen,
     addBlurScreenFot,
     removeBlurScreen,
+    difuminado
 } from "./anim.js";
 
 import { 
     sidePnl_alt
 } from "./ui_Cuna.js";
 
+import {
+    startTimerFot,
+    stopTimerFot
+} from "./sensor.js";
+
 let intervalEncod = null;
 let updateSlider10Value = null;
 let updateFotSliderValue = null;
 let activeSlider = "slider10";
-let valsCtrl = null;
-let updateSliderPowCalef_pPrin = null;
+let dtsCtrl = null;
+// let updateSliderPowCalef_pPrin = null;
 let updateSliderIntenseFot_pPrin = null;
 
 let timerChngAjst = null;
@@ -46,6 +52,8 @@ const tempProgA = document.getElementById("ta_Prog");
 const humCtrl = document.getElementById("hum_prog");
 const oxCtrl = document.getElementById("ox_prog");
 const clfCtrl = document.getElementById("potCalef");
+
+const btn_home = document.getElementById("btn-home");
 
 //---------------------------------------------------------------
 // Vista Panel de Control
@@ -85,38 +93,50 @@ const seg_potencia_fot = document.getElementById("seg-potencia-fot");
 /**
  * Obtiene los valores iniciales del control desde la API.
  */
-export async function setInitValues(modoCtrl = "modoPiel") {
+export async function setInitValues(modCtrl = null, modOp = null) {
     try {
         const res = await fetch("/api/setInitVals", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            body: JSON.stringify({
+                modCtrl: modCtrl,
+                modOp: modOp,
+            })
         });
 
         if (res.status === 200) {
-            valsCtrl = await res.json();
+            dtsCtrl = await res.json();
 
-            tempProg.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
-            tempProgA.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
+            tempProg.textContent = dtsCtrl.vals.tp_Prog.toFixed(1);
+            tempProgA.textContent = dtsCtrl.vals.ta_Prog.toFixed(1);
             
             if(humCtrl.classList.contains("active"))
-                humCtrl.textContent = valsCtrl.vals.pot_Hum;
+                humCtrl.textContent = dtsCtrl.vals.pot_Hum;
             else if(!humCtrl.classList.contains("active"))
                 humCtrl.textContent = "--";
 
             if(oxCtrl.classList.contains("active"))
-                oxCtrl.textContent = valsCtrl.vals.pot_Ox;
+                oxCtrl.textContent = dtsCtrl.vals.pot_Ox;
             else if(!oxCtrl.classList.contains("active"))
                 oxCtrl.textContent = "--";
 
-            if (modoCtrl == "modoPiel") {
-                viewCtrl.textContent = valsCtrl.vals.tp_Prog.toFixed(1);
-                lbl_acpt_sg.textContent = valsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar"
+            const modoCtrl = dtsCtrl.modos;
+
+            if (modoCtrl.ctrl == "tPiel") {
+                viewCtrl.textContent = dtsCtrl.vals.tp_Prog.toFixed(1);
+                lbl_acpt_sg.textContent = dtsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar"
             } else {
-                viewCtrl.textContent = valsCtrl.vals.ta_Prog.toFixed(1);
-                lbl_acpt_sg.textContent = valsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
+                viewCtrl.textContent = dtsCtrl.vals.ta_Prog.toFixed(1);
+                lbl_acpt_sg.textContent = dtsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
             }
+
+            return modoCtrl;
+        } else{
+            console.error("Error HTTP:", res.status);
+
+            return null;
         }
     } catch (error) {
         console.log("Error al obtener la Temperatura Programada", error);
@@ -283,7 +303,7 @@ const AJST_CTRL_CONFIG = {
  *
  * @param {"tp_Prog"|"ta_Prog"|"pot_Ox"|"pot_Hum"|"pot_Fot"} panel
  */
-export function ajstCtrl(panel, mdCtrl, modOp) {
+export async function ajstCtrl(panel, mdCtrl, modOp) {
     const cfg = AJST_CTRL_CONFIG[panel];
 
     if (!cfg) {
@@ -294,7 +314,7 @@ export function ajstCtrl(panel, mdCtrl, modOp) {
     toggleHomePanel(cfg.panel, mdCtrl, modOp);
     ttl_pnl_ctrl.textContent = cfg.titulo;
 
-    const valor = valsCtrl?.vals?.[cfg.key] ?? cfg.default;
+    const valor = dtsCtrl?.vals?.[cfg.key] ?? cfg.default;
 
     if (panel === "pot_Ox" || panel === "pot_Hum" )
         btn_Off.classList.add(panel)
@@ -324,6 +344,7 @@ export function ajstCtrl(panel, mdCtrl, modOp) {
     }
 
     set_EditCtrlsEn(cfg.key);
+    await difuminado.mostrar(btn_home, { claseOculta: "btn-collapsed" });
 }
 
 
@@ -534,14 +555,16 @@ function enableLat_Ctrls(controles, claseColor) {
  * @param {string} showPanelControl Panel a mostrar.
  * @param {string} modoControl Modo de Control del equipo, se usa para el cambio de color de Báscula y cronómetro Apgar.
  */
-export function toggleHomePanel(showPanelControl, modoControl = null, modOp = null) {
+export async function toggleHomePanel(showPanelControl, modoControl = null, modOp = null) {
     if (!homeDiv || !panelControl)
         return;
 
-    const mostrarHome = showPanelControl === "home";
+    const showHome = showPanelControl === "home";
 
-    if (mostrarHome) {
+    if (showHome) {
+        btn_home?.classList.remove("pressed");
         dissolveToPanel("home");
+        await difuminado.ocultar(btn_home, { claseOculta: "btn-collapsed" });
 
         return;
     }
@@ -672,8 +695,8 @@ async function edit_valProg() {
                     "application/json"
             },
             body: JSON.stringify({
-                sg_tp: valsCtrl.vals.sg_tp,
-                sg_ta: valsCtrl.vals.sg_ta,
+                sg_tp: dtsCtrl.vals.sg_tp,
+                sg_ta: dtsCtrl.vals.sg_ta,
             })
         });
 
@@ -714,7 +737,7 @@ async function edit_valProg() {
 
                     case "pot_Clf":
                         clfCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
-                        updateSliderPowCalef_pPrin?.(nuevoValor);
+                        // updateSliderPowCalef_pPrin?.(nuevoValor);
                     break;
 
                     default:
@@ -743,16 +766,16 @@ async function edit_valProg() {
 /**
 Temporizador de ventana de cambio de modos
 */
-export function iniTimerAjst(ajstPnl) {
+export function iniTimerAjst(ajstPnl, modOp = null) {
     clearTimeout(timerChngAjst);
 
     timerChngAjst = setTimeout(() => {
         if(ajstPnl === "Foto")
             fotoActive();
         else if (ajstPnl.id === "pnl-modoAire")
-            changeMode(ajstPnl);
+            changeMode(ajstPnl, null, modOp);
         else if (ajstPnl.id === "pnl-modoBebe")
-            changeMode(ajstPnl);
+            changeMode(ajstPnl, null, modOp);
     }, (secs2Conf * 1000));
 };
 
@@ -893,7 +916,7 @@ function activateMode(modo, pnlInactivo, pnlActivo) {
  * @param {HTMLElement} panel Panel que se está modificando
  * @param {string} modoAP Modo a aplicar ("tPiel" o "tAire")
  */
-export function changeMode(panel, modoAP, modOp) {
+export async function changeMode(panel, modoAP, modOp) {
     const control = document.querySelector(`.mp-atpiel-lat[data-control="tempProg"]`);
     const icon = document.getElementById("chngIcon");
     
@@ -911,8 +934,8 @@ export function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chng");
-        t_aire.classList.add("disabled");
-        c_modo_Aire.classList.add("enabled");
+        await difuminado.ocultar(t_aire);
+        await difuminado.mostrar(c_modo_Aire);
 
         control?.classList.remove("disable");
     }
@@ -927,7 +950,8 @@ export function changeMode(panel, modoAP, modOp) {
         lbl_temp_piel.classList.add("m-Piel");
         panel.classList.add("chng");
         cont_vm_tpiel.classList.add("c-modo");
-        pop_mp_prin_mc_tpiel.classList.add("c-modo");
+
+        await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }//---------------------------------------------------------------
     else if (modOp === "Cuna" && modoAP === "mManual" && isModoAire){
         ajstCtrl("pot_Calf", modoAP, modOp);
@@ -941,7 +965,8 @@ export function changeMode(panel, modoAP, modOp) {
         lbl_temp_piel.classList.add("m-Piel");
         panel.classList.add("chng");
         cont_vm_tpiel.classList.add("c-modo");
-        pop_mp_prin_mc_tpiel.classList.add("c-modo");
+        
+        await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }
     else if (modOp === "Cuna" && modoAP === "tPiel" && isModoBebe) {
         ajstCtrl("tp_Prog", modoAP, modOp);
@@ -951,8 +976,8 @@ export function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chngClf");
-        t_aire.classList.add("disabled");
-        c_modo_Manual.classList.add("enabled");
+        await difuminado.ocultar(t_aire);
+        await difuminado.mostrar(c_modo_Manual);
     }
     // Cancelación de cambio de modo
     else {
@@ -963,17 +988,19 @@ export function changeMode(panel, modoAP, modOp) {
             lbl_temp_piel.classList.remove("m-Piel");
         }
 
-        t_aire.classList.remove("disabled");
+        if (modOp === "Incubadora"){
+            await difuminado.ocultar(c_modo_Aire);
+        }
+        else{
+            await difuminado.ocultar(c_modo_Manual);
+        }
 
-        if (modOp === "Incubadora")
-            c_modo_Aire.classList.remove("enabled");
-        else
-            c_modo_Manual.classList.remove("enabled");
-        
+        await difuminado.mostrar(t_aire);
+
         panel.classList.remove("chngClf", "chng");
 
         cont_vm_tpiel.classList.remove("c-modo");
-        pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+        await difuminado.ocultar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }
 }
 
@@ -982,19 +1009,23 @@ export function changeMode(panel, modoAP, modOp) {
  * @param {HTMLElement} pnlB Panel Piel a desactivar
  * @param {HTMLElement} pnlA Panel Aire a activar
  */
-export function modoAire(pnlB, pnlA) {
+export async function modoAire(pnlB, pnlA) {
     clearTimeout(timerChngAjst);
 
     removeBlurScreen();
 
-    setInitValues("modoAire");
+    setInitValues("tAire");
 
-    const reloadContent = () => {
+    const reloadContent = async () => {
         t_aire.classList.remove("m-Manual");
+        c_modo_Aire?.classList.add("disabled");
+        c_modo_Manual?.classList.add("disabled");
 
         activateMode("tAire", pnlB, pnlA);
         c_modo_Aire?.classList.remove("enabled");
-        t_aire?.classList.remove("disabled");
+
+        await difuminado.mostrar(t_aire);
+
         cont_vm_tpiel.classList.add("m-Piel");
         ttl_programada.textContent = "Temp. Aire Programada";
 
@@ -1028,17 +1059,19 @@ export function modoAire(pnlB, pnlA) {
  * @param {HTMLElement} pnlA Panel Aire a desactivar
  * @param {HTMLElement} pnlB Panel Piel a activar
  */
-export function modoPiel(pnlA, pnlB, modOp) {
+export async function modoPiel(pnlA, pnlB, modOp) {
     clearTimeout(timerChngAjst);
 
     removeBlurScreen();
 
-    setInitValues("modoPiel");
+    setInitValues("tPiel");
 
-    const reloadContent = () => {
+    const reloadContent = async () => {
         lbl_temp_piel.textContent = "Temperatura Piel";
         activateMode("tPiel", pnlA, pnlB);
-        pop_mp_prin_mc_tpiel.classList.remove("c-modo");
+
+        await difuminado.ocultar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
+
         cont_vm_tpiel.classList.remove("c-modo");
         cont_vm_tpiel.classList.remove("m-Piel");
         ttl_programada.textContent = "Temp. Piel Programada";
@@ -1136,6 +1169,7 @@ export function fotoActive() {
 
     setFotoState("active");
     updateSliderIntenseFot_pPrin?.(1);
+    startTimerFot();
 }
 
 /**
@@ -1144,6 +1178,7 @@ export function fotoActive() {
 export function fotoInactive() {
   setFotoState("inactive");
   fotoEn = false;
+  stopTimerFot();
 }
 
 /**
@@ -1159,8 +1194,11 @@ export function confAjstFoto(modCtrl, modOp) {
     confirmacion_fot.style.display = 'block';
     iniTimerAjst("Foto");
   } else {
-    ajstCtrl("pot_Fot", modCtrl, modOp);
+    // ajstCtrl("pot_Fot", modCtrl, modOp);
     ajstCtrlFot.classList.remove("active");
+    // Desactiva la fototerapia
+    fotoInactive();
+    updateSliderIntenseFot_pPrin?.(0);
   }
 };
 
@@ -1170,13 +1208,13 @@ export function confAjstFoto(modCtrl, modOp) {
 let tempPowerSliderController = null;
 let fotoSliderController = null;
 let sliderIntensFot_pPrin = null;
-let sliderPowCalef_pPrin = null;
+// let sliderPowCalef_pPrin = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-    sliderPowCalef_pPrin = crearSliderPotCalef();
-    updateSliderPowCalef_pPrin = (value) => {
-        sliderPowCalef_pPrin?.setLevel(value);
-    }
+    // sliderPowCalef_pPrin = crearSliderPotCalef();
+    // updateSliderPowCalef_pPrin = (value) => {
+    //     sliderPowCalef_pPrin?.setLevel(value);
+    // }
 
     tempPowerSliderController = initTemperaturePowerSlider({
         sliderId: "tpielSlider",
@@ -1211,12 +1249,12 @@ const lbl_acpt_sg = document.querySelector(".lbl-aceptar-sg");
 
 export function toggleSobregiro(mdCtrl) {
     if(mdCtrl === "tPiel"){
-        valsCtrl.vals.sg_tp = !valsCtrl.vals.sg_tp;
-        lbl_acpt_sg.textContent = valsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar";
+        dtsCtrl.vals.sg_tp = !dtsCtrl.vals.sg_tp;
+        lbl_acpt_sg.textContent = dtsCtrl.vals.sg_tp ? "Cancelar" : "Aceptar";
     }
     else if (mdCtrl === "tAire"){
-        valsCtrl.vals.sg_ta = !valsCtrl.vals.sg_ta;
-        lbl_acpt_sg.textContent = valsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
+        dtsCtrl.vals.sg_ta = !dtsCtrl.vals.sg_ta;
+        lbl_acpt_sg.textContent = dtsCtrl.vals.sg_ta ? "Cancelar" : "Aceptar"
     }
 }
 

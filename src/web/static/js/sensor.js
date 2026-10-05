@@ -1,6 +1,14 @@
-const periodoActVals = 0.5 // segundos
+import {
+    crearSliderPotCalef,
+} from "./slider.js";
 
-let intervalId = null;
+const periodoActVals = 0.5      // segundos
+
+let intervalId = null;          // Timer de actualización de sensores
+
+let timerFot = null;            // Timer de timepo de Fototerapia
+let minsOn = 0;                 // Contador de minutos de Fototerapia
+
 let TZ = "America/Mexico_City"; // CST UTC-6h Ciudad de México
 
 const panelDer = document.querySelector(".mp-prin-mc-taire");
@@ -16,6 +24,8 @@ const viewLat_tp = document.getElementById("vw-val-tp-Sns");
 const viewLat_ta = document.getElementById("vw-val-ta-Sns");
 const viewLat_ox = document.getElementById("vw-val-ox-Sns");
 
+const clfCtrl = document.getElementById("potCalef");
+
 const btn_pesaje = document.getElementById("pesar")
 const peso_Basc = document.getElementById("peso");
 
@@ -24,6 +34,17 @@ peso_Basc.textContent = "-.---"
 const fecha = document.getElementById("fecha");
 const hora = document.getElementById("hora");
 const am_pm = document.getElementById("am-pm");
+
+const fot_hrs = document.getElementById("fot-hrs");
+
+let updateSliderPowCalef_pPrin = null;
+let sliderPowCalef_pPrin = null;
+
+sliderPowCalef_pPrin = crearSliderPotCalef();
+
+updateSliderPowCalef_pPrin = (value) => {
+    sliderPowCalef_pPrin?.setLevel(value);
+}
 
 /**
  * Obtiene los últimos datos de sensores desde la API y actualiza los elementos
@@ -46,13 +67,20 @@ async function get_DtSensores() {
 
         if(res.status == 200){
             const vls_snsrsTCD = await res.json();
+            const modoOpIncub = vls_snsrsTCD.modos.op === "Incubadora";
 
             viewLat_tp.textContent = tempPiel.textContent = vls_snsrsTCD.vls_snsrsTCD.t_Piel.toFixed(1);
-            viewLat_ta.textContent = tempAire.textContent = (panelDer.classList.contains("m-Manual")) ? vls_snsrsTCD.vls_snsrsTCD.pot_Clf.toFixed(0) : vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1);
+            viewLat_ta.textContent = tempAire.textContent = modoOpIncub ? vls_snsrsTCD.vls_snsrsTCD.t_Aire.toFixed(1) : vls_snsrsTCD.vls_snsrsTCD.pot_Clf.toFixed(0);
             tempSondaAux.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Aux.toFixed(1);
 
-            viewLat_ox.textContent = sensOx.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Ox;
+            sensOx.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Ox;
+            viewLat_ox.textContent = modoOpIncub ? sensOx.textContent : vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
             sensHum.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Hum;
+
+            clfCtrl.textContent = vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
+            
+            const nuevoValor = vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
+            updateSliderPowCalef_pPrin?.(nuevoValor);
         }
         else{
             viewLat_tp.textContent = tempPiel.textContent = "--.-";
@@ -82,6 +110,35 @@ export function pauseSensor() {
     }
 };
 
+// =======================
+// Cronómetro Fototerapia
+// =======================
+export function startTimerFot() {
+    if (!timerFot)
+        timerFot = setInterval(() => {
+            minsOn++;
+
+            const hours = String(Math.floor(minsOn / 60)).padStart(2, "0");
+            const minutes = String(minsOn % 60).padStart(2, "0");
+
+            fot_hrs.textContent = `${hours}:${minutes}`;
+
+        }, (60 * 1000));
+}
+
+export function stopTimerFot() {
+    if (timerFot) {
+        clearInterval(timerFot);
+        minsOn = 0;
+        timerFot = null;
+
+        fot_hrs.textContent = "00:00";
+    }
+};
+
+// function timeOn_Fot() {
+//     console.log("Timer fot");
+// }
 // =======================================
 // Próxima actualización en un nuevo panel
 // =======================================
