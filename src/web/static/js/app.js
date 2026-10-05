@@ -219,7 +219,7 @@ nom_Paciente.addEventListener("keydown", (e) => {
     }
 });
 // **************** Switch Modo de Operación **************** //
-function stablishSwOpMode(modo = "Incubadora") {
+async function stablishSwOpMode(modo = "Incubadora") {
     exitCancel(modoControl, null, modoOperacion);
     clear_Btns();
 
@@ -228,17 +228,17 @@ function stablishSwOpMode(modo = "Incubadora") {
         lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
 
         modoControl = "tPiel";
-        modoPiel(pnlAire, pnlBebe, modoOperacion);
+        await modoPiel(pnlAire, pnlBebe, modoOperacion);
 
-        revertModoCuna();
+        await revertModoCuna();
     } else if (modo === "Cuna") {
         modoSwitch.checked = false;
         lbl_modo_ctrl.textContent = "Cuna en Control Manual";
 
-        modoAire(pnlBebe, pnlAire);
+        await modoAire(pnlBebe, pnlAire);
         modoControl = "mManual";
 
-        ModoCuna();
+        await ModoCuna();
     }
     else {
         console.warn(`Modo no válido: ${modo}`);
@@ -248,15 +248,16 @@ function stablishSwOpMode(modo = "Incubadora") {
     pnlBebe.classList.remove("chng");
     pnlAire.classList.remove("chng");
     setInitValues(modoControl, modoOperacion);
-    reload_Screen(modoOperacion);
+
+    await reload_Screen(modoOperacion);
 }
-modoSwitch.addEventListener("change", () => {
+modoSwitch.addEventListener("change", async () => {
     if (modoSwitch.checked)
         modoOperacion = "Incubadora";
     else
         modoOperacion = "Cuna";
 
-    stablishSwOpMode(modoOperacion);
+    await stablishSwOpMode(modoOperacion);
 });
 
 // ***************** Panel Temperatura Piel ***************** //
