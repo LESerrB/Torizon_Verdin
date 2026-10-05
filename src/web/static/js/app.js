@@ -265,6 +265,7 @@ pnlBebe?.addEventListener("pointerdown", () => {
     if (isInteractiveControl(event)) return;
 
     pnlBebe.classList.add("pressed");
+    clear_Btns();
 });
 pnlBebe?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
@@ -282,6 +283,7 @@ pnlAire?.addEventListener("pointerdown", () => {
     if (isInteractiveControl(event)) return;
 
     pnlAire.classList.add("pressed");
+    clear_Btns();
 });
 pnlAire?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
@@ -302,11 +304,13 @@ ajstCtrlOx?.addEventListener("pointerup", () => {
     ajstCtrl("pot_Ox", modoControl, modoOperacion);
 
     ajstCtrlOx.classList.remove("pressed");
+    clear_Btns();
 });
 
 // ***************** Panel Control Humedad ****************** //
 ajstCtrlHum?.addEventListener("pointerdown", () => {
     ajstCtrlHum.classList.add("pressed");
+    clear_Btns();
 });
 ajstCtrlHum?.addEventListener("pointerup", () => {
     ajstCtrl("pot_Hum", modoControl, modoOperacion);
@@ -319,6 +323,7 @@ ajstCtrlFot?.addEventListener("pointerdown", () => {
     if (isInteractiveControl(event)) return;
 
     ajstCtrlFot.classList.add("active");
+    clear_Btns();
 });
 ajstCtrlFot?.addEventListener("pointerup", () => {
     if (isInteractiveControl(event)) return;
@@ -489,16 +494,11 @@ async function bindMenuButton(config) {
 
         if (state.isHomeView) {
             await difuminado.ocultar(btn_home, { claseOculta: "btn-collapsed" });
-            btn_home?.classList.remove("pressed");
         }else{
             await difuminado.mostrar(btn_home, { claseOculta: "btn-collapsed" });
         }
 
         applyButtonVisualState(button, image, config, state.pressed);
-    });
-
-    button?.addEventListener("pointerleave", () => {
-        applyButtonVisualState(button, image, config, false);
     });
 
     return state;

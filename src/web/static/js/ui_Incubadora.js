@@ -563,7 +563,7 @@ export async function toggleHomePanel(showPanelControl, modoControl = null, modO
 
     if (showHome) {
         btn_home?.classList.remove("pressed");
-        await dissolveToPanel("home");
+        dissolveToPanel("home");
         await difuminado.ocultar(btn_home, { claseOculta: "btn-collapsed" });
 
         return;
@@ -620,13 +620,13 @@ export async function toggleHomePanel(showPanelControl, modoControl = null, modO
     };
 
     if (panelControl.classList.contains("panel-active")) {
-        await dissolveToPanel("control", reloadContent);
+        dissolveToPanel("control", reloadContent);
 
         return;
     }
 
     reloadContent();
-    await dissolveToPanel("control");
+    dissolveToPanel("control");
 }
 
 export function toogleOnOff_SensMod(Mod, On){
@@ -1051,7 +1051,7 @@ export async function modoAire(pnlB, pnlA) {
         ejes_reloj.src = "../static/icon/Apgar/ejes-reloj0-ma.svg";
     };
 
-    await dissolveToPanel("home", reloadContent);
+    dissolveToPanel("home", reloadContent);
 }
 
 /**
@@ -1107,7 +1107,7 @@ export async function modoPiel(pnlA, pnlB, modOp) {
         }
     };
 
-    await dissolveToPanel("home", reloadContent);
+    dissolveToPanel("home", reloadContent);
 }
 
 // --------------------------------
