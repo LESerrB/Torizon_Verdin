@@ -536,6 +536,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de difuminado sobre paneles de confirmación de cambio a Modo Aire en Incubadora y Modo Manual en Cuna.
  - Animación de difuminado de panel de confirmación de cambio a Modo Piel en Incubadora y Cuna.
  - Animación de difuminado de botón Home al entrar y salir del panel Home.
+ - Corrección de bugs de colores de "Apgar" y "Báscula" al cambiar de modo Cuna e Incubadora, el estado de los botones inferiores y el nombre de los modulos en el panel lateral al regresar al modo Incubadora.
 
 ## Descarga e Instalación
 

@@ -228,9 +228,9 @@ async function stablishSwOpMode(modo = "Incubadora") {
         lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
 
         modoControl = "tPiel";
-        await modoPiel(pnlAire, pnlBebe, modoOperacion);
-
         await revertModoCuna();
+        
+        await modoPiel(pnlAire, pnlBebe, modoOperacion);
     } else if (modo === "Cuna") {
         modoSwitch.checked = false;
         lbl_modo_ctrl.textContent = "Cuna en Control Manual";
