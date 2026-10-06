@@ -165,6 +165,8 @@ credentials.zip
 .conf/.depok
 .conf/.docok
 
+tcbdir/
+tcbdir/*.*
 tcbdir/device-trees
 tcbdir/linux
 tcbdir/bundle
