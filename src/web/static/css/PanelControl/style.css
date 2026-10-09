@@ -213,7 +213,7 @@
 .mp-info-ctrl.ox.enable{ background: var(--colorfondooxigeno); }
 .mp-info-ctrl.hum.enable{ background: var(--colorfondohum); }
 .mp-info-ctrl.fot.enable{ background: var(--colorfondofot); }
-.mp-info-ctrl.clf.enable{ background: var(--colorfondocalefactor); }
+.mp-info-ctrl.mManual.enable{ background: var(--colorfondocalefactor); }
 
 /* Icono de Panel */
 .icon-ctrl {

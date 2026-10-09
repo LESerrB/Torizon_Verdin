@@ -404,7 +404,7 @@ const configPanels = {
     },
 
     ajstClf: {
-        claseColor: "clf",
+        claseColor: "mManual",
         controles: ["oxigeno"],
         icono: "../static/icon/Control/Icon_Calefactor.svg"
     },

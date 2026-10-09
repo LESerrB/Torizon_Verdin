@@ -1529,7 +1529,7 @@ Contenedor Temperaturas Secundarias
 .mp-info-ctrl.ox.enable.mica-effect,
 .mp-info-ctrl.hum.enable.mica-effect,
 .mp-info-ctrl.fot.enable.mica-effect,
-.mp-info-ctrl.clf.enable.mica-effect {
+.mp-info-ctrl.mManual.enable.mica-effect {
   opacity: 0.5;
   filter: blur(2px);
   transition: opacity 300ms ease, backdrop-filter 300ms ease;

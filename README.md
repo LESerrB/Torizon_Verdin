@@ -526,7 +526,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de bug de desactivado de panel de cambio al cancelar.
  - Arreglos menores a color de título de panel de control de calefactor.
 
-### v0.23.7 - [28/09/2026]
+### v0.23.7 - [09/10/2026]
  - Intercambio de estados de Operación y Control.
  - Cambio de valores en el contenedor de Oxigeno / Potencia de Calefactor.
  - Actualización en tiempo real del slider de Potencia del Calefactor.
@@ -537,6 +537,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Animación de difuminado de panel de confirmación de cambio a Modo Piel en Incubadora y Cuna.
  - Animación de difuminado de botón Home al entrar y salir del panel Home.
  - Corrección de bugs de colores de "Apgar" y "Báscula" al cambiar de modo Cuna e Incubadora, el estado de los botones inferiores y el nombre de los modulos en el panel lateral al regresar al modo Incubadora.
+ - Arreglo de color al entrar al "Ajuste de Potencia de Calefactor".
 
 ## Descarga e Instalación
 
