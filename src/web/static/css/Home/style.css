@@ -588,21 +588,35 @@ span {
   align-items: center;
   justify-content: center;
 
-  left: 0px;
+  left: 35px;
 }
-.lbl-temp-aire.active { color: var(--colortexttaire); }
+.lbl-temp-aire.active {
+  color: var(--colortexttaire);
+  bottom: 17px;
+  left: 4px;
+}
 .lbl-temp-aire.clf.active { color: var(--colortextcalefactor); }
 .lbl-temp-aire.m-Aire { 
   color: var(--colortexttaire);
   left: 75px;
 }
+.lbl-temp-aire.m-Piel { left: 0px; }
 .lbl-temp-aire.m-Manual {
   color: var(--colortextcalefactor);
   left: 75px;
 }
 .lbl-temp-aire.m-Manual.disabled { color: var(--colortextoinactivo); }
-.lbl-temp-piel.m-Piel { color: var(--colortexttpiel); }
+.lbl-temp-piel.m-Piel {
+  color: var(--colortexttpiel);
+  left: 95px;
+}
+.lbl-temp-piel.m-Aire { left: 40px; }
+.lbl-temp-piel.c-Modo {
+  color: var(--colortexttpiel);
 
+  bottom: 50px;
+  left: 0px;
+}
 .units-tempAire-Prin,
 .units-tempPiel-Prin {
   color: var(--colortextoinactivo);
@@ -617,10 +631,15 @@ span {
   align-items: center;
   justify-content: flex-start;
 }
+.units-tempPiel-Prin { left: 215px; }
 .units-tempAire-Prin.m-Aire { color: var(--colortexttaire); }
 .units-tempAire-Prin.m-Manual { color: var(--colortextcalefactor); }
 .units-tempAire-Prin.m-Manual.disabled { color: var(--colortextoinactivo); }
-.units-tempPiel-Prin.m-Piel { color: var(--colortexttpiel); }
+.units-tempPiel-Prin.m-Piel {
+  color: var(--colortexttpiel);
+  top: 1px;
+  left: 220px;
+}
 
 /*################## Panel Izquierdo ##################*/
 .mp-prin-mc-tpiel {
@@ -663,36 +682,71 @@ span {
   translate: 0 -50%;
   overflow: visible;
 }
+
 /* Contenedor Temperatura Piel Principal */
 .cont-vm-tpiel {
-  padding: 0px 40px 10px 40px;
+  padding: 0 40px 10px;
+
   display: flex;
   flex-direction: row;
-  gap: 0px;
+  gap: 0;
   align-items: flex-start;
   justify-content: center;
   flex-shrink: 0;
+
   width: 656px;
   position: relative;
+
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transition:
+    opacity var(--tiempo-difuminado, 500ms) ease,
+    visibility 0s linear 0s;
 }
-.cont-vm-tpiel.c-modo{
-  display: none;
-}
-.cont-vm-tpiel.m-Piel{
-  left: 75px;
-}
-.tpiel {
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  gap: 6px;
-  align-items: flex-start;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-  left: -7px;
+.cont-vm-tpiel.fade-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity var(--tiempo-difuminado, 500ms) ease,
+    visibility 0s linear var(--tiempo-difuminado, 500ms);
 }
 
+.cont-vm-tpiel.c-modo { display: none; }
+.cont-vm-tpiel.m-Piel { left: 50px; }
+
+.tpiel {
+  padding: 10px;
+
+  display: grid;
+  grid-template-columns: 4ch 26px;
+  column-gap: 6px;
+  align-items: start;
+  justify-content: center;
+
+  width: calc(4ch + 32px);
+  flex: 0 0 auto;
+
+  position: relative;
+  right: 210px;
+  top: 37px;
+}
+#ti-vm-piel {
+  width: 4ch;
+  min-width: 4ch;
+
+  /* Todos los números ocupan el mismo ancho */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+
+  white-space: nowrap;
+  text-align: right;
+
+  display: block;
+}
 /*----------------------*/
 .line-01 {
   margin-top: -3px;
@@ -754,7 +808,7 @@ Contenedor Temperaturas Secundarias
   color: var(--colortexttpiel);
 
   right: 0px;
-  left: 100px;
+  left: 110px;
   top: 9px;
   height: 15px;
 }
@@ -792,7 +846,8 @@ Contenedor Temperaturas Secundarias
   flex-shrink: 0;
   width: 114px;
   position: relative;
-  right: -12px;
+  left: 30px;
+  top: 39px;
 }
 .tprogp {
   display: none;
@@ -806,7 +861,10 @@ Contenedor Temperaturas Secundarias
   top: -7px;
   left: 10px;
 }
-.tprogp.m-Piel{ display: flex; }
+.tprogp.m-Piel{
+  display: flex;
+  left: 20px;
+}
 .vprogp {
   display: flex;
   flex-direction: column;
@@ -827,7 +885,7 @@ Contenedor Temperaturas Secundarias
   flex-shrink: 0;
   position: relative;
   top: -7px;
-  left: 10px;
+  left: 20px;
 }
 .vaux {
   display: flex;
@@ -840,14 +898,18 @@ Contenedor Temperaturas Secundarias
 
   position: relative;
 
-  top: 110px;
-  right: 175px;
+  top: 146px;
+  right: 247px;
 }
 .vaux.m-Piel {
   flex-direction: column;
   gap: 2px;
   top: 0px;
   right: 0px;
+}
+.vaux.m-Aire{
+  top: 104px;
+  right: 185px;
 }
 /* Contenedor cambio de modo t. Aire -> t. Piel */
 .pop-mp-prin-mc-tpiel {
@@ -861,11 +923,6 @@ Contenedor Temperaturas Secundarias
     opacity var(--tiempo-difuminado, 350ms) ease,
     visibility 0s linear var(--tiempo-difuminado, 350ms);
 }
-
-/*
- * c-modo coloca el panel en pantalla.
- * Inicialmente permanece transparente.
- */
 .pop-mp-prin-mc-tpiel.c-modo {
   display: flex;
   flex-direction: column;
@@ -878,8 +935,6 @@ Contenedor Temperaturas Secundarias
   position: relative;
   overflow: hidden;
 }
-
-/* Estado completamente visible */
 .pop-mp-prin-mc-tpiel.c-modo.is-visible {
   opacity: 1;
   visibility: visible;

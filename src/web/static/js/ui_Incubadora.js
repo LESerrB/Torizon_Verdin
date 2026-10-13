@@ -965,7 +965,7 @@ export async function changeMode(panel, modoAP, modOp) {
         lbl_temp_piel.classList.add("m-Piel");
         panel.classList.add("chng");
         cont_vm_tpiel.classList.add("c-modo");
-        
+
         await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }
     else if (modOp === "Cuna" && modoAP === "tPiel" && isModoBebe) {
