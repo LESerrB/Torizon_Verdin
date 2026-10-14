@@ -916,6 +916,7 @@ function activateMode(modo, pnlInactivo, pnlActivo) {
  * @param {HTMLElement} panel Panel que se está modificando
  * @param {string} modoAP Modo a aplicar ("tPiel" o "tAire")
  */
+const TIEMPO_CAMBIO_MODO = 500;
 export async function changeMode(panel, modoAP, modOp) {
     const control = document.querySelector(`.mp-atpiel-lat[data-control="tempProg"]`);
     const icon = document.getElementById("chngIcon");
@@ -934,8 +935,7 @@ export async function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chng");
-        await difuminado.ocultar(t_aire);
-        await difuminado.mostrar(c_modo_Aire);
+        await difuminado.intercambiar(t_aire, c_modo_Aire, { tiempoMs: TIEMPO_CAMBIO_MODO });
 
         control?.classList.remove("disable");
     }
@@ -949,9 +949,13 @@ export async function changeMode(panel, modoAP, modOp) {
         lbl_temp_piel.classList.remove("m-Aire");
         lbl_temp_piel.classList.add("m-Piel");
         panel.classList.add("chng");
-        cont_vm_tpiel.classList.add("c-modo");
+        await difuminado.intercambiar(cont_vm_tpiel, pop_mp_prin_mc_tpiel,
+            { tiempoMs: TIEMPO_CAMBIO_MODO,
+              salida: { claseOculta: "c-modo" },
+              entrada: {claseActiva: "c-modo"}
+            });
 
-        await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
+        // await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }//---------------------------------------------------------------
     else if (modOp === "Cuna" && modoAP === "mManual" && isModoAire){
         ajstCtrl("pot_Calf", modoAP, modOp);
@@ -964,9 +968,13 @@ export async function changeMode(panel, modoAP, modOp) {
         lbl_temp_piel.classList.remove("m-Aire");
         lbl_temp_piel.classList.add("m-Piel");
         panel.classList.add("chng");
-        cont_vm_tpiel.classList.add("c-modo");
+        await difuminado.intercambiar(cont_vm_tpiel, pop_mp_prin_mc_tpiel,
+            { tiempoMs: TIEMPO_CAMBIO_MODO,
+              salida: { claseOculta: "c-modo" },
+              entrada: { claseActiva: "c-modo" }
+            });
 
-        await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
+        // await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }
     else if (modOp === "Cuna" && modoAP === "tPiel" && isModoBebe) {
         ajstCtrl("tp_Prog", modoAP, modOp);
@@ -976,31 +984,27 @@ export async function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chngClf");
-        await difuminado.ocultar(t_aire);
-        await difuminado.mostrar(c_modo_Manual);
+        await difuminado.intercambiar(t_aire, c_modo_Manual, { tiempoMs: TIEMPO_CAMBIO_MODO });
     }
     // Cancelación de cambio de modo
     else {
         removeBlurScreen();
 
+        panel?.classList.remove("chngClf", "chng");
+
+        if (isModoAire) {
+            const panelConfirmacion = modOp === "Incubadora" ? c_modo_Aire : c_modo_Manual;
+
+            await difuminado.intercambiar(panelConfirmacion, t_aire, { tiempoMs: TIEMPO_CAMBIO_MODO });
+        }
+
         if (isModoBebe) {
-            lbl_temp_piel.textContent = "Temperatura Piel";
-            lbl_temp_piel.classList.remove("m-Piel");
+            await difuminado.intercambiar(pop_mp_prin_mc_tpiel, cont_vm_tpiel,
+                { tiempoMs: TIEMPO_CAMBIO_MODO,
+                  salida: { claseActiva: "c-modo" },
+                  entrada: { claseOculta: "c-modo" }
+                });
         }
-
-        if (modOp === "Incubadora"){
-            await difuminado.ocultar(c_modo_Aire);
-        }
-        else{
-            await difuminado.ocultar(c_modo_Manual);
-        }
-
-        await difuminado.mostrar(t_aire);
-
-        panel.classList.remove("chngClf", "chng");
-
-        cont_vm_tpiel.classList.remove("c-modo");
-        await difuminado.ocultar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }
 }
 

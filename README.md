@@ -539,6 +539,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de bugs de colores de "Apgar" y "Báscula" al cambiar de modo Cuna e Incubadora, el estado de los botones inferiores y el nombre de los modulos en el panel lateral al regresar al modo Incubadora.
  - Arreglo de color al entrar al "Ajuste de Potencia de Calefactor".
  - Ajuste de posiciones y colores de la interfaz.
+ - Ajuste de animación para paneles de "Cambio de Modo".
 
 ## Descarga e Instalación
 

@@ -911,18 +911,35 @@ Contenedor Temperaturas Secundarias
   top: 104px;
   right: 185px;
 }
+
+.cont-vm-tpiel {
+  z-index: 1;
+  will-change: opacity;
+}
+
 /* Contenedor cambio de modo t. Aire -> t. Piel */
 .pop-mp-prin-mc-tpiel {
   display: none;
+
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 2;
 
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 
+  will-change: opacity;
+
   transition:
-    opacity var(--tiempo-difuminado, 350ms) ease,
-    visibility 0s linear var(--tiempo-difuminado, 350ms);
+    opacity var(--tiempo-difuminado, 500ms) ease,
+    visibility 0s linear var(--tiempo-difuminado, 500ms);
 }
+
 .pop-mp-prin-mc-tpiel.c-modo {
   display: flex;
   flex-direction: column;
@@ -930,18 +947,22 @@ Contenedor Temperaturas Secundarias
   align-items: center;
   justify-content: center;
 
-  height: 218px;
+  position: absolute;
+  inset: 0;
 
-  position: relative;
+  width: 100%;
+  height: 100%;
+
   overflow: hidden;
 }
+
 .pop-mp-prin-mc-tpiel.c-modo.is-visible {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 
   transition:
-    opacity var(--tiempo-difuminado, 350ms) ease,
+    opacity var(--tiempo-difuminado, 500ms) ease,
     visibility 0s linear 0s;
 }
 .cont-icons-cmodop {
@@ -1131,29 +1152,45 @@ Contenedor Temperaturas Secundarias
   position: relative;
 }
 
-.pop-cmodo-aire,    /* Contenedor cambio de modo t. Piel -> t. Aire */
-.pop-cmodo-manual { /* Contenedor cambio de modo t. Piel -> m. Manual */
+.cont-taire {
+  z-index: 1;
+  will-change: opacity;
+}
+
+.pop-cmodo-aire,
+.pop-cmodo-manual {
   display: flex;
   flex-direction: column;
   gap: 80px;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 
   width: 294px;
   height: 218px;
 
-  position: relative;
+  /*
+   * Los dos paneles quedan exactamente encima
+   * de .cont-taire.
+   */
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  z-index: 2;
+
   overflow: hidden;
 
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 
+  will-change: opacity;
+
   transition:
-    opacity var(--tiempo-difuminado, 350ms) ease,
+    opacity var(--tiempo-difuminado, 500ms) ease,
     visibility 0s linear 0s;
 }
+
 .pop-cmodo-aire.fade-hidden,
 .pop-cmodo-manual.fade-hidden {
   opacity: 0;
@@ -1161,12 +1198,14 @@ Contenedor Temperaturas Secundarias
   pointer-events: none;
 
   transition:
-    opacity var(--tiempo-difuminado, 350ms) ease,
-    visibility 0s linear var(--tiempo-difuminado, 350ms);
+    opacity var(--tiempo-difuminado, 500ms) ease,
+    visibility 0s linear var(--tiempo-difuminado, 500ms);
 }
-.pop-cmodo-aire.disabled,
-.pop-cmodo-manual.disabled { display: none; }
 
+.pop-cmodo-aire.disabled,
+.pop-cmodo-manual.disabled {
+  display: none;
+}
 
 .icon-md-tp-ta {
   flex-shrink: 0;

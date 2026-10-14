@@ -131,20 +131,13 @@ function frameWait() {
 // --- Difuminado paneles de Confirmación de Modo --- //
 const operacionesDifuminado = new WeakMap();
 
-/**
- * Convierte un selector o HTMLElement en un elemento.
- */
 function obtenerElemento(elemento) {
-    if (typeof elemento === "string") {
+    if (typeof elemento === "string")
         return document.querySelector(elemento);
-    }
 
     return elemento instanceof HTMLElement ? elemento : null;
 }
 
-/**
- * Espera dos ciclos de renderizado.
- */
 function esperarRenderizado() {
     return new Promise((resolve) => {
         requestAnimationFrame(() => {
@@ -153,10 +146,6 @@ function esperarRenderizado() {
     });
 }
 
-/**
- * Genera un identificador para invalidar animaciones anteriores
- * sobre el mismo elemento.
- */
 function iniciarOperacion(elemento) {
     const nuevaOperacion = (operacionesDifuminado.get(elemento) ?? 0) + 1;
 
@@ -169,10 +158,6 @@ function esOperacionActual(elemento, operacion) {
     return (operacionesDifuminado.get(elemento) === operacion);
 }
 
-/**
- * Espera la transición de opacity.
- * Incluye un timeout como respaldo.
- */
 function esperarTransicionOpacidad(elemento, tiempoMs) {
     return new Promise((resolve) => {
         let terminado = false;
@@ -200,19 +185,6 @@ function esperarTransicionOpacidad(elemento, tiempoMs) {
     });
 }
 
-/**
- * Muestra un elemento con difuminado.
- *
- * Existen dos formas de controlar su visibilidad:
- *
- * 1. claseOculta:
- *    La clase aplica display:none.
- *    Ejemplos: disabled, btn-collapsed.
- *
- * 2. claseActiva:
- *    La clase aplica display:flex.
- *    Ejemplos: enabled, c-modo.
- */
 async function mostrar(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
     const target = obtenerElemento(elemento);
 
@@ -226,14 +198,6 @@ async function mostrar(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
 
     target.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
 
-    /*
-    * Variante 1:
-    * El elemento aparece al agregar una clase activa.
-    *
-    * Ejemplos:
-    *   enabled
-    *   c-modo
-    */
     if (claseActiva) {
         if (target.classList.contains(claseActiva) && target.classList.contains("is-visible"))
             return true;
@@ -251,14 +215,6 @@ async function mostrar(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
         return true;
     }
 
-    /*
-    * Variante 2:
-    * El elemento desaparece mediante una clase oculta.
-    *
-    * Ejemplos:
-    *   disabled
-    *   btn-collapsed
-    */
     if (!target.classList.contains(claseOculta) && !target.classList.contains("fade-hidden"))
         return true;
 
@@ -274,9 +230,6 @@ async function mostrar(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
     return true;
 }
 
-/**
- * Oculta un elemento con difuminado.
- */
 async function ocultar(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
     const target = obtenerElemento(elemento);
 
@@ -331,10 +284,23 @@ async function ocultar(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
     return true;
 }
 
-/**
- * Crea un controlador configurado para un elemento.
- * Evita repetir las opciones en cada llamada.
- */
+async function intercambiar(elementoSalida, elementoEntrada, { tiempoMs = 500, salida = {}, entrada = {} } = {}) {
+  const opcionesSalida = {
+    ...salida,
+    tiempoMs: salida.tiempoMs ?? tiempoMs
+  };
+
+  const opcionesEntrada = {
+    ...entrada,
+    tiempoMs: entrada.tiempoMs ?? tiempoMs
+  };
+
+  return Promise.all(
+    [   ocultar(elementoSalida, opcionesSalida),
+        mostrar(elementoEntrada, opcionesEntrada)   ]
+    );
+}
+
 function crear(elemento, opciones = {}) {
     return Object.freeze({
         mostrar(tiempoMs = opciones.tiempoMs) {
@@ -353,10 +319,12 @@ function crear(elemento, opciones = {}) {
     });
 }
 
-/**
- * Única exportación pública para los difuminados.
- */
-export const difuminado = Object.freeze({ mostrar, ocultar, crear });
+export const difuminado = Object.freeze({
+  mostrar,
+  ocultar,
+  intercambiar,
+  crear
+});
 
 
 // ======================
