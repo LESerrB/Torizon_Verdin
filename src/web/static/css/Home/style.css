@@ -957,6 +957,8 @@ Contenedor Temperaturas Secundarias
 }
 
 .pop-mp-prin-mc-tpiel.c-modo.is-visible {
+  top: 15px;
+
   opacity: 1;
   visibility: visible;
   pointer-events: auto;

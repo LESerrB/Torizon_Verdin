@@ -495,7 +495,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Selección de zona horaria.
  - Función de cancelar Sobregiro ahora regresa a 37.0 como límite si se ecncuentra por sobre la temperatura máxima.
 
-### v0.23.5 - [10/09/2026]
+### v0.23.5 - [10/Septiembre/2026]
  - Primer prueba de animación de transición de "home" a "panel-control" y viceversa.
  - Mejora de animación de transición entre "panel-control" y "home".
  - Corregido color de etiqueta "lbl-temp-piel".
@@ -512,7 +512,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Aplicada función de blur sobe panel de control para notificación emergente de apagado de sensores.
  - Paneles de módulos de Oxígeno y Humedad se les asigna función de habilitado y deshabilitado visual.
 
-### v0.23.6 - [25/09/2026]
+### v0.23.6 - [25/Septiembre/2026]
  - Mostrar/Ocultar botón de Apgar dependiendo si se está en modo Cuna/Incubadora.
  - Deshabilitado modulo de sensor de Humedad en modo Cuna.
  - Panel de "Potencia del Calefactor" creado.
@@ -526,7 +526,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Corrección de bug de desactivado de panel de cambio al cancelar.
  - Arreglos menores a color de título de panel de control de calefactor.
 
-### v0.23.7 - [13/10/2026]
+### v0.23.7 - [14/Octubre/2026]
  - Intercambio de estados de Operación y Control.
  - Cambio de valores en el contenedor de Oxigeno / Potencia de Calefactor.
  - Actualización en tiempo real del slider de Potencia del Calefactor.

@@ -945,11 +945,8 @@ export async function changeMode(panel, modoAP, modOp) {
         icon.src = "../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOP.svg";
         addBlurScreen();
 
-        lbl_temp_piel.textContent = "Cambiar a Modo Piel";
-        lbl_temp_piel.classList.remove("m-Aire");
-        lbl_temp_piel.classList.add("m-Piel");
         panel.classList.add("chng");
-        await difuminado.intercambiar(cont_vm_tpiel, pop_mp_prin_mc_tpiel,
+        await f.intercambiar(cont_vm_tpiel, pop_mp_prin_mc_tpiel,
             { tiempoMs: TIEMPO_CAMBIO_MODO,
               salida: { claseOculta: "c-modo" },
               entrada: {claseActiva: "c-modo"}
@@ -964,9 +961,6 @@ export async function changeMode(panel, modoAP, modOp) {
         icon.src = "../static/icon/Home/cambio_Modo/CONT_ICONS_CMODOPM.svg";
         addBlurScreen();
 
-        lbl_temp_piel.textContent = "Cambiar a Modo Piel";
-        lbl_temp_piel.classList.remove("m-Aire");
-        lbl_temp_piel.classList.add("m-Piel");
         panel.classList.add("chng");
         await difuminado.intercambiar(cont_vm_tpiel, pop_mp_prin_mc_tpiel,
             { tiempoMs: TIEMPO_CAMBIO_MODO,
