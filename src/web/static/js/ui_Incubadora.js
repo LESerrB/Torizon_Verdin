@@ -10,7 +10,7 @@ import {
     addBlurScreen,
     addBlurScreenFot,
     removeBlurScreen,
-    difuminado
+    blurring
 } from "./anim.js";
 
 import { 
@@ -344,7 +344,7 @@ export async function ajstCtrl(panel, mdCtrl, modOp) {
     }
 
     set_EditCtrlsEn(cfg.key);
-    await difuminado.mostrar(btn_home, { claseOculta: "btn-collapsed" });
+    await blurring.show_el(btn_home, { claseOculta: "btn-collapsed" });
 }
 
 
@@ -564,7 +564,7 @@ export async function toggleHomePanel(showPanelControl, modoControl = null, modO
     if (showHome) {
         btn_home?.classList.remove("pressed");
         dissolveToPanel("home");
-        await difuminado.ocultar(btn_home, { claseOculta: "btn-collapsed" });
+        await blurring.hide_el(btn_home, { claseOculta: "btn-collapsed" });
 
         return;
     }
@@ -737,7 +737,6 @@ async function edit_valProg() {
 
                     case "pot_Clf":
                         clfCtrl.textContent = formatValue(nuevoValor, sliderConfig.step);
-                        // updateSliderPowCalef_pPrin?.(nuevoValor);
                     break;
 
                     default:
@@ -935,7 +934,7 @@ export async function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chng");
-        await difuminado.intercambiar(t_aire, c_modo_Aire, { tiempoMs: TIEMPO_CAMBIO_MODO });
+        await blurring.exchange(t_aire, c_modo_Aire, { tiempoMs: TIEMPO_CAMBIO_MODO });
 
         control?.classList.remove("disable");
     }
@@ -946,13 +945,11 @@ export async function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chng");
-        await f.intercambiar(cont_vm_tpiel, pop_mp_prin_mc_tpiel,
+        await blurring.exchange(cont_vm_tpiel, pop_mp_prin_mc_tpiel,
             { tiempoMs: TIEMPO_CAMBIO_MODO,
               salida: { claseOculta: "c-modo" },
               entrada: {claseActiva: "c-modo"}
             });
-
-        // await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }//---------------------------------------------------------------
     else if (modOp === "Cuna" && modoAP === "mManual" && isModoAire){
         ajstCtrl("pot_Calf", modoAP, modOp);
@@ -962,13 +959,11 @@ export async function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chng");
-        await difuminado.intercambiar(cont_vm_tpiel, pop_mp_prin_mc_tpiel,
+        await blurring.exchange(cont_vm_tpiel, pop_mp_prin_mc_tpiel,
             { tiempoMs: TIEMPO_CAMBIO_MODO,
               salida: { claseOculta: "c-modo" },
               entrada: { claseActiva: "c-modo" }
             });
-
-        // await difuminado.mostrar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
     }
     else if (modOp === "Cuna" && modoAP === "tPiel" && isModoBebe) {
         ajstCtrl("tp_Prog", modoAP, modOp);
@@ -978,7 +973,7 @@ export async function changeMode(panel, modoAP, modOp) {
         addBlurScreen();
 
         panel.classList.add("chngClf");
-        await difuminado.intercambiar(t_aire, c_modo_Manual, { tiempoMs: TIEMPO_CAMBIO_MODO });
+        await blurring.exchange(t_aire, c_modo_Manual, { tiempoMs: TIEMPO_CAMBIO_MODO });
     }
     // Cancelación de cambio de modo
     else {
@@ -989,11 +984,11 @@ export async function changeMode(panel, modoAP, modOp) {
         if (isModoAire) {
             const panelConfirmacion = modOp === "Incubadora" ? c_modo_Aire : c_modo_Manual;
 
-            await difuminado.intercambiar(panelConfirmacion, t_aire, { tiempoMs: TIEMPO_CAMBIO_MODO });
+            await blurring.exchange(panelConfirmacion, t_aire, { tiempoMs: TIEMPO_CAMBIO_MODO });
         }
 
         if (isModoBebe) {
-            await difuminado.intercambiar(pop_mp_prin_mc_tpiel, cont_vm_tpiel,
+            await blurring.exchange(pop_mp_prin_mc_tpiel, cont_vm_tpiel,
                 { tiempoMs: TIEMPO_CAMBIO_MODO,
                   salida: { claseActiva: "c-modo" },
                   entrada: { claseOculta: "c-modo" }
@@ -1022,7 +1017,7 @@ export async function modoAire(pnlB, pnlA) {
         activateMode("tAire", pnlB, pnlA);
         c_modo_Aire?.classList.remove("enabled");
 
-        await difuminado.mostrar(t_aire);
+        await blurring.show_el(t_aire);
 
         cont_vm_tpiel.classList.add("m-Piel");
         ttl_programada.textContent = "Temp. Aire Programada";
@@ -1068,7 +1063,7 @@ export async function modoPiel(pnlA, pnlB, modOp) {
         lbl_temp_piel.textContent = "Temperatura Piel";
         activateMode("tPiel", pnlA, pnlB);
 
-        await difuminado.ocultar(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
+        await blurring.hide_el(pop_mp_prin_mc_tpiel, { claseActiva: "c-modo" });
 
         cont_vm_tpiel.classList.remove("c-modo");
         cont_vm_tpiel.classList.remove("m-Piel");
@@ -1192,7 +1187,6 @@ export function confAjstFoto(modCtrl, modOp) {
     confirmacion_fot.style.display = 'block';
     iniTimerAjst("Foto");
   } else {
-    // ajstCtrl("pot_Fot", modCtrl, modOp);
     ajstCtrlFot.classList.remove("active");
     // Desactiva la fototerapia
     fotoInactive();

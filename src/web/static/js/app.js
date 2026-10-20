@@ -41,7 +41,7 @@ import {
 } from "./notif.js";
 
 import { 
-    difuminado
+    blurring
 } from "./anim.js";
 
 const recursosVisuales = [
@@ -493,9 +493,9 @@ async function bindMenuButton(config) {
             ttl_pnl_ctrl.textContent = config.title;
 
         if (state.isHomeView) {
-            await difuminado.ocultar(btn_home, { claseOculta: "btn-collapsed" });
+            await blurring.hide_el(btn_home, { claseOculta: "btn-collapsed" });
         }else{
-            await difuminado.mostrar(btn_home, { claseOculta: "btn-collapsed" });
+            await blurring.show_el(btn_home, { claseOculta: "btn-collapsed" });
         }
 
         applyButtonVisualState(button, image, config, state.pressed);

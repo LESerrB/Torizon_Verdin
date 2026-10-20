@@ -136,9 +136,6 @@ export function stopTimerFot() {
     }
 };
 
-// function timeOn_Fot() {
-//     console.log("Timer fot");
-// }
 // =======================================
 // Próxima actualización en un nuevo panel
 // =======================================

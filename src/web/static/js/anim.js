@@ -34,6 +34,7 @@ export async function dissolveToPanel(dest, reloadContent = null) {
 
     if (!target) {
         console.warn(`dissolveToPanel: destino desconocido "${dest}"`);
+
         return;
     }
 
@@ -129,16 +130,16 @@ function frameWait() {
 }
 
 // --- Difuminado paneles de Confirmación de Modo --- //
-const operacionesDifuminado = new WeakMap();
+const blurred_Op = new WeakMap();
 
-function obtenerElemento(elemento) {
+function el_Add(elemento) {
     if (typeof elemento === "string")
         return document.querySelector(elemento);
 
     return elemento instanceof HTMLElement ? elemento : null;
 }
 
-function esperarRenderizado() {
+function render_wait() {
     return new Promise((resolve) => {
         requestAnimationFrame(() => {
             requestAnimationFrame(resolve);
@@ -146,19 +147,19 @@ function esperarRenderizado() {
     });
 }
 
-function iniciarOperacion(elemento) {
-    const nuevaOperacion = (operacionesDifuminado.get(elemento) ?? 0) + 1;
+function op_Start(elemento) {
+    const nuevaOperacion = (blurred_Op.get(elemento) ?? 0) + 1;
 
-    operacionesDifuminado.set(elemento, nuevaOperacion);
+    blurred_Op.set(elemento, nuevaOperacion);
 
     return nuevaOperacion;
 }
 
-function esOperacionActual(elemento, operacion) {
-    return (operacionesDifuminado.get(elemento) === operacion);
+function is_ActOp(elemento, operacion) {
+    return (blurred_Op.get(elemento) === operacion);
 }
 
-function esperarTransicionOpacidad(elemento, tiempoMs) {
+function wait_BlurredOp(elemento, tiempoMs) {
     return new Promise((resolve) => {
         let terminado = false;
 
@@ -174,9 +175,8 @@ function esperarTransicionOpacidad(elemento, tiempoMs) {
         };
 
         const manejarTransition = (event) => {
-            if (event.target === elemento && event.propertyName === "opacity") {
+            if (event.target === elemento && event.propertyName === "opacity")
                 finalizar();
-            }
         };
 
         const timer = window.setTimeout(finalizar, tiempoMs + 100);
@@ -185,8 +185,8 @@ function esperarTransicionOpacidad(elemento, tiempoMs) {
     });
 }
 
-async function mostrar(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
-    const target = obtenerElemento(elemento);
+async function show_el(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
+    const target = el_Add(elemento);
 
     if (!target) {
         console.warn("difuminado.mostrar: elemento no encontrado", elemento);
@@ -194,7 +194,7 @@ async function mostrar(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
         return false;
     }
 
-    const operacion = iniciarOperacion(target);
+    const operacion = op_Start(target);
 
     target.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
 
@@ -205,9 +205,9 @@ async function mostrar(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
         target.classList.remove("is-visible");
         target.classList.add(claseActiva);
 
-        await esperarRenderizado();
+        await render_wait();
 
-        if (!esOperacionActual(target, operacion))
+        if (!is_ActOp(target, operacion))
             return false;
 
 
@@ -221,17 +221,18 @@ async function mostrar(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
     target.classList.add("fade-hidden");
     target.classList.remove(claseOculta);
 
-    await esperarRenderizado();
+    await render_wait();
 
-    if (!esOperacionActual(target, operacion))
+    if (!is_ActOp(target, operacion))
         return false;
 
     target.classList.remove("fade-hidden");
+
     return true;
 }
 
-async function ocultar(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
-    const target = obtenerElemento(elemento);
+async function hide_el(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
+    const target = el_Add(elemento);
 
     if (!target) {
         console.warn("difuminado.ocultar: elemento no encontrado", elemento);
@@ -239,43 +240,33 @@ async function ocultar(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
         return false;
     }
 
-    const operacion = iniciarOperacion(target);
+    const operacion = op_Start(target);
 
     target.style.setProperty("--tiempo-difuminado", `${tiempoMs}ms`);
 
-    /*
-    * Variante controlada mediante claseActiva.
-    */
     if (claseActiva) {
         if (!target.classList.contains(claseActiva))
             return true;
 
         target.classList.remove("is-visible");
 
-        await esperarTransicionOpacidad(target, tiempoMs);
+        await wait_BlurredOp(target, tiempoMs);
 
-        /*
-        * Evita que una animación anterior oculte el
-        * elemento si mientras tanto se volvió a mostrar.
-        */
-        if (!esOperacionActual(target, operacion))
+        if (!is_ActOp(target, operacion))
             return false;
 
         target.classList.remove(claseActiva);
         return true;
     }
 
-    /*
-    * Variante controlada mediante claseOculta.
-    */
     if (target.classList.contains(claseOculta))
         return true;
 
     target.classList.add("fade-hidden");
 
-    await esperarTransicionOpacidad(target, tiempoMs);
+    await wait_BlurredOp(target, tiempoMs);
 
-    if (!esOperacionActual(target, operacion))
+    if (!is_ActOp(target, operacion))
         return false;
 
     target.classList.add(claseOculta);
@@ -284,34 +275,34 @@ async function ocultar(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
     return true;
 }
 
-async function intercambiar(elementoSalida, elementoEntrada, { tiempoMs = 500, salida = {}, entrada = {} } = {}) {
-  const opcionesSalida = {
+async function exchange(elementoSalida, elementoEntrada, { tiempoMs = 500, salida = {}, entrada = {} } = {}) {
+  const out_Options = {
     ...salida,
     tiempoMs: salida.tiempoMs ?? tiempoMs
   };
 
-  const opcionesEntrada = {
+  const in_Options = {
     ...entrada,
     tiempoMs: entrada.tiempoMs ?? tiempoMs
   };
 
   return Promise.all(
-    [   ocultar(elementoSalida, opcionesSalida),
-        mostrar(elementoEntrada, opcionesEntrada)   ]
+    [   hide_el(elementoSalida, out_Options),
+        show_el(elementoEntrada, in_Options)   ]
     );
 }
 
-function crear(elemento, opciones = {}) {
+function create_El(elemento, opciones = {}) {
     return Object.freeze({
-        mostrar(tiempoMs = opciones.tiempoMs) {
-            return mostrar(elemento, {
+        show_el(tiempoMs = opciones.tiempoMs) {
+            return show_el(elemento, {
                 ...opciones,
                 tiempoMs
             });
         },
 
-        ocultar(tiempoMs = opciones.tiempoMs) {
-        return ocultar(elemento, {
+        hide_el(tiempoMs = opciones.tiempoMs) {
+        return hide_el(elemento, {
             ...opciones,
             tiempoMs
         });
@@ -319,11 +310,11 @@ function crear(elemento, opciones = {}) {
     });
 }
 
-export const difuminado = Object.freeze({
-  mostrar,
-  ocultar,
-  intercambiar,
-  crear
+export const blurring = Object.freeze({
+  show_el,
+  hide_el,
+  exchange,
+  create_El
 });
 
 
