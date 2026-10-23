@@ -94,29 +94,26 @@ def decode_Msg(UART_dev):
         bytes_list = []
 
         trama = uart_receive(UART_dev)
-        # print("<<<<", trama)
+        print("<<<<", trama)
 
-        if trama and trama.startswith("00") and trama.endswith("63"):
-            trama = [trama[i:i+2] for i in range(0, len(trama), 2)]
-            # n_bytes = int(trama[1], 16)
-            n_bytes = len(trama) - 5
+        if trama and trama.startswith("00") and trama.endswith("aa"):
+            n_bytes = (int(trama[2:4], 16)) * 2
 
-            for i in range(2, (2 + n_bytes)):
+            for i in range(4, (4 + n_bytes)):
                 bytes_list.append(trama[i])
 
             bytes_list = ''.join(bytes_list)
             bytes_list = bytes.fromhex(bytes_list)
 
-            crc_rec = ''.join(trama[len(trama)-3] + trama[len(trama)-2])
+            crc_rec = ''.join(trama[len(trama)-6] + trama[len(trama)-5]+trama[len(trama)-4] + trama[len(trama)-3])
             crc_rec = hex(int(crc_rec, 16))
             crc_calc = hex(crc16_arc(bytes_list))
 
             if crc_rec == crc_calc:
-                return bytes_list, len(bytes_list)
+                return bytes_list
         else:
             bytes_list = b'\x99\x00'
-
-        return bytes_list, len(bytes_list)
+            return bytes_list
     except Exception as e:
         # logger.error("Error leyendo SONDA1:", e)
         print(f"Error al recibir trama: {e}")

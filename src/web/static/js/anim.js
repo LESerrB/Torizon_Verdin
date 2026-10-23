@@ -132,6 +132,16 @@ function frameWait() {
 // --- Difuminado paneles de Confirmación de Modo --- //
 const blurred_Op = new WeakMap();
 
+/**
+ * Resuelve un selector CSS o valida que el argumento sea un elemento HTML
+ * 
+ * @function
+ * @param {string|HTMLElement} elemento - Selector CSS o elemento que se utilizará
+ * @returns {HTMLElement|null} Elemento encontrado o null si no es válido
+ * 
+ * @example
+ * const panel = el_Add("#panel-control");
+ */
 function el_Add(elemento) {
     if (typeof elemento === "string")
         return document.querySelector(elemento);
@@ -139,6 +149,16 @@ function el_Add(elemento) {
     return elemento instanceof HTMLElement ? elemento : null;
 }
 
+/**
+ * Espera dos ciclos de renderizado del navegador
+ * Permite que el DOM y los estilos se actualicen antes de continuar una transición
+ * 
+ * @function
+ * @returns {Promise<void>} Promesa que se resuelve después de dos requestAnimationFrame
+ * 
+ * @example
+ * await render_wait(); // Espera dos frames antes de continuar
+ */
 function render_wait() {
     return new Promise((resolve) => {
         requestAnimationFrame(() => {
@@ -147,6 +167,14 @@ function render_wait() {
     });
 }
 
+/**
+ * Inicia una nueva operación de desenfoque para un elemento
+ * Incrementa y registra su identificador para distinguirla de operaciones anteriores
+ * 
+ * @function
+ * @param {HTMLElement} elemento - Elemento asociado a la operación
+ * @returns {number} Identificador de la nueva operación
+ */
 function op_Start(elemento) {
     const nuevaOperacion = (blurred_Op.get(elemento) ?? 0) + 1;
 
@@ -155,10 +183,27 @@ function op_Start(elemento) {
     return nuevaOperacion;
 }
 
+/**
+ * Comprueba si una operación sigue siendo la más reciente para el elemento
+ * 
+ * @function
+ * @param {HTMLElement} elemento - Elemento cuya operación se comprobará
+ * @param {number} operacion - Identificador de la operación que se quiere validar
+ * @returns {boolean} true si la operación continúa activa; false si fue reemplazada
+ */
 function is_ActOp(elemento, operacion) {
     return (blurred_Op.get(elemento) === operacion);
 }
 
+/**
+ * Espera a que termine la transición de opacidad de un elemento
+ * También finaliza la espera al vencer el tiempo indicado más un margen de 100 ms
+ * 
+ * @function
+ * @param {HTMLElement} elemento - Elemento cuya transición se esperará
+ * @param {number} tiempoMs - Duración esperada de la transición en milisegundos
+ * @returns {Promise<void>} Promesa que se resuelve al finalizar la transición o el tiempo límite
+ */
 function wait_BlurredOp(elemento, tiempoMs) {
     return new Promise((resolve) => {
         let terminado = false;
@@ -185,6 +230,23 @@ function wait_BlurredOp(elemento, tiempoMs) {
     });
 }
 
+/**
+ * Muestra un elemento mediante una transición de opacidad
+ * Puede retirar una clase de ocultación o activar una clase específica
+ * La operación devuelve false si el elemento no existe o si otra operación la reemplaza
+ * 
+ * @function
+ * @async
+ * @param {string|HTMLElement} elemento - Selector CSS o elemento que se mostrará
+ * @param {Object} [opciones={}] - Opciones de visualización
+ * @param {number} [opciones.tiempoMs=500] - Duración de la transición en milisegundos
+ * @param {string} [opciones.claseOculta="disabled"] - Clase que se retirará para mostrar el elemento
+ * @param {string|null} [opciones.claseActiva=null] - Clase que se activará para el modo de visibilidad alternativo
+ * @returns {Promise<boolean>} true si el elemento queda visible; false si no existe o la operación fue reemplazada
+ * 
+ * @example
+ * await show_el("#panel-control", { tiempoMs: 300 });
+ */
 async function show_el(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
     const target = el_Add(elemento);
 
@@ -231,6 +293,23 @@ async function show_el(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
     return true;
 }
 
+/**
+ * Oculta un elemento mediante una transición de opacidad
+ * Puede aplicar una clase de ocultación o retirar una clase activa específica
+ * La operación devuelve false si el elemento no existe o si otra operación la reemplaza
+ * 
+ * @function
+ * @async
+ * @param {string|HTMLElement} elemento - Selector CSS o elemento que se ocultará
+ * @param {Object} [opciones={}] - Opciones de ocultación
+ * @param {number} [opciones.tiempoMs=500] - Duración de la transición en milisegundos
+ * @param {string} [opciones.claseOculta="disabled"] - Clase que se aplicará para ocultar el elemento
+ * @param {string|null} [opciones.claseActiva=null] - Clase que se retirará para el modo de visibilidad alternativo
+ * @returns {Promise<boolean>} true si el elemento queda oculto; false si no existe o la operación fue reemplazada
+ * 
+ * @example
+ * await hide_el("#panel-control", { tiempoMs: 300 });
+ */
 async function hide_el(elemento, { tiempoMs = 500, claseOculta = "disabled", claseActiva = null } = {}) {
     const target = el_Add(elemento);
 
@@ -275,6 +354,23 @@ async function hide_el(elemento, { tiempoMs = 500, claseOculta = "disabled", cla
     return true;
 }
 
+/**
+ * Oculta un elemento mientras muestra otro
+ * Permite definir opciones generales y opciones independientes para cada elemento
+ * 
+ * @function
+ * @async
+ * @param {string|HTMLElement} elementoSalida - Selector o elemento que se ocultará
+ * @param {string|HTMLElement} elementoEntrada - Selector o elemento que se mostrará
+ * @param {Object} [opciones={}] - Opciones generales y específicas de las transiciones
+ * @param {number} [opciones.tiempoMs=500] - Duración predeterminada de ambas transiciones en milisegundos
+ * @param {Object} [opciones.salida={}] - Opciones adicionales para la función hide_el
+ * @param {Object} [opciones.entrada={}] - Opciones adicionales para la función show_el
+ * @returns {Promise<boolean[]>} Promesa con los resultados de ocultar y mostrar, en ese orden
+ * 
+ * @example
+ * await exchange("#panel-a", "#panel-b", { tiempoMs: 300 });
+ */
 async function exchange(elementoSalida, elementoEntrada, { tiempoMs = 500, salida = {}, entrada = {} } = {}) {
   const out_Options = {
     ...salida,
@@ -292,6 +388,22 @@ async function exchange(elementoSalida, elementoEntrada, { tiempoMs = 500, salid
     );
 }
 
+/**
+ * Crea un controlador reutilizable para mostrar u ocultar un elemento
+ * Devuelve métodos que aplican las opciones configuradas al elemento asociado
+ * 
+ * @function
+ * @param {string|HTMLElement} elemento - Selector CSS o elemento que controlará el objeto
+ * @param {Object} [opciones={}] - Opciones predeterminadas para las transiciones
+ * @returns {Readonly<Object>} Objeto inmutable con los métodos show_el y hide_el
+ * @returns {Function} returns.show_el(tiempoMs) - Muestra el elemento y devuelve Promise<boolean>
+ * @returns {Function} returns.hide_el(tiempoMs) - Oculta el elemento y devuelve Promise<boolean>
+ * 
+ * @example
+ * const panel = create_El("#panel-control", { tiempoMs: 300 });
+ * await panel.show_el();
+ * await panel.hide_el();
+ */
 function create_El(elemento, opciones = {}) {
     return Object.freeze({
         show_el(tiempoMs = opciones.tiempoMs) {
@@ -360,11 +472,31 @@ export function addBlurScreenFot(){
         el?.classList.add("mica-effect"));
 }
 
+/**
+ * Aplica el efecto de desenfoque al título y al panel de información de control
+ * Se utiliza para atenuar visualmente estos elementos mientras otra interfaz está activa
+ * 
+ * @function
+ * @returns {void} No devuelve ningún valor
+ * 
+ * @example
+ * blurCtrl_Panel(); // Desenfoca el título y la información de control
+ */
 export function blurCtrl_Panel() {
     document.querySelector(".mp-atpiel-mc-ttl").classList.add("mica-effect");
     document.querySelector(".mp-info-ctrl").classList.add("mica-effect");
 }
 
+/**
+ * Elimina el efecto de desenfoque del título y del panel de información de control
+ * Restaura su apariencia normal para continuar la interacción con el panel
+ * 
+ * @function
+ * @returns {void} No devuelve ningún valor
+ * 
+ * @example
+ * removeBlurCtrl_Panel(); // Quita el desenfoque del título y la información de control
+ */
 export function removeBlurCtrl_Panel() {
     document.querySelector(".mp-atpiel-mc-ttl").classList.remove("mica-effect");
     document.querySelector(".mp-info-ctrl").classList.remove("mica-effect");
