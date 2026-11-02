@@ -759,6 +759,25 @@ async function edit_valProg() {
     }
 }
 
+async function ctr_Lights(val) {
+    try {
+        const res = await fetch("/api/ctrlLights", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                Ctrl: "pot_Fot",
+                pot: val
+            })
+        });
+
+        console.log(res);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // ================================================================
 // PANELES: Cambio de modo T. Piel <-> T. Aire
 // ================================================================
@@ -1132,26 +1151,26 @@ const fotoConfig = {
  * @param {string} estado "active" o "inactive"
  */
 function setFotoState(estado) {
-  const config = fotoConfig[estado];
+    const config = fotoConfig[estado];
 
-  if (!config) return;
+    if (!config) return;
 
-  clearTimeout(timerChngAjst);
+    clearTimeout(timerChngAjst);
 
-  fot_panel.style.display = config.fot_panel;
-  confirmacion_fot.style.display = config.confirmacion_fot;
+    fot_panel.style.display = config.fot_panel;
+    confirmacion_fot.style.display = config.confirmacion_fot;
 
-  if (config.ajstCtrlFot_active)
-    ajstCtrlFot.classList.add("active");
-  else
-    ajstCtrlFot.classList.remove("active");
+    if (config.ajstCtrlFot_active)
+        ajstCtrlFot.classList.add("active");
+    else
+        ajstCtrlFot.classList.remove("active");
 
-  config.elements.forEach(el => {
-    if (el) el.classList[config.elementAction]("active");
-  });
+    config.elements.forEach(el => {
+        if (el) el.classList[config.elementAction]("active");
+    });
 
-  if (estado === "active")
-    fotoEn = true;
+    if (estado === "active")
+        fotoEn = true;
 }
 
 /**
@@ -1163,15 +1182,19 @@ export function fotoActive() {
     setFotoState("active");
     updateSliderIntenseFot_pPrin?.(1);
     startTimerFot();
+    
+    ctr_Lights(1);
 }
 
 /**
  * Desactiva el panel de fototerapia
  */
 export function fotoInactive() {
-  setFotoState("inactive");
-  fotoEn = false;
-  stopTimerFot();
+    setFotoState("inactive");
+    fotoEn = false;
+    stopTimerFot();
+
+    ctr_Lights(0);
 }
 
 /**

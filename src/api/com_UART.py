@@ -18,7 +18,7 @@ def uart_send(uart_dev, data):
     """
     try:
         if uart_dev and uart_dev.is_open:
-            # print(">>", data)
+            print(">>", data)
             if isinstance(data, (bytes, bytearray)):
                 uart_dev.write(data)
             else:
@@ -45,7 +45,7 @@ def uart_receive(uart_dev) -> str:
             data = uart_dev.readline().hex()
 
             if data:
-                print("<<", data)
+                # print("<<", data)
                 return data
         else:
             print("UART no está abierto")
@@ -94,7 +94,6 @@ def decode_Msg(UART_dev):
         bytes_list = []
 
         trama = uart_receive(UART_dev)
-        print("<<<<", trama)
 
         if trama and trama.startswith("00") and trama.endswith("aa"):
             n_bytes = (int(trama[2:4], 16)) * 2
@@ -109,7 +108,8 @@ def decode_Msg(UART_dev):
             crc_rec = hex(int(crc_rec, 16))
             crc_calc = hex(crc16_arc(bytes_list))
 
-            if crc_rec == crc_calc:
+            if crc_rec == crc_calc and (len(bytes_list) == int(n_bytes/2)):
+                print("<<<<", bytes_list)
                 return bytes_list
         else:
             bytes_list = b'\x99\x00'

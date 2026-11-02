@@ -100,7 +100,7 @@ async function get_DtSensores() {
 
 export function startSensors(){
     if (!intervalId)
-        intervalId = setInterval(get_DtSensores, (periodoActVals * 1000));
+        intervalId = setInterval(get_DtSensores, (periodoActVals * 100));
 };
 
 export function pauseSensor() {

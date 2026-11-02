@@ -541,6 +541,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Ajuste de posiciones y colores de la interfaz.
  - Ajuste de animación para paneles de "Cambio de Modo".
 
+### v0.23.8 - [02/Noviembre/2026]
+ - Ajuste de velocidad de actualización de sensores.
+ - Agregado CRC en trama de control.
+
 ## Descarga e Instalación
 
 <p align="center">

@@ -21,6 +21,8 @@ from dev.Controles_Alertas import encoder as hw_encoder
 from dev.Comunicacion import bascula as com_bascula
 from dev.Comunicacion.TCD import com_TCD as TCD
 from dev.Comunicacion.TCD import set_dtProg as dt_progTCD
+from dev.Fototerapia.ctrl_Fot_Exam import setNvlLuzExam as lvlFot
+from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia as lvlLExam
 
 #****************************************************************************#
 #                           Configuracion Pag WEB                            #
@@ -89,6 +91,7 @@ pesoTCD = 0
 #                           Rutas de la aplicacion                           #
 ##############################################################################
 # dt_progTCD(0)  # Envío de valores en 0
+lvlLExam(0)
 
 @app.route("/")
 def index():
@@ -171,8 +174,12 @@ def ctrlEncd():
         if not valores_ctrl["confirm"]:
             monitor_pause.clear()               # Pausa monitoreo para enviar datos de control
 
-            valores_ctrl[edit_Ctrl] = val_Encd
-            dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
+            if (edit_Ctrl== "pot_Fot"):
+                lvlFot((val_Encd * 33 ) + 1)
+                lvlLExam((val_Encd * 33 ) + 1)
+            else:
+                valores_ctrl[edit_Ctrl] = val_Encd
+                dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
 
             monitor_pause.set()                 # Reinicio de Monitoreo
 
@@ -192,6 +199,19 @@ def ctrlEncd():
                 "status": "fail"
             }
         ), 400
+
+@app.route("/api/ctrlLights", methods=["POST"])
+def ctrl_Lights():
+    ctrl = request.get_json().get('pot')
+
+    lvlFot((ctrl * 33 ) + 1)
+    lvlLExam((ctrl * 33 ) + 1)
+
+    return jsonify(
+        {
+            "status": "ok",
+        }
+    ), 200
 
 @app.route("/api/pesar", methods=["POST"])
 def api_Pesaje():
