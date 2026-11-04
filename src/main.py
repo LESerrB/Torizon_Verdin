@@ -19,7 +19,7 @@ from flask_cors import CORS
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas import encoder as hw_encoder
 from dev.Comunicacion import bascula as com_bascula
-from dev.Comunicacion.TCD import com_TCD as TCD
+from dev.Comunicacion.TCD import com_TCD as info_TCD
 from dev.Comunicacion.TCD import set_dtProg as dt_progTCD
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlLuzExam as lvlFot
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia as lvlLExam
@@ -123,15 +123,31 @@ def setInitVals():
 
 @app.route("/api/getDtSensores", methods=["POST"])
 def get_DtSensores():
-    if vls_snsrsTCD["alrm"] != 128:
-        return jsonify(
-            {
-                "vls_snsrsTCD": vls_snsrsTCD,
-                "modos": modos,
-                "status": "ok",
-            }
-        ), 200
-    else:
+    try:
+        if vls_snsrsTCD["alrm"] != 128:
+            # t_Aire = vls_snsrsTCD["t_Aire"] if 0 < vls_snsrsTCD["t_Aire"] < 50.0 else "--.-"
+            # s_Hum = vls_snsrsTCD["s_Hum"] if 0 < vls_snsrsTCD["s_Hum"] < 100.0 else "--.-"
+            # t_Piel = vls_snsrsTCD["t_Piel"] if 0 < vls_snsrsTCD["t_Piel"] < 40.0 else "--.-"
+            # s_Aux = vls_snsrsTCD["s_Aux"] if 0 < vls_snsrsTCD["s_Aux"] < 40.0 else "--.-"
+            # pot_Clf = vls_snsrsTCD["pot_Clf"] if 0 < vls_snsrsTCD["pot_Clf"] < 100 else "--.-"
+            # s_Ox = vls_snsrsTCD["s_Ox"] if 0 < vls_snsrsTCD["s_Ox"] < 100 else "--.-"
+
+            # vls_snsrsTCD["t_Aire"] = t_Aire
+            # vls_snsrsTCD["s_Hum"] = s_Hum
+            # vls_snsrsTCD["t_Piel"] = t_Piel
+            # vls_snsrsTCD["s_Aux"] = s_Aux
+            # vls_snsrsTCD["pot_Clf"] = pot_Clf
+            # vls_snsrsTCD["s_Ox"] = s_Ox
+
+            return jsonify(
+                {
+                    "vls_snsrsTCD": vls_snsrsTCD,
+                    "modos": modos,
+                    "status": "ok",
+                }), 200
+    except Exception as error:
+        print(error)
+
         return jsonify(
             {
                 "modos": modos,
@@ -163,42 +179,55 @@ def ctrlEncd():
     try:
         global edit_Ctrl, val_Encd
 
-        if (edit_Ctrl == "tp_Prog") or (edit_Ctrl == "ta_Prog"):
-            sg = "sg_" + edit_Ctrl[0:2]
-            prev_edoSG = valores_ctrl[sg]
-            valores_ctrl[sg] = request.get_json().get(sg)
+        data = request.get_json() or {}
 
-            if (prev_edoSG and (not valores_ctrl[sg])):
+        if edit_Ctrl in ("tp_Prog", "ta_Prog"):
+            sg = "sg_" + edit_Ctrl[0:2]
+
+            prev_edoSG = bool(valores_ctrl.get(sg, False))
+            nuevo_edoSG = bool(data.get(sg, prev_edoSG))
+
+            valores_ctrl[sg] = nuevo_edoSG
+
+            if prev_edoSG and not nuevo_edoSG and val_Encd > 37.0:
                 val_Encd = 37.0
 
         if not valores_ctrl["confirm"]:
-            monitor_pause.clear()               # Pausa monitoreo para enviar datos de control
+            monitor_pause.clear()
 
-            if (edit_Ctrl== "pot_Fot"):
-                lvlFot((val_Encd * 33 ) + 1)
-                lvlLExam((val_Encd * 33 ) + 1)
-            else:
-                valores_ctrl[edit_Ctrl] = val_Encd
-                dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
+            try:
+                with tcd_uart_lock:
+                    if edit_Ctrl == "pot_Fot":
+                        lvlFot((val_Encd * 33) + 1)
+                        lvlLExam((val_Encd * 33) + 1)
 
-            monitor_pause.set()                 # Reinicio de Monitoreo
+                    else:
+                        valores_ctrl[edit_Ctrl] = val_Encd
+                        res = dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
 
+                        if res:
+                            print("--->>>", int(res, 16), val_Encd)
+            finally:
+                monitor_pause.set()
+
+        # print(val_Encd)
         return jsonify(
             {
                 "status": "ok",
                 "ctrl": edit_Ctrl,
                 "val": val_Encd,
                 "confirm": valores_ctrl["confirm"],
-            }
-        ), 200
-    except:
-        monitor_pause.set()                     # Reinicio de Monitoreo
+            }), 200
+    except Exception as error:
+                monitor_pause.set()
 
-        return jsonify(
-            {
-                "status": "fail"
-            }
-        ), 400
+                print(f"Error en ctrlEncd: {error}")
+
+                return jsonify(
+                    {
+                        "status": "fail",
+                        "error": str(error),
+                    }), 400
 
 @app.route("/api/ctrlLights", methods=["POST"])
 def ctrl_Lights():
@@ -246,12 +275,15 @@ def api_Pesaje():
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<#
 def sys_monitor():
     while True:
-        monitor_pause.wait()
-        restart_container()         # Memoria del contenedor
+        monitor_pause.wait()            # Pausa de envío de datos
+        restart_container()             # Memoria del contenedor
 
-        TCD(vls_snsrsTCD)           # Envío de datos a la TCD
+        with tcd_uart_lock:
+            if monitor_pause.is_set():
+                info_TCD(vls_snsrsTCD)   # Envío de datos a la TCD
+                print(vls_snsrsTCD["t_Piel"])
 
-        time.sleep(0.1)
+        time.sleep(0.5)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")
@@ -286,6 +318,8 @@ def encoder_Reader():
 #============================================================================#
 monitor_pause = threading.Event()
 monitor_pause.set()
+
+tcd_uart_lock = threading.Lock()
 
 monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
 monitor_thread.start()

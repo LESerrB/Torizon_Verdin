@@ -2,7 +2,7 @@ import {
     crearSliderPotCalef,
 } from "./slider.js";
 
-const periodoActVals = 0.5      // segundos
+const periodoActVals = 0.25     // segundos
 
 let intervalId = null;          // Timer de actualización de sensores
 
@@ -100,7 +100,7 @@ async function get_DtSensores() {
 
 export function startSensors(){
     if (!intervalId)
-        intervalId = setInterval(get_DtSensores, (periodoActVals * 100));
+        intervalId = setInterval(get_DtSensores, (periodoActVals * 1000));
 };
 
 export function pauseSensor() {

@@ -1,3 +1,5 @@
+import time
+
 #================================================================#
 #                 Funciones de comunicación UART                 #
 #================================================================#
@@ -17,21 +19,29 @@ def uart_send(uart_dev, data):
       un mensaje y retorna `None`.
     """
     try:
-        if uart_dev and uart_dev.is_open:
-            print(">>", data)
-            if isinstance(data, (bytes, bytearray)):
-                uart_dev.write(data)
-            else:
-                s = str(data)
-                uart_dev.write(s.encode('ascii'))
-        else:
+        if not uart_dev or not uart_dev.is_open:
             print("UART no está abierto")
-    except Exception as e:
-        # logger.error("Error escribiendo a Tarjeta de Bascula", e)
-        print(f"Error escribiendo a Tarjeta de Bascula {e}")
-        return None
+            return False
 
-def uart_receive(uart_dev) -> str:
+        if not isinstance(data, (bytes, bytearray)):
+            data = str(data).encode("ascii")
+
+        print(">>>>",data)
+        written = uart_dev.write(data)
+        uart_dev.flush()
+
+        if written != len(data):
+            print( f"Escritura UART incompleta: "
+                   f"{written}/{len(data)} bytes" )
+            return False
+
+        return True
+    except Exception as error:
+        # logger.error("Error escribiendo a Tarjeta de Bascula", e)
+        print(f"Error escribiendo a Tarjeta UART {error}")
+        return False
+
+def uart_receive(uart_dev, expected_size=21, timeout=1.0) -> str:
     """
     Lee una línea desde UART y devuelve su representación hexadecimal.
 
@@ -41,18 +51,40 @@ def uart_receive(uart_dev) -> str:
     - None: si ocurre una excepción durante la lectura.
     """
     try:
-        if uart_dev and uart_dev.is_open:
-            data = uart_dev.readline().hex()
-
-            if data:
-                # print("<<", data)
-                return data
-        else:
+        if not uart_dev or not uart_dev.is_open:
             print("UART no está abierto")
-            return ""
+            return None
+
+        data = bytearray()
+        deadline = time.monotonic() + timeout
+
+        while len(data) < expected_size:
+            remaining_time = deadline - time.monotonic()
+
+            if remaining_time <= 0:
+                break
+
+            chunk = uart_dev.read(expected_size - len(data))
+            res = chunk.hex()
+
+            if expected_size == 16 and not res.startswith("aa0a"):
+                return None
+
+            if chunk:
+                data.extend(chunk)
+            else:
+                time.sleep(0.005)
+
+        if len(data) != expected_size:
+            print( f"Trama UART incompleta: "
+                   f"{len(data)}/{expected_size} bytes - {data.hex()}" )
+            return None
+
+        print("<<<<",data)
+        return bytes(data)
     except Exception as e:
-        # logger.error("Error leyendo Tarjeta de Bascula", e)
-        print(f"Error leyendo Tarjeta de Bascula {e}")
+        # logger.error("Error leyendo Tarjeta UART", e)
+        print(f"Error leyendo Tarjeta UART {e}")
         return None
 
 def close_uart(uart_dev):
@@ -93,7 +125,7 @@ def decode_Msg(UART_dev):
     try:
         bytes_list = []
 
-        trama = uart_receive(UART_dev)
+        trama = uart_receive(UART_dev).hex()
 
         if trama and trama.startswith("00") and trama.endswith("aa"):
             n_bytes = (int(trama[2:4], 16)) * 2
@@ -109,7 +141,6 @@ def decode_Msg(UART_dev):
             crc_calc = hex(crc16_arc(bytes_list))
 
             if crc_rec == crc_calc and (len(bytes_list) == int(n_bytes/2)):
-                print("<<<<", bytes_list)
                 return bytes_list
         else:
             bytes_list = b'\x99\x00'
@@ -143,7 +174,6 @@ def encode_Msg(UART_dev, msg, cmd = None):
 
         dt = b'\x00' + (cmd or b'') + n_bytes + dt + void_dt + crc + b'\x63'
 
-        # print(">>>>", dt)
         uart_send(UART_dev, dt)
     except Exception as e:
         print(f"Error al mandar trama: {e}")

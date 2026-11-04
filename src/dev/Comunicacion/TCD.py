@@ -1,6 +1,7 @@
 import serial
+import time
 
-from api.com_UART import decode_Msg, encode_Msg, uart_send, crc16_arc
+from api.com_UART import decode_Msg, encode_Msg, uart_receive, uart_send, crc16_arc
 
 uart_Channel = "/dev/verdin-uart1"
 baud_rate = 115200
@@ -14,7 +15,7 @@ def com_TCD(vls_snsrsTCD):
         if(W[0] != 153 and W[1] != 0):
             vls_snsrsTCD["t_Aire"] = int.from_bytes(W[0:2], byteorder="big")
             vls_snsrsTCD["s_Hum"] = int.from_bytes(W[2:4], byteorder="big")
-    # Temp seg W[4:6]
+            # Temp seg W[4:6]
             vls_snsrsTCD["t_Piel"] = int.from_bytes(W[6:8], byteorder="big")/10
             vls_snsrsTCD["s_Aux"] = int.from_bytes(W[8:10], byteorder="big")/10
             vls_snsrsTCD["pot_Clf"] = int.from_bytes(W[10:12], byteorder="big")
@@ -28,12 +29,12 @@ def com_TCD(vls_snsrsTCD):
 
 def set_dtProg(tdc_v, edit_Ctrl = False):
     control_config = {
+        #     (Position, ByteCount)
         "ta_Prog":   (3, 2),
         "pot_Clf":   (6, 1),
         "tp_Prog":   (7, 2),
         "pot_Ox":    (10, 1),
         "pot_Hum":   (12, 1),
-        # "pot_Fot": (8, 1),
     }
 
     config = control_config.get(edit_Ctrl)
@@ -68,11 +69,20 @@ def set_dtProg(tdc_v, edit_Ctrl = False):
         0x63                           # Tail
     ])
 
-    dt[position:position + byte_count] = value.to_bytes(byte_count, byteorder="big")
+    dt[position : position + byte_count] = value.to_bytes(byte_count, byteorder="big")
 
     crc_calc = hex(crc16_arc(dt[3:13]))
     dt[13:15] = int(crc_calc, 16).to_bytes(2, byteorder="big")
 
     uart_send(tcd_UART1, bytes(dt))
 
-    return bytes(dt)
+    res = uart_receive(tcd_UART1, 16)
+
+    if res:
+        conf_CRC = crc16_arc(bytearray(res[2 : 12]))
+        rCRC = int.from_bytes(res[12:14], byteorder="big")
+
+        if rCRC == conf_CRC:
+            return res[position - 1 : position - 1 + byte_count].hex()
+
+    return False
