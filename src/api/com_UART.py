@@ -26,7 +26,7 @@ def uart_send(uart_dev, data):
         if not isinstance(data, (bytes, bytearray)):
             data = str(data).encode("ascii")
 
-        print(">>>>",data)
+        # print(">>>>",data)
         written = uart_dev.write(data)
         uart_dev.flush()
 
@@ -59,16 +59,12 @@ def uart_receive(uart_dev, expected_size=21, timeout=1.0) -> str:
         deadline = time.monotonic() + timeout
 
         while len(data) < expected_size:
-            remaining_time = deadline - time.monotonic()
+            rem = deadline - time.monotonic()
 
-            if remaining_time <= 0:
+            if rem <= 0:
                 break
 
             chunk = uart_dev.read(expected_size - len(data))
-            res = chunk.hex()
-
-            if expected_size == 16 and not res.startswith("aa0a"):
-                return None
 
             if chunk:
                 data.extend(chunk)
@@ -80,7 +76,7 @@ def uart_receive(uart_dev, expected_size=21, timeout=1.0) -> str:
                    f"{len(data)}/{expected_size} bytes - {data.hex()}" )
             return None
 
-        print("<<<<",data)
+        # print("<<<<",data)
         return bytes(data)
     except Exception as e:
         # logger.error("Error leyendo Tarjeta UART", e)
@@ -106,7 +102,7 @@ def close_uart(uart_dev):
 #================================================================#
 #             Funciones de comunicación Tarjeta UART             #
 #================================================================#
-def decode_Msg(UART_dev):
+def decode_Msg(frame):
     """
     Decodifica la trama recibida desde la tarjeta de báscula y devuelve el peso.
 
@@ -125,32 +121,23 @@ def decode_Msg(UART_dev):
     try:
         bytes_list = []
 
-        trama = uart_receive(UART_dev).hex()
+        if frame and frame.startswith(b'\x00') and frame.endswith(b'\xaa'):
+            n_bytes = frame[1]
+            bytes_list = frame[2 : 2 + n_bytes]
+            crc_calc = crc16_arc(bytes_list)
+            crc_rec = int.from_bytes(frame[len(frame) - 3 : len(frame) - 1], byteorder='big')
 
-        if trama and trama.startswith("00") and trama.endswith("aa"):
-            n_bytes = (int(trama[2:4], 16)) * 2
-
-            for i in range(4, (4 + n_bytes)):
-                bytes_list.append(trama[i])
-
-            bytes_list = ''.join(bytes_list)
-            bytes_list = bytes.fromhex(bytes_list)
-
-            crc_rec = ''.join(trama[len(trama)-6] + trama[len(trama)-5]+trama[len(trama)-4] + trama[len(trama)-3])
-            crc_rec = hex(int(crc_rec, 16))
-            crc_calc = hex(crc16_arc(bytes_list))
-
-            if crc_rec == crc_calc and (len(bytes_list) == int(n_bytes/2)):
-                return bytes_list
+            if crc_rec == crc_calc and n_bytes == len(bytes_list):
+                return bytes_list, "sns_Info"
         else:
+            print(frame)
             bytes_list = b'\x99\x00'
             return bytes_list
     except Exception as e:
-        # logger.error("Error leyendo SONDA1:", e)
         print(f"Error al recibir trama: {e}")
-        return b'\x99\x00', len(b'\x99\x00')
+        return b'\x99\x00'
 
-def encode_Msg(UART_dev, msg, cmd = None):
+def encode_Msg(msg, cmd = None, edit_Ctrl = None):
     """
     Construye y envía una trama hacia la tarjeta de báscula.
 
@@ -163,20 +150,63 @@ def encode_Msg(UART_dev, msg, cmd = None):
         envía la trama completa mediante `uart_send()`.
     """
     try:
-        n_bytes_int = len(msg) // 2
-        dt = bytes.fromhex(msg)
+        # Trama base de 16 bytes
+        dt = bytearray([
+            0x00,                          # Header
+            0x00,                          # CMD
+            0x00,                          # LNG
+            0x00, 0x00,                    # Temperatura aire / Solicitar Info Sensores [3]
+            0x00, 0x00,                    # Potencia calefactor
+            0x00, 0x00,                    # Temperatura piel
+            0x00, 0x00,                    # Oxígeno
+            0x00, 0x00,                    # Humedad
+            0xFF, 0xFF,                    # CRC
+            0x63                           # Tail
+        ])
 
-        crc = crc16_arc(dt)
-        crc = crc.to_bytes(2, byteorder='big')
+        control_config = {
+            #     (Position, ByteCount)
+            "ta_Prog":   (3, 2),
+            "pot_Clf":   (6, 1),
+            "tp_Prog":   (7, 2),
+            "pot_Ox":    (10, 1),
+            "pot_Hum":   (12, 1),
+        }
 
-        void_dt = b'\x00' * max(0, 10 - n_bytes_int)
-        n_bytes = n_bytes_int.to_bytes(1, byteorder='big')
+        if cmd is None:
+            # dt.pop(1)  # <<== PROBAR
+            dt[2] = len(msg)
+            dt[3:3 + len(msg)] = msg
+        elif cmd == b'\xAA':
+            dt[1] = cmd[0]
+            dt[2] = 0x0A
 
-        dt = b'\x00' + (cmd or b'') + n_bytes + dt + void_dt + crc + b'\x63'
+            try:
+                config = control_config.get(edit_Ctrl)
+                position, byte_count = config
 
-        uart_send(UART_dev, dt)
+                if byte_count == 2:
+                    value = int(float(msg) * 10)
+                    max_value = 0xFFFF
+                else:
+                    value = int(msg)
+                    max_value = 0xFF
+            except (TypeError, ValueError):
+                return "Invalid Value"
+
+            if not 0 <= value <= max_value:
+                    return "Value Out of Range"
+
+            dt[position : position + byte_count] = value.to_bytes(byte_count, byteorder="big")
+
+        # ========== Calculo de CRC ========== #
+        crc = hex(crc16_arc(dt[3:13]))
+        dt[13:15] = int(crc, 16).to_bytes(2, byteorder="big")
+
+        return dt
     except Exception as e:
         print(f"Error al mandar trama: {e}")
+        return False
 
 #================================================================#
 #                  Función de creación de CRC                    #

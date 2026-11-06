@@ -541,9 +541,12 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Ajuste de posiciones y colores de la interfaz.
  - Ajuste de animación para paneles de "Cambio de Modo".
 
-### v0.23.8 - [02/Noviembre/2026]
+### v0.24.0 - [02/Noviembre/2026]
  - Ajuste de velocidad de actualización de sensores.
  - Agregado CRC en trama de control.
+ - Ajustes a funciones de envío y recepción de tramas UART para la TCI.
+ - Se cambian a un hilo para agregar a colas FIFO y no tener un bloqueo al enviar la trama.
+ - Se cambian las funciones "uart_send", "uart_receive", "encode_Msg" y "decode_Msg" para usarse en conjunto y procesar la información dependiendo de si es una consulta o una configuración de los dispositivos presentes.
 
 ## Descarga e Instalación
 

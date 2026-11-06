@@ -1,88 +1,178 @@
-import serial
-import time
+import threading
+import uuid
 
-from api.com_UART import decode_Msg, encode_Msg, uart_receive, uart_send, crc16_arc
+from dataclasses import dataclass, field
+from queue import Empty, Full, Queue
 
-uart_Channel = "/dev/verdin-uart1"
-baud_rate = 115200
-tcd_UART1 = serial.Serial(uart_Channel, baud_rate, 8, 'N', 1, timeout=1)
+from api.com_UART import (
+    decode_Msg,
+    encode_Msg,
+    uart_receive,
+    uart_send
+)
 
-def com_TCD(vls_snsrsTCD):
+@dataclass
+class TCDRequest:
+    request_id: str
+    frame: bytes
+    expected_size: int
+    request_type: str
+    vls_snsrsTCD: dict | None = None
+    dedupe_key: str | None = None
+
+    response_queue: Queue = field(
+        default_factory=lambda: Queue(maxsize=1)
+    )
+
+@dataclass
+class TCDResponse:
+    request_id: str
+    request_type: str
+    ok: bool
+    data: bytes | None = None
+    error: str | None = None
+    vls_snsrsTCD: dict | None = None
+
+out_COM_TL = Queue(maxsize=100)
+in_COM_TL = Queue(maxsize=100)
+
+_pending_keys = set()
+_pending_lock = threading.Lock()
+
+_worker_started = False
+_worker_lock = threading.Lock()
+
+def com_TCD(vls_snsrsTCD, msg, cmd = None, edit_Ctrl = None, *, expected_size = None,
+            wait_response = False, response_timeout = 2.0, dedupe_key = None,):
+    frame = encode_Msg(msg, cmd, edit_Ctrl)
+
+    if frame is None:
+        print("No fue posible construir la trama")
+        return
+
+    if expected_size is None:
+        expected_size = 16 if cmd == b"\xAA" else 21
+
+    request_id = uuid.uuid4().hex
+
+    request = TCDRequest(
+        request_id = request_id,
+        frame = bytes(frame),
+        expected_size = expected_size,
+        request_type = ("config" if cmd == b"\xAA" else "monitor"),
+        vls_snsrsTCD = vls_snsrsTCD,
+        dedupe_key = dedupe_key,
+    )
+
+    if dedupe_key is not None:
+        with _pending_lock:
+            if dedupe_key in _pending_keys:
+                return None
+
+            _pending_keys.add(dedupe_key)
+
     try:
-        encode_Msg(tcd_UART1, "55")
-        W = decode_Msg(tcd_UART1)
+        out_COM_TL.put(request, block=True, timeout=0.5)
+    except Full:
+        if dedupe_key is not None:
+            with _pending_lock:
+                _pending_keys.discard(dedupe_key)
 
-        if(W[0] != 153 and W[1] != 0):
-            vls_snsrsTCD["t_Aire"] = int.from_bytes(W[0:2], byteorder="big")
-            vls_snsrsTCD["s_Hum"] = int.from_bytes(W[2:4], byteorder="big")
-            # Temp seg W[4:6]
-            vls_snsrsTCD["t_Piel"] = int.from_bytes(W[6:8], byteorder="big")/10
-            vls_snsrsTCD["s_Aux"] = int.from_bytes(W[8:10], byteorder="big")/10
-            vls_snsrsTCD["pot_Clf"] = int.from_bytes(W[10:12], byteorder="big")
-            vls_snsrsTCD["s_Ox"] = int.from_bytes(W[12:14], byteorder="big")
-            vls_snsrsTCD["zero"] = W[14]
-            vls_snsrsTCD["alrm"] = W[15]
-        else:
-            vls_snsrsTCD["alrm"] = 128 # MSB Indica error de comunicación UART
-    except:
-        print("err Com")
+        raise TimeoutError("La cola de salida TCD está llena")
 
-def set_dtProg(tdc_v, edit_Ctrl = False):
-    control_config = {
-        #     (Position, ByteCount)
-        "ta_Prog":   (3, 2),
-        "pot_Clf":   (6, 1),
-        "tp_Prog":   (7, 2),
-        "pot_Ox":    (10, 1),
-        "pot_Hum":   (12, 1),
-    }
-
-    config = control_config.get(edit_Ctrl)
-
-    if config is None:
-        return "Unknown Status Code"
-
-    position, byte_count = config
+    if not wait_response:
+        return request_id
 
     try:
-        if byte_count == 2:
-            value = int(float(tdc_v) * 10)
-            max_value = 0xFFFF
-        else:
-            value = int(tdc_v)
-            max_value = 0xFF
-    except (TypeError, ValueError):
-        return "Invalid Value"
+        response = request.response_queue.get(block=True, timeout=response_timeout)
+    except Empty:
+        raise TimeoutError( f"Tiempo agotado esperando respuesta "
+                            f"de {request_id}" )
 
-    if not 0 <= value <= max_value:
-        return "Value Out of Range"
+    if not response.ok:
+        raise IOError(response.error or "Falló la comunicación con la TCD")
 
-    # Trama base de 16 bytes
-    dt = bytearray([
-        0x00, 0xAA, 0x0A,              # Header
-        0x00, 0x00,                    # Temperatura aire
-        0x00, 0x00,                    # Potencia calefactor
-        0x00, 0x00,                    # Temperatura piel
-        0x00, 0x00,                    # Oxígeno
-        0x00, 0x00,                    # Humedad
-        0xFF, 0xFF,                    # CRC
-        0x63                           # Tail
-    ])
+    return response
 
-    dt[position : position + byte_count] = value.to_bytes(byte_count, byteorder="big")
+def _uart_worker(uart_dev):
+    while True:
+        request = out_COM_TL.get()
 
-    crc_calc = hex(crc16_arc(dt[3:13]))
-    dt[13:15] = int(crc_calc, 16).to_bytes(2, byteorder="big")
+        try:
+            if not uart_send(uart_dev, request.frame):
+                raise IOError("No fue posible enviar la trama")
 
-    uart_send(tcd_UART1, bytes(dt))
+            response_data = uart_receive(uart_dev, expected_size=request.expected_size, timeout=1.0,)
 
-    res = uart_receive(tcd_UART1, 16)
+            if response_data is None:
+                raise TimeoutError("No se recibió una trama completa")
 
-    if res:
-        conf_CRC = crc16_arc(bytearray(res[2 : 12]))
-        rCRC = int.from_bytes(res[12:14], byteorder="big")
+            response = TCDResponse(
+                request_id = request.request_id,
+                request_type = request.request_type,
+                ok = True,
+                data = response_data,
+                vls_snsrsTCD = request.vls_snsrsTCD,
+            )
+        except Exception as error:
+            response = TCDResponse(
+                request_id = request.request_id,
+                request_type = request.request_type,
+                ok = False,
+                error = str(error),
+                vls_snsrsTCD = request.vls_snsrsTCD,
+            )
+        finally:
+            if request.dedupe_key is not None:
+                with _pending_lock:
+                    _pending_keys.discard(request.dedupe_key)
 
-        if rCRC == conf_CRC:
-            return res[position - 1 : position - 1 + byte_count].hex()
+        try:
+            in_COM_TL.put(response,block=True,timeout=0.5)
+        except Full:
+            print( "La cola in_COM_TL está llena; "
+                   f"se descartó {response.request_id}" )
 
-    return False
+        try:
+            request.response_queue.put_nowait(response)
+        except Full:
+            pass
+
+        out_COM_TL.task_done()
+
+def start_TCD_communication(uart_dev):
+    global _worker_started
+
+    with _worker_lock:
+        if _worker_started:
+            return
+
+        worker = threading.Thread(
+            target=_uart_worker,
+            args=(uart_dev,),
+            daemon=True,
+            name="TCD-UART-Worker",
+        )
+
+        worker.start()
+        _worker_started = True
+
+def process_TCD_responses():
+    while True:
+        response = in_COM_TL.get()
+
+        try:
+            if not response.ok:
+                print( f"Error TCD [{response.request_id}]: "
+                       f"{response.error}" )
+                continue
+
+            if response.request_type == "monitor":
+                res, s_res = decode_Msg(response.data)
+                print(s_res, res)
+            elif response.request_type == "config":
+                print( "Configuración confirmada:", response.data.hex() )
+        except Exception as error:
+            print(f"Error procesando respuesta TCD: {error}")
+        finally:
+            in_COM_TL.task_done()

@@ -4,6 +4,7 @@ import os
 import threading
 import time
 import shutil
+import serial
 
 # # import logging
 
@@ -19,10 +20,13 @@ from flask_cors import CORS
 #------------------------- En Pruebas -------------------------#
 from dev.Controles_Alertas import encoder as hw_encoder
 from dev.Comunicacion import bascula as com_bascula
-from dev.Comunicacion.TCD import com_TCD as info_TCD
-from dev.Comunicacion.TCD import set_dtProg as dt_progTCD
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlLuzExam as lvlFot
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia as lvlLExam
+from dev.Comunicacion.TCD import (
+    com_TCD,
+    process_TCD_responses,
+    start_TCD_communication,
+)
 
 #****************************************************************************#
 #                           Configuracion Pag WEB                            #
@@ -46,6 +50,19 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 # werkzeug_logger.handlers = logger.handlers
 # werkzeug_logger.setLevel(logger.level)
 
+#--------------------- TCI ---------------------#
+uart_Channel = "/dev/verdin-uart1"
+baud_rate = 115200
+tcd_UART1 = serial.Serial(
+    uart_Channel,
+    baud_rate,
+    8,
+    'N',
+    1,
+    timeout = 0.05,
+    write_timeout = 0.5
+)
+
 edit_Ctrl = ""
 val_Encd = 0
 #--------------------- Valores Iniciales ---------------------#
@@ -67,18 +84,18 @@ modos = {
 }
 
 #--------------------- Valores Sensados ----------------------#
-vls_snsrsTCD = {
+vls_snsTCD = {
     "t_Aire":    0,         # Tempertura Aire Sensada
     "t_Piel":    0,         # Tempertura Piel Sensada
     "s_Aux":     0,         # Tempertura Sonda Auxiliar
-    "ta_Ctrl":   0,         # Tempertura Aire Controlada
+    "ta_Prog":   0,         # Tempertura Aire Controlada
     "basc":      0,         # Peso de Báscula
     "pot_Clf":   0,         # Potencia Actual Calefactor
-    "tp_Ctrl":   0,         # Tempertura Programada de Calefactor
+    "tp_Prog":   0,         # Tempertura Programada de Piel
     "s_Ox":      0,         # Sonda de Oxigeno
-    "ox_Ctrl":   0,         # Oxigeno Controlado
+    "pot_Ox":    0,         # Oxigeno Controlado
     "s_Hum":     0,         # Sensor de Humedad
-    "hum_Ctrl":  0,         # Humedad Controlada
+    "pot_Hum":   0,         # Humedad Controlada
     "fot_Hrs":   0,         # Horas Fototerapia
     "fot_Mins":  0,         # Minutos Fototerapia
     "zero":      0,
@@ -90,7 +107,6 @@ pesoTCD = 0
 ##############################################################################
 #                           Rutas de la aplicacion                           #
 ##############################################################################
-# dt_progTCD(0)  # Envío de valores en 0
 lvlLExam(0)
 
 @app.route("/")
@@ -124,7 +140,7 @@ def setInitVals():
 @app.route("/api/getDtSensores", methods=["POST"])
 def get_DtSensores():
     try:
-        if vls_snsrsTCD["alrm"] != 128:
+        if vls_snsTCD["alrm"] != 128:
             # t_Aire = vls_snsrsTCD["t_Aire"] if 0 < vls_snsrsTCD["t_Aire"] < 50.0 else "--.-"
             # s_Hum = vls_snsrsTCD["s_Hum"] if 0 < vls_snsrsTCD["s_Hum"] < 100.0 else "--.-"
             # t_Piel = vls_snsrsTCD["t_Piel"] if 0 < vls_snsrsTCD["t_Piel"] < 40.0 else "--.-"
@@ -141,7 +157,7 @@ def get_DtSensores():
 
             return jsonify(
                 {
-                    "vls_snsrsTCD": vls_snsrsTCD,
+                    "vls_snsrsTCD": vls_snsTCD,
                     "modos": modos,
                     "status": "ok",
                 }), 200
@@ -193,22 +209,15 @@ def ctrlEncd():
                 val_Encd = 37.0
 
         if not valores_ctrl["confirm"]:
-            monitor_pause.clear()
-
             try:
-                with tcd_uart_lock:
-                    if edit_Ctrl == "pot_Fot":
-                        lvlFot((val_Encd * 33) + 1)
-                        lvlLExam((val_Encd * 33) + 1)
-
-                    else:
-                        valores_ctrl[edit_Ctrl] = val_Encd
-                        res = dt_progTCD(valores_ctrl[edit_Ctrl], edit_Ctrl)
-
-                        if res:
-                            print("--->>>", int(res, 16), val_Encd)
-            finally:
-                monitor_pause.set()
+                if edit_Ctrl == "pot_Fot":
+                    lvlFot((val_Encd * 33) + 1)
+                    lvlLExam((val_Encd * 33) + 1)
+                else:
+                    valores_ctrl[edit_Ctrl] = val_Encd
+                    com_TCD(vls_snsTCD, val_Encd, b'\xAA', edit_Ctrl)
+            except Exception as e:
+                print(e)
 
         # print(val_Encd)
         return jsonify(
@@ -219,8 +228,6 @@ def ctrlEncd():
                 "confirm": valores_ctrl["confirm"],
             }), 200
     except Exception as error:
-                monitor_pause.set()
-
                 print(f"Error en ctrlEncd: {error}")
 
                 return jsonify(
@@ -275,13 +282,9 @@ def api_Pesaje():
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<#
 def sys_monitor():
     while True:
-        monitor_pause.wait()            # Pausa de envío de datos
-        restart_container()             # Memoria del contenedor
+        restart_container()           # Memoria del contenedor
 
-        with tcd_uart_lock:
-            if monitor_pause.is_set():
-                info_TCD(vls_snsrsTCD)   # Envío de datos a la TCD
-                print(vls_snsrsTCD["t_Piel"])
+        com_TCD(vls_snsTCD, b'\x55')  # Envío de datos a la TCD
 
         time.sleep(0.5)
 
@@ -316,16 +319,16 @@ def encoder_Reader():
 #============================================================================#
 #                                    Hilos                                   #
 #============================================================================#
-monitor_pause = threading.Event()
-monitor_pause.set()
-
-tcd_uart_lock = threading.Lock()
-
 monitor_thread = threading.Thread(target=sys_monitor, daemon=True)
 monitor_thread.start()
 
 encoder_Thread = threading.Thread(target=encoder_Reader, daemon=True)
 encoder_Thread.start()
 
+start_TCD_communication(tcd_UART1)
+
+tcd_response_thread = threading.Thread(target=process_TCD_responses, daemon=True, name="TCD-Response-Processor",)
+tcd_response_thread.start()
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host="0.0.0.0", port=8080, debug=False, use_reloader=False,)
