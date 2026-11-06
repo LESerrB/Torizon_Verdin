@@ -41,7 +41,7 @@ def uart_send(uart_dev, data):
         print(f"Error escribiendo a Tarjeta UART {error}")
         return False
 
-def uart_receive(uart_dev, expected_size=21, timeout=1.0) -> str:
+def uart_receive(uart_dev, expected_size, timeout = 1.0) -> str:
     """
     Lee una línea desde UART y devuelve su representación hexadecimal.
 
@@ -129,10 +129,17 @@ def decode_Msg(frame):
 
             if crc_rec == crc_calc and n_bytes == len(bytes_list):
                 return bytes_list, "sns_Info"
-        else:
-            print(frame)
-            bytes_list = b'\x99\x00'
-            return bytes_list
+        elif b'\xaa\x0a' in frame:
+            st = frame.find(b'\xaa\x0a')
+            end = frame.find(b'\x63')
+            bytes_list = frame[st + 2 : end]
+            crc_calc = crc16_arc(bytes_list[:10])
+            crc_rec = int.from_bytes(bytes_list[10:], byteorder='big')
+
+            if crc_rec == crc_calc:
+                return bytes_list[:10], "dvc_Conf"
+
+        return b'\x99\x00', None
     except Exception as e:
         print(f"Error al recibir trama: {e}")
         return b'\x99\x00'

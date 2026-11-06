@@ -286,7 +286,7 @@ def sys_monitor():
 
         com_TCD(vls_snsTCD, b'\x55')  # Envío de datos a la TCD
 
-        time.sleep(0.5)
+        time.sleep(2)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")

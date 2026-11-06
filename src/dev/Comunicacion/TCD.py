@@ -102,7 +102,7 @@ def _uart_worker(uart_dev):
             if not uart_send(uart_dev, request.frame):
                 raise IOError("No fue posible enviar la trama")
 
-            response_data = uart_receive(uart_dev, expected_size=request.expected_size, timeout=1.0,)
+            response_data = uart_receive(uart_dev, expected_size = request.expected_size, timeout = 1.0,)
 
             if response_data is None:
                 raise TimeoutError("No se recibió una trama completa")
@@ -128,7 +128,7 @@ def _uart_worker(uart_dev):
                     _pending_keys.discard(request.dedupe_key)
 
         try:
-            in_COM_TL.put(response,block=True,timeout=0.5)
+            in_COM_TL.put(response, block = True, timeout = 0.5)
         except Full:
             print( "La cola in_COM_TL está llena; "
                    f"se descartó {response.request_id}" )
@@ -167,11 +167,9 @@ def process_TCD_responses():
                        f"{response.error}" )
                 continue
 
-            if response.request_type == "monitor":
-                res, s_res = decode_Msg(response.data)
-                print(s_res, res)
-            elif response.request_type == "config":
-                print( "Configuración confirmada:", response.data.hex() )
+            res, s_res = decode_Msg(response.data)
+
+            print(res, s_res)
         except Exception as error:
             print(f"Error procesando respuesta TCD: {error}")
         finally:

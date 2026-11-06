@@ -547,6 +547,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Ajustes a funciones de envío y recepción de tramas UART para la TCI.
  - Se cambian a un hilo para agregar a colas FIFO y no tener un bloqueo al enviar la trama.
  - Se cambian las funciones "uart_send", "uart_receive", "encode_Msg" y "decode_Msg" para usarse en conjunto y procesar la información dependiendo de si es una consulta o una configuración de los dispositivos presentes.
+ - Mejora de procesamiento de información de datos de TCI.
 
 ## Descarga e Instalación
 
