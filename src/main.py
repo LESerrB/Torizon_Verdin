@@ -108,6 +108,7 @@ pesoTCD = 0
 #                           Rutas de la aplicacion                           #
 ##############################################################################
 lvlLExam(0)
+start_TCD_communication(tcd_UART1)
 
 @app.route("/")
 def index():
@@ -141,20 +142,6 @@ def setInitVals():
 def get_DtSensores():
     try:
         if vls_snsTCD["alrm"] != 128:
-            # t_Aire = vls_snsrsTCD["t_Aire"] if 0 < vls_snsrsTCD["t_Aire"] < 50.0 else "--.-"
-            # s_Hum = vls_snsrsTCD["s_Hum"] if 0 < vls_snsrsTCD["s_Hum"] < 100.0 else "--.-"
-            # t_Piel = vls_snsrsTCD["t_Piel"] if 0 < vls_snsrsTCD["t_Piel"] < 40.0 else "--.-"
-            # s_Aux = vls_snsrsTCD["s_Aux"] if 0 < vls_snsrsTCD["s_Aux"] < 40.0 else "--.-"
-            # pot_Clf = vls_snsrsTCD["pot_Clf"] if 0 < vls_snsrsTCD["pot_Clf"] < 100 else "--.-"
-            # s_Ox = vls_snsrsTCD["s_Ox"] if 0 < vls_snsrsTCD["s_Ox"] < 100 else "--.-"
-
-            # vls_snsrsTCD["t_Aire"] = t_Aire
-            # vls_snsrsTCD["s_Hum"] = s_Hum
-            # vls_snsrsTCD["t_Piel"] = t_Piel
-            # vls_snsrsTCD["s_Aux"] = s_Aux
-            # vls_snsrsTCD["pot_Clf"] = pot_Clf
-            # vls_snsrsTCD["s_Ox"] = s_Ox
-
             return jsonify(
                 {
                     "vls_snsrsTCD": vls_snsTCD,
@@ -324,8 +311,6 @@ monitor_thread.start()
 
 encoder_Thread = threading.Thread(target=encoder_Reader, daemon=True)
 encoder_Thread.start()
-
-start_TCD_communication(tcd_UART1)
 
 tcd_response_thread = threading.Thread(target=process_TCD_responses, daemon=True, name="TCD-Response-Processor",)
 tcd_response_thread.start()

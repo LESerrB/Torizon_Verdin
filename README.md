@@ -117,6 +117,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - [Primeros pasos](./doc/Primeros%20pasos.md)
 - [Funciones](./doc/Funciones.md)
 - [Funciones Web](./doc/Funciones%20Web.md)
+- [Estructura Tramas UART Verdin <-> TCI](./doc/Tramas%20COM%20TCI.md)
 - [Generación Imagen Booteable](./doc/Generar%20imagen%20ISO.md)
 
 ## Control de Versiones
@@ -541,13 +542,16 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Ajuste de posiciones y colores de la interfaz.
  - Ajuste de animación para paneles de "Cambio de Modo".
 
-### v0.24.0 - [02/Noviembre/2026]
+### v0.24.0 - [09/Noviembre/2026]
  - Ajuste de velocidad de actualización de sensores.
  - Agregado CRC en trama de control.
  - Ajustes a funciones de envío y recepción de tramas UART para la TCI.
  - Se cambian a un hilo para agregar a colas FIFO y no tener un bloqueo al enviar la trama.
  - Se cambian las funciones "uart_send", "uart_receive", "encode_Msg" y "decode_Msg" para usarse en conjunto y procesar la información dependiendo de si es una consulta o una configuración de los dispositivos presentes.
  - Mejora de procesamiento de información de datos de TCI.
+ - Asignación de valores a lista **"vls_snsrsTCD"** para enviar a la UI.
+ - Documentación de tramas de comunicación entre TCI y Verdin.
+ - Prueba de funciones "encode_Msg" y "decode_Msg".
 
 ## Descarga e Instalación
 

@@ -169,7 +169,24 @@ def process_TCD_responses():
 
             res, s_res = decode_Msg(response.data)
 
-            print(res, s_res)
+            if s_res == "sns_Info":
+                response.vls_snsrsTCD["t_Aire"] = int.from_bytes(res[0:2], byteorder="big") / 10
+                response.vls_snsrsTCD["s_Hum"] = int.from_bytes(res[2:4], byteorder="big")
+                # temp seg = int.from_bytes(res[4:6], byteorder="big")
+                response.vls_snsrsTCD["t_Piel"] = int.from_bytes(res[6:8], byteorder="big") / 10
+                response.vls_snsrsTCD["s_Aux"] = int.from_bytes(res[8:10], byteorder="big") / 10
+                response.vls_snsrsTCD["pot_Clf"] = int.from_bytes(res[10:12], byteorder="big")
+                response.vls_snsrsTCD["s_Ox"] = int.from_bytes(res[12:14], byteorder="big")
+            elif s_res == "dvc_Conf":
+                response.vls_snsrsTCD["ta_Prog"] = int.from_bytes(res[0:2], byteorder="big")
+                response.vls_snsrsTCD["pot_Clf"] = int.from_bytes(res[2:4], byteorder="big")
+                response.vls_snsrsTCD["tp_Prog"] = int.from_bytes(res[4:6], byteorder="big")
+                response.vls_snsrsTCD["pot_Ox"] = int.from_bytes(res[6:8], byteorder="big")
+                response.vls_snsrsTCD["pot_Hum"] = int.from_bytes(res[8:10], byteorder="big")
+            else:
+                response.vls_snsTCD["alrm"] = 128
+
+            # print(response.vls_snsrsTCD)
         except Exception as error:
             print(f"Error procesando respuesta TCD: {error}")
         finally:

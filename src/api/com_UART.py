@@ -159,16 +159,16 @@ def encode_Msg(msg, cmd = None, edit_Ctrl = None):
     try:
         # Trama base de 16 bytes
         dt = bytearray([
-            0x00,                          # Header
-            0x00,                          # CMD
-            0x00,                          # LNG
-            0x00, 0x00,                    # Temperatura aire / Solicitar Info Sensores [3]
-            0x00, 0x00,                    # Potencia calefactor
-            0x00, 0x00,                    # Temperatura piel
-            0x00, 0x00,                    # Oxígeno
-            0x00, 0x00,                    # Humedad
-            0xFF, 0xFF,                    # CRC
-            0x63                           # Tail
+            0x00,           # Header
+            0x00,           # CMD
+            0x00,           # LNG
+            0x00, 0x00,     # Temperatura aire / Solicitar Info Sensores [3]
+            0x00, 0x00,     # Potencia calefactor
+            0x00, 0x00,     # Temperatura piel
+            0x00, 0x00,     # Oxígeno
+            0x00, 0x00,     # Humedad
+            0xFF, 0xFF,     # CRC
+            0x63            # Tail
         ])
 
         control_config = {
@@ -181,7 +181,6 @@ def encode_Msg(msg, cmd = None, edit_Ctrl = None):
         }
 
         if cmd is None:
-            # dt.pop(1)  # <<== PROBAR
             dt[2] = len(msg)
             dt[3:3 + len(msg)] = msg
         elif cmd == b'\xAA':
