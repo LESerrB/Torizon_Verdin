@@ -117,7 +117,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - [Primeros pasos](./doc/Primeros%20pasos.md)
 - [Funciones](./doc/Funciones.md)
 - [Funciones Web](./doc/Funciones%20Web.md)
-- [Estructura Tramas UART Verdin <-> TCI](./doc/Tramas%20COM%20TCI.md)
+- [Estructura Tramas UART Verdin <-> Tarjetas](./doc/Tramas%20COM%20UART.md)
 - [Generación Imagen Booteable](./doc/Generar%20imagen%20ISO.md)
 
 ## Control de Versiones
@@ -552,6 +552,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Asignación de valores a lista **"vls_snsrsTCD"** para enviar a la UI.
  - Documentación de tramas de comunicación entre TCI y Verdin.
  - Prueba de funciones "encode_Msg" y "decode_Msg".
+
+### v0.25.0 - [10/Noviembre/2026]
+ - Comunicación de con la tarjeta de Motores.
 
 ## Descarga e Instalación
 

@@ -5,6 +5,7 @@ Estructura de las tramas de comunicación entre la tarjeta Verdín y la tarjeta 
 ## Datos UART TCI => Verdin
 
 **DD**: Datos en hexadecimal (0xFF)
+
 | #  | VDN Rx |    Dato        |
 |----|--------|----------------|
 | 0  |  0x00  | Header         |
@@ -27,7 +28,7 @@ Estructura de las tramas de comunicación entre la tarjeta Verdín y la tarjeta 
 | 17 |   DD   | Byte Alarmas   |
 | 18 |   DD   | MSB CRC        |
 | 19 |   DD   | LSB CRC        |
-| 20 |   DD   | Tail           |
+| 20 |  0xAA  | Tail           |
 
 ### Byte de alarmas
 
@@ -43,8 +44,10 @@ Estructura de las tramas de comunicación entre la tarjeta Verdín y la tarjeta 
 |   7   |  Error de comunicación  |
 
 ## Datos UART Verdin => TCI
+
 **Comando** 0xAA para configurar valores de control
             0x00 para solicitar datos de los sensores
+
 **Longitud** 0x01 para solicitar datos de los sensores
              0x0A para configurar valores de control
 
@@ -65,4 +68,26 @@ Estructura de las tramas de comunicación entre la tarjeta Verdín y la tarjeta 
 | 12 |   DD   | LSB % HR Ctrl   |
 | 13 |   DD   | MSB CRC         |
 | 14 |   DD   | LSB CRC         |
-| 15 |   DD   | Tail            |
+| 15 |  0x63  | Tail            |
+
+# Comunicación Tarjeta Motores
+
+
+## Tarjeta Motores => Verdín
+
+**Comando** 0xBB para diferenciar la trama proveniente de la tarjeta
+                 de motores.
+
+**Longitud** 0xDD sustituyendo DD por el valor hexadecimal de los datos
+                  enviados por la tarjeta de motores.
+
+| #  | VDN Tx |    Dato         |
+|----|--------|-----------------|
+| 0  |  0x00  | Header          |
+| 1  |  0xFF  | Comando         |
+| 2  |  0xFF  | Longitud        |
+| 3  |   DD   | MSB Dt 1        |
+| 4  |   DD   | LSB Dt 2        |
+| 5  |   DD   | MSB CRC         | <== No implementados
+| 6  |   DD   | LSB CRC         | <== No implementados
+| 7  |  0x63  | Tail            |

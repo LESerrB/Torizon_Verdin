@@ -18,14 +18,17 @@ from flask_cors import CORS
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
 #------------------------- En Pruebas -------------------------#
-from dev.Controles_Alertas import encoder as hw_encoder
 from dev.Comunicacion import bascula as com_bascula
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlLuzExam as lvlFot
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlFototerapia as lvlLExam
+from dev.Comunicacion.com_Motores import status_Motrs
+#--------------------------------------------------------------#
+from dev.Controles_Alertas import encoder as hw_encoder
 from dev.Comunicacion.TCD import (
     com_TCD,
     process_TCD_responses,
     start_TCD_communication,
+    # uart_receive
 )
 
 #****************************************************************************#
@@ -100,6 +103,8 @@ vls_snsTCD = {
     "fot_Mins":  0,         # Minutos Fototerapia
     "zero":      0,
     "alrm":      0,         # Alarmas
+    # Estado de Motores
+    "Motrs":      0,         # Estado de motores
 }
 
 pesoTCD = 0
@@ -271,9 +276,13 @@ def sys_monitor():
     while True:
         restart_container()           # Memoria del contenedor
 
-        com_TCD(vls_snsTCD, b'\x55')  # Envío de datos a la TCD
+        # com_TCD(vls_snsTCD, b'\x55')  # Envío de datos a la TCD
 
-        time.sleep(2)
+        # ----------- En pruebas ----------- #
+        status_Motrs(tcd_UART1)
+        # ---------------------------------- #
+
+        time.sleep(0.1)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")
