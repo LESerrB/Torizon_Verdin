@@ -5,6 +5,7 @@ Estructura de las tramas de comunicación entre la tarjeta Verdín y la tarjeta 
 ## Datos UART TCI => Verdin
 
 **DD**: Datos en hexadecimal (0xFF)
+
 | #  | VDN Rx |    Dato        |
 |----|--------|----------------|
 | 0  |  0x00  | Header         |
@@ -43,6 +44,7 @@ Estructura de las tramas de comunicación entre la tarjeta Verdín y la tarjeta 
 |   7   |  Error de comunicación  |
 
 ## Datos UART Verdin => TCI
+
 **Comando** 0xAA para configurar valores de control
             0x00 para solicitar datos de los sensores
 **Longitud** 0x01 para solicitar datos de los sensores

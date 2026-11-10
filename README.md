@@ -549,9 +549,10 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Se cambian a un hilo para agregar a colas FIFO y no tener un bloqueo al enviar la trama.
  - Se cambian las funciones "uart_send", "uart_receive", "encode_Msg" y "decode_Msg" para usarse en conjunto y procesar la información dependiendo de si es una consulta o una configuración de los dispositivos presentes.
  - Mejora de procesamiento de información de datos de TCI.
- - Asignación de valores a lista **"vls_snsrsTCD"** para enviar a la UI.
+ - Asignación de valores a lista **vls_snsrsTCD** para enviar a la UI.
  - Documentación de tramas de comunicación entre TCI y Verdin.
- - Prueba de funciones "encode_Msg" y "decode_Msg".
+ - Prueba de funciones "encode_Msg" y "decode_Msg". (Version de FW TCI: U3_TCI_v01_12).
+ - Documentación de funciones "TCD.py".
 
 ## Descarga e Instalación
 

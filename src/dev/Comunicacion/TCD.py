@@ -44,6 +44,29 @@ _worker_lock = threading.Lock()
 
 def com_TCD(vls_snsrsTCD, msg, cmd = None, edit_Ctrl = None, *, expected_size = None,
             wait_response = False, response_timeout = 2.0, dedupe_key = None,):
+    """
+    Envía una solicitud a la TCD y, opcionalmente, espera la respuesta asociada.
+
+    Parámetros:
+    - vls_snsrsTCD (dict): diccionario de sensores donde se almacenarán los datos
+      recibidos si la respuesta es válida.
+    - msg: carga útil del mensaje que se enviará en la trama.
+    - cmd (bytes | None): comando de operación para la TCD.
+    - edit_Ctrl (str | None): parámetro de control a modificar cuando se usa
+      una configuración con `cmd == b"\xAA"`.
+    - expected_size (int | None): tamaño esperado de la respuesta.
+    - wait_response (bool): indica si la función debe bloquear hasta recibir la
+      respuesta.
+    - response_timeout (float): tiempo máximo de espera en segundos.
+    - dedupe_key (str | None): clave para evitar peticiones duplicadas concurrentes.
+
+    Retorno:
+    - str: identificador de la solicitud cuando `wait_response` es `False`.
+    - TCDResponse: objeto con la respuesta completa cuando `wait_response` es
+      `True` y la operación termina correctamente.
+    - None: si no se pudo construir la trama o si la solicitud queda descartada
+      por deduplicación.
+    """
     frame = encode_Msg(msg, cmd, edit_Ctrl)
 
     if frame is None:
@@ -95,6 +118,23 @@ def com_TCD(vls_snsrsTCD, msg, cmd = None, edit_Ctrl = None, *, expected_size = 
     return response
 
 def _uart_worker(uart_dev):
+    """
+    Ejecuta el hilo de trabajo de UART para procesar las solicitudes de la TCD.
+
+    Comportamiento:
+    - Recupera una petición desde la cola de salida.
+    - Envía la trama al puerto UART.
+    - Espera la respuesta y la empaqueta en un objeto `TCDResponse`.
+    - Publica el resultado en la cola de entrada y en la cola de respuesta
+      asociada a la solicitud.
+
+    Parámetros:
+    - uart_dev: dispositivo UART activo sobre el que se comunica la TCD.
+
+    Retorno:
+    - None. El bucle se mantiene activo indefinidamente mientras el hilo siga
+      ejecutándose.
+    """
     while True:
         request = out_COM_TL.get()
 
@@ -141,6 +181,19 @@ def _uart_worker(uart_dev):
         out_COM_TL.task_done()
 
 def start_TCD_communication(uart_dev):
+    """
+    Inicia el hilo de comunicación con la TCD si aún no está activo.
+
+    Parámetros:
+    - uart_dev: instancia del puerto UART para la tarjeta de comunicación.
+
+    Efectos secundarios:
+    - Crea un hilo en segundo plano con nombre `TCD-UART-Worker`.
+    - Evita que se lancen varios workers simultáneos con el bloqueo global.
+
+    Retorno:
+    - None.
+    """
     global _worker_started
 
     with _worker_lock:
@@ -158,6 +211,18 @@ def start_TCD_communication(uart_dev):
         _worker_started = True
 
 def process_TCD_responses():
+    """
+    Procesa las respuestas recibidas desde la TCD y actualiza el estado de sensores.
+
+    Comportamiento:
+    - Obtiene la respuesta desde la cola de entrada.
+    - Verifica si la trama fue exitosa.
+    - Decodifica el payload y actualiza los valores del diccionario asociado.
+    - En caso de error, imprime el detalle sin interrumpir el flujo del bucle.
+
+    Retorno:
+    - None. La rutina se ejecuta en un ciclo continuo hasta que el proceso termine.
+    """
     while True:
         response = in_COM_TL.get()
 

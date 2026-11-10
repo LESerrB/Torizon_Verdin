@@ -17,7 +17,7 @@ from flask_cors import CORS
 # logger.info('Encendido del sistema')
 
 # from api.files.tendencias import agregarDtTemperatura, limpiarDtTemperatura
-#------------------------- En Pruebas -------------------------#
+
 from dev.Controles_Alertas import encoder as hw_encoder
 from dev.Comunicacion import bascula as com_bascula
 from dev.Fototerapia.ctrl_Fot_Exam import setNvlLuzExam as lvlFot
@@ -50,7 +50,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 # werkzeug_logger.handlers = logger.handlers
 # werkzeug_logger.setLevel(logger.level)
 
-#--------------------- TCI ---------------------#
+#---------------------------- TCI ----------------------------#
 uart_Channel = "/dev/verdin-uart1"
 baud_rate = 115200
 tcd_UART1 = serial.Serial(
@@ -108,6 +108,8 @@ pesoTCD = 0
 #                           Rutas de la aplicacion                           #
 ##############################################################################
 lvlLExam(0)
+lvlFot(0)
+
 start_TCD_communication(tcd_UART1)
 
 @app.route("/")
