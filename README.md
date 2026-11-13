@@ -553,6 +553,12 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Documentación de tramas de comunicación entre TCI y Verdin.
  - Prueba de funciones "encode_Msg" y "decode_Msg".
 
+### v0.25.0 - [13/Noviembre/2026]
+ - Cambio de "docker-compose.yml" para usar la tarjeta Colibri e Iris.
+ - Uso de canal UART B para comunicar con TCI.
+ - Re-asignación de los pines GPIO para Dt, Sw y Clk del encoder.
+ - Se requieren los dtbo "colibri-imx8x_disable-cm40-uart_overlay.dtbo" y "colibri-imx8x_dsihdmi_pverlay.dtbo"
+
 ## Descarga e Instalación
 
 <p align="center">

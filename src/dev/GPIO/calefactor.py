@@ -15,24 +15,24 @@ import struct
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
-bank = "/dev/gpiochip0"
+# bank = "/dev/gpiochip0"
 
 pin_pwmCalef = 0     # Calefactor
 pin_rdCalef = 1      # Lectura de Señal Calefactor
 
 # Líneas individuales
-sgnl_Calef = gpiod.Chip(bank).get_line(pin_pwmCalef)
-sns_Calef = gpiod.Chip(bank).get_line(pin_rdCalef)
+# sgnl_Calef = gpiod.Chip(bank).get_line(pin_pwmCalef)
+# sns_Calef = gpiod.Chip(bank).get_line(pin_rdCalef)
 
 # Configuración de Acceso
-sgnl_Calef.request(
-    consumer="sgnl_Calef",
-    type=gpiod.LINE_REQ_DIR_OUT
-)
-sns_Calef.request(
-    consumer="sns_Calef",
-    type=gpiod.LINE_REQ_EV_BOTH_EDGES
-)
+# sgnl_Calef.request(
+#     consumer="sgnl_Calef",
+#     type=gpiod.LINE_REQ_DIR_OUT
+# )
+# sns_Calef.request(
+#     consumer="sns_Calef",
+#     type=gpiod.LINE_REQ_EV_BOTH_EDGES
+# )
 
 PWM_Calef = 100  # Valor inicial
 PWM_Calef_lock = threading.Lock()
@@ -97,72 +97,72 @@ def get_PWMstatus():
 #===============================================================#
 #                    Función PWM Calefactor                     #
 #===============================================================#
-def ctrl_Calef():
-    """
-    Bucle de control PWM del calefactor.
+# def ctrl_Calef():
+#     """
+#     Bucle de control PWM del calefactor.
 
-    Implementa un PWM por software: mantiene un contador `timer_calef` que
-    recorre 0..100 y compara con la potencia deseada obtenida por
-    `get_PWM_Calef()`. Mientras `timer_calef` <= `potencia` la salida se activa
-    (valor 0, lógica inversa); en caso contrario se desactiva (valor 1).
+#     Implementa un PWM por software: mantiene un contador `timer_calef` que
+#     recorre 0..100 y compara con la potencia deseada obtenida por
+#     `get_PWM_Calef()`. Mientras `timer_calef` <= `potencia` la salida se activa
+#     (valor 0, lógica inversa); en caso contrario se desactiva (valor 1).
 
-    Notas:
-    - Es un bucle infinito pensado para ejecutarse en un hilo dedicado.
-    - La resolución y frecuencia del PWM vienen definidas por la espera
-      `time.sleep(0.01632)` y la lógica de conteo.
-    """
-    timer = 0
-    timer_calef = 0
+#     Notas:
+#     - Es un bucle infinito pensado para ejecutarse en un hilo dedicado.
+#     - La resolución y frecuencia del PWM vienen definidas por la espera
+#       `time.sleep(0.01632)` y la lógica de conteo.
+#     """
+#     timer = 0
+#     timer_calef = 0
 
-    while True:
-        timer += 1
+#     while True:
+#         timer += 1
 
-        if timer >= 10:
-            timer_calef += 1
+#         if timer >= 10:
+#             timer_calef += 1
 
-            # Logica Inversa
-            potencia = get_PWM_Calef()
+#             # Logica Inversa
+#             potencia = get_PWM_Calef()
 
-            if timer_calef <= potencia:
-                sgnl_Calef.set_value(0) # Enciende el calefactor
-            elif timer_calef > potencia:
-                sgnl_Calef.set_value(1) # Apaga el calefactor
+#             if timer_calef <= potencia:
+#                 sgnl_Calef.set_value(0) # Enciende el calefactor
+#             elif timer_calef > potencia:
+#                 sgnl_Calef.set_value(1) # Apaga el calefactor
 
-            if timer_calef > 100:
-                timer_calef = 0
+#             if timer_calef > 100:
+#                 timer_calef = 0
 
-            timer = 0
+#             timer = 0
 
-        time.sleep(0.01632)  # 16.32 ms
+#         time.sleep(0.01632)  # 16.32 ms
 
-def statusCom_Calef():
-    """
-    Monitor de comunicación del calefactor.
+# def statusCom_Calef():
+#     """
+#     Monitor de comunicación del calefactor.
 
-    Observa la señal de lectura `calef_read` y detecta ausencias prolongadas
-    de pulsos que pueden indicar desconexión o fallo. Si la entrada se
-    mantiene en nivel bajo (`0`) durante más de `timeout` segundos, la
-    variable global `alertaCalef_Desconectado` se establece en `True`; si se
-    detecta actividad, la alerta se desactiva.
+#     Observa la señal de lectura `calef_read` y detecta ausencias prolongadas
+#     de pulsos que pueden indicar desconexión o fallo. Si la entrada se
+#     mantiene en nivel bajo (`0`) durante más de `timeout` segundos, la
+#     variable global `alertaCalef_Desconectado` se establece en `True`; si se
+#     detecta actividad, la alerta se desactiva.
 
-    Notas:
-    - Diseñada como un bucle infinito para ejecutarse en un hilo separado.
-    - Usa `time.monotonic()` para medir intervalos de forma robusta.
-    """
-    global alertaCalef_Desconectado
-    low_Start = None
-    timeout = 20  # [seg]
+#     Notas:
+#     - Diseñada como un bucle infinito para ejecutarse en un hilo separado.
+#     - Usa `time.monotonic()` para medir intervalos de forma robusta.
+#     """
+#     global alertaCalef_Desconectado
+#     low_Start = None
+#     timeout = 20  # [seg]
 
-    while True:
-        now = time.monotonic()
+#     while True:
+#         now = time.monotonic()
 
-        if sns_Calef.get_value() == 0:
-            if low_Start is None:
-                low_Start = now
-            elif now - low_Start > timeout:
-                alertaCalef_Desconectado = True
-        else:
-            low_Start = None
-            alertaCalef_Desconectado = False
+#         if sns_Calef.get_value() == 0:
+#             if low_Start is None:
+#                 low_Start = now
+#             elif now - low_Start > timeout:
+#                 alertaCalef_Desconectado = True
+#         else:
+#             low_Start = None
+#             alertaCalef_Desconectado = False
 
-        time.sleep(0.1)
+#         time.sleep(0.1)

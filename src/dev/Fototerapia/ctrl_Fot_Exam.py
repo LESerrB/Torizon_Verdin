@@ -8,8 +8,8 @@ from api.pins_PWM import set_pwm_duty_cycle
 load_dotenv("/mnt/microsd/.env")
 # logger.info('Inicializando PWM')
 
-pwmchipFOT = "/sys/class/pwm/pwmchip0"
-pwmchipLzEx = "/sys/class/pwm/pwmchip1"
+pwmchipFOT = "/sys/class/pwm/pwmchip1/"
+pwmchipLzEx = "/sys/class/pwm/pwmchip2/"
 
 # ===============================================================#
 #                   Eleccción de Nivel de PWM                    #

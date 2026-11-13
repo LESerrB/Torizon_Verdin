@@ -87,10 +87,9 @@ services:
       - /dev/i2c-3
       - /dev/gpiochip2
       - /dev/gpiochip4
-      - /dev/ttymxc0:/dev/verdin-uart1
-      - /dev/ttymxc1:/dev/verdin-uart2
-      - /dev/ttymxc2:/dev/verdin-uart3
-      # - /dev/ttymxc3:/dev/verdin-uart4
+      - /dev/ttyLP3:/dev/colibri-uarta
+      - /dev/ttyLP0:/dev/colibri-uartb
+      - /dev/ttyLP2:/dev/colibri-uartc
     tty: true
     stdin_open: true
     group_add:
@@ -121,10 +120,9 @@ services:
       - /dev/i2c-3
       - /dev/gpiochip2
       - /dev/gpiochip4
-      - /dev/ttymxc0:/dev/verdin-uart1
-      - /dev/ttymxc1:/dev/verdin-uart2
-      - /dev/ttymxc2:/dev/verdin-uart3
-      # - /dev/ttymxc3:/dev/verdin-uart4
+      - /dev/ttyLP3:/dev/colibri-uarta
+      - /dev/ttyLP0:/dev/colibri-uartb
+      - /dev/ttyLP2:/dev/colibri-uartc
     tty: true
     stdin_open: true
     group_add:

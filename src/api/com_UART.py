@@ -26,7 +26,7 @@ def uart_send(uart_dev, data):
         if not isinstance(data, (bytes, bytearray)):
             data = str(data).encode("ascii")
 
-        # print(">>>>",data)
+        print(">>>>",data)
         written = uart_dev.write(data)
         uart_dev.flush()
 

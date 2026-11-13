@@ -51,7 +51,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 # werkzeug_logger.setLevel(logger.level)
 
 #--------------------- TCI ---------------------#
-uart_Channel = "/dev/verdin-uart1"
+uart_Channel = "/dev/colibri-uartb"
 baud_rate = 115200
 tcd_UART1 = serial.Serial(
     uart_Channel,

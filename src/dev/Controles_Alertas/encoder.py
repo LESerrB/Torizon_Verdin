@@ -14,20 +14,22 @@ from api.pins_ADC import read_adc
 #===============================================================#
 #                      Configuración GPIOs                      #
 #===============================================================#
-bank = "/dev/gpiochip0"
+bank0 = "/dev/gpiochip4"
+bank1 = "/dev/gpiochip5"
+bank2 = "/dev/gpiochip1"
 
-enc_SW = 5
-enc_CLK = 1
-enc_DT = 0
+enc_DT = 21
+enc_CLK = 4
+enc_SW = 25
 
 pin_ACTV = 8
 
 # Líneas individuales
-enc_clk = gpiod.Chip(bank).get_line(enc_CLK)
-enc_dt = gpiod.Chip(bank).get_line(enc_DT)
-enc_sw = gpiod.Chip(bank).get_line(enc_SW)
+enc_dt = gpiod.Chip(bank0).get_line(enc_DT)
+enc_clk = gpiod.Chip(bank1).get_line(enc_CLK)
+enc_sw = gpiod.Chip(bank2).get_line(enc_SW)
 
-en_HMI = gpiod.Chip(bank).get_line(pin_ACTV)
+# en_HMI = gpiod.Chip(bank).get_line(pin_ACTV)
 
 # Configuración de Acceso
 enc_clk.request(
@@ -45,12 +47,12 @@ enc_sw.request(
     type=gpiod.LINE_REQ_EV_BOTH_EDGES
 )
 
-en_HMI.request(
-    consumer="en_HMI",
-    type=gpiod.LINE_REQ_DIR_OUT
-)
+# en_HMI.request(
+#     consumer="en_HMI",
+#     type=gpiod.LINE_REQ_DIR_OUT
+# )
 
-en_HMI.set_value(1) # Enciende Habilitación HMI
+# en_HMI.set_value(1) # Enciende Habilitación HMI
 # =============
 # Botón Encoder
 # =============

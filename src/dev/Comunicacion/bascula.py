@@ -15,7 +15,7 @@ tolerancia = 0.100
 #================================================================#
 #             Función principal de comunicación UART             #
 #================================================================#
-channel_Dev = "/dev/verdin-uart2"
+channel_Dev = "/dev/colibri-uartc"
 br = 57600
 
 basc_UART2 = serial.Serial(channel_Dev, br, 8, 'N', 1, timeout=1)
