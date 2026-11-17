@@ -282,7 +282,7 @@ def sys_monitor():
         # com_TCD(vls_snsTCD, b'\x55')  # Envío de datos a la TCD
 
         # ----------- En pruebas ----------- #
-        vls_snsTCD["col_calef"], vls_snsTCD["calef"], vls_snsTCD["fan"] = status_Motrs(tcd_UART1)
+        status_Motrs(tcd_UART1, vls_snsTCD)
         # ---------------------------------- #
 
         time.sleep(0.1)

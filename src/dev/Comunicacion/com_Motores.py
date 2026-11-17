@@ -33,14 +33,13 @@ msg_Vent = {
     0xFF : "Falla de ambos ventiladores",
 }
 
-def status_Motrs(dev):
+def status_Motrs(dev, vls_snsrsTCD):
     col_Calef = 0xFF
     calef = 0xFF
     fan = 0xFF
 
-    res = uart_receive(dev, 6)
+    res = uart_receive(dev, 10)
     res, id_res = decode_Msg(res)
-    print(res)
 
     if id_res == "status_Motors":
         for pos in range(0, len(res), 2):
@@ -54,6 +53,9 @@ def status_Motrs(dev):
             elif sys == 0x03:
                 fan = msg_Vent.get(stat)
 
-        return col_Calef, calef, fan
+        # return col_Calef, calef, fan
+        vls_snsrsTCD["col_calef"] = col_Calef
+        vls_snsrsTCD["calef"] = calef
+        vls_snsrsTCD["fan"] = fan
     else:
         return "Error de COM"

@@ -83,8 +83,10 @@ async function get_DtSensores() {
 
             clfCtrl.textContent = vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
 
-            const status_Motrs = vls_snsrsTCD.vls_snsrsTCD.Motrs;
-            alarm(status_Motrs);
+            const msg_col_Calef = vls_snsrsTCD.vls_snsrsTCD.col_calef;
+            const msg_Calef = vls_snsrsTCD.vls_snsrsTCD.calef;
+            const msg_Vent = vls_snsrsTCD.vls_snsrsTCD.fan;
+            alarm(msg_col_Calef, msg_Calef, msg_Vent);
 
             const nuevoValor = vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
             updateSliderPowCalef_pPrin?.(nuevoValor);
@@ -166,9 +168,9 @@ export function stopTimerFot() {
 //     }
 // });
 
-function alarm(status) {
+function alarm(status_col_Calef, status_calef, status_fan) {
     // showNotif(txt)
-    console.log(status);
+    console.log(status_col_Calef, "\n", status_calef, "\n", status_fan);
 }
 
 // ==============
