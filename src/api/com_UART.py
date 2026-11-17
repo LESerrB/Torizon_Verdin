@@ -130,8 +130,14 @@ def decode_Msg(frame):
 
                 if crc_rec == crc_calc and n_bytes == len(bytes_list):
                     return bytes_list, "sns_Info"
-            else:
-                print("Tarjeta de Motores")
+            elif frame[1] == b'\xbb':
+                n_bytes = frame[1]
+                bytes_list = frame[2 : 2 + n_bytes]
+                crc_calc = crc16_arc(bytes_list)
+                crc_rec = int.from_bytes(frame[len(frame) - 3 : len(frame) - 1], byteorder='big')
+
+                if crc_rec == crc_calc and n_bytes == len(bytes_list):
+                    return bytes_list, "status_Motors"
         elif b'\xaa\x0a' in frame:
             st = frame.find(b'\xaa\x0a')
             end = frame.find(b'\x63')

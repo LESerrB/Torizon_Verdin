@@ -68,6 +68,7 @@ tcd_UART1 = serial.Serial(
 
 edit_Ctrl = ""
 val_Encd = 0
+
 #--------------------- Valores Iniciales ---------------------#
 valores_ctrl = {
     "tp_Prog":   35.0,      # Ajuste de Temperatura programada de Piel
@@ -104,7 +105,9 @@ vls_snsTCD = {
     "zero":      0,
     "alrm":      0,         # Alarmas
     # Estado de Motores
-    "Motrs":      0,         # Estado de motores
+    "col_calef": 0,         # Estado de motores de la columna del calefactor
+    "calef":     0,         # Estado del calefactor
+    "fan":       0,         # Estado de Ventiladores
 }
 
 pesoTCD = 0
@@ -279,7 +282,7 @@ def sys_monitor():
         # com_TCD(vls_snsTCD, b'\x55')  # Envío de datos a la TCD
 
         # ----------- En pruebas ----------- #
-        status_Motrs(tcd_UART1)
+        vls_snsTCD["col_calef"], vls_snsTCD["calef"], vls_snsTCD["fan"] = status_Motrs(tcd_UART1)
         # ---------------------------------- #
 
         time.sleep(0.1)

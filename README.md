@@ -559,8 +559,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Re-asignación de los pines GPIO para Dt, Sw y Clk del encoder.
  - Se requieren los dtbo "colibri-imx8x_disable-cm40-uart_overlay.dtbo" y "colibri-imx8x_dsihdmi_pverlay.dtbo"
 
-### v0.25.0 - [10/Noviembre/2026]
+### v0.25.1 - [17/Noviembre/2026]
  - Comunicación de con la tarjeta de Motores.
+ - Enlace de mensaje con códigos de error de tarjeta de motores.
 
 ## Descarga e Instalación
 
