@@ -2,14 +2,18 @@ import {
     crearSliderPotCalef,
 } from "./slider.js";
 
-const periodoActVals = 0.25     // segundos
+import { 
+    showNotif
+} from "./notif.js";
 
-let intervalId = null;          // Timer de actualización de sensores
+const periodoActVals = 0.25         // segundos
 
-let timerFot = null;            // Timer de timepo de Fototerapia
-let minsOn = 0;                 // Contador de minutos de Fototerapia
+let intervalId = null;              // Timer de actualización de sensores
 
-let TZ = "America/Mexico_City"; // CST UTC-6h Ciudad de México
+let timerFot = null;                // Timer de timepo de Fototerapia
+let minsOn = 0;                     // Contador de minutos de Fototerapia
+
+let TZ = "America/Mexico_City";     // CST UTC-6h Ciudad de México
 
 const panelDer = document.querySelector(".mp-prin-mc-taire");
 
@@ -78,7 +82,10 @@ async function get_DtSensores() {
             sensHum.textContent = vls_snsrsTCD.vls_snsrsTCD.s_Hum;
 
             clfCtrl.textContent = vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
-            
+
+            const status_Motrs = vls_snsrsTCD.vls_snsrsTCD.Motrs;
+            alarm(status_Motrs);
+
             const nuevoValor = vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
             updateSliderPowCalef_pPrin?.(nuevoValor);
         }
@@ -158,6 +165,11 @@ export function stopTimerFot() {
 //         console.log("Error:", error);
 //     }
 // });
+
+function alarm(status) {
+    // showNotif(txt)
+    console.log(status);
+}
 
 // ==============
 // Fecha y Hora

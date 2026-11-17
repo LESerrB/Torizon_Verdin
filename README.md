@@ -117,7 +117,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
 - [Primeros pasos](./doc/Primeros%20pasos.md)
 - [Funciones](./doc/Funciones.md)
 - [Funciones Web](./doc/Funciones%20Web.md)
-- [Estructura Tramas UART Verdin <-> TCI](./doc/Tramas%20COM%20TCI.md)
+- [Estructura Tramas UART Verdin <-> Tarjetas](./doc/Tramas%20COM%20UART.md)
 - [Generación Imagen Booteable](./doc/Generar%20imagen%20ISO.md)
 
 ## Control de Versiones
@@ -558,6 +558,9 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Uso de canal UART B para comunicar con TCI.
  - Re-asignación de los pines GPIO para Dt, Sw y Clk del encoder.
  - Se requieren los dtbo "colibri-imx8x_disable-cm40-uart_overlay.dtbo" y "colibri-imx8x_dsihdmi_pverlay.dtbo"
+
+### v0.25.0 - [10/Noviembre/2026]
+ - Comunicación de con la tarjeta de Motores.
 
 ## Descarga e Instalación
 
