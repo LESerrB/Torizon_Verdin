@@ -43,6 +43,7 @@ const fot_hrs = document.getElementById("fot-hrs");
 
 let updateSliderPowCalef_pPrin = null;
 let sliderPowCalef_pPrin = null;
+let mode_Cuna = false;
 
 sliderPowCalef_pPrin = crearSliderPotCalef();
 
@@ -83,10 +84,17 @@ async function get_DtSensores() {
 
             clfCtrl.textContent = vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
 
-            const msg_col_Calef = vls_snsrsTCD.vls_snsrsTCD.col_calef;
-            const msg_Calef = vls_snsrsTCD.vls_snsrsTCD.calef;
-            const msg_Vent = vls_snsrsTCD.vls_snsrsTCD.fan;
-            alarm(msg_col_Calef, msg_Calef, msg_Vent);
+            // const msg_col_Calef = vls_snsrsTCD.vls_snsrsTCD.col_calef;
+            // const msg_Calef = vls_snsrsTCD.vls_snsrsTCD.calef;
+            // const msg_Vent = vls_snsrsTCD.vls_snsrsTCD.fan;
+            const msg_Mode = vls_snsrsTCD.vls_snsrsTCD.mode;
+
+            if (msg_Mode == 1)
+                mode_Cuna = true;
+            else
+                mode_Cuna = false;
+
+            alarm(msg_Mode);
 
             const nuevoValor = vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
             updateSliderPowCalef_pPrin?.(nuevoValor);
@@ -168,9 +176,23 @@ export function stopTimerFot() {
 //     }
 // });
 
-function alarm(status_col_Calef, status_calef, status_fan) {
-    // showNotif(txt)
-    console.log(status_col_Calef, "\n", status_calef, "\n", status_fan);
+function alarm(msg_Mode) {
+    // 7  6  5  4  3  2  1  0
+    // zero                                 128
+    //    Falla Incub                       64
+    //       Falla Cuna                     32
+    //           Paro Total                 16
+    //              Falla Cambio de Modo    8
+    //                 Transición Modo      4
+    //                    Modo Incub        2
+    //                       Modo Cuna      1
+    if (msg_Mode == 4) {
+        if (mode_Cuna) {
+            console.log("Cambiando a Modo Incubadora");
+        } else {
+            console.log("Cambiando a Modo Cuna");
+        }
+    }
 }
 
 // ==============

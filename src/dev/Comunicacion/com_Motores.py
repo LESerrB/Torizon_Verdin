@@ -3,34 +3,34 @@ from api.com_UART import (
     uart_receive,
 )
 
-msg_col_Calef = {
-    0x00 : "Inicialización",
-    0x10 : "Modo Cuna, subida completada",
-    0x11 : "Modo Incubadora, bajada completada",
-    0x20 : "Modo Cuna seleccionado, esperando pulsación larga",
-    0x21 : "Modo Incubadora seleccionado, esperando pulsación larga",
-    0x30 : "Columna subiendo hacia Cuna",
-    0x31 : "Columna bajando hacia Incubadora",
-    0xFF : "Falla crítica, parada general enclavada",
+msg_col_Calef = {                                                     # Prioridad
+    0x00 : "Inicialización",                                          #    0
+    0x10 : "Modo Cuna, subida completada",                            #    2
+    0x11 : "Modo Incubadora, bajada completada",                      #    2
+    0x20 : "Modo Cuna seleccionado, esperando pulsación larga",       #    1
+    0x21 : "Modo Incubadora seleccionado, esperando pulsación larga", #    1
+    0x30 : "Columna subiendo hacia Cuna",                             #    2
+    0x31 : "Columna bajando hacia Incubadora",                        #    2
+    0xFF : "Falla crítica, parada general enclavada",                 #    3
 }
 
 msg_Calef = {
-    0x00 : "Lámpara inactiva",
-    0x10 : "Inicialización correcta, comienza subida",
-    0x11 : "Subida completada correctamente",
-    0x12 : "Bajada completada correctamente",
-    0x20 : "Lámpara subiendo",
-    0x21 : "Lámpara bajando",
-    0xFF : "Error de Lámpara en cualquier etapa",
+    0x00 : "Calefactor inactivo",                                     #    0
+    0x10 : "Inicialización correcta, comienza subida",                #    1
+    0x11 : "Subida completada correctamente",                         #    2
+    0x12 : "Bajada completada correctamente",                         #    2
+    0x20 : "Calefactor subiendo",                                     #    2
+    0x21 : "Calefactor bajando",                                      #    2
+    0xFF : "Error de Calefactor en cualquier etapa",                  #    3
 }
 
 msg_Vent = {
-    0x00 : "Ventiladores apagados normalmente",
-    0x82 : "Ventiladores arrancando o en validación",
-    0x83 : "Ambos ventiladores funcionando correctamente",
-    0xF1 : "Falla únicamente FAN1",
-    0xF2 : "Falla únicamente FAN2",
-    0xFF : "Falla de ambos ventiladores",
+    0x00 : "Ventiladores apagados normalmente",                       #    0
+    0x82 : "Ventiladores arrancando o en validación",                 #    1
+    0x83 : "Ambos ventiladores funcionando correctamente",            #    1
+    0xF1 : "Falla únicamente FAN1",                                   #    2
+    0xF2 : "Falla únicamente FAN2",                                   #    2
+    0xFF : "Falla de ambos ventiladores",                             #    3
 }
 
 def status_Motrs(dev, vls_snsrsTCD):
@@ -53,9 +53,10 @@ def status_Motrs(dev, vls_snsrsTCD):
             elif sys == 0x03:
                 fan = msg_Vent.get(stat)
 
-        # return col_Calef, calef, fan
         vls_snsrsTCD["col_calef"] = col_Calef
         vls_snsrsTCD["calef"] = calef
         vls_snsrsTCD["fan"] = fan
     else:
-        return "Error de COM"
+        vls_snsrsTCD["col_calef"] = "Error de COM"
+        vls_snsrsTCD["calef"] = "Error de COM"
+        vls_snsrsTCD["fan"] = "Error de COM"

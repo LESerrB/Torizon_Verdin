@@ -37,8 +37,8 @@
   position: relative;
 }
 .mp-atpiel-lat.disable{ display: none; }
-.mp-atpiel-lat.tPiel.enable{ background: var(--colorfondopiel); }        /* Control Temperatura de Piel */
-.mp-atpiel-lat.tAire.enable{ background: var(--colorfondoaire); }        /* Control Temperatura de Aire */
+.mp-atpiel-lat.tPiel.enable{ background: var(--colorfondopiel); }     /* Control Temperatura de Piel */
+.mp-atpiel-lat.tAire.enable{ background: var(--colorfondoaire); }     /* Control Temperatura de Aire */
 .mp-atpiel-lat.ox.enable{ background: var(--colorfondooxigeno); }     /* Control Oxigeno */
 .mp-atpiel-lat.hum.enable{ background: var(--colorfondohum); }        /* Control Humedad */
 .mp-atpiel-lat.clf.enable{ background: var(--colorfondocalefactor); } /* Control Fototerapia */

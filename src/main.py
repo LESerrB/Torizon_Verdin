@@ -102,7 +102,7 @@ vls_snsTCD = {
     "pot_Hum":   0,         # Humedad Controlada
     "fot_Hrs":   0,         # Horas Fototerapia
     "fot_Mins":  0,         # Minutos Fototerapia
-    "zero":      0,
+    "mode":      0,
     "alrm":      0,         # Alarmas
     # Estado de Motores
     "col_calef": 0,         # Estado de motores de la columna del calefactor
@@ -279,13 +279,12 @@ def sys_monitor():
     while True:
         restart_container()           # Memoria del contenedor
 
-        # com_TCD(vls_snsTCD, b'\x55')  # Envío de datos a la TCD
-
+        com_TCD(vls_snsTCD, b'\x55')  # Envío de datos a la TCD
         # ----------- En pruebas ----------- #
-        status_Motrs(tcd_UART1, vls_snsTCD)
+        # status_Motrs(tcd_UART1, vls_snsTCD)
         # ---------------------------------- #
 
-        time.sleep(0.1)
+        time.sleep(1)
 
 def restart_container(threshold=90):
     total, used, free = shutil.disk_usage("/")

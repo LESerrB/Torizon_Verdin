@@ -177,6 +177,7 @@ def process_TCD_responses():
                 response.vls_snsrsTCD["s_Aux"] = int.from_bytes(res[8:10], byteorder="big") / 10
                 response.vls_snsrsTCD["pot_Clf"] = int.from_bytes(res[10:12], byteorder="big")
                 response.vls_snsrsTCD["s_Ox"] = int.from_bytes(res[12:14], byteorder="big")
+                response.vls_snsrsTCD["mode"] = res[15]
             elif s_res == "dvc_Conf":
                 response.vls_snsrsTCD["ta_Prog"] = int.from_bytes(res[0:2], byteorder="big")
                 response.vls_snsrsTCD["pot_Clf"] = int.from_bytes(res[2:4], byteorder="big")
