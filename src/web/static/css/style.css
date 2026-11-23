@@ -117,25 +117,29 @@
     overflow: visible;
     aspect-ratio: 87/66;
 }
-.btn-detcapelo {
-    background: var(--colorrojoalerta, #ce2c2c);
-    border-radius: 30px;
-    padding: 15px 25px 15px 25px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 170px;
-    height: 60px;
-    position: relative;
+
+.btn-stop {
+  background: var(--colorrojoalerta);
+  border-radius: 30px;
+  padding: 15px 25px 15px 25px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 170px;
+  height: 60px;
+  position: relative;
+}
+.btn-stop:active {
+  transform: scale(0.97);
 }
 .detener-capelo {
     color: var(--blanco, #ffffff);
-    text-align: left;
-    font-family: var(--textbtnsestandar-font-family, 'Montserrat-Bold', sans-serif);
-    font-size: var(--textbtnsestandar-font-size, 15px);
-    font-weight: var(--textbtnsestandar-font-weight, 700);
+    text-align: center;
+    font-family: var(--textbtnsestandar-font-family);
+    font-size: var(--textbtnsestandar-font-size);
+    font-weight: var(--textbtnsestandar-font-weight);
     position: relative;
 }

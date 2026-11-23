@@ -639,6 +639,11 @@
 
                 </div>
               </div>
+
+              <!----------------- Cambio de Modo ----------------->
+              <div id="view-c-modo" class="mp-info-ctrl">
+                  Cambio de Modo
+              </div>
             </div>
           </div>
         </div>
@@ -680,7 +685,7 @@
   </div>
 
   <!-- PANTALLAS DE CAMBIO DE MODO -->
-  <div class="mm-cont-cuna-cmci">
+  <div id="cuna-incb" class="mm-cont-cuna-cmci hide">
     <div class="mp-cmci-mc-te">
       <div class="cambio-de-modo-de-control"> Cambio de Modo de Control </div>
     </div>
@@ -708,14 +713,14 @@
           </svg>
         </div>
 
-        <div class="btn-detcapelo">
+        <button id="emergency-stop" class="btn-stop" type="button">
           <div class="detener-capelo"> Detener Capelo </div>
-        </div>
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="ma-cont-incu-cmic">
+  <div id="incb-cuna" class="ma-cont-incu-cmic hide">
     <div class="mp-cmci-mc-te">
       <div class="cambio-de-modo-de-control"> Cambio de Modo de Control </div>
     </div>
@@ -743,9 +748,9 @@
           </svg>
         </div>
 
-        <div class="btn-detcapelo">
+        <button id="emergency-stop" class="btn-stop" type="button">
           <div class="detener-capelo"> Detener Capelo </div>
-        </div>
+        </button>
       </div>
     </div>
   </div>

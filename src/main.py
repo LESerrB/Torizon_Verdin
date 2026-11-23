@@ -27,8 +27,7 @@ from dev.Controles_Alertas import encoder as hw_encoder
 from dev.Comunicacion.TCD import (
     com_TCD,
     process_TCD_responses,
-    start_TCD_communication,
-    # uart_receive
+    start_TCD_communication
 )
 
 #****************************************************************************#
@@ -150,21 +149,18 @@ def setInitVals():
 def get_DtSensores():
     try:
         if vls_snsTCD["alrm"] != 128:
-            return jsonify(
-                {
-                    "vls_snsrsTCD": vls_snsTCD,
-                    "modos": modos,
-                    "status": "ok",
-                }), 200
+            return jsonify({
+                "vls_snsrsTCD": vls_snsTCD,
+                "modos": modos,
+                "status": "ok",
+            }), 200
     except Exception as error:
         print(error)
 
-        return jsonify(
-            {
-                "modos": modos,
-                "status": "fail",
-            }
-        ), 400
+        return jsonify({
+            "modos": modos,
+            "status": "fail",
+        }), 400
 
 @app.route("/api/enEdit", methods=["POST"])
 def enEditCtrls():

@@ -3,6 +3,10 @@ import {
 } from "./slider.js";
 
 import { 
+    stablishSwOpMode 
+} from "./app.js";
+
+import { 
     showNotif
 } from "./notif.js";
 
@@ -89,12 +93,22 @@ async function get_DtSensores() {
             // const msg_Vent = vls_snsrsTCD.vls_snsrsTCD.fan;
             const msg_Mode = vls_snsrsTCD.vls_snsrsTCD.mode;
 
-            if (msg_Mode == 1)
-                mode_Cuna = true;
-            else
-                mode_Cuna = false;
+            if (msg_Mode == 1 && !mode_Cuna){
+                console.log("Quita pantalla de cambio");
 
-            alarm(msg_Mode);
+                await stablishSwOpMode("Cuna")
+                mode_Cuna = true;
+            }
+            else if (msg_Mode == 2 && mode_Cuna){
+                console.log("Quita pantalla de cambio");
+
+                await stablishSwOpMode("Incubadora");
+                mode_Cuna = false;
+            }
+            else{
+                console.log("Alarma\n", "Cuna:", mode_Cuna, "Incubadora:", !mode_Cuna);
+                alarm(msg_Mode);
+            }
 
             const nuevoValor = vls_snsrsTCD.vls_snsrsTCD.pot_Clf;
             updateSliderPowCalef_pPrin?.(nuevoValor);
@@ -192,6 +206,18 @@ function alarm(msg_Mode) {
         } else {
             console.log("Cambiando a Modo Cuna");
         }
+    }
+    else if (msg_Mode == 8){
+        console.log("Falla Cambio de Modo");
+    }
+    else if (msg_Mode == 16){
+        console.log("Paro Total de Emergencia");
+    }
+    else if (msg_Mode == 32){
+        console.log("Falla Cuna");
+    }
+    else if (msg_Mode == 64){
+        console.log("Falla Incubadora");
     }
 }
 

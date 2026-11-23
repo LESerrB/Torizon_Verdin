@@ -87,7 +87,7 @@ const recursosVisuales = [
 ];
 
 let modoControl = "tPiel";
-let modoOperacion = "Incubadora";
+let modoOperacion = "Incubadora";   // Cuna / Incubadora
 
 // =========================
 // Botón Silenciar Alarmas
@@ -219,20 +219,20 @@ nom_Paciente.addEventListener("keydown", (e) => {
     }
 });
 // **************** Switch Modo de Operación **************** //
-async function stablishSwOpMode(modo = "Incubadora") {
-    exitCancel(modoControl, null, modoOperacion);
+export async function stablishSwOpMode(modo = "Incubadora") {
+    exitCancel(modoControl, null, modo);
     clear_Btns();
 
     if (modo === "Incubadora") {
-        modoSwitch.checked = true;
+        modoSwitch.checked = false;             // <- Check de switch de modo
         lbl_modo_ctrl.textContent = "Incubadora Controlada por Piel";
 
         modoControl = "tPiel";
         await revertModoCuna();
         
-        await modoPiel(pnlAire, pnlBebe, modoOperacion);
+        await modoPiel(pnlAire, pnlBebe, modo);
     } else if (modo === "Cuna") {
-        modoSwitch.checked = false;
+        modoSwitch.checked = true;              // <- Check de switch de modo
         lbl_modo_ctrl.textContent = "Cuna en Control Manual";
 
         await modoAire(pnlBebe, pnlAire);
@@ -247,9 +247,9 @@ async function stablishSwOpMode(modo = "Incubadora") {
 
     pnlBebe.classList.remove("chng");
     pnlAire.classList.remove("chng");
-    setInitValues(modoControl, modoOperacion);
+    setInitValues(modoControl, modo);
 
-    await reload_Screen(modoOperacion);
+    await reload_Screen(modo);
 }
 modoSwitch.addEventListener("change", async () => {
     if (modoSwitch.checked)
@@ -257,7 +257,7 @@ modoSwitch.addEventListener("change", async () => {
     else
         modoOperacion = "Cuna";
 
-    await stablishSwOpMode(modoOperacion);
+    exitCancel(modoControl, "cambio", modoOperacion);
 });
 
 // ***************** Panel Temperatura Piel ***************** //
@@ -583,9 +583,9 @@ if (initValCtrl) {
     modoOperacion = initValCtrl.op;
 }
 
-startSensors();                             // Inicio de sensado
-
 reload_Screen(modoOperacion);               // Carga la configuración del modo de Operación
 stablishSwOpMode(modoOperacion);            // Estado Inicial del Equipo
 createApgarSegments(modoControl);           // Configuración inicial color cronómetro
 createTimerTaraSegments(modoControl);       // Configuración inicial color temporizador de tara
+
+startSensors();                             // Inicio de sensado
