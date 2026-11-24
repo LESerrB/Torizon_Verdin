@@ -69,7 +69,7 @@ const view_tend = document.getElementById("view-tend");
 const ctrl_basc = document.getElementById("ctrl-bascula");
 const ctrl_apgar = document.getElementById("ctrl-apgar");
 const view_fam = document.getElementById("view-fam");
-const view_mode = document.getElementById("view-c-modo");
+// const view_mode = document.getElementById("view-c-modo");
 
 //---------------------------------------------------------------
 // Valor del encoder / control
@@ -443,7 +443,7 @@ const panelsVisibility = {
         view_tend: false,
         ctrl_apgar: false,
         ctrl_basc: true,
-        view_mode: false
+        // view_mode: false
     },
 
     apgar: {
@@ -452,7 +452,7 @@ const panelsVisibility = {
         view_tend: false,
         ctrl_apgar: true,
         ctrl_basc: false,
-        view_mode: false
+        // view_mode: false
     },
 
     tendencias: {
@@ -461,7 +461,7 @@ const panelsVisibility = {
         view_tend: true,
         ctrl_apgar: false,
         ctrl_basc: false,
-        view_mode: false
+        // view_mode: false
     },
 
     familiar: {
@@ -470,17 +470,17 @@ const panelsVisibility = {
         view_tend: false,
         ctrl_apgar: false,
         ctrl_basc: false,
-        view_mode: false
+        // view_mode: false
     },
 
-    cambio: {
-        ctrl_sens: false,
-        view_fam: false,
-        view_tend: false,
-        ctrl_apgar: false,
-        ctrl_basc: false,
-        view_mode: true
-    },
+    // cambio: {
+    //     ctrl_sens: false,
+    //     view_fam: false,
+    //     view_tend: false,
+    //     ctrl_apgar: false,
+    //     ctrl_basc: false,
+    //     view_mode: true
+    // },
 
     default: {
         ctrl_sens: true,
@@ -488,7 +488,7 @@ const panelsVisibility = {
         view_tend: false,
         ctrl_apgar: false,
         ctrl_basc: false,
-        view_mode: false
+        // view_mode: false
     }
 };
 
@@ -616,16 +616,16 @@ export async function toggleHomePanel(showPanelControl, modoControl = null, modO
 
         if (showPanelControl === "apgar" || showPanelControl === "bascula") {
             enableElment_state(tituloCtrl, modoControl);
-        } else if (showPanelControl === "cambio"){
-            const cuna_incb = document.getElementById("cuna-incb");
-            const incb_cuna = document.getElementById("incb-cuna");
-
-            if (modOp == "Incubadora") {
-                incb_cuna.classList.remove("hide");
-            } else if (modOp == "Cuna"){
-                cuna_incb.classList.remove("hide");
-            }
-        }
+        } 
+        // else if (showPanelControl === "cambio"){
+        //     const cuna_incb = document.getElementById("cuna-incb");
+        //     const incb_cuna = document.getElementById("incb-cuna");
+        //     if (modOp == "Incubadora") {
+        //         incb_cuna.classList.remove("hide");
+        //     } else if (modOp == "Cuna"){
+        //         cuna_incb.classList.remove("hide");
+        //     }
+        // }
         else {
             enableElment_state(tituloCtrl, claseColor);
         }

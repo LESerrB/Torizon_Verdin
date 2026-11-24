@@ -7,7 +7,10 @@ import {
 } from "./app.js";
 
 import { 
-    showNotif
+    showNotif,
+    hideNotif,
+    notif_Change,
+    hide_notif_Change
 } from "./notif.js";
 
 const periodoActVals = 0.25         // segundos
@@ -94,19 +97,18 @@ async function get_DtSensores() {
             const msg_Mode = vls_snsrsTCD.vls_snsrsTCD.mode;
 
             if (msg_Mode == 1 && !mode_Cuna){
-                console.log("Quita pantalla de cambio");
+                hide_notif_Change();
 
                 await stablishSwOpMode("Cuna")
                 mode_Cuna = true;
             }
             else if (msg_Mode == 2 && mode_Cuna){
-                console.log("Quita pantalla de cambio");
+                hide_notif_Change();
 
                 await stablishSwOpMode("Incubadora");
                 mode_Cuna = false;
             }
             else{
-                console.log("Alarma\n", "Cuna:", mode_Cuna, "Incubadora:", !mode_Cuna);
                 alarm(msg_Mode);
             }
 
@@ -190,34 +192,27 @@ export function stopTimerFot() {
 //     }
 // });
 
+// 7  6  5  4  3  2  1  0
+// zero                                 128
+//    N/A                               64
+//       Falla Vent Off                 32
+//           Falla Vent RPM             16
+//              Falla Cambio de Modo    8
+//                 Transición Modo      4
+//                    Modo Incub        2
+//                       Modo Cuna      1
 function alarm(msg_Mode) {
-    // 7  6  5  4  3  2  1  0
-    // zero                                 128
-    //    Falla Incub                       64
-    //       Falla Cuna                     32
-    //           Paro Total                 16
-    //              Falla Cambio de Modo    8
-    //                 Transición Modo      4
-    //                    Modo Incub        2
-    //                       Modo Cuna      1
     if (msg_Mode == 4) {
-        if (mode_Cuna) {
-            console.log("Cambiando a Modo Incubadora");
-        } else {
-            console.log("Cambiando a Modo Cuna");
-        }
+        notif_Change(msg_Mode, mode_Cuna)
+    } else if (msg_Mode == 8){
+        showNotif("Falla Cambio de Modo");
+    } else if (msg_Mode == 16){
+        showNotif("Falla Vent RPM");
+    } else if (msg_Mode == 32){
+        showNotif("Falla Vent Off");
     }
-    else if (msg_Mode == 8){
-        console.log("Falla Cambio de Modo");
-    }
-    else if (msg_Mode == 16){
-        console.log("Paro Total de Emergencia");
-    }
-    else if (msg_Mode == 32){
-        console.log("Falla Cuna");
-    }
-    else if (msg_Mode == 64){
-        console.log("Falla Incubadora");
+    else{
+        hideNotif();
     }
 }
 

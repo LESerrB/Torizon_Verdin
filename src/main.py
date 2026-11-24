@@ -101,12 +101,12 @@ vls_snsTCD = {
     "pot_Hum":   0,         # Humedad Controlada
     "fot_Hrs":   0,         # Horas Fototerapia
     "fot_Mins":  0,         # Minutos Fototerapia
-    "mode":      0,
+    "mode":      0,         # Codigos de Tarjeta de Motores
     "alrm":      0,         # Alarmas
     # Estado de Motores
-    "col_calef": 0,         # Estado de motores de la columna del calefactor
-    "calef":     0,         # Estado del calefactor
-    "fan":       0,         # Estado de Ventiladores
+    # "col_calef": 0,         # Estado de motores de la columna del calefactor
+    # "calef":     0,         # Estado del calefactor
+    # "fan":       0,         # Estado de Ventiladores
 }
 
 pesoTCD = 0
@@ -148,6 +148,9 @@ def setInitVals():
 @app.route("/api/getDtSensores", methods=["POST"])
 def get_DtSensores():
     try:
+        # print(modos["ctrl"], modos["op"])
+        print(vls_snsTCD["mode"])
+
         if vls_snsTCD["alrm"] != 128:
             return jsonify({
                 "vls_snsrsTCD": vls_snsTCD,

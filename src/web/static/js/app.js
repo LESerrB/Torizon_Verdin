@@ -203,9 +203,9 @@ btn_alarma.addEventListener("click", () => {
     });
     // ============================================== //
     if(document.querySelector('.panel-prin').classList.contains('lock-screen'))
-        showNotif("Pantalla bloqueada");
+        showNotif("Pantalla bloqueada", null, 3);
     else
-        showNotif("Pantalla desbloqueada");
+        showNotif("Pantalla desbloqueada", null, 3);
 });
 
 nom_Paciente.addEventListener("click", () => {
@@ -257,7 +257,7 @@ modoSwitch.addEventListener("change", async () => {
     else
         modoOperacion = "Cuna";
 
-    exitCancel(modoControl, "cambio", modoOperacion);
+    // await stablishSwOpMode(modoOperacion);
 });
 
 // ***************** Panel Temperatura Piel ***************** //
@@ -344,12 +344,12 @@ btn_Offmod?.addEventListener("pointerup", () => {
     if (off_Ox){
         toogleOnOff_SensMod("mod-ox", !off_Ox)
         showNotif("Servocontrol de oxígeno apagado", "panel-ctrl", () =>
-            exitCancel(modoControl));
+            exitCancel(modoControl), 3);
     }
     else if (off_Hum){
         toogleOnOff_SensMod("mod-hum", !off_Hum)
         showNotif("Servocontrol de humedad apagado", "panel-ctrl", () =>
-            exitCancel(modoControl));
+            exitCancel(modoControl), 3);
     }
 
 })

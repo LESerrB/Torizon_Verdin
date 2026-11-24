@@ -564,6 +564,7 @@ Este repositorio contiene configuraciones, scripts y/o aplicaciones diseñadas p
  - Enlace de mensaje con códigos de error de tarjeta de motores.
  - Mensaje de estatus de motores en frontend.
  - Agregadas funciones para detectar el modo de operación del equipo.
+ - Creado panel lateral de pantalla de cambio.
 
 ## Descarga e Instalación
 
